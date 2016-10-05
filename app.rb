@@ -1,6 +1,7 @@
 # app.rb
 require 'sinatra'
 require 'line/bot'
+require "sinatra/reloader" if development?
 
 def client
   @client ||= Line::Bot::Client.new { |config|

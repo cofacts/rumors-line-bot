@@ -8,4 +8,5 @@ gem 'puma'
 
 group :development do
   gem 'pry'
+  gem 'sinatra-contrib'
 end
