@@ -12,11 +12,11 @@ def query(text)
   search = Google::Apis::CustomsearchV1::CustomsearchService.new
   search.key = KEY
 
-  result = search.list_cses "#{RUMOR_KEYWORDS.join ' '} #{text}", cx: CX
+  result = search.list_cses "#{RUMOR_KEYWORDS.join ' '} #{text[0..30]}", cx: CX
   (result.items || []).select {|item|
     is_relevant(item.snippet) or is_relevant(item.title)
   }.map {|item|
-    "#{item.title} #{item.snippet} #{item.formatted_url}"
+    "【#{item.title}】#{item.snippet} —— #{item.formatted_url}"
   }
 end
 
