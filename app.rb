@@ -1,7 +1,8 @@
 # app.rb
 require 'sinatra'
 require 'line/bot'
-require "sinatra/reloader" if development?
+require './query.rb'
+require 'sinatra/reloader' if development?
 
 def client
   @client ||= Line::Bot::Client.new { |config|
@@ -24,12 +25,19 @@ post '/callback' do
     when Line::Bot::Event::Message
       case event.type
       when Line::Bot::Event::MessageType::Text
-        message = {
-          type: 'text',
-          text: event.message['text']
-        }
         p event
-        client.reply_message(event['replyToken'], message)
+
+        search_result = query(event.message['text'])
+
+        if search_result.size
+          client.reply_message(event['replyToken'], textmsg("我的朋友，下面幾篇訊息，與您分享 :)"))
+
+          search_result.each do |result|
+            client.reply_message(event['replyToken'], textmsg(result))
+          end
+        else
+          client.reply_message(event['replyToken'], textmsg("找不太到與這則訊息相關的澄清文章唷！"))
+        end
       when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
         response = client.get_message_content(event.message['id'])
         tf = Tempfile.open("content")
@@ -39,4 +47,11 @@ post '/callback' do
   }
 
   "OK"
+end
+
+def textmsg text
+  {
+    type: 'text',
+    text: text
+  }
 end
