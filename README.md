@@ -5,7 +5,7 @@ Line bot that checks if a message contains internet rumor.
 
 First, install heroku toolbelt.
 
-Create .env file, fill up `LINE_CHANNEL_SECRET`, `LINE_CHANNEL_TOKEN` inside.
+Create .env file, fill up `LINE_CHANNEL_SECRET`, `LINE_CHANNEL_TOKEN`, `GSE_ID` and `GSE_KEY` inside.
 
 Then,
 
