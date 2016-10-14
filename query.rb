@@ -12,11 +12,13 @@ def query(text)
   search = Google::Apis::CustomsearchV1::CustomsearchService.new
   search.key = KEY
 
-  result = search.list_cses "#{RUMOR_KEYWORDS.join ' '} #{text[0..30]}", cx: CX
+  # process to space-separated, punctuation-free single line text
+  #
+  clean_text = text.lines.map(&:strip).join(' ').gsub(/[[:punct:]]/, ' ').gsub(/ +/, ' ')
+
+  result = search.list_cses "#{RUMOR_KEYWORDS.join ' '} #{clean_text[0..100]}", cx: CX
   (result.items || []).select {|item|
     is_relevant(item.snippet) or is_relevant(item.title)
-  }.map {|item|
-    "【#{item.title}】#{item.snippet} —— #{item.formatted_url}"
   }
 end
 

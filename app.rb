@@ -29,10 +29,10 @@ post '/callback' do
 
         search_result = query(event.message['text'])
 
-        if search_result.size
+        if search_result.length > 0
           client.reply_message(event['replyToken'], [
             textmsg("我的朋友，下面幾篇訊息，與您分享 :)")
-          ].concat(search_result[0..3].map {|result| textmsg(result) }))
+          ].concat(search_result[0..3].map {|item| textmsg("【#{item.title}】#{item.snippet} —— #{item.formatted_url}") }))
         else
           client.reply_message(event['replyToken'], textmsg("找不太到與這則訊息相關的澄清文章唷！"))
         end
