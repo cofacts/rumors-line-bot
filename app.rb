@@ -27,17 +27,24 @@ post '/callback' do
       when Line::Bot::Event::MessageType::Text
         p event
 
-        search_result = query(event.message['text'])
+        search_result = query_elastic_search(event.message['text'])
+
+        if search_result.length == 0
+          search_result = query_google(event.message['text'])
+        end
 
         if search_result.length > 0
           client.reply_message(event['replyToken'], [
             textmsg("我的朋友，下面幾篇訊息，與您分享 :)")
-          ].concat(search_result[0..3].map {|item| textmsg("【#{item.title}】#{item.snippet} —— #{item.formatted_url}") }))
+          ].concat(search_result[0..3].map {|item| textmsg("【#{item[:title]}】#{item[:snippet]} —— #{item[:url]}") }))
         else
           client.reply_message(event['replyToken'], textmsg("找不太到與這則訊息相關的澄清文章唷！"))
         end
       when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
         response = client.get_message_content(event.message['id'])
+        p event
+        p response
+
         tf = Tempfile.open("content")
         tf.write(response.body)
       end
