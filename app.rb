@@ -25,7 +25,8 @@ post '/callback' do
     when Line::Bot::Event::Message
       case event.type
       when Line::Bot::Event::MessageType::Text
-        p event
+
+        p event if event['source']['type'] == 'user' # Don't log group messages
 
         search_result = query_elastic_search(event.message['text'])
 
@@ -36,8 +37,8 @@ post '/callback' do
         if search_result.length > 0
           client.reply_message(event['replyToken'], [
             textmsg("我的朋友，下面幾篇訊息，與您分享 :)")
-          ].concat(search_result[0..3].map {|item| textmsg("【#{item[:title]}】#{item[:snippet]} —— #{item[:url]}") }))
-        else
+          ].concat(search_result[0..3].map {|item| textmsg("【#{item[:title]}】#{item[:snippet]} #{item.has_key?(:relevance) ? "（相關指數：#{(100 * item[:relevance]).round} %）" : ''} —— #{item[:url]}") }))
+        elsif event['source']['type'] == 'user' # Don't reply empty prompt when in group
           client.reply_message(event['replyToken'], textmsg("找不太到與這則訊息相關的澄清文章唷！"))
         end
       when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video

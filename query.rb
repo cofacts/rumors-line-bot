@@ -31,11 +31,14 @@ def query_elastic_search(text)
   res = Net::HTTP.post_form(uri, content: cleanup(text))
   result = JSON.parse(res.body)
 
+  p result
+
   result['hits']['hits'].map do |item|
     {
       title: item['_source']['title'],
       snippet: '',
-      url: item['_source']['url']
+      url: item['_source']['url'],
+      relevance: item['_score']
     }
   end
 end
