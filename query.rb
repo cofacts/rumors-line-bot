@@ -39,7 +39,9 @@ def query_elastic_search(text)
 
   return [] unless result.has_key?('hits') && result['hits'].has_key?('hits')
 
-  result['hits']['hits'].map do |item|
+  result['hits']['hits'].filter{ |item|
+    item['_score'] > 0.1
+  }.map do |item|
     {
       title: item['_source']['title'],
       snippet: '',
