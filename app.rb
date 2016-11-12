@@ -28,11 +28,7 @@ post '/callback' do
 
         p event if event['source']['type'] == 'user' # Don't log group messages
 
-        search_result = query_elastic_search(event.message['text'])
-
-        if search_result.length == 0
-          search_result = query_google(event.message['text'])
-        end
+        search_result = query event.message['text']
 
         if search_result.length > 0
           client.reply_message(event['replyToken'], [

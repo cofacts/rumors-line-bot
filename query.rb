@@ -45,8 +45,14 @@ def query_elastic_search(text)
   end
 end
 
-def is_relevant text
-  RUMOR_KEYWORDS.any? { |keyword| text.include? keyword }
+def query text
+  search_result = query_elastic_search(event.message['text'])
+
+  if search_result.length == 0
+    search_result = query_google(event.message['text'])
+  end
+
+  return search_result
 end
 
 def cleanup text
