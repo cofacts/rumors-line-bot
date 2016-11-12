@@ -33,6 +33,8 @@ def query_elastic_search(text)
 
   p result
 
+  return [] unless result.has_key?('hits') && result['hits'].has_key?('hits')
+
   result['hits']['hits'].map do |item|
     {
       title: item['_source']['title'],
