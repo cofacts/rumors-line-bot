@@ -14,10 +14,14 @@ def query_google(text)
   search = Google::Apis::CustomsearchV1::CustomsearchService.new
   search.key = KEY
 
-  result = search.list_cses "#{RUMOR_KEYWORDS.join ' '} #{cleanup(text)[0..100]}", cx: CX
-  (result.items || []).select {|item|
-    is_relevant(item.snippet) or is_relevant(item.title)
-  }.map { |item|
+  begin
+    result = search.list_cses cleanup(text)[0..100], cx: CX, or_terms: RUMOR_KEYWORDS.join(' '), num: 10
+  rescue Google::Apis::ClientError => err
+    p err
+    return []
+  end
+
+  (result.items || []).map { |item|
     {
       title: item.title,
       snippet: item.snippet,
