@@ -39,7 +39,7 @@ def query_elastic_search(text)
 
   return [] unless result.has_key?('hits') && result['hits'].has_key?('hits')
 
-  result['hits']['hits'].filter{ |item|
+  result['hits']['hits'].select{ |item|
     item['_score'] > 0.1
   }.map do |item|
     {
@@ -52,10 +52,10 @@ def query_elastic_search(text)
 end
 
 def query text
-  search_result = query_elastic_search(event.message['text'])
+  search_result = query_elastic_search(text)
 
   if search_result.length == 0
-    search_result = query_google(event.message['text'])
+    search_result = query_google(text)
   end
 
   return search_result
