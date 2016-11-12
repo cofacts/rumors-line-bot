@@ -5,17 +5,24 @@ require 'json'
 CX = ENV['GSE_ID']
 KEY = ENV['GSE_KEY']
 
-RUMOR_KEYWORDS = %w{謠言 流言 傳言 假的}
+RUMOR_KEYWORDS = %w{網路謠言 闢謠 謠言 流言 傳言 假的}
 
 # Given a message to search,
 # Returns an array of search results.
+#
+# Currently the search is equivalent to:
+# https://cse.google.com/cse/publicurl?cx=006504535273787703401:-lrkd_snuyg
+# (When RUMOR_KEYWORDS are in sync)
+#
+# Ref:
+# http://www.rubydoc.info/github/google/google-api-ruby-client/Google/Apis/CustomsearchV1/CustomsearchService#list_cses-instance_method
 #
 def query_google(text)
   search = Google::Apis::CustomsearchV1::CustomsearchService.new
   search.key = KEY
 
   begin
-    result = search.list_cses cleanup(text)[0..100], cx: CX, or_terms: RUMOR_KEYWORDS.join(' '), num: 10
+    result = search.list_cses cleanup(text)[0..100], cx: CX, or_terms: RUMOR_KEYWORDS.join(' '), num: 5
   rescue Google::Apis::ClientError => err
     p err
     return []
