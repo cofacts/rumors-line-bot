@@ -4,6 +4,12 @@ require 'line/bot'
 require './query.rb'
 require 'sinatra/reloader' if development?
 
+require 'active_support/all' # For airtable
+require 'airtable'
+
+@airtable_client = Airtable::Client.new ENV["AIRTABLE_API_KEY"]
+airtable = @airtable_client.table "apphrXta7kRli978O", "Rumors"
+
 def client
   @client ||= Line::Bot::Client.new { |config|
     config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
@@ -26,7 +32,10 @@ post '/callback' do
       case event.type
       when Line::Bot::Event::MessageType::Text
 
-        p event if event['source']['type'] == 'user' # Don't log group messages
+        if event['source']['type'] == 'user' # Don't log group messages
+          p event
+          airtable.create Airtable::Record.new(:"Message ID" => event['message']['id'], :"Rumor Text" => event['message']['text'], :"Received Date" => event['timestamp'])
+        end
 
         search_result = query event.message['text']
 
