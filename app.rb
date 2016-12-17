@@ -40,9 +40,7 @@ post '/callback' do
         search_result = query event.message['text']
 
         if search_result.length > 0
-          client.reply_message(event['replyToken'], [
-            textmsg("我的朋友，下面幾篇訊息，與您分享 :)")
-          ].concat(search_result[0..3].map {|item| textmsg("【#{item[:title]}】#{item[:snippet]} #{item.has_key?(:relevance) ? "（相關指數：#{(100 * item[:relevance]).round} %）" : ''} —— #{item[:url]}") }))
+          client.reply_message(event['replyToken'], search_result.map {|t| textmsg(t)})
         elsif event['source']['type'] == 'user' # Don't reply empty prompt when in group
           client.reply_message(event['replyToken'], textmsg("找不太到與這則訊息相關的澄清文章唷！"))
         end
@@ -61,8 +59,13 @@ post '/callback' do
 end
 
 def textmsg text
-  {
-    type: 'text',
-    text: text
-  }
+  if text.is_a? String
+    return {
+      type: 'text',
+      text: text
+    }
+  end
+
+  # it is probably already wrapped. Skip wrapping with type.
+  return text
 end
