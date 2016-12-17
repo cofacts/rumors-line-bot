@@ -1,7 +1,6 @@
 require 'net/http'
 require 'google/apis/customsearch_v1'
 require 'json'
-require 'pry'
 
 CX = ENV['GSE_ID']
 KEY = ENV['GSE_KEY']
