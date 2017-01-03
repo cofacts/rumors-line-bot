@@ -49,12 +49,12 @@ post '/callback' do
         end
 
       when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
-        response = client.get_message_content(event.message['id'])
-        p event
-        p response
-
-        tf = Tempfile.open("content")
-        tf.write(response.body)
+        client.reply_message(event['replyToken'], textmsg("謝謝分享，但我現在還看不懂圖片與影片呢。"))
+        # response = client.get_message_content(event.message['id'])
+        # p event
+        # p response
+        #tf = Tempfile.open("content")
+        #tf.write(response.body)
       end
     end
   }
