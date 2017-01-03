@@ -31,7 +31,7 @@ def query_google(text)
   items = result.items || []
 
   if items.size > 0
-    return ["我們的資料庫目前沒有這則訊息的紀錄。下面是從 google 搜尋的結果，給您參考 :)"].concat(items[0..2].map { |item|
+    return ["我們的資料庫目前沒有這則訊息的紀錄。下面是從 google 搜尋的結果，給您參考 :)"].concat(items.map { |item|
       "#{item.title} #{item.snippet}\n#{item.formatted_url}"
     })
   end
@@ -100,7 +100,7 @@ def query_rumors_api(text)
     ]
   when 'CrawledDoc'
     return [
-      "我們曾在網路上找到這篇文，與這則貼文有 87 分像：",
+      "我們之前在網路上找到這篇文，與你的訊息有 87 分像：",
       "【#{result['rumor']}】#{result['answer']} - #{result['url']}"
     ]
   end
@@ -113,7 +113,11 @@ def query text
   search_result = query_rumors_api(text)
 
   if search_result.length == 0
-    search_result = query_google(text)
+    if text.strip.size < 20 # According to stats, min(rumor length) ~= 27 words.
+      return [textmsg("您的訊息不太像是轉傳的貼文耶⋯⋯\n要不要試試轉傳完整的訊息給我呢？")]
+    else
+      return query_google(text)
+    end
   end
 
   return search_result

@@ -34,16 +34,20 @@ post '/callback' do
 
         if event['source']['type'] == 'user' # Don't log group messages
           p event
-          airtable.create Airtable::Record.new(:"Message ID" => event['message']['id'], :"Rumor Text" => event['message']['text'], :"Received Date" => event['timestamp'])
         end
 
         search_result = query event.message['text']
 
         if search_result.length > 0
-          client.reply_message(event['replyToken'], search_result.map {|t| textmsg(t)})
+          client.reply_message(event['replyToken'], search_result[0..3].map {|t| textmsg(t)})
+
         elsif event['source']['type'] == 'user' # Don't reply empty prompt when in group
           client.reply_message(event['replyToken'], textmsg("找不太到與這則訊息相關的澄清文章唷！"))
+
+          # Only record to airtable if can't find anything
+          airtable.create Airtable::Record.new(:"Message ID" => event['message']['id'], :"Rumor Text" => event['message']['text'], :"Received Date" => event['timestamp'])
         end
+
       when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
         response = client.get_message_content(event.message['id'])
         p event
