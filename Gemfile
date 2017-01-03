@@ -8,6 +8,7 @@ gem 'puma'
 gem 'google-api-client'
 gem 'airtable'
 gem 'activesupport' # https://github.com/Airtable/airtable-ruby/issues/5
+gem 'nokogiri'
 
 group :development do
   gem 'pry'

@@ -1,6 +1,7 @@
 require 'net/http'
 require 'google/apis/customsearch_v1'
 require 'json'
+require 'nokogiri'
 
 CX = ENV['GSE_ID']
 KEY = ENV['GSE_KEY']
@@ -108,19 +109,48 @@ def query_rumors_api(text)
   return []
 end
 
+def query_newshelper(text)
+  # check all URLs inside the message with news-helper
+
+  urls = URI.extract text
+  return [] unless urls.size > 0
+
+  responses = []
+
+  urls.each do |url|
+    res = Net::HTTP.get(URI("http://newshelper.g0v.tw/index/index/?q=#{url}"))
+    html = Nokogiri::HTML(res)
+
+    # Put all results into responses[]
+    #
+    html.css('.table tbody tr').each do |tr|
+      answerElem = tr.at_css('td:nth-child(3)')
+      linkElem = tr.at_css('.manage a.btn-warning')
+
+      responses << "#{answerElem.text} - http://newshelper.g0v.tw#{linkElem['href']}"
+    end
+  end
+
+  if responses.size > 0
+    responses.unshift "「新聞小幫手」有相關連結的回報唷："
+  end
+
+  return responses
+end
 
 def query text
   search_result = query_rumors_api(text)
 
   if search_result.length == 0
-    if text.strip.size < 20 # According to stats, min(rumor length) ~= 27 words.
-      return [textmsg("您的訊息不太像是轉傳的貼文耶⋯⋯\n要不要試試轉傳完整的訊息給我呢？")]
-    else
-      return query_google(text)
-    end
+    # According to stats, min(rumor length) ~= 27 words.
+    return ["您的訊息不太像是轉傳的貼文耶⋯⋯\n要不要試試轉傳完整的訊息給我呢？"] if text.strip.size < 20
+
+    search_result = query_newshelper(text)
   end
 
-  return search_result
+  return query_google(text) if search_result == 0
+
+  search_result
 end
 
 def cleanup text
