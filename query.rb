@@ -143,6 +143,8 @@ def query text
 
   if search_result.length == 0
     # According to stats, min(rumor length) ~= 27 words.
+    # But we should try query_rumors_api even if the text is too short.
+    #
     return ["您的訊息不太像是轉傳的貼文耶⋯⋯\n要不要試試轉傳完整的訊息給我呢？"] if text.strip.size < 20
 
     search_result = query_newshelper(text)

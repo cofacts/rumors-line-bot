@@ -9,6 +9,7 @@ require 'airtable'
 
 @airtable_client = Airtable::Client.new ENV["AIRTABLE_API_KEY"]
 airtable = @airtable_client.table "apphrXta7kRli978O", "Rumors"
+postback_airtable = @airtable_client.table "appJuvjYqXT3HnQzD", "Responses"
 
 def client
   @client ||= Line::Bot::Client.new { |config|
@@ -39,7 +40,27 @@ post '/callback' do
         search_result = query event.message['text']
 
         if search_result.length > 0
-          client.reply_message(event['replyToken'], search_result[0..3].map {|t| textmsg(t)})
+          query_payload = event.message['text'][0..50]
+          result_payload = search_result.join('|')[0..200]
+          feedback  = {
+            type: 'template',
+            altText: "謝謝您的使用。", # For PC version
+            template: {
+              type: 'confirm',
+              text: '請問這份資訊對您有用嗎？',
+              actions: [{
+                type: 'postback',
+                label: "是",
+                data: {id: event['message']['id'], ok: true, answer: result_payload, rumor: query_payload}.to_json
+              }, {
+                type: 'postback',
+                label: "否",
+                data: {id: event['message']['id'], ok: false, answer: result_payload, rumor: query_payload}.to_json
+              }]
+            }
+          }
+
+          client.reply_message(event['replyToken'], search_result[0..3].map{|t| textmsg(t)}.push(feedback))
 
         elsif event['source']['type'] == 'user' # Don't reply empty prompt when in group
           client.reply_message(event['replyToken'], textmsg("找不太到與這則訊息相關的澄清文章唷！"))
@@ -55,7 +76,23 @@ post '/callback' do
         # p response
         #tf = Tempfile.open("content")
         #tf.write(response.body)
+
+
+
       end
+
+    when Line::Bot::Event::Postback
+      p event
+
+      client.reply_message(event['replyToken'], textmsg("謝謝您的回應！ :D"))
+      payload = JSON.parse(event['postback']['data'])
+      postback_airtable.create Airtable::Record.new(
+        messageId: payload['id'],
+        ok: payload['ok'],
+        rumor: payload['rumor'],
+        answer: payload['answer'],
+        timestamp: event['timestamp']
+      )
     end
   }
 
