@@ -40,8 +40,9 @@ post '/callback' do
         search_result = query event.message['text']
 
         if search_result.length > 0
+          # Data length limit = 300 characters
           query_payload = event.message['text'][0..50]
-          result_payload = search_result.join('|')[0..200]
+          result_payload = search_result.join('|')[0..170]
           feedback  = {
             type: 'template',
             altText: "謝謝您的使用。", # For PC version
