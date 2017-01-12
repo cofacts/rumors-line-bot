@@ -6,6 +6,7 @@ require 'sinatra/reloader' if development?
 
 require 'active_support/all' # For airtable
 require 'airtable'
+require 'newrelic_rpm'
 
 @airtable_client = Airtable::Client.new ENV["AIRTABLE_API_KEY"]
 airtable = @airtable_client.table "apphrXta7kRli978O", "Rumors"

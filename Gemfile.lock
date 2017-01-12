@@ -52,6 +52,7 @@ GEM
     multi_json (1.12.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
+    newrelic_rpm (3.17.2.327)
     nokogiri (1.7.0)
       mini_portile2 (~> 2.1.0)
     os (0.9.6)
@@ -99,6 +100,7 @@ DEPENDENCIES
   airtable
   google-api-client
   line-bot-api
+  newrelic_rpm
   nokogiri
   pry
   puma
