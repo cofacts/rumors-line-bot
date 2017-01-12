@@ -19,6 +19,10 @@ def client
   }
 end
 
+get '/ping' do
+  "PONG"
+end
+
 post '/callback' do
   body = request.body.read
 
