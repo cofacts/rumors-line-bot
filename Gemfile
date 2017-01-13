@@ -10,6 +10,7 @@ gem 'airtable'
 gem 'activesupport' # https://github.com/Airtable/airtable-ruby/issues/5
 gem 'nokogiri'
 gem 'newrelic_rpm'
+gem 'redis'
 
 group :development do
   gem 'pry'

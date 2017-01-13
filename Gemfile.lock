@@ -66,6 +66,7 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
+    redis (3.3.2)
     representable (2.3.0)
       uber (~> 0.0.7)
     retriable (2.1.0)
@@ -104,6 +105,7 @@ DEPENDENCIES
   nokogiri
   pry
   puma
+  redis
   sinatra
   sinatra-contrib
 

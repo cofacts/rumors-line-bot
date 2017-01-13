@@ -7,10 +7,14 @@ require 'sinatra/reloader' if development?
 require 'active_support/all' # For airtable
 require 'airtable'
 require 'newrelic_rpm'
+require 'redis'
+
+REPLY_TIMEOUT = 3600 # sec
 
 @airtable_client = Airtable::Client.new ENV["AIRTABLE_API_KEY"]
 airtable = @airtable_client.table "apphrXta7kRli978O", "Rumors"
 postback_airtable = @airtable_client.table "appJuvjYqXT3HnQzD", "Responses"
+redis = Redis.new(url: ENV["REDIS_URL"])
 
 def client
   @client ||= Line::Bot::Client.new { |config|
@@ -32,7 +36,8 @@ post '/callback' do
   end
 
   events = client.parse_events_from(body)
-  events.each { |event|
+  events.each do |event|
+
     case event
     when Line::Bot::Event::Message
       case event.type
@@ -46,8 +51,13 @@ post '/callback' do
 
         if search_result.length > 0
           # Data length limit = 300 characters
-          query_payload = event.message['text'][0..50]
-          result_payload = search_result.join('|')[0..170]
+          # Thus we use redis to hold the details
+          #
+          redis.pipelined do
+            redis.set event['message']['id'], ({answer: search_result, rumor: event.message['text']}).to_json
+            redis.expire event['message']['id'], REPLY_TIMEOUT
+          end
+
           feedback  = {
             type: 'template',
             altText: "謝謝您的使用。", # For PC version
@@ -57,33 +67,31 @@ post '/callback' do
               actions: [{
                 type: 'postback',
                 label: "是",
-                data: {id: event['message']['id'], ok: true, answer: result_payload, rumor: query_payload}.to_json
+                data: {id: event['message']['id'], ok: true}.to_json
               }, {
                 type: 'postback',
                 label: "否",
-                data: {id: event['message']['id'], ok: false, answer: result_payload, rumor: query_payload}.to_json
+                data: {id: event['message']['id'], ok: false}.to_json
               }]
             }
           }
 
-          client.reply_message(event['replyToken'], search_result[0..3].map{|t| textmsg(t)}.push(feedback))
+          reply event, search_result[0..3].map{|t| textmsg(t)}.push(feedback)
 
         elsif event['source']['type'] == 'user' # Don't reply empty prompt when in group
-          client.reply_message(event['replyToken'], textmsg("找不太到與這則訊息相關的澄清文章唷！"))
+          reply event, textmsg("找不太到與這則訊息相關的澄清文章唷！")
 
           # Only record to airtable if can't find anything
           airtable.create Airtable::Record.new(:"Message ID" => event['message']['id'], :"Rumor Text" => event['message']['text'], :"Received Date" => event['timestamp'])
         end
 
       when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
-        client.reply_message(event['replyToken'], textmsg("謝謝分享，但我現在還看不懂圖片與影片呢。"))
+        reply event, textmsg("謝謝分享，但我現在還看不懂圖片與影片呢。")
         # response = client.get_message_content(event.message['id'])
         # p event
         # p response
         #tf = Tempfile.open("content")
         #tf.write(response.body)
-
-
 
       end
 
@@ -92,15 +100,23 @@ post '/callback' do
 
       client.reply_message(event['replyToken'], textmsg("謝謝您的回應！ :D"))
       payload = JSON.parse(event['postback']['data'])
-      postback_airtable.create Airtable::Record.new(
-        messageId: payload['id'],
-        ok: payload['ok'],
-        rumor: payload['rumor'],
-        answer: payload['answer'],
-        timestamp: event['timestamp']
-      )
+      message_payload_string = redis.get payload['id']
+
+      # If the message payload expires, the context is just lost.
+      # Don't write to airtable in this case
+      unless message_payload_string.nil?
+        message_payload = JSON.parse(message_payload_string)
+
+        postback_airtable.create Airtable::Record.new(
+          messageId: payload['id'],
+          ok: payload['ok'],
+          rumor: message_payload['rumor'],
+          answer: message_payload['answer'],
+          timestamp: event['timestamp']
+        )
+      end
     end
-  }
+  end
 
   "OK"
 end
@@ -115,4 +131,9 @@ def textmsg text
 
   # it is probably already wrapped. Skip wrapping with type.
   return text
+end
+
+def reply event, data
+  client.reply_message event['replyToken'], data
+  p data
 end
