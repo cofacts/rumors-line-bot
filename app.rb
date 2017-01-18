@@ -13,7 +13,7 @@ REPLY_TIMEOUT = 3600 # sec
 
 @airtable_client = Airtable::Client.new ENV["AIRTABLE_API_KEY"]
 airtable = @airtable_client.table "apphrXta7kRli978O", "Rumors"
-postback_airtable = @airtable_client.table "appJuvjYqXT3HnQzD", "Responses"
+postback_airtable = @airtable_client.table "appMRaoPmypnQzYxI", "Responses"
 redis = Redis.new(url: ENV["REDIS_URL"])
 
 def client
@@ -107,12 +107,12 @@ post '/callback' do
       unless message_payload_string.nil?
         message_payload = JSON.parse(message_payload_string)
 
-        postback_airtable.create Airtable::Record.new(
+        p postback_airtable.create Airtable::Record.new(
           messageId: payload['id'],
           ok: payload['ok'],
-          rumor: message_payload['rumor'],
-          answer: message_payload['answer'],
-          timestamp: event['timestamp']
+          rumor: message_payload['rumor'].to_json,
+          answer: message_payload['answer'].to_json,
+          timestamp: event['timestamp'].to_i
         )
       end
     end
