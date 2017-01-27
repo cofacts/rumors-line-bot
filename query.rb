@@ -48,16 +48,16 @@ def query_rumors_api(text)
       Search(text: $text) {
         suggestedResult {
           __typename
-          ... on Rumor {
+          ... on Article {
             text
-            answers {
+            replies {
               versions(limit: 0) {
                 text
                 reference
               }
             }
           }
-          ... on Answer {
+          ... on Reply {
             versions(limit: 0) {
               text
               reference
@@ -79,25 +79,25 @@ def query_rumors_api(text)
   return [] unless result
 
   case result['__typename']
-  when 'Rumor'
-    if result['answers'].size == 0
+  when 'Article'
+    if result['replies'].size == 0
       return [
         "之前有人有人懷疑過這則訊息的真實性，但目前還沒有人驗證過。"
       ]
     else
-      answer = result['answers'][0]['versions'][0]
+      reply = result['replies'][0]['versions'][0]
       return [
         "我的朋友，這則貼文含有不實資訊！",
-        answer['text'],
-        "資料來源：#{answer['reference']}"
+        reply['text'],
+        "資料來源：#{reply['reference']}"
       ]
     end
-  when 'Answer'
-    answer = result['versions'][0]
+  when 'Reply'
+    reply = result['versions'][0]
     return [
       "下面這則澄清文，似乎跟這則貼文有關，給您參考 :)",
-      answer['text'],
-      "資料來源：#{answer['reference']}"
+      reply['text'],
+      "資料來源：#{reply['reference']}"
     ]
   when 'CrawledDoc'
     return [
