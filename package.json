@@ -1,0 +1,57 @@
+{
+  "name": "rumors-line-bot",
+  "version": "0.0.1",
+  "description": "Line bot that checks if a message contains internet rumor. Edit",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node main.js",
+    "postinstall": "babel src -d build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrOrz/rumors-line-bot.git"
+  },
+  "keywords": [
+    "Rumor",
+    "Mythbusting",
+    "LINE bot"
+  ],
+  "author": "MrOrz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MrOrz/rumors-line-bot/issues"
+  },
+  "homepage": "https://github.com/MrOrz/rumors-line-bot#readme",
+  "dependencies": {
+    "babel-runtime": "^6.22.0",
+    "koa": "next",
+    "koa-bodyparser": "^2.3.0",
+    "koa-router": "next",
+    "koa-static": "next",
+    "node-fetch": "^1.6.3",
+    "pm2": "^2.4.0",
+    "rollbar": "^0.6.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-jest": "^18.0.0",
+    "babel-plugin-module-resolver": "^2.5.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015-node6": "^0.4.0",
+    "babel-preset-es2017": "^6.22.0",
+    "babel-preset-stage-3": "^6.22.0",
+    "coveralls": "^2.11.16",
+    "eslint": "^3.15.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-import-resolver-babel-module": "^3.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.9.0",
+    "jest-cli": "^18.1.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testPathDirs": ["src"]
+  }
+}
