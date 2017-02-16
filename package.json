@@ -24,14 +24,15 @@
   },
   "homepage": "https://github.com/MrOrz/rumors-line-bot#readme",
   "dependencies": {
-    "babel-runtime": "^6.22.0",
     "babel-polyfill": "^6.23.0",
+    "babel-runtime": "^6.22.0",
     "koa": "next",
-    "koa-bodyparser": "^2.3.0",
+    "koa-bodyparser": "next",
     "koa-router": "next",
     "koa-static": "next",
     "node-fetch": "^1.6.3",
     "pm2": "^2.4.0",
+    "redis": "^2.6.5",
     "rollbar": "^0.6.3"
   },
   "devDependencies": {
@@ -52,7 +53,9 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "testPathDirs": ["src"]
+    "testPathDirs": [
+      "src"
+    ]
   },
   "engines": {
     "node": "6.9.4"
