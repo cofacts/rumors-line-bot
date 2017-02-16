@@ -4,6 +4,7 @@ module.exports = {
   rules: {
     'no-underscore-dangle': 'off', // elastic search results uses dangling underscore a lot (like _source)
     'no-param-reassign': 'off', // ctx.body = xxx is how koa2 works.
+    'no-console': 'off', // console.error are common
   },
   settings: {
     'import/resolver': {
