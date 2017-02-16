@@ -3,6 +3,10 @@ import Router from 'koa-router';
 import rollbar from 'rollbar';
 import koaBody from 'koa-bodyparser';
 
+import redis from './redisClient';
+import checkSignature from './checkSignature';
+import lineClient from './lineClient';
+
 const app = new Koa();
 const router = Router();
 
@@ -28,7 +32,48 @@ app.use(koaBody({
 }));
 
 router.get('/', (ctx) => {
-  ctx.body = 'Hello world!';
+  ctx.body = JSON.stringify({
+    redis: redis.server_info,
+  });
+});
+
+// Routes that is after protection of checkSignature
+//
+router.use('/callback', checkSignature);
+router.post('/callback', (ctx) => {
+  // Allow free-form request handling.
+  // Don't wait for anything before returning 200.
+  //
+  ctx.request.body.events.forEach(({
+    type,
+    // timestamp,
+    // source,
+    ...otherFields
+  }) => {
+    switch (type) {
+      case 'message':
+        {
+          if (otherFields.message.type === 'text') {
+            lineClient('/message/reply', {
+              replyToken: otherFields.replyToken,
+              messages: [{
+                type: 'text',
+                text: otherFields.message.text,
+              }],
+            });
+          }
+          break;
+        }
+      case 'postback':
+        {
+          break;
+        }
+      default:
+        break;
+    }
+  });
+
+  ctx.status = 200;
 });
 
 app.use(router.routes());
