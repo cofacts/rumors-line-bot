@@ -50,6 +50,8 @@ router.post('/callback', (ctx) => {
     // source,
     ...otherFields
   }) => {
+    console.log(JSON.stringify({ type, ...otherFields }, null, '  '));
+
     switch (type) {
       case 'message':
         {
