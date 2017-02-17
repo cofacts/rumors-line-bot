@@ -6,6 +6,7 @@ import koaBody from 'koa-bodyparser';
 import redis from './redisClient';
 import checkSignature from './checkSignature';
 import lineClient from './lineClient';
+import processMessages from './processMessages';
 
 const app = new Koa();
 const router = Router();
@@ -44,35 +45,45 @@ router.post('/callback', (ctx) => {
   // Allow free-form request handling.
   // Don't wait for anything before returning 200.
   //
-  ctx.request.body.events.forEach(({
+  ctx.request.body.events.forEach(async ({
     type,
-    // timestamp,
-    // source,
+    replyToken,
+    source: { userId },
     ...otherFields
   }) => {
-    console.log(JSON.stringify({ type, ...otherFields }, null, '  '));
+    // Set default result
+    //
+    let result = {
+      context: '__INIT__',
+      replies: [{
+        type: 'text',
+        text: '我們還不支援文字以外的訊息唷！',
+      }],
+    };
 
-    switch (type) {
-      case 'message':
-        {
-          if (otherFields.message.type === 'text') {
-            lineClient('/message/reply', {
-              replyToken: otherFields.replyToken,
-              messages: [{
-                type: 'text',
-                text: otherFields.message.text,
-              }],
-            });
-          }
-          break;
-        }
-      case 'postback':
-        {
-          break;
-        }
-      default:
-        break;
+    // React to certain type of events
+    //
+    if (
+      (type === 'message' && otherFields.message.type === 'text') ||
+      type === 'postback'
+    ) {
+      const context = (await redis.get(userId)) || {};
+      result = await processMessages(context, {
+        type,
+        ...otherFields,
+      });
     }
+
+    // Send replies
+    //
+    lineClient('/message/reply', {
+      replyToken,
+      messages: result.replies,
+    });
+
+    // Set context
+    //
+    await redis.set(userId, result.context);
   });
 
   ctx.status = 200;
