@@ -41,25 +41,33 @@ export default async function processMessages(
         text: event.input,
       });
 
-      if (SearchArticles.length) {
+      if (SearchArticles.edges.length) {
         const templateMessage = {
           type: 'template',
-          altText: '電腦版 QQ',
+          altText: SearchArticles.edges.map(
+            ({ node: { text } }, idx) => `選擇請打 ${idx + 1}> ${text.slice(0, 20)}`,
+          ).join('\n\n'),
           template: {
             type: 'carousel',
             columns: SearchArticles.edges.map(({ node: { text } }, idx) => ({
               text: text.slice(0, 119),
               actions: [
-                createPostbackAction('選擇此則', idx, issuedAt),
+                createPostbackAction('選擇此則', idx + 1, issuedAt),
               ],
             })),
           },
         };
 
         // Store articles
-        data.foundArticleEdgess = SearchArticles.edges;
+        data.foundArticles = SearchArticles.edges.map(({ node }) => node);
 
-        replies = [templateMessage];
+        replies = [
+          {
+            type: 'text',
+            text: '請問下列文章中，哪一篇是您剛才傳送的訊息呢？',
+          },
+          templateMessage,
+        ];
         state = 'CHOOSING_ARTICLE';
       } else {
         replies = [{
@@ -83,6 +91,29 @@ export default async function processMessages(
       break;
     }
     case 'CHOOSING_ARTICLE': {
+      if (!data.foundArticles) {
+        throw new Error('foundArticles not set in data');
+      }
+
+      const selectedArticle = data.foundArticles[event.input - 1];
+
+      if (!selectedArticle) {
+        replies = [
+          { type: 'text', text: `請輸入 1～${data.foundArticles.length} 的數字。` },
+        ];
+
+        state = 'CHOOSING_ARTICLE';
+      } else {
+        // TODO: finish writing this.
+        replies = [
+          {
+            type: 'text',
+            text: '這則文章有 0 個回應表示查無不實， 0 個回應覺得有不實之處。',
+          },
+        ];
+        state = '__INIT__';
+      }
+
       break;
     }
     case 'CHOOSING_REPLY': {
