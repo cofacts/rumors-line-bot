@@ -1,4 +1,9 @@
-export default function processMessages(
+import gql from './gql';
+
+// State diagram:
+// http://bit.ly/2kZY6kL
+//
+export default async function processMessages(
   { state = '__INIT__', data = {} },
   event,
 ) {
@@ -15,15 +20,54 @@ export default function processMessages(
         },
       ];
 
+      data.searchedText = event.message.text;
+
       // Search for articles
+      const { data: { SearchArticles } } = await gql`query($text: String!) {
+        SearchArticles(text: $text, orderBy: [{_score: DESC}]) {
+          edges {
+            node {
+              text
+              id
+            }
+          }
+        }
+      }`({
+        text: event.message.text,
+      });
 
-      // Store articles
-      // data.query = event.message.text;
-      // data.foundArticles = [];
+      if (SearchArticles.length) {
+        const templateMessage = {
+          type: 'template',
+          altText: '電腦版 QQ',
+          template: {
+            type: 'carousel',
+            columns: SearchArticles.edges.map(({ node: { text, id } }) => ({
+              text: text.slice(0, 119),
+              actions: [
+                {
+                  type: 'postback',
+                  label: 'Select',
+                  data: id,
+                },
+              ],
+            })),
+          },
+        };
 
-      // List found articles
-      // replies = [];
-      // state = 'CHOOSING_ARTICLE';
+        // Store articles
+        data.foundArticleEdgess = SearchArticles.edges;
+
+        replies = [templateMessage];
+        state = 'CHOOSING_ARTICLE';
+      } else {
+        replies = [{
+          type: 'text',
+          text: '找不到這篇文章耶 QQ 請問要將文章送出到資料庫嗎？',
+        }];
+        state = 'ASKING_ARTICLE_SUBMISSION';
+      }
+
       break;
     }
     case 'CHOOSING_ARTICLE': {
