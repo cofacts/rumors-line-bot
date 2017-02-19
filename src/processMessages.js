@@ -13,14 +13,8 @@ export default async function processMessages(
   //
   switch (state) {
     case '__INIT__': {
-      replies = [
-        {
-          type: 'text',
-          text: event.message.text,
-        },
-      ];
-
-      data.searchedText = event.message.text;
+      // Store user input into context
+      data.searchedText = event.input;
 
       // Search for articles
       const { data: { SearchArticles } } = await gql`query($text: String!) {
@@ -33,7 +27,7 @@ export default async function processMessages(
           }
         }
       }`({
-        text: event.message.text,
+        text: event.input,
       });
 
       if (SearchArticles.length) {
@@ -63,7 +57,18 @@ export default async function processMessages(
       } else {
         replies = [{
           type: 'text',
-          text: '找不到這篇文章耶 QQ 請問要將文章送出到資料庫嗎？',
+          text: '找不到這篇文章耶 QQ',
+        }, {
+          type: 'template',
+          altText: '請問要將文章送出到資料庫嗎？\n「是」請輸入「y」，「否」請輸入其他任何訊息。',
+          template: {
+            type: 'buttons',
+            text: '請問要將文章送出到資料庫嗎？',
+            actions: [
+              { type: 'postback', label: '是', data: 'y' },
+              { type: 'postback', label: '否', data: 'n' },
+            ],
+          },
         }];
         state = 'ASKING_ARTICLE_SUBMISSION';
       }
@@ -80,6 +85,31 @@ export default async function processMessages(
       break;
     }
     case 'ASKING_ARTICLE_SUBMISSION': {
+      if (!data.searchedText) {
+        throw new Error('searchText not set in data');
+      }
+
+      const shouldSubmitArticle = event.input === 'y';
+      if (shouldSubmitArticle) {
+        const { data: { SetArticle } } = await gql`mutation($text: String){
+          SetArticle(text: $text, references: [{type: LINE}]) {
+            id
+          }
+        }`({
+          text: data.searchedText,
+        });
+
+        replies = [
+          { type: 'text', text: `您回報的文章已經被收錄至：http://rumors.hacktabl.org/article/${SetArticle.id}` },
+          { type: 'text', text: '感謝您的回報！' },
+        ];
+      } else {
+        replies = [
+          { type: 'text', text: '感謝您的使用。' },
+        ];
+      }
+      state = '__INIT__';
+
       break;
     }
 

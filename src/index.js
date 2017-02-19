@@ -71,13 +71,16 @@ router.post('/callback', (ctx) => {
       try {
         result = await processMessages(context, {
           type,
+
+          // normalized "input"
+          input: (type === 'message' ? otherFields.message.text : otherFields.postback.data),
+
           ...otherFields,
         });
 
-        if(!result.replies) {
+        if (!result.replies) {
           throw new Error('Returned replies is empty, please check processMessages() implementation.');
         }
-
       } catch (e) {
         console.error(e);
 
