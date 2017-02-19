@@ -68,11 +68,30 @@ router.post('/callback', (ctx) => {
       type === 'postback'
     ) {
       const context = (await redis.get(userId)) || {};
-      result = await processMessages(context, {
-        type,
-        ...otherFields,
-      });
+      try {
+        result = await processMessages(context, {
+          type,
+          ...otherFields,
+        });
+
+        if(!result.replies) {
+          throw new Error('Returned replies is empty, please check processMessages() implementation.');
+        }
+
+      } catch (e) {
+        console.error(e);
+
+        result = {
+          context: { state: '__INIT__', data: {} },
+          replies: [{
+            type: 'text',
+            text: '糟糕，bot 故障了。可以再傳一次嗎？ QQ',
+          }],
+        };
+      }
     }
+
+    // console.log('DEBUGGG', result.replies);
 
     // Send replies
     //
