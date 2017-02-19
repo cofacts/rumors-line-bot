@@ -1,11 +1,22 @@
 import gql from './gql';
 
+function createPostbackAction(label, input, issuedAt) {
+  return {
+    type: 'postback',
+    label,
+    data: JSON.stringify({
+      input, issuedAt,
+    }),
+  };
+}
+
 // State diagram:
 // http://bit.ly/2kZY6kL
 //
 export default async function processMessages(
   { state = '__INIT__', data = {} },
   event,
+  issuedAt, // When this request is issued. Will be written in postback replies.
 ) {
   let replies;
 
@@ -36,14 +47,10 @@ export default async function processMessages(
           altText: '電腦版 QQ',
           template: {
             type: 'carousel',
-            columns: SearchArticles.edges.map(({ node: { text, id } }) => ({
+            columns: SearchArticles.edges.map(({ node: { text } }, idx) => ({
               text: text.slice(0, 119),
               actions: [
-                {
-                  type: 'postback',
-                  label: 'Select',
-                  data: id,
-                },
+                createPostbackAction('選擇此則', idx, issuedAt),
               ],
             })),
           },
@@ -65,8 +72,8 @@ export default async function processMessages(
             type: 'buttons',
             text: '請問要將文章送出到資料庫嗎？',
             actions: [
-              { type: 'postback', label: '是', data: 'y' },
-              { type: 'postback', label: '否', data: 'n' },
+              createPostbackAction('是', 'y', issuedAt),
+              createPostbackAction('否', 'n', issuedAt),
             ],
           },
         }];

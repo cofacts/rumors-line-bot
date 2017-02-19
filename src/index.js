@@ -68,19 +68,37 @@ router.post('/callback', (ctx) => {
       type === 'postback'
     ) {
       const context = (await redis.get(userId)) || {};
+
+      // normalized "input"
+      let input;
+      if (type === 'postback') {
+        const data = JSON.parse(otherFields.postback.data);
+
+        // When if the postback is expired,
+        // i.e. If other new messages have been sent before pressing buttons,
+        // Don't do anything, just ignore silently.
+        //
+        if (data.issuedAt !== context.issuedAt) return;
+
+        input = data.input;
+      } else if (type === 'message') {
+        input = otherFields.message.text;
+      }
+
       try {
-        result = await processMessages(context, {
-          type,
+        // When this message is received.
+        //
+        const issuedAt = Date.now();
 
-          // normalized "input"
-          input: (type === 'message' ? otherFields.message.text : otherFields.postback.data),
-
-          ...otherFields,
-        });
+        result = await processMessages(context, { type, input, ...otherFields }, issuedAt);
 
         if (!result.replies) {
           throw new Error('Returned replies is empty, please check processMessages() implementation.');
         }
+
+        // Renew "issuedAt" of the resulting context.
+        //
+        result.context.issuedAt = issuedAt;
       } catch (e) {
         console.error(e);
 
