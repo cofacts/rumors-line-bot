@@ -85,6 +85,13 @@ router.post('/callback', (ctx) => {
         input = otherFields.message.text;
       }
 
+      // Debugging: type 'RESET' to reset user's context and start all over.
+      //
+      if (input === 'RESET') {
+        redis.del(userId);
+        return;
+      }
+
       try {
         // When this message is received.
         //

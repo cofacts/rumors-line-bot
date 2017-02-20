@@ -26,12 +26,31 @@ function get(key) {
       if (err) {
         reject(err);
       } else {
-        resolve(JSON.parse(reply));
+        try {
+          resolve(JSON.parse(reply));
+        } catch (e) {
+          // Gracefully fallback, in case the stuff in redis is a mess
+          //
+          console.error(e);
+          resolve({});
+        }
+      }
+    });
+  });
+}
+
+function del(key) {
+  return new Promise((resolve, reject) => {
+    client.del(key, (err, reply) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(reply);
       }
     });
   });
 }
 
 export default {
-  set, get,
+  set, get, del,
 };
