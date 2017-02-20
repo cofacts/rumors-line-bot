@@ -1,4 +1,5 @@
 import redis from 'redis';
+import rollbar from 'rollbar';
 
 const client = redis.createClient(process.env.REDIS_URL || 'redis://127.0.0.1:6379');
 
@@ -32,6 +33,7 @@ function get(key) {
           // Gracefully fallback, in case the stuff in redis is a mess
           //
           console.error(e);
+          rollbar.handleError(e);
           resolve({});
         }
       }

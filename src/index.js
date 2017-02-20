@@ -108,6 +108,7 @@ router.post('/callback', (ctx) => {
         result.context.issuedAt = issuedAt;
       } catch (e) {
         console.error(e);
+        rollbar.handleError(e, ctx.request);
 
         result = {
           context: { state: '__INIT__', data: {} },

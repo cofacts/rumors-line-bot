@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import rollbar from 'rollbar';
 
 // const API_URL = 'http://api.rumors.hacktabl.org/graphql';
 const API_URL = 'http://localhost:5000/graphql';
@@ -41,6 +42,10 @@ export default (query, ...substitutions) => (variables) => {
     if (resp.errors) {
       // When status is 200 but have error, just print them out.
       console.error('GraphQL operation contains error:', resp.errors);
+      rollbar.reportMessageWithPayloadData('GraphQL error', {
+        level: 'error',
+        custom: { queryAndVariable, resp },
+      });
     }
     return resp;
   });
