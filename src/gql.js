@@ -1,8 +1,7 @@
 import fetch from 'node-fetch';
 import rollbar from 'rollbar';
 
-// const API_URL = 'http://api.rumors.hacktabl.org/graphql';
-const API_URL = 'http://localhost:5000/graphql';
+const API_URL = process.env.API_URL || 'http://localhost:5000/graphql';
 
 // Usage:
 //
