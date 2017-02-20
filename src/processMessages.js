@@ -256,6 +256,7 @@ export default async function processMessages(
       replies = [
         { type: 'text', text: '感謝您的回饋。' },
       ];
+      state = '__INIT__';
       break;
     }
     case 'ASKING_ARTICLE_SUBMISSION': {
