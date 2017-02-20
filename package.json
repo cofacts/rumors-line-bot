@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "start": "node main.js",
-    "postinstall": "babel src -d build"
+    "postinstall": "babel src -d build",
+    "lint": "eslint --fix ."
   },
   "repository": {
     "type": "git",
