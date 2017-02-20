@@ -46,7 +46,7 @@ export default async function processMessages(
           type: 'template',
           altText: SearchArticles.edges.map(
             ({ node: { text } }, idx) => `選擇請打 ${idx + 1}> ${text.slice(0, 20)}`,
-          ).join('\n\n'),
+          ).concat(['若以上皆非，請打 0。']).join('\n\n'),
           template: {
             type: 'carousel',
             columns: SearchArticles.edges.map(({ node: { text } }, idx) => ({
@@ -54,7 +54,12 @@ export default async function processMessages(
               actions: [
                 createPostbackAction('選擇此則', idx + 1, issuedAt),
               ],
-            })),
+            })).concat([{
+              text: '這裡沒有一篇是我傳的訊息。',
+              actions: [
+                createPostbackAction('選擇', 0, issuedAt),
+              ],
+            }]),
           },
         };
 
@@ -97,7 +102,22 @@ export default async function processMessages(
 
       const selectedArticleId = data.foundArticleIds[event.input - 1];
 
-      if (!selectedArticleId) {
+      if (+event.input === 0) {
+        replies = [{
+          type: 'template',
+          altText: '請問要將文章送出到資料庫嗎？\n「是」請輸入「y」，「否」請輸入其他任何訊息。',
+          template: {
+            type: 'buttons',
+            text: '請問要將文章送出到資料庫嗎？',
+            actions: [
+              createPostbackAction('是', 'y', issuedAt),
+              createPostbackAction('否', 'n', issuedAt),
+            ],
+          },
+        }];
+
+        state = 'ASKING_ARTICLE_SUBMISSION';
+      } else if (!selectedArticleId) {
         replies = [
           { type: 'text', text: `請輸入 1～${data.foundArticleIds.length} 的數字。` },
         ];
