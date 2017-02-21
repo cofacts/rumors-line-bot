@@ -118,6 +118,13 @@ router.post('/callback', (ctx) => {
           }],
         };
       }
+
+      console.log(
+        '[LOG]',
+        `CONTEXT =\n${JSON.stringify(context)}\n`,
+        `INPUT =\n${JSON.stringify({ type, userId, ...otherFields })}\n`,
+        `OUTPUT =\n${JSON.stringify(result)}\n`,
+      );
     }
 
     // console.log('DEBUGGG', result.replies);
