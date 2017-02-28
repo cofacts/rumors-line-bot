@@ -20,6 +20,13 @@ export default async function processMessages(
 ) {
   let replies;
 
+  if (event.input.length >= 3) {
+    // If input contains more than 3 words,
+    // consider it as a new query and start over.
+    data = {};
+    state = '__INIT__';
+  }
+
   // Sets state, data and replies
   //
   switch (state) {
@@ -40,6 +47,8 @@ export default async function processMessages(
       }`({
         text: event.input,
       });
+
+      const articleSummary = `${event.input.slice(0, 10)}${event.input.length > 10 ? '⋯⋯' : ''}`;
 
       if (SearchArticles.edges.length) {
         const templateMessage = {
@@ -69,6 +78,10 @@ export default async function processMessages(
         replies = [
           {
             type: 'text',
+            text: `幫您查詢「${articleSummary}」的相關回應。`,
+          },
+          {
+            type: 'text',
             text: '請問下列文章中，哪一篇是您剛才傳送的訊息呢？',
           },
           templateMessage,
@@ -77,13 +90,13 @@ export default async function processMessages(
       } else {
         replies = [{
           type: 'text',
-          text: '找不到這篇文章耶 QQ',
+          text: `找不到關於「${articleSummary}」文章耶 QQ`,
         }, {
           type: 'template',
-          altText: '請問要將文章送出到資料庫嗎？\n「是」請輸入「y」，「否」請輸入其他任何訊息。',
+          altText: '請問要將這份文章送出到資料庫嗎？\n「是」請輸入「y」，「否」請輸入「n」或其他單一字母。',
           template: {
             type: 'buttons',
-            text: '請問要將文章送出到資料庫嗎？',
+            text: '請問要將這份文章送出到資料庫嗎？',
             actions: [
               createPostbackAction('是', 'y', issuedAt),
               createPostbackAction('否', 'n', issuedAt),
@@ -105,7 +118,7 @@ export default async function processMessages(
       if (+event.input === 0) {
         replies = [{
           type: 'template',
-          altText: '請問要將文章送出到資料庫嗎？\n「是」請輸入「y」，「否」請輸入其他任何訊息。',
+          altText: '請問要將文章送出到資料庫嗎？\n「是」請輸入「y」，「否」請輸入「n」或其他單一字母。',
           template: {
             type: 'buttons',
             text: '請問要將文章送出到資料庫嗎？',
