@@ -126,13 +126,16 @@ export default async function processMessages(
       } else {
         const { data: { GetArticle } } = await gql`query($id: String!) {
           GetArticle(id: $id) {
-            replies {
-              id
-              versions(limit: 1) {
-                type
-                text
-                reference
-                createdAt
+            replyCount
+            replyConnections {
+              reply {
+                id
+                versions(limit: 1) {
+                  type
+                  text
+                  reference
+                  createdAt
+                }
               }
             }
           }
@@ -140,8 +143,8 @@ export default async function processMessages(
           id: selectedArticleId,
         });
 
-        const { rumorReplies, notRumorReplies } = GetArticle.replies.reduce(
-          (result, reply) => {
+        const { rumorReplies, notRumorReplies } = GetArticle.replyConnections.reduce(
+          (result, { reply }) => {
             if (reply.versions[0].type === 'RUMOR') {
               result.rumorReplies.push(reply);
             } else if (reply.versions[0].type === 'NOT_RUMOR') {
@@ -190,7 +193,7 @@ export default async function processMessages(
           });
         }
 
-        if (GetArticle.replies.length === 0) {
+        if (GetArticle.replyCount === 0) {
           // No one has replied to this yet.
           // TODO: Send replyRequest for the user.
           //
