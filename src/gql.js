@@ -28,6 +28,7 @@ export default (query, ...substitutions) => (variables) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'x-app-secret': process.env.APP_SECRET,
     },
     credentials: 'include',
     body: JSON.stringify(queryAndVariable),
