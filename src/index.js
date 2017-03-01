@@ -97,7 +97,7 @@ router.post('/callback', (ctx) => {
         //
         const issuedAt = Date.now();
 
-        result = await processMessages(context, { type, input, ...otherFields }, issuedAt);
+        result = await processMessages(context, { type, input, ...otherFields }, issuedAt, userId);
 
         if (!result.replies) {
           throw new Error('Returned replies is empty, please check processMessages() implementation.');
