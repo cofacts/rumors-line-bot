@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import rollbar from 'rollbar';
+import url from 'url';
 
 const API_URL = process.env.API_URL || 'http://localhost:5000/graphql';
 
@@ -15,7 +16,7 @@ const API_URL = process.env.API_URL || 'http://localhost:5000/graphql';
 //
 // GraphQL Protocol: http://dev.apollodata.com/tools/graphql-server/requests.html
 //
-export default (query, ...substitutions) => (variables) => {
+export default (query, ...substitutions) => (variables, search) => {
   const queryAndVariable = {
     query: String.raw(query, ...substitutions),
   };
@@ -24,7 +25,7 @@ export default (query, ...substitutions) => (variables) => {
 
   let status;
 
-  return fetch(API_URL, {
+  return fetch(`${API_URL}${url.format({ query: search })}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
