@@ -17,6 +17,7 @@ export default async function processMessages(
   { state = '__INIT__', data = {} },
   event,
   issuedAt, // When this request is issued. Will be written in postback replies.
+  userId,
 ) {
   let replies;
 
@@ -141,13 +142,12 @@ export default async function processMessages(
           GetArticle(id: $id) {
             replyCount
             replyConnections {
+              id
               reply {
                 id
                 versions(limit: 1) {
                   type
                   text
-                  reference
-                  createdAt
                 }
               }
             }
@@ -157,11 +157,11 @@ export default async function processMessages(
         });
 
         const { rumorReplies, notRumorReplies } = GetArticle.replyConnections.reduce(
-          (result, { reply }) => {
+          (result, { reply, id }) => {
             if (reply.versions[0].type === 'RUMOR') {
-              result.rumorReplies.push(reply);
+              result.rumorReplies.push({ ...reply, replyConnectionId: id });
             } else if (reply.versions[0].type === 'NOT_RUMOR') {
-              result.notRumorReplies.push(reply);
+              result.notRumorReplies.push({ ...reply, replyConnectionId: id });
             }
             return result;
           },
@@ -208,12 +208,20 @@ export default async function processMessages(
 
         if (GetArticle.replyCount === 0) {
           // No one has replied to this yet.
-          // TODO: Send replyRequest for the user.
           //
+
+          const { data: { CreateReplyRequest: { replyRequestCount } }, errors } =
+          await gql`mutation($id: String!) {
+            CreateReplyRequest(articleId: $id) {
+              replyRequestCount
+            }
+          }`({ id: selectedArticleId }, { userId });
+
           replies = [
-            { type: 'text', text: '目前還沒有人回應這篇文章唷。' },
-            { type: 'text', text: `若有最新回應，會寫在這個地方：http://rumors.hacktabl.org/article/${data.selectedArticleId}` },
+            { type: 'text', text: `目前還沒有人回應這篇文章唷。${errors ? '' : `已經將您的需求記錄下來了，共有 ${replyRequestCount} 人跟您一樣渴望看到針對這篇文章的回應。`}` },
+            { type: 'text', text: `若有最新回應，會寫在這個地方：http://rumors.hacktabl.org/article/${selectedArticleId}` },
           ];
+
           state = '__INIT__';
         } else if (replies.length === 0) {
           // Someone reported that it is not an article,
@@ -221,12 +229,15 @@ export default async function processMessages(
           //
           replies = [
             { type: 'text', text: '有人認為您傳送的這則訊息並不是完整的文章內容，或認為「真的假的」不應該處理這則訊息。' },
-            { type: 'text', text: `詳情請見：http://rumors.hacktabl.org/article/${data.selectedArticleId}` },
+            { type: 'text', text: `詳情請見：http://rumors.hacktabl.org/article/${selectedArticleId}` },
           ];
           state = '__INIT__';
         } else {
-          data.foundReplyIds = notRumorReplies.map(({ id }) => id)
-            .concat(rumorReplies.map(({ id }) => id));
+          data.foundReplies = notRumorReplies
+            .map(({ replyConnectionId, id }) => ({ id, replyConnectionId }))
+            .concat(
+              rumorReplies.map(({ replyConnectionId, id }) => ({ id, replyConnectionId })),
+            );
           state = 'CHOOSING_REPLY';
         }
       }
@@ -234,15 +245,15 @@ export default async function processMessages(
       break;
     }
     case 'CHOOSING_REPLY': {
-      if (!data.foundReplyIds) {
-        throw new Error('foundReplyIds not set in data');
+      if (!data.foundReplies) {
+        throw new Error('foundReplies not set in data');
       }
 
-      const selectedReplyId = data.foundReplyIds[event.input - 1];
+      const selectedReply = data.foundReplies[event.input - 1];
 
-      if (!selectedReplyId) {
+      if (!selectedReply) {
         replies = [
-          { type: 'text', text: `請輸入 1～${data.foundReplyIds.length} 的數字。` },
+          { type: 'text', text: `請輸入 1～${data.foundReplies.length} 的數字。` },
         ];
 
         state = 'CHOOSING_REPLY';
@@ -256,9 +267,7 @@ export default async function processMessages(
               createdAt
             }
           }
-        }`({
-          id: selectedReplyId,
-        });
+        }`({ id: selectedReply.id });
 
         replies = [
           { type: 'text', text: `這則回應認為文章${GetReply.versions[0].type === 'RUMOR' ? '含有不實訊息' : '不含不實訊息'}，理由為：` },
@@ -278,20 +287,36 @@ export default async function processMessages(
           },
         ];
 
+        data.selectedReply = selectedReply;
         state = 'ASKING_REPLY_FEEDBACK';
       }
 
       break;
     }
     case 'ASKING_REPLY_FEEDBACK': {
-      if (!data.foundReplyIds) {
-        throw new Error('foundReplyIds not set in data');
+      if (!data.selectedReply) {
+        throw new Error('selectedReply not set in data');
       }
-      // TODO: send feedback
-      //
+
+      const { data: { action: { feedbackCount } } } = await gql`mutation($vote: FeedbackVote!, $id: String!){
+        action: CreateOrUpdateReplyConnectionFeedback(
+          vote: $vote
+          replyConnectionId: $id
+        ) {
+          feedbackCount
+        }
+      }`({
+        id: data.selectedReply.replyConnectionId,
+        vote: event.input === 'y' ? 'UPVOTE' : 'DOWNVOTE',
+      }, { userId });
+
       replies = [
-        { type: 'text', text: '感謝您的回饋。' },
+        { type: 'text',
+          text: feedbackCount > 1 ?
+          `感謝您與其他 ${feedbackCount - 1} 人的回饋。` :
+          '感謝您的回饋，您是第一個評論這份文章與回應的人 :)' },
       ];
+
       state = '__INIT__';
       break;
     }
@@ -300,18 +325,15 @@ export default async function processMessages(
         throw new Error('searchText not set in data');
       }
 
-      const shouldSubmitArticle = event.input === 'y';
-      if (shouldSubmitArticle) {
-        const { data: { SetArticle } } = await gql`mutation($text: String){
-          SetArticle(text: $text, references: [{type: LINE}]) {
+      if (event.input === 'y') {
+        const { data: { CreateArticle } } = await gql`mutation($text: String!){
+          CreateArticle(text: $text, reference: {type: LINE}) {
             id
           }
-        }`({
-          text: data.searchedText,
-        });
+        }`({ text: data.searchedText }, { userId });
 
         replies = [
-          { type: 'text', text: `您回報的文章已經被收錄至：http://rumors.hacktabl.org/article/${SetArticle.id}` },
+          { type: 'text', text: `您回報的文章已經被收錄至：http://rumors.hacktabl.org/article/${CreateArticle.id}` },
           { type: 'text', text: '感謝您的回報！' },
         ];
       } else {
