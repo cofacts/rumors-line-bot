@@ -10,7 +10,7 @@ const instances = process.env.WEB_CONCURRENCY || -1;
 const maxMemory = process.env.WEB_MEMORY || 512;    // " " "
 
 const DEV_CONFIG = {
-  name: 'heroku-line-bot',
+  name: 'heroku-line-bot-local',
   script: 'src/index.js',
   env: process.env,
   watch: true,
