@@ -4,7 +4,7 @@ import rollbar from 'rollbar';
 import koaBody from 'koa-bodyparser';
 
 import redis from './redisClient';
-import checkSignature from './checkSignature';
+import { checkSignature, captureRawBody } from './checkSignature';
 import lineClient from './lineClient';
 import processMessages from './processMessages';
 
@@ -25,6 +25,8 @@ app.use(async (ctx, next) => {
     throw err;
   }
 });
+
+app.use(captureRawBody);
 
 app.use(koaBody({
   formLimit: '1mb',
