@@ -210,15 +210,14 @@ export default async function processMessages(
           // No one has replied to this yet.
           //
 
-          const { data: { CreateReplyRequest: { replyRequestCount } }, errors } =
-          await gql`mutation($id: String!) {
+          const { data: { CreateReplyRequest }, errors } = await gql`mutation($id: String!) {
             CreateReplyRequest(articleId: $id) {
               replyRequestCount
             }
           }`({ id: selectedArticleId }, { userId });
 
           replies = [
-            { type: 'text', text: `目前還沒有人回應這篇文章唷。${errors ? '' : `已經將您的需求記錄下來了，共有 ${replyRequestCount} 人跟您一樣渴望看到針對這篇文章的回應。`}` },
+            { type: 'text', text: `目前還沒有人回應這篇文章唷。${errors ? '' : `已經將您的需求記錄下來了，共有 ${CreateReplyRequest.replyRequestCount} 人跟您一樣渴望看到針對這篇文章的回應。`}` },
             { type: 'text', text: `若有最新回應，會寫在這個地方：http://rumors.hacktabl.org/article/${selectedArticleId}` },
           ];
 
