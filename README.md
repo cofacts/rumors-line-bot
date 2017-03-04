@@ -1,6 +1,15 @@
 # rumors-line-bot
 Line bot that checks if a message contains internet rumor.
 
+## State diagram & Documents
+
+This is a one of the sub-project of [真的假的](http://beta.hackfoldr.org/rumors)。
+
+This state diagram describes how the LINE bot talks to users:
+
+[![The state diagram](https://docs.google.com/drawings/d/1GIuprSEGpthMW6KuCgawMky5Nnxm7P7mlxeODPdA-lI/pub?w=1405&h=1116)](http://beta.hackfoldr.org/rumors/https%253A%252F%252Fdocs.google.com%252Fdrawings%252Fd%252F1GIuprSEGpthMW6KuCgawMky5Nnxm7P7mlxeODPdA-lI%252Fedit)
+
+
 ## Development
 
 Developing rumors-line-bot requires you to finish the following settings.
@@ -27,7 +36,7 @@ Other customizable env vars are:
 
 ### Redis server
 
-We use Redis to store conversation context / intents. Please run a Redis server on your machine, or use the Heroku Redis directly if you happen to deploy the bot to Heroku.
+We use Redis to store conversation context / intents. Please run a Redis server on your machine, or use the Heroku Redis's `REDIS_URL` directly if you happen to deploy the bot to Heroku.
 
 ### Node Dependencies
 
