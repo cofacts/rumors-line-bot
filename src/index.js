@@ -10,6 +10,7 @@ import processMessages from './processMessages';
 
 const app = new Koa();
 const router = Router();
+const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',')
 
 rollbar.init(process.env.ROLLBAR_TOKEN, {
   environment: process.env.ROLLBAR_ENV,
@@ -53,6 +54,12 @@ router.post('/callback', (ctx) => {
     source: { userId },
     ...otherFields
   }) => {
+    if (userIdBlacklist.indexOf(userId) !== -1) {
+      // User blacklist
+      console.log(`[LOG] Blocked user INPUT =\n${JSON.stringify({ type, userId, ...otherFields })}\n`);
+      return;
+    }
+
     // Set default result
     //
     let result = {
