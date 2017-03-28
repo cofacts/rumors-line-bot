@@ -138,7 +138,8 @@ router.post('/callback', (ctx) => {
 
     // console.log('DEBUGGG', result.replies);
 
-    // Send replies
+    // Send replies. Does not need to wait for lineClient's callbacks.
+    // lineClient's callback does error handling by itself.
     //
     lineClient('/message/reply', {
       replyToken,
