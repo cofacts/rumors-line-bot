@@ -37,7 +37,7 @@ export default async function processMessages(
 
       // Search for articles
       const { data: { SearchArticles } } = await gql`query($text: String!) {
-        SearchArticles(text: $text, orderBy: [{_score: DESC}]) {
+        SearchArticles(text: $text, orderBy: [{_score: DESC}], first: 4) {
           edges {
             node {
               text
