@@ -1,3 +1,4 @@
+import stringSimilarity from 'string-similarity';
 import gql from './gql';
 
 function createPostbackAction(label, input, issuedAt) {
@@ -50,8 +51,23 @@ export default async function processMessages(
       });
 
       const articleSummary = `${event.input.slice(0, 10)}${event.input.length > 10 ? '⋯⋯' : ''}`;
-
       if (SearchArticles.edges.length) {
+        if (SearchArticles.edges.length === 1) {
+          const foundText = SearchArticles.edges[0].node.text;
+          const similarity = stringSimilarity.compareTwoStrings(event.input, foundText);
+          if (similarity >= 0.95) {
+            // choose for user
+            event.input = 1;
+
+            // Store article ids
+            data.foundArticleIds = SearchArticles.edges.map(({ node: { id } }) => id);
+            return processMessages({
+              state: 'CHOOSING_ARTICLE',
+              data,
+            }, event, issuedAt, userId);
+          }
+        }
+
         const templateMessage = {
           type: 'template',
           altText: SearchArticles.edges.map(
@@ -235,8 +251,8 @@ export default async function processMessages(
           data.foundReplies = notRumorReplies
             .map(({ replyConnectionId, id }) => ({ id, replyConnectionId }))
             .concat(
-              rumorReplies.map(({ replyConnectionId, id }) => ({ id, replyConnectionId })),
-            );
+            rumorReplies.map(({ replyConnectionId, id }) => ({ id, replyConnectionId })),
+          );
           state = 'CHOOSING_REPLY';
         }
       }
@@ -310,10 +326,12 @@ export default async function processMessages(
       }, { userId });
 
       replies = [
-        { type: 'text',
+        {
+          type: 'text',
           text: feedbackCount > 1 ?
-          `感謝您與其他 ${feedbackCount - 1} 人的回饋。` :
-          '感謝您的回饋，您是第一個評論這份文章與回應的人 :)' },
+            `感謝您與其他 ${feedbackCount - 1} 人的回饋。` :
+            '感謝您的回饋，您是第一個評論這份文章與回應的人 :)',
+        },
       ];
 
       state = '__INIT__';
