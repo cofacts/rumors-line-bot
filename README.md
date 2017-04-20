@@ -24,7 +24,7 @@ First, install heroku toolbelt.
 
 Create .env file, copy the template below and `LINE_CHANNEL_SECRET`, `LINE_CHANNEL_TOKEN` inside.
 ```
-API_URL=http://api.rumors.hacktabl.org/graphql
+API_URL=https://cofacts-api.g0v.tw/graphql
 LINE_CHANNEL_SECRET=<paste LINE@'s channel secret here>
 LINE_CHANNEL_TOKEN=<paste LINE@'s channel token here>
 ```
@@ -89,5 +89,5 @@ Despite the fact that we don't use `Procfile`, Heroku still does detection and i
 You will still have to set the following config vars manually:
 
 ```
-$ heroku config:set API_URL=http://api.rumors.hacktabl.org/graphql LINE_CHANNEL_SECRET=<Your channel secret> LINE_CHANNEL_TOKEN=<Your channel token>
+$ heroku config:set API_URL=https://cofacts-api.g0v.tw/graphql LINE_CHANNEL_SECRET=<Your channel secret> LINE_CHANNEL_TOKEN=<Your channel token>
 ```
