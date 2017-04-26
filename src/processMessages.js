@@ -12,6 +12,8 @@ function createPostbackAction(label, input, issuedAt) {
   };
 }
 
+const SIMILARITY_THRESHOLD = 0.95;
+
 // State diagram:
 // http://bit.ly/2kZY6kL
 //
@@ -55,11 +57,8 @@ export default async function processMessages(
       if (SearchArticles.edges.length) {
         if (SearchArticles.edges.length === 1) {
           const foundText = SearchArticles.edges[0].node.text;
-          const similarity = stringSimilarity.compareTwoStrings(
-            event.input,
-            foundText
-          );
-          if (similarity >= 0.95) {
+          const similarity = stringSimilarity.compareTwoStrings(event.input, foundText);
+          if (similarity >= SIMILARITY_THRESHOLD) {
             // choose for user
             event.input = 1;
 
@@ -92,17 +91,17 @@ export default async function processMessages(
             .join('\n\n'),
           template: {
             type: 'carousel',
-            columns: SearchArticles.edges
-              .map(({ node: { text } }, idx) => ({
-                text: text.slice(0, 119),
-                actions: [createPostbackAction('選擇此則', idx + 1, issuedAt)],
-              }))
-              .concat([
-                {
-                  text: '這裡沒有一篇是我傳的訊息。',
-                  actions: [createPostbackAction('選擇', 0, issuedAt)],
-                },
-              ]),
+            columns: SearchArticles.edges.map(({ node: { text } }, idx) => ({
+              text: `[相似度:${stringSimilarity.compareTwoStrings(event.input, text)}] \n ${text.slice(0, 105)}`,
+              actions: [
+                createPostbackAction('選擇此則', idx + 1, issuedAt),
+              ],
+            })).concat([{
+              text: '這裡沒有一篇是我傳的訊息。',
+              actions: [
+                createPostbackAction('選擇', 0, issuedAt),
+              ],
+            }]),
           },
         };
 
