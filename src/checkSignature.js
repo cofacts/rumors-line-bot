@@ -6,11 +6,13 @@ export function captureRawBody(ctx, next) {
   // We capture request stream here to collect raw body string for checkSignature()
   //
   let rawBody = '';
-  ctx.req.addListener('data', (chunk) => {
-    rawBody += chunk;
-  }).addListener('end', () => {
-    ctx.rawBody = rawBody;
-  });
+  ctx.req
+    .addListener('data', chunk => {
+      rawBody += chunk;
+    })
+    .addListener('end', () => {
+      ctx.rawBody = rawBody;
+    });
   return next();
 }
 

@@ -6,7 +6,8 @@ function createPostbackAction(label, input, issuedAt) {
     type: 'postback',
     label,
     data: JSON.stringify({
-      input, issuedAt,
+      input,
+      issuedAt,
     }),
   };
 }
@@ -18,7 +19,7 @@ export default async function processMessages(
   { state = '__INIT__', data = {} },
   event,
   issuedAt, // When this request is issued. Will be written in postback replies.
-  userId,
+  userId
 ) {
   let replies;
 
@@ -54,43 +55,61 @@ export default async function processMessages(
       if (SearchArticles.edges.length) {
         if (SearchArticles.edges.length === 1) {
           const foundText = SearchArticles.edges[0].node.text;
-          const similarity = stringSimilarity.compareTwoStrings(event.input, foundText);
+          const similarity = stringSimilarity.compareTwoStrings(
+            event.input,
+            foundText
+          );
           if (similarity >= 0.95) {
             // choose for user
             event.input = 1;
 
             // Store article ids
-            data.foundArticleIds = SearchArticles.edges.map(({ node: { id } }) => id);
-            return processMessages({
-              state: 'CHOOSING_ARTICLE',
-              data,
-            }, event, issuedAt, userId);
+            data.foundArticleIds = SearchArticles.edges.map(
+              ({ node: { id } }) => id
+            );
+            return processMessages(
+              {
+                state: 'CHOOSING_ARTICLE',
+                data,
+              },
+              event,
+              issuedAt,
+              userId
+            );
           }
         }
 
         const templateMessage = {
           type: 'template',
-          altText: SearchArticles.edges.map(
-            ({ node: { text } }, idx) => `選擇請打 ${idx + 1}> ${text.slice(0, 20)}`,
-          ).concat(['若以上皆非，請打 0。']).join('\n\n'),
+          altText: SearchArticles.edges
+            .map(
+              (
+                { node: { text } },
+                idx
+              ) => `選擇請打 ${idx + 1}> ${text.slice(0, 20)}`
+            )
+            .concat(['若以上皆非，請打 0。'])
+            .join('\n\n'),
           template: {
             type: 'carousel',
-            columns: SearchArticles.edges.map(({ node: { text } }, idx) => ({
-              text: text.slice(0, 119),
-              actions: [
-                createPostbackAction('選擇此則', idx + 1, issuedAt),
-              ],
-            })).concat([{
-              text: '這裡沒有一篇是我傳的訊息。',
-              actions: [
-                createPostbackAction('選擇', 0, issuedAt),
-              ],
-            }]),
+            columns: SearchArticles.edges
+              .map(({ node: { text } }, idx) => ({
+                text: text.slice(0, 119),
+                actions: [createPostbackAction('選擇此則', idx + 1, issuedAt)],
+              }))
+              .concat([
+                {
+                  text: '這裡沒有一篇是我傳的訊息。',
+                  actions: [createPostbackAction('選擇', 0, issuedAt)],
+                },
+              ]),
           },
         };
 
         // Store article ids
-        data.foundArticleIds = SearchArticles.edges.map(({ node: { id } }) => id);
+        data.foundArticleIds = SearchArticles.edges.map(
+          ({ node: { id } }) => id
+        );
 
         replies = [
           {
@@ -105,21 +124,24 @@ export default async function processMessages(
         ];
         state = 'CHOOSING_ARTICLE';
       } else {
-        replies = [{
-          type: 'text',
-          text: `找不到關於「${articleSummary}」文章耶 QQ`,
-        }, {
-          type: 'template',
-          altText: '請問要將這份文章送出到資料庫嗎？\n「是」請輸入「y」，「否」請輸入「n」或其他單一字母。',
-          template: {
-            type: 'buttons',
-            text: '請問要將這份文章送出到資料庫嗎？',
-            actions: [
-              createPostbackAction('是', 'y', issuedAt),
-              createPostbackAction('否', 'n', issuedAt),
-            ],
+        replies = [
+          {
+            type: 'text',
+            text: `找不到關於「${articleSummary}」文章耶 QQ`,
           },
-        }];
+          {
+            type: 'template',
+            altText: '請問要將這份文章送出到資料庫嗎？\n「是」請輸入「y」，「否」請輸入「n」或其他單一字母。',
+            template: {
+              type: 'buttons',
+              text: '請問要將這份文章送出到資料庫嗎？',
+              actions: [
+                createPostbackAction('是', 'y', issuedAt),
+                createPostbackAction('否', 'n', issuedAt),
+              ],
+            },
+          },
+        ];
         state = 'ASKING_ARTICLE_SUBMISSION';
       }
 
@@ -133,18 +155,20 @@ export default async function processMessages(
       const selectedArticleId = data.foundArticleIds[event.input - 1];
 
       if (+event.input === 0) {
-        replies = [{
-          type: 'template',
-          altText: '請問要將文章送出到資料庫嗎？\n「是」請輸入「y」，「否」請輸入「n」或其他單一字母。',
-          template: {
-            type: 'buttons',
-            text: '請問要將文章送出到資料庫嗎？',
-            actions: [
-              createPostbackAction('是', 'y', issuedAt),
-              createPostbackAction('否', 'n', issuedAt),
-            ],
+        replies = [
+          {
+            type: 'template',
+            altText: '請問要將文章送出到資料庫嗎？\n「是」請輸入「y」，「否」請輸入「n」或其他單一字母。',
+            template: {
+              type: 'buttons',
+              text: '請問要將文章送出到資料庫嗎？',
+              actions: [
+                createPostbackAction('是', 'y', issuedAt),
+                createPostbackAction('否', 'n', issuedAt),
+              ],
+            },
           },
-        }];
+        ];
 
         state = 'ASKING_ARTICLE_SUBMISSION';
       } else if (!selectedArticleId) {
@@ -172,7 +196,10 @@ export default async function processMessages(
           id: selectedArticleId,
         });
 
-        const { rumorReplies, notRumorReplies } = GetArticle.replyConnections.reduce(
+        const {
+          rumorReplies,
+          notRumorReplies,
+        } = GetArticle.replyConnections.reduce(
           (result, { reply, id }) => {
             if (reply.versions[0].type === 'RUMOR') {
               result.rumorReplies.push({ ...reply, replyConnectionId: id });
@@ -181,41 +208,59 @@ export default async function processMessages(
             }
             return result;
           },
-          { rumorReplies: [], notRumorReplies: [] },
+          { rumorReplies: [], notRumorReplies: [] }
         );
 
         replies = [];
         if (notRumorReplies.length) {
-          replies.push({ type: 'text', text: `這篇文章有 ${notRumorReplies.length} 個回應表示查無不實：` });
+          replies.push({
+            type: 'text',
+            text: `這篇文章有 ${notRumorReplies.length} 個回應表示查無不實：`,
+          });
           replies.push({
             type: 'template',
-            altText: notRumorReplies.map(
-              ({ versions }, idx) => `閱讀請傳 ${idx + 1}> ${versions[0].text.slice(0, 20)}`,
-            ).join('\n\n'),
+            altText: notRumorReplies
+              .map(
+                (
+                  { versions },
+                  idx
+                ) => `閱讀請傳 ${idx + 1}> ${versions[0].text.slice(0, 20)}`
+              )
+              .join('\n\n'),
             template: {
               type: 'carousel',
               columns: notRumorReplies.map(({ versions }, idx) => ({
                 text: versions[0].text.slice(0, 119),
-                actions: [
-                  createPostbackAction('閱讀此回應', idx + 1, issuedAt),
-                ],
+                actions: [createPostbackAction('閱讀此回應', idx + 1, issuedAt)],
               })),
             },
           });
         }
         if (rumorReplies.length) {
-          replies.push({ type: 'text', text: `這篇文章有 ${rumorReplies.length} 個回應覺得有不實之處：` });
+          replies.push({
+            type: 'text',
+            text: `這篇文章有 ${rumorReplies.length} 個回應覺得有不實之處：`,
+          });
           replies.push({
             type: 'template',
-            altText: rumorReplies.map(
-              ({ versions }, idx) => `閱讀請傳 ${notRumorReplies.length + idx + 1}> ${versions[0].text.slice(0, 20)}`,
-            ).join('\n\n'),
+            altText: rumorReplies
+              .map(
+                (
+                  { versions },
+                  idx
+                ) => `閱讀請傳 ${notRumorReplies.length + idx + 1}> ${versions[0].text.slice(0, 20)}`
+              )
+              .join('\n\n'),
             template: {
               type: 'carousel',
               columns: rumorReplies.map(({ versions }, idx) => ({
                 text: versions[0].text.slice(0, 119),
                 actions: [
-                  createPostbackAction('閱讀此回應', notRumorReplies.length + idx + 1, issuedAt),
+                  createPostbackAction(
+                    '閱讀此回應',
+                    notRumorReplies.length + idx + 1,
+                    issuedAt
+                  ),
                 ],
               })),
             },
@@ -226,15 +271,24 @@ export default async function processMessages(
           // No one has replied to this yet.
           //
 
-          const { data: { CreateReplyRequest }, errors } = await gql`mutation($id: String!) {
+          const {
+            data: { CreateReplyRequest },
+            errors,
+          } = await gql`mutation($id: String!) {
             CreateReplyRequest(articleId: $id) {
               replyRequestCount
             }
           }`({ id: selectedArticleId }, { userId });
 
           replies = [
-            { type: 'text', text: `目前還沒有人回應這篇文章唷。${errors ? '' : `已經將您的需求記錄下來了，共有 ${CreateReplyRequest.replyRequestCount} 人跟您一樣渴望看到針對這篇文章的回應。`}` },
-            { type: 'text', text: `若有最新回應，會寫在這個地方：http://rumors.hacktabl.org/article/${selectedArticleId}` },
+            {
+              type: 'text',
+              text: `目前還沒有人回應這篇文章唷。${errors ? '' : `已經將您的需求記錄下來了，共有 ${CreateReplyRequest.replyRequestCount} 人跟您一樣渴望看到針對這篇文章的回應。`}`,
+            },
+            {
+              type: 'text',
+              text: `若有最新回應，會寫在這個地方：http://rumors.hacktabl.org/article/${selectedArticleId}`,
+            },
           ];
 
           state = '__INIT__';
@@ -243,16 +297,25 @@ export default async function processMessages(
           // and there are no other replies available.
           //
           replies = [
-            { type: 'text', text: '有人認為您傳送的這則訊息並不是完整的文章內容，或認為「真的假的」不應該處理這則訊息。' },
-            { type: 'text', text: `詳情請見：http://rumors.hacktabl.org/article/${selectedArticleId}` },
+            {
+              type: 'text',
+              text: '有人認為您傳送的這則訊息並不是完整的文章內容，或認為「真的假的」不應該處理這則訊息。',
+            },
+            {
+              type: 'text',
+              text: `詳情請見：http://rumors.hacktabl.org/article/${selectedArticleId}`,
+            },
           ];
           state = '__INIT__';
         } else {
           data.foundReplies = notRumorReplies
             .map(({ replyConnectionId, id }) => ({ id, replyConnectionId }))
             .concat(
-            rumorReplies.map(({ replyConnectionId, id }) => ({ id, replyConnectionId })),
-          );
+              rumorReplies.map(({ replyConnectionId, id }) => ({
+                id,
+                replyConnectionId,
+              }))
+            );
           state = 'CHOOSING_REPLY';
         }
       }
@@ -285,7 +348,10 @@ export default async function processMessages(
         }`({ id: selectedReply.id });
 
         replies = [
-          { type: 'text', text: `這則回應認為文章${GetReply.versions[0].type === 'RUMOR' ? '含有不實訊息' : '不含不實訊息'}，理由為：` },
+          {
+            type: 'text',
+            text: `這則回應認為文章${GetReply.versions[0].type === 'RUMOR' ? '含有不實訊息' : '不含不實訊息'}，理由為：`,
+          },
           { type: 'text', text: GetReply.versions[0].text },
           { type: 'text', text: `出處：${GetReply.versions[0].reference}` },
           {
@@ -313,24 +379,29 @@ export default async function processMessages(
         throw new Error('selectedReply not set in data');
       }
 
-      const { data: { action: { feedbackCount } } } = await gql`mutation($vote: FeedbackVote!, $id: String!){
+      const {
+        data: { action: { feedbackCount } },
+      } = await gql`mutation($vote: FeedbackVote!, $id: String!){
         action: CreateOrUpdateReplyConnectionFeedback(
           vote: $vote
           replyConnectionId: $id
         ) {
           feedbackCount
         }
-      }`({
-        id: data.selectedReply.replyConnectionId,
-        vote: event.input === 'y' ? 'UPVOTE' : 'DOWNVOTE',
-      }, { userId });
+      }`(
+        {
+          id: data.selectedReply.replyConnectionId,
+          vote: event.input === 'y' ? 'UPVOTE' : 'DOWNVOTE',
+        },
+        { userId }
+      );
 
       replies = [
         {
           type: 'text',
-          text: feedbackCount > 1 ?
-            `感謝您與其他 ${feedbackCount - 1} 人的回饋。` :
-            '感謝您的回饋，您是第一個評論這份文章與回應的人 :)',
+          text: feedbackCount > 1
+            ? `感謝您與其他 ${feedbackCount - 1} 人的回饋。`
+            : '感謝您的回饋，您是第一個評論這份文章與回應的人 :)',
         },
       ];
 
@@ -350,13 +421,14 @@ export default async function processMessages(
         }`({ text: data.searchedText }, { userId });
 
         replies = [
-          { type: 'text', text: `您回報的文章已經被收錄至：http://rumors.hacktabl.org/article/${CreateArticle.id}` },
+          {
+            type: 'text',
+            text: `您回報的文章已經被收錄至：http://rumors.hacktabl.org/article/${CreateArticle.id}`,
+          },
           { type: 'text', text: '感謝您的回報！' },
         ];
       } else {
-        replies = [
-          { type: 'text', text: '感謝您的使用。' },
-        ];
+        replies = [{ type: 'text', text: '感謝您的使用。' }];
       }
       state = '__INIT__';
 
@@ -364,10 +436,12 @@ export default async function processMessages(
     }
 
     default:
-      replies = [{
-        type: 'text',
-        text: '我們看不懂 QQ\n大俠請重新來過。',
-      }];
+      replies = [
+        {
+          type: 'text',
+          text: '我們看不懂 QQ\n大俠請重新來過。',
+        },
+      ];
       state = '__INIT__';
   }
 

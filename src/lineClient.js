@@ -1,7 +1,11 @@
 import fetch from 'node-fetch';
 import rollbar from 'rollbar';
 
-export default async function lineClient(endpoint = '', body = {}, options = {}) {
+export default async function lineClient(
+  endpoint = '',
+  body = {},
+  options = {}
+) {
   const resp = await fetch(`https://api.line.me/v2/bot${endpoint}`, {
     method: 'POST',
     headers: {

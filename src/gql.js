@@ -33,21 +33,27 @@ export default (query, ...substitutions) => (variables, search) => {
     },
     credentials: 'include',
     body: JSON.stringify(queryAndVariable),
-  }).then((r) => {
-    status = r.status;
-    return r.json();
-  }).then((resp) => {
-    if (status === 400) {
-      throw new Error(`GraphQL Error: ${resp.errors.map(({ message }) => message).join('\n')}`);
-    }
-    if (resp.errors) {
-      // When status is 200 but have error, just print them out.
-      console.error('GraphQL operation contains error:', resp.errors);
-      rollbar.reportMessageWithPayloadData('GraphQL error', {
-        level: 'error',
-        custom: { queryAndVariable, resp },
-      });
-    }
-    return resp;
-  });
+  })
+    .then(r => {
+      status = r.status;
+      return r.json();
+    })
+    .then(resp => {
+      if (status === 400) {
+        throw new Error(
+          `GraphQL Error: ${resp.errors
+            .map(({ message }) => message)
+            .join('\n')}`
+        );
+      }
+      if (resp.errors) {
+        // When status is 200 but have error, just print them out.
+        console.error('GraphQL operation contains error:', resp.errors);
+        rollbar.reportMessageWithPayloadData('GraphQL error', {
+          level: 'error',
+          custom: { queryAndVariable, resp },
+        });
+      }
+      return resp;
+    });
 };

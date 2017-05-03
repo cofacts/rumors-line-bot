@@ -1,7 +1,9 @@
 import redis from 'redis';
 import rollbar from 'rollbar';
 
-const client = redis.createClient(process.env.REDIS_URL || 'redis://127.0.0.1:6379');
+const client = redis.createClient(
+  process.env.REDIS_URL || 'redis://127.0.0.1:6379'
+);
 
 function set(key, value) {
   if (typeof key !== 'string') {
@@ -54,5 +56,7 @@ function del(key) {
 }
 
 export default {
-  set, get, del,
+  set,
+  get,
+  del,
 };
