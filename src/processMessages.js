@@ -12,6 +12,19 @@ function createPostbackAction(label, input, issuedAt) {
   };
 }
 
+function createFeebackWords(feedbacks) {
+  let positive = 0, negative = 0;
+  feedbacks.forEach((e) => {
+    if (e.score > 0) { positive++; }
+    if (e.score < 0) { negative++; }
+  });
+  if (positive + negative === 0) return '[還沒有人針對此回應評價]';
+  let result = '';
+  if (positive) result += `有 ${positive} 人覺得此回應有幫助\n`;
+  if (negative) result += `有 ${negative} 人覺得此回應有幫助\n`;
+  return `[${result.trim()}]`;
+}
+
 const SIMILARITY_THRESHOLD = 0.95;
 
 // State diagram:
@@ -50,8 +63,8 @@ export default async function processMessages(
           }
         }
       }`({
-        text: event.input,
-      });
+          text: event.input,
+        });
 
       const articleSummary = `${event.input.slice(0, 10)}${event.input.length > 10 ? '⋯⋯' : ''}`;
       if (SearchArticles.edges.length) {
@@ -82,10 +95,10 @@ export default async function processMessages(
           type: 'template',
           altText: SearchArticles.edges
             .map(
-              (
-                { node: { text } },
-                idx
-              ) => `選擇請打 ${idx + 1}> ${text.slice(0, 20)}`
+            (
+              { node: { text } },
+              idx
+            ) => `選擇請打 ${idx + 1}> ${text.slice(0, 20)}`
             )
             .concat(['若以上皆非，請打 0。'])
             .join('\n\n'),
@@ -189,6 +202,10 @@ export default async function processMessages(
                   text
                 }
               }
+              feedbacks {
+                comment
+                score
+              }
             }
           }
         }`({
@@ -199,11 +216,11 @@ export default async function processMessages(
           rumorReplies,
           notRumorReplies,
         } = GetArticle.replyConnections.reduce(
-            (result, { reply, id }) => {
-              if (reply.versions[0].type === 'RUMOR') {
-                result.rumorReplies.push({ ...reply, replyConnectionId: id });
+            (result, { reply, feedbacks, id }) => {
+             if (reply.versions[0].type === 'RUMOR') {
+                result.rumorReplies.push({ ...reply, feedbacks, replyConnectionId: id });
               } else if (reply.versions[0].type === 'NOT_RUMOR') {
-                result.notRumorReplies.push({ ...reply, replyConnectionId: id });
+                result.notRumorReplies.push({ ...reply, feedbacks, replyConnectionId: id });
               }
               return result;
             },
@@ -245,15 +262,15 @@ export default async function processMessages(
               altText: notRumorReplies
                 .map(
                 (
-                  { versions },
+                  { versions, feedbacks },
                   idx
-                ) => `閱讀請傳 ${idx + 1}> ${versions[0].text.slice(0, 20)}`
+                ) => `閱讀請傳 ${idx + 1}> ${createFeebackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
                 )
                 .join('\n\n'),
               template: {
                 type: 'carousel',
-                columns: notRumorReplies.map(({ versions }, idx) => ({
-                  text: versions[0].text.slice(0, 119),
+                columns: notRumorReplies.map(({ versions, feedbacks }, idx) => ({
+                  text: createFeebackWords(feedbacks) + '\n' + versions[0].text.slice(0, 90),
                   actions: [createPostbackAction('閱讀此回應', idx + 1, issuedAt)],
                 })),
               },
@@ -269,15 +286,15 @@ export default async function processMessages(
               altText: rumorReplies
                 .map(
                 (
-                  { versions },
+                  { versions, feedbacks },
                   idx
-                ) => `閱讀請傳 ${notRumorReplies.length + idx + 1}> ${versions[0].text.slice(0, 20)}`
+                ) => `閱讀請傳 ${notRumorReplies.length + idx + 1}> ${createFeebackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
                 )
                 .join('\n\n'),
               template: {
                 type: 'carousel',
-                columns: rumorReplies.map(({ versions }, idx) => ({
-                  text: versions[0].text.slice(0, 119),
+                columns: rumorReplies.map(({ versions, feedbacks }, idx) => ({
+                  text: createFeebackWords(feedbacks) + '\n' + versions[0].text.slice(0, 90),
                   actions: [
                     createPostbackAction(
                       '閱讀此回應',
