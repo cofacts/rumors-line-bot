@@ -199,77 +199,115 @@ export default async function processMessages(
           rumorReplies,
           notRumorReplies,
         } = GetArticle.replyConnections.reduce(
-          (result, { reply, id }) => {
-            if (reply.versions[0].type === 'RUMOR') {
-              result.rumorReplies.push({ ...reply, replyConnectionId: id });
-            } else if (reply.versions[0].type === 'NOT_RUMOR') {
-              result.notRumorReplies.push({ ...reply, replyConnectionId: id });
-            }
-            return result;
-          },
-          { rumorReplies: [], notRumorReplies: [] }
-        );
+            (result, { reply, id }) => {
+              if (reply.versions[0].type === 'RUMOR') {
+                result.rumorReplies.push({ ...reply, replyConnectionId: id });
+              } else if (reply.versions[0].type === 'NOT_RUMOR') {
+                result.notRumorReplies.push({ ...reply, replyConnectionId: id });
+              }
+              return result;
+            },
+            { rumorReplies: [], notRumorReplies: [] }
+          );
 
         replies = [];
-        if (notRumorReplies.length) {
-          replies.push({
-            type: 'text',
-            text: `這篇文章有 ${notRumorReplies.length} 個回應表示查無不實：`,
-          });
-          replies.push({
-            type: 'template',
-            altText: notRumorReplies
-              .map(
+
+        if (notRumorReplies.length + rumorReplies.length !== 0) {
+          data.foundReplies = notRumorReplies.concat(rumorReplies).map(({ replyConnectionId, id }) => ({
+            id,
+            replyConnectionId,
+          }));
+          state = 'CHOOSING_REPLY';
+
+          if (notRumorReplies.length + rumorReplies.length === 1) {
+
+            // choose for user
+            event.input = 1;
+
+            return processMessages(
+              {
+                state: 'CHOOSING_REPLY',
+                data,
+              },
+              event,
+              issuedAt,
+              userId
+            );
+          }
+
+          if (notRumorReplies.length) {
+            replies.push({
+              type: 'text',
+              text: `這篇文章有 ${notRumorReplies.length} 個回應表示查無不實：`,
+            });
+            replies.push({
+              type: 'template',
+              altText: notRumorReplies
+                .map(
                 (
                   { versions },
                   idx
                 ) => `閱讀請傳 ${idx + 1}> ${versions[0].text.slice(0, 20)}`
-              )
-              .join('\n\n'),
-            template: {
-              type: 'carousel',
-              columns: notRumorReplies.map(({ versions }, idx) => ({
-                text: versions[0].text.slice(0, 119),
-                actions: [createPostbackAction('閱讀此回應', idx + 1, issuedAt)],
-              })),
-            },
-          });
-        }
-        if (rumorReplies.length) {
-          replies.push({
-            type: 'text',
-            text: `這篇文章有 ${rumorReplies.length} 個回應覺得有不實之處：`,
-          });
-          replies.push({
-            type: 'template',
-            altText: rumorReplies
-              .map(
+                )
+                .join('\n\n'),
+              template: {
+                type: 'carousel',
+                columns: notRumorReplies.map(({ versions }, idx) => ({
+                  text: versions[0].text.slice(0, 119),
+                  actions: [createPostbackAction('閱讀此回應', idx + 1, issuedAt)],
+                })),
+              },
+            });
+          }
+          if (rumorReplies.length) {
+            replies.push({
+              type: 'text',
+              text: `這篇文章有 ${rumorReplies.length} 個回應覺得有不實之處：`,
+            });
+            replies.push({
+              type: 'template',
+              altText: rumorReplies
+                .map(
                 (
                   { versions },
                   idx
                 ) => `閱讀請傳 ${notRumorReplies.length + idx + 1}> ${versions[0].text.slice(0, 20)}`
-              )
-              .join('\n\n'),
-            template: {
-              type: 'carousel',
-              columns: rumorReplies.map(({ versions }, idx) => ({
-                text: versions[0].text.slice(0, 119),
-                actions: [
-                  createPostbackAction(
-                    '閱讀此回應',
-                    notRumorReplies.length + idx + 1,
-                    issuedAt
-                  ),
-                ],
-              })),
+                )
+                .join('\n\n'),
+              template: {
+                type: 'carousel',
+                columns: rumorReplies.map(({ versions }, idx) => ({
+                  text: versions[0].text.slice(0, 119),
+                  actions: [
+                    createPostbackAction(
+                      '閱讀此回應',
+                      notRumorReplies.length + idx + 1,
+                      issuedAt
+                    ),
+                  ],
+                })),
+              },
+            });
+          }
+        } else if (GetArticle.replyCount !== 0) {
+          // [replyCount !=0 && replies == 0]
+          // Someone reported that it is not an article,
+          // and there are no other replies available.
+          // FIXME (ggm) very tricky if condition here
+          replies = [
+            {
+              type: 'text',
+              text: '有人認為您傳送的這則訊息並不是完整的文章內容，或認為「真的假的」不應該處理這則訊息。',
             },
-          });
-        }
-
-        if (GetArticle.replyCount === 0) {
+            {
+              type: 'text',
+              text: `詳情請見：http://rumors.hacktabl.org/article/${selectedArticleId}`,
+            },
+          ];
+          state = '__INIT__';
+        } else {
+          // [replyCount ==0 && replies == 0]
           // No one has replied to this yet.
-          //
-
           const {
             data: { CreateReplyRequest },
             errors,
@@ -291,31 +329,6 @@ export default async function processMessages(
           ];
 
           state = '__INIT__';
-        } else if (replies.length === 0) {
-          // Someone reported that it is not an article,
-          // and there are no other replies available.
-          //
-          replies = [
-            {
-              type: 'text',
-              text: '有人認為您傳送的這則訊息並不是完整的文章內容，或認為「真的假的」不應該處理這則訊息。',
-            },
-            {
-              type: 'text',
-              text: `詳情請見：http://rumors.hacktabl.org/article/${selectedArticleId}`,
-            },
-          ];
-          state = '__INIT__';
-        } else {
-          data.foundReplies = notRumorReplies
-            .map(({ replyConnectionId, id }) => ({ id, replyConnectionId }))
-            .concat(
-              rumorReplies.map(({ replyConnectionId, id }) => ({
-                id,
-                replyConnectionId,
-              }))
-            );
-          state = 'CHOOSING_REPLY';
         }
       }
 
@@ -393,7 +406,7 @@ export default async function processMessages(
           vote: event.input === 'y' ? 'UPVOTE' : 'DOWNVOTE',
         },
         { userId }
-      );
+        );
 
       replies = [
         {
