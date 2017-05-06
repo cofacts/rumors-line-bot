@@ -25,6 +25,11 @@ function createFeebackWords(feedbacks) {
   return `[${result.trim()}]`;
 }
 
+function createReferenceWords(reference) {
+  if (reference) return `出處：${reference}`;
+  return '出處：此回應沒有出處';
+}
+
 const SIMILARITY_THRESHOLD = 0.95;
 
 // State diagram:
@@ -164,7 +169,8 @@ export default async function processMessages(
         throw new Error('foundArticleIds not set in data');
       }
 
-      const selectedArticleId = data.foundArticleIds[event.input - 1];
+      data.selectedArticleId = data.foundArticleIds[event.input - 1];
+      const { selectedArticleId } = data;
 
       if (+event.input === 0) {
         replies = [
@@ -382,7 +388,7 @@ export default async function processMessages(
             text: `這則回應認為文章${GetReply.versions[0].type === 'RUMOR' ? '含有不實訊息' : '不含不實訊息'}，理由為：`,
           },
           { type: 'text', text: GetReply.versions[0].text },
-          { type: 'text', text: `出處：${GetReply.versions[0].reference}` },
+          { type: 'text', text: createReferenceWords(GetReply.versions[0].reference) },
           {
             type: 'template',
             altText: '請問這則回應是否有解答原文章？\n「是」請輸入「y」，「否」請輸入其他任何訊息。',
@@ -395,6 +401,7 @@ export default async function processMessages(
               ],
             },
           },
+          { type: 'text', text: `可以到以下網址閱讀其他回應：https://rumors.hacktabl.org/article/${data.selectedArticleId}`}
         ];
 
         data.selectedReply = selectedReply;
