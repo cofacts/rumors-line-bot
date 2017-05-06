@@ -92,7 +92,7 @@ export default async function processMessages(
           template: {
             type: 'carousel',
             columns: SearchArticles.edges.map(({ node: { text } }, idx) => ({
-              text: `[相似度:${stringSimilarity.compareTwoStrings(event.input, text)}] \n ${text.slice(0, 105)}`,
+              text: `[相似度:${stringSimilarity.compareTwoStrings(event.input, text).toFixed(2)}] \n ${text.slice(0, 105)}`,
               actions: [
                 createPostbackAction('選擇此則', idx + 1, issuedAt),
               ],
