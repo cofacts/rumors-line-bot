@@ -12,7 +12,7 @@ function createPostbackAction(label, input, issuedAt) {
   };
 }
 
-function createFeebackWords(feedbacks) {
+function createFeedbackWords(feedbacks) {
   let positive = 0, negative = 0;
   feedbacks.forEach((e) => {
     if (e.score > 0) { positive++; }
@@ -270,13 +270,13 @@ export default async function processMessages(
                 (
                   { versions, feedbacks },
                   idx
-                ) => `閱讀請傳 ${idx + 1}> ${createFeebackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
+                ) => `閱讀請傳 ${idx + 1}> ${createFeedbackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
                 )
                 .join('\n\n'),
               template: {
                 type: 'carousel',
                 columns: notRumorReplies.map(({ versions, feedbacks }, idx) => ({
-                  text: createFeebackWords(feedbacks) + '\n' + versions[0].text.slice(0, 90),
+                  text: createFeedbackWords(feedbacks) + '\n' + versions[0].text.slice(0, 90),
                   actions: [createPostbackAction('閱讀此回應', idx + 1, issuedAt)],
                 })),
               },
@@ -294,13 +294,13 @@ export default async function processMessages(
                 (
                   { versions, feedbacks },
                   idx
-                ) => `閱讀請傳 ${notRumorReplies.length + idx + 1}> ${createFeebackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
+                ) => `閱讀請傳 ${notRumorReplies.length + idx + 1}> ${createFeedbackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
                 )
                 .join('\n\n'),
               template: {
                 type: 'carousel',
                 columns: rumorReplies.map(({ versions, feedbacks }, idx) => ({
-                  text: createFeebackWords(feedbacks) + '\n' + versions[0].text.slice(0, 90),
+                  text: createFeedbackWords(feedbacks) + '\n' + versions[0].text.slice(0, 90),
                   actions: [
                     createPostbackAction(
                       '閱讀此回應',
