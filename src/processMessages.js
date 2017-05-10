@@ -21,7 +21,7 @@ function createFeedbackWords(feedbacks) {
   if (positive + negative === 0) return '[還沒有人針對此回應評價]';
   let result = '';
   if (positive) result += `有 ${positive} 人覺得此回應有幫助\n`;
-  if (negative) result += `有 ${negative} 人覺得此回應有幫助\n`;
+  if (negative) result += `有 ${negative} 人覺得此回應沒幫助\n`;
   return `[${result.trim()}]`;
 }
 
