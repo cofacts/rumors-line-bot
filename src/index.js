@@ -141,12 +141,23 @@ router.post('/callback', ctx => {
           };
         }
 
-        console.log(
-          '[LOG]',
-          `CONTEXT =\n${JSON.stringify(context)}\n`,
-          `INPUT =\n${JSON.stringify({ type, userId, ...otherFields })}\n`,
-          `OUTPUT =\n${JSON.stringify(result)}\n`
-        );
+        // LOGGING:
+        // 60 chars per line, each prepended with [[LOG]]
+        //
+        console.log('\n||LOG||<----------');
+        JSON.stringify({
+          CONTEXT: context,
+          INPUT: { type, userId, ...otherFields },
+          OUTPUT: result,
+        })
+          .split(/(.{60})/)
+          .forEach(line => {
+            if (line) {
+              // Leading \n makes sure ||LOG|| is in the first line
+              console.log(`\n||LOG||${line}`);
+            }
+          });
+        console.log('\n||LOG||---------->');
       }
 
       // console.log('DEBUGGG', result.replies);
