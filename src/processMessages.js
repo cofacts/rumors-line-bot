@@ -43,6 +43,10 @@ export default async function processMessages(
 ) {
   let replies;
 
+  if (event.input === undefined) {
+    throw new Error('input undefined');
+  }
+
   if (event.input.length >= 3) {
     // If input contains more than 3 words,
     // consider it as a new query and start over.
@@ -223,7 +227,7 @@ export default async function processMessages(
           notRumorReplies,
         } = GetArticle.replyConnections.reduce(
             (result, { reply, feedbacks, id }) => {
-             if (reply.versions[0].type === 'RUMOR') {
+              if (reply.versions[0].type === 'RUMOR') {
                 result.rumorReplies.push({ ...reply, feedbacks, replyConnectionId: id });
               } else if (reply.versions[0].type === 'NOT_RUMOR') {
                 result.notRumorReplies.push({ ...reply, feedbacks, replyConnectionId: id });
@@ -401,7 +405,7 @@ export default async function processMessages(
               ],
             },
           },
-          { type: 'text', text: `可以到以下網址閱讀其他回應：https://rumors.hacktabl.org/article/${data.selectedArticleId}`}
+          { type: 'text', text: `可以到以下網址閱讀其他回應：https://rumors.hacktabl.org/article/${data.selectedArticleId}` }
         ];
 
         data.selectedReply = selectedReply;
