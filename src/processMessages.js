@@ -14,9 +14,13 @@ function createPostbackAction(label, input, issuedAt) {
 
 function createFeedbackWords(feedbacks) {
   let positive = 0, negative = 0;
-  feedbacks.forEach((e) => {
-    if (e.score > 0) { positive++; }
-    if (e.score < 0) { negative++; }
+  feedbacks.forEach(e => {
+    if (e.score > 0) {
+      positive++;
+    }
+    if (e.score < 0) {
+      negative++;
+    }
   });
   if (positive + negative === 0) return '[還沒有人針對此回應評價]';
   let result = '';
@@ -72,14 +76,17 @@ export default async function processMessages(
           }
         }
       }`({
-          text: event.input,
-        });
+        text: event.input,
+      });
 
       const articleSummary = `${event.input.slice(0, 10)}${event.input.length > 10 ? '⋯⋯' : ''}`;
       if (SearchArticles.edges.length) {
         if (SearchArticles.edges.length === 1) {
           const foundText = SearchArticles.edges[0].node.text;
-          const similarity = stringSimilarity.compareTwoStrings(event.input, foundText);
+          const similarity = stringSimilarity.compareTwoStrings(
+            event.input,
+            foundText
+          );
           if (similarity >= SIMILARITY_THRESHOLD) {
             // choose for user
             event.input = 1;
@@ -104,26 +111,26 @@ export default async function processMessages(
           type: 'template',
           altText: SearchArticles.edges
             .map(
-            (
-              { node: { text } },
-              idx
-            ) => `選擇請打 ${idx + 1}> ${text.slice(0, 20)}`
+              ({ node: { text } }, idx) =>
+                `選擇請打 ${idx + 1}> ${text.slice(0, 20)}`
             )
             .concat(['若以上皆非，請打 0。'])
             .join('\n\n'),
           template: {
             type: 'carousel',
-            columns: SearchArticles.edges.map(({ node: { text } }, idx) => ({
-              text: `[相似度:${stringSimilarity.compareTwoStrings(event.input, text).toFixed(2)}] \n ${text.slice(0, 105)}`,
-              actions: [
-                createPostbackAction('選擇此則', idx + 1, issuedAt),
-              ],
-            })).concat([{
-              text: '這裡沒有一篇是我傳的訊息。',
-              actions: [
-                createPostbackAction('選擇', 0, issuedAt),
-              ],
-            }]),
+            columns: SearchArticles.edges
+              .map(({ node: { text } }, idx) => ({
+                text: `[相似度:${stringSimilarity
+                  .compareTwoStrings(event.input, text)
+                  .toFixed(2)}] \n ${text.slice(0, 105)}`,
+                actions: [createPostbackAction('選擇此則', idx + 1, issuedAt)],
+              }))
+              .concat([
+                {
+                  text: '這裡沒有一篇是我傳的訊息。',
+                  actions: [createPostbackAction('選擇', 0, issuedAt)],
+                },
+              ]),
           },
         };
 
@@ -226,28 +233,37 @@ export default async function processMessages(
           rumorReplies,
           notRumorReplies,
         } = GetArticle.replyConnections.reduce(
-            (result, { reply, feedbacks, id }) => {
-              if (reply.versions[0].type === 'RUMOR') {
-                result.rumorReplies.push({ ...reply, feedbacks, replyConnectionId: id });
-              } else if (reply.versions[0].type === 'NOT_RUMOR') {
-                result.notRumorReplies.push({ ...reply, feedbacks, replyConnectionId: id });
-              }
-              return result;
-            },
-            { rumorReplies: [], notRumorReplies: [] }
-          );
+          (result, { reply, feedbacks, id }) => {
+            if (reply.versions[0].type === 'RUMOR') {
+              result.rumorReplies.push({
+                ...reply,
+                feedbacks,
+                replyConnectionId: id,
+              });
+            } else if (reply.versions[0].type === 'NOT_RUMOR') {
+              result.notRumorReplies.push({
+                ...reply,
+                feedbacks,
+                replyConnectionId: id,
+              });
+            }
+            return result;
+          },
+          { rumorReplies: [], notRumorReplies: [] }
+        );
 
         replies = [];
 
         if (notRumorReplies.length + rumorReplies.length !== 0) {
-          data.foundReplies = notRumorReplies.concat(rumorReplies).map(({ replyConnectionId, id }) => ({
-            id,
-            replyConnectionId,
-          }));
+          data.foundReplies = notRumorReplies
+            .concat(rumorReplies)
+            .map(({ replyConnectionId, id }) => ({
+              id,
+              replyConnectionId,
+            }));
           state = 'CHOOSING_REPLY';
 
           if (notRumorReplies.length + rumorReplies.length === 1) {
-
             // choose for user
             event.input = 1;
 
@@ -271,18 +287,20 @@ export default async function processMessages(
               type: 'template',
               altText: notRumorReplies
                 .map(
-                (
-                  { versions, feedbacks },
-                  idx
-                ) => `閱讀請傳 ${idx + 1}> ${createFeedbackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
+                  ({ versions, feedbacks }, idx) =>
+                    `閱讀請傳 ${idx + 1}> ${createFeedbackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
                 )
                 .join('\n\n'),
               template: {
                 type: 'carousel',
-                columns: notRumorReplies.map(({ versions, feedbacks }, idx) => ({
-                  text: createFeedbackWords(feedbacks) + '\n' + versions[0].text.slice(0, 90),
-                  actions: [createPostbackAction('閱讀此回應', idx + 1, issuedAt)],
-                })),
+                columns: notRumorReplies.map(
+                  ({ versions, feedbacks }, idx) => ({
+                    text: createFeedbackWords(feedbacks) +
+                      '\n' +
+                      versions[0].text.slice(0, 90),
+                    actions: [createPostbackAction('閱讀此回應', idx + 1, issuedAt)],
+                  })
+                ),
               },
             });
           }
@@ -295,16 +313,16 @@ export default async function processMessages(
               type: 'template',
               altText: rumorReplies
                 .map(
-                (
-                  { versions, feedbacks },
-                  idx
-                ) => `閱讀請傳 ${notRumorReplies.length + idx + 1}> ${createFeedbackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
+                  ({ versions, feedbacks }, idx) =>
+                    `閱讀請傳 ${notRumorReplies.length + idx + 1}> ${createFeedbackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
                 )
                 .join('\n\n'),
               template: {
                 type: 'carousel',
                 columns: rumorReplies.map(({ versions, feedbacks }, idx) => ({
-                  text: createFeedbackWords(feedbacks) + '\n' + versions[0].text.slice(0, 90),
+                  text: createFeedbackWords(feedbacks) +
+                    '\n' +
+                    versions[0].text.slice(0, 90),
                   actions: [
                     createPostbackAction(
                       '閱讀此回應',
@@ -392,7 +410,10 @@ export default async function processMessages(
             text: `這則回應認為文章${GetReply.versions[0].type === 'RUMOR' ? '含有不實訊息' : '不含不實訊息'}，理由為：`,
           },
           { type: 'text', text: GetReply.versions[0].text },
-          { type: 'text', text: createReferenceWords(GetReply.versions[0].reference) },
+          {
+            type: 'text',
+            text: createReferenceWords(GetReply.versions[0].reference),
+          },
           {
             type: 'template',
             altText: '請問這則回應是否有解答原文章？\n「是」請輸入「y」，「否」請輸入其他任何訊息。',
@@ -405,7 +426,10 @@ export default async function processMessages(
               ],
             },
           },
-          { type: 'text', text: `可以到以下網址閱讀其他回應：https://rumors.hacktabl.org/article/${data.selectedArticleId}` }
+          {
+            type: 'text',
+            text: `可以到以下網址閱讀其他回應：https://rumors.hacktabl.org/article/${data.selectedArticleId}`,
+          },
         ];
 
         data.selectedReply = selectedReply;
@@ -434,7 +458,7 @@ export default async function processMessages(
           vote: event.input === 'y' ? 'UPVOTE' : 'DOWNVOTE',
         },
         { userId }
-        );
+      );
 
       replies = [
         {
