@@ -1,6 +1,8 @@
 import stringSimilarity from 'string-similarity';
 import gql from './gql';
 
+const host = 'https://cofacts.g0v.tw';
+
 function createPostbackAction(label, input, issuedAt) {
   return {
     type: 'postback',
@@ -122,7 +124,7 @@ export default async function processMessages(
               .map(({ node: { text } }, idx) => ({
                 text: `[相似度:${stringSimilarity
                   .compareTwoStrings(event.input, text)
-                  .toFixed(2)}] \n ${text.slice(0, 105)}`,
+                  .toFixed(2) * 100 + '%'}] \n ${text.slice(0, 105)}`,
                 actions: [createPostbackAction('選擇此則', idx + 1, issuedAt)],
               }))
               .concat([
@@ -346,7 +348,7 @@ export default async function processMessages(
             },
             {
               type: 'text',
-              text: `詳情請見：http://rumors.hacktabl.org/article/${selectedArticleId}`,
+              text: `詳情請見：${host}/article/${selectedArticleId}`,
             },
           ];
           state = '__INIT__';
@@ -369,7 +371,7 @@ export default async function processMessages(
             },
             {
               type: 'text',
-              text: `若有最新回應，會寫在這個地方：http://rumors.hacktabl.org/article/${selectedArticleId}`,
+              text: `若有最新回應，會寫在這個地方：${host}/article/${selectedArticleId}`,
             },
           ];
 
@@ -428,7 +430,7 @@ export default async function processMessages(
           },
           {
             type: 'text',
-            text: `可以到以下網址閱讀其他回應：https://rumors.hacktabl.org/article/${data.selectedArticleId}`,
+            text: `可以到以下網址閱讀其他回應：${host}/article/${data.selectedArticleId}`,
           },
         ];
 
@@ -487,7 +489,7 @@ export default async function processMessages(
         replies = [
           {
             type: 'text',
-            text: `您回報的文章已經被收錄至：http://rumors.hacktabl.org/article/${CreateArticle.id}`,
+            text: `您回報的文章已經被收錄至：${host}/article/${CreateArticle.id}`,
           },
           { type: 'text', text: '感謝您的回報！' },
         ];
