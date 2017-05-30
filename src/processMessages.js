@@ -68,8 +68,8 @@ export default async function processMessages(
       data.searchedText = event.input;
 
       // Search for articles
-      const { data: { SearchArticles } } = await gql`query($text: String!) {
-        SearchArticles(text: $text, orderBy: [{_score: DESC}], first: 4) {
+      const { data: { ListArticles } } = await gql`query($text: String!) {
+        ListArticles(filter: {moreLikeThis: {like: $text}}, orderBy: [{_score: DESC}], first: 4) {
           edges {
             node {
               text
@@ -82,9 +82,9 @@ export default async function processMessages(
       });
 
       const articleSummary = `${event.input.slice(0, 10)}${event.input.length > 10 ? '⋯⋯' : ''}`;
-      if (SearchArticles.edges.length) {
-        if (SearchArticles.edges.length === 1) {
-          const foundText = SearchArticles.edges[0].node.text;
+      if (ListArticles.edges.length) {
+        if (ListArticles.edges.length === 1) {
+          const foundText = ListArticles.edges[0].node.text;
           const similarity = stringSimilarity.compareTwoStrings(
             event.input,
             foundText
@@ -94,7 +94,7 @@ export default async function processMessages(
             event.input = 1;
 
             // Store article ids
-            data.foundArticleIds = SearchArticles.edges.map(
+            data.foundArticleIds = ListArticles.edges.map(
               ({ node: { id } }) => id
             );
             return processMessages(
@@ -111,7 +111,7 @@ export default async function processMessages(
 
         const templateMessage = {
           type: 'template',
-          altText: SearchArticles.edges
+          altText: ListArticles.edges
             .map(
               ({ node: { text } }, idx) =>
                 `選擇請打 ${idx + 1}> ${text.slice(0, 20)}`
@@ -120,7 +120,7 @@ export default async function processMessages(
             .join('\n\n'),
           template: {
             type: 'carousel',
-            columns: SearchArticles.edges
+            columns: ListArticles.edges
               .map(({ node: { text } }, idx) => ({
                 text: `[相似度:${stringSimilarity
                   .compareTwoStrings(event.input, text)
@@ -137,7 +137,7 @@ export default async function processMessages(
         };
 
         // Store article ids
-        data.foundArticleIds = SearchArticles.edges.map(
+        data.foundArticleIds = ListArticles.edges.map(
           ({ node: { id } }) => id
         );
 
