@@ -5,4 +5,5 @@ node_js: '6'
 cache: yarn
 
 script:
-  - npm run lint:check
+  - npm run test
+  # - npm run lint:check
