@@ -54,11 +54,13 @@ router.post('/callback', ctx => {
     async ({ type, replyToken, source: { userId }, ...otherFields }) => {
       if (userIdBlacklist.indexOf(userId) !== -1) {
         // User blacklist
-        console.log(`[LOG] Blocked user INPUT =\n${JSON.stringify({
-          type,
-          userId,
-          ...otherFields,
-        })}\n`);
+        console.log(
+          `[LOG] Blocked user INPUT =\n${JSON.stringify({
+            type,
+            userId,
+            ...otherFields,
+          })}\n`
+        );
         return;
       }
 
