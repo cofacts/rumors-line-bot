@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MrOrz/rumors-line-bot.git"
+    "url": "git+https://github.com/cofacts/rumors-line-bot.git"
   },
   "keywords": [
     "Rumor",
@@ -22,9 +22,9 @@
   "author": "MrOrz",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MrOrz/rumors-line-bot/issues"
+    "url": "https://github.com/cofacts/rumors-line-bot/issues"
   },
-  "homepage": "https://github.com/MrOrz/rumors-line-bot#readme",
+  "homepage": "https://github.com/cofacts/rumors-line-bot#readme",
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.22.0",
