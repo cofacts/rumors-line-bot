@@ -409,7 +409,7 @@ export default async function processMessages(
         replies = [
           {
             type: 'text',
-            text: `這則回應認為文章${GetReply.versions[0].type === 'RUMOR' ? '含有不實訊息' : '不含不實訊息'}，理由為：`,
+            text: `這則回應認為文章${GetReply.versions[0].type === 'RUMOR' ? '含有不實訊息' : '含有真實訊息'}，理由為：`,
           },
           { type: 'text', text: GetReply.versions[0].text },
           {
