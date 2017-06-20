@@ -56,6 +56,7 @@ export async function initState(params) {
     text: event.input,
   });
 
+  console.log('[API gql]', ListArticles.edges);
   const articleSummary = `${event.input.slice(0, 10)}${event.input.length > 10 ? '⋯⋯' : ''}`;
   if (ListArticles.edges.length) {
     if (ListArticles.edges.length === 1) {

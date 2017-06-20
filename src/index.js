@@ -6,7 +6,7 @@ import koaBody from 'koa-bodyparser';
 import redis from './redisClient';
 import { checkSignature, captureRawBody } from './checkSignature';
 import lineClient from './lineClient';
-import processMessages from './processMessages';
+import { processMessages } from './processMessages';
 
 const app = new Koa();
 const router = Router();
@@ -111,7 +111,7 @@ router.post('/callback', ctx => {
           // When this message is received.
           //
           const issuedAt = Date.now();
-
+          console.log(processMessages);
           result = await processMessages(
             context,
             { type, input, ...otherFields },
