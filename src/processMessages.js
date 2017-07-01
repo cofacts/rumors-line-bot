@@ -253,7 +253,7 @@ export async function choosingArticle(params) {
       if (notRumorReplies.length) {
         replies.push({
           type: 'text',
-          text: `這篇文章有 ${notRumorReplies.length} 個回應表示查無不實：`,
+          text: `這篇文章有 ${notRumorReplies.length} 個回應認為含有真實訊息：`,
         });
         replies.push({
           type: 'template',
