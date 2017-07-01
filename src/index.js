@@ -9,7 +9,6 @@ import lineClient from './lineClient';
 import { processMessages } from './processMessages';
 import botimize from 'botimize';
 
-const botimizeLogger = botimize(process.env.BOTIMIZE_API_KEY, 'line');
 const app = new Koa();
 const router = Router();
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
@@ -188,7 +187,12 @@ router.post('/callback', ctx => {
   // Allow free-form request handling.
   // Don't wait for anything before returning 200.
   console.log('[body]', JSON.stringify(ctx.request.body, null, 2));
-  botimizeLogger.logIncoming(ctx.request.body);
+
+  if (process.env.BOTIMIZE_API_KEY) {
+    const botimizeLogger = botimize(process.env.BOTIMIZE_API_KEY, 'line');
+    botimizeLogger.logIncoming(ctx.request.body);
+  }
+
   ctx.request.body.events.forEach(
     async ({ type, replyToken, source, ...otherFields }) => {
       let { userId } = source;
