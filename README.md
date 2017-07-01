@@ -91,5 +91,8 @@ Despite the fact that we don't use `Procfile`, Heroku still does detection and i
 You will still have to set the following config vars manually:
 
 ```
-$ heroku config:set API_URL=https://cofacts-api.g0v.tw/graphql LINE_CHANNEL_SECRET=<Your channel secret> LINE_CHANNEL_TOKEN=<Your channel token>
+$ heroku config:set API_URL=https://cofacts-api.g0v.tw/graphql
+$ heroku config:set LINE_CHANNEL_SECRET=<Your channel secret>
+$ heroku config:set LINE_CHANNEL_TOKEN=<Your channel token>
+$ heroku config:set BOTIMIZE_API_KEY=<Your botimize API Key (optional)>
 ```
