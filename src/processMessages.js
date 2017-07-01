@@ -55,7 +55,6 @@ export async function initState(params) {
       }`({
     text: event.input,
   });
-
   const articleSummary = `${event.input.slice(0, 10)}${event.input.length > 10 ? '⋯⋯' : ''}`;
   if (ListArticles.edges.length) {
     if (ListArticles.edges.length === 1) {
@@ -530,7 +529,8 @@ export async function processMessages(
   // Sets state, data and replies
   //
   do {
-    switch (state) {
+    params.isSkipUser = false;
+    switch (params.state) {
       case '__INIT__': {
         params = await initState(params);
         break;
