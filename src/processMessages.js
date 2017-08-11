@@ -43,7 +43,7 @@ export async function initState(params) {
   data.searchedText = event.input;
 
   // Search for articles
-  const { data: { ListArticles } } = await gql`query($text: String!) {  
+  const { data: { ListArticles } } = await gql`query($text: String!) {
         ListArticles(filter: {moreLikeThis: {like: $text}}, orderBy: [{_score: DESC}], first: 4) {
           edges {
             node {
@@ -180,24 +180,24 @@ export async function choosingArticle(params) {
     state = 'CHOOSING_ARTICLE';
   } else {
     const { data: { GetArticle } } = await gql`query($id: String!) {
-          GetArticle(id: $id) {
-            replyCount
-            replyConnections {
-              id
-              reply {
-                id
-                versions(limit: 1) {
-                  type
-                  text
-                }
-              }
-              feedbacks {
-                comment
-                score
-              }
+      GetArticle(id: $id) {
+        replyCount
+        replyConnections(status: NORMAL) {
+          id
+          reply {
+            id
+            versions(limit: 1) {
+              type
+              text
             }
           }
-        }`({
+          feedbacks {
+            comment
+            score
+          }
+        }
+      }
+    }`({
       id: selectedArticleId,
     });
 
