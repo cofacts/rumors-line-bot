@@ -94,7 +94,7 @@ export async function initState(params) {
         type: 'carousel',
         columns: ListArticles.edges
           .map(({ node: { text } }, idx) => ({
-            text: `[相似度:${(stringSimilarity.compareTwoStrings(event.input, text) * 100).toFixed(2) + '%'}] \n ${text.slice(0, 105)}`,
+            text: `[相似度:${(stringSimilarity.compareTwoStrings(event.input, text) * 100).toFixed(2) + '%'}] \n ${text.slice(0, 100)}`,
             actions: [createPostbackAction('選擇此則', idx + 1, issuedAt)],
           }))
           .concat([
