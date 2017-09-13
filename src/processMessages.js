@@ -259,8 +259,10 @@ export async function choosingArticle(params) {
           type: 'template',
           altText: notRumorReplies
             .map(
-              ({ versions, feedbacks }, idx) =>
-                `閱讀請傳 ${idx + 1}> ${createFeedbackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
+              (
+                { versions, feedbacks },
+                idx
+              ) => `閱讀請傳 ${idx + 1}> ${createFeedbackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
             )
             .join('\n\n'),
           template: {
@@ -283,8 +285,10 @@ export async function choosingArticle(params) {
           type: 'template',
           altText: rumorReplies
             .map(
-              ({ versions, feedbacks }, idx) =>
-                `閱讀請傳 ${notRumorReplies.length + idx + 1}> ${createFeedbackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
+              (
+                { versions, feedbacks },
+                idx
+              ) => `閱讀請傳 ${notRumorReplies.length + idx + 1}> ${createFeedbackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
             )
             .join('\n\n'),
           template: {
@@ -383,8 +387,10 @@ export async function choosingReply(params) {
         text: `這則回應認為文章${GetReply.versions[0].type === 'RUMOR' ? '含有不實訊息' : '含有真實訊息'}，理由為：`,
       },
       {
-        type: 'text', text: GetReply.versions[0].text.length >= 120 ?
-          GetReply.versions[0].text.slice(0, 100) + '⋯⋯' : GetReply.versions[0].text
+        type: 'text',
+        text: GetReply.versions[0].text.length >= 120
+          ? GetReply.versions[0].text.slice(0, 100) + '⋯⋯'
+          : GetReply.versions[0].text,
       },
       {
         type: 'text',
