@@ -1,3 +1,89 @@
+exports[`Test for processMessages.js choosingArticle(params) select article by articleId 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AVyyB61NyCdS-nWhuakC",
+      "AV4sEcSHyCdS-nWhufEX",
+      "5478658696099-rumor",
+    ],
+    "foundReplies": Array [
+      Object {
+        "id": "AVygFA0RyCdS-nWhuaXY",
+        "replyConnectionId": "AVyyB61NyCdS-nWhuakC__AVygFA0RyCdS-nWhuaXY",
+      },
+      Object {
+        "id": "AVy6LkWIyCdS-nWhuaqu",
+        "replyConnectionId": "AVyyB61NyCdS-nWhuakC__AVy6LkWIyCdS-nWhuaqu",
+      },
+    ],
+    "searchedText": "《緊急通知》
+台北馬偕醫院傳來訊息：
+資深醫生（林清風）傳來：「請大家以後千萬不要再吃生魚片了！」
+因為最近已經發現- 好多病人因為吃了生魚片，胃壁附著《海獸胃腺蟲》，大小隻不一定，有的病人甚至胃壁上滿滿都是無法夾出來，驅蟲藥也很難根治，罹患機率每個國家的人都一樣。
+尤其；鮭魚的含蟲量最高、最可怕！
+請傳給朋友，讓他們有所警惕!",
+    "selectedArticleId": "AVyyB61NyCdS-nWhuakC",
+  },
+  "event": Object {
+    "input": "1",
+    "message": Object {
+      "id": "6691804381697",
+      "text": "1",
+      "type": "text",
+    },
+    "timestamp": 1505314293406,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1505314295017,
+  "replies": Array [
+    Object {
+      "text": "這篇文章有 2 個回應覺得有不實之處：",
+      "type": "text",
+    },
+    Object {
+      "altText": "閱讀請傳 1> [有 14 人覺得此回應有幫助
+有 2 人覺得此回應沒幫助] 
+ 查證這則謠言的過程中，約翰走鹿也發現其實
+
+閱讀請傳 2> [有 24 人覺得此回應有幫助] 
+ 過去台灣只有一個海獸胃腺蟲鑽入胃壁的病例",
+      "template": Object {
+        "columns": Array [
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":1,\"issuedAt\":1505314295017}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "[有 14 人覺得此回應有幫助
+有 2 人覺得此回應沒幫助]
+查證這則謠言的過程中，約翰走鹿也發現其實網路早就有許多解答，就讓約翰走鹿來借花獻佛一下囉。多家媒體都有針對這則「吃生魚片會有海獸胃腺蟲附著胃壁」的謠言請教醫師，",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":2,\"issuedAt\":1505314295017}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "[有 24 人覺得此回應有幫助]
+過去台灣只有一個海獸胃腺蟲鑽入胃壁的病例，而且僅有一隻蟲。而經查詢，台北馬偕醫院也沒有名為林清風的醫師。",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "template",
+    },
+  ],
+  "state": "CHOOSING_REPLY",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
 exports[`Test for processMessages.js initState(params) article found 1`] = `
 Object {
   "data": Object {
