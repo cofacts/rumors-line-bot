@@ -102,7 +102,6 @@ const singleUserHandler = async (
       // When this message is received.
       //
       const issuedAt = Date.now();
-      console.log(processMessages);
       result = await processMessages(
         context,
         { type, input, ...otherFields },
@@ -153,8 +152,6 @@ const singleUserHandler = async (
     console.log('\n||LOG||---------->');
   }
 
-  // console.log('DEBUGGG', result.replies);
-
   // Send replies. Does not need to wait for lineClient's callbacks.
   // lineClient's callback does error handling by itself.
   //
@@ -179,7 +176,6 @@ router.use('/callback', checkSignature);
 router.post('/callback', ctx => {
   // Allow free-form request handling.
   // Don't wait for anything before returning 200.
-  console.log('[body]', JSON.stringify(ctx.request.body, null, 2));
 
   if (process.env.BOTIMIZE_API_KEY) {
     const botimizeLogger = botimize(process.env.BOTIMIZE_API_KEY, 'line');
