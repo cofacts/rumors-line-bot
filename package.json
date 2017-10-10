@@ -58,9 +58,10 @@
     "testPathDirs": [
       "src"
     ],
-     "collectCoverage": true,
-     "coverageFormats": ["json", "html"],
-     "coveragePathIgnorePatterns":["/__fixtures__/"]
+    "collectCoverage": true,
+    "coveragePathIgnorePatterns": [
+      "/__fixtures__/"
+    ]
   },
   "engines": {
     "node": "6.9.4"
