@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import rollbar from 'rollbar';
+import rollbar from './rollbar';
 import url from 'url';
 
 const API_URL = process.env.API_URL || 'http://localhost:5000/graphql';
@@ -24,8 +24,9 @@ export default (query, ...substitutions) => (variables, search) => {
   if (variables) queryAndVariable.variables = variables;
 
   let status;
+  const URL = `${API_URL}${url.format({ query: search })}`;
 
-  return fetch(`${API_URL}${url.format({ query: search })}`, {
+  return fetch(URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -49,10 +50,14 @@ export default (query, ...substitutions) => (variables, search) => {
       if (resp.errors) {
         // When status is 200 but have error, just print them out.
         console.error('GraphQL operation contains error:', resp.errors);
-        rollbar.reportMessageWithPayloadData('GraphQL error', {
-          level: 'error',
-          custom: { queryAndVariable, resp },
-        });
+        rollbar.error(
+          'GraphQL error',
+          {
+            body: JSON.stringify(queryAndVariable),
+            url: URL,
+          },
+          { resp }
+        );
       }
       return resp;
     });
