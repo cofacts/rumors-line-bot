@@ -26,6 +26,9 @@ export async function checkSignature(ctx, next) {
   if (hash === ctx.request.headers['x-line-signature']) {
     await next();
   } else {
+    // TODO:
+    // When switching to the official NodeJS SDK, the following error handling should also be ported
+    // to: https://line.github.io/line-bot-sdk-nodejs/pages/guide/webhook.html#error-handling
     ctx.status = 401;
     ctx.body = 'x-line-signature and hash does not match';
 
