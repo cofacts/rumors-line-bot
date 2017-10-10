@@ -36,7 +36,7 @@
     "node-fetch": "^1.6.3",
     "pm2": "^2.4.0",
     "redis": "^2.6.5",
-    "rollbar": "^0.6.3",
+    "rollbar": "^2.2.9",
     "string-similarity": "^1.1.0"
   },
   "devDependencies": {

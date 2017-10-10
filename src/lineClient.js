@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import rollbar from 'rollbar';
+import rollbar from './rollbar';
 import botimize from 'botimize';
 
 export default async function lineClient(
@@ -30,8 +30,18 @@ export default async function lineClient(
 
   if (resp.status !== 200) {
     console.error(JSON.stringify(result, null, '  '));
-    const error = new Error(`[LINE Client] ${resp.status}: ${result.message}.`);
-    rollbar.handleErrorWithPayloadData(error, { custom: result });
+
+    rollbar.error(
+      `[LINE Client] ${resp.status}: ${result.message}.`,
+      {
+        // Request object for rollbar server SDK
+        headers: options.headers,
+        body: JSON.stringify(body),
+        url: endpoint,
+        method: 'POST',
+      },
+      { result }
+    );
   }
 
   return result;

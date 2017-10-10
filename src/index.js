@@ -1,6 +1,6 @@
 import Koa from 'koa';
 import Router from 'koa-router';
-import rollbar from 'rollbar';
+import rollbar from './rollbar';
 import koaBody from 'koa-bodyparser';
 
 import redis from './redisClient';
@@ -13,17 +13,11 @@ const app = new Koa();
 const router = Router();
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
-rollbar.init(process.env.ROLLBAR_TOKEN, {
-  environment: process.env.ROLLBAR_ENV,
-});
-
-rollbar.handleUncaughtExceptionsAndRejections();
-
 app.use(async (ctx, next) => {
   try {
     await next();
   } catch (err) {
-    rollbar.handleError(err, ctx.request);
+    rollbar.error(err, ctx.request);
     throw err;
   }
 });
@@ -53,13 +47,11 @@ const singleUserHandler = async (
 ) => {
   if (userIdBlacklist.indexOf(userId) !== -1) {
     // User blacklist
-    console.log(
-      `[LOG] Blocked user INPUT =\n${JSON.stringify({
-        type,
-        userId,
-        ...otherFields,
-      })}\n`
-    );
+    console.log(`[LOG] Blocked user INPUT =\n${JSON.stringify({
+      type,
+      userId,
+      ...otherFields,
+    })}\n`);
     return;
   }
 
@@ -129,7 +121,7 @@ const singleUserHandler = async (
       result.context.issuedAt = issuedAt;
     } catch (e) {
       console.error(e);
-      rollbar.handleError(e, req);
+      rollbar.error(e, req);
 
       result = {
         context: { state: '__INIT__', data: {} },
@@ -176,6 +168,7 @@ const singleUserHandler = async (
   await redis.set(userId, result.context);
 };
 
+// eslint-disable-next-line
 const groupHandler = async (req, type, replyToken, userId, otherFields) => {
   // TODO
 };
