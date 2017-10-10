@@ -15,7 +15,8 @@ export default async function lineClient(
     const botimizeLogger = botimize(process.env.BOTIMIZE_API_KEY, 'line');
     botimizeLogger.logOutgoing(dataToLog, { parse: 'pure' });
   }
-  const resp = await fetch(`https://api.line.me/v2/bot${endpoint}`, {
+  const URL = `https://api.line.me/v2/bot${endpoint}`;
+  const resp = await fetch(URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -37,7 +38,7 @@ export default async function lineClient(
         // Request object for rollbar server SDK
         headers: options.headers,
         body: JSON.stringify(body),
-        url: endpoint,
+        url: URL,
         method: 'POST',
       },
       { result }
