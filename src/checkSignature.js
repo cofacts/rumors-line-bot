@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import rollbar from './rollbar';
 
 export function captureRawBody(ctx, next) {
   // Some special characters (like 😨) will be altered after being processed by koa-bodyparser.
@@ -27,5 +28,9 @@ export async function checkSignature(ctx, next) {
   } else {
     ctx.status = 401;
     ctx.body = 'x-line-signature and hash does not match';
+
+    rollbar.warning(ctx.body, ctx.request, {
+      hash,
+    });
   }
 }
