@@ -1,40 +1,12 @@
 import stringSimilarity from 'string-similarity';
 import gql from './gql';
+import {
+  createPostbackAction,
+  createFeedbackWords,
+  createReferenceWords,
+} from './utils';
 
 const host = 'https://cofacts.g0v.tw';
-
-export function createPostbackAction(label, input, issuedAt) {
-  return {
-    type: 'postback',
-    label,
-    data: JSON.stringify({
-      input,
-      issuedAt,
-    }),
-  };
-}
-
-export function createFeedbackWords(feedbacks) {
-  let positive = 0, negative = 0;
-  feedbacks.forEach(e => {
-    if (e.score > 0) {
-      positive++;
-    }
-    if (e.score < 0) {
-      negative++;
-    }
-  });
-  if (positive + negative === 0) return '[還沒有人針對此回應評價]';
-  let result = '';
-  if (positive) result += `有 ${positive} 人覺得此回應有幫助\n`;
-  if (negative) result += `有 ${negative} 人覺得此回應沒幫助\n`;
-  return `[${result.trim()}]`;
-}
-
-export function createReferenceWords(reference) {
-  if (reference) return `出處：${reference}`;
-  return '出處：此回應沒有出處';
-}
 
 export async function initState(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -43,19 +15,27 @@ export async function initState(params) {
   data.searchedText = event.input;
 
   // Search for articles
-  const { data: { ListArticles } } = await gql`query($text: String!) {
-        ListArticles(filter: {moreLikeThis: {like: $text}}, orderBy: [{_score: DESC}], first: 4) {
-          edges {
-            node {
-              text
-              id
-            }
+  const { data: { ListArticles } } = await gql`
+    query($text: String!) {
+      ListArticles(
+        filter: { moreLikeThis: { like: $text } }
+        orderBy: [{ _score: DESC }]
+        first: 4
+      ) {
+        edges {
+          node {
+            text
+            id
           }
         }
-      }`({
+      }
+    }
+  `({
     text: event.input,
   });
-  const articleSummary = `${event.input.slice(0, 10)}${event.input.length > 10 ? '⋯⋯' : ''}`;
+  const articleSummary = `${event.input.slice(0, 10)}${event.input.length > 10
+    ? '⋯⋯'
+    : ''}`;
   if (ListArticles.edges.length) {
     if (ListArticles.edges.length === 1) {
       const foundText = ListArticles.edges[0].node.text;
@@ -94,7 +74,11 @@ export async function initState(params) {
         type: 'carousel',
         columns: ListArticles.edges
           .map(({ node: { text } }, idx) => ({
-            text: `[相似度:${(stringSimilarity.compareTwoStrings(event.input, text) * 100).toFixed(2) + '%'}] \n ${text.slice(0, 100)}`,
+            text: `[相似度:${(stringSimilarity.compareTwoStrings(
+              event.input,
+              text
+            ) * 100
+            ).toFixed(2) + '%'}] \n ${text.slice(0, 100)}`,
             actions: [createPostbackAction('選擇此則', idx + 1, issuedAt)],
           }))
           .concat([
@@ -174,30 +158,32 @@ export async function choosingArticle(params) {
     state = 'ASKING_ARTICLE_SUBMISSION';
   } else if (!selectedArticleId) {
     replies = [
-      { type: 'text', text: `請輸入 1～${data.foundArticleIds.length} 的數字。` },
+      { type: 'text', text: `請輸入 1～${data.foundArticleIds.length} 的數字，來選擇文章。` },
     ];
 
     state = 'CHOOSING_ARTICLE';
   } else {
-    const { data: { GetArticle } } = await gql`query($id: String!) {
-      GetArticle(id: $id) {
-        replyCount
-        replyConnections(status: NORMAL) {
-          id
-          reply {
+    const { data: { GetArticle } } = await gql`
+      query($id: String!) {
+        GetArticle(id: $id) {
+          replyCount
+          replyConnections(status: NORMAL) {
             id
-            versions(limit: 1) {
-              type
-              text
+            reply {
+              id
+              versions(limit: 1) {
+                type
+                text
+              }
             }
-          }
-          feedbacks {
-            comment
-            score
+            feedbacks {
+              comment
+              score
+            }
           }
         }
       }
-    }`({
+    `({
       id: selectedArticleId,
     });
 
@@ -259,16 +245,17 @@ export async function choosingArticle(params) {
           type: 'template',
           altText: notRumorReplies
             .map(
-              (
-                { versions, feedbacks },
-                idx
-              ) => `閱讀請傳 ${idx + 1}> ${createFeedbackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
+              ({ versions, feedbacks }, idx) =>
+                `閱讀請傳 ${idx + 1}> ${createFeedbackWords(
+                  feedbacks
+                )} \n ${versions[0].text.slice(0, 20)}`
             )
             .join('\n\n'),
           template: {
             type: 'carousel',
             columns: notRumorReplies.map(({ versions, feedbacks }, idx) => ({
-              text: createFeedbackWords(feedbacks) +
+              text:
+                createFeedbackWords(feedbacks) +
                 '\n' +
                 versions[0].text.slice(0, 90),
               actions: [createPostbackAction('閱讀此回應', idx + 1, issuedAt)],
@@ -285,16 +272,19 @@ export async function choosingArticle(params) {
           type: 'template',
           altText: rumorReplies
             .map(
-              (
-                { versions, feedbacks },
-                idx
-              ) => `閱讀請傳 ${notRumorReplies.length + idx + 1}> ${createFeedbackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
+              ({ versions, feedbacks }, idx) =>
+                `閱讀請傳 ${notRumorReplies.length +
+                  idx +
+                  1}> ${createFeedbackWords(
+                  feedbacks
+                )} \n ${versions[0].text.slice(0, 20)}`
             )
             .join('\n\n'),
           template: {
             type: 'carousel',
             columns: rumorReplies.map(({ versions, feedbacks }, idx) => ({
-              text: createFeedbackWords(feedbacks) +
+              text:
+                createFeedbackWords(feedbacks) +
                 '\n' +
                 versions[0].text.slice(0, 80),
               actions: [
@@ -327,19 +317,20 @@ export async function choosingArticle(params) {
     } else {
       // [replyCount ==0 && replies == 0]
       // No one has replied to this yet.
-      const {
-        data: { CreateReplyRequest },
-        errors,
-      } = await gql`mutation($id: String!) {
-            CreateReplyRequest(articleId: $id) {
-              replyRequestCount
-            }
-          }`({ id: selectedArticleId }, { userId });
+      const { data: { CreateReplyRequest }, errors } = await gql`
+        mutation($id: String!) {
+          CreateReplyRequest(articleId: $id) {
+            replyRequestCount
+          }
+        }
+      `({ id: selectedArticleId }, { userId });
 
       replies = [
         {
           type: 'text',
-          text: `目前還沒有人回應這篇文章唷。${errors ? '' : `已經將您的需求記錄下來了，共有 ${CreateReplyRequest.replyRequestCount} 人跟您一樣渴望看到針對這篇文章的回應。`}`,
+          text: `目前還沒有人回應這篇文章唷。${errors
+            ? ''
+            : `已經將您的需求記錄下來了，共有 ${CreateReplyRequest.replyRequestCount} 人跟您一樣渴望看到針對這篇文章的回應。`}`,
         },
         {
           type: 'text',
@@ -365,32 +356,37 @@ export async function choosingReply(params) {
 
   if (!selectedReply) {
     replies = [
-      { type: 'text', text: `請輸入 1～${data.foundReplies.length} 的數字。` },
+      { type: 'text', text: `請輸入 1～${data.foundReplies.length} 的數字，來選擇回應。` },
     ];
 
     state = 'CHOOSING_REPLY';
   } else {
-    const { data: { GetReply } } = await gql`query($id: String!) {
-          GetReply(id: $id) {
-            versions(limit: 1) {
-              type
-              text
-              reference
-              createdAt
-            }
+    const { data: { GetReply } } = await gql`
+      query($id: String!) {
+        GetReply(id: $id) {
+          versions(limit: 1) {
+            type
+            text
+            reference
+            createdAt
           }
-        }`({ id: selectedReply.id });
+        }
+      }
+    `({ id: selectedReply.id });
 
     replies = [
       {
         type: 'text',
-        text: `這則回應認為文章${GetReply.versions[0].type === 'RUMOR' ? '含有不實訊息' : '含有真實訊息'}，理由為：`,
+        text: `這則回應認為文章${GetReply.versions[0].type === 'RUMOR'
+          ? '含有不實訊息'
+          : '含有真實訊息'}，理由為：`,
       },
       {
         type: 'text',
-        text: GetReply.versions[0].text.length >= 120
-          ? GetReply.versions[0].text.slice(0, 100) + '⋯⋯'
-          : GetReply.versions[0].text,
+        text:
+          GetReply.versions[0].text.length >= 120
+            ? GetReply.versions[0].text.slice(0, 100) + '⋯⋯'
+            : GetReply.versions[0].text,
       },
       {
         type: 'text',
@@ -428,16 +424,16 @@ export async function askingReplyFeedback(params) {
     throw new Error('selectedReply not set in data');
   }
 
-  const {
-    data: { action: { feedbackCount } },
-  } = await gql`mutation($vote: FeedbackVote!, $id: String!){
-        action: CreateOrUpdateReplyConnectionFeedback(
-          vote: $vote
-          replyConnectionId: $id
-        ) {
-          feedbackCount
-        }
-      }`(
+  const { data: { action: { feedbackCount } } } = await gql`
+    mutation($vote: FeedbackVote!, $id: String!) {
+      action: CreateOrUpdateReplyConnectionFeedback(
+        vote: $vote
+        replyConnectionId: $id
+      ) {
+        feedbackCount
+      }
+    }
+  `(
     {
       id: data.selectedReply.replyConnectionId,
       vote: event.input === 'y' ? 'UPVOTE' : 'DOWNVOTE',
@@ -448,9 +444,10 @@ export async function askingReplyFeedback(params) {
   replies = [
     {
       type: 'text',
-      text: feedbackCount > 1
-        ? `感謝您與其他 ${feedbackCount - 1} 人的回饋。`
-        : '感謝您的回饋，您是第一個評論這份文章與回應的人 :)',
+      text:
+        feedbackCount > 1
+          ? `感謝您與其他 ${feedbackCount - 1} 人的回饋。`
+          : '感謝您的回饋，您是第一個評論這份文章與回應的人 :)',
     },
   ];
 
@@ -466,11 +463,13 @@ export async function askingArticleSubmission(params) {
   }
 
   if (event.input === 'y') {
-    const { data: { CreateArticle } } = await gql`mutation($text: String!){
-          CreateArticle(text: $text, reference: {type: LINE}) {
-            id
-          }
-        }`({ text: data.searchedText }, { userId });
+    const { data: { CreateArticle } } = await gql`
+      mutation($text: String!) {
+        CreateArticle(text: $text, reference: { type: LINE }) {
+          id
+        }
+      }
+    `({ text: data.searchedText }, { userId });
 
     replies = [
       {

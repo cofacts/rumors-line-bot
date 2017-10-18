@@ -47,11 +47,18 @@ const singleUserHandler = async (
 ) => {
   if (userIdBlacklist.indexOf(userId) !== -1) {
     // User blacklist
-    console.log(`[LOG] Blocked user INPUT =\n${JSON.stringify({
-      type,
-      userId,
-      ...otherFields,
-    })}\n`);
+    console.log(
+      `[LOG] Blocked user INPUT =\n${JSON.stringify({
+        type,
+        userId,
+        ...otherFields,
+      })}\n`
+    );
+    return;
+  }
+
+  // Handle follow/unfollow event
+  if (type === 'unfollow' || type === 'follow') {
     return;
   }
 
@@ -102,7 +109,6 @@ const singleUserHandler = async (
       // When this message is received.
       //
       const issuedAt = Date.now();
-      console.log(processMessages);
       result = await processMessages(
         context,
         { type, input, ...otherFields },
@@ -116,9 +122,13 @@ const singleUserHandler = async (
         );
       }
 
-      // Renew "issuedAt" of the resulting context.
+      // Renew "issuedAt" of the resulting context if state changed
       //
-      result.context.issuedAt = issuedAt;
+      if (context.state !== result.context.state) {
+        result.context.issuedAt = issuedAt;
+      } else {
+        result.context.issuedAt = context.issuedAt;
+      }
     } catch (e) {
       console.error(e);
       rollbar.error(e, req);
@@ -153,8 +163,6 @@ const singleUserHandler = async (
     console.log('\n||LOG||---------->');
   }
 
-  // console.log('DEBUGGG', result.replies);
-
   // Send replies. Does not need to wait for lineClient's callbacks.
   // lineClient's callback does error handling by itself.
   //
@@ -179,7 +187,6 @@ router.use('/callback', checkSignature);
 router.post('/callback', ctx => {
   // Allow free-form request handling.
   // Don't wait for anything before returning 200.
-  console.log('[body]', JSON.stringify(ctx.request.body, null, 2));
 
   if (process.env.BOTIMIZE_API_KEY) {
     const botimizeLogger = botimize(process.env.BOTIMIZE_API_KEY, 'line');
