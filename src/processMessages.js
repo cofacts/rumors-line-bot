@@ -158,7 +158,7 @@ export async function choosingArticle(params) {
     state = 'ASKING_ARTICLE_SUBMISSION';
   } else if (!selectedArticleId) {
     replies = [
-      { type: 'text', text: `請輸入 1～${data.foundArticleIds.length} 的數字。` },
+      { type: 'text', text: `請輸入 1～${data.foundArticleIds.length} 的數字，來選擇文章。` },
     ];
 
     state = 'CHOOSING_ARTICLE';
@@ -356,7 +356,7 @@ export async function choosingReply(params) {
 
   if (!selectedReply) {
     replies = [
-      { type: 'text', text: `請輸入 1～${data.foundReplies.length} 的數字。` },
+      { type: 'text', text: `請輸入 1～${data.foundReplies.length} 的數字，來選擇回應。` },
     ];
 
     state = 'CHOOSING_REPLY';
