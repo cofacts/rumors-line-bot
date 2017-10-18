@@ -120,9 +120,13 @@ const singleUserHandler = async (
         );
       }
 
-      // Renew "issuedAt" of the resulting context.
+      // Renew "issuedAt" of the resulting context if state changed
       //
-      result.context.issuedAt = issuedAt;
+      if (context.state !== result.context.state) {
+        result.context.issuedAt = issuedAt;
+      } else {
+        result.context.issuedAt = context.issuedAt;
+      }
     } catch (e) {
       console.error(e);
       rollbar.error(e, req);
