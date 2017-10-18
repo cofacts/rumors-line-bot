@@ -10,7 +10,8 @@ export function createPostbackAction(label, input, issuedAt) {
 }
 
 export function createFeedbackWords(feedbacks) {
-  let positive = 0, negative = 0;
+  let positive = 0;
+  let negative = 0;
   feedbacks.forEach(e => {
     if (e.score > 0) {
       positive++;
@@ -28,5 +29,5 @@ export function createFeedbackWords(feedbacks) {
 
 export function createReferenceWords(reference) {
   if (reference) return `出處：${reference}`;
-  return '出處：此回應沒有出處';
+  return '\uDBC0\uDC85 ⚠️️ 此回應沒有出處，請自行斟酌回應真實。⚠️️  \uDBC0\uDC85';
 }
