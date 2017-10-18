@@ -55,6 +55,11 @@ const singleUserHandler = async (
     return;
   }
 
+  // Handle follow/unfollow event
+  if (type === 'unfollow' || type === 'follow') {
+    return;
+  }
+
   // Set default result
   //
   let result = {
