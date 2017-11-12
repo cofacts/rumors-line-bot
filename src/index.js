@@ -6,7 +6,7 @@ import koaBody from 'koa-bodyparser';
 import redis from './redisClient';
 import { checkSignature, captureRawBody } from './checkSignature';
 import lineClient from './lineClient';
-import { processMessages } from './processMessages';
+import handleInput from './handleInput';
 import botimize from 'botimize';
 
 const app = new Koa();
@@ -47,13 +47,11 @@ const singleUserHandler = async (
 ) => {
   if (userIdBlacklist.indexOf(userId) !== -1) {
     // User blacklist
-    console.log(
-      `[LOG] Blocked user INPUT =\n${JSON.stringify({
-        type,
-        userId,
-        ...otherFields,
-      })}\n`
-    );
+    console.log(`[LOG] Blocked user INPUT =\n${JSON.stringify({
+      type,
+      userId,
+      ...otherFields,
+    })}\n`);
     return;
   }
 
@@ -109,7 +107,7 @@ const singleUserHandler = async (
       // When this message is received.
       //
       const issuedAt = Date.now();
-      result = await processMessages(
+      result = await handleInput(
         context,
         { type, input, ...otherFields },
         issuedAt,

@@ -9,7 +9,7 @@ This is a one of the sub-project of [真的假的](http://beta.hackfoldr.org/rum
 
 This state diagram describes how the LINE bot talks to users:
 
-[![The state diagram](https://docs.google.com/drawings/d/1GIuprSEGpthMW6KuCgawMky5Nnxm7P7mlxeODPdA-lI/pub?w=1405&h=1116)](http://beta.hackfoldr.org/rumors/https%253A%252F%252Fdocs.google.com%252Fdrawings%252Fd%252F1GIuprSEGpthMW6KuCgawMky5Nnxm7P7mlxeODPdA-lI%252Fedit)
+[![The state diagram](https://docs.google.com/drawings/d/1GIuprSEGpthMW6KuCgawMky5Nnxm7P7mlxeODPdA-lI/pub?w=1405&h=1116)](http://beta.hackfoldr.org/cofacts/https%253A%252F%252Fdocs.google.com%252Fdrawings%252Fd%252F1GIuprSEGpthMW6KuCgawMky5Nnxm7P7mlxeODPdA-lI%252Fedit)
 
 
 ## Development
@@ -92,6 +92,7 @@ You will still have to set the following config vars manually:
 
 ```
 $ heroku config:set API_URL=https://cofacts-api.g0v.tw/graphql
+$ heroku config:set SITE_URL=https://cofacts.g0v.tw
 $ heroku config:set LINE_CHANNEL_SECRET=<Your channel secret>
 $ heroku config:set LINE_CHANNEL_TOKEN=<Your channel token>
 $ heroku config:set BOTIMIZE_API_KEY=<Your botimize API Key (optional)>
