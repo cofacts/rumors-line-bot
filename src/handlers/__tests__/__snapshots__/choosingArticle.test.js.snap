@@ -1,4 +1,4 @@
-exports[`Test for processMessages.js choosingArticle(params) select article by articleId 1`] = `
+exports[`choosingArticle(params) select article by articleId 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
@@ -80,73 +80,6 @@ Object {
     },
   ],
   "state": "CHOOSING_REPLY",
-  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
-}
-`;
-
-exports[`Test for processMessages.js initState(params) article found 1`] = `
-Object {
-  "data": Object {
-    "foundArticleIds": Array [
-      "AVvY-yizyCdS-nWhuYWx",
-    ],
-    "searchedText": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入",
-  },
-  "event": Object {
-    "input": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入",
-    "message": Object {
-      "id": "6270464463537",
-      "text": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入",
-      "type": "text",
-    },
-    "timestamp": 1497994016356,
-    "type": "message",
-  },
-  "isSkipUser": false,
-  "issuedAt": 1497994017447,
-  "replies": Array [
-    Object {
-      "text": "幫您查詢「計程車上有裝悠遊卡感⋯⋯」的相關回應。",
-      "type": "text",
-    },
-    Object {
-      "text": "請問下列文章中，哪一篇是您剛才傳送的訊息呢？",
-      "type": "text",
-    },
-    Object {
-      "altText": "選擇請打 1> 計程車上有裝悠遊卡感應器，老人悠悠卡可以
-
-若以上皆非，請打 0。",
-      "template": Object {
-        "columns": Array [
-          Object {
-            "actions": Array [
-              Object {
-                "data": "{\"input\":1,\"issuedAt\":1497994017447}",
-                "label": "選擇此則",
-                "type": "postback",
-              },
-            ],
-            "text": "[相似度:52.41%] 
- 計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入，下車時使用老人悠遊卡，跳錶車資105元，優惠32元，只扣73元，哈哈，這是屬於我們的福利，與大家分享，可以善加利用！=7",
-          },
-          Object {
-            "actions": Array [
-              Object {
-                "data": "{\"input\":0,\"issuedAt\":1497994017447}",
-                "label": "選擇",
-                "type": "postback",
-              },
-            ],
-            "text": "這裡沒有一篇是我傳的訊息。",
-          },
-        ],
-        "type": "carousel",
-      },
-      "type": "template",
-    },
-  ],
-  "state": "CHOOSING_ARTICLE",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
