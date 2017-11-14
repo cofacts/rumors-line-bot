@@ -2,7 +2,7 @@ import initState from '../initState';
 import * as gql from '../../gql';
 
 describe('initState(params)', () => {
-  it('article found', done => {
+  it('article found', async () => {
     const input = {
       data: {},
       state: '__INIT__',
@@ -42,19 +42,10 @@ describe('initState(params)', () => {
       });
     };
 
-    initState(input).then(
-      result => {
-        expect(result).toMatchSnapshot();
-        done();
-      },
-      error => {
-        console.trace(error);
-        done();
-      }
-    );
+    expect(await initState(input)).toMatchSnapshot();
   });
 
-  it('article found with 120 words limit', done => {
+  it('article found with 120 words limit', async () => {
     const input = {
       data: {},
       state: '__INIT__',
@@ -97,27 +88,113 @@ describe('initState(params)', () => {
       });
     };
 
-    initState(input).then(
-      result => {
-        for (let reply of result.replies) {
-          if (reply.type === 'text') {
-            expect(reply.text.length < 120).toBe(true);
-          } else if (reply.type === 'template') {
-            expect(reply.altText.length < 120).toBe(true);
-            if (reply.template.type === 'carousel') {
-              for (let column of reply.template.columns) {
-                expect(column.text.length < 120).toBe(true);
-              }
-            }
+    const result = await initState(input);
+
+    for (let reply of result.replies) {
+      if (reply.type === 'text') {
+        expect(reply.text.length < 120).toBe(true);
+      } else if (reply.type === 'template') {
+        expect(reply.altText.length < 120).toBe(true);
+        if (reply.template.type === 'carousel') {
+          for (let column of reply.template.columns) {
+            expect(column.text.length < 120).toBe(true);
           }
         }
-        done();
-      },
-      error => {
-        console.trace(error);
-        done();
       }
-    );
+    }
   });
+
+  it('articles found with high similarity', async () => {
+    const input = {
+      data: {},
+      state: '__INIT__',
+      event: {
+        type: 'message',
+        input: 'YouTube · 寻找健康人生',
+        timestamp: 1497994016356,
+        message: {
+          type: 'text',
+          id: '6270464463537',
+          text: 'YouTube · 寻找健康人生',
+        },
+      },
+      issuedAt: 1497994017447,
+      userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+      replies: undefined,
+      isSkipUser: false,
+    };
+
+    /* eslint-disable import/namespace */
+    gql.default = () => () => {
+      return new Promise(resolve => {
+        resolve({
+          data: {
+            ListArticles: {
+              edges: [
+                {
+                  node: {
+                    text: 'YouTube  ·  寻找健康人生', // Space variant
+                    id: 'AVvY-yizyCdS-nWhuYWx',
+                  },
+                },
+                {
+                  node: {
+                    text: 'YouTube\n·\n寻找健康人生', // Another space variant
+                    id: 'AVvY-yizyCdS-nWhuYWy',
+                  },
+                },
+              ],
+            },
+          },
+        });
+      });
+    };
+
+    expect(await initState(input)).toMatchSnapshot();
+  });
+
+  it('only one article found with high similarity', async () => {
+    const input = {
+      data: {},
+      state: '__INIT__',
+      event: {
+        type: 'message',
+        input: 'YouTube · 寻找健康人生',
+        timestamp: 1497994016356,
+        message: {
+          type: 'text',
+          id: '6270464463537',
+          text: 'YouTube · 寻找健康人生',
+        },
+      },
+      issuedAt: 1497994017447,
+      userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+      replies: undefined,
+      isSkipUser: false,
+    };
+
+    /* eslint-disable import/namespace */
+    gql.default = () => () => {
+      return new Promise(resolve => {
+        resolve({
+          data: {
+            ListArticles: {
+              edges: [
+                {
+                  node: {
+                    text: 'YouTube  ·  寻找健康人生', // Space variant
+                    id: 'AVvY-yizyCdS-nWhuYWx',
+                  },
+                },
+              ],
+            },
+          },
+        });
+      });
+    };
+
+    expect(await initState(input)).toMatchSnapshot();
+  });
+
   it('article not found');
 });

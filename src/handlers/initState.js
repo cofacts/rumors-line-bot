@@ -29,59 +29,72 @@ export default async function initState(params) {
   `({
     text: event.input,
   });
+
   const articleSummary = `${event.input.slice(0, 10)}${event.input.length > 10 ? '⋯⋯' : ''}`;
+
   if (ListArticles.edges.length) {
-    if (ListArticles.edges.length === 1) {
-      const foundText = ListArticles.edges[0].node.text;
-      const similarity = stringSimilarity.compareTwoStrings(
-        event.input,
-        foundText
-      );
-      if (similarity >= SIMILARITY_THRESHOLD) {
-        // choose for user
-        event.input = 1;
+    const edgesSortedWithSimilarity = ListArticles.edges
+      .map(edge => {
+        edge.similarity = stringSimilarity.compareTwoStrings(
+          // Remove spaces so that we count word's similarities only
+          //
+          edge.node.text.replace(/\s/g, ''),
+          event.input.replace(/\s/g, '')
+        );
+        return edge;
+      })
+      .sort((edge1, edge2) => edge2.similarity - edge1.similarity);
 
-        // Store article ids
-        data.foundArticleIds = ListArticles.edges.map(({ node: { id } }) => id);
+    // Store article ids
+    data.foundArticleIds = edgesSortedWithSimilarity.map(
+      ({ node: { id } }) => id
+    );
 
-        return {
-          data,
-          state: 'CHOOSING_ARTICLE',
-          event,
-          issuedAt,
-          userId,
-          replies,
-          isSkipUser: true,
-        };
-      }
+    const hasIdenticalDocs =
+      edgesSortedWithSimilarity[0].similarity >= SIMILARITY_THRESHOLD;
+
+    if (edgesSortedWithSimilarity.length === 1 && hasIdenticalDocs) {
+      // choose for user
+      event.input = 1;
+
+      return {
+        data,
+        state: 'CHOOSING_ARTICLE',
+        event,
+        issuedAt,
+        userId,
+        replies,
+        isSkipUser: true,
+      };
     }
 
     const templateMessage = {
       type: 'template',
-      altText: ListArticles.edges
+      altText: edgesSortedWithSimilarity
         .map(
           ({ node: { text } }, idx) => `選擇請打 ${idx + 1}> ${text.slice(0, 20)}`
         )
-        .concat(['若以上皆非，請打 0。'])
+        .concat(hasIdenticalDocs ? [] : ['若以上皆非，請打 0。'])
         .join('\n\n'),
       template: {
         type: 'carousel',
-        columns: ListArticles.edges
-          .map(({ node: { text } }, idx) => ({
-            text: `[相似度:${(stringSimilarity.compareTwoStrings(event.input, text) * 100).toFixed(2) + '%'}] \n ${text.slice(0, 100)}`,
+        columns: edgesSortedWithSimilarity
+          .map(({ node: { text }, similarity }, idx) => ({
+            text: `[相似度:${(similarity * 100).toFixed(2) + '%'}] \n ${text.slice(0, 100)}`,
             actions: [createPostbackAction('選擇此則', idx + 1, issuedAt)],
           }))
-          .concat([
-            {
-              text: '這裡沒有一篇是我傳的訊息。',
-              actions: [createPostbackAction('選擇', 0, issuedAt)],
-            },
-          ]),
+          .concat(
+            hasIdenticalDocs
+              ? []
+              : [
+                  {
+                    text: '這裡沒有一篇是我傳的訊息。',
+                    actions: [createPostbackAction('選擇', 0, issuedAt)],
+                  },
+                ]
+          ),
       },
     };
-
-    // Store article ids
-    data.foundArticleIds = ListArticles.edges.map(({ node: { id } }) => id);
 
     replies = [
       {

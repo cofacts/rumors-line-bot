@@ -64,3 +64,102 @@ Object {
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
+
+exports[`initState(params) articles found with high similarity 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AVvY-yizyCdS-nWhuYWx",
+      "AVvY-yizyCdS-nWhuYWy",
+    ],
+    "searchedText": "YouTube · 寻找健康人生",
+  },
+  "event": Object {
+    "input": "YouTube · 寻找健康人生",
+    "message": Object {
+      "id": "6270464463537",
+      "text": "YouTube · 寻找健康人生",
+      "type": "text",
+    },
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1497994017447,
+  "replies": Array [
+    Object {
+      "text": "幫您查詢「YouTube · ⋯⋯」的相關回應。",
+      "type": "text",
+    },
+    Object {
+      "text": "請問下列文章中，哪一篇是您剛才傳送的訊息呢？",
+      "type": "text",
+    },
+    Object {
+      "altText": "選擇請打 1> YouTube  ·  寻找健康人生
+
+選擇請打 2> YouTube
+·
+寻找健康人生",
+      "template": Object {
+        "columns": Array [
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":1,\"issuedAt\":1497994017447}",
+                "label": "選擇此則",
+                "type": "postback",
+              },
+            ],
+            "text": "[相似度:100.00%] 
+ YouTube  ·  寻找健康人生",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":2,\"issuedAt\":1497994017447}",
+                "label": "選擇此則",
+                "type": "postback",
+              },
+            ],
+            "text": "[相似度:100.00%] 
+ YouTube
+·
+寻找健康人生",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "template",
+    },
+  ],
+  "state": "CHOOSING_ARTICLE",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`initState(params) only one article found with high similarity 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AVvY-yizyCdS-nWhuYWx",
+    ],
+    "searchedText": "YouTube · 寻找健康人生",
+  },
+  "event": Object {
+    "input": 1,
+    "message": Object {
+      "id": "6270464463537",
+      "text": "YouTube · 寻找健康人生",
+      "type": "text",
+    },
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": true,
+  "issuedAt": 1497994017447,
+  "replies": undefined,
+  "state": "CHOOSING_ARTICLE",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
