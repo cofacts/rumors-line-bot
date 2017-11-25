@@ -195,4 +195,79 @@ const selectedArticleId = {
     },
   },
 };
-export default { selectedArticleId };
+
+const multipleReplies = {
+  data: {
+    GetArticle: {
+      replyCount: 4,
+      replyConnections: [
+        {
+          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
+          reply: {
+            id: 'AV--O3nfyCdS-nWhujMD',
+            versions: [
+              {
+                type: 'RUMOR',
+                text: '老榮民有住所，有月退俸，也不需要特別的醫療護理，因此較適合榮民之家養老，慈濟也一直關懷陪伴。護理之家有免費方案，入住資格和有無捐款沒有關係。\n慈善機構使用資源需符合規定，不能僅為少數人開特例。不是曾捐款就需要特別厚待，不是未曾捐款就可以不理。',
+              },
+            ],
+          },
+          feedbacks: [
+            {
+              comment: null,
+              score: 1,
+            },
+            {
+              comment: null,
+              score: 1,
+            },
+            {
+              comment: null,
+              score: 1,
+            },
+          ],
+        },
+        {
+          id: 'AV8d2-YtyCdS-nWhuhdi__AV--LRZYyCdS-nWhujL9',
+          reply: {
+            id: 'AV--LRZYyCdS-nWhujL9',
+            versions: [
+              {
+                type: 'NOT_ARTICLE',
+                text: '整個基督教徒的打手，自己不努力去牧人、募款，利用攻擊別人，三分真七分假，更利用多帳號來造勢及造風向，害我也差點相信了，各位有智慧的看官，看過之後，笑一笑即可，別太認真去相信他的話啦。\n',
+              },
+            ],
+          },
+          feedbacks: [],
+        },
+        {
+          id: 'AV8d2-YtyCdS-nWhuhdi__AV8jkRlByCdS-nWhuhiY',
+          reply: {
+            id: 'AV8jkRlByCdS-nWhuhiY',
+            versions: [
+              {
+                type: 'NOT_ARTICLE',
+                text: '文章是假的 照片也是盜用我方家人的照片,嚴重影響我家人名譽,我方已對po文的人聯絡並打算提出告訴,請勿相信謠言.',
+              },
+            ],
+          },
+          feedbacks: [],
+        },
+        {
+          id: 'AV8d2-YtyCdS-nWhuhdi__AV8fXikZyCdS-nWhuhfN',
+          reply: {
+            id: 'AV8fXikZyCdS-nWhuhfN',
+            versions: [
+              {
+                type: 'OPINIONATED',
+                text: '慈濟自來有褒有貶，每人有各自的看法。',
+              },
+            ],
+          },
+          feedbacks: [],
+        },
+      ],
+    },
+  },
+};
+export default { selectedArticleId, multipleReplies };

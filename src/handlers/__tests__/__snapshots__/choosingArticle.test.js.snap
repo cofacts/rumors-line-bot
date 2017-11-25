@@ -1,4 +1,131 @@
-exports[`choosingArticle(params) select article by articleId 1`] = `
+exports[`choosingArticle(params) should select article and have OPINIONATED and NOT_ARTICLE replies 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AV8d2-YtyCdS-nWhuhdi",
+    ],
+    "foundReplies": Array [
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV--LRZYyCdS-nWhujL9",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--LRZYyCdS-nWhujL9",
+      },
+      Object {
+        "id": "AV8jkRlByCdS-nWhuhiY",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV8jkRlByCdS-nWhuhiY",
+      },
+      Object {
+        "id": "AV8fXikZyCdS-nWhuhfN",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV8fXikZyCdS-nWhuhfN",
+      },
+    ],
+    "searchedText": "老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人",
+    "selectedArticleId": "AV8d2-YtyCdS-nWhuhdi",
+  },
+  "event": Object {
+    "input": "1",
+    "message": Object {
+      "id": "7045918737413",
+      "text": "1",
+      "type": "text",
+    },
+    "timestamp": 1511633232479,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1511633232970,
+  "replies": Array [
+    Object {
+      "text": "這篇文章有：
+1 則回應認為其 ❌ 含有不實訊息
+0 則回應認為其 ⭕ 含有真實訊息
+1 則回應認為其 💬 含有個人意見
+2 則回應認為其 ⚠️️ 不在查證範圍
+",
+      "type": "text",
+    },
+    Object {
+      "altText": "閱讀請傳 1> [有 3 人覺得此回應有幫助] 
+ 老榮民有住所，有月退俸，也不需要特別的醫
+
+閱讀請傳 2> [還沒有人針對此回應評價] 
+ 整個基督教徒的打手，自己不努力去牧人、募
+
+閱讀請傳 3> [還沒有人針對此回應評價] 
+ 文章是假的 照片也是盜用我方家人的照片,
+
+閱讀請傳 4> [還沒有人針對此回應評價] 
+ 慈濟自來有褒有貶，每人有各自的看法。",
+      "template": Object {
+        "columns": Array [
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":1,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "❌ 含有不實訊息
+[有 3 人覺得此回應有幫助]
+老榮民有住所，有月退俸，也不需要特別的醫療護理，因此較適合榮民之家養老，慈濟也一直關懷陪伴。護理之家有免費方案，入住資格和有無捐款沒有關係。
+慈善機構使用資源需",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":2,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "⚠️️ 不在查證範圍
+[還沒有人針對此回應評價]
+整個基督教徒的打手，自己不努力去牧人、募款，利用攻擊別人，三分真七分假，更利用多帳號來造勢及造風向，害我也差點相信了，各位有智慧的看官，看過之後，笑一笑即可，別",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":3,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "⚠️️ 不在查證範圍
+[還沒有人針對此回應評價]
+文章是假的 照片也是盜用我方家人的照片,嚴重影響我家人名譽,我方已對po文的人聯絡並打算提出告訴,請勿相信謠言.",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":4,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "💬 含有個人意見
+[還沒有人針對此回應評價]
+慈濟自來有褒有貶，每人有各自的看法。",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "template",
+    },
+    Object {
+      "text": "詳情請見：https://cofacts.g0v.tw//article/AV8d2-YtyCdS-nWhuhdi",
+      "type": "text",
+    },
+  ],
+  "state": "CHOOSING_REPLY",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`choosingArticle(params) should select article by articleId 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
