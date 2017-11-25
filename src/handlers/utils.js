@@ -27,6 +27,19 @@ export function createFeedbackWords(feedbacks) {
   return `[${result.trim()}]`;
 }
 
+export function createTypeWords(type) {
+  switch (type) {
+    case 'RUMOR':
+      return '❌ 含有不實訊息';
+    case 'NOT_RUMOR':
+      return '⭕ 含有真實訊息';
+    case 'OPINIONATED':
+      return '💬 含有個人意見';
+    case 'NOT_ARTICLE':
+      return '⚠️️ 不在查證範圍';
+  }
+  return '回應的狀態未定義！';
+}
 export function createReferenceWords(reference) {
   if (reference) return `出處：${reference}`;
   return '\uDBC0\uDC85 ⚠️️ 此回應沒有出處，請自行斟酌回應真實。⚠️️  \uDBC0\uDC85';
