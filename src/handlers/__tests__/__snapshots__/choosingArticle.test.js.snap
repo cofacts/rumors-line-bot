@@ -1,4 +1,390 @@
-exports[`choosingArticle(params) select article by articleId 1`] = `
+exports[`choosingArticle(params) should select article and have OPINIONATED and NOT_ARTICLE replies 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AV8d2-YtyCdS-nWhuhdi",
+    ],
+    "foundReplies": Array [
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV8fXikZyCdS-nWhuhfN",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV8fXikZyCdS-nWhuhfN",
+      },
+      Object {
+        "id": "AV--LRZYyCdS-nWhujL9",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--LRZYyCdS-nWhujL9",
+      },
+      Object {
+        "id": "AV8jkRlByCdS-nWhuhiY",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV8jkRlByCdS-nWhuhiY",
+      },
+    ],
+    "searchedText": "老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人",
+    "selectedArticleId": "AV8d2-YtyCdS-nWhuhdi",
+  },
+  "event": Object {
+    "input": "1",
+    "message": Object {
+      "id": "7045918737413",
+      "text": "1",
+      "type": "text",
+    },
+    "timestamp": 1511633232479,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1511633232970,
+  "replies": Array [
+    Object {
+      "text": "這篇文章有：
+1 則回應認為其 ❌ 含有不實訊息
+0 則回應認為其 ⭕ 含有真實訊息
+1 則回應認為其 💬 含有個人意見
+2 則回應認為其 ⚠️️ 不在查證範圍
+",
+      "type": "text",
+    },
+    Object {
+      "altText": "閱讀請傳 1> ❌ 含有不實訊息
+[有 3 人覺得此回應有幫助]
+老榮民有住所，有月退俸，也不需要特別的醫療護理，因此較適合榮民之家養老，慈濟也一直關懷陪伴。護理之家有免費方案，入住資格和有無
+
+閱讀請傳 2> 💬 含有個人意見
+[還沒有人針對此回應評價]
+慈濟自來有褒有貶，每人有各自的看法。
+
+閱讀請傳 3> ⚠️️ 不在查證範圍
+[還沒有人針對此回應評價]
+整個基督教徒的打手，自己不努力去牧人、募款，利用攻擊別人，三分真七分假，更利用多帳號來造勢及造風向，害我也差點相信了，各位有智
+
+閱讀請傳 4> ⚠️️ 不在查證範圍
+[還沒有人針對此回應評價]
+文章是假的 照片也是盜用我方家人的照片,嚴重影響我家人名譽,我方已對po文的人聯絡並打算提出告訴,請勿相信謠言.",
+      "template": Object {
+        "columns": Array [
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":1,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "❌ 含有不實訊息
+[有 3 人覺得此回應有幫助]
+老榮民有住所，有月退俸，也不需要特別的醫療護理，因此較適合榮民之家養老，慈濟也一直關懷陪伴。護理之家有免費方案，入住資格和有無捐款沒有關係。
+慈善機構使用資源需",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":2,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "💬 含有個人意見
+[還沒有人針對此回應評價]
+慈濟自來有褒有貶，每人有各自的看法。",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":3,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "⚠️️ 不在查證範圍
+[還沒有人針對此回應評價]
+整個基督教徒的打手，自己不努力去牧人、募款，利用攻擊別人，三分真七分假，更利用多帳號來造勢及造風向，害我也差點相信了，各位有智慧的看官，看過之後，笑一笑即可，別",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":4,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "⚠️️ 不在查證範圍
+[還沒有人針對此回應評價]
+文章是假的 照片也是盜用我方家人的照片,嚴重影響我家人名譽,我方已對po文的人聯絡並打算提出告訴,請勿相信謠言.",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "template",
+    },
+    Object {
+      "text": "詳情請見：https://cofacts.g0v.tw//article/AV8d2-YtyCdS-nWhuhdi",
+      "type": "text",
+    },
+  ],
+  "state": "CHOOSING_REPLY",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`choosingArticle(params) should select article and slice replies when over 10 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AV8d2-YtyCdS-nWhuhdi",
+    ],
+    "foundReplies": Array [
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV8fXikZyCdS-nWhuhfN",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV8fXikZyCdS-nWhuhfN",
+      },
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV--LRZYyCdS-nWhujL9",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--LRZYyCdS-nWhujL9",
+      },
+      Object {
+        "id": "AV8jkRlByCdS-nWhuhiY",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV8jkRlByCdS-nWhuhiY",
+      },
+    ],
+    "searchedText": "老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人",
+    "selectedArticleId": "AV8d2-YtyCdS-nWhuhdi",
+  },
+  "event": Object {
+    "input": "1",
+    "message": Object {
+      "id": "7045918737413",
+      "text": "1",
+      "type": "text",
+    },
+    "timestamp": 1511633232479,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1511633232970,
+  "replies": Array [
+    Object {
+      "text": "這篇文章有：
+6 則回應認為其 ❌ 含有不實訊息
+2 則回應認為其 ⭕ 含有真實訊息
+1 則回應認為其 💬 含有個人意見
+2 則回應認為其 ⚠️️ 不在查證範圍
+",
+      "type": "text",
+    },
+    Object {
+      "altText": "閱讀請傳 1> ❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 2> ❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 3> ⭕ 含有真實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 4> ⭕ 含有真實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 5> ❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 6> ❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 7> 💬 含有個人意見
+[還沒有人針對此回應評價]
+
+
+閱讀請傳 8> ❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 9> ❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 10> ⚠️️ 不在查證範圍
+[還沒有人針對此回應評價]
+回應7。",
+      "template": Object {
+        "columns": Array [
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":1,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回應1",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":2,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回應2",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":3,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "⭕ 含有真實訊息
+[還沒有人針對此回應評價]
+回應3",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":4,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "⭕ 含有真實訊息
+[還沒有人針對此回應評價]
+回應4",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":5,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回應5",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":6,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回應6",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":7,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "💬 含有個人意見
+[還沒有人針對此回應評價]
+回應9",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":8,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回應10",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":9,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回應11",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":10,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "⚠️️ 不在查證範圍
+[還沒有人針對此回應評價]
+回應7。
+",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "template",
+    },
+    Object {
+      "text": "更多回應請到：https://cofacts.g0v.tw//article/AV8d2-YtyCdS-nWhuhdi",
+      "type": "text",
+    },
+  ],
+  "state": "CHOOSING_REPLY",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`choosingArticle(params) should select article by articleId 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
@@ -38,16 +424,24 @@ Object {
   "issuedAt": 1505314295017,
   "replies": Array [
     Object {
-      "text": "這篇文章有 2 個回應覺得有不實之處：",
+      "text": "這篇文章有：
+2 則回應認為其 ❌ 含有不實訊息
+0 則回應認為其 ⭕ 含有真實訊息
+0 則回應認為其 💬 含有個人意見
+0 則回應認為其 ⚠️️ 不在查證範圍
+",
       "type": "text",
     },
     Object {
-      "altText": "閱讀請傳 1> [有 14 人覺得此回應有幫助
-有 2 人覺得此回應沒幫助] 
- 查證這則謠言的過程中，約翰走鹿也發現其實
+      "altText": "閱讀請傳 1> ❌ 含有不實訊息
+[有 14 人覺得此回應有幫助
+有 2 人覺得此回應沒幫助]
+查證這則謠言的過程中，約翰走鹿也發現其實網路早就有許多解答，就讓約翰走鹿來借花獻佛一下囉。多家媒體都有針對這則「吃生魚片會有海獸胃腺蟲附著胃壁」的謠言請教醫師，受訪的醫師們皆表示，這則謠言太誇大，海獸胃腺蟲沒那麼神通廣大。
+醫師們表示，台灣的衛生條件很進步，吃生魚片被寄生蟲寄生的案例很少，大部份
 
-閱讀請傳 2> [有 24 人覺得此回應有幫助] 
- 過去台灣只有一個海獸胃腺蟲鑽入胃壁的病例",
+閱讀請傳 2> ❌ 含有不實訊息
+[有 24 人覺得此回應有幫助]
+過去台灣只有一個海獸胃腺蟲鑽入胃壁的病例，而且僅有一隻蟲。而經查詢，台北馬偕醫院也沒有名為林清風的醫師。",
       "template": Object {
         "columns": Array [
           Object {
@@ -58,7 +452,8 @@ Object {
                 "type": "postback",
               },
             ],
-            "text": "[有 14 人覺得此回應有幫助
+            "text": "❌ 含有不實訊息
+[有 14 人覺得此回應有幫助
 有 2 人覺得此回應沒幫助]
 查證這則謠言的過程中，約翰走鹿也發現其實網路早就有許多解答，就讓約翰走鹿來借花獻佛一下囉。多家媒體都有針對這則「吃生魚片會有海獸胃腺蟲附著胃壁」的謠言請教醫師，",
           },
@@ -70,7 +465,8 @@ Object {
                 "type": "postback",
               },
             ],
-            "text": "[有 24 人覺得此回應有幫助]
+            "text": "❌ 含有不實訊息
+[有 24 人覺得此回應有幫助]
 過去台灣只有一個海獸胃腺蟲鑽入胃壁的病例，而且僅有一隻蟲。而經查詢，台北馬偕醫院也沒有名為林清風的醫師。",
           },
         ],
@@ -78,8 +474,48 @@ Object {
       },
       "type": "template",
     },
+    Object {
+      "text": "詳情請見：https://cofacts.g0v.tw//article/AVyyB61NyCdS-nWhuakC",
+      "type": "text",
+    },
   ],
   "state": "CHOOSING_REPLY",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`choosingArticle(params) should select article with no replies 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AV_4WX8vyCdS-nWhujyH",
+    ],
+    "searchedText": "老司機車裡總備一塊香皂，知道內情的新手默默也準備了一塊",
+    "selectedArticleId": "AV_4WX8vyCdS-nWhujyH",
+  },
+  "event": Object {
+    "input": "1",
+    "message": Object {
+      "id": "7049700770815",
+      "text": "1",
+      "type": "text",
+    },
+    "timestamp": 1511702208226,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1511702208730,
+  "replies": Array [
+    Object {
+      "text": "目前還沒有人回應這篇文章唷。已經將您的需求記錄下來了，共有 2 人跟您一樣渴望看到針對這篇文章的回應。",
+      "type": "text",
+    },
+    Object {
+      "text": "若有最新回應，會寫在這個地方：https://cofacts.g0v.tw//article/AV_4WX8vyCdS-nWhujyH",
+      "type": "text",
+    },
+  ],
+  "state": "__INIT__",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
