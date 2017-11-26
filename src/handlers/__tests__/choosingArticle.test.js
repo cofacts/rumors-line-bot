@@ -64,9 +64,49 @@ describe('choosingArticle(params)', () => {
       replies: undefined,
       isSkipUser: false,
     };
-    gql.default = () => () => {
+    gql.default = (...params1) => (...params2) => {
       return new Promise(resolve => {
+        console.log(...params1, ...params2);
         resolve(apiResult.multipleReplies);
+      });
+    };
+    choosingArticle(params).then(
+      result => {
+        expect(result).toMatchSnapshot();
+        done();
+      },
+      error => {
+        console.log(error);
+        expect(error).toBeUndefined();
+      }
+    );
+  });
+
+  it('should select article with no replies', done => {
+    let params = {
+      data: {
+        searchedText: '老司機車裡總備一塊香皂，知道內情的新手默默也準備了一塊',
+        foundArticleIds: ['AV_4WX8vyCdS-nWhujyH'],
+      },
+      state: 'CHOOSING_ARTICLE',
+      event: {
+        type: 'message',
+        input: '1',
+        timestamp: 1511702208226,
+        message: { type: 'text', id: '7049700770815', text: '1' },
+      },
+      issuedAt: 1511702208730,
+      userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+      replies: undefined,
+      isSkipUser: false,
+    };
+    gql.default = template => () => {
+      return new Promise(resolve => {
+        if (template[0].indexOf('GetArticle') !== -1) {
+          resolve(apiResult.noReplies);
+        } else if (template[0].indexOf('CreateReplyRequest') !== -1) {
+          resolve(apiResult.createReplyRequest);
+        }
       });
     };
     choosingArticle(params).then(

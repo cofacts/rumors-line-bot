@@ -270,4 +270,18 @@ const multipleReplies = {
     },
   },
 };
-export default { selectedArticleId, multipleReplies };
+
+const noReplies = {
+  data: { GetArticle: { replyCount: 0, replyConnections: [] } },
+};
+
+const createReplyRequest = {
+  data: { CreateReplyRequest: { replyRequestCount: 2 } },
+};
+
+export default {
+  selectedArticleId,
+  multipleReplies,
+  noReplies,
+  createReplyRequest,
+};
