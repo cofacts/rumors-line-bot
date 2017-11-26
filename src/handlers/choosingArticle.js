@@ -23,13 +23,26 @@ function reorderReplies(replyConnections) {
       feedbacks,
       replyConnectionId: id,
     };
-    if (reply.type !== 'NOT_ARTICLE') {
+    if (reply.versions[0].type !== 'NOT_ARTICLE') {
       replies.push(item);
     } else {
       notArticleReplies.push(item);
     }
   }
   return replies.concat(notArticleReplies);
+}
+
+// https://developers.line.me/en/docs/messaging-api/reference/#template-messages
+function createAltText(articleReplies) {
+  const eachLimit = 400 / articleReplies.length - 5;
+  return articleReplies
+    .slice(0, 10)
+    .map(({ versions, feedbacks }, idx) => {
+      let prefix = `閱讀請傳 ${idx + 1}> ${createTypeWords(versions[0].type)}\n${createFeedbackWords(feedbacks)}`;
+      let content = versions[0].text.slice(0, eachLimit - prefix.length);
+      return `${prefix}\n${content}`;
+    })
+    .join('\n\n');
 }
 
 export default async function choosingArticle(params) {
@@ -143,15 +156,7 @@ export default async function choosingArticle(params) {
 
       replies.push({
         type: 'template',
-        altText: articleReplies
-          .slice(0, 10)
-          .map(
-            (
-              { versions, feedbacks },
-              idx
-            ) => `閱讀請傳 ${idx + 1}> ${createFeedbackWords(feedbacks)} \n ${versions[0].text.slice(0, 20)}`
-          )
-          .join('\n\n'),
+        altText: createAltText(articleReplies),
         template: {
           type: 'carousel',
           columns: articleReplies.map(({ versions, feedbacks }, idx) => ({
