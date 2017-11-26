@@ -159,13 +159,15 @@ export default async function choosingArticle(params) {
         altText: createAltText(articleReplies),
         template: {
           type: 'carousel',
-          columns: articleReplies.map(({ versions, feedbacks }, idx) => ({
-            text: createTypeWords(versions[0].type) +
-              '\n' +
-              createFeedbackWords(feedbacks) +
-              '\n' +
-              versions[0].text.slice(0, 80),
-            actions: [createPostbackAction('閱讀此回應', idx + 1, issuedAt)],
+          columns: articleReplies
+            .slice(0, 10)
+            .map(({ versions, feedbacks }, idx) => ({
+              text: createTypeWords(versions[0].type) +
+                '\n' +
+                createFeedbackWords(feedbacks) +
+                '\n' +
+                versions[0].text.slice(0, 80),
+              actions: [createPostbackAction('閱讀此回應', idx + 1, issuedAt)],
           })),
         },
       });
