@@ -68,7 +68,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{"input":1,"issuedAt":1511633232970}",
+                "data": "{\"input\":1,\"issuedAt\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -81,7 +81,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{"input":2,"issuedAt":1511633232970}",
+                "data": "{\"input\":2,\"issuedAt\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -93,7 +93,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{"input":3,"issuedAt":1511633232970}",
+                "data": "{\"input\":3,\"issuedAt\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -105,7 +105,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{"input":4,"issuedAt":1511633232970}",
+                "data": "{\"input\":4,\"issuedAt\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -121,6 +121,261 @@ Object {
     },
     Object {
       "text": "詳情請見：https://cofacts.g0v.tw//article/AV8d2-YtyCdS-nWhuhdi",
+      "type": "text",
+    },
+  ],
+  "state": "CHOOSING_REPLY",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`choosingArticle(params) should select article and slice replies when over 10 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AV8d2-YtyCdS-nWhuhdi",
+    ],
+    "foundReplies": Array [
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV8fXikZyCdS-nWhuhfN",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV8fXikZyCdS-nWhuhfN",
+      },
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV--O3nfyCdS-nWhujMD",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
+      },
+      Object {
+        "id": "AV--LRZYyCdS-nWhujL9",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--LRZYyCdS-nWhujL9",
+      },
+      Object {
+        "id": "AV8jkRlByCdS-nWhuhiY",
+        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV8jkRlByCdS-nWhuhiY",
+      },
+    ],
+    "searchedText": "老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人",
+    "selectedArticleId": "AV8d2-YtyCdS-nWhuhdi",
+  },
+  "event": Object {
+    "input": "1",
+    "message": Object {
+      "id": "7045918737413",
+      "text": "1",
+      "type": "text",
+    },
+    "timestamp": 1511633232479,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1511633232970,
+  "replies": Array [
+    Object {
+      "text": "這篇文章有：
+6 則回應認為其 ❌ 含有不實訊息
+2 則回應認為其 ⭕ 含有真實訊息
+1 則回應認為其 💬 含有個人意見
+2 則回應認為其 ⚠️️ 不在查證範圍
+",
+      "type": "text",
+    },
+    Object {
+      "altText": "閱讀請傳 1> ❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 2> ❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 3> ⭕ 含有真實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 4> ⭕ 含有真實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 5> ❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 6> ❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 7> 💬 含有個人意見
+[還沒有人針對此回應評價]
+
+
+閱讀請傳 8> ❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 9> ❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回
+
+閱讀請傳 10> ⚠️️ 不在查證範圍
+[還沒有人針對此回應評價]
+回應7。",
+      "template": Object {
+        "columns": Array [
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":1,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回應1",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":2,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回應2",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":3,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "⭕ 含有真實訊息
+[還沒有人針對此回應評價]
+回應3",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":4,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "⭕ 含有真實訊息
+[還沒有人針對此回應評價]
+回應4",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":5,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回應5",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":6,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回應6",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":7,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "💬 含有個人意見
+[還沒有人針對此回應評價]
+回應9",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":8,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回應10",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":9,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "❌ 含有不實訊息
+[還沒有人針對此回應評價]
+回應11",
+          },
+          Object {
+            "actions": Array [
+              Object {
+                "data": "{\"input\":10,\"issuedAt\":1511633232970}",
+                "label": "閱讀此回應",
+                "type": "postback",
+              },
+            ],
+            "text": "⚠️️ 不在查證範圍
+[還沒有人針對此回應評價]
+回應7。
+",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "template",
+    },
+    Object {
+      "text": "更多回應請到：https://cofacts.g0v.tw//article/AV8d2-YtyCdS-nWhuhdi",
       "type": "text",
     },
   ],
@@ -192,7 +447,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{"input":1,"issuedAt":1505314295017}",
+                "data": "{\"input\":1,\"issuedAt\":1505314295017}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -205,7 +460,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{"input":2,"issuedAt":1505314295017}",
+                "data": "{\"input\":2,\"issuedAt\":1505314295017}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },

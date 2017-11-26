@@ -64,9 +64,8 @@ describe('choosingArticle(params)', () => {
       replies: undefined,
       isSkipUser: false,
     };
-    gql.default = (...params1) => (...params2) => {
+    gql.default = () => () => {
       return new Promise(resolve => {
-        console.log(...params1, ...params2);
         resolve(apiResult.multipleReplies);
       });
     };
@@ -107,6 +106,41 @@ describe('choosingArticle(params)', () => {
         } else if (template[0].indexOf('CreateReplyRequest') !== -1) {
           resolve(apiResult.createReplyRequest);
         }
+      });
+    };
+    choosingArticle(params).then(
+      result => {
+        expect(result).toMatchSnapshot();
+        done();
+      },
+      error => {
+        console.log(error);
+        expect(error).toBeUndefined();
+      }
+    );
+  });
+
+  it('should select article and slice replies when over 10', done => {
+    let params = {
+      data: {
+        searchedText: '老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人',
+        foundArticleIds: ['AV8d2-YtyCdS-nWhuhdi'],
+      },
+      state: 'CHOOSING_ARTICLE',
+      event: {
+        type: 'message',
+        input: '1',
+        timestamp: 1511633232479,
+        message: { type: 'text', id: '7045918737413', text: '1' },
+      },
+      issuedAt: 1511633232970,
+      userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+      replies: undefined,
+      isSkipUser: false,
+    };
+    gql.default = () => () => {
+      return new Promise(resolve => {
+        resolve(apiResult.elevenReplies);
       });
     };
     choosingArticle(params).then(

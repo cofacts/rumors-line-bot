@@ -271,6 +271,159 @@ const multipleReplies = {
   },
 };
 
+const elevenReplies = {
+  data: {
+    GetArticle: {
+      replyCount: 11,
+      replyConnections: [
+        {
+          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
+          reply: {
+            id: 'AV--O3nfyCdS-nWhujMD',
+            versions: [
+              {
+                type: 'RUMOR',
+                text: '回應1',
+              },
+            ],
+          },
+          feedbacks: [],
+        },
+        {
+          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
+          reply: {
+            id: 'AV--O3nfyCdS-nWhujMD',
+            versions: [
+              {
+                type: 'RUMOR',
+                text: '回應2',
+              },
+            ],
+          },
+          feedbacks: [],
+        },
+        {
+          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
+          reply: {
+            id: 'AV--O3nfyCdS-nWhujMD',
+            versions: [
+              {
+                type: 'NOT_RUMOR',
+                text: '回應3',
+              },
+            ],
+          },
+          feedbacks: [],
+        },
+        {
+          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
+          reply: {
+            id: 'AV--O3nfyCdS-nWhujMD',
+            versions: [
+              {
+                type: 'NOT_RUMOR',
+                text: '回應4',
+              },
+            ],
+          },
+          feedbacks: [],
+        },
+        {
+          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
+          reply: {
+            id: 'AV--O3nfyCdS-nWhujMD',
+            versions: [
+              {
+                type: 'RUMOR',
+                text: '回應5',
+              },
+            ],
+          },
+          feedbacks: [],
+        },
+        {
+          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
+          reply: {
+            id: 'AV--O3nfyCdS-nWhujMD',
+            versions: [
+              {
+                type: 'RUMOR',
+                text: '回應6',
+              },
+            ],
+          },
+          feedbacks: [],
+        },
+        {
+          id: 'AV8d2-YtyCdS-nWhuhdi__AV--LRZYyCdS-nWhujL9',
+          reply: {
+            id: 'AV--LRZYyCdS-nWhujL9',
+            versions: [
+              {
+                type: 'NOT_ARTICLE',
+                text: '回應7。\n',
+              },
+            ],
+          },
+          feedbacks: [],
+        },
+        {
+          id: 'AV8d2-YtyCdS-nWhuhdi__AV8jkRlByCdS-nWhuhiY',
+          reply: {
+            id: 'AV8jkRlByCdS-nWhuhiY',
+            versions: [
+              {
+                type: 'NOT_ARTICLE',
+                text: '回應8',
+              },
+            ],
+          },
+          feedbacks: [],
+        },
+        {
+          id: 'AV8d2-YtyCdS-nWhuhdi__AV8fXikZyCdS-nWhuhfN',
+          reply: {
+            id: 'AV8fXikZyCdS-nWhuhfN',
+            versions: [
+              {
+                type: 'OPINIONATED',
+                text: '回應9',
+              },
+            ],
+          },
+          feedbacks: [],
+        },
+        {
+          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
+          reply: {
+            id: 'AV--O3nfyCdS-nWhujMD',
+            versions: [
+              {
+                type: 'RUMOR',
+                text: '回應10',
+              },
+            ],
+          },
+          feedbacks: [],
+        },
+        {
+          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
+          reply: {
+            id: 'AV--O3nfyCdS-nWhujMD',
+            versions: [
+              {
+                type: 'RUMOR',
+                text: '回應11',
+              },
+            ],
+          },
+          feedbacks: [],
+        },
+      ],
+    },
+  },
+};
+
 const noReplies = {
   data: { GetArticle: { replyCount: 0, replyConnections: [] } },
 };
@@ -284,4 +437,5 @@ export default {
   multipleReplies,
   noReplies,
   createReplyRequest,
+  elevenReplies,
 };
