@@ -168,19 +168,16 @@ export default async function choosingArticle(params) {
                 '\n' +
                 versions[0].text.slice(0, 80),
               actions: [createPostbackAction('閱讀此回應', idx + 1, issuedAt)],
-          })),
+            })),
         },
       });
-      let endText;
+
       if (articleReplies.length > 10) {
-        endText = '更多回應請到：';
-      } else {
-        endText = '詳情請見：';
+        replies.push({
+          type: 'text',
+          text: `更多回應請到：${SITE_URL}/article/${selectedArticleId}`,
+        });
       }
-      replies.push({
-        type: 'text',
-        text: `${endText}${SITE_URL}/article/${selectedArticleId}`,
-      });
     } else {
       // No one has replied to this yet.
       const { data: { CreateReplyRequest }, errors } = await gql`
