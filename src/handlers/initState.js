@@ -1,11 +1,22 @@
 import stringSimilarity from 'string-similarity';
 import gql from '../gql';
-import { createPostbackAction } from './utils';
+import { createPostbackAction, checkSingleUrl } from './utils';
 
 const SIMILARITY_THRESHOLD = 0.95;
 
 export default async function initState(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
+
+  if (checkSingleUrl(event.input)) {
+    replies = [
+      {
+        type: 'text',
+        text: '你傳的資訊僅包含連結或是資訊太少，無法為你搜尋資料庫噢！\n' +
+          '正確使用方式，請參考📖使用手冊 http://bit.ly/cofacts-line-users',
+      },
+    ];
+    return { data, state, event, issuedAt, userId, replies, isSkipUser };
+  }
 
   // Store user input into context
   data.searchedText = event.input;
