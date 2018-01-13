@@ -7,17 +7,6 @@ const SIMILARITY_THRESHOLD = 0.95;
 export default async function initState(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
-  if (checkSingleUrl(event.input)) {
-    replies = [
-      {
-        type: 'text',
-        text: '你傳的資訊僅包含連結或是資訊太少，無法為你搜尋資料庫噢！\n' +
-          '正確使用方式，請參考📖使用手冊 http://bit.ly/cofacts-line-users',
-      },
-    ];
-    return { data, state, event, issuedAt, userId, replies, isSkipUser };
-  }
-
   // Store user input into context
   data.searchedText = event.input;
 
@@ -120,25 +109,36 @@ export default async function initState(params) {
     ];
     state = 'CHOOSING_ARTICLE';
   } else {
-    replies = [
-      {
-        type: 'text',
-        text: `找不到關於「${articleSummary}」文章耶 QQ`,
-      },
-      {
-        type: 'template',
-        altText: '請問要將這份文章送出到資料庫嗎？\n「是」請輸入「y」，「否」請輸入「n」或其他單一字母。',
-        template: {
-          type: 'buttons',
-          text: '請問要將這份文章送出到資料庫嗎？',
-          actions: [
-            createPostbackAction('是', 'y', issuedAt),
-            createPostbackAction('否', 'n', issuedAt),
-          ],
+    if (checkSingleUrl(event.input)) {
+      replies = [
+        {
+          type: 'text',
+          text: '你傳的資訊僅包含連結或是資訊太少，無法為你搜尋資料庫噢！\n' +
+            '正確使用方式，請參考📖使用手冊 http://bit.ly/cofacts-line-users',
         },
-      },
-    ];
-    state = 'ASKING_ARTICLE_SUBMISSION';
+      ];
+      state = '__INIT__';
+    } else {
+      replies = [
+        {
+          type: 'text',
+          text: `找不到關於「${articleSummary}」文章耶 QQ`,
+        },
+        {
+          type: 'template',
+          altText: '請問要將這份文章送出到資料庫嗎？\n「是」請輸入「y」，「否」請輸入「n」或其他單一字母。',
+          template: {
+            type: 'buttons',
+            text: '請問要將這份文章送出到資料庫嗎？',
+            actions: [
+              createPostbackAction('是', 'y', issuedAt),
+              createPostbackAction('否', 'n', issuedAt),
+            ],
+          },
+        },
+      ];
+      state = 'ASKING_ARTICLE_SUBMISSION';
+    }
   }
   return { data, state, event, issuedAt, userId, replies, isSkipUser };
 }
