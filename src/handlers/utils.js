@@ -47,11 +47,8 @@ export function createReferenceWords(reference) {
   return '\uDBC0\uDC85 ⚠️️ 此回應沒有出處，請自行斟酌回應真實。⚠️️  \uDBC0\uDC85';
 }
 
-export function checkSingleUrl(text) {
+export function isNonsenseText(text) {
   let urls = text.match(urlRegex()) || [];
-  let textWithoutUrls = text;
-  urls.forEach(url => {
-    textWithoutUrls = textWithoutUrls.replace(url, '');
-  });
-  return textWithoutUrls.length < 15;
+  let sum = urls.reduce((sum, url) => sum + url.length, 0);
+  return (text.length - sum) < 15;
 }

@@ -1,6 +1,6 @@
 import stringSimilarity from 'string-similarity';
 import gql from '../gql';
-import { createPostbackAction, checkSingleUrl } from './utils';
+import { createPostbackAction, isNonsenseText } from './utils';
 
 const SIMILARITY_THRESHOLD = 0.95;
 
@@ -109,7 +109,7 @@ export default async function initState(params) {
     ];
     state = 'CHOOSING_ARTICLE';
   } else {
-    if (checkSingleUrl(event.input)) {
+    if (isNonsenseText(event.input)) {
       replies = [
         {
           type: 'text',
