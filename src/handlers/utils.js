@@ -1,3 +1,5 @@
+import urlRegex from 'url-regex';
+
 export function createPostbackAction(label, input, issuedAt) {
   return {
     type: 'postback',
@@ -43,4 +45,10 @@ export function createTypeWords(type) {
 export function createReferenceWords(reference) {
   if (reference) return `出處：${reference}`;
   return '\uDBC0\uDC85 ⚠️️ 此回應沒有出處，請自行斟酌回應真實。⚠️️  \uDBC0\uDC85';
+}
+
+export function isNonsenseText(text) {
+  let urls = text.match(urlRegex()) || [];
+  let sum = urls.reduce((sum, url) => sum + url.length, 0);
+  return (text.length - sum) < 15;
 }
