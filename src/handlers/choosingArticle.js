@@ -3,6 +3,7 @@ import {
   createPostbackAction,
   createFeedbackWords,
   createTypeWords,
+  isNonsenseText,
 } from './utils';
 
 const SITE_URL = process.env.SITE_URL || 'https://cofacts.g0v.tw/';
@@ -54,8 +55,18 @@ export default async function choosingArticle(params) {
 
   data.selectedArticleId = data.foundArticleIds[event.input - 1];
   const { selectedArticleId } = data;
+  const doesNotContainMyArticle = +event.input === 0;
 
-  if (+event.input === 0) {
+  if (doesNotContainMyArticle && isNonsenseText(data.searchedText)) {
+    replies = [
+      {
+        type: 'text',
+        text: '剛才您傳的訊息僅包含連結或是資訊太少，無從查證。\n' +
+          '查證範圍請參考📖使用手冊 http://bit.ly/cofacts-line-users',
+      },
+    ];
+    state = '__INIT__';
+  } else if (doesNotContainMyArticle) {
     replies = [
       {
         type: 'template',
