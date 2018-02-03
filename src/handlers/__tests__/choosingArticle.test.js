@@ -154,4 +154,27 @@ describe('choosingArticle(params)', () => {
       }
     );
   });
+
+  it('should block user from submitting articles that is too short', async () => {
+    const params = {
+      data: {
+        searchedText: 'http://google.com hello',
+        foundArticleIds: ['AV8d2-YtyCdS-nWhuhdi'],
+      },
+      state: 'CHOOSING_ARTICLE',
+      event: {
+        type: 'message',
+        input: '0',
+        timestamp: 1511633232479,
+        message: { type: 'text', id: '7045918737413', text: '0' },
+      },
+      issuedAt: 1511633232970,
+      userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+      replies: undefined,
+      isSkipUser: false,
+    };
+
+    const result = await choosingArticle(params);
+    expect(result).toMatchSnapshot();
+  });
 });
