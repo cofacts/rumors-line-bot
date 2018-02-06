@@ -1,6 +1,7 @@
 import Koa from 'koa';
 import Router from 'koa-router';
 import rollbar from './rollbar';
+import { version } from '../package.json';
 
 import redis from './redisClient';
 import checkSignatureAndParse from './checkSignatureAndParse';
@@ -22,9 +23,7 @@ app.use(async (ctx, next) => {
 });
 
 router.get('/', ctx => {
-  ctx.body = JSON.stringify({
-    redis: redis.server_info,
-  });
+  ctx.body = JSON.stringify({ version });
 });
 
 const singleUserHandler = async (
