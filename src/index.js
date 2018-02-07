@@ -1,10 +1,10 @@
 import Koa from 'koa';
 import Router from 'koa-router';
 import rollbar from './rollbar';
-import koaBody from 'koa-bodyparser';
+import { version } from '../package.json';
 
 import redis from './redisClient';
-import { checkSignature, captureRawBody } from './checkSignature';
+import checkSignatureAndParse from './checkSignatureAndParse';
 import lineClient from './lineClient';
 import handleInput from './handleInput';
 import botimize from 'botimize';
@@ -22,20 +22,8 @@ app.use(async (ctx, next) => {
   }
 });
 
-app.use(captureRawBody);
-
-app.use(
-  koaBody({
-    formLimit: '1mb',
-    jsonLimit: '10mb',
-    textLimit: '10mb',
-  })
-);
-
 router.get('/', ctx => {
-  ctx.body = JSON.stringify({
-    redis: redis.server_info,
-  });
+  ctx.body = JSON.stringify({ version });
 });
 
 const singleUserHandler = async (
@@ -181,7 +169,7 @@ const groupHandler = async (req, type, replyToken, userId, otherFields) => {
 
 // Routes that is after protection of checkSignature
 //
-router.use('/callback', checkSignature);
+router.use('/callback', checkSignatureAndParse);
 router.post('/callback', ctx => {
   // Allow free-form request handling.
   // Don't wait for anything before returning 200.
