@@ -43,4 +43,8 @@ config/local-*
 # Used by dotenv library to load environment variables.
 .env
 
+# Used by googleapis for authorization.
+.gdrive_access_token
+client_secret.json
+
 *.log

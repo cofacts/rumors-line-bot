@@ -35,6 +35,7 @@ Other customizable env vars are:
 
 * `REDIS_URL`: If not given, `redis://127.0.0.1:6379` is used.
 * `PORT`: Which port the line bot server will listen at.
+* `GOOGLE_DRIVE_IMAGE_FOLDER`: Google drive folder id is needed when you want to test uploading image. 
 
 ### Redis server
 
@@ -69,6 +70,24 @@ $ ngrok http 5000
 `ngrok` will give you a public URL. Use this to set the webhook URL of your Channel (See the section "Channel Console" in [LINE official tutorial](https://developers.line.me/messaging-api/getting-started)).
 
 We recommend using [ngrok configuration file](https://ngrok.com/docs#config) to setup a tunnel with a fixed `subdomain`. In this way the public URL can be fixed (means no repeatitive copy-pasting to LINE Channel settings!) as long as the `subdomain` is not occupied by others.
+
+### Upload image/video
+
+First, follow the step1 in this [url](https://developers.google.com/drive/v3/web/quickstart/nodejs) to get `client_secret.json` and save it to project root.
+
+Second, run:
+
+```
+$ node authGoogleDrive.js
+```
+Visit the given url provided above. Get the auth code and paste it to console.
+Then this program will save your google drive access_token locally at `./.gdrive_access_token`.
+Make sure you've also set `GOOGLE_DRIVE_IMAGE_FOLDER` = [folderID](https://googleappsscriptdeveloper.wordpress.com/2017/03/04/how-to-find-your-google-drive-folder-id/) in .env file.
+
+ref:
+[OAuth2 Protocols](https://developers.google.com/identity/protocols/OAuth2)
+[Googleapi Nodejs Client](https://github.com/google/google-api-nodejs-client) P.S. This page provide the newest api usage then [this](https://developers.google.com/drive/v3/web/quickstart/nodejs).
+
 
 ---
 
