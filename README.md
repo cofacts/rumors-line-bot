@@ -80,13 +80,17 @@ Second, run:
 ```
 $ node authGoogleDrive.js
 ```
+
 Visit the given url provided above. Get the auth code and paste it to console.
-Then this program will save your google drive access_token locally at `./.gdrive_access_token`.
+Then the program will save your google drive access_token locally at `./.gdrive_access_token`.
+
 Make sure you've also set `GOOGLE_DRIVE_IMAGE_FOLDER` = [folderID](https://googleappsscriptdeveloper.wordpress.com/2017/03/04/how-to-find-your-google-drive-folder-id/) in .env file.
 
 ref:
+
 [OAuth2 Protocols](https://developers.google.com/identity/protocols/OAuth2)
-[Googleapi Nodejs Client](https://github.com/google/google-api-nodejs-client) P.S. This page provide the newest api usage then [this](https://developers.google.com/drive/v3/web/quickstart/nodejs).
+
+[Googleapi Nodejs Client](https://github.com/google/google-api-nodejs-client)   P.S. This page provide the newest api usage then [this](https://developers.google.com/drive/v3/web/quickstart/nodejs).
 
 
 ---
