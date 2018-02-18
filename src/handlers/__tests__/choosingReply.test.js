@@ -74,3 +74,7 @@ it('should handle invalid reply ids', async () => {
 
   expect(await choosingReply(params)).toMatchSnapshot();
 });
+
+afterEach(() => {
+  gql.__reset();
+});
