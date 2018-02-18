@@ -1,0 +1,111 @@
+exports[`test should handle invalid reply ids 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AWDZYXxAyCdS-nWhumlz",
+      "5483323992880-rumor",
+      "AV-Urc0jyCdS-nWhuity",
+      "AVsh8u7StKp96s659Dgq",
+    ],
+    "foundReplies": Array [
+      Object {
+        "id": "AWDZeeV0yCdS-nWhuml8",
+        "replyConnectionId": null,
+      },
+    ],
+    "searchedText": "貼圖",
+    "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
+  },
+  "event": Object {
+    "input": "123",
+    "timestamp": 1518964687709,
+    "type": "text",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1518964688672,
+  "replies": Array [
+    Object {
+      "text": "請輸入 1～1 的數字，來選擇回應。",
+      "type": "text",
+    },
+  ],
+  "state": "CHOOSING_REPLY",
+  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+}
+`;
+
+exports[`test should select reply by replyId 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AWDZYXxAyCdS-nWhumlz",
+      "5483323992880-rumor",
+      "AV-Urc0jyCdS-nWhuity",
+      "AVsh8u7StKp96s659Dgq",
+    ],
+    "foundReplies": Array [
+      Object {
+        "id": "AWDZeeV0yCdS-nWhuml8",
+        "replyConnectionId": null,
+      },
+    ],
+    "searchedText": "貼圖",
+    "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
+    "selectedReply": Object {
+      "id": "AWDZeeV0yCdS-nWhuml8",
+      "replyConnectionId": null,
+    },
+  },
+  "event": Object {
+    "input": 1,
+    "postback": Object {
+      "data": "{\"input\":1,\"issuedAt\":1518964675191}",
+    },
+    "timestamp": 1518964687709,
+    "type": "postback",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1518964688672,
+  "replies": Array [
+    Object {
+      "text": "這則回應認為文章含有真實訊息，理由為：",
+      "type": "text",
+    },
+    Object {
+      "text": "這是商業活動廣告 ",
+      "type": "text",
+    },
+    Object {
+      "text": "􀂅 ⚠️️ 此回應沒有出處，請自行斟酌回應真實。⚠️️  􀂅",
+      "type": "text",
+    },
+    Object {
+      "altText": "請問這則回應是否有解答原文章？
+「是」請輸入「y」，「否」請輸入其他任何訊息。",
+      "template": Object {
+        "actions": Array [
+          Object {
+            "data": "{\"input\":\"y\",\"issuedAt\":1518964688672}",
+            "label": "是",
+            "type": "postback",
+          },
+          Object {
+            "data": "{\"input\":\"n\",\"issuedAt\":1518964688672}",
+            "label": "否",
+            "type": "postback",
+          },
+        ],
+        "text": "請問這則回應是否有解答原文章？",
+        "type": "buttons",
+      },
+      "type": "template",
+    },
+    Object {
+      "text": "可以到以下網址閱讀其他回應：undefined/article/AWDZYXxAyCdS-nWhumlz",
+      "type": "text",
+    },
+  ],
+  "state": "ASKING_REPLY_FEEDBACK",
+  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+}
+`;
