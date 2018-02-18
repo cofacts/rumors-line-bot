@@ -1,4 +1,4 @@
-exports[`choosingArticle(params) should block user from submitting articles that is too short 1`] = `
+exports[`test should block user from submitting articles that is too short 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
@@ -31,7 +31,7 @@ Object {
 }
 `;
 
-exports[`choosingArticle(params) should select article and have OPINIONATED and NOT_ARTICLE replies 1`] = `
+exports[`test should select article and have OPINIONATED and NOT_ARTICLE replies 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
@@ -158,7 +158,7 @@ Object {
 }
 `;
 
-exports[`choosingArticle(params) should select article and slice replies when over 10 1`] = `
+exports[`test should select article and slice replies when over 10 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
@@ -413,7 +413,7 @@ Object {
 }
 `;
 
-exports[`choosingArticle(params) should select article by articleId 1`] = `
+exports[`test should select article by articleId 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
@@ -509,7 +509,7 @@ Object {
 }
 `;
 
-exports[`choosingArticle(params) should select article with no replies 1`] = `
+exports[`test should select article with no replies 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
