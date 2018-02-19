@@ -1,4 +1,6 @@
-exports[`test should handle invalid reply ids 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should handle invalid reply ids 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
@@ -34,7 +36,7 @@ Object {
 }
 `;
 
-exports[`test should select reply by replyId 1`] = `
+exports[`should select reply by replyId 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
@@ -59,7 +61,7 @@ Object {
   "event": Object {
     "input": 1,
     "postback": Object {
-      "data": "{\"input\":1,\"issuedAt\":1518964675191}",
+      "data": "{\\"input\\":1,\\"issuedAt\\":1518964675191}",
     },
     "timestamp": 1518964687709,
     "type": "postback",
@@ -85,12 +87,12 @@ Object {
       "template": Object {
         "actions": Array [
           Object {
-            "data": "{\"input\":\"y\",\"issuedAt\":1518964688672}",
+            "data": "{\\"input\\":\\"y\\",\\"issuedAt\\":1518964688672}",
             "label": "是",
             "type": "postback",
           },
           Object {
-            "data": "{\"input\":\"n\",\"issuedAt\":1518964688672}",
+            "data": "{\\"input\\":\\"n\\",\\"issuedAt\\":1518964688672}",
             "label": "否",
             "type": "postback",
           },

@@ -1,7 +1,7 @@
 jest.mock('../../gql');
 
 import choosingArticle from '../choosingArticle';
-import apiResult from '../__fixtures__/choosingArticle';
+import * as apiResult from '../__fixtures__/choosingArticle';
 import gql from '../../gql';
 
 it('should select article by articleId', async () => {

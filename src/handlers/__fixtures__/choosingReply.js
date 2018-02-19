@@ -1,4 +1,4 @@
-const oneReply = {
+export const oneReply = {
   data: {
     GetReply: {
       versions: [
@@ -11,8 +11,4 @@ const oneReply = {
       ],
     },
   },
-};
-
-export default {
-  oneReply,
 };
