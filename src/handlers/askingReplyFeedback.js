@@ -8,17 +8,19 @@ export default async function askingReplyFeedback(params) {
   }
 
   const { data: { action: { feedbackCount } } } = await gql`
-    mutation($vote: FeedbackVote!, $id: String!) {
-      action: CreateOrUpdateReplyConnectionFeedback(
+    mutation($vote: FeedbackVote!, $articleId: String!, $replyId: String!) {
+      action: CreateOrUpdateArticleReplyFeedback(
         vote: $vote
-        replyConnectionId: $id
+        articleId: $articleId
+        replyId: $replyId
       ) {
         feedbackCount
       }
     }
   `(
     {
-      id: data.selectedReply.replyConnectionId,
+      articleId: data.selectedArticleId,
+      replyId: data.selectedReply.id,
       vote: event.input === 'y' ? 'UPVOTE' : 'DOWNVOTE',
     },
     { userId }
