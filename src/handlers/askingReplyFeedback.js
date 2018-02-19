@@ -3,7 +3,7 @@ import gql from '../gql';
 export default async function askingReplyFeedback(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
-  if (!data.selectedReply) {
+  if (!data.selectedReplyId) {
     throw new Error('selectedReply not set in data');
   }
 
@@ -20,7 +20,7 @@ export default async function askingReplyFeedback(params) {
   `(
     {
       articleId: data.selectedArticleId,
-      replyId: data.selectedReply.id,
+      replyId: data.selectedReplyId,
       vote: event.input === 'y' ? 'UPVOTE' : 'DOWNVOTE',
     },
     { userId }

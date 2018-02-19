@@ -14,8 +14,8 @@ const commonParams = {
       'AVsh8u7StKp96s659Dgq',
     ],
     selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
-    foundReplies: [[Object]],
-    selectedReply: { id: 'AWDZeeV0yCdS-nWhuml8', replyConnectionId: null },
+    foundReplyIds: ['AWDZeeV0yCdS-nWhuml8'],
+    selectedReplyId: 'AWDZeeV0yCdS-nWhuml8',
   },
   state: 'ASKING_REPLY_FEEDBACK',
   event: {

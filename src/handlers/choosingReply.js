@@ -4,15 +4,15 @@ import { createPostbackAction, createReferenceWords } from './utils';
 export default async function choosingReply(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
-  if (!data.foundReplies) {
-    throw new Error('foundReplies not set in data');
+  if (!data.foundReplyIds) {
+    throw new Error('foundReplyIds not set in data');
   }
 
-  const selectedReply = data.foundReplies[event.input - 1];
+  const selectedReplyId = data.foundReplyIds[event.input - 1];
 
-  if (!selectedReply) {
+  if (!selectedReplyId) {
     replies = [
-      { type: 'text', text: `請輸入 1～${data.foundReplies.length} 的數字，來選擇回應。` },
+      { type: 'text', text: `請輸入 1～${data.foundReplyIds.length} 的數字，來選擇回應。` },
     ];
 
     state = 'CHOOSING_REPLY';
@@ -26,7 +26,7 @@ export default async function choosingReply(params) {
           createdAt
         }
       }
-    `({ id: selectedReply.id });
+    `({ id: selectedReplyId });
 
     replies = [
       {
@@ -61,7 +61,7 @@ export default async function choosingReply(params) {
       },
     ];
 
-    data.selectedReply = selectedReply;
+    data.selectedReplyId = selectedReplyId;
     state = 'ASKING_REPLY_FEEDBACK';
   }
 

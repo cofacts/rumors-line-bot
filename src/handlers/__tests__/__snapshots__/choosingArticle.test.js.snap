@@ -39,23 +39,11 @@ Object {
     "foundArticleIds": Array [
       "AV8d2-YtyCdS-nWhuhdi",
     ],
-    "foundReplies": Array [
-      Object {
-        "id": "AV--O3nfyCdS-nWhujMD",
-        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
-      },
-      Object {
-        "id": "AV8fXikZyCdS-nWhuhfN",
-        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV8fXikZyCdS-nWhuhfN",
-      },
-      Object {
-        "id": "AV--LRZYyCdS-nWhujL9",
-        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--LRZYyCdS-nWhujL9",
-      },
-      Object {
-        "id": "AV8jkRlByCdS-nWhuhiY",
-        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV8jkRlByCdS-nWhuhiY",
-      },
+    "foundReplyIds": Array [
+      "AV--O3nfyCdS-nWhujMD",
+      "AV8fXikZyCdS-nWhuhfN",
+      "AV--LRZYyCdS-nWhujL9",
+      "AV8jkRlByCdS-nWhuhiY",
     ],
     "searchedText": "老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人",
     "selectedArticleId": "AV8d2-YtyCdS-nWhuhdi",
@@ -166,51 +154,18 @@ Object {
     "foundArticleIds": Array [
       "AV8d2-YtyCdS-nWhuhdi",
     ],
-    "foundReplies": Array [
-      Object {
-        "id": "AV--O3nfyCdS-nWhujMD",
-        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
-      },
-      Object {
-        "id": "AV--O3nfyCdS-nWhujMD",
-        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
-      },
-      Object {
-        "id": "AV--O3nfyCdS-nWhujMD",
-        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
-      },
-      Object {
-        "id": "AV--O3nfyCdS-nWhujMD",
-        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
-      },
-      Object {
-        "id": "AV--O3nfyCdS-nWhujMD",
-        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
-      },
-      Object {
-        "id": "AV--O3nfyCdS-nWhujMD",
-        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
-      },
-      Object {
-        "id": "AV8fXikZyCdS-nWhuhfN",
-        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV8fXikZyCdS-nWhuhfN",
-      },
-      Object {
-        "id": "AV--O3nfyCdS-nWhujMD",
-        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
-      },
-      Object {
-        "id": "AV--O3nfyCdS-nWhujMD",
-        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD",
-      },
-      Object {
-        "id": "AV--LRZYyCdS-nWhujL9",
-        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV--LRZYyCdS-nWhujL9",
-      },
-      Object {
-        "id": "AV8jkRlByCdS-nWhuhiY",
-        "replyConnectionId": "AV8d2-YtyCdS-nWhuhdi__AV8jkRlByCdS-nWhuhiY",
-      },
+    "foundReplyIds": Array [
+      "AV--O3nfyCdS-nWhujMD",
+      "AV--O3nfyCdS-nWhujMD",
+      "AV--O3nfyCdS-nWhujMD",
+      "AV--O3nfyCdS-nWhujMD",
+      "AV--O3nfyCdS-nWhujMD",
+      "AV--O3nfyCdS-nWhujMD",
+      "AV8fXikZyCdS-nWhuhfN",
+      "AV--O3nfyCdS-nWhujMD",
+      "AV--O3nfyCdS-nWhujMD",
+      "AV--LRZYyCdS-nWhujL9",
+      "AV8jkRlByCdS-nWhuhiY",
     ],
     "searchedText": "老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人",
     "selectedArticleId": "AV8d2-YtyCdS-nWhuhdi",
@@ -423,15 +378,9 @@ Object {
       "AV4sEcSHyCdS-nWhufEX",
       "5478658696099-rumor",
     ],
-    "foundReplies": Array [
-      Object {
-        "id": "AVygFA0RyCdS-nWhuaXY",
-        "replyConnectionId": "AVyyB61NyCdS-nWhuakC__AVygFA0RyCdS-nWhuaXY",
-      },
-      Object {
-        "id": "AVy6LkWIyCdS-nWhuaqu",
-        "replyConnectionId": "AVyyB61NyCdS-nWhuakC__AVy6LkWIyCdS-nWhuaqu",
-      },
+    "foundReplyIds": Array [
+      "AVygFA0RyCdS-nWhuaXY",
+      "AVy6LkWIyCdS-nWhuaqu",
     ],
     "searchedText": "《緊急通知》
 台北馬偕醫院傳來訊息：

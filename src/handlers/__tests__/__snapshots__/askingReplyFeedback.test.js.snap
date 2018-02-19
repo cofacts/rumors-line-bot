@@ -9,17 +9,12 @@ Object {
       "AV-Urc0jyCdS-nWhuity",
       "AVsh8u7StKp96s659Dgq",
     ],
-    "foundReplies": Array [
-      Array [
-        [Function],
-      ],
+    "foundReplyIds": Array [
+      "AWDZeeV0yCdS-nWhuml8",
     ],
     "searchedText": "貼圖",
     "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
-    "selectedReply": Object {
-      "id": "AWDZeeV0yCdS-nWhuml8",
-      "replyConnectionId": null,
-    },
+    "selectedReplyId": "AWDZeeV0yCdS-nWhuml8",
   },
   "event": Object {
     "input": "y",
@@ -51,17 +46,12 @@ Object {
       "AV-Urc0jyCdS-nWhuity",
       "AVsh8u7StKp96s659Dgq",
     ],
-    "foundReplies": Array [
-      Array [
-        [Function],
-      ],
+    "foundReplyIds": Array [
+      "AWDZeeV0yCdS-nWhuml8",
     ],
     "searchedText": "貼圖",
     "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
-    "selectedReply": Object {
-      "id": "AWDZeeV0yCdS-nWhuml8",
-      "replyConnectionId": null,
-    },
+    "selectedReplyId": "AWDZeeV0yCdS-nWhuml8",
   },
   "event": Object {
     "input": "y",
