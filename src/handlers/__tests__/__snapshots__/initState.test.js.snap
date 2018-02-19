@@ -1,4 +1,6 @@
-exports[`initState(params) article found 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`article found 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
@@ -36,7 +38,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":1,\"issuedAt\":1497994017447}",
+                "data": "{\\"input\\":1,\\"issuedAt\\":1497994017447}",
                 "label": "選擇此則",
                 "type": "postback",
               },
@@ -47,7 +49,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":0,\"issuedAt\":1497994017447}",
+                "data": "{\\"input\\":0,\\"issuedAt\\":1497994017447}",
                 "label": "選擇",
                 "type": "postback",
               },
@@ -65,7 +67,7 @@ Object {
 }
 `;
 
-exports[`initState(params) articles found with high similarity 1`] = `
+exports[`articles found with high similarity 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
@@ -106,7 +108,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":1,\"issuedAt\":1497994017447}",
+                "data": "{\\"input\\":1,\\"issuedAt\\":1497994017447}",
                 "label": "選擇此則",
                 "type": "postback",
               },
@@ -117,7 +119,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":2,\"issuedAt\":1497994017447}",
+                "data": "{\\"input\\":2,\\"issuedAt\\":1497994017447}",
                 "label": "選擇此則",
                 "type": "postback",
               },
@@ -138,7 +140,7 @@ Object {
 }
 `;
 
-exports[`initState(params) only one article found with high similarity 1`] = `
+exports[`only one article found with high similarity 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
