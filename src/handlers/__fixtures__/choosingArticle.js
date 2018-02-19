@@ -4,7 +4,6 @@ export const selectedArticleId = {
       replyCount: 2,
       articleReplies: [
         {
-          id: 'AVyyB61NyCdS-nWhuakC__AVygFA0RyCdS-nWhuaXY',
           reply: {
             id: 'AVygFA0RyCdS-nWhuaXY',
             type: 'RUMOR',
@@ -14,7 +13,6 @@ export const selectedArticleId = {
           negativeFeedbackCount: 2,
         },
         {
-          id: 'AVyyB61NyCdS-nWhuakC__AVy6LkWIyCdS-nWhuaqu',
           reply: {
             id: 'AVy6LkWIyCdS-nWhuaqu',
             type: 'RUMOR',
@@ -34,7 +32,6 @@ export const multipleReplies = {
       replyCount: 4,
       articleReplies: [
         {
-          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
           reply: {
             id: 'AV--O3nfyCdS-nWhujMD',
             type: 'RUMOR',
@@ -44,7 +41,6 @@ export const multipleReplies = {
           negativeFeedbackCount: 0,
         },
         {
-          id: 'AV8d2-YtyCdS-nWhuhdi__AV--LRZYyCdS-nWhujL9',
           reply: {
             id: 'AV--LRZYyCdS-nWhujL9',
             type: 'NOT_ARTICLE',
@@ -54,7 +50,6 @@ export const multipleReplies = {
           negativeFeedbackCount: 0,
         },
         {
-          id: 'AV8d2-YtyCdS-nWhuhdi__AV8jkRlByCdS-nWhuhiY',
           reply: {
             id: 'AV8jkRlByCdS-nWhuhiY',
             type: 'NOT_ARTICLE',
@@ -64,7 +59,6 @@ export const multipleReplies = {
           negativeFeedbackCount: 0,
         },
         {
-          id: 'AV8d2-YtyCdS-nWhuhdi__AV8fXikZyCdS-nWhuhfN',
           reply: {
             id: 'AV8fXikZyCdS-nWhuhfN',
             type: 'OPINIONATED',
@@ -84,7 +78,6 @@ export const elevenReplies = {
       replyCount: 11,
       articleReplies: [
         {
-          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
           reply: {
             id: 'AV--O3nfyCdS-nWhujMD',
             type: 'RUMOR',
@@ -94,7 +87,6 @@ export const elevenReplies = {
           negativeFeedbackCount: 0,
         },
         {
-          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
           reply: {
             id: 'AV--O3nfyCdS-nWhujMD',
             type: 'RUMOR',
@@ -104,7 +96,6 @@ export const elevenReplies = {
           negativeFeedbackCount: 0,
         },
         {
-          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
           reply: {
             id: 'AV--O3nfyCdS-nWhujMD',
             type: 'NOT_RUMOR',
@@ -114,7 +105,6 @@ export const elevenReplies = {
           negativeFeedbackCount: 0,
         },
         {
-          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
           reply: {
             id: 'AV--O3nfyCdS-nWhujMD',
             type: 'NOT_RUMOR',
@@ -124,7 +114,6 @@ export const elevenReplies = {
           negativeFeedbackCount: 0,
         },
         {
-          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
           reply: {
             id: 'AV--O3nfyCdS-nWhujMD',
             type: 'RUMOR',
@@ -134,7 +123,6 @@ export const elevenReplies = {
           negativeFeedbackCount: 0,
         },
         {
-          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
           reply: {
             id: 'AV--O3nfyCdS-nWhujMD',
             type: 'RUMOR',
@@ -144,7 +132,6 @@ export const elevenReplies = {
           negativeFeedbackCount: 0,
         },
         {
-          id: 'AV8d2-YtyCdS-nWhuhdi__AV--LRZYyCdS-nWhujL9',
           reply: {
             id: 'AV--LRZYyCdS-nWhujL9',
             type: 'NOT_ARTICLE',
@@ -154,7 +141,6 @@ export const elevenReplies = {
           negativeFeedbackCount: 0,
         },
         {
-          id: 'AV8d2-YtyCdS-nWhuhdi__AV8jkRlByCdS-nWhuhiY',
           reply: {
             id: 'AV8jkRlByCdS-nWhuhiY',
             type: 'NOT_ARTICLE',
@@ -164,7 +150,6 @@ export const elevenReplies = {
           negativeFeedbackCount: 0,
         },
         {
-          id: 'AV8d2-YtyCdS-nWhuhdi__AV8fXikZyCdS-nWhuhfN',
           reply: {
             id: 'AV8fXikZyCdS-nWhuhfN',
             type: 'OPINIONATED',
@@ -174,7 +159,6 @@ export const elevenReplies = {
           negativeFeedbackCount: 0,
         },
         {
-          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
           reply: {
             id: 'AV--O3nfyCdS-nWhujMD',
             type: 'RUMOR',
@@ -184,7 +168,6 @@ export const elevenReplies = {
           negativeFeedbackCount: 0,
         },
         {
-          id: 'AV8d2-YtyCdS-nWhuhdi__AV--O3nfyCdS-nWhujMD',
           reply: {
             id: 'AV--O3nfyCdS-nWhujMD',
             type: 'RUMOR',
