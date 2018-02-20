@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`handles "yes" postback with no other existing feedbacks 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AWDZYXxAyCdS-nWhumlz",
+      "5483323992880-rumor",
+      "AV-Urc0jyCdS-nWhuity",
+      "AVsh8u7StKp96s659Dgq",
+    ],
+    "foundReplies": Array [
+      Array [
+        [Function],
+      ],
+    ],
+    "searchedText": "貼圖",
+    "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
+    "selectedReply": Object {
+      "id": "AWDZeeV0yCdS-nWhuml8",
+      "replyConnectionId": null,
+    },
+  },
+  "event": Object {
+    "input": "y",
+    "postback": Object {
+      "data": "{\\"input\\":\\"y\\",\\"issuedAt\\":1519019701265}",
+    },
+    "timestamp": 1519019734813,
+    "type": "postback",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1519019735467,
+  "replies": Array [
+    Object {
+      "text": "感謝您的回饋，您是第一個評論這份文章與回應的人 :)",
+      "type": "text",
+    },
+  ],
+  "state": "__INIT__",
+  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+}
+`;
+
+exports[`handles "yes" postback with other existing feedbacks 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AWDZYXxAyCdS-nWhumlz",
+      "5483323992880-rumor",
+      "AV-Urc0jyCdS-nWhuity",
+      "AVsh8u7StKp96s659Dgq",
+    ],
+    "foundReplies": Array [
+      Array [
+        [Function],
+      ],
+    ],
+    "searchedText": "貼圖",
+    "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
+    "selectedReply": Object {
+      "id": "AWDZeeV0yCdS-nWhuml8",
+      "replyConnectionId": null,
+    },
+  },
+  "event": Object {
+    "input": "y",
+    "postback": Object {
+      "data": "{\\"input\\":\\"y\\",\\"issuedAt\\":1519019701265}",
+    },
+    "timestamp": 1519019734813,
+    "type": "postback",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1519019735467,
+  "replies": Array [
+    Object {
+      "text": "感謝您與其他 1 人的回饋。",
+      "type": "text",
+    },
+  ],
+  "state": "__INIT__",
+  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+}
+`;

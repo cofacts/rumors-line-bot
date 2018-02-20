@@ -1,4 +1,4 @@
-const selectedArticleId = {
+export const selectedArticleId = {
   data: {
     GetArticle: {
       replyCount: 2,
@@ -196,7 +196,7 @@ const selectedArticleId = {
   },
 };
 
-const multipleReplies = {
+export const multipleReplies = {
   data: {
     GetArticle: {
       replyCount: 4,
@@ -271,7 +271,7 @@ const multipleReplies = {
   },
 };
 
-const elevenReplies = {
+export const elevenReplies = {
   data: {
     GetArticle: {
       replyCount: 11,
@@ -424,18 +424,10 @@ const elevenReplies = {
   },
 };
 
-const noReplies = {
+export const noReplies = {
   data: { GetArticle: { replyCount: 0, replyConnections: [] } },
 };
 
-const createReplyRequest = {
+export const createReplyRequest = {
   data: { CreateReplyRequest: { replyRequestCount: 2 } },
-};
-
-export default {
-  selectedArticleId,
-  multipleReplies,
-  noReplies,
-  createReplyRequest,
-  elevenReplies,
 };

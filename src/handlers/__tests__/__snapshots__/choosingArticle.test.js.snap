@@ -1,4 +1,6 @@
-exports[`choosingArticle(params) should block user from submitting articles that is too short 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should block user from submitting articles that is too short 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
@@ -31,7 +33,7 @@ Object {
 }
 `;
 
-exports[`choosingArticle(params) should select article and have OPINIONATED and NOT_ARTICLE replies 1`] = `
+exports[`should select article and have OPINIONATED and NOT_ARTICLE replies 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
@@ -101,7 +103,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":1,\"issuedAt\":1511633232970}",
+                "data": "{\\"input\\":1,\\"issuedAt\\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -114,7 +116,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":2,\"issuedAt\":1511633232970}",
+                "data": "{\\"input\\":2,\\"issuedAt\\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -126,7 +128,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":3,\"issuedAt\":1511633232970}",
+                "data": "{\\"input\\":3,\\"issuedAt\\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -138,7 +140,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":4,\"issuedAt\":1511633232970}",
+                "data": "{\\"input\\":4,\\"issuedAt\\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -158,7 +160,7 @@ Object {
 }
 `;
 
-exports[`choosingArticle(params) should select article and slice replies when over 10 1`] = `
+exports[`should select article and slice replies when over 10 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
@@ -280,7 +282,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":1,\"issuedAt\":1511633232970}",
+                "data": "{\\"input\\":1,\\"issuedAt\\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -292,7 +294,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":2,\"issuedAt\":1511633232970}",
+                "data": "{\\"input\\":2,\\"issuedAt\\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -304,7 +306,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":3,\"issuedAt\":1511633232970}",
+                "data": "{\\"input\\":3,\\"issuedAt\\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -316,7 +318,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":4,\"issuedAt\":1511633232970}",
+                "data": "{\\"input\\":4,\\"issuedAt\\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -328,7 +330,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":5,\"issuedAt\":1511633232970}",
+                "data": "{\\"input\\":5,\\"issuedAt\\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -340,7 +342,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":6,\"issuedAt\":1511633232970}",
+                "data": "{\\"input\\":6,\\"issuedAt\\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -352,7 +354,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":7,\"issuedAt\":1511633232970}",
+                "data": "{\\"input\\":7,\\"issuedAt\\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -364,7 +366,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":8,\"issuedAt\":1511633232970}",
+                "data": "{\\"input\\":8,\\"issuedAt\\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -376,7 +378,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":9,\"issuedAt\":1511633232970}",
+                "data": "{\\"input\\":9,\\"issuedAt\\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -388,7 +390,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":10,\"issuedAt\":1511633232970}",
+                "data": "{\\"input\\":10,\\"issuedAt\\":1511633232970}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -413,7 +415,7 @@ Object {
 }
 `;
 
-exports[`choosingArticle(params) should select article by articleId 1`] = `
+exports[`should select article by articleId 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
@@ -476,7 +478,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":1,\"issuedAt\":1505314295017}",
+                "data": "{\\"input\\":1,\\"issuedAt\\":1505314295017}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -489,7 +491,7 @@ Object {
           Object {
             "actions": Array [
               Object {
-                "data": "{\"input\":2,\"issuedAt\":1505314295017}",
+                "data": "{\\"input\\":2,\\"issuedAt\\":1505314295017}",
                 "label": "閱讀此回應",
                 "type": "postback",
               },
@@ -509,7 +511,7 @@ Object {
 }
 `;
 
-exports[`choosingArticle(params) should select article with no replies 1`] = `
+exports[`should select article with no replies 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
