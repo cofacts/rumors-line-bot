@@ -3,22 +3,24 @@ import gql from '../gql';
 export default async function askingReplyFeedback(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
-  if (!data.selectedReply) {
+  if (!data.selectedReplyId) {
     throw new Error('selectedReply not set in data');
   }
 
   const { data: { action: { feedbackCount } } } = await gql`
-    mutation($vote: FeedbackVote!, $id: String!) {
-      action: CreateOrUpdateReplyConnectionFeedback(
+    mutation($vote: FeedbackVote!, $articleId: String!, $replyId: String!) {
+      action: CreateOrUpdateArticleReplyFeedback(
         vote: $vote
-        replyConnectionId: $id
+        articleId: $articleId
+        replyId: $replyId
       ) {
         feedbackCount
       }
     }
   `(
     {
-      id: data.selectedReply.replyConnectionId,
+      articleId: data.selectedArticleId,
+      replyId: data.selectedReplyId,
       vote: event.input === 'y' ? 'UPVOTE' : 'DOWNVOTE',
     },
     { userId }

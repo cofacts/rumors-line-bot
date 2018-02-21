@@ -4,15 +4,15 @@ import { createPostbackAction, createReferenceWords } from './utils';
 export default async function choosingReply(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
-  if (!data.foundReplies) {
-    throw new Error('foundReplies not set in data');
+  if (!data.foundReplyIds) {
+    throw new Error('foundReplyIds not set in data');
   }
 
-  const selectedReply = data.foundReplies[event.input - 1];
+  const selectedReplyId = data.foundReplyIds[event.input - 1];
 
-  if (!selectedReply) {
+  if (!selectedReplyId) {
     replies = [
-      { type: 'text', text: `請輸入 1～${data.foundReplies.length} 的數字，來選擇回應。` },
+      { type: 'text', text: `請輸入 1～${data.foundReplyIds.length} 的數字，來選擇回應。` },
     ];
 
     state = 'CHOOSING_REPLY';
@@ -20,30 +20,28 @@ export default async function choosingReply(params) {
     const { data: { GetReply } } = await gql`
       query($id: String!) {
         GetReply(id: $id) {
-          versions(limit: 1) {
-            type
-            text
-            reference
-            createdAt
-          }
+          type
+          text
+          reference
+          createdAt
         }
       }
-    `({ id: selectedReply.id });
+    `({ id: selectedReplyId });
 
     replies = [
       {
         type: 'text',
-        text: `這則回應認為文章${GetReply.versions[0].type === 'RUMOR' ? '含有不實訊息' : '含有真實訊息'}，理由為：`,
+        text: `這則回應認為文章${GetReply.type === 'RUMOR' ? '含有不實訊息' : '含有真實訊息'}，理由為：`,
       },
       {
         type: 'text',
-        text: GetReply.versions[0].text.length >= 120
-          ? GetReply.versions[0].text.slice(0, 100) + '⋯⋯'
-          : GetReply.versions[0].text,
+        text: GetReply.text.length >= 120
+          ? GetReply.text.slice(0, 100) + '⋯⋯'
+          : GetReply.text,
       },
       {
         type: 'text',
-        text: createReferenceWords(GetReply.versions[0].reference),
+        text: createReferenceWords(GetReply.reference),
       },
       {
         type: 'template',
@@ -63,7 +61,7 @@ export default async function choosingReply(params) {
       },
     ];
 
-    data.selectedReply = selectedReply;
+    data.selectedReplyId = selectedReplyId;
     state = 'ASKING_REPLY_FEEDBACK';
   }
 

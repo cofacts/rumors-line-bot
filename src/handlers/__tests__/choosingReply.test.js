@@ -17,7 +17,7 @@ it('should select reply by replyId', async () => {
         'AVsh8u7StKp96s659Dgq',
       ],
       selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
-      foundReplies: [{ id: 'AWDZeeV0yCdS-nWhuml8', replyConnectionId: null }],
+      foundReplyIds: ['AWDZeeV0yCdS-nWhuml8'],
     },
     state: 'CHOOSING_REPLY',
     event: {
@@ -53,7 +53,7 @@ it('should handle invalid reply ids', async () => {
         'AVsh8u7StKp96s659Dgq',
       ],
       selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
-      foundReplies: [{ id: 'AWDZeeV0yCdS-nWhuml8', replyConnectionId: null }],
+      foundReplyIds: ['AWDZeeV0yCdS-nWhuml8'],
     },
     state: 'CHOOSING_REPLY',
     event: {

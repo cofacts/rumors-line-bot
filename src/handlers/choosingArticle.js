@@ -13,21 +13,15 @@ const SITE_URL = process.env.SITE_URL || 'https://cofacts.g0v.tw/';
  * 「⭕ 含有真實訊息」或「❌ 含有不實訊息」之類的 (含 emoticon)，然後是回應文字。如果
  * 還有空間，才放「不在查證範圍」的回應。最後一句的最後一格顯示「看其他回應」，連到網站。
  */
-function reorderReplies(replyConnections) {
+function reorderArticleReplies(articleReplies) {
   const replies = [];
   const notArticleReplies = [];
 
-  for (let replyConnection of replyConnections) {
-    const { reply, feedbacks, id } = replyConnection;
-    const item = {
-      ...reply,
-      feedbacks,
-      replyConnectionId: id,
-    };
-    if (reply.versions[0].type !== 'NOT_ARTICLE') {
-      replies.push(item);
+  for (let articleReply of articleReplies) {
+    if (articleReply.reply.type !== 'NOT_ARTICLE') {
+      replies.push(articleReply);
     } else {
-      notArticleReplies.push(item);
+      notArticleReplies.push(articleReply);
     }
   }
   return replies.concat(notArticleReplies);
@@ -38,9 +32,9 @@ function createAltText(articleReplies) {
   const eachLimit = 400 / articleReplies.length - 5;
   return articleReplies
     .slice(0, 10)
-    .map(({ versions, feedbacks }, idx) => {
-      let prefix = `閱讀請傳 ${idx + 1}> ${createTypeWords(versions[0].type)}\n${createFeedbackWords(feedbacks)}`;
-      let content = versions[0].text.slice(0, eachLimit - prefix.length);
+    .map(({ reply, positiveFeedbackCount, negativeFeedbackCount }, idx) => {
+      const prefix = `閱讀請傳 ${idx + 1}> ${createTypeWords(reply.type)}\n${createFeedbackWords(positiveFeedbackCount, negativeFeedbackCount)}`;
+      const content = reply.text.slice(0, eachLimit - prefix.length);
       return `${prefix}\n${content}`;
     })
     .join('\n\n');
@@ -97,19 +91,14 @@ export default async function choosingArticle(params) {
       query($id: String!) {
         GetArticle(id: $id) {
           replyCount
-          replyConnections(status: NORMAL) {
-            id
+          articleReplies(status: NORMAL) {
             reply {
               id
-              versions(limit: 1) {
-                type
-                text
-              }
+              type
+              text
             }
-            feedbacks {
-              comment
-              score
-            }
+            positiveFeedbackCount
+            negativeFeedbackCount
           }
         }
       }
@@ -119,8 +108,8 @@ export default async function choosingArticle(params) {
 
     const count = {};
 
-    GetArticle.replyConnections.forEach(e => {
-      const type = e.reply.versions[0].type;
+    GetArticle.articleReplies.forEach(ar => {
+      const type = ar.reply.type;
       if (!count[type]) {
         count[type] = 1;
       } else {
@@ -128,7 +117,7 @@ export default async function choosingArticle(params) {
       }
     });
 
-    const articleReplies = reorderReplies(GetArticle.replyConnections);
+    const articleReplies = reorderArticleReplies(GetArticle.articleReplies);
     const summary =
       '這篇文章有：\n' +
       `${count.RUMOR || 0} 則回應認為其 ❌ 含有不實訊息\n` +
@@ -144,10 +133,7 @@ export default async function choosingArticle(params) {
     ];
 
     if (articleReplies.length !== 0) {
-      data.foundReplies = articleReplies.map(({ replyConnectionId, id }) => ({
-        id,
-        replyConnectionId,
-      }));
+      data.foundReplyIds = articleReplies.map(({ reply }) => reply.id);
       state = 'CHOOSING_REPLY';
 
       if (articleReplies.length === 1) {
@@ -172,14 +158,22 @@ export default async function choosingArticle(params) {
           type: 'carousel',
           columns: articleReplies
             .slice(0, 10)
-            .map(({ versions, feedbacks }, idx) => ({
-              text: createTypeWords(versions[0].type) +
-                '\n' +
-                createFeedbackWords(feedbacks) +
-                '\n' +
-                versions[0].text.slice(0, 80),
-              actions: [createPostbackAction('閱讀此回應', idx + 1, issuedAt)],
-            })),
+            .map(
+              (
+                { reply, positiveFeedbackCount, negativeFeedbackCount },
+                idx
+              ) => ({
+                text: createTypeWords(reply.type) +
+                  '\n' +
+                  createFeedbackWords(
+                    positiveFeedbackCount,
+                    negativeFeedbackCount
+                  ) +
+                  '\n' +
+                  reply.text.slice(0, 80),
+                actions: [createPostbackAction('閱讀此回應', idx + 1, issuedAt)],
+              })
+            ),
         },
       });
 
