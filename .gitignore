@@ -44,7 +44,7 @@ config/local-*
 .env
 
 # Used by googleapis for authorization.
-.gdrive_access_token
+# Should only be used in local machines.
 client_secret.json
 
 *.log

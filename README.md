@@ -35,7 +35,8 @@ Other customizable env vars are:
 
 * `REDIS_URL`: If not given, `redis://127.0.0.1:6379` is used.
 * `PORT`: Which port the line bot server will listen at.
-* `GOOGLE_DRIVE_IMAGE_FOLDER`: Google drive folder id is needed when you want to test uploading image. 
+* `GOOGLE_DRIVE_IMAGE_FOLDER`: Google drive folder id is needed when you want to test uploading image.
+* `GOOGLE_CREDENTIALS`: will be populated by `authGoogleDrive.js`. See "Upload image/video" section below.
 
 ### Redis server
 
@@ -82,7 +83,7 @@ $ node authGoogleDrive.js
 ```
 
 Visit the given url provided above. Get the auth code and paste it to console.
-Then the program will save your google drive access_token locally at `./.gdrive_access_token`.
+Then the program will save your google drive access_token locally at `GOOGLE_CREDENTIALS` in `.env`.
 
 Make sure you've also set `GOOGLE_DRIVE_IMAGE_FOLDER` = [folderID](https://googleappsscriptdeveloper.wordpress.com/2017/03/04/how-to-find-your-google-drive-folder-id/) in .env file.
 
@@ -119,4 +120,5 @@ $ heroku config:set SITE_URL=https://cofacts.g0v.tw
 $ heroku config:set LINE_CHANNEL_SECRET=<Your channel secret>
 $ heroku config:set LINE_CHANNEL_TOKEN=<Your channel token>
 $ heroku config:set BOTIMIZE_API_KEY=<Your botimize API Key (optional)>
+$ heroku config:set GOOGLE_CREDENTIALS=<Your google credential (optional)>
 ```

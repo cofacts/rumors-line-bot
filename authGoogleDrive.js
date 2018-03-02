@@ -6,7 +6,8 @@ var OAuth2 = google.auth.OAuth2;
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/drive-nodejs-quickstart.json
 var SCOPES = ['https://www.googleapis.com/auth/drive.file'];
-var TOKEN_PATH = '.gdrive_access_token';
+var ENV_FILE_PATH = '.env';
+let secrets;
 
 // Load client secrets from a local file.
 fs.readFile('client_secret.json', function processClientSecrets(err, content) {
@@ -16,7 +17,8 @@ fs.readFile('client_secret.json', function processClientSecrets(err, content) {
   }
   // Authorize a client with the loaded credentials, then call the
   // Drive API.
-  authorize(JSON.parse(content));
+  secrets = JSON.parse(content);
+  authorize(secrets);
 });
 
 /**
@@ -41,12 +43,12 @@ function getNewToken(oauth2Client) {
   var authUrl = oauth2Client.generateAuthUrl({
     // 'online' (default) or 'offline' (gets refresh_token)
     access_type: 'offline',
-    scope: SCOPES
+    scope: SCOPES,
   });
   console.log('Authorize this app by visiting this url: ', authUrl);
   var rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
+    output: process.stdout,
   });
   rl.question('Enter the code from that page here: ', function(code) {
     rl.close();
@@ -66,12 +68,15 @@ function getNewToken(oauth2Client) {
  * @param {Object} token The token to store to disk.
  */
 function storeToken(token) {
-  fs.writeFile(TOKEN_PATH, JSON.stringify(token), function(err, token) {
-    if (err) {
-      console.log('Error while trying to store access token', err);
-    } else {
-      console.log('Token stored to ' + TOKEN_PATH);
+  fs.appendFile(
+    ENV_FILE_PATH,
+    `GOOGLE_CREDENTIALS=${JSON.stringify({ token, secrets })}`,
+    function(err) {
+      if (err) {
+        console.log('Error while trying to store access token', err);
+      } else {
+        console.log('Token appended to ' + ENV_FILE_PATH);
+      }
     }
-  });
-  
+  );
 }
