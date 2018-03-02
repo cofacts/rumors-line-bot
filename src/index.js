@@ -8,6 +8,7 @@ import checkSignatureAndParse from './checkSignatureAndParse';
 import lineClient from './lineClient';
 import handleInput from './handleInput';
 import botimize from 'botimize';
+import { uploadImageFile, uploadVideoFile} from './fileUpload';
 
 const app = new Koa();
 const router = Router();
@@ -147,6 +148,15 @@ const singleUserHandler = async (
         }
       });
     console.log('\n||LOG||---------->');
+  }
+  else if (
+    (type === 'message' && otherFields.message.type === 'image')
+  ){
+     uploadImageFile(otherFields.message.id);  
+  }else if (
+    (type === 'message' && otherFields.message.type === 'video')
+  ){
+     //uploadVideoFile(otherFields.message.id);  
   }
 
   // Send replies. Does not need to wait for lineClient's callbacks.
