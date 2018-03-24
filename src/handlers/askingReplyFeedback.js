@@ -9,7 +9,11 @@ export default async function askingReplyFeedback(params) {
   }
 
   // Track when user give feedback.
-  ga(userId, { ec: 'UserInput', ea: 'Feedback', el: 'VoteArticle' });
+  ga(userId, {
+    ec: 'UserInput',
+    ea: 'Feedback-Vote',
+    el: data.selectedArticleId + '\\' + data.selectedReplyId,
+  });
 
   const { data: { action: { feedbackCount } } } = await gql`
     mutation($vote: FeedbackVote!, $articleId: String!, $replyId: String!) {

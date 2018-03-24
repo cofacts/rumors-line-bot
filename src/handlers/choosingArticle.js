@@ -137,7 +137,12 @@ export default async function choosingArticle(params) {
     ];
 
     if (articleReplies.length !== 0) {
-      data.foundReplyIds = articleReplies.map(({ reply }) => reply.id);
+      data.foundReplyIds = articleReplies.map(({ reply }) => {
+        // Track which Reply is searched.
+        ga(userId, { ec: 'Reply', ea: 'Search', el: reply.id });
+
+        return reply.id;
+      });
       state = 'CHOOSING_REPLY';
 
       if (articleReplies.length === 1) {
