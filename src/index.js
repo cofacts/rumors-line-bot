@@ -9,6 +9,7 @@ import lineClient from './lineClient';
 import handleInput from './handleInput';
 import botimize from 'botimize';
 import { uploadImageFile, uploadVideoFile} from './fileUpload';
+import ga from './ga';
 
 const app = new Koa();
 const router = Router();
@@ -60,6 +61,15 @@ const singleUserHandler = async (
       },
     ],
   };
+
+  // Track message type send by user
+  if (type === 'message') {
+    ga(userId, {
+      ec: 'UserInput',
+      ea: 'MessageType',
+      el: otherFields.message.type,
+    });
+  }
 
   // React to certain type of events
   //

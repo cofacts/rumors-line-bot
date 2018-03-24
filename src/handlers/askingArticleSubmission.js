@@ -1,4 +1,5 @@
 import gql from '../gql';
+import ga from '../ga';
 
 export default async function askingArticleSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -8,6 +9,9 @@ export default async function askingArticleSubmission(params) {
   }
 
   if (event.input === 'y') {
+    // Track wheather user create Article or not if the Article is not found in DB.
+    ga(userId, { ec: 'Article', ea: 'Create', el: 'Yes' });
+
     const { data: { CreateArticle } } = await gql`
       mutation($text: String!) {
         CreateArticle(text: $text, reference: { type: LINE }) {
@@ -24,6 +28,9 @@ export default async function askingArticleSubmission(params) {
       { type: 'text', text: '感謝您的回報！' },
     ];
   } else {
+    // Track wheather user create Article or not if the Article is not found in DB.
+    ga(userId, { ec: 'Article', ea: 'Create', el: 'No' });
+
     replies = [{ type: 'text', text: '感謝您的使用。' }];
   }
   state = '__INIT__';

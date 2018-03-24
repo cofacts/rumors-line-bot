@@ -5,6 +5,7 @@ import {
   createTypeWords,
   isNonsenseText,
 } from './utils';
+import ga from '../ga';
 
 const SITE_URL = process.env.SITE_URL || 'https://cofacts.g0v.tw/';
 
@@ -87,6 +88,9 @@ export default async function choosingArticle(params) {
 
     state = 'CHOOSING_ARTICLE';
   } else {
+    // Track which Article is selected by user.
+    ga(userId, { ec: 'Article', ea: 'Selected', el: selectedArticleId });
+
     const { data: { GetArticle } } = await gql`
       query($id: String!) {
         GetArticle(id: $id) {
@@ -185,6 +189,10 @@ export default async function choosingArticle(params) {
       }
     } else {
       // No one has replied to this yet.
+
+      // Track not yet reply Articles.
+      ga(userId, { ec: 'Article', ea: 'NoReply', el: selectedArticleId });
+
       const { data: { CreateReplyRequest }, errors } = await gql`
         mutation($id: String!) {
           CreateReplyRequest(articleId: $id) {

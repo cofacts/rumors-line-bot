@@ -1,4 +1,5 @@
 import gql from '../gql';
+import ga from '../ga';
 
 export default async function askingReplyFeedback(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -6,6 +7,9 @@ export default async function askingReplyFeedback(params) {
   if (!data.selectedReplyId) {
     throw new Error('selectedReply not set in data');
   }
+
+  // Track when user give feedback.
+  ga(userId, { ec: 'UserInput', ea: 'Feedback', el: 'VoteArticle' });
 
   const { data: { action: { feedbackCount } } } = await gql`
     mutation($vote: FeedbackVote!, $articleId: String!, $replyId: String!) {
