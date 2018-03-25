@@ -1,5 +1,9 @@
 import gql from '../gql';
-import { createPostbackAction, createReferenceWords } from './utils';
+import {
+  createPostbackAction,
+  createReferenceWords,
+  createTypeWords,
+} from './utils';
 
 export default async function choosingReply(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -31,7 +35,7 @@ export default async function choosingReply(params) {
     replies = [
       {
         type: 'text',
-        text: `這則回應認為文章${GetReply.type === 'RUMOR' ? '含有不實訊息' : '含有真實訊息'}，理由為：`,
+        text: `這則回應認為文章「${createTypeWords(GetReply.type)}」，理由為：`,
       },
       {
         type: 'text',
@@ -57,7 +61,7 @@ export default async function choosingReply(params) {
       },
       {
         type: 'text',
-        text: `可以到以下網址閱讀其他回應：${process.env.SITE_URL}/article/${data.selectedArticleId}`,
+        text: `您可以到以下網址閱讀其他回應：${process.env.SITE_URL}/article/${data.selectedArticleId}`,
       },
     ];
 

@@ -61,7 +61,7 @@ Object {
   "issuedAt": 1518964688672,
   "replies": Array [
     Object {
-      "text": "這則回應認為文章含有真實訊息，理由為：",
+      "text": "這則回應認為文章「⚠️️ 不在查證範圍」，理由為：",
       "type": "text",
     },
     Object {
@@ -94,7 +94,7 @@ Object {
       "type": "template",
     },
     Object {
-      "text": "可以到以下網址閱讀其他回應：undefined/article/AWDZYXxAyCdS-nWhumlz",
+      "text": "您可以到以下網址閱讀其他回應：undefined/article/AWDZYXxAyCdS-nWhumlz",
       "type": "text",
     },
   ],
