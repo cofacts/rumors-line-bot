@@ -1,7 +1,7 @@
 {
   "extends": [
     "config:base",
-    "maintainLockFilesMonthly"
+    "config:semverAllMonthly"
   ],
   "pinVersions": false
 }
