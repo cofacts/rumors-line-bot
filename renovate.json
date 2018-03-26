@@ -3,6 +3,5 @@
     "config:base",
     "config:semverAllMonthly"
   ],
-  "pinVersions": false,
   "ignoreDeps": ["prettier"]
 }
