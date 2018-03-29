@@ -45,10 +45,10 @@ We use Redis to store conversation context / intents. Please run a Redis server 
 
 ### Node Dependencies
 
-You will need `Node.JS` 6+ and `yarn` to proceed.
+You will need `Node.JS` 8+  to proceed.
 
 ```
-$ yarn
+$ npm i
 ```
 
 ### Get the bot server running on your local machine
