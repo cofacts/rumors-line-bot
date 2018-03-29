@@ -12,7 +12,7 @@ export default async function askingReplyFeedback(params) {
   ga(userId, {
     ec: 'UserInput',
     ea: 'Feedback-Vote',
-    el: data.selectedArticleId + '\\' + data.selectedReplyId,
+    el: `${data.selectedArticleId}/${data.selectedReplyId}`,
   });
 
   const { data: { action: { feedbackCount } } } = await gql`

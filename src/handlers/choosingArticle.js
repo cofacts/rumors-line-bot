@@ -88,9 +88,6 @@ export default async function choosingArticle(params) {
 
     state = 'CHOOSING_ARTICLE';
   } else {
-    // Track which Article is selected by user.
-    ga(userId, { ec: 'Article', ea: 'Selected', el: selectedArticleId });
-
     const { data: { GetArticle } } = await gql`
       query($id: String!) {
         GetArticle(id: $id) {
@@ -109,6 +106,9 @@ export default async function choosingArticle(params) {
     `({
       id: selectedArticleId,
     });
+
+    // Track which Article is selected by user.
+    ga(userId, { ec: 'Article', ea: 'Selected', el: selectedArticleId });
 
     const count = {};
 

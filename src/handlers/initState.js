@@ -8,6 +8,9 @@ const SIMILARITY_THRESHOLD = 0.95;
 export default async function initState(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
+  // Track text message type send by user
+  ga(userId, { ec: 'UserInput', ea: 'MessageType', el: 'text' });
+
   // Store user input into context
   data.searchedText = event.input;
 
