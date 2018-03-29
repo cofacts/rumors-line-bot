@@ -36,6 +36,10 @@ export default async function initState(params) {
   if (ListArticles.edges.length) {
     // Track if find similar Articles in DB.
     ga(userId, { ec: 'UserInput', ea: 'ArticleSearch', el: 'ArticleFound' });
+    // Track which Article is searched. And set tracking event as non-interactionHit.
+    ListArticles.edges.forEach(edge => {
+      ga(userId, { ec: 'Article', ea: 'Search', el: edge.node.id }, true);
+    });
 
     const edgesSortedWithSimilarity = ListArticles.edges
       .map(edge => {
@@ -45,9 +49,6 @@ export default async function initState(params) {
           edge.node.text.replace(/\s/g, ''),
           event.input.replace(/\s/g, '')
         );
-        // Track which Article is searched.
-        ga(userId, { ec: 'Article', ea: 'Search', el: edge.node.id });
-
         return edge;
       })
       .sort((edge1, edge2) => edge2.similarity - edge1.similarity);

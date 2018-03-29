@@ -113,6 +113,9 @@ export default async function choosingArticle(params) {
     const count = {};
 
     GetArticle.articleReplies.forEach(ar => {
+      // Track which Reply is searched. And set tracking event as non-interactionHit.
+      ga(userId, { ec: 'Reply', ea: 'Search', el: ar.reply.id }, true);
+
       const type = ar.reply.type;
       if (!count[type]) {
         count[type] = 1;
@@ -137,12 +140,8 @@ export default async function choosingArticle(params) {
     ];
 
     if (articleReplies.length !== 0) {
-      data.foundReplyIds = articleReplies.map(({ reply }) => {
-        // Track which Reply is searched.
-        ga(userId, { ec: 'Reply', ea: 'Search', el: reply.id });
+      data.foundReplyIds = articleReplies.map(({ reply }) => reply.id);
 
-        return reply.id;
-      });
       state = 'CHOOSING_REPLY';
 
       if (articleReplies.length === 1) {
