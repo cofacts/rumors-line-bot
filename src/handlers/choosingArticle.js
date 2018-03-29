@@ -5,6 +5,7 @@ import {
   createTypeWords,
   isNonsenseText,
 } from './utils';
+import ga from '../ga';
 
 const SITE_URL = process.env.SITE_URL || 'https://cofacts.g0v.tw/';
 
@@ -106,9 +107,15 @@ export default async function choosingArticle(params) {
       id: selectedArticleId,
     });
 
+    // Track which Article is selected by user.
+    ga(userId, { ec: 'Article', ea: 'Selected', el: selectedArticleId });
+
     const count = {};
 
     GetArticle.articleReplies.forEach(ar => {
+      // Track which Reply is searched. And set tracking event as non-interactionHit.
+      ga(userId, { ec: 'Reply', ea: 'Search', el: ar.reply.id }, true);
+
       const type = ar.reply.type;
       if (!count[type]) {
         count[type] = 1;
@@ -134,6 +141,7 @@ export default async function choosingArticle(params) {
 
     if (articleReplies.length !== 0) {
       data.foundReplyIds = articleReplies.map(({ reply }) => reply.id);
+
       state = 'CHOOSING_REPLY';
 
       if (articleReplies.length === 1) {
@@ -185,6 +193,10 @@ export default async function choosingArticle(params) {
       }
     } else {
       // No one has replied to this yet.
+
+      // Track not yet reply Articles.
+      ga(userId, { ec: 'Article', ea: 'NoReply', el: selectedArticleId });
+
       const { data: { CreateReplyRequest }, errors } = await gql`
         mutation($id: String!) {
           CreateReplyRequest(articleId: $id) {

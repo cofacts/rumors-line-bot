@@ -1,11 +1,15 @@
 import stringSimilarity from 'string-similarity';
 import gql from '../gql';
 import { createPostbackAction, isNonsenseText } from './utils';
+import ga from '../ga';
 
 const SIMILARITY_THRESHOLD = 0.95;
 
 export default async function initState(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
+
+  // Track text message type send by user
+  ga(userId, { ec: 'UserInput', ea: 'MessageType', el: 'text' });
 
   // Store user input into context
   data.searchedText = event.input;
@@ -33,6 +37,13 @@ export default async function initState(params) {
   const articleSummary = `${event.input.slice(0, 10)}${event.input.length > 10 ? '⋯⋯' : ''}`;
 
   if (ListArticles.edges.length) {
+    // Track if find similar Articles in DB.
+    ga(userId, { ec: 'UserInput', ea: 'ArticleSearch', el: 'ArticleFound' });
+    // Track which Article is searched. And set tracking event as non-interactionHit.
+    ListArticles.edges.forEach(edge => {
+      ga(userId, { ec: 'Article', ea: 'Search', el: edge.node.id }, true);
+    });
+
     const edgesSortedWithSimilarity = ListArticles.edges
       .map(edge => {
         edge.similarity = stringSimilarity.compareTwoStrings(
@@ -110,6 +121,9 @@ export default async function initState(params) {
     state = 'CHOOSING_ARTICLE';
   } else {
     if (isNonsenseText(event.input)) {
+      // Track if find similar Articles in DB.
+      ga(userId, { ec: 'UserInput', ea: 'ArticleSearch', el: 'NonsenseText' });
+
       replies = [
         {
           type: 'text',
@@ -119,6 +133,13 @@ export default async function initState(params) {
       ];
       state = '__INIT__';
     } else {
+      // Track if find similar Articles in DB.
+      ga(userId, {
+        ec: 'UserInput',
+        ea: 'ArticleSearch',
+        el: 'ArticleNotFound',
+      });
+
       replies = [
         {
           type: 'text',

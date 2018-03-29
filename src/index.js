@@ -8,7 +8,8 @@ import checkSignatureAndParse from './checkSignatureAndParse';
 import lineClient from './lineClient';
 import handleInput from './handleInput';
 import botimize from 'botimize';
-import { uploadImageFile, uploadVideoFile} from './fileUpload';
+import { uploadImageFile } from './fileUpload';
+import ga from './ga';
 
 const app = new Koa();
 const router = Router();
@@ -148,15 +149,31 @@ const singleUserHandler = async (
         }
       });
     console.log('\n||LOG||---------->');
-  }
-  else if (
-    (type === 'message' && otherFields.message.type === 'image')
-  ){
-     uploadImageFile(otherFields.message.id);  
-  }else if (
-    (type === 'message' && otherFields.message.type === 'video')
-  ){
-     //uploadVideoFile(otherFields.message.id);  
+  } else if (type === 'message' && otherFields.message.type === 'image') {
+    // Track image message type send by user
+    ga(userId, {
+      ec: 'UserInput',
+      ea: 'MessageType',
+      el: otherFields.message.type,
+    });
+
+    uploadImageFile(otherFields.message.id);
+  } else if (type === 'message' && otherFields.message.type === 'video') {
+    // Track video message type send by user
+    ga(userId, {
+      ec: 'UserInput',
+      ea: 'MessageType',
+      el: otherFields.message.type,
+    });
+
+    //uploadVideoFile(otherFields.message.id);
+  } else if (type === 'message') {
+    // Track other message type send by user
+    ga(userId, {
+      ec: 'UserInput',
+      ea: 'MessageType',
+      el: otherFields.message.type,
+    });
   }
 
   // Send replies. Does not need to wait for lineClient's callbacks.

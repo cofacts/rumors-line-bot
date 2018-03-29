@@ -4,6 +4,7 @@ import {
   createReferenceWords,
   createTypeWords,
 } from './utils';
+import ga from '../ga';
 
 export default async function choosingReply(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -64,6 +65,10 @@ export default async function choosingReply(params) {
         text: `您可以到以下網址閱讀其他回應：${process.env.SITE_URL}/article/${data.selectedArticleId}`,
       },
     ];
+    // Track when user select a reply.
+    ga(userId, { ec: 'Reply', ea: 'Selected', el: selectedReplyId });
+    // Track which reply type reply to user.
+    ga(userId, { ec: 'Reply', ea: 'Type', el: GetReply.type });
 
     data.selectedReplyId = selectedReplyId;
     state = 'ASKING_REPLY_FEEDBACK';
