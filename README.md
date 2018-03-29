@@ -37,6 +37,7 @@ Other customizable env vars are:
 * `PORT`: Which port the line bot server will listen at.
 * `GOOGLE_DRIVE_IMAGE_FOLDER`: Google drive folder id is needed when you want to test uploading image.
 * `GOOGLE_CREDENTIALS`: will be populated by `authGoogleDrive.js`. See "Upload image/video" section below.
+* `GA_ID`: Google analytics universal analytics tracking ID, for tracking events
 
 ### Redis server
 
