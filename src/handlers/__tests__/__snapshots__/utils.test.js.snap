@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createReferenceWords() should create reference for opinions 1`] = `"不同觀點請見：This is refering to different opinions"`;
+
+exports[`createReferenceWords() should create reference for rumors 1`] = `"出處：This is a reference"`;

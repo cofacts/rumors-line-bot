@@ -1,4 +1,4 @@
-import { isNonsenseText } from '../utils';
+import { isNonsenseText, createReferenceWords } from '../utils';
 
 describe('createPostbackAction()', () => {
   it('should return postback message body');
@@ -9,7 +9,25 @@ describe('createFeedbackWords()', () => {
   it('should create positive feedback words');
   it('should create negative feedback words');
 });
-describe('createReferenceWords()', () => {});
+
+describe('createReferenceWords()', () => {
+  it('should create reference for rumors', () => {
+    expect(
+      createReferenceWords({
+        reference: 'This is a reference',
+        type: 'RUMOR',
+      })
+    ).toMatchSnapshot();
+  });
+  it('should create reference for opinions', () => {
+    expect(
+      createReferenceWords({
+        reference: 'This is refering to different opinions',
+        type: 'OPINIONATED',
+      })
+    ).toMatchSnapshot();
+  });
+});
 
 describe('isNonsenseText()', () => {
   it('should detect a info-less text [1]', () => {

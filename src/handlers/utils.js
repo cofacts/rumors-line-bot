@@ -37,9 +37,18 @@ export function createTypeWords(type) {
   }
   return '回應的狀態未定義！';
 }
-export function createReferenceWords(reference) {
-  if (reference) return `出處：${reference}`;
-  return '\uDBC0\uDC85 ⚠️️ 此回應沒有出處，請自行斟酌回應真實。⚠️️  \uDBC0\uDC85';
+
+/**
+ * @param {object} reply The reply object
+ * @param {string} reply.reference
+ * @param {string} reply.type
+ * @returns {string} The reference message to send
+ */
+export function createReferenceWords({ reference, type }) {
+  const prompt = type === 'OPINIONATED' ? '不同觀點請見' : '出處';
+
+  if (reference) return `${prompt}：${reference}`;
+  return `\uDBC0\uDC85 ⚠️️ 此回應沒有${prompt}，請自行斟酌回應真實。⚠️️  \uDBC0\uDC85`;
 }
 
 export function isNonsenseText(text) {
