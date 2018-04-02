@@ -1,6 +1,5 @@
 import fetch from 'node-fetch';
-import url from 'url';
-import google from 'googleapis';
+import { google } from 'googleapis';
 
 const OAuth2 = google.auth.OAuth2;
 let drive = null;
