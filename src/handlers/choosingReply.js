@@ -3,6 +3,7 @@ import {
   createPostbackAction,
   createReferenceWords,
   createTypeWords,
+  ellipsis,
 } from './utils';
 import ga from '../ga';
 
@@ -40,13 +41,11 @@ export default async function choosingReply(params) {
       },
       {
         type: 'text',
-        text: GetReply.text.length >= 120
-          ? GetReply.text.slice(0, 100) + '⋯⋯'
-          : GetReply.text,
+        text: ellipsis(GetReply.text, 2000),
       },
       {
         type: 'text',
-        text: createReferenceWords(GetReply.reference),
+        text: ellipsis(createReferenceWords(GetReply.reference), 2000),
       },
       {
         type: 'template',
