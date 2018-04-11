@@ -47,3 +47,17 @@ export function isNonsenseText(text) {
   let sum = urls.reduce((sum, url) => sum + url.length, 0);
   return text.length - sum < 15;
 }
+
+const ELLIPSIS = '⋯⋯';
+
+/**
+ * @param {string} text
+ * @param {number} limit
+ * @return {string} if the text length is lower than limit, return text; else, return
+ *                  text with ellipsis.
+ */
+export function ellipsis(text, limit) {
+  if (text.length < limit) return text;
+
+  return text.slice(0, limit - ELLIPSIS.length) + ELLIPSIS;
+}
