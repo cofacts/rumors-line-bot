@@ -123,3 +123,38 @@ $ heroku config:set LINE_CHANNEL_TOKEN=<Your channel token>
 $ heroku config:set BOTIMIZE_API_KEY=<Your botimize API Key (optional)>
 $ heroku config:set GOOGLE_CREDENTIALS=<Your google credential (optional)>
 ```
+
+## Google Analytics Events table
+
+Sent event format: `Event category` / `Event action` / `Event label`
+
+1. User submits article
+  - `UserInput` / `MessageType` / `<text | image | video | ...>`
+
+  - If articles found:
+    - `UserInput` / `ArticleSearch` / `ArticleFound`
+    - `Article` / `Search` / `<article id>` for each article found
+  - If article too short:
+    - `UserInput` / `ArticleSearch` / `NonsenseText`
+  - If nothing found
+    - `UserInput` / `ArticleSearch` / `ArticleNotFound`
+
+2. User chooses a found article
+  - `Article` / `Selected` / `<selected article id>`
+  - If there are replies:
+    - `Reply` / `Search` / `<reply id>` for each replies
+  - If there are no replies:
+    - `Article` / `NoReply` / `<selected article id>`
+
+3. User chooses a reply
+  - `Reply` / `Selected` / `<selected reply id>`
+  - `Reply` / `Type` / `<selected reply's type>`
+
+4. User votes a reply
+  - `UserInput` / `Feedback-Vote` / `<articleId>/<replyId>`
+
+5. User want to submit a new article
+  - `Article` / `Create` / `Yes`
+
+6. User does not want to submit an article
+  - `Article` / `Create` / `No`
