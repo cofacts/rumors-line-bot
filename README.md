@@ -128,15 +128,17 @@ $ heroku config:set GOOGLE_CREDENTIALS=<Your google credential (optional)>
 
 Sent event format: `Event category` / `Event action` / `Event label`
 
-1. User submits article
+1. User sends a message to us
   - `UserInput` / `MessageType` / `<text | image | video | ...>`
+  - For the time being, we only process message with "text" type. The following events only applies
+    for text messages.
 
-  - If articles found:
+  - If we found a articles in database that matches the message:
     - `UserInput` / `ArticleSearch` / `ArticleFound`
     - `Article` / `Search` / `<article id>` for each article found
-  - If article too short:
+  - If the message does not look like those being forwarded in instant messengers:
     - `UserInput` / `ArticleSearch` / `NonsenseText`
-  - If nothing found
+  - If nothing found in database:
     - `UserInput` / `ArticleSearch` / `ArticleNotFound`
 
 2. User chooses a found article
