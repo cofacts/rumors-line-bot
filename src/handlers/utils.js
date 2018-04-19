@@ -51,6 +51,10 @@ export function createReferenceWords({ reference, type }) {
   return `\uDBC0\uDC85 ⚠️️ 此回應沒有${prompt}，請自行斟酌回應真實。⚠️️  \uDBC0\uDC85`;
 }
 
+/**
+ * @param {number} issuedAt The "issuedAt" to put in postback action
+ * @returns {object} a reply message instance
+ */
 export function createAskArticleSubmissionReply(issuedAt) {
   return {
     type: 'template',
