@@ -61,7 +61,7 @@ Object {
   "issuedAt": 1518964688672,
   "replies": Array [
     Object {
-      "text": "這則回應認為文章「⚠️️ 不在查證範圍」，理由為：",
+      "text": "有人標記這個訊息 ⚠️️ 不在查證範圍，理由是：",
       "type": "text",
     },
     Object {
@@ -73,7 +73,7 @@ Object {
       "type": "text",
     },
     Object {
-      "altText": "請問這則回應是否有解答原文章？
+      "altText": "請問上面回應是否有幫助？
 「是」請輸入「y」，「否」請輸入其他任何訊息。",
       "template": Object {
         "actions": Array [
@@ -88,13 +88,13 @@ Object {
             "type": "postback",
           },
         ],
-        "text": "請問這則回應是否有解答原文章？",
+        "text": "請問上面回應是否有幫助？",
         "type": "buttons",
       },
       "type": "template",
     },
     Object {
-      "text": "您可以到以下網址閱讀其他回應：undefined/article/AWDZYXxAyCdS-nWhumlz",
+      "text": "💁 以上訊息由好心人提供。建議至 https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz 觀看完整的訊息內容、其他鄉親的回應，以及他們各自所提出的理由與出處。",
       "type": "text",
     },
   ],

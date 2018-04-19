@@ -4,6 +4,7 @@ import {
   createReferenceWords,
   createTypeWords,
   ellipsis,
+  getArticleURL,
 } from './utils';
 import ga from '../ga';
 
@@ -37,7 +38,7 @@ export default async function choosingReply(params) {
     replies = [
       {
         type: 'text',
-        text: `這則回應認為文章「${createTypeWords(GetReply.type)}」，理由為：`,
+        text: `有人標記這個訊息 ${createTypeWords(GetReply.type)}，理由是：`,
       },
       {
         type: 'text',
@@ -49,10 +50,10 @@ export default async function choosingReply(params) {
       },
       {
         type: 'template',
-        altText: '請問這則回應是否有解答原文章？\n「是」請輸入「y」，「否」請輸入其他任何訊息。',
+        altText: '請問上面回應是否有幫助？\n「是」請輸入「y」，「否」請輸入其他任何訊息。',
         template: {
           type: 'buttons',
-          text: '請問這則回應是否有解答原文章？',
+          text: '請問上面回應是否有幫助？',
           actions: [
             createPostbackAction('是', 'y', issuedAt),
             createPostbackAction('否', 'n', issuedAt),
@@ -61,7 +62,7 @@ export default async function choosingReply(params) {
       },
       {
         type: 'text',
-        text: `您可以到以下網址閱讀其他回應：${process.env.SITE_URL}/article/${data.selectedArticleId}`,
+        text: `💁 以上訊息由好心人提供。建議至 ${getArticleURL(data.selectedArticleId)} 觀看完整的訊息內容、其他鄉親的回應，以及他們各自所提出的理由與出處。`,
       },
     ];
     // Track when user select a reply.

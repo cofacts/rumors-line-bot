@@ -4,10 +4,10 @@ import {
   createFeedbackWords,
   createTypeWords,
   isNonsenseText,
+  getArticleURL,
+  createAskArticleSubmissionReply,
 } from './utils';
 import ga from '../ga';
-
-const SITE_URL = process.env.SITE_URL || 'https://cofacts.g0v.tw/';
 
 /**
  * 第2句 (template message)：按照時間排序「不在查證範圍」之外的回應，每則回應第一行是
@@ -62,27 +62,14 @@ export default async function choosingArticle(params) {
     ];
     state = '__INIT__';
   } else if (doesNotContainMyArticle) {
-    replies = [
-      {
-        type: 'template',
-        altText: '請問要將文章送出到資料庫嗎？\n「是」請輸入「y」，「否」請輸入「n」或其他單一字母。',
-        template: {
-          type: 'buttons',
-          text: '請問要將文章送出到資料庫嗎？',
-          actions: [
-            createPostbackAction('是', 'y', issuedAt),
-            createPostbackAction('否', 'n', issuedAt),
-          ],
-        },
-      },
-    ];
+    replies = [createAskArticleSubmissionReply(issuedAt)];
 
     state = 'ASKING_ARTICLE_SUBMISSION';
   } else if (!selectedArticleId) {
     replies = [
       {
         type: 'text',
-        text: `請輸入 1～${data.foundArticleIds.length} 的數字，來選擇文章。`,
+        text: `請輸入 1～${data.foundArticleIds.length} 的數字，來選擇訊息。`,
       },
     ];
 
@@ -126,11 +113,11 @@ export default async function choosingArticle(params) {
 
     const articleReplies = reorderArticleReplies(GetArticle.articleReplies);
     const summary =
-      '這篇文章有：\n' +
-      `${count.RUMOR || 0} 則回應認為其 ❌ 含有不實訊息\n` +
-      `${count.NOT_RUMOR || 0} 則回應認為其 ⭕ 含有真實訊息\n` +
-      `${count.OPINIONATED || 0} 則回應認為其 💬 含有個人意見\n` +
-      `${count.NOT_ARTICLE || 0} 則回應認為其 ⚠️️ 不在查證範圍\n`;
+      '這個訊息有：\n' +
+      `${count.RUMOR || 0} 則回應標成 ❌ 含有不實訊息\n` +
+      `${count.NOT_RUMOR || 0} 則回應標成 ⭕ 含有真實訊息\n` +
+      `${count.OPINIONATED || 0} 則回應標成 💬 含有個人意見\n` +
+      `${count.NOT_ARTICLE || 0} 則回應標成 ⚠️️ 不在查證範圍\n`;
 
     replies = [
       {
@@ -188,7 +175,7 @@ export default async function choosingArticle(params) {
       if (articleReplies.length > 10) {
         replies.push({
           type: 'text',
-          text: `更多回應請到：${SITE_URL}/article/${selectedArticleId}`,
+          text: `更多回應請到：${getArticleURL(selectedArticleId)}`,
         });
       }
     } else {
@@ -212,7 +199,7 @@ export default async function choosingArticle(params) {
         },
         {
           type: 'text',
-          text: `若有最新回應，會寫在這個地方：${SITE_URL}/article/${selectedArticleId}`,
+          text: `若有最新回應，會寫在這個地方：${getArticleURL(selectedArticleId)}`,
         },
       ];
 

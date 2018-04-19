@@ -116,7 +116,30 @@ it('only one article found with high similarity', async () => {
   expect(await initState(input)).toMatchSnapshot();
 });
 
-it('should handle article not found');
+it('should handle article not found', async () => {
+  gql.__push(apiResult.notFound);
+
+  const input = {
+    data: {},
+    state: '__INIT__',
+    event: {
+      type: 'message',
+      input: 'YouTube · 寻找健康人生',
+      timestamp: 1497994016356,
+      message: {
+        type: 'text',
+        id: '6270464463537',
+        text: 'YouTube · 寻找健康人生',
+      },
+    },
+    issuedAt: 1497994017447,
+    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+    replies: undefined,
+    isSkipUser: false,
+  };
+
+  expect(await initState(input)).toMatchSnapshot();
+});
 
 afterEach(() => {
   gql.__reset();

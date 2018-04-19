@@ -165,3 +165,58 @@ Object {
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
+
+exports[`should handle article not found 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "YouTube · 寻找健康人生",
+  },
+  "event": Object {
+    "input": "YouTube · 寻找健康人生",
+    "message": Object {
+      "id": "6270464463537",
+      "text": "YouTube · 寻找健康人生",
+      "type": "text",
+    },
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1497994017447,
+  "replies": Array [
+    Object {
+      "text": "找不到關於「YouTube · ⋯⋯」訊息耶 QQ",
+      "type": "text",
+    },
+    Object {
+      "altText": "【是否送出文章到資料庫？】
+若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。
+雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。
+
+「送出」請輸入「y」，「放棄」則請輸入「n」或其他單一字母。",
+      "template": Object {
+        "actions": Array [
+          Object {
+            "data": "{\\"input\\":\\"y\\",\\"issuedAt\\":1497994017447}",
+            "label": "我要送出",
+            "type": "postback",
+          },
+          Object {
+            "data": "{\\"input\\":\\"n\\",\\"issuedAt\\":1497994017447}",
+            "label": "放棄",
+            "type": "postback",
+          },
+        ],
+        "text": "【是否送出文章到資料庫？】
+若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。
+雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。
+",
+        "type": "buttons",
+      },
+      "type": "template",
+    },
+  ],
+  "state": "ASKING_ARTICLE_SUBMISSION",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;

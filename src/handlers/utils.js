@@ -51,6 +51,27 @@ export function createReferenceWords({ reference, type }) {
   return `\uDBC0\uDC85 ⚠️️ 此回應沒有${prompt}，請自行斟酌回應真實。⚠️️  \uDBC0\uDC85`;
 }
 
+export function createAskArticleSubmissionReply(issuedAt) {
+  return {
+    type: 'template',
+    altText: '【是否送出文章到資料庫？】\n' +
+      '若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。\n' +
+      '雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。\n' +
+      '\n' +
+      '「送出」請輸入「y」，「放棄」則請輸入「n」或其他單一字母。',
+    template: {
+      type: 'buttons',
+      text: '【是否送出文章到資料庫？】\n' +
+        '若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。\n' +
+        '雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。\n',
+      actions: [
+        createPostbackAction('我要送出', 'y', issuedAt),
+        createPostbackAction('放棄', 'n', issuedAt),
+      ],
+    },
+  };
+}
+
 export function isNonsenseText(text) {
   let urls = text.match(urlRegex()) || [];
   let sum = urls.reduce((sum, url) => sum + url.length, 0);
@@ -69,4 +90,14 @@ export function ellipsis(text, limit) {
   if (text.length < limit) return text;
 
   return text.slice(0, limit - ELLIPSIS.length) + ELLIPSIS;
+}
+
+const SITE_URL = process.env.SITE_URL || 'https://cofacts.g0v.tw';
+
+/**
+ * @param {string} articleId
+ * @returns {string} The article's full URL
+ */
+export function getArticleURL(articleId) {
+  return `${SITE_URL}/article/${articleId}`;
 }
