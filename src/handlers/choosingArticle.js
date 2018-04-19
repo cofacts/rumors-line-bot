@@ -195,7 +195,7 @@ export default async function choosingArticle(params) {
       replies = [
         {
           type: 'text',
-          text: `目前還沒有人回應這篇文章唷。${errors ? '' : `已經將您的需求記錄下來了，共有 ${CreateReplyRequest.replyRequestCount} 人跟您一樣渴望看到針對這篇文章的回應。`}`,
+          text: `目前還沒有人回應這篇訊息唷。${errors ? '' : `已經將您的需求記錄下來了，共有 ${CreateReplyRequest.replyRequestCount} 人跟您一樣渴望看到針對這篇訊息的回應。`}`,
         },
         {
           type: 'text',
