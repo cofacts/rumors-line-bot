@@ -69,3 +69,11 @@ export const twoShortArticles = {
     },
   },
 };
+
+export const notFound = {
+  data: {
+    ListArticles: {
+      edges: [],
+    },
+  },
+};

@@ -31,7 +31,7 @@ it('should select reply by replyId', async () => {
     replies: [
       {
         type: 'text',
-        text: '這篇文章有：\n0 則回應認為其 ❌ 含有不實訊息\n0 則回應認為其 ⭕ 含有真實訊息\n0 則回應認為其 💬 含有個人意見\n1 則回應認為其 ⚠️️ 不在查證範圍\n',
+        text: '這篇訊息有：\n0 則回應認為其 ❌ 含有不實訊息\n0 則回應認為其 ⭕ 含有真實訊息\n0 則回應認為其 💬 含有個人意見\n1 則回應認為其 ⚠️️ 不在查證範圍\n',
       },
     ],
     isSkipUser: false,
@@ -66,7 +66,7 @@ it('should handle invalid reply ids', async () => {
     replies: [
       {
         type: 'text',
-        text: '這篇文章有：\n0 則回應認為其 ❌ 含有不實訊息\n0 則回應認為其 ⭕ 含有真實訊息\n0 則回應認為其 💬 含有個人意見\n1 則回應認為其 ⚠️️ 不在查證範圍\n',
+        text: '這篇訊息有：\n0 則回應認為其 ❌ 含有不實訊息\n0 則回應認為其 ⭕ 含有真實訊息\n0 則回應認為其 💬 含有個人意見\n1 則回應認為其 ⚠️️ 不在查證範圍\n',
       },
     ],
     isSkipUser: false,

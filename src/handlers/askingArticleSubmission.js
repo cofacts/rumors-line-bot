@@ -1,5 +1,6 @@
 import gql from '../gql';
 import ga from '../ga';
+import { getArticleURL } from './utils';
 
 export default async function askingArticleSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -23,7 +24,7 @@ export default async function askingArticleSubmission(params) {
     replies = [
       {
         type: 'text',
-        text: `您回報的文章已經被收錄至：${process.env.SITE_URL}/article/${CreateArticle.id}`,
+        text: `您回報的訊息已經被收錄至：${getArticleURL(CreateArticle.id)}`,
       },
       { type: 'text', text: '感謝您的回報！' },
     ];

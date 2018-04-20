@@ -1,6 +1,10 @@
 import stringSimilarity from 'string-similarity';
 import gql from '../gql';
-import { createPostbackAction, isNonsenseText } from './utils';
+import {
+  createPostbackAction,
+  isNonsenseText,
+  createAskArticleSubmissionReply,
+} from './utils';
 import ga from '../ga';
 
 const SIMILARITY_THRESHOLD = 0.95;
@@ -143,20 +147,9 @@ export default async function initState(params) {
       replies = [
         {
           type: 'text',
-          text: `找不到關於「${articleSummary}」文章耶 QQ`,
+          text: `找不到關於「${articleSummary}」訊息耶 QQ`,
         },
-        {
-          type: 'template',
-          altText: '請問要將這份文章送出到資料庫嗎？\n「是」請輸入「y」，「否」請輸入「n」或其他單一字母。',
-          template: {
-            type: 'buttons',
-            text: '請問要將這份文章送出到資料庫嗎？',
-            actions: [
-              createPostbackAction('是', 'y', issuedAt),
-              createPostbackAction('否', 'n', issuedAt),
-            ],
-          },
-        },
+        createAskArticleSubmissionReply(issuedAt),
       ];
       state = 'ASKING_ARTICLE_SUBMISSION';
     }

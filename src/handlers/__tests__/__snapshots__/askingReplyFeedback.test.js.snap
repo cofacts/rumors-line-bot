@@ -28,7 +28,11 @@ Object {
   "issuedAt": 1519019735467,
   "replies": Array [
     Object {
-      "text": "感謝您的回饋，您是第一個評論這份文章與回應的人 :)",
+      "text": "感謝您的回饋，您是第一個評論這個回應的人 :)",
+      "type": "text",
+    },
+    Object {
+      "text": "💁 若您認為自己能回應得更好，歡迎到 https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz 提交新的回應唷！",
       "type": "text",
     },
   ],
@@ -66,6 +70,10 @@ Object {
   "replies": Array [
     Object {
       "text": "感謝您與其他 1 人的回饋。",
+      "type": "text",
+    },
+    Object {
+      "text": "💁 若您認為自己能回應得更好，歡迎到 https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz 提交新的回應唷！",
       "type": "text",
     },
   ],
