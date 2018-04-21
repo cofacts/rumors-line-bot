@@ -48,7 +48,7 @@ export function createReferenceWords({ reference, type }) {
   const prompt = type === 'OPINIONATED' ? '不同觀點請見' : '出處';
 
   if (reference) return `${prompt}：${reference}`;
-  return `\uDBC0\uDC85 ⚠️️ 此回應沒有${prompt}，請自行斟酌回應真實。⚠️️  \uDBC0\uDC85`;
+  return `\uDBC0\uDC85 ⚠️️ 此回應沒有${prompt}，請自行斟酌回應之可信度。⚠️️  \uDBC0\uDC85`;
 }
 
 /**

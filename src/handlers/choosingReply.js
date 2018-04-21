@@ -46,7 +46,7 @@ export default async function choosingReply(params) {
       },
       {
         type: 'text',
-        text: ellipsis(createReferenceWords(GetReply.reference), 2000),
+        text: ellipsis(createReferenceWords(GetReply), 2000),
       },
       {
         type: 'template',
