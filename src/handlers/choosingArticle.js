@@ -62,7 +62,7 @@ export default async function choosingArticle(params) {
     ];
     state = '__INIT__';
   } else if (doesNotContainMyArticle) {
-    replies = [createAskArticleSubmissionReply(issuedAt)];
+    replies = createAskArticleSubmissionReply(issuedAt);
 
     state = 'ASKING_ARTICLE_SUBMISSION';
   } else if (!selectedArticleId) {

@@ -149,8 +149,7 @@ export default async function initState(params) {
           type: 'text',
           text: `找不到關於「${articleSummary}」訊息耶 QQ`,
         },
-        createAskArticleSubmissionReply(issuedAt),
-      ];
+      ].concat(createAskArticleSubmissionReply(issuedAt));
       state = 'ASKING_ARTICLE_SUBMISSION';
     }
   }
