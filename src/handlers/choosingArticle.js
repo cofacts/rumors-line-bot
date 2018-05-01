@@ -64,7 +64,7 @@ export default async function choosingArticle(params) {
   } else if (doesNotContainMyArticle) {
     replies = createAskArticleSubmissionReply(issuedAt);
 
-    state = 'ASKING_ARTICLE_SUBMISSION';
+    state = 'ASKING_ARTICLE_SUBMISSION_REASON';
   } else if (!selectedArticleId) {
     replies = [
       {

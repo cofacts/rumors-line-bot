@@ -150,7 +150,7 @@ export default async function initState(params) {
           text: `找不到關於「${articleSummary}」訊息耶 QQ`,
         },
       ].concat(createAskArticleSubmissionReply(issuedAt));
-      state = 'ASKING_ARTICLE_SUBMISSION';
+      state = 'ASKING_ARTICLE_SUBMISSION_REASON';
     }
   }
   return { data, state, event, issuedAt, userId, replies, isSkipUser };

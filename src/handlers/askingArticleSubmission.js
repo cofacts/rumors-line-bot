@@ -13,13 +13,16 @@ export default async function askingArticleSubmission(params) {
     // Track whether user create Article or not if the Article is not found in DB.
     ga(userId, { ec: 'Article', ea: 'Create', el: 'Yes' });
 
-    const { data: { CreateArticle } } = await gql`
-      mutation($text: String!) {
-        CreateArticle(text: $text, reference: { type: LINE }) {
+    const reason = data.reasonText;
+    const {
+      data: { CreateArticle },
+    } = await gql`
+      mutation($text: String!, $reason: String!) {
+        CreateArticle(text: $text, reason: $reason, reference: { type: LINE }) {
           id
         }
       }
-    `({ text: data.searchedText }, { userId });
+    `({ text: data.searchedText, reason }, { userId });
 
     replies = [
       {
@@ -28,13 +31,17 @@ export default async function askingArticleSubmission(params) {
       },
       { type: 'text', text: '感謝您的回報！' },
     ];
-  } else {
+    state = '__INIT__';
+  } else if (event.input === 'n') {
     // Track whether user create Article or not if the Article is not found in DB.
     ga(userId, { ec: 'Article', ea: 'Create', el: 'No' });
 
-    replies = [{ type: 'text', text: '感謝您的使用。' }];
+    replies = [{ type: 'text', text: '訊息沒有送出，謝謝您的使用。' }];
+    state = '__INIT__';
+  } else if (event.input === 'r') {
+    replies = [{ type: 'text', text: '好的，請重新填寫理由。' }];
+    state = 'ASKING_ARTICLE_SUBMISSION_REASON';
   }
-  state = '__INIT__';
 
   return { data, state, event, issuedAt, userId, replies, isSkipUser };
 }

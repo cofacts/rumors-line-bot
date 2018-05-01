@@ -3,6 +3,7 @@ import choosingArticle from './handlers/choosingArticle';
 import choosingReply from './handlers/choosingReply';
 import askingReplyFeedback from './handlers/askingReplyFeedback';
 import askingArticleSubmission from './handlers/askingArticleSubmission';
+import askingArticleSubmissionReason from './handlers/askingArticleSubmissionReason';
 import defaultState from './handlers/defaultState';
 
 /**
@@ -29,7 +30,7 @@ export default async function handleInput(
     throw new Error('input undefined');
   }
 
-  if (event.input.length >= 3) {
+  if (event.input.length >= 3 && state !== 'ASKING_ARTICLE_SUBMISSION_REASON') {
     // If input contains more than 3 words,
     // consider it as a new query and start over.
     data = {};
@@ -69,6 +70,10 @@ export default async function handleInput(
       }
       case 'ASKING_ARTICLE_SUBMISSION': {
         params = await askingArticleSubmission(params);
+        break;
+      }
+      case 'ASKING_ARTICLE_SUBMISSION_REASON': {
+        params = await askingArticleSubmissionReason(params);
         break;
       }
       default: {
