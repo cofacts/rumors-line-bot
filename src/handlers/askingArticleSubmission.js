@@ -10,7 +10,7 @@ export default async function askingArticleSubmission(params) {
   }
 
   if (event.input === 'y') {
-    // Track wheather user create Article or not if the Article is not found in DB.
+    // Track whether user create Article or not if the Article is not found in DB.
     ga(userId, { ec: 'Article', ea: 'Create', el: 'Yes' });
 
     const { data: { CreateArticle } } = await gql`
@@ -29,7 +29,7 @@ export default async function askingArticleSubmission(params) {
       { type: 'text', text: '感謝您的回報！' },
     ];
   } else {
-    // Track wheather user create Article or not if the Article is not found in DB.
+    // Track whether user create Article or not if the Article is not found in DB.
     ga(userId, { ec: 'Article', ea: 'Create', el: 'No' });
 
     replies = [{ type: 'text', text: '感謝您的使用。' }];
