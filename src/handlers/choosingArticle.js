@@ -34,7 +34,9 @@ function createAltText(articleReplies) {
   return articleReplies
     .slice(0, 10)
     .map(({ reply, positiveFeedbackCount, negativeFeedbackCount }, idx) => {
-      const prefix = `閱讀請傳 ${idx + 1}> ${createTypeWords(reply.type)}\n${createFeedbackWords(positiveFeedbackCount, negativeFeedbackCount)}`;
+      const prefix = `閱讀請傳 ${idx + 1}> ${createTypeWords(
+        reply.type
+      )}\n${createFeedbackWords(positiveFeedbackCount, negativeFeedbackCount)}`;
       const content = reply.text.slice(0, eachLimit - prefix.length);
       return `${prefix}\n${content}`;
     })
@@ -56,7 +58,8 @@ export default async function choosingArticle(params) {
     replies = [
       {
         type: 'text',
-        text: '剛才您傳的訊息僅包含連結或是資訊太少，無從查證。\n' +
+        text:
+          '剛才您傳的訊息僅包含連結或是資訊太少，無從查證。\n' +
           '查證範圍請參考📖使用手冊 http://bit.ly/cofacts-line-users',
       },
     ];
@@ -75,7 +78,9 @@ export default async function choosingArticle(params) {
 
     state = 'CHOOSING_ARTICLE';
   } else {
-    const { data: { GetArticle } } = await gql`
+    const {
+      data: { GetArticle },
+    } = await gql`
       query($id: String!) {
         GetArticle(id: $id) {
           replyCount
@@ -158,7 +163,8 @@ export default async function choosingArticle(params) {
                 { reply, positiveFeedbackCount, negativeFeedbackCount },
                 idx
               ) => ({
-                text: createTypeWords(reply.type) +
+                text:
+                  createTypeWords(reply.type) +
                   '\n' +
                   createFeedbackWords(
                     positiveFeedbackCount,
@@ -166,7 +172,9 @@ export default async function choosingArticle(params) {
                   ) +
                   '\n' +
                   reply.text.slice(0, 80),
-                actions: [createPostbackAction('閱讀此回應', idx + 1, issuedAt)],
+                actions: [
+                  createPostbackAction('閱讀此回應', idx + 1, issuedAt),
+                ],
               })
             ),
         },
@@ -184,26 +192,32 @@ export default async function choosingArticle(params) {
       // Track not yet reply Articles.
       ga(userId, { ec: 'Article', ea: 'NoReply', el: selectedArticleId });
 
-      const { data: { CreateReplyRequest }, errors } = await gql`
-        mutation($id: String!) {
-          CreateReplyRequest(articleId: $id) {
-            replyRequestCount
-          }
-        }
-      `({ id: selectedArticleId }, { userId });
+      const text =
+        '【跟編輯說您的疑惑】\n' +
+        '抱歉這篇訊息還沒有人回應過唷！\n' +
+        '\n' +
+        '若您覺得這是一則謠言，請指出您有疑惑之處，說服編輯這是一份應該被闢謠的訊息。\n' +
+        '\n' +
+        '請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您有疑惑之處；\n' +
+        '若想跳過，請按「我不想填理由」按鈕。';
 
       replies = [
         {
           type: 'text',
-          text: `目前還沒有人回應這篇訊息唷。${errors ? '' : `已經將您的需求記錄下來了，共有 ${CreateReplyRequest.replyRequestCount} 人跟您一樣渴望看到針對這篇訊息的回應。`}`,
+          text,
         },
         {
-          type: 'text',
-          text: `若有最新回應，會寫在這個地方：${getArticleURL(selectedArticleId)}`,
+          type: 'template',
+          altText: '若要放棄請輸入「n」。',
+          template: {
+            type: 'buttons',
+            text: '若要放棄，請按「我不想填理由」。',
+            actions: [createPostbackAction('我不想填理由', 'n', issuedAt)],
+          },
         },
       ];
 
-      state = '__INIT__';
+      state = 'ASKING_REPLY_REQUEST_REASON';
     }
   }
 
