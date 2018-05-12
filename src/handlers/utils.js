@@ -64,7 +64,7 @@ export function createAskArticleSubmissionReply(issuedAt) {
       '\n' +
       '「送出」請輸入「y」，「放棄」則請輸入「n」或其他單一字母。',
     template: {
-      type: 'buttons',
+      type: 'confirm',
       text: '【送出訊息到公開資料庫？】\n' +
         '若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。\n' +
         '雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。\n',
