@@ -1,5 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`createFeedbackWords() should create both feedback words 1`] = `
+"[有 1 人覺得此回應有幫助
+有 2 人覺得此回應沒幫助]"
+`;
+
+exports[`createFeedbackWords() should create empty feedback words 1`] = `"[還沒有人針對此回應評價]"`;
+
+exports[`createFeedbackWords() should create negative feedback words 1`] = `"[有 2 人覺得此回應沒幫助]"`;
+
+exports[`createFeedbackWords() should create positive feedback words 1`] = `"[有 3 人覺得此回應有幫助]"`;
+
+exports[`createPostbackAction() should return postback message body 1`] = `
+Object {
+  "data": "{\\"input\\":3,\\"issuedAt\\":1519019701265}",
+  "label": "閱讀此回應",
+  "type": "postback",
+}
+`;
+
 exports[`createReferenceWords() should create reference for opinions 1`] = `"不同觀點請見：This is refering to different opinions"`;
 
 exports[`createReferenceWords() should create reference for rumors 1`] = `"出處：This is a reference"`;

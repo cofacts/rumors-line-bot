@@ -1,13 +1,31 @@
-import { isNonsenseText, createReferenceWords } from '../utils';
+import {
+  createPostbackAction,
+  createFeedbackWords,
+  isNonsenseText,
+  createReferenceWords,
+} from '../utils';
 
 describe('createPostbackAction()', () => {
-  it('should return postback message body');
+  it('should return postback message body', () => {
+    expect(
+      createPostbackAction('閱讀此回應', 3, 1519019701265)
+    ).toMatchSnapshot();
+  });
 });
 
 describe('createFeedbackWords()', () => {
-  it('should create empty feedback words');
-  it('should create positive feedback words');
-  it('should create negative feedback words');
+  it('should create empty feedback words', () => {
+    expect(createFeedbackWords(0, 0)).toMatchSnapshot();
+  });
+  it('should create positive feedback words', () => {
+    expect(createFeedbackWords(3, 0)).toMatchSnapshot();
+  });
+  it('should create negative feedback words', () => {
+    expect(createFeedbackWords(0, 2)).toMatchSnapshot();
+  });
+  it('should create both feedback words', () => {
+    expect(createFeedbackWords(1, 2)).toMatchSnapshot();
+  });
 });
 
 describe('createReferenceWords()', () => {
