@@ -23,34 +23,31 @@ Object {
   "issuedAt": 1511633232970,
   "replies": Array [
     Object {
-      "altText": "【送出訊息到公開資料庫？】
+      "text": "【送出訊息到公開資料庫？】
 若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。
+
 雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。
 
-「送出」請輸入「y」，「放棄」則請輸入「n」或其他單一字母。",
+請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您有疑惑之處。",
+      "type": "text",
+    },
+    Object {
+      "altText": "若要放棄請輸入「n」。",
       "template": Object {
         "actions": Array [
           Object {
-            "data": "{\\"input\\":\\"y\\",\\"issuedAt\\":1511633232970}",
-            "label": "我要送出",
-            "type": "postback",
-          },
-          Object {
             "data": "{\\"input\\":\\"n\\",\\"issuedAt\\":1511633232970}",
-            "label": "放棄",
+            "label": "放棄送出",
             "type": "postback",
           },
         ],
-        "text": "【送出訊息到公開資料庫？】
-若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。
-雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。
-",
-        "type": "confirm",
+        "text": "若要放棄，請按「放棄送出」。",
+        "type": "buttons",
       },
       "type": "template",
     },
   ],
-  "state": "ASKING_ARTICLE_SUBMISSION",
+  "state": "ASKING_ARTICLE_SUBMISSION_REASON",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -538,15 +535,32 @@ Object {
   "issuedAt": 1511702208730,
   "replies": Array [
     Object {
-      "text": "目前還沒有人回應這篇訊息唷。已經將您的需求記錄下來了，共有 2 人跟您一樣渴望看到針對這篇訊息的回應。",
+      "text": "【跟編輯說您的疑惑】
+抱歉這篇訊息還沒有人回應過唷！
+
+若您覺得這是一則謠言，請指出您有疑惑之處，說服編輯這是一份應該被闢謠的訊息。
+
+請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您有疑惑之處；
+若想跳過，請按「我不想填理由」按鈕。",
       "type": "text",
     },
     Object {
-      "text": "若有最新回應，會寫在這個地方：https://cofacts.g0v.tw/article/AV_4WX8vyCdS-nWhujyH",
-      "type": "text",
+      "altText": "若要放棄請輸入「n」。",
+      "template": Object {
+        "actions": Array [
+          Object {
+            "data": "{\\"input\\":\\"n\\",\\"issuedAt\\":1511702208730}",
+            "label": "我不想填理由",
+            "type": "postback",
+          },
+        ],
+        "text": "若要放棄，請按「我不想填理由」。",
+        "type": "buttons",
+      },
+      "type": "template",
     },
   ],
-  "state": "__INIT__",
+  "state": "ASKING_REPLY_REQUEST_REASON",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
