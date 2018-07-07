@@ -1,6 +1,6 @@
 import gql from '../gql';
 import ga from '../ga';
-import { getArticleURL, createPostbackAction } from './utils';
+import { getArticleURL } from './utils';
 
 export default async function askingNotUsefulFeedback(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -15,13 +15,19 @@ export default async function askingNotUsefulFeedback(params) {
     ea: 'Feedback-Vote',
     el: `${data.selectedArticleId}/${data.selectedReplyId}`,
   });
-  /*
+
   const { data: { action: { feedbackCount } } } = await gql`
-    mutation($vote: FeedbackVote!, $articleId: String!, $replyId: String!) {
+    mutation(
+      $comment: String!
+      $vote: FeedbackVote!
+      $articleId: String!
+      $replyId: String!
+    ) {
       action: CreateOrUpdateArticleReplyFeedback(
-        vote: $vote
+        comment: $comment
         articleId: $articleId
         replyId: $replyId
+        vote: $vote
       ) {
         feedbackCount
       }
@@ -30,18 +36,19 @@ export default async function askingNotUsefulFeedback(params) {
     {
       articleId: data.selectedArticleId,
       replyId: data.selectedReplyId,
-      vote: event.input === 'y' ? 'UPVOTE' : 'DOWNVOTE',
+      comment: event.input,
+      vote: 'DOWNVOTE',
     },
     { userId }
   );
-  */
-  let feedbackCount = 5;
+
   replies = [
     {
       type: 'text',
-      text: feedbackCount > 1
-        ? `感謝您與其他 ${feedbackCount - 1} 人的回饋。`
-        : '感謝您的回饋，您是第一個評論這個回應的人 :)',
+      text:
+        feedbackCount > 1
+          ? `感謝您與其他 ${feedbackCount - 1} 人的回饋。`
+          : '感謝您的回饋，您是第一個評論這個回應的人 :)',
     },
     {
       type: 'text',
