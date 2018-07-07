@@ -17,7 +17,11 @@ export default async function askingReplyFeedback(params) {
   });
 
   if (event.input === 'y') {
-    const { data: { action: { feedbackCount } } } = await gql`
+    const {
+      data: {
+        action: { feedbackCount },
+      },
+    } = await gql`
       mutation($vote: FeedbackVote!, $articleId: String!, $replyId: String!) {
         action: CreateOrUpdateArticleReplyFeedback(
           vote: $vote
@@ -38,13 +42,16 @@ export default async function askingReplyFeedback(params) {
     replies = [
       {
         type: 'text',
-        text: feedbackCount > 1
+        text:
+          feedbackCount > 1
             ? `感謝您與其他 ${feedbackCount - 1} 人的回饋。`
             : '感謝您的回饋，您是第一個評論這個回應的人 :)',
       },
       {
         type: 'text',
-        text: `💁 若您認為自己能回應得更好，歡迎到 ${getArticleURL(data.selectedArticleId)} 提交新的回應唷！`,
+        text: `💁 若您認為自己能回應得更好，歡迎到 ${getArticleURL(
+          data.selectedArticleId
+        )} 提交新的回應唷！`,
       },
     ];
 
@@ -57,7 +64,8 @@ export default async function askingReplyFeedback(params) {
       altText: `請問您為什麼覺得好心人的回應沒有幫助？請按左下角「⌨️」鈕，把理由傳給我們，幫助闢謠編輯釐清問題所在；若不想填，請按「我不想填理由」按鈕。`,
       template: {
         type: 'buttons',
-        text: '請問您為什麼覺得好心人的回應沒有幫助？請按左下角「⌨️」鈕，把理由傳給我們',
+        text:
+          '請問您為什麼覺得好心人的回應沒有幫助？請按左下角「⌨️」鈕，把理由傳給我們',
         actions: [createPostbackAction('我不想填理由', 'none', issuedAt)],
       },
     },

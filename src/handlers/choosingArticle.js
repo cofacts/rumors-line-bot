@@ -34,7 +34,9 @@ function createAltText(articleReplies) {
   return articleReplies
     .slice(0, 10)
     .map(({ reply, positiveFeedbackCount, negativeFeedbackCount }, idx) => {
-      const prefix = `閱讀請傳 ${idx + 1}> ${createTypeWords(reply.type)}\n${createFeedbackWords(positiveFeedbackCount, negativeFeedbackCount)}`;
+      const prefix = `閱讀請傳 ${idx + 1}> ${createTypeWords(
+        reply.type
+      )}\n${createFeedbackWords(positiveFeedbackCount, negativeFeedbackCount)}`;
       const content = reply.text.slice(0, eachLimit - prefix.length);
       return `${prefix}\n${content}`;
     })
@@ -56,7 +58,8 @@ export default async function choosingArticle(params) {
     replies = [
       {
         type: 'text',
-        text: '剛才您傳的訊息僅包含連結或是資訊太少，無從查證。\n' +
+        text:
+          '剛才您傳的訊息僅包含連結或是資訊太少，無從查證。\n' +
           '查證範圍請參考📖使用手冊 http://bit.ly/cofacts-line-users',
       },
     ];
@@ -75,7 +78,9 @@ export default async function choosingArticle(params) {
 
     state = 'CHOOSING_ARTICLE';
   } else {
-    const { data: { GetArticle } } = await gql`
+    const {
+      data: { GetArticle },
+    } = await gql`
       query($id: String!) {
         GetArticle(id: $id) {
           replyCount
@@ -166,7 +171,9 @@ export default async function choosingArticle(params) {
                   ) +
                   '\n' +
                   reply.text.slice(0, 80),
-                actions: [createPostbackAction('閱讀此回應', idx + 1, issuedAt)],
+                actions: [
+                  createPostbackAction('閱讀此回應', idx + 1, issuedAt)
+                ],
               })
             ),
         },
@@ -184,7 +191,10 @@ export default async function choosingArticle(params) {
       // Track not yet reply Articles.
       ga(userId, { ec: 'Article', ea: 'NoReply', el: selectedArticleId });
 
-      const { data: { CreateReplyRequest }, errors } = await gql`
+      const {
+        data: { CreateReplyRequest },
+        errors,
+      } = await gql`
         mutation($id: String!) {
           CreateReplyRequest(articleId: $id) {
             replyRequestCount
@@ -195,11 +205,19 @@ export default async function choosingArticle(params) {
       replies = [
         {
           type: 'text',
-          text: `目前還沒有人回應這篇訊息唷。${errors ? '' : `已經將您的需求記錄下來了，共有 ${CreateReplyRequest.replyRequestCount} 人跟您一樣渴望看到針對這篇訊息的回應。`}`,
+          text: `目前還沒有人回應這篇訊息唷。${
+            errors
+              ? ''
+              : `已經將您的需求記錄下來了，共有 ${
+                  CreateReplyRequest.replyRequestCount
+                } 人跟您一樣渴望看到針對這篇訊息的回應。`
+          }`,
         },
         {
           type: 'text',
-          text: `若有最新回應，會寫在這個地方：${getArticleURL(selectedArticleId)}`,
+          text: `若有最新回應，會寫在這個地方：${getArticleURL(
+            selectedArticleId
+          )}`,
         },
       ];
 

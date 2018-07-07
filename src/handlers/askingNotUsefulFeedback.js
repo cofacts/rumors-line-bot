@@ -16,7 +16,11 @@ export default async function askingNotUsefulFeedback(params) {
     el: `${data.selectedArticleId}/${data.selectedReplyId}`,
   });
 
-  const { data: { action: { feedbackCount } } } = await gql`
+  const {
+    data: {
+      action: { feedbackCount },
+    },
+  } = await gql`
     mutation(
       $comment: String!
       $vote: FeedbackVote!
@@ -52,7 +56,9 @@ export default async function askingNotUsefulFeedback(params) {
     },
     {
       type: 'text',
-      text: `💁 若您認為自己能回應得更好，歡迎到 ${getArticleURL(data.selectedArticleId)} 提交新的回應唷！`,
+      text: `💁 若您認為自己能回應得更好，歡迎到 ${getArticleURL(
+        data.selectedArticleId
+      )} 提交新的回應唷！`,
     },
   ];
 

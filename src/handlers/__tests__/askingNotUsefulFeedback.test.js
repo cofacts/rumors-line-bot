@@ -4,7 +4,7 @@ import askingReplyFeedback from '../askingNotUsefulFeedback';
 import * as apiResult from '../__fixtures__/askingNotUsefulFeedback';
 import gql from '../../gql';
 
-let commonParams = {
+let commonParamsNone = {
   data: {
     searchedText: '貼圖',
     foundArticleIds: [
@@ -33,16 +33,16 @@ let commonParams = {
 it('handles "none" postback with no other existing feedbacks', async () => {
   gql.__push(apiResult.oneFeedback);
 
-  expect(await askingReplyFeedback(commonParams)).toMatchSnapshot();
+  expect(await askingReplyFeedback(commonParamsNone)).toMatchSnapshot();
 });
 
 it('handles "none" postback with other existing feedbacks', async () => {
   gql.__push(apiResult.twoFeedbacks);
 
-  expect(await askingReplyFeedback(commonParams)).toMatchSnapshot();
+  expect(await askingReplyFeedback(commonParamsNone)).toMatchSnapshot();
 });
 
-let commonParams2 = {
+let commonParamsComment = {
   data: {
     searchedText: '貼圖',
     foundArticleIds: [
@@ -71,13 +71,13 @@ let commonParams2 = {
 it('handles text comment with no other existing feedbacks', async () => {
   gql.__push(apiResult.oneFeedback);
 
-  expect(await askingReplyFeedback(commonParams2)).toMatchSnapshot();
+  expect(await askingReplyFeedback(commonParamsComment)).toMatchSnapshot();
 });
 
 it('handles text comment with other existing feedbacks', async () => {
   gql.__push(apiResult.twoFeedbacks);
 
-  expect(await askingReplyFeedback(commonParams2)).toMatchSnapshot();
+  expect(await askingReplyFeedback(commonParamsComment)).toMatchSnapshot();
 });
 
 afterEach(() => {
