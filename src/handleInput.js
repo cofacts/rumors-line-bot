@@ -3,6 +3,7 @@ import choosingArticle from './handlers/choosingArticle';
 import choosingReply from './handlers/choosingReply';
 import askingReplyFeedback from './handlers/askingReplyFeedback';
 import askingArticleSubmission from './handlers/askingArticleSubmission';
+import askingNotUsefulFeedback from './handlers/askingNotUsefulFeedback';
 import defaultState from './handlers/defaultState';
 
 /**
@@ -29,7 +30,7 @@ export default async function handleInput(
     throw new Error('input undefined');
   }
 
-  if (event.input.length >= 3) {
+  if (event.input.length >= 3 && state !== 'ASKING_NOT_USEFUL_FEEDBACK') {
     // If input contains more than 3 words,
     // consider it as a new query and start over.
     data = {};
@@ -65,6 +66,10 @@ export default async function handleInput(
       }
       case 'ASKING_REPLY_FEEDBACK': {
         params = await askingReplyFeedback(params);
+        break;
+      }
+      case 'ASKING_NOT_USEFUL_FEEDBACK': {
+        params = await askingNotUsefulFeedback(params);
         break;
       }
       case 'ASKING_ARTICLE_SUBMISSION': {

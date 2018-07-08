@@ -1,10 +1,10 @@
 jest.mock('../../gql');
 
-import askingReplyFeedback from '../askingReplyFeedback';
-import * as apiResult from '../__fixtures__/askingReplyFeedback';
+import askingReplyFeedback from '../askingNotUsefulFeedback';
+import * as apiResult from '../__fixtures__/askingNotUsefulFeedback';
 import gql from '../../gql';
 
-const commonParamsYes = {
+let commonParamsNone = {
   data: {
     searchedText: '貼圖',
     foundArticleIds: [
@@ -17,12 +17,12 @@ const commonParamsYes = {
     foundReplyIds: ['AWDZeeV0yCdS-nWhuml8'],
     selectedReplyId: 'AWDZeeV0yCdS-nWhuml8',
   },
-  state: 'ASKING_REPLY_FEEDBACK',
+  state: 'ASKING_NOT_USEFUL_FEEDBACK',
   event: {
     type: 'postback',
-    input: 'y',
+    input: 'none',
     timestamp: 1519019734813,
-    postback: { data: '{"input":"y","issuedAt":1519019701265}' },
+    postback: { data: '{"input":"none","issuedAt":1519019701265}' },
   },
   issuedAt: 1519019735467,
   userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
@@ -30,19 +30,19 @@ const commonParamsYes = {
   isSkipUser: false,
 };
 
-it('handles "yes" postback with no other existing feedbacks', async () => {
+it('handles "none" postback with no other existing feedbacks', async () => {
   gql.__push(apiResult.oneFeedback);
 
-  expect(await askingReplyFeedback(commonParamsYes)).toMatchSnapshot();
+  expect(await askingReplyFeedback(commonParamsNone)).toMatchSnapshot();
 });
 
-it('handles "yes" postback with other existing feedbacks', async () => {
+it('handles "none" postback with other existing feedbacks', async () => {
   gql.__push(apiResult.twoFeedbacks);
 
-  expect(await askingReplyFeedback(commonParamsYes)).toMatchSnapshot();
+  expect(await askingReplyFeedback(commonParamsNone)).toMatchSnapshot();
 });
 
-let commonParamsNo = {
+let commonParamsComment = {
   data: {
     searchedText: '貼圖',
     foundArticleIds: [
@@ -55,12 +55,12 @@ let commonParamsNo = {
     foundReplyIds: ['AWDZeeV0yCdS-nWhuml8'],
     selectedReplyId: 'AWDZeeV0yCdS-nWhuml8',
   },
-  state: 'ASKING_REPLY_FEEDBACK',
+  state: 'ASKING_NOT_USEFUL_FEEDBACK',
   event: {
-    type: 'postback',
-    input: 'n',
+    type: 'text',
+    input: 'comment',
     timestamp: 1519019734813,
-    postback: { data: '{"input":"n","issuedAt":1519019701265}' },
+    postback: { data: '{"input":"comment","issuedAt":1519019701265}' },
   },
   issuedAt: 1519019735467,
   userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
@@ -68,10 +68,16 @@ let commonParamsNo = {
   isSkipUser: false,
 };
 
-it('handles "no" postback with other existing feedbacks', async () => {
+it('handles text comment with no other existing feedbacks', async () => {
   gql.__push(apiResult.oneFeedback);
 
-  expect(await askingReplyFeedback(commonParamsNo)).toMatchSnapshot();
+  expect(await askingReplyFeedback(commonParamsComment)).toMatchSnapshot();
+});
+
+it('handles text comment with other existing feedbacks', async () => {
+  gql.__push(apiResult.twoFeedbacks);
+
+  expect(await askingReplyFeedback(commonParamsComment)).toMatchSnapshot();
 });
 
 afterEach(() => {
