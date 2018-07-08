@@ -19,12 +19,17 @@ export default async function choosingReply(params) {
 
   if (!selectedReplyId) {
     replies = [
-      { type: 'text', text: `請輸入 1～${data.foundReplyIds.length} 的數字，來選擇回應。` },
+      {
+        type: 'text',
+        text: `請輸入 1～${data.foundReplyIds.length} 的數字，來選擇回應。`,
+      },
     ];
 
     state = 'CHOOSING_REPLY';
   } else {
-    const { data: { GetReply } } = await gql`
+    const {
+      data: { GetReply },
+    } = await gql`
       query($id: String!) {
         GetReply(id: $id) {
           type
@@ -50,7 +55,8 @@ export default async function choosingReply(params) {
       },
       {
         type: 'template',
-        altText: '請問上面回應是否有幫助？\n「是」請輸入「y」，「否」請輸入其他任何訊息。',
+        altText:
+          '請問上面回應是否有幫助？\n「是」請輸入「y」，「否」請輸入其他任何訊息。',
         template: {
           type: 'buttons',
           text: '請問上面回應是否有幫助？',
@@ -62,7 +68,9 @@ export default async function choosingReply(params) {
       },
       {
         type: 'text',
-        text: `💁 以上訊息由好心人提供。建議至 ${getArticleURL(data.selectedArticleId)} 觀看完整的訊息內容、其他鄉親的回應，以及他們各自所提出的理由與出處。`,
+        text: `💁 以上訊息由好心人提供。建議至 ${getArticleURL(
+          data.selectedArticleId
+        )} 觀看完整的訊息內容、其他鄉親的回應，以及他們各自所提出的理由與出處。`,
       },
     ];
     // Track when user select a reply.

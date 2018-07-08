@@ -19,7 +19,9 @@ export default async function initState(params) {
   data.searchedText = event.input;
 
   // Search for articles
-  const { data: { ListArticles } } = await gql`
+  const {
+    data: { ListArticles },
+  } = await gql`
     query($text: String!) {
       ListArticles(
         filter: { moreLikeThis: { like: $text } }
@@ -38,7 +40,9 @@ export default async function initState(params) {
     text: event.input,
   });
 
-  const articleSummary = `${event.input.slice(0, 10)}${event.input.length > 10 ? '⋯⋯' : ''}`;
+  const articleSummary = `${event.input.slice(0, 10)}${
+    event.input.length > 10 ? '⋯⋯' : ''
+  }`;
 
   if (ListArticles.edges.length) {
     // Track if find similar Articles in DB.
@@ -87,7 +91,8 @@ export default async function initState(params) {
       type: 'template',
       altText: edgesSortedWithSimilarity
         .map(
-          ({ node: { text } }, idx) => `選擇請打 ${idx + 1}> ${text.slice(0, 20)}`
+          ({ node: { text } }, idx) =>
+            `選擇請打 ${idx + 1}> ${text.slice(0, 20)}`
         )
         .concat(hasIdenticalDocs ? [] : ['若以上皆非，請打 0。'])
         .join('\n\n'),
@@ -95,7 +100,8 @@ export default async function initState(params) {
         type: 'carousel',
         columns: edgesSortedWithSimilarity
           .map(({ node: { text }, similarity }, idx) => ({
-            text: `[相似度:${(similarity * 100).toFixed(2) + '%'}] \n ${text.slice(0, 100)}`,
+            text: `[相似度:${(similarity * 100).toFixed(2) +
+              '%'}] \n ${text.slice(0, 100)}`,
             actions: [createPostbackAction('選擇此則', idx + 1, issuedAt)],
           }))
           .concat(
@@ -131,7 +137,8 @@ export default async function initState(params) {
       replies = [
         {
           type: 'text',
-          text: '你傳的資訊僅包含連結或是資訊太少，無法為你搜尋資料庫噢！\n' +
+          text:
+            '你傳的資訊僅包含連結或是資訊太少，無法為你搜尋資料庫噢！\n' +
             '正確使用方式，請參考📖使用手冊 http://bit.ly/cofacts-line-users',
         },
       ];
