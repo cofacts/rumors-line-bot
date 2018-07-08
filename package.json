@@ -7,8 +7,8 @@
     "test": "jest",
     "start": "node main.js",
     "postinstall": "babel src -d build",
-    "lint": "eslint --fix .",
-    "lint:check": "eslint ."
+    "lint:fix": "eslint --fix .",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -55,7 +55,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-prettier": "^2.0.1",
     "jest-cli": "^23.0.0",
-    "prettier": "^1.3.0"
+    "prettier": "=1.12.1"
   },
   "jest": {
     "testEnvironment": "node",
