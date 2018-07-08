@@ -53,29 +53,32 @@ export function createReferenceWords({ reference, type }) {
 
 /**
  * @param {number} issuedAt The "issuedAt" to put in postback action
- * @returns {object} a reply message instance
+ * @returns {array} an array of reply message instances
  */
 export function createAskArticleSubmissionReply(issuedAt) {
-  return {
-    type: 'template',
-    altText:
-      '【送出訊息到公開資料庫？】\n' +
-      '若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。\n' +
-      '雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。\n' +
-      '\n' +
-      '「送出」請輸入「y」，「放棄」則請輸入「n」或其他單一字母。',
-    template: {
-      type: 'confirm',
-      text:
-        '【送出訊息到公開資料庫？】\n' +
-        '若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。\n' +
-        '雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。\n',
-      actions: [
-        createPostbackAction('我要送出', 'y', issuedAt),
-        createPostbackAction('放棄', 'n', issuedAt),
-      ],
+  const text =
+    '【送出訊息到公開資料庫？】\n' +
+    '若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。\n' +
+    '\n' +
+    '雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。\n' +
+    '\n' +
+    '請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您有疑惑之處。';
+
+  return [
+    {
+      type: 'text',
+      text,
     },
-  };
+    {
+      type: 'template',
+      altText: '若要放棄請輸入「n」。',
+      template: {
+        type: 'buttons',
+        text: '若要放棄，請按「放棄送出」。',
+        actions: [createPostbackAction('放棄送出', 'n', issuedAt)],
+      },
+    },
+  ];
 }
 
 export function isNonsenseText(text) {

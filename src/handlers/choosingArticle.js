@@ -65,9 +65,9 @@ export default async function choosingArticle(params) {
     ];
     state = '__INIT__';
   } else if (doesNotContainMyArticle) {
-    replies = [createAskArticleSubmissionReply(issuedAt)];
+    replies = createAskArticleSubmissionReply(issuedAt);
 
-    state = 'ASKING_ARTICLE_SUBMISSION';
+    state = 'ASKING_ARTICLE_SUBMISSION_REASON';
   } else if (!selectedArticleId) {
     replies = [
       {
@@ -163,7 +163,8 @@ export default async function choosingArticle(params) {
                 { reply, positiveFeedbackCount, negativeFeedbackCount },
                 idx
               ) => ({
-                text: createTypeWords(reply.type) +
+                text:
+                  createTypeWords(reply.type) +
                   '\n' +
                   createFeedbackWords(
                     positiveFeedbackCount,
@@ -172,7 +173,7 @@ export default async function choosingArticle(params) {
                   '\n' +
                   reply.text.slice(0, 80),
                 actions: [
-                  createPostbackAction('閱讀此回應', idx + 1, issuedAt)
+                  createPostbackAction('閱讀此回應', idx + 1, issuedAt),
                 ],
               })
             ),
@@ -191,37 +192,32 @@ export default async function choosingArticle(params) {
       // Track not yet reply Articles.
       ga(userId, { ec: 'Article', ea: 'NoReply', el: selectedArticleId });
 
-      const {
-        data: { CreateReplyRequest },
-        errors,
-      } = await gql`
-        mutation($id: String!) {
-          CreateReplyRequest(articleId: $id) {
-            replyRequestCount
-          }
-        }
-      `({ id: selectedArticleId }, { userId });
+      const text =
+        '【跟編輯說您的疑惑】\n' +
+        '抱歉這篇訊息還沒有人回應過唷！\n' +
+        '\n' +
+        '若您覺得這是一則謠言，請指出您有疑惑之處，說服編輯這是一份應該被闢謠的訊息。\n' +
+        '\n' +
+        '請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您有疑惑之處；\n' +
+        '若想跳過，請按「我不想填理由」按鈕。';
 
       replies = [
         {
           type: 'text',
-          text: `目前還沒有人回應這篇訊息唷。${
-            errors
-              ? ''
-              : `已經將您的需求記錄下來了，共有 ${
-                  CreateReplyRequest.replyRequestCount
-                } 人跟您一樣渴望看到針對這篇訊息的回應。`
-          }`,
+          text,
         },
         {
-          type: 'text',
-          text: `若有最新回應，會寫在這個地方：${getArticleURL(
-            selectedArticleId
-          )}`,
+          type: 'template',
+          altText: '若要放棄請輸入「n」。',
+          template: {
+            type: 'buttons',
+            text: '若要放棄，請按「我不想填理由」。',
+            actions: [createPostbackAction('我不想填理由', 'n', issuedAt)],
+          },
         },
       ];
 
-      state = '__INIT__';
+      state = 'ASKING_REPLY_REQUEST_REASON';
     }
   }
 
