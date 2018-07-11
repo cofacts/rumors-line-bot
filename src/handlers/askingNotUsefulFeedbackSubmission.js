@@ -1,8 +1,8 @@
 import gql from '../gql';
 import ga from '../ga';
-import { getArticleURL, createPostbackAction } from './utils';
+import { getArticleURL } from './utils';
 
-export default async function askingReplyFeedback(params) {
+export default async function askingNotUsefulFeedbackSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
   if (!data.selectedReplyId) {
@@ -16,17 +16,23 @@ export default async function askingReplyFeedback(params) {
     el: `${data.selectedArticleId}/${data.selectedReplyId}`,
   });
 
-  if (event.input === 'y') {
+  if (event.input !== 'r') {
     const {
       data: {
         action: { feedbackCount },
       },
     } = await gql`
-      mutation($vote: FeedbackVote!, $articleId: String!, $replyId: String!) {
+      mutation(
+        $comment: String!
+        $vote: FeedbackVote!
+        $articleId: String!
+        $replyId: String!
+      ) {
         action: CreateOrUpdateArticleReplyFeedback(
-          vote: $vote
+          comment: $comment
           articleId: $articleId
           replyId: $replyId
+          vote: $vote
         ) {
           feedbackCount
         }
@@ -35,10 +41,12 @@ export default async function askingReplyFeedback(params) {
       {
         articleId: data.selectedArticleId,
         replyId: data.selectedReplyId,
-        vote: event.input === 'UPVOTE',
+        comment: event.input === 'n' ? 'none' : data.comment,
+        vote: 'DOWNVOTE',
       },
       { userId }
     );
+
     replies = [
       {
         type: 'text',
@@ -56,21 +64,10 @@ export default async function askingReplyFeedback(params) {
     ];
 
     state = '__INIT__';
-    return { data, state, event, issuedAt, userId, replies, isSkipUser };
+  } else {
+    replies = [{ type: 'text', text: '好的，請重新填寫理由。' }];
+    state = 'ASKING_NOT_USEFUL_FEEDBACK';
   }
-  replies = [
-    {
-      type: 'template',
-      altText: `請問您為什麼覺得好心人的回應沒有幫助？請按左下角「⌨️」鈕，把理由傳給我們，幫助闢謠編輯釐清問題所在；若不想填，請按「我不想填理由」按鈕。`,
-      template: {
-        type: 'buttons',
-        text:
-          '請問您為什麼覺得好心人的回應沒有幫助？請按左下角「⌨️」鈕，把理由傳給我們',
-        actions: [createPostbackAction('我不想填理由', 'n', issuedAt)],
-      },
-    },
-  ];
 
-  state = 'ASKING_NOT_USEFUL_FEEDBACK';
   return { data, state, event, issuedAt, userId, replies, isSkipUser };
 }
