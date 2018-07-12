@@ -4,7 +4,7 @@ import askingNotUsefulFeedbackSubmission from '../askingNotUsefulFeedbackSubmiss
 import * as apiResult from '../__fixtures__/askingNotUsefulFeedback';
 import gql from '../../gql';
 
-let commonParamsNone = {
+const commonParamsNone = {
   data: {
     searchedText: '貼圖',
     foundArticleIds: [
@@ -46,7 +46,7 @@ it('handles "none" postback with other existing feedbacks', async () => {
   ).toMatchSnapshot();
 });
 
-let commonParamsComment = JSON.parse(JSON.stringify(commonParamsNone));
+const commonParamsComment = JSON.parse(JSON.stringify(commonParamsNone));
 commonParamsComment.event = {
   type: 'postback',
   input: 'y',
@@ -70,7 +70,7 @@ it('handles text comment with other existing feedbacks', async () => {
   ).toMatchSnapshot();
 });
 
-let commonParamsModify = JSON.parse(JSON.stringify(commonParamsNone));
+const commonParamsModify = JSON.parse(JSON.stringify(commonParamsNone));
 commonParamsModify.event = {
   type: 'postback',
   input: 'r',
@@ -84,7 +84,7 @@ it('handles that the user wants to modify his comments', async () => {
   ).toMatchSnapshot();
 });
 
-let commonParamsNoId = JSON.parse(JSON.stringify(commonParamsNone));
+const commonParamsNoId = JSON.parse(JSON.stringify(commonParamsNone));
 commonParamsNoId.data.selectedReplyId = undefined;
 
 it('handles undefined reply id', () => {

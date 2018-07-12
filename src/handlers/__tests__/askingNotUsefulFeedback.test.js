@@ -4,7 +4,7 @@ import askingNotUsefulFeedback from '../askingNotUsefulFeedback';
 import * as apiResult from '../__fixtures__/askingNotUsefulFeedback';
 import gql from '../../gql';
 
-let commonParamsNone = {
+const commonParamsNone = {
   data: {
     searchedText: '貼圖',
     foundArticleIds: [
@@ -42,7 +42,7 @@ it('handles "none" postback with other existing feedbacks', async () => {
   expect(await askingNotUsefulFeedback(commonParamsNone)).toMatchSnapshot();
 });
 
-let commonParamsComment = JSON.parse(JSON.stringify(commonParamsNone));
+const commonParamsComment = JSON.parse(JSON.stringify(commonParamsNone));
 commonParamsComment.event = {
   type: 'text',
   input: 'comment',
@@ -54,7 +54,7 @@ it('handles text comment with other existing feedbacks', async () => {
   expect(await askingNotUsefulFeedback(commonParamsComment)).toMatchSnapshot();
 });
 
-let commonParamsNoId = JSON.parse(JSON.stringify(commonParamsNone));
+const commonParamsNoId = JSON.parse(JSON.stringify(commonParamsNone));
 commonParamsNoId.data.selectedReplyId = undefined;
 
 it('handles undefined reply id', () => {

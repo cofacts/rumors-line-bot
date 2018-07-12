@@ -42,7 +42,7 @@ it('handles "yes" postback with other existing feedbacks', async () => {
   expect(await askingReplyFeedback(commonParamsYes)).toMatchSnapshot();
 });
 
-let commonParamsNo = {
+const commonParamsNo = {
   data: {
     searchedText: '貼圖',
     foundArticleIds: [
