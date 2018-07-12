@@ -1,6 +1,6 @@
 jest.mock('../../gql');
 
-import askingNotUsefulFeedback from '../askingNotUsefulFeedback';
+import askingNotUsefulFeedbackSubmission from '../askingNotUsefulFeedbackSubmission';
 import * as apiResult from '../__fixtures__/askingNotUsefulFeedback';
 import gql from '../../gql';
 
@@ -17,7 +17,7 @@ let commonParamsNone = {
     foundReplyIds: ['AWDZeeV0yCdS-nWhuml8'],
     selectedReplyId: 'AWDZeeV0yCdS-nWhuml8',
   },
-  state: 'ASKING_NOT_USEFUL_FEEDBACK',
+  state: 'ASKING_NOT_USEFUL_FEEDBACK_SUBMISSION',
   event: {
     type: 'postback',
     input: 'n',
@@ -33,32 +33,62 @@ let commonParamsNone = {
 it('handles "none" postback with no other existing feedbacks', async () => {
   gql.__push(apiResult.oneFeedback);
 
-  expect(await askingNotUsefulFeedback(commonParamsNone)).toMatchSnapshot();
+  expect(
+    await askingNotUsefulFeedbackSubmission(commonParamsNone)
+  ).toMatchSnapshot();
 });
 
 it('handles "none" postback with other existing feedbacks', async () => {
   gql.__push(apiResult.twoFeedbacks);
 
-  expect(await askingNotUsefulFeedback(commonParamsNone)).toMatchSnapshot();
+  expect(
+    await askingNotUsefulFeedbackSubmission(commonParamsNone)
+  ).toMatchSnapshot();
 });
 
 let commonParamsComment = JSON.parse(JSON.stringify(commonParamsNone));
 commonParamsComment.event = {
-  type: 'text',
-  input: 'comment',
+  type: 'postback',
+  input: 'y',
   timestamp: 1519019734813,
-  postback: { data: '{"input":"comment","issuedAt":1519019701265}' },
+  postback: { data: '{"input":"y","issuedAt":1519019701265}' },
 };
 
+it('handles text comment with no other existing feedbacks', async () => {
+  gql.__push(apiResult.oneFeedback);
+
+  expect(
+    await askingNotUsefulFeedbackSubmission(commonParamsComment)
+  ).toMatchSnapshot();
+});
+
 it('handles text comment with other existing feedbacks', async () => {
-  expect(await askingNotUsefulFeedback(commonParamsComment)).toMatchSnapshot();
+  gql.__push(apiResult.twoFeedbacks);
+
+  expect(
+    await askingNotUsefulFeedbackSubmission(commonParamsComment)
+  ).toMatchSnapshot();
+});
+
+let commonParamsModify = JSON.parse(JSON.stringify(commonParamsNone));
+commonParamsModify.event = {
+  type: 'postback',
+  input: 'r',
+  timestamp: 1519019734813,
+  postback: { data: '{"input":"r","issuedAt":1519019701265}' },
+};
+
+it('handles that the user wants to modify his comments', async () => {
+  expect(
+    await askingNotUsefulFeedbackSubmission(commonParamsModify)
+  ).toMatchSnapshot();
 });
 
 let commonParamsNoId = JSON.parse(JSON.stringify(commonParamsNone));
 commonParamsNoId.data.selectedReplyId = undefined;
 
 it('handles undefined reply id', () => {
-  expect(askingNotUsefulFeedback(commonParamsNoId)).rejects.toThrow(
+  expect(askingNotUsefulFeedbackSubmission(commonParamsNoId)).rejects.toThrow(
     'selectedReply not set in data'
   );
 });
