@@ -7,6 +7,7 @@ import askingArticleSubmissionReason from './handlers/askingArticleSubmissionRea
 import askingReplyRequestReason from './handlers/askingReplyRequestReason';
 import askingReplyRequestSubmission from './handlers/askingReplyRequestSubmission';
 import askingNotUsefulFeedback from './handlers/askingNotUsefulFeedback';
+import askingNotUsefulFeedbackSubmission from './handlers/askingNotUsefulFeedbackSubmission';
 import defaultState from './handlers/defaultState';
 
 /**
@@ -77,6 +78,10 @@ export default async function handleInput(
       }
       case 'ASKING_NOT_USEFUL_FEEDBACK': {
         params = await askingNotUsefulFeedback(params);
+        break;
+      }
+      case 'ASKING_NOT_USEFUL_FEEDBACK_SUBMISSION': {
+        params = await askingNotUsefulFeedbackSubmission(params);
         break;
       }
       case 'ASKING_ARTICLE_SUBMISSION': {

@@ -35,7 +35,7 @@ export default async function askingReplyFeedback(params) {
       {
         articleId: data.selectedArticleId,
         replyId: data.selectedReplyId,
-        vote: event.input === 'y' ? 'UPVOTE' : 'DOWNVOTE',
+        vote: 'UPVOTE',
       },
       { userId }
     );
@@ -66,7 +66,7 @@ export default async function askingReplyFeedback(params) {
         type: 'buttons',
         text:
           '請問您為什麼覺得好心人的回應沒有幫助？請按左下角「⌨️」鈕，把理由傳給我們',
-        actions: [createPostbackAction('我不想填理由', 'none', issuedAt)],
+        actions: [createPostbackAction('我不想填理由', 'n', issuedAt)],
       },
     },
   ];

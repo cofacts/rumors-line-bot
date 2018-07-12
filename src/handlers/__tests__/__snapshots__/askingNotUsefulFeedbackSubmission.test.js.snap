@@ -82,10 +82,9 @@ Object {
 }
 `;
 
-exports[`handles text comment with other existing feedbacks 1`] = `
+exports[`handles text comment with no other existing feedbacks 1`] = `
 Object {
   "data": Object {
-    "comment": "comment",
     "foundArticleIds": Array [
       "AWDZYXxAyCdS-nWhumlz",
       "5483323992880-rumor",
@@ -100,47 +99,115 @@ Object {
     "selectedReplyId": "AWDZeeV0yCdS-nWhuml8",
   },
   "event": Object {
-    "input": "comment",
+    "input": "y",
     "postback": Object {
-      "data": "{\\"input\\":\\"comment\\",\\"issuedAt\\":1519019701265}",
+      "data": "{\\"input\\":\\"y\\",\\"issuedAt\\":1519019701265}",
     },
     "timestamp": 1519019734813,
-    "type": "text",
+    "type": "postback",
   },
   "isSkipUser": false,
   "issuedAt": 1519019735467,
   "replies": Array [
     Object {
-      "text": "以下是您所填寫的理由：「comment」",
+      "text": "感謝您的回饋，您是第一個評論這個回應的人 :)",
       "type": "text",
     },
     Object {
-      "altText": "我們會把您覺得回應沒幫助的原因呈現給編輯們看。請確認：",
+      "text": "💁 若您認為自己能回應得更好，歡迎到 https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz 提交新的回應唷！",
+      "type": "text",
+    },
+  ],
+  "state": "__INIT__",
+  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+}
+`;
+
+exports[`handles text comment with other existing feedbacks 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AWDZYXxAyCdS-nWhumlz",
+      "5483323992880-rumor",
+      "AV-Urc0jyCdS-nWhuity",
+      "AVsh8u7StKp96s659Dgq",
+    ],
+    "foundReplyIds": Array [
+      "AWDZeeV0yCdS-nWhuml8",
+    ],
+    "searchedText": "貼圖",
+    "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
+    "selectedReplyId": "AWDZeeV0yCdS-nWhuml8",
+  },
+  "event": Object {
+    "input": "y",
+    "postback": Object {
+      "data": "{\\"input\\":\\"y\\",\\"issuedAt\\":1519019701265}",
+    },
+    "timestamp": 1519019734813,
+    "type": "postback",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1519019735467,
+  "replies": Array [
+    Object {
+      "text": "感謝您與其他 1 人的回饋。",
+      "type": "text",
+    },
+    Object {
+      "text": "💁 若您認為自己能回應得更好，歡迎到 https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz 提交新的回應唷！",
+      "type": "text",
+    },
+  ],
+  "state": "__INIT__",
+  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+}
+`;
+
+exports[`handles that the user wants to modify his comments 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AWDZYXxAyCdS-nWhumlz",
+      "5483323992880-rumor",
+      "AV-Urc0jyCdS-nWhuity",
+      "AVsh8u7StKp96s659Dgq",
+    ],
+    "foundReplyIds": Array [
+      "AWDZeeV0yCdS-nWhuml8",
+    ],
+    "searchedText": "貼圖",
+    "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
+    "selectedReplyId": "AWDZeeV0yCdS-nWhuml8",
+  },
+  "event": Object {
+    "input": "r",
+    "postback": Object {
+      "data": "{\\"input\\":\\"r\\",\\"issuedAt\\":1519019701265}",
+    },
+    "timestamp": 1519019734813,
+    "type": "postback",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1519019735467,
+  "replies": Array [
+    Object {
+      "altText": "好的，請重新填寫理由",
       "template": Object {
         "actions": Array [
           Object {
-            "data": "{\\"input\\":\\"y\\",\\"issuedAt\\":1519019735467}",
-            "label": "明白，我要送出",
-            "type": "postback",
-          },
-          Object {
-            "data": "{\\"input\\":\\"r\\",\\"issuedAt\\":1519019735467}",
-            "label": "重寫送出的理由",
-            "type": "postback",
-          },
-          Object {
             "data": "{\\"input\\":\\"n\\",\\"issuedAt\\":1519019735467}",
-            "label": "算了，我不想填",
+            "label": "我不想填了",
             "type": "postback",
           },
         ],
-        "text": "我們會把您覺得回應沒幫助的原因呈現給編輯們看。請確認：",
+        "text": "好的，請重新填寫理由",
         "type": "buttons",
       },
       "type": "template",
     },
   ],
-  "state": "ASKING_NOT_USEFUL_FEEDBACK_SUBMISSION",
+  "state": "ASKING_NOT_USEFUL_FEEDBACK",
   "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
 }
 `;

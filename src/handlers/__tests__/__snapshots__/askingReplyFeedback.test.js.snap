@@ -32,7 +32,7 @@ Object {
       "template": Object {
         "actions": Array [
           Object {
-            "data": "{\\"input\\":\\"none\\",\\"issuedAt\\":1519019735467}",
+            "data": "{\\"input\\":\\"n\\",\\"issuedAt\\":1519019735467}",
             "label": "我不想填理由",
             "type": "postback",
           },

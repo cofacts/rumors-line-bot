@@ -1,14 +1,14 @@
 import gql from '../gql';
 import { getArticleURL, createPostbackAction } from './utils';
 
-export default async function askingNotUsefulFeedback(params) {
+export default async function askingNotUsefulFeedbackSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
   if (!data.selectedReplyId) {
     throw new Error('selectedReply not set in data');
   }
 
-  if (event.input === 'n') {
+  if (event.input !== 'r') {
     const {
       data: {
         action: { feedbackCount },
@@ -33,7 +33,7 @@ export default async function askingNotUsefulFeedback(params) {
       {
         articleId: data.selectedArticleId,
         replyId: data.selectedReplyId,
-        comment: 'none',
+        comment: event.input === 'n' ? 'none' : data.comment,
         vote: 'DOWNVOTE',
       },
       { userId }
@@ -54,31 +54,22 @@ export default async function askingNotUsefulFeedback(params) {
         )} 提交新的回應唷！`,
       },
     ];
+
     state = '__INIT__';
   } else {
-    data.comment = event.input;
-
     replies = [
       {
-        type: 'text',
-        text: `以下是您所填寫的理由：「${event.input}」`,
-      },
-      {
         type: 'template',
-        altText: '我們會把您覺得回應沒幫助的原因呈現給編輯們看。請確認：',
+        altText: `好的，請重新填寫理由`,
         template: {
           type: 'buttons',
-          text: '我們會把您覺得回應沒幫助的原因呈現給編輯們看。請確認：',
-          actions: [
-            createPostbackAction('明白，我要送出', 'y', issuedAt),
-            createPostbackAction('重寫送出的理由', 'r', issuedAt),
-            createPostbackAction('算了，我不想填', 'n', issuedAt),
-          ],
+          text: '好的，請重新填寫理由',
+          actions: [createPostbackAction('我不想填了', 'n', issuedAt)],
         },
       },
     ];
-
-    state = 'ASKING_NOT_USEFUL_FEEDBACK_SUBMISSION';
+    state = 'ASKING_NOT_USEFUL_FEEDBACK';
   }
+
   return { data, state, event, issuedAt, userId, replies, isSkipUser };
 }
