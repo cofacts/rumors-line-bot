@@ -35,7 +35,7 @@ export default async function askingReplyFeedback(params) {
       {
         articleId: data.selectedArticleId,
         replyId: data.selectedReplyId,
-        vote: event.input === 'UPVOTE',
+        vote: 'UPVOTE',
       },
       { userId }
     );

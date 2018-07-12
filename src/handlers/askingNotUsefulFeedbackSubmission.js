@@ -1,6 +1,5 @@
 import gql from '../gql';
-import ga from '../ga';
-import { getArticleURL } from './utils';
+import { getArticleURL, createPostbackAction } from './utils';
 
 export default async function askingNotUsefulFeedbackSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -8,13 +7,6 @@ export default async function askingNotUsefulFeedbackSubmission(params) {
   if (!data.selectedReplyId) {
     throw new Error('selectedReply not set in data');
   }
-
-  // Track when user give feedback.
-  ga(userId, {
-    ec: 'UserInput',
-    ea: 'Feedback-Vote',
-    el: `${data.selectedArticleId}/${data.selectedReplyId}`,
-  });
 
   if (event.input !== 'r') {
     const {
@@ -65,7 +57,17 @@ export default async function askingNotUsefulFeedbackSubmission(params) {
 
     state = '__INIT__';
   } else {
-    replies = [{ type: 'text', text: '好的，請重新填寫理由。' }];
+    replies = [
+      {
+        type: 'template',
+        altText: `好的，請重新填寫理由`,
+        template: {
+          type: 'buttons',
+          text: '好的，請重新填寫理由',
+          actions: [createPostbackAction('我不想填了', 'n', issuedAt)],
+        },
+      },
+    ];
     state = 'ASKING_NOT_USEFUL_FEEDBACK';
   }
 

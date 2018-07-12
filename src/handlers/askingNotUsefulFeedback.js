@@ -1,5 +1,4 @@
 import gql from '../gql';
-import ga from '../ga';
 import { getArticleURL, createPostbackAction } from './utils';
 
 export default async function askingNotUsefulFeedback(params) {
@@ -10,11 +9,6 @@ export default async function askingNotUsefulFeedback(params) {
   }
 
   if (event.input === 'n') {
-    ga(userId, {
-      ec: 'UserInput',
-      ea: 'Feedback-Vote',
-      el: `${data.selectedArticleId}/${data.selectedReplyId}`,
-    });
     const {
       data: {
         action: { feedbackCount },
@@ -78,7 +72,7 @@ export default async function askingNotUsefulFeedback(params) {
           actions: [
             createPostbackAction('明白，我要送出', 'y', issuedAt),
             createPostbackAction('重寫送出的理由', 'r', issuedAt),
-            createPostbackAction('放棄送出', 'n', issuedAt),
+            createPostbackAction('算了，我不想填', 'n', issuedAt),
           ],
         },
       },
