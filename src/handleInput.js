@@ -37,7 +37,8 @@ export default async function handleInput(
   if (
     event.input.length >= 3 &&
     state !== 'ASKING_NOT_USEFUL_FEEDBACK' &&
-    state !== 'ASKING_ARTICLE_SUBMISSION_REASON'
+    state !== 'ASKING_ARTICLE_SUBMISSION_REASON' &&
+    state !== 'ASKING_REPLY_REQUEST_REASON'
   ) {
     // If input contains more than 3 words,
     // consider it as a new query and start over.
