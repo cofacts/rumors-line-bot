@@ -15,7 +15,7 @@ export default async function askingArticleSubmission(params) {
     const {
       data: { CreateReplyRequest },
     } = await gql`
-      mutation($id: String!, reason: String) {
+      mutation($id: String!, $reason: String) {
         CreateReplyRequest(articleId: $id, reason: $reason) {
           replyRequestCount
         }
