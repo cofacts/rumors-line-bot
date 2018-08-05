@@ -52,6 +52,11 @@ export function createReferenceWords({ reference, type }) {
 }
 
 /**
+ * prefilled text for reasons
+ */
+export const REASON_PLACEHOLDER = '因為⋯⋯';
+
+/**
  * @param {number} issuedAt The "issuedAt" to put in postback action
  * @returns {array} an array of reply message instances
  */
@@ -137,7 +142,7 @@ export function createAskArticleSubmissionReply(issuedAt) {
               action: {
                 type: 'uri',
                 label: '⌨️ 傳理由給我們',
-                uri: `line://oaMessage/@${accountName}/?因為⋯⋯`,
+                uri: `line://oaMessage/@${accountName}/?${REASON_PLACEHOLDER}`,
               },
             },
           ],

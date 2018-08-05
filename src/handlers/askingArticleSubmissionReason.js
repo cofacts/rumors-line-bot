@@ -1,14 +1,15 @@
 import ga from '../ga';
-import { createPostbackAction } from './utils';
+import { createPostbackAction, REASON_PLACEHOLDER } from './utils';
 
 export default async function askingArticleSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
-  if (event.input !== 'n') {
+  if (event.input !== 'n' && event.input !== REASON_PLACEHOLDER) {
     const reason = event.input;
     const text =
       `以下是您所填寫的理由：\n「\n${reason}\n」\n` +
       '我們即將把此訊息與您填寫的理由送至資料庫。' +
       '若您送出的訊息或理由意味不明、造成闢謠編輯的困擾，可能會影響到您未來送出文章的權利。' +
+      '\n' +
       '若要確認請輸入「y」、若要放棄請輸入「n」、若要重新填寫理由請輸入「r」';
 
     replies = [
@@ -98,12 +99,15 @@ export default async function askingArticleSubmission(params) {
     ];
     data.reasonText = reason;
     state = 'ASKING_ARTICLE_SUBMISSION';
-  } else {
+  } else if (event.input !== REASON_PLACEHOLDER) {
     // Track whether user create Article or not if the Article is not found in DB.
     ga(userId, { ec: 'Article', ea: 'Create', el: 'No' });
 
     replies = [{ type: 'text', text: '訊息沒有送出，謝謝您的使用。' }];
     state = '__INIT__';
+  } else {
+    // if the user submits the prefilled 「因為......」 directly, ask him to resubmit
+    replies = [{ type: 'text', text: '您的理由不夠充分，請重新填寫。' }];
   }
 
   return { data, state, event, issuedAt, userId, replies, isSkipUser };

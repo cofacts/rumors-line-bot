@@ -6,6 +6,7 @@ import {
   isNonsenseText,
   getArticleURL,
   createAskArticleSubmissionReply,
+  REASON_PLACEHOLDER,
 } from './utils';
 import ga from '../ga';
 
@@ -262,7 +263,7 @@ export default async function choosingArticle(params) {
               contents: [
                 {
                   type: 'button',
-                  action: createPostbackAction('放棄送出', 'n', issuedAt),
+                  action: createPostbackAction('我不想填理由', 'n', issuedAt),
                 },
                 {
                   type: 'button',
@@ -270,7 +271,7 @@ export default async function choosingArticle(params) {
                   action: {
                     type: 'uri',
                     label: '⌨️ 傳理由給我們',
-                    uri: `line://oaMessage/@${accountName}/?因為⋯⋯`,
+                    uri: `line://oaMessage/@${accountName}/?${REASON_PLACEHOLDER}`,
                   },
                 },
               ],
