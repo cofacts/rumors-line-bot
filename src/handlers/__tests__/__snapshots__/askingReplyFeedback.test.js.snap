@@ -83,6 +83,10 @@ Object {
       "text": "💁 若您認為自己能回應得更好，歡迎到 https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz 提交新的回應唷！",
       "type": "text",
     },
+    Object {
+      "text": "建議可以把上面的回應分享回您的聊天室唷！",
+      "type": "text",
+    },
   ],
   "state": "__INIT__",
   "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
@@ -122,6 +126,10 @@ Object {
     },
     Object {
       "text": "💁 若您認為自己能回應得更好，歡迎到 https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz 提交新的回應唷！",
+      "type": "text",
+    },
+    Object {
+      "text": "建議可以把上面的回應分享回您的聊天室唷！",
       "type": "text",
     },
   ],

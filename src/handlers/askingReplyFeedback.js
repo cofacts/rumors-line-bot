@@ -53,6 +53,10 @@ export default async function askingReplyFeedback(params) {
           data.selectedArticleId
         )} 提交新的回應唷！`,
       },
+      {
+        type: 'text',
+        text: '建議可以把上面的回應分享回您的聊天室唷！',
+      },
     ];
 
     state = '__INIT__';
