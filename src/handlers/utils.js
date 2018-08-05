@@ -62,20 +62,86 @@ export function createAskArticleSubmissionReply(issuedAt) {
     '\n' +
     '雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。\n' +
     '\n' +
-    '請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您有疑惑之處。';
+    '請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您有疑惑之處。' +
+    '\n' +
+    '若想放棄，請輸入「n」。';
+  let accountName = process.env.LINE_AT_NAME || 'cofacts';
 
   return [
     {
-      type: 'text',
-      text,
-    },
-    {
-      type: 'template',
-      altText: '若要放棄請輸入「n」。',
-      template: {
-        type: 'buttons',
-        text: '若要放棄，請按「放棄送出」。',
-        actions: [createPostbackAction('放棄送出', 'n', issuedAt)],
+      type: 'flex',
+      altText: text,
+      contents: {
+        type: 'bubble',
+        header: {
+          type: 'box',
+          layout: 'horizontal',
+          contents: [
+            {
+              type: 'text',
+              text: '送出訊息到公開資料庫？',
+              weight: 'bold',
+              color: '#009900',
+              size: 'sm',
+            },
+          ],
+        },
+        body: {
+          type: 'box',
+          layout: 'vertical',
+          spacing: 'md',
+          contents: [
+            {
+              type: 'text',
+              text:
+                '若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。',
+              wrap: true,
+              size: 'xxs',
+            },
+            {
+              type: 'text',
+              text:
+                '雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。',
+              wrap: true,
+              size: 'xxs',
+            },
+            {
+              type: 'text',
+              text: '請打字告訴我們：',
+              weight: 'bold',
+              wrap: true,
+              color: '#990000',
+              size: 'md',
+            },
+            {
+              type: 'text',
+              text: '為何您會覺得這是一則謠言？',
+              weight: 'bold',
+              color: '#ff0000',
+              wrap: true,
+              size: 'xxl',
+            },
+          ],
+        },
+        footer: {
+          type: 'box',
+          layout: 'vertical',
+          contents: [
+            {
+              type: 'button',
+              action: createPostbackAction('放棄送出', 'n', issuedAt),
+            },
+            {
+              type: 'button',
+              style: 'primary',
+              action: {
+                type: 'uri',
+                label: '⌨️ 傳理由給我們',
+                uri: `line://oaMessage/@${accountName}/?因為⋯⋯`,
+              },
+            },
+          ],
+        },
       },
     },
   ];
