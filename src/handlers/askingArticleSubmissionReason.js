@@ -3,7 +3,16 @@ import { createPostbackAction, REASON_PLACEHOLDER } from './utils';
 
 export default async function askingArticleSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
-  if (event.input !== 'n' && event.input !== REASON_PLACEHOLDER) {
+  if (event.input === REASON_PLACEHOLDER) {
+    // if the user submits the prefilled 「因為......」 directly, ask him to resubmit
+    replies = [{ type: 'text', text: '您的理由不夠充分，請重新填寫。' }];
+  } else if (event.input === 'n') {
+    // Track whether user create Article or not if the Article is not found in DB.
+    ga(userId, { ec: 'Article', ea: 'Create', el: 'No' });
+
+    replies = [{ type: 'text', text: '訊息沒有送出，謝謝您的使用。' }];
+    state = '__INIT__';
+  } else {
     const reason = event.input;
     const text =
       `以下是您所填寫的理由：\n「\n${reason}\n」\n` +
@@ -99,15 +108,6 @@ export default async function askingArticleSubmission(params) {
     ];
     data.reasonText = reason;
     state = 'ASKING_ARTICLE_SUBMISSION';
-  } else if (event.input !== REASON_PLACEHOLDER) {
-    // Track whether user create Article or not if the Article is not found in DB.
-    ga(userId, { ec: 'Article', ea: 'Create', el: 'No' });
-
-    replies = [{ type: 'text', text: '訊息沒有送出，謝謝您的使用。' }];
-    state = '__INIT__';
-  } else {
-    // if the user submits the prefilled 「因為......」 directly, ask him to resubmit
-    replies = [{ type: 'text', text: '您的理由不夠充分，請重新填寫。' }];
   }
 
   return { data, state, event, issuedAt, userId, replies, isSkipUser };

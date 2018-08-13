@@ -200,7 +200,7 @@ export default async function choosingArticle(params) {
         '\n' +
         '請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您的疑惑；\n' +
         '若想跳過，請輸入「n」。';
-      let accountName = process.env.LINE_AT_NAME || 'cofacts';
+      const accountId = process.env.LINE_AT_ID || 'cofacts';
 
       replies = [
         {
@@ -271,7 +271,7 @@ export default async function choosingArticle(params) {
                   action: {
                     type: 'uri',
                     label: '⌨️ 傳理由給我們',
-                    uri: `line://oaMessage/@${accountName}/?${REASON_PLACEHOLDER}`,
+                    uri: `line://oaMessage/@${accountId}/?${REASON_PLACEHOLDER}`,
                   },
                 },
               ],

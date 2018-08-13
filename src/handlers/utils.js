@@ -70,7 +70,7 @@ export function createAskArticleSubmissionReply(issuedAt) {
     '請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您有疑惑之處。' +
     '\n' +
     '若想放棄，請輸入「n」。';
-  let accountName = process.env.LINE_AT_NAME || 'cofacts';
+  const accountName = process.env.LINE_AT_ID || 'cofacts';
 
   return [
     {

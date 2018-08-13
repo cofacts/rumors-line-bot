@@ -29,6 +29,7 @@ Create .env file, copy the template below and `LINE_CHANNEL_SECRET`, `LINE_CHANN
 API_URL=https://cofacts-api.g0v.tw/graphql
 LINE_CHANNEL_SECRET=<paste LINE@'s channel secret here>
 LINE_CHANNEL_TOKEN=<paste LINE@'s channel token here>
+LINE_AT_ID=<paste LINE@'s id without '@' here>
 ```
 
 Other customizable env vars are:

@@ -1,11 +1,15 @@
 import gql from '../gql';
-import { createPostbackAction, getArticleURL } from './utils';
+import {
+  createPostbackAction,
+  getArticleURL,
+  REASON_PLACEHOLDER,
+} from './utils';
 
 export default async function askingArticleSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
   const { selectedArticleId } = data;
 
-  if (event.input !== 'n') {
+  if (event.input !== 'n' && event.input !== REASON_PLACEHOLDER) {
     const reason = event.input;
 
     const text =
@@ -13,6 +17,18 @@ export default async function askingArticleSubmission(params) {
       '我們即將把您填寫的理由送至資料庫。' +
       '若您送出的訊息或理由意味不明、造成闢謠編輯的困擾，可能會影響到您未來送出文章的權利。' +
       '若要確認請輸入「y」、若不想填寫請輸入「n」、若要重新填寫理由請輸入「r」';
+
+    const {
+      data: { GetArticle },
+    } = await gql`
+      query($id: String!) {
+        GetArticle(id: $id) {
+          text
+        }
+      }
+    `({
+      id: data.selectedArticleId,
+    });
 
     replies = [
       {
@@ -35,6 +51,22 @@ export default async function askingArticleSubmission(params) {
                 weight: 'bold',
                 color: '#1DB446',
                 size: 'sm',
+              },
+              {
+                type: 'separator',
+                margin: 'xxl',
+              },
+              {
+                type: 'text',
+                text: '您之前傳送的訊息',
+                weight: 'bold',
+                size: 'xl',
+                margin: 'xl',
+              },
+              {
+                type: 'text',
+                text: GetArticle.text,
+                size: 'xs',
               },
               {
                 type: 'separator',
