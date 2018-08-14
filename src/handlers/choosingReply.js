@@ -54,23 +54,23 @@ export default async function choosingReply(params) {
         text: ellipsis(createReferenceWords(GetReply), 2000),
       },
       {
+        type: 'text',
+        text: `💁 以上訊息由好心人提供。建議至 ${getArticleURL(
+          data.selectedArticleId
+        )} 觀看完整的訊息內容、其他鄉親的回應，以及他們各自所提出的理由與出處。`,
+      },
+      {
         type: 'template',
         altText:
           '請問上面回應是否有幫助？\n「是」請輸入「y」，「否」請輸入其他任何訊息。',
         template: {
-          type: 'buttons',
+          type: 'confirm',
           text: '請問上面回應是否有幫助？',
           actions: [
             createPostbackAction('是', 'y', issuedAt),
             createPostbackAction('否', 'n', issuedAt),
           ],
         },
-      },
-      {
-        type: 'text',
-        text: `💁 以上訊息由好心人提供。建議至 ${getArticleURL(
-          data.selectedArticleId
-        )} 觀看完整的訊息內容、其他鄉親的回應，以及他們各自所提出的理由與出處。`,
       },
     ];
     // Track when user select a reply.

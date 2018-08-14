@@ -32,13 +32,13 @@ const commonParamsYes = {
 
 it('handles "yes" postback with no other existing feedbacks', async () => {
   gql.__push(apiResult.oneFeedback);
-
+  gql.__push(apiResult.articleData);
   expect(await askingReplyFeedback(commonParamsYes)).toMatchSnapshot();
 });
 
 it('handles "yes" postback with other existing feedbacks', async () => {
   gql.__push(apiResult.twoFeedbacks);
-
+  gql.__push(apiResult.articleData);
   expect(await askingReplyFeedback(commonParamsYes)).toMatchSnapshot();
 });
 
