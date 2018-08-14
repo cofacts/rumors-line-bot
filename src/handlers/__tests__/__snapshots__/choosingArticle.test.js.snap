@@ -23,28 +23,88 @@ Object {
   "issuedAt": 1511633232970,
   "replies": Array [
     Object {
-      "text": "【送出訊息到公開資料庫？】
+      "altText": "【送出訊息到公開資料庫？】
 若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。
 
 雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。
 
-請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您有疑惑之處。",
-      "type": "text",
-    },
-    Object {
-      "altText": "若要放棄請輸入「n」。",
-      "template": Object {
-        "actions": Array [
-          Object {
-            "data": "{\\"input\\":\\"n\\",\\"issuedAt\\":1511633232970}",
-            "label": "放棄送出",
-            "type": "postback",
-          },
-        ],
-        "text": "若要放棄，請按「放棄送出」。",
-        "type": "buttons",
+請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您有疑惑之處。
+若想放棄，請輸入「n」。",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "size": "xxs",
+              "text": "若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。",
+              "type": "text",
+              "wrap": true,
+            },
+            Object {
+              "size": "xxs",
+              "text": "雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。",
+              "type": "text",
+              "wrap": true,
+            },
+            Object {
+              "color": "#990000",
+              "size": "md",
+              "text": "請打字告訴我們：",
+              "type": "text",
+              "weight": "bold",
+              "wrap": true,
+            },
+            Object {
+              "color": "#ff0000",
+              "size": "xxl",
+              "text": "為何您會覺得這是一則謠言？",
+              "type": "text",
+              "weight": "bold",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "data": "{\\"input\\":\\"n\\",\\"issuedAt\\":1511633232970}",
+                "label": "放棄送出",
+                "type": "postback",
+              },
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "label": "⌨️ 傳理由給我們",
+                "type": "uri",
+                "uri": "line://oaMessage/@cofacts/?因為⋯⋯",
+              },
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "header": Object {
+          "contents": Array [
+            Object {
+              "color": "#009900",
+              "size": "sm",
+              "text": "送出訊息到公開資料庫？",
+              "type": "text",
+              "weight": "bold",
+            },
+          ],
+          "layout": "horizontal",
+          "type": "box",
+        },
+        "type": "bubble",
       },
-      "type": "template",
+      "type": "flex",
     },
   ],
   "state": "ASKING_ARTICLE_SUBMISSION_REASON",
@@ -535,29 +595,88 @@ Object {
   "issuedAt": 1511702208730,
   "replies": Array [
     Object {
-      "text": "【跟編輯說您的疑惑】
+      "altText": "【跟編輯說您的疑惑】
 抱歉這篇訊息還沒有人回應過唷！
 
 若您覺得這是一則謠言，請指出您有疑惑之處，說服編輯這是一份應該被闢謠的訊息。
 
-請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您有疑惑之處；
-若想跳過，請按「我不想填理由」按鈕。",
-      "type": "text",
-    },
-    Object {
-      "altText": "若要放棄請輸入「n」。",
-      "template": Object {
-        "actions": Array [
-          Object {
-            "data": "{\\"input\\":\\"n\\",\\"issuedAt\\":1511702208730}",
-            "label": "我不想填理由",
-            "type": "postback",
-          },
-        ],
-        "text": "若要放棄，請按「我不想填理由」。",
-        "type": "buttons",
+請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您的疑惑；
+若想跳過，請輸入「n」。",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "size": "xxs",
+              "text": "抱歉這篇訊息還沒有人回應過唷！",
+              "type": "text",
+              "wrap": true,
+            },
+            Object {
+              "size": "xxs",
+              "text": "若您覺得這是一則謠言，請指出您有疑惑之處，說服編輯這是一份應該被闢謠的訊息，幫助闢謠編輯釐清您有疑惑之處。",
+              "type": "text",
+              "wrap": true,
+            },
+            Object {
+              "color": "#990000",
+              "size": "md",
+              "text": "請打字告訴我們：",
+              "type": "text",
+              "weight": "bold",
+              "wrap": true,
+            },
+            Object {
+              "color": "#ff0000",
+              "size": "xxl",
+              "text": "為何您會覺得這是一則謠言？",
+              "type": "text",
+              "weight": "bold",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "data": "{\\"input\\":\\"n\\",\\"issuedAt\\":1511702208730}",
+                "label": "我不想填理由",
+                "type": "postback",
+              },
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "label": "⌨️ 傳理由給我們",
+                "type": "uri",
+                "uri": "line://oaMessage/@cofacts/?因為⋯⋯",
+              },
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "header": Object {
+          "contents": Array [
+            Object {
+              "color": "#009900",
+              "size": "sm",
+              "text": "跟編輯說您的疑惑",
+              "type": "text",
+              "weight": "bold",
+            },
+          ],
+          "layout": "horizontal",
+          "type": "box",
+        },
+        "type": "bubble",
       },
-      "type": "template",
+      "type": "flex",
     },
   ],
   "state": "ASKING_REPLY_REQUEST_REASON",
