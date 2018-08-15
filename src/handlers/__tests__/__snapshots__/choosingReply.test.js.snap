@@ -73,6 +73,10 @@ Object {
       "type": "text",
     },
     Object {
+      "text": "💁 以上訊息由好心人提供。建議至 https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz 觀看完整的訊息內容、其他鄉親的回應，以及他們各自所提出的理由與出處。",
+      "type": "text",
+    },
+    Object {
       "altText": "請問上面回應是否有幫助？
 「是」請輸入「y」，「否」請輸入其他任何訊息。",
       "template": Object {
@@ -89,13 +93,9 @@ Object {
           },
         ],
         "text": "請問上面回應是否有幫助？",
-        "type": "buttons",
+        "type": "confirm",
       },
       "type": "template",
-    },
-    Object {
-      "text": "💁 以上訊息由好心人提供。建議至 https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz 觀看完整的訊息內容、其他鄉親的回應，以及他們各自所提出的理由與出處。",
-      "type": "text",
     },
   ],
   "state": "ASKING_REPLY_FEEDBACK",
