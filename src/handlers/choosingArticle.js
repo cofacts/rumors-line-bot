@@ -21,7 +21,7 @@ function reorderArticleReplies(articleReplies) {
 
   for (let articleReply of articleReplies) {
     if (articleReply.reply.type !== 'NOT_ARTICLE') {
-      replies.push(articleReply);
+      replies.unshift(articleReply); // FIXME: reverse order until API blocker is resolved in #78
     } else {
       notArticleReplies.push(articleReply);
     }
