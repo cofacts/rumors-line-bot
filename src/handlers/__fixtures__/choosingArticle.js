@@ -1,6 +1,8 @@
 export const selectedArticleId = {
   data: {
     GetArticle: {
+      text:
+        '《緊急通知》\n台北馬偕醫院傳來訊息：\n資深醫生（林清風）傳來：「請大家以後千萬不要再吃生魚片了！」\n因為最近已經發現- 好多病人因為吃了生魚片，胃壁附著《海獸胃腺蟲》，大小隻不一定，有的病人甚至胃壁上滿滿都是無法夾出來，驅蟲藥也很難根治，罹患機率每個國家的人都一樣。\n尤其；鮭魚的含蟲量最高、最可怕！\n請傳給朋友，讓他們有所警惕!',
       replyCount: 2,
       articleReplies: [
         {
@@ -32,6 +34,8 @@ export const multipleReplies = {
   data: {
     GetArticle: {
       replyCount: 4,
+      text:
+        '老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人',
       articleReplies: [
         {
           reply: {
@@ -80,6 +84,7 @@ export const multipleReplies = {
 export const elevenReplies = {
   data: {
     GetArticle: {
+      text: 'eleven Replies article text',
       replyCount: 11,
       articleReplies: [
         {
@@ -187,7 +192,13 @@ export const elevenReplies = {
 };
 
 export const noReplies = {
-  data: { GetArticle: { replyCount: 0, articleReplies: [] } },
+  data: {
+    GetArticle: {
+      text: '老司機車裡總備一塊香皂，知道內情的新手默默也準備了一塊',
+      replyCount: 0,
+      articleReplies: [],
+    },
+  },
 };
 
 export const createReplyRequest = {
