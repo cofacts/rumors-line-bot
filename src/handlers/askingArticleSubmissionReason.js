@@ -3,12 +3,20 @@ import { createPostbackAction, REASON_PLACEHOLDER } from './utils';
 
 export default async function askingArticleSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
+
+  const visitor = ga(userId, data.searchedText);
+  visitor.screenview({ screenName: state });
+
   if (event.input === REASON_PLACEHOLDER) {
     // if the user submits the prefilled 「因為......」 directly, ask him to resubmit
     replies = [{ type: 'text', text: '您的理由不夠充分，請重新填寫。' }];
   } else if (event.input === 'n') {
     // Track whether user create Article or not if the Article is not found in DB.
-    ga(userId, { ec: 'Article', ea: 'Create', el: 'No' });
+    visitor.event({
+      ec: 'Article',
+      ea: 'Create',
+      el: 'No',
+    });
 
     replies = [{ type: 'text', text: '訊息沒有送出，謝謝您的使用。' }];
     state = '__INIT__';
@@ -110,5 +118,6 @@ export default async function askingArticleSubmission(params) {
     state = 'ASKING_ARTICLE_SUBMISSION';
   }
 
+  visitor.send();
   return { data, state, event, issuedAt, userId, replies, isSkipUser };
 }

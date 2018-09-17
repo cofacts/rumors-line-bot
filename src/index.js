@@ -153,29 +153,35 @@ const singleUserHandler = async (
     console.log('\n||LOG||---------->');
   } else if (type === 'message' && otherFields.message.type === 'image') {
     // Track image message type send by user
-    ga(userId, {
-      ec: 'UserInput',
-      ea: 'MessageType',
-      el: otherFields.message.type,
-    });
+    ga(userId)
+      .event({
+        ec: 'UserInput',
+        ea: 'MessageType',
+        el: otherFields.message.type,
+      })
+      .send();
 
     uploadImageFile(otherFields.message.id);
   } else if (type === 'message' && otherFields.message.type === 'video') {
     // Track video message type send by user
-    ga(userId, {
-      ec: 'UserInput',
-      ea: 'MessageType',
-      el: otherFields.message.type,
-    });
+    ga(userId)
+      .event({
+        ec: 'UserInput',
+        ea: 'MessageType',
+        el: otherFields.message.type,
+      })
+      .send();
 
     //uploadVideoFile(otherFields.message.id);
   } else if (type === 'message') {
     // Track other message type send by user
-    ga(userId, {
-      ec: 'UserInput',
-      ea: 'MessageType',
-      el: otherFields.message.type,
-    });
+    ga(userId)
+      .event({
+        ec: 'UserInput',
+        ea: 'MessageType',
+        el: otherFields.message.type,
+      })
+      .send();
   }
 
   // Send replies. Does not need to wait for lineClient's callbacks.

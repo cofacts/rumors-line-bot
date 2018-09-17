@@ -84,6 +84,7 @@ export default async function choosingArticle(params) {
     } = await gql`
       query($id: String!) {
         GetArticle(id: $id) {
+          text
           replyCount
           articleReplies(status: NORMAL) {
             reply {
@@ -100,14 +101,24 @@ export default async function choosingArticle(params) {
       id: selectedArticleId,
     });
 
+    data.selectedArticleText = GetArticle.text;
+
+    const visitor = ga(userId, data.selectedArticleText);
+    visitor.screenview({ screenName: state });
+
     // Track which Article is selected by user.
-    ga(userId, { ec: 'Article', ea: 'Selected', el: selectedArticleId });
+    visitor.event(userId, {
+      ec: 'Article',
+      ea: 'Selected',
+      el: selectedArticleId,
+      dt: data.selectedArticleText,
+    });
 
     const count = {};
 
     GetArticle.articleReplies.forEach(ar => {
       // Track which Reply is searched. And set tracking event as non-interactionHit.
-      ga(userId, { ec: 'Reply', ea: 'Search', el: ar.reply.id }, true);
+      visitor.event({ ec: 'Reply', ea: 'Search', el: ar.reply.id, ni: true });
 
       const type = ar.reply.type;
       if (!count[type]) {
@@ -141,6 +152,7 @@ export default async function choosingArticle(params) {
         // choose for user
         event.input = 1;
 
+        visitor.send();
         return {
           data,
           state: 'CHOOSING_REPLY',
@@ -191,7 +203,12 @@ export default async function choosingArticle(params) {
       // No one has replied to this yet.
 
       // Track not yet reply Articles.
-      ga(userId, { ec: 'Article', ea: 'NoReply', el: selectedArticleId });
+      visitor.event({
+        ec: 'Article',
+        ea: 'NoReply',
+        el: selectedArticleId,
+      });
+
       const text =
         '【跟編輯說您的疑惑】\n' +
         '抱歉這篇訊息還沒有人回應過唷！\n' +
@@ -282,6 +299,7 @@ export default async function choosingArticle(params) {
 
       state = 'ASKING_REPLY_REQUEST_REASON';
     }
+    visitor.send();
   }
 
   return { data, state, event, issuedAt, userId, replies, isSkipUser };

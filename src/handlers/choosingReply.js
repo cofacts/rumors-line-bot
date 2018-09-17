@@ -15,6 +15,9 @@ export default async function choosingReply(params) {
     throw new Error('foundReplyIds not set in data');
   }
 
+  const visitor = ga(userId, data.selectedArticleText);
+  visitor.screenview({ screenName: state });
+
   const selectedReplyId = data.foundReplyIds[event.input - 1];
 
   if (!selectedReplyId) {
@@ -74,13 +77,14 @@ export default async function choosingReply(params) {
       },
     ];
     // Track when user select a reply.
-    ga(userId, { ec: 'Reply', ea: 'Selected', el: selectedReplyId });
+    visitor.event({ ec: 'Reply', ea: 'Selected', el: selectedReplyId });
     // Track which reply type reply to user.
-    ga(userId, { ec: 'Reply', ea: 'Type', el: GetReply.type });
+    visitor.event({ ec: 'Reply', ea: 'Type', el: GetReply.type, ni: true });
 
     data.selectedReplyId = selectedReplyId;
     state = 'ASKING_REPLY_FEEDBACK';
   }
 
+  visitor.send();
   return { data, state, event, issuedAt, userId, replies, isSkipUser };
 }

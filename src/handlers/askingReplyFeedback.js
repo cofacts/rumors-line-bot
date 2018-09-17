@@ -14,8 +14,11 @@ export default async function askingReplyFeedback(params) {
     throw new Error('selectedReply not set in data');
   }
 
+  const visitor = ga(userId, data.selectedArticleText);
+  visitor.screenview({ screenName: state });
+
   // Track when user give feedback.
-  ga(userId, {
+  visitor.event({
     ec: 'UserInput',
     ea: 'Feedback-Vote',
     el: `${data.selectedArticleId}/${data.selectedReplyId}`,
@@ -45,17 +48,13 @@ export default async function askingReplyFeedback(params) {
       { userId }
     );
     const {
-      data: { GetReply, GetArticle },
+      data: { GetReply },
     } = await gql`
       query($replyId: String!, $articleId: String!) {
         GetReply(id: $replyId) {
           type
           text
           reference
-        }
-
-        GetArticle(id: $articleId) {
-          text
         }
       }
     `({
@@ -65,7 +64,7 @@ export default async function askingReplyFeedback(params) {
 
     const articleUrl = getArticleURL(data.selectedArticleId);
     let sharedText = `網路上有人說「${ellipsis(
-      GetArticle.text,
+      data.selectedArticleText,
       15
     )}」 ${createTypeWords(
       GetReply.type
@@ -102,6 +101,7 @@ export default async function askingReplyFeedback(params) {
     ];
 
     state = '__INIT__';
+    visitor.send();
     return { data, state, event, issuedAt, userId, replies, isSkipUser };
   }
   replies = [
@@ -118,5 +118,6 @@ export default async function askingReplyFeedback(params) {
   ];
 
   state = 'ASKING_NOT_USEFUL_FEEDBACK';
+  visitor.send();
   return { data, state, event, issuedAt, userId, replies, isSkipUser };
 }

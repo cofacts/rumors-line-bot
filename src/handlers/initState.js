@@ -13,7 +13,9 @@ export default async function initState(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
   // Track text message type send by user
-  ga(userId, { ec: 'UserInput', ea: 'MessageType', el: 'text' });
+  const visitor = ga(userId, event.input);
+  visitor.screenview({ screenName: state });
+  visitor.event({ ec: 'UserInput', ea: 'MessageType', el: 'text' });
 
   // Store user input into context
   data.searchedText = event.input;
@@ -46,10 +48,16 @@ export default async function initState(params) {
 
   if (ListArticles.edges.length) {
     // Track if find similar Articles in DB.
-    ga(userId, { ec: 'UserInput', ea: 'ArticleSearch', el: 'ArticleFound' });
+    visitor.event({ ec: 'UserInput', ea: 'ArticleSearch', el: 'ArticleFound' });
+
     // Track which Article is searched. And set tracking event as non-interactionHit.
     ListArticles.edges.forEach(edge => {
-      ga(userId, { ec: 'Article', ea: 'Search', el: edge.node.id }, true);
+      visitor.event({
+        ec: 'Article',
+        ea: 'Search',
+        el: edge.node.id,
+        ni: true,
+      });
     });
 
     const edgesSortedWithSimilarity = ListArticles.edges
@@ -76,6 +84,7 @@ export default async function initState(params) {
       // choose for user
       event.input = 1;
 
+      visitor.send();
       return {
         data,
         state: 'CHOOSING_ARTICLE',
@@ -132,7 +141,11 @@ export default async function initState(params) {
   } else {
     if (isNonsenseText(event.input)) {
       // Track if find similar Articles in DB.
-      ga(userId, { ec: 'UserInput', ea: 'ArticleSearch', el: 'NonsenseText' });
+      visitor.event({
+        ec: 'UserInput',
+        ea: 'ArticleSearch',
+        el: 'NonsenseText',
+      });
 
       replies = [
         {
@@ -145,7 +158,7 @@ export default async function initState(params) {
       state = '__INIT__';
     } else {
       // Track if find similar Articles in DB.
-      ga(userId, {
+      visitor.event({
         ec: 'UserInput',
         ea: 'ArticleSearch',
         el: 'ArticleNotFound',
@@ -160,5 +173,6 @@ export default async function initState(params) {
       state = 'ASKING_ARTICLE_SUBMISSION_REASON';
     }
   }
+  visitor.send();
   return { data, state, event, issuedAt, userId, replies, isSkipUser };
 }
