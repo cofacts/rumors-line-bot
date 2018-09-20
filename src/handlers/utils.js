@@ -24,6 +24,16 @@ export function createFeedbackWords(positive, negative) {
   return `[${result.trim()}]`;
 }
 
+/**
+ * @param {string} text - The text to show in flex message, text type
+ * @return {string} The truncated text
+ */
+export function createFlexMessageText(text = '') {
+  // Actually the upper limit is 2000, but 100 should be enough
+  // because we only show the first line
+  return text.slice(0, 100);
+}
+
 export function createTypeWords(type) {
   switch (type) {
     case 'RUMOR':
@@ -61,7 +71,7 @@ export const REASON_PLACEHOLDER = '因為⋯⋯';
  * @returns {array} an array of reply message instances
  */
 export function createAskArticleSubmissionReply(issuedAt) {
-  const text =
+  const altText =
     '【送出訊息到公開資料庫？】\n' +
     '若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。\n' +
     '\n' +
@@ -75,7 +85,7 @@ export function createAskArticleSubmissionReply(issuedAt) {
   return [
     {
       type: 'flex',
-      altText: text,
+      altText,
       contents: {
         type: 'bubble',
         header: {

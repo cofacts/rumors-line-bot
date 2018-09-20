@@ -208,7 +208,7 @@ export default async function choosingArticle(params) {
         el: selectedArticleId,
       });
 
-      const text =
+      const altText =
         '【跟編輯說您的疑惑】\n' +
         '抱歉這篇訊息還沒有人回應過唷！\n' +
         '\n' +
@@ -221,7 +221,7 @@ export default async function choosingArticle(params) {
       replies = [
         {
           type: 'flex',
-          altText: text,
+          altText,
           contents: {
             type: 'bubble',
             header: {
