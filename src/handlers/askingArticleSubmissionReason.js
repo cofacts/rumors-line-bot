@@ -1,5 +1,10 @@
 import ga from '../ga';
-import { createPostbackAction, REASON_PLACEHOLDER } from './utils';
+import {
+  createPostbackAction,
+  createFlexMessageText,
+  REASON_PLACEHOLDER,
+  ellipsis,
+} from './utils';
 
 export default async function askingArticleSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -22,8 +27,8 @@ export default async function askingArticleSubmission(params) {
     state = '__INIT__';
   } else {
     const reason = event.input;
-    const text =
-      `以下是您所填寫的理由：\n「\n${reason}\n」\n` +
+    const altText =
+      `以下是您所填寫的理由：\n「\n${ellipsis(reason, 200)}\n」\n` +
       '我們即將把此訊息與您填寫的理由送至資料庫。' +
       '若您送出的訊息或理由意味不明、造成闢謠編輯的困擾，可能會影響到您未來送出文章的權利。' +
       '\n' +
@@ -32,7 +37,7 @@ export default async function askingArticleSubmission(params) {
     replies = [
       {
         type: 'flex',
-        altText: text,
+        altText,
         contents: {
           type: 'bubble',
           styles: {
@@ -64,7 +69,7 @@ export default async function askingArticleSubmission(params) {
               },
               {
                 type: 'text',
-                text: data.searchedText,
+                text: createFlexMessageText(data.searchedText),
                 size: 'xs',
               },
               {
@@ -80,7 +85,7 @@ export default async function askingArticleSubmission(params) {
               },
               {
                 type: 'text',
-                text: reason,
+                text: createFlexMessageText(reason),
                 size: 'xxs',
               },
               {
