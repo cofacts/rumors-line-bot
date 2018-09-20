@@ -103,8 +103,7 @@ export default async function choosingArticle(params) {
 
     data.selectedArticleText = GetArticle.text;
 
-    const visitor = ga(userId, data.selectedArticleText);
-    visitor.screenview({ screenName: state });
+    const visitor = ga(userId, state, data.selectedArticleText);
 
     // Track which Article is selected by user.
     visitor.event(userId, {

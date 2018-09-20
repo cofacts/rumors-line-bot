@@ -4,8 +4,7 @@ import { createPostbackAction, REASON_PLACEHOLDER } from './utils';
 export default async function askingArticleSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
-  const visitor = ga(userId, data.searchedText);
-  visitor.screenview({ screenName: state });
+  const visitor = ga(userId, state, data.searchedText);
 
   if (event.input === REASON_PLACEHOLDER) {
     // if the user submits the prefilled 「因為......」 directly, ask him to resubmit

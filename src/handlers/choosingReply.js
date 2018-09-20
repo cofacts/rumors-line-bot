@@ -15,8 +15,7 @@ export default async function choosingReply(params) {
     throw new Error('foundReplyIds not set in data');
   }
 
-  const visitor = ga(userId, data.selectedArticleText);
-  visitor.screenview({ screenName: state });
+  const visitor = ga(userId, state, data.selectedArticleText);
 
   const selectedReplyId = data.foundReplyIds[event.input - 1];
 

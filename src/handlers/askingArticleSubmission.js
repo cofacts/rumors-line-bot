@@ -9,8 +9,7 @@ export default async function askingArticleSubmission(params) {
     throw new Error('searchText not set in data');
   }
 
-  const visitor = ga(userId, data.searchedText);
-  visitor.screenview({ screenName: state });
+  const visitor = ga(userId, state, data.searchedText);
 
   if (event.input === 'y') {
     // Track whether user create Article or not if the Article is not found in DB.

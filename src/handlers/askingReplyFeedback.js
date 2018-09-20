@@ -14,8 +14,7 @@ export default async function askingReplyFeedback(params) {
     throw new Error('selectedReply not set in data');
   }
 
-  const visitor = ga(userId, data.selectedArticleText);
-  visitor.screenview({ screenName: state });
+  const visitor = ga(userId, state, data.selectedArticleText);
 
   // Track when user give feedback.
   visitor.event({

@@ -13,8 +13,7 @@ export default async function initState(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
   // Track text message type send by user
-  const visitor = ga(userId, event.input);
-  visitor.screenview({ screenName: state });
+  const visitor = ga(userId, state, event.input);
   visitor.event({ ec: 'UserInput', ea: 'MessageType', el: 'text' });
 
   // Store user input into context
