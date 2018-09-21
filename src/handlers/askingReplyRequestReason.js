@@ -1,8 +1,10 @@
 import gql from '../gql';
 import {
   createPostbackAction,
+  createFlexMessageText,
   getArticleURL,
   REASON_PLACEHOLDER,
+  ellipsis,
 } from './utils';
 
 export default async function askingArticleSubmission(params) {
@@ -12,28 +14,16 @@ export default async function askingArticleSubmission(params) {
   if (event.input !== 'n' && event.input !== REASON_PLACEHOLDER) {
     const reason = event.input;
 
-    const text =
-      `以下是您所填寫的理由：\n「\n${reason}\n」\n` +
+    const altText =
+      `以下是您所填寫的理由：\n「\n${ellipsis(reason, 200)}\n」\n` +
       '我們即將把您填寫的理由送至資料庫。' +
       '若您送出的訊息或理由意味不明、造成闢謠編輯的困擾，可能會影響到您未來送出文章的權利。' +
       '若要確認請輸入「y」、若不想填寫請輸入「n」、若要重新填寫理由請輸入「r」';
 
-    const {
-      data: { GetArticle },
-    } = await gql`
-      query($id: String!) {
-        GetArticle(id: $id) {
-          text
-        }
-      }
-    `({
-      id: data.selectedArticleId,
-    });
-
     replies = [
       {
         type: 'flex',
-        altText: text,
+        altText,
         contents: {
           type: 'bubble',
           styles: {
@@ -65,7 +55,7 @@ export default async function askingArticleSubmission(params) {
               },
               {
                 type: 'text',
-                text: GetArticle.text,
+                text: createFlexMessageText(data.selectedArticleText),
                 size: 'xs',
               },
               {
@@ -81,7 +71,7 @@ export default async function askingArticleSubmission(params) {
               },
               {
                 type: 'text',
-                text: reason,
+                text: createFlexMessageText(reason),
                 size: 'xxs',
               },
               {

@@ -9,9 +9,11 @@ export default async function askingArticleSubmission(params) {
     throw new Error('searchText not set in data');
   }
 
+  const visitor = ga(userId, state, data.searchedText);
+
   if (event.input === 'y') {
     // Track whether user create Article or not if the Article is not found in DB.
-    ga(userId, { ec: 'Article', ea: 'Create', el: 'Yes' });
+    visitor.event({ ec: 'Article', ea: 'Create', el: 'Yes' });
 
     const reason = data.reasonText;
     const {
@@ -34,7 +36,7 @@ export default async function askingArticleSubmission(params) {
     state = '__INIT__';
   } else if (event.input === 'n') {
     // Track whether user create Article or not if the Article is not found in DB.
-    ga(userId, { ec: 'Article', ea: 'Create', el: 'No' });
+    visitor.event({ ec: 'Article', ea: 'Create', el: 'No' });
 
     replies = [{ type: 'text', text: '訊息沒有送出，謝謝您的使用。' }];
     state = '__INIT__';
@@ -43,5 +45,6 @@ export default async function askingArticleSubmission(params) {
     state = 'ASKING_ARTICLE_SUBMISSION_REASON';
   }
 
+  visitor.send();
   return { data, state, event, issuedAt, userId, replies, isSkipUser };
 }

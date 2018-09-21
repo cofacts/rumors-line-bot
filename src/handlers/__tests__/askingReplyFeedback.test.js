@@ -14,6 +14,8 @@ const commonParamsYes = {
       'AVsh8u7StKp96s659Dgq',
     ],
     selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
+    selectedArticleText:
+      '(0)(1)(/)(0)(9)(line)免費貼圖\n\n「[全螢幕貼圖]生活市集x生活小黑熊」\nhttps://line.me/S/sticker/10299\n\n「松果購物 x 狗與鹿(動態貼圖) 」\nhttps://line.me/S/sticker/10300\n\n「LINE TV X 我的男孩限免貼圖」\nhttps://line.me/S/sticker/10207',
     foundReplyIds: ['AWDZeeV0yCdS-nWhuml8'],
     selectedReplyId: 'AWDZeeV0yCdS-nWhuml8',
   },
