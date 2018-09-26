@@ -106,7 +106,7 @@ export default async function choosingArticle(params) {
     const visitor = ga(userId, state, data.selectedArticleText);
 
     // Track which Article is selected by user.
-    visitor.event(userId, {
+    visitor.event({
       ec: 'Article',
       ea: 'Selected',
       el: selectedArticleId,
