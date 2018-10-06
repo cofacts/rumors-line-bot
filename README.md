@@ -24,7 +24,7 @@ Please follow all the steps in [LINE official tutorial](https://developers.line.
 
 First, install heroku toolbelt.
 
-Create .env file, copy the template below and `LINE_CHANNEL_SECRET`, `LINE_CHANNEL_TOKEN` inside.
+Create .env file from `.env.sample` template, at least fill in:
 ```
 API_URL=https://cofacts-api.g0v.tw/graphql
 LINE_CHANNEL_SECRET=<paste LINE@'s channel secret here>
