@@ -138,7 +138,7 @@ it('should ask users if they want to submit article when user say not found', as
 it('should block user from submitting articles that is too short', async () => {
   const params = {
     data: {
-      searchedText: 'http://google.com hello',
+      searchedText: '這真的假的？？！！！？？！',
       foundArticleIds: ['AV8d2-YtyCdS-nWhuhdi'],
     },
     state: 'CHOOSING_ARTICLE',

@@ -40,8 +40,7 @@
     "redis": "^2.6.5",
     "rollbar": "^2.2.9",
     "string-similarity": "^1.1.0",
-    "universal-analytics": "^0.4.16",
-    "url-regex": "^4.1.1"
+    "universal-analytics": "^0.4.16"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",

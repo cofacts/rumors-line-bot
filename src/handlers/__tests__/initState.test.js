@@ -128,12 +128,14 @@ it('should handle article not found', async () => {
     state: '__INIT__',
     event: {
       type: 'message',
-      input: 'YouTube · 寻找健康人生',
+      input:
+        'YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...',
       timestamp: 1497994016356,
       message: {
         type: 'text',
         id: '6270464463537',
-        text: 'YouTube · 寻找健康人生',
+        text:
+          'YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...',
       },
     },
     issuedAt: 1497994017447,

@@ -169,13 +169,13 @@ Object {
 exports[`should handle article not found 1`] = `
 Object {
   "data": Object {
-    "searchedText": "YouTube · 寻找健康人生",
+    "searchedText": "YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...",
   },
   "event": Object {
-    "input": "YouTube · 寻找健康人生",
+    "input": "YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...",
     "message": Object {
       "id": "6270464463537",
-      "text": "YouTube · 寻找健康人生",
+      "text": "YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...",
       "type": "text",
     },
     "timestamp": 1497994016356,

@@ -118,7 +118,7 @@ Object {
     "foundArticleIds": Array [
       "AV8d2-YtyCdS-nWhuhdi",
     ],
-    "searchedText": "http://google.com hello",
+    "searchedText": "這真的假的？？！！！？？！",
     "selectedArticleId": undefined,
   },
   "event": Object {
@@ -135,7 +135,7 @@ Object {
   "issuedAt": 1511633232970,
   "replies": Array [
     Object {
-      "text": "剛才您傳的訊息僅包含連結或是資訊太少，無從查證。
+      "text": "剛才您傳的訊息資訊量太少，編輯無從查證。
 查證範圍請參考📖使用手冊 http://bit.ly/cofacts-line-users",
       "type": "text",
     },
