@@ -287,7 +287,9 @@ export default async function choosingArticle(params) {
                   action: {
                     type: 'uri',
                     label: '⌨️ 傳理由給我們',
-                    uri: `line://oaMessage/@${accountId}/?${REASON_PLACEHOLDER}`,
+                    uri: `line://oaMessage/@${accountId}/?${encodeURIComponent(
+                      REASON_PLACEHOLDER
+                    )}`,
                   },
                 },
               ],

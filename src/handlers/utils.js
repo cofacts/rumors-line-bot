@@ -152,7 +152,9 @@ export function createAskArticleSubmissionReply(issuedAt) {
               action: {
                 type: 'uri',
                 label: '⌨️ 傳理由給我們',
-                uri: `line://oaMessage/@${accountName}/?${REASON_PLACEHOLDER}`,
+                uri: `line://oaMessage/@${accountName}/?${encodeURIComponent(
+                  REASON_PLACEHOLDER
+                )}`,
               },
             },
           ],
