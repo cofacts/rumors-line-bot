@@ -24,7 +24,7 @@ Please follow all the steps in [LINE official tutorial](https://developers.line.
 
 First, install heroku toolbelt.
 
-Create .env file, copy the template below and `LINE_CHANNEL_SECRET`, `LINE_CHANNEL_TOKEN` inside.
+Create .env file from `.env.sample` template, at least fill in:
 ```
 API_URL=https://cofacts-api.g0v.tw/graphql
 LINE_CHANNEL_SECRET=<paste LINE@'s channel secret here>
@@ -60,14 +60,14 @@ With Heroku toolbelt installed, just do this:
 $ heroku local
 ```
 
-and the server will be started on `localhost:5000`. (Or the `PORT` you specified in your `.env` file.)
+and the server will be started on `localhost:5001`. (Or the `PORT` you specified in your `.env` file.)
 
 ### Get LINE messages to your local machine
 
 We recommend [using `ngrok`](https://medium.com/@Oskarr3/developing-messenger-bot-with-ngrok-5d23208ed7c8#.csc8rum8s) to create a public address that directs the traffic from LINE server to your local machine. With `ngrok` in your path, just
 
 ```
-$ ngrok http 5000
+$ ngrok http 5001
 ```
 
 `ngrok` will give you a public URL. Use this to set the webhook URL of your Channel (See the section "Channel Console" in [LINE official tutorial](https://developers.line.me/messaging-api/getting-started)).
