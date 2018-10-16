@@ -246,7 +246,7 @@ Object {
               "action": Object {
                 "label": "⌨️ 傳理由給我們",
                 "type": "uri",
-                "uri": "line://oaMessage/@cofacts/?因為⋯⋯",
+                "uri": "line://oaMessage/@cofacts/?%E5%9B%A0%E7%82%BA%E2%8B%AF%E2%8B%AF",
               },
               "style": "primary",
               "type": "button",
