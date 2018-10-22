@@ -1,5 +1,3 @@
-import urlRegex from 'url-regex';
-
 export function createPostbackAction(label, input, issuedAt) {
   return {
     type: 'postback',
@@ -164,10 +162,9 @@ export function createAskArticleSubmissionReply(issuedAt) {
   ];
 }
 
-export function isNonsenseText(text) {
-  let urls = text.match(urlRegex()) || [];
-  let sum = urls.reduce((sum, url) => sum + url.length, 0);
-  return text.length - sum < 15;
+export function isNonsenseText(/* text */) {
+  // return text.length < 20;
+  return false; // according to 20181017 meeting note, we remove limitation and observe
 }
 
 const ELLIPSIS = '⋯⋯';
