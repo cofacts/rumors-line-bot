@@ -47,7 +47,8 @@ describe('createReferenceWords()', () => {
   });
 });
 
-describe('isNonsenseText()', () => {
+// According to 20181017 meeting note, we chose to remove limitation temporarily.
+xdescribe('isNonsenseText()', () => {
   it('should detect a info-less text [1]', () => {
     // https://cofacts.g0v.tw/article/AV84hj72yCdS-nWhuhxh
     let text = '這個人是不是在做援交的 請分析';

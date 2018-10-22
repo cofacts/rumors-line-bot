@@ -162,8 +162,9 @@ export function createAskArticleSubmissionReply(issuedAt) {
   ];
 }
 
-export function isNonsenseText(text) {
-  return text.length < 20;
+export function isNonsenseText(/* text */) {
+  // return text.length < 20;
+  return false; // according to 20181017 meeting note, we remove limitation and observe
 }
 
 const ELLIPSIS = '⋯⋯';
