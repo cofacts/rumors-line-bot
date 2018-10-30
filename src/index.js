@@ -81,7 +81,11 @@ const singleUserHandler = async (
       // i.e. If other new messages have been sent before pressing buttons,
       // Don't do anything, just ignore silently.
       //
-      if (data.issuedAt !== context.issuedAt) return;
+      if (data.issuedAt !== context.issuedAt) {
+        console.log('Previous button pressed.');
+        rollbar.log('Previous button pressed.');
+        return;
+      }
 
       input = data.input;
     } else if (type === 'message') {
