@@ -121,7 +121,6 @@ $ heroku config:set API_URL=https://cofacts-api.g0v.tw/graphql
 $ heroku config:set SITE_URL=https://cofacts.g0v.tw
 $ heroku config:set LINE_CHANNEL_SECRET=<Your channel secret>
 $ heroku config:set LINE_CHANNEL_TOKEN=<Your channel token>
-$ heroku config:set BOTIMIZE_API_KEY=<Your botimize API Key (optional)>
 $ heroku config:set GOOGLE_CREDENTIALS=<Your google credential (optional)>
 ```
 
