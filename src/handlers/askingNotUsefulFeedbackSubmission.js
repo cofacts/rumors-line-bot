@@ -33,7 +33,7 @@ export default async function askingNotUsefulFeedbackSubmission(params) {
       {
         articleId: data.selectedArticleId,
         replyId: data.selectedReplyId,
-        comment: event.input === 'n' ? 'none' : data.comment,
+        comment: event.input === 'n' ? '' : data.comment,
         vote: 'DOWNVOTE',
       },
       { userId }
