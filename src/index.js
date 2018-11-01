@@ -81,7 +81,11 @@ const singleUserHandler = async (
       // i.e. If other new messages have been sent before pressing buttons,
       // Don't do anything, just ignore silently.
       //
-      if (data.issuedAt !== context.issuedAt) return;
+      if (data.issuedAt !== context.issuedAt) {
+        console.log('Previous button pressed.');
+        rollbar.log('Previous button pressed.');
+        return;
+      }
 
       input = data.input;
     } else if (type === 'message') {
@@ -112,13 +116,8 @@ const singleUserHandler = async (
         );
       }
 
-      // Renew "issuedAt" of the resulting context if state changed
-      //
-      if (context.state !== result.context.state) {
-        result.context.issuedAt = issuedAt;
-      } else {
-        result.context.issuedAt = context.issuedAt;
-      }
+      // Renew "issuedAt" of the resulting context.
+      result.context.issuedAt = issuedAt;
     } catch (e) {
       console.error(e);
       rollbar.error(e, req);
