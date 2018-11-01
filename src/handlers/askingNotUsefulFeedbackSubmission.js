@@ -15,7 +15,7 @@ export default async function askingNotUsefulFeedbackSubmission(params) {
       },
     } = await gql`
       mutation(
-        $comment: String!
+        $comment: String
         $vote: FeedbackVote!
         $articleId: String!
         $replyId: String!
