@@ -83,7 +83,6 @@ const singleUserHandler = async (
       //
       if (data.issuedAt !== context.issuedAt) {
         console.log('Previous button pressed.');
-        rollbar.log('Previous button pressed.');
         return;
       }
 
