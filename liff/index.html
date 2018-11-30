@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cofacts</title>
+  <style>
+    .disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <aside id="errors"></aside>
+  <form id="form" class="disabled">
+    <label for="reason">請輸入理由</label>
+    <textarea name="reason"></textarea>
+    <button type="submit">送出</button>
+  </form>
+  <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+  <script>
+    (function(){
+      const $form = document.querySelector('#form');
+      $form.addEventListener('submit', e => {
+        e.preventDefault();
+        const reason = e.target.reason.value;
+        liff.sendMessages([
+          { type: 'text', text: '我送出的理由是：' },
+          { type: 'text', text: reason },
+        ]).then(() => {
+          liff.closeWindow();
+        }).catch(handleError);
+      });
+
+      liff.init(() => {
+        $form.classList.remove('disabled');
+      }, handleError);
+
+      function handleError(err) {
+        document.querySelector('#errors').textContent = err.toString();
+        $form.classList.add('disabled');
+      }
+    }());
+  </script>
+</body>
+</html>
