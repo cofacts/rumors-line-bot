@@ -3,20 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cofacts</title>
+  <title>送出新文章</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     .disabled {
       pointer-events: none;
       opacity: 0.5;
+    }
+    body {
+      padding: 16px;
+      margin: 0;
+    }
+    .reason {
+      border: solid;
+      width: 100%;
+    }
+    .buttons {
+      display: flex;
+    }
+    .buttons button {
+      flex: 1;
+      border: solid;
+    }
+    .submit {
+      margin-left: 4px;
     }
   </style>
 </head>
 <body>
   <aside id="errors"></aside>
-  <form id="form" class="disabled">
-    <label for="reason">請輸入理由</label>
-    <textarea name="reason"></textarea>
-    <button type="submit">送出</button>
+
+  您即將把「ｈｏｈｏｈｏ...」送入公開資料庫，讓闢謠編輯查證。若您能提供更多資訊，就能對查證有幫助。
+  <form id="form">
+    <label for="reason">請告訴我們，為什麼您覺得這一篇是謠言？</label>
+    <textarea class="reason" name="reason"></textarea>
+    <div class="buttons">
+      <button type="button">放棄送出</button>
+      <button class ="submit" type="submit">確定送出</button>
+    </div>
   </form>
   <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
   <script>
