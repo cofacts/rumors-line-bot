@@ -14,14 +14,8 @@ export default async function askingNotUsefulFeedback(params) {
         action: { feedbackCount },
       },
     } = await gql`
-      mutation(
-        $comment: String!
-        $vote: FeedbackVote!
-        $articleId: String!
-        $replyId: String!
-      ) {
+      mutation($vote: FeedbackVote!, $articleId: String!, $replyId: String!) {
         action: CreateOrUpdateArticleReplyFeedback(
-          comment: $comment
           articleId: $articleId
           replyId: $replyId
           vote: $vote
@@ -33,7 +27,6 @@ export default async function askingNotUsefulFeedback(params) {
       {
         articleId: data.selectedArticleId,
         replyId: data.selectedReplyId,
-        comment: 'none',
         vote: 'DOWNVOTE',
       },
       { userId }
