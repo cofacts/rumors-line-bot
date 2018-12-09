@@ -7,7 +7,6 @@ import redis from './redisClient';
 import checkSignatureAndParse from './checkSignatureAndParse';
 import lineClient from './lineClient';
 import handleInput from './handleInput';
-import botimize from 'botimize';
 import { uploadImageFile } from './fileUpload';
 import ga from './ga';
 
@@ -206,11 +205,6 @@ router.use('/callback', checkSignatureAndParse);
 router.post('/callback', ctx => {
   // Allow free-form request handling.
   // Don't wait for anything before returning 200.
-
-  if (process.env.BOTIMIZE_API_KEY) {
-    const botimizeLogger = botimize(process.env.BOTIMIZE_API_KEY, 'line');
-    botimizeLogger.logIncoming(ctx.request.body);
-  }
 
   ctx.request.body.events.forEach(
     async ({ type, replyToken, source, ...otherFields }) => {
