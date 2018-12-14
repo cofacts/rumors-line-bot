@@ -47,13 +47,14 @@
   <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
   <script>
     (function(){
+      const PREFIX = '我的理由是 ▶️ ';
+
       const $form = document.querySelector('#form');
       $form.addEventListener('submit', e => {
         e.preventDefault();
         const reason = e.target.reason.value;
         liff.sendMessages([
-          { type: 'text', text: '我送出的理由是：' },
-          { type: 'text', text: reason },
+          { type: 'text', text: `${PREFIX} ${reason}` },
         ]).then(() => {
           liff.closeWindow();
         }).catch(handleError);
