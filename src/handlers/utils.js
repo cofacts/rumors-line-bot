@@ -70,6 +70,20 @@ export const CANCEL_TEXT = '✖️ 我放棄送出';
  * @param {string} state The current state
  * @param {string} text The prompt text
  * @param {string} prefix The prefix to use in the result text
+ * @returns {string}
+ */
+export function getLIFFUrl(state, text, prefix) {
+  return `${process.env.LIFF_URL}?state=${state}&text=${encodeURIComponent(
+    text
+  )}&prefix=${encodeURIComponent(prefix)}&cancel=${encodeURIComponent(
+    CANCEL_TEXT
+  )}`;
+}
+
+/**
+ * @param {string} state The current state
+ * @param {string} text The prompt text
+ * @param {string} prefix The prefix to use in the result text
  * @returns {array} an array of reply message instances
  */
 export function createAskArticleSubmissionReply(state, text, prefix) {
@@ -129,13 +143,7 @@ export function createAskArticleSubmissionReply(state, text, prefix) {
               action: {
                 type: 'uri',
                 label: '🆕 我要送出訊息',
-                uri: `${
-                  process.env.LIFF_URL
-                }?state=${state}&text=${encodeURIComponent(
-                  text
-                )}&prefix=${encodeURIComponent(
-                  prefix
-                )}&cancel=${encodeURIComponent(CANCEL_TEXT)}`,
+                uri: getLIFFUrl(state, text, prefix),
               },
             },
           ],

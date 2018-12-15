@@ -8,6 +8,7 @@ import {
   createAskArticleSubmissionReply,
   REASON_PREFIX,
   ellipsis,
+  getLIFFUrl,
 } from './utils';
 import ga from '../ga';
 
@@ -221,7 +222,6 @@ export default async function choosingArticle(params) {
         '\n' +
         '請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您的疑惑；\n' +
         '若想跳過，請輸入「n」。';
-      const accountId = process.env.LINE_AT_ID || 'cofacts';
 
       replies = [
         {
@@ -251,30 +251,13 @@ export default async function choosingArticle(params) {
                   type: 'text',
                   text: '抱歉這篇訊息還沒有人回應過唷！',
                   wrap: true,
-                  size: 'xxs',
+                  color: '#990000',
                 },
                 {
                   type: 'text',
                   text:
-                    '若您覺得這是一則謠言，請指出您有疑惑之處，說服編輯這是一份應該被闢謠的訊息，幫助闢謠編輯釐清您有疑惑之處。',
+                    '若您希望闢謠的好心人可以關注這一篇，請按「我也想知道」告訴大家你的想法。',
                   wrap: true,
-                  size: 'xxs',
-                },
-                {
-                  type: 'text',
-                  text: '請打字告訴我們：',
-                  weight: 'bold',
-                  wrap: true,
-                  color: '#990000',
-                  size: 'md',
-                },
-                {
-                  type: 'text',
-                  text: '為何您會覺得這是一則謠言？',
-                  weight: 'bold',
-                  color: '#ff0000',
-                  wrap: true,
-                  size: 'xxl',
                 },
               ],
             },
@@ -284,17 +267,15 @@ export default async function choosingArticle(params) {
               contents: [
                 {
                   type: 'button',
-                  action: createPostbackAction('我不想填理由', 'n', issuedAt),
-                },
-                {
-                  type: 'button',
                   style: 'primary',
                   action: {
                     type: 'uri',
                     label: '⌨️ 傳理由給我們',
-                    uri: `line://oaMessage/@${accountId}/?${encodeURIComponent(
+                    uri: getLIFFUrl(
+                      'ASKING_REPLY_REQUEST_REASON',
+                      ellipsis(data.searchedText, 10),
                       REASON_PREFIX
-                    )}`,
+                    ),
                   },
                 },
               ],
