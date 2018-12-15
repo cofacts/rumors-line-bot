@@ -7,6 +7,7 @@ import {
   getArticleURL,
   createAskArticleSubmissionReply,
   REASON_PREFIX,
+  ellipsis,
 } from './utils';
 import ga from '../ga';
 
@@ -66,7 +67,11 @@ export default async function choosingArticle(params) {
     ];
     state = '__INIT__';
   } else if (doesNotContainMyArticle) {
-    replies = createAskArticleSubmissionReply(issuedAt, state);
+    replies = createAskArticleSubmissionReply(
+      'ASKING_ARTICLE_SUBMISSION_REASON',
+      ellipsis(data.searchedText, 10),
+      REASON_PREFIX
+    );
 
     state = 'ASKING_ARTICLE_SUBMISSION_REASON';
   } else if (!selectedArticleId) {
