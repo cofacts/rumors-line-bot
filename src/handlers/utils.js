@@ -62,23 +62,24 @@ export function createReferenceWords({ reference, type }) {
 /**
  * prefilled text for reasons
  */
-export const REASON_PLACEHOLDER = '因為⋯⋯';
+export const REASON_PREFIX = '💁 我查到的是：\n';
+export const DOWNVOTE_PREFIX = '💡 我覺得回應能這樣改進：\n';
+export const CANCEL_TEXT = '✖️ 我放棄送出';
 
 /**
- * @param {number} issuedAt The "issuedAt" to put in postback action
+ * @param {string} state The current state
+ * @param {string} text The prompt text
+ * @param {string} prefix The prefix to use in the result text
  * @returns {array} an array of reply message instances
  */
-export function createAskArticleSubmissionReply(issuedAt) {
+export function createAskArticleSubmissionReply(state, text, prefix) {
   const altText =
     '【送出訊息到公開資料庫？】\n' +
     '若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。\n' +
     '\n' +
     '雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。\n' +
     '\n' +
-    '請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您有疑惑之處。' +
-    '\n' +
-    '若想放棄，請輸入「n」。';
-  const accountName = process.env.LINE_AT_ID || 'cofacts';
+    '請在 📱 智慧型手機上完成操作。';
 
   return [
     {
@@ -118,22 +119,6 @@ export function createAskArticleSubmissionReply(issuedAt) {
               wrap: true,
               size: 'xxs',
             },
-            {
-              type: 'text',
-              text: '請打字告訴我們：',
-              weight: 'bold',
-              wrap: true,
-              color: '#990000',
-              size: 'md',
-            },
-            {
-              type: 'text',
-              text: '為何您會覺得這是一則謠言？',
-              weight: 'bold',
-              color: '#ff0000',
-              wrap: true,
-              size: 'xxl',
-            },
           ],
         },
         footer: {
@@ -142,17 +127,17 @@ export function createAskArticleSubmissionReply(issuedAt) {
           contents: [
             {
               type: 'button',
-              action: createPostbackAction('放棄送出', 'n', issuedAt),
-            },
-            {
-              type: 'button',
               style: 'primary',
               action: {
                 type: 'uri',
-                label: '⌨️ 傳理由給我們',
-                uri: `line://oaMessage/@${accountName}/?${encodeURIComponent(
-                  REASON_PLACEHOLDER
-                )}`,
+                label: '🆕 我要送出訊息',
+                uri: `${
+                  process.env.LIFF_URL
+                }?state=${state}&text=${encodeURIComponent(
+                  text
+                )}&prefix=${encodeURIComponent(
+                  prefix
+                )}&cancel=${encodeURIComponent(CANCEL_TEXT)}`,
               },
             },
           ],

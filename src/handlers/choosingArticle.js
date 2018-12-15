@@ -6,7 +6,7 @@ import {
   isNonsenseText,
   getArticleURL,
   createAskArticleSubmissionReply,
-  REASON_PLACEHOLDER,
+  REASON_PREFIX,
 } from './utils';
 import ga from '../ga';
 
@@ -66,7 +66,7 @@ export default async function choosingArticle(params) {
     ];
     state = '__INIT__';
   } else if (doesNotContainMyArticle) {
-    replies = createAskArticleSubmissionReply(issuedAt);
+    replies = createAskArticleSubmissionReply(issuedAt, state);
 
     state = 'ASKING_ARTICLE_SUBMISSION_REASON';
   } else if (!selectedArticleId) {
@@ -288,7 +288,7 @@ export default async function choosingArticle(params) {
                     type: 'uri',
                     label: '⌨️ 傳理由給我們',
                     uri: `line://oaMessage/@${accountId}/?${encodeURIComponent(
-                      REASON_PLACEHOLDER
+                      REASON_PREFIX
                     )}`,
                   },
                 },

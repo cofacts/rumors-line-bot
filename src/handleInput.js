@@ -2,13 +2,13 @@ import initState from './handlers/initState';
 import choosingArticle from './handlers/choosingArticle';
 import choosingReply from './handlers/choosingReply';
 import askingReplyFeedback from './handlers/askingReplyFeedback';
-import askingArticleSubmission from './handlers/askingArticleSubmission';
 import askingArticleSubmissionReason from './handlers/askingArticleSubmissionReason';
 import askingReplyRequestReason from './handlers/askingReplyRequestReason';
 import askingReplyRequestSubmission from './handlers/askingReplyRequestSubmission';
 import askingNotUsefulFeedback from './handlers/askingNotUsefulFeedback';
 import askingNotUsefulFeedbackSubmission from './handlers/askingNotUsefulFeedbackSubmission';
 import defaultState from './handlers/defaultState';
+import { REASON_PREFIX, DOWNVOTE_PREFIX, CANCEL_TEXT } from './handlers/utils';
 
 /**
  * Given input event and context, outputs the new context and the reply to emit.
@@ -36,11 +36,11 @@ export default async function handleInput(
 
   if (
     event.input.length >= 3 &&
-    state !== 'ASKING_NOT_USEFUL_FEEDBACK' &&
-    state !== 'ASKING_ARTICLE_SUBMISSION_REASON' &&
-    state !== 'ASKING_REPLY_REQUEST_REASON'
+    !event.input.startsWith(REASON_PREFIX) &&
+    !event.input.startsWith(DOWNVOTE_PREFIX) &&
+    event.input !== CANCEL_TEXT
   ) {
-    // If input contains more than 3 words,
+    // If input contains more than 3 words and is not reason text,
     // consider it as a new query and start over.
     data = {};
     state = '__INIT__';
@@ -83,10 +83,6 @@ export default async function handleInput(
       }
       case 'ASKING_NOT_USEFUL_FEEDBACK_SUBMISSION': {
         params = await askingNotUsefulFeedbackSubmission(params);
-        break;
-      }
-      case 'ASKING_ARTICLE_SUBMISSION': {
-        params = await askingArticleSubmission(params);
         break;
       }
       case 'ASKING_ARTICLE_SUBMISSION_REASON': {
