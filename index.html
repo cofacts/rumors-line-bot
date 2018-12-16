@@ -17,7 +17,7 @@
       margin: 0;
     }
     .reason {
-      border: solid;
+      border: 1px solid;
       width: 100%;
     }
     .buttons {
@@ -25,40 +25,79 @@
     }
     .buttons button {
       flex: 1;
-      border: solid;
+      border: 1px solid;
     }
     .submit {
       margin-left: 4px;
+    }
+    #errors {
+      color: tomato;
+      border: 1px currentColor solid;
+      padding: 4px;
+      margin: 0 0 8px;
+    }
+    #errors:empty {
+      display: none;
     }
   </style>
 </head>
 <body>
   <aside id="errors"></aside>
 
-  您即將把「ｈｏｈｏｈｏ...」送入公開資料庫，讓闢謠編輯查證。若您能提供更多資訊，就能對查證有幫助。
   <form id="form">
-    <label for="reason">請告訴我們，為什麼您覺得這一篇是謠言？</label>
-    <textarea class="reason" name="reason"></textarea>
+    <label for="reason" id="prompt"></label>
+    <textarea class="reason" name="reason" placeholder="請在這裡輸入文字" required></textarea>
     <div class="buttons">
-      <button type="button">放棄送出</button>
+      <button id="cancel" type="button">放棄送出</button>
       <button class ="submit" type="submit">確定送出</button>
     </div>
   </form>
   <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
   <script>
     (function(){
-      const PREFIX = '我的理由是 ▶️ ';
+      // Initialize
+      const searchParams = (new URL(location.href)).searchParams;
+      const text = searchParams.get('text');
+      const state = searchParams.get('state');
+      const prefix = searchParams.get('prefix');
+      const cancel = searchParams.get('cancel');
+
+      // Insert prompt
+      const $prompt = document.querySelector('#prompt');
+      switch(state){
+        case 'ASKING_ARTICLE_SUBMISSION_REASON':
+          $prompt.innerText = `您即將把「${text}」送入公開資料庫建檔。請主動查證並且在這裡輸入你查到的初步結果，就能對查證有幫助。`;
+          break;
+        case 'ASKING_REPLY_REQUEST_REASON':
+          $prompt.innerText = `有人跟你一樣對「${text}」有疑問，請提供更多資訊，分享你的初步查證結果。`;
+          break;
+        case 'ASKING_REPLY_FEEDBACK':
+          $prompt.innerText = `請問您覺得「${text} 」的回應應該怎麼改會更有幫助呢？`;
+          break;
+        default:
+          $prompt.innerText = '請提供理由：';
+          break;
+      }
 
       const $form = document.querySelector('#form');
       $form.addEventListener('submit', e => {
         e.preventDefault();
         const reason = e.target.reason.value;
         liff.sendMessages([
-          { type: 'text', text: `${PREFIX} ${reason}` },
+          { type: 'text', text: `${searchParams.get('prefix')}${reason}` },
         ]).then(() => {
           liff.closeWindow();
         }).catch(handleError);
       });
+
+      const $cancel = document.querySelector('#cancel');
+      $cancel.addEventListener('click', e => {
+        liff.sendMessages([
+          { type: 'text', text: cancel },
+        ]).then(() => {
+          liff.closeWindow();
+        }).catch(handleError);
+      })
 
       liff.init(() => {
         $form.classList.remove('disabled');
