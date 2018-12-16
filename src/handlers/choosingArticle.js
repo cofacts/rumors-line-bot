@@ -8,7 +8,7 @@ import {
   createAskArticleSubmissionReply,
   REASON_PREFIX,
   ellipsis,
-  getLIFFUrl,
+  getLIFFURL,
 } from './utils';
 import ga from '../ga';
 
@@ -271,7 +271,7 @@ export default async function choosingArticle(params) {
                   action: {
                     type: 'uri',
                     label: '⌨️ 傳理由給我們',
-                    uri: getLIFFUrl(
+                    uri: getLIFFURL(
                       'ASKING_REPLY_REQUEST_REASON',
                       ellipsis(data.searchedText, 10),
                       REASON_PREFIX

@@ -72,7 +72,7 @@ export const CANCEL_TEXT = '✖️ 我放棄送出';
  * @param {string} prefix The prefix to use in the result text
  * @returns {string}
  */
-export function getLIFFUrl(state, text, prefix) {
+export function getLIFFURL(state, text, prefix) {
   return `${process.env.LIFF_URL}?state=${state}&text=${encodeURIComponent(
     text
   )}&prefix=${encodeURIComponent(prefix)}&cancel=${encodeURIComponent(
@@ -143,7 +143,7 @@ export function createAskArticleSubmissionReply(state, text, prefix) {
               action: {
                 type: 'uri',
                 label: '🆕 我要送出訊息',
-                uri: getLIFFUrl(state, text, prefix),
+                uri: getLIFFURL(state, text, prefix),
               },
             },
           ],
