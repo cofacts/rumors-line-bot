@@ -17,33 +17,30 @@ Object {
     "selectedReplyId": "AWDZeeV0yCdS-nWhuml8",
   },
   "event": Object {
-    "input": "n",
-    "postback": Object {
-      "data": "{\\"input\\":\\"n\\",\\"issuedAt\\":1519019701265}",
+    "input": "💡 我覺得回應沒有幫助，可以這樣改進：
+我覺得不行",
+    "message": Object {
+      "id": 1519019734813,
+      "text": "💡 我覺得回應沒有幫助，可以這樣改進：
+我覺得不行",
+      "type": "text",
     },
     "timestamp": 1519019734813,
-    "type": "postback",
+    "type": "text",
   },
   "isSkipUser": false,
   "issuedAt": 1519019735467,
   "replies": Array [
     Object {
-      "altText": "請問您為什麼覺得好心人的回應沒有幫助？請按左下角「⌨️」鈕，把理由傳給我們，幫助闢謠編輯釐清問題所在；若不想填，請按「我不想填理由」按鈕。",
-      "template": Object {
-        "actions": Array [
-          Object {
-            "data": "{\\"input\\":\\"n\\",\\"issuedAt\\":1519019735467}",
-            "label": "我不想填理由",
-            "type": "postback",
-          },
-        ],
-        "text": "請問您為什麼覺得好心人的回應沒有幫助？請按左下角「⌨️」鈕，把理由傳給我們",
-        "type": "buttons",
-      },
-      "type": "template",
+      "text": "感謝您的回饋，您是第一個評論這個回應的人 :)",
+      "type": "text",
+    },
+    Object {
+      "text": "💁 若您認為自己能回應得更好，歡迎到 https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz 提交新的回應唷！",
+      "type": "text",
     },
   ],
-  "state": "ASKING_NOT_USEFUL_FEEDBACK",
+  "state": "__INIT__",
   "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
 }
 `;
@@ -91,18 +88,18 @@ https://line.me/S/sticker/10207",
     },
     Object {
       "altText": "📲 別忘了把上面的回應轉傳回您的聊天室，給其他人也看看！
-💁 若您認為自己能回應得更好，歡迎到 https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz 提交新的回應唷！",
+💁 若您認為自己能回應得更好，歡迎到 https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz 提交新的回應唷！",
       "template": Object {
         "actions": Array [
           Object {
             "label": "分享給朋友",
             "type": "uri",
-            "uri": "line://msg/text/?%E7%B6%B2%E8%B7%AF%E4%B8%8A%E6%9C%89%E4%BA%BA%E8%AA%AA%E3%80%8C(0)(1)(/)(0)(%E2%8B%AF%E2%8B%AF%E3%80%8D%20%E2%9A%A0%EF%B8%8F%EF%B8%8F%20%E4%B8%8D%E5%9C%A8%E6%9F%A5%E8%AD%89%E7%AF%84%E5%9C%8D%E5%96%94%EF%BC%81%0A%0A%E8%AB%8B%E8%87%B3%20https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz%20%E7%9C%8B%E7%9C%8B%E9%84%89%E8%A6%AA%E5%80%91%E9%87%9D%E5%B0%8D%E9%80%99%E5%89%87%E8%A8%8A%E6%81%AF%E7%9A%84%E5%9B%9E%E6%87%89%E3%80%81%E7%90%86%E7%94%B1%EF%BC%8C%E8%88%87%E7%9B%B8%E9%97%9C%E7%9A%84%E5%87%BA%E8%99%95%E5%94%B7%EF%BC%81",
+            "uri": "line://msg/text/?%E7%B6%B2%E8%B7%AF%E4%B8%8A%E6%9C%89%E4%BA%BA%E8%AA%AA%E3%80%8C(0)(1)(/)(0)(%E2%8B%AF%E2%8B%AF%E3%80%8D%20%E2%9A%A0%EF%B8%8F%EF%B8%8F%20%E4%B8%8D%E5%9C%A8%E6%9F%A5%E8%AD%89%E7%AF%84%E5%9C%8D%E5%96%94%EF%BC%81%0A%0A%E8%AB%8B%E8%87%B3%20https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz%20%E7%9C%8B%E7%9C%8B%E9%84%89%E8%A6%AA%E5%80%91%E9%87%9D%E5%B0%8D%E9%80%99%E5%89%87%E8%A8%8A%E6%81%AF%E7%9A%84%E5%9B%9E%E6%87%89%E3%80%81%E7%90%86%E7%94%B1%EF%BC%8C%E8%88%87%E7%9B%B8%E9%97%9C%E7%9A%84%E5%87%BA%E8%99%95%E5%94%B7%EF%BC%81",
           },
           Object {
             "label": "提交新回應",
             "type": "uri",
-            "uri": "https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz",
+            "uri": "https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
           },
         ],
         "text": "📲 別忘了把上面的回應轉傳回您的聊天室，給其他人也看看！
@@ -160,18 +157,18 @@ https://line.me/S/sticker/10207",
     },
     Object {
       "altText": "📲 別忘了把上面的回應轉傳回您的聊天室，給其他人也看看！
-💁 若您認為自己能回應得更好，歡迎到 https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz 提交新的回應唷！",
+💁 若您認為自己能回應得更好，歡迎到 https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz 提交新的回應唷！",
       "template": Object {
         "actions": Array [
           Object {
             "label": "分享給朋友",
             "type": "uri",
-            "uri": "line://msg/text/?%E7%B6%B2%E8%B7%AF%E4%B8%8A%E6%9C%89%E4%BA%BA%E8%AA%AA%E3%80%8C(0)(1)(/)(0)(%E2%8B%AF%E2%8B%AF%E3%80%8D%20%E2%9A%A0%EF%B8%8F%EF%B8%8F%20%E4%B8%8D%E5%9C%A8%E6%9F%A5%E8%AD%89%E7%AF%84%E5%9C%8D%E5%96%94%EF%BC%81%0A%0A%E8%AB%8B%E8%87%B3%20https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz%20%E7%9C%8B%E7%9C%8B%E9%84%89%E8%A6%AA%E5%80%91%E9%87%9D%E5%B0%8D%E9%80%99%E5%89%87%E8%A8%8A%E6%81%AF%E7%9A%84%E5%9B%9E%E6%87%89%E3%80%81%E7%90%86%E7%94%B1%EF%BC%8C%E8%88%87%E7%9B%B8%E9%97%9C%E7%9A%84%E5%87%BA%E8%99%95%E5%94%B7%EF%BC%81",
+            "uri": "line://msg/text/?%E7%B6%B2%E8%B7%AF%E4%B8%8A%E6%9C%89%E4%BA%BA%E8%AA%AA%E3%80%8C(0)(1)(/)(0)(%E2%8B%AF%E2%8B%AF%E3%80%8D%20%E2%9A%A0%EF%B8%8F%EF%B8%8F%20%E4%B8%8D%E5%9C%A8%E6%9F%A5%E8%AD%89%E7%AF%84%E5%9C%8D%E5%96%94%EF%BC%81%0A%0A%E8%AB%8B%E8%87%B3%20https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz%20%E7%9C%8B%E7%9C%8B%E9%84%89%E8%A6%AA%E5%80%91%E9%87%9D%E5%B0%8D%E9%80%99%E5%89%87%E8%A8%8A%E6%81%AF%E7%9A%84%E5%9B%9E%E6%87%89%E3%80%81%E7%90%86%E7%94%B1%EF%BC%8C%E8%88%87%E7%9B%B8%E9%97%9C%E7%9A%84%E5%87%BA%E8%99%95%E5%94%B7%EF%BC%81",
           },
           Object {
             "label": "提交新回應",
             "type": "uri",
-            "uri": "https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz",
+            "uri": "https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
           },
         ],
         "text": "📲 別忘了把上面的回應轉傳回您的聊天室，給其他人也看看！

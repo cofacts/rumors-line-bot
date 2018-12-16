@@ -63,7 +63,7 @@ export function createReferenceWords({ reference, type }) {
  * prefilled text for reasons
  */
 export const REASON_PREFIX = '💁 我查到的是：\n';
-export const DOWNVOTE_PREFIX = '💡 我覺得回應能這樣改進：\n';
+export const DOWNVOTE_PREFIX = '💡 我覺得回應沒有幫助，可以這樣改進：\n';
 export const CANCEL_TEXT = '✖️ 我放棄送出';
 
 /**

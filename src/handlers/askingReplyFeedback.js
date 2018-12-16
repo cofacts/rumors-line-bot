@@ -2,9 +2,9 @@ import gql from '../gql';
 import ga from '../ga';
 import {
   getArticleURL,
-  createPostbackAction,
   createTypeWords,
   ellipsis,
+  DOWNVOTE_PREFIX,
 } from './utils';
 
 export default async function askingReplyFeedback(params) {
@@ -98,24 +98,71 @@ export default async function askingReplyFeedback(params) {
       },
     ];
 
-    state = '__INIT__';
     visitor.send();
-    return { data, state, event, issuedAt, userId, replies, isSkipUser };
-  }
-  replies = [
-    {
-      type: 'template',
-      altText: `請問您為什麼覺得好心人的回應沒有幫助？請按左下角「⌨️」鈕，把理由傳給我們，幫助闢謠編輯釐清問題所在；若不想填，請按「我不想填理由」按鈕。`,
-      template: {
-        type: 'buttons',
-        text:
-          '請問您為什麼覺得好心人的回應沒有幫助？請按左下角「⌨️」鈕，把理由傳給我們',
-        actions: [createPostbackAction('我不想填理由', 'n', issuedAt)],
+    state = '__INIT__';
+  } else if (event.input.startsWith(DOWNVOTE_PREFIX)) {
+    const comment = event.input.slice(DOWNVOTE_PREFIX.length);
+    const {
+      data: {
+        action: { feedbackCount },
       },
-    },
-  ];
+    } = await gql`
+      mutation(
+        $comment: String!
+        $vote: FeedbackVote!
+        $articleId: String!
+        $replyId: String!
+      ) {
+        action: CreateOrUpdateArticleReplyFeedback(
+          comment: $comment
+          articleId: $articleId
+          replyId: $replyId
+          vote: $vote
+        ) {
+          feedbackCount
+        }
+      }
+    `(
+      {
+        articleId: data.selectedArticleId,
+        replyId: data.selectedReplyId,
+        comment,
+        vote: 'DOWNVOTE',
+      },
+      { userId }
+    );
 
-  state = 'ASKING_NOT_USEFUL_FEEDBACK';
-  visitor.send();
+    replies = [
+      {
+        type: 'text',
+        text:
+          feedbackCount > 1
+            ? `感謝您與其他 ${feedbackCount - 1} 人的回饋。`
+            : '感謝您的回饋，您是第一個評論這個回應的人 :)',
+      },
+      {
+        type: 'text',
+        text: `💁 若您認為自己能回應得更好，歡迎到 ${getArticleURL(
+          data.selectedArticleId
+        )} 提交新的回應唷！`,
+      },
+    ];
+
+    visitor.send();
+    state = '__INIT__';
+  } else {
+    // This includes the case when event.input === CANCEL_TEXT
+
+    replies = [
+      {
+        type: 'text',
+        text:
+          '請點擊上面的「是」、「否」對回應表達意見，或改轉傳其他訊息給我查詢。',
+      },
+    ];
+
+    // Don't do visitor.send() nor change state here because user did not respond yet
+  }
+
   return { data, state, event, issuedAt, userId, replies, isSkipUser };
 }

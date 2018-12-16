@@ -73,12 +73,12 @@ Object {
       "type": "text",
     },
     Object {
-      "text": "💁 以上訊息由好心人提供。建議至 https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz 觀看完整的訊息內容、其他鄉親的回應，以及他們各自所提出的理由與出處。",
+      "text": "💁 以上訊息由好心人提供。建議至 https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz 觀看完整的訊息內容、其他鄉親的回應，以及他們各自所提出的理由與出處。",
       "type": "text",
     },
     Object {
       "altText": "請問上面回應是否有幫助？
-「是」請輸入「y」，「否」請輸入其他任何訊息。",
+「是」請輸入「y」，「否」請至手機上回應",
       "template": Object {
         "actions": Array [
           Object {
@@ -87,9 +87,9 @@ Object {
             "type": "postback",
           },
           Object {
-            "data": "{\\"input\\":\\"n\\",\\"issuedAt\\":1518964688672}",
             "label": "否",
-            "type": "postback",
+            "type": "uri",
+            "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_FEEDBACK&text=%E9%80%99%E6%98%AF%E5%95%86%E6%A5%AD%E6%B4%BB%E5%8B%95%E5%BB%A3%E5%91%8A%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%A1%20%E6%88%91%E8%A6%BA%E5%BE%97%E5%9B%9E%E6%87%89%E6%B2%92%E6%9C%89%E5%B9%AB%E5%8A%A9%EF%BC%8C%E5%8F%AF%E4%BB%A5%E9%80%99%E6%A8%A3%E6%94%B9%E9%80%B2%EF%BC%9A%0A&cancel=%E2%9C%96%EF%B8%8F%20%E6%88%91%E6%94%BE%E6%A3%84%E9%80%81%E5%87%BA",
           },
         ],
         "text": "請問上面回應是否有幫助？",

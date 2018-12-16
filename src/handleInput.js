@@ -4,8 +4,6 @@ import choosingReply from './handlers/choosingReply';
 import askingReplyFeedback from './handlers/askingReplyFeedback';
 import askingArticleSubmissionReason from './handlers/askingArticleSubmissionReason';
 import askingReplyRequestReason from './handlers/askingReplyRequestReason';
-import askingNotUsefulFeedback from './handlers/askingNotUsefulFeedback';
-import askingNotUsefulFeedbackSubmission from './handlers/askingNotUsefulFeedbackSubmission';
 import defaultState from './handlers/defaultState';
 import { REASON_PREFIX, DOWNVOTE_PREFIX, CANCEL_TEXT } from './handlers/utils';
 
@@ -74,14 +72,6 @@ export default async function handleInput(
       }
       case 'ASKING_REPLY_FEEDBACK': {
         params = await askingReplyFeedback(params);
-        break;
-      }
-      case 'ASKING_NOT_USEFUL_FEEDBACK': {
-        params = await askingNotUsefulFeedback(params);
-        break;
-      }
-      case 'ASKING_NOT_USEFUL_FEEDBACK_SUBMISSION': {
-        params = await askingNotUsefulFeedbackSubmission(params);
         break;
       }
       case 'ASKING_ARTICLE_SUBMISSION_REASON': {

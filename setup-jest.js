@@ -1,3 +1,5 @@
+const path = require('path');
+
 require('dotenv').config({
-  path: './env.sample',
+  path: path.resolve(process.cwd(), '.env.sample'),
 });

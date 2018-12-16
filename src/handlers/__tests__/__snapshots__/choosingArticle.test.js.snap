@@ -28,37 +28,18 @@ Object {
 
 雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。
 
-請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您有疑惑之處。
-若想放棄，請輸入「n」。",
+請在 📱 智慧型手機上完成操作。",
       "contents": Object {
         "body": Object {
           "contents": Array [
             Object {
-              "size": "xxs",
               "text": "若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。",
               "type": "text",
               "wrap": true,
             },
             Object {
-              "size": "xxs",
               "text": "雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。",
               "type": "text",
-              "wrap": true,
-            },
-            Object {
-              "color": "#990000",
-              "size": "md",
-              "text": "請打字告訴我們：",
-              "type": "text",
-              "weight": "bold",
-              "wrap": true,
-            },
-            Object {
-              "color": "#ff0000",
-              "size": "xxl",
-              "text": "為何您會覺得這是一則謠言？",
-              "type": "text",
-              "weight": "bold",
               "wrap": true,
             },
           ],
@@ -70,17 +51,9 @@ Object {
           "contents": Array [
             Object {
               "action": Object {
-                "data": "{\\"input\\":\\"n\\",\\"issuedAt\\":1511633232970}",
-                "label": "放棄送出",
-                "type": "postback",
-              },
-              "type": "button",
-            },
-            Object {
-              "action": Object {
-                "label": "⌨️ 傳理由給我們",
+                "label": "🆕 我要送出訊息",
                 "type": "uri",
-                "uri": "line://oaMessage/@cofacts/?%E5%9B%A0%E7%82%BA%E2%8B%AF%E2%8B%AF",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E6%9F%A5%E5%88%B0%E7%9A%84%E6%98%AF%EF%BC%9A%0A&cancel=%E2%9C%96%EF%B8%8F%20%E6%88%91%E6%94%BE%E6%A3%84%E9%80%81%E5%87%BA",
               },
               "style": "primary",
               "type": "button",
@@ -475,7 +448,7 @@ Object {
       "type": "template",
     },
     Object {
-      "text": "更多回應請到：https://cofacts.g0v.tw/article/AV8d2-YtyCdS-nWhuhdi",
+      "text": "更多回應請到：https://cofacts.hacktabl.org/article/AV8d2-YtyCdS-nWhuhdi",
       "type": "text",
     },
   ],
@@ -615,31 +588,14 @@ Object {
         "body": Object {
           "contents": Array [
             Object {
-              "size": "xxs",
+              "color": "#990000",
               "text": "抱歉這篇訊息還沒有人回應過唷！",
               "type": "text",
               "wrap": true,
             },
             Object {
-              "size": "xxs",
-              "text": "若您覺得這是一則謠言，請指出您有疑惑之處，說服編輯這是一份應該被闢謠的訊息，幫助闢謠編輯釐清您有疑惑之處。",
+              "text": "若您希望闢謠的好心人可以關注這一篇，請按「我也想知道」告訴大家你的想法。",
               "type": "text",
-              "wrap": true,
-            },
-            Object {
-              "color": "#990000",
-              "size": "md",
-              "text": "請打字告訴我們：",
-              "type": "text",
-              "weight": "bold",
-              "wrap": true,
-            },
-            Object {
-              "color": "#ff0000",
-              "size": "xxl",
-              "text": "為何您會覺得這是一則謠言？",
-              "type": "text",
-              "weight": "bold",
               "wrap": true,
             },
           ],
@@ -651,17 +607,9 @@ Object {
           "contents": Array [
             Object {
               "action": Object {
-                "data": "{\\"input\\":\\"n\\",\\"issuedAt\\":1511702208730}",
-                "label": "我不想填理由",
-                "type": "postback",
-              },
-              "type": "button",
-            },
-            Object {
-              "action": Object {
-                "label": "⌨️ 傳理由給我們",
+                "label": "🙋 我也想知道",
                 "type": "uri",
-                "uri": "line://oaMessage/@cofacts/?%E5%9B%A0%E7%82%BA%E2%8B%AF%E2%8B%AF",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_REQUEST_REASON&text=%E8%80%81%E5%8F%B8%E6%A9%9F%E8%BB%8A%E8%A3%A1%E7%B8%BD%E5%82%99%E4%B8%80%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E6%9F%A5%E5%88%B0%E7%9A%84%E6%98%AF%EF%BC%9A%0A&cancel=%E2%9C%96%EF%B8%8F%20%E6%88%91%E6%94%BE%E6%A3%84%E9%80%81%E5%87%BA",
               },
               "style": "primary",
               "type": "button",

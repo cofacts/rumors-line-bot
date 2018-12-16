@@ -270,7 +270,7 @@ export default async function choosingArticle(params) {
                   style: 'primary',
                   action: {
                     type: 'uri',
-                    label: '⌨️ 傳理由給我們',
+                    label: '🙋 我也想知道',
                     uri: getLIFFURL(
                       'ASKING_REPLY_REQUEST_REASON',
                       ellipsis(data.searchedText, 10),
