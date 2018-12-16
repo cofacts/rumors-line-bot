@@ -8,27 +8,39 @@
     * {
       box-sizing: border-box;
     }
+    body {
+      display: flex;
+      flex-flow: column;
+      padding: 16px;
+      margin: 0;
+      min-height: 100vh;
+    }
+    .form {
+      flex: 1;
+      display: flex;
+      flex-flow: column;
+    }
     .disabled {
       pointer-events: none;
       opacity: 0.5;
     }
-    body {
-      padding: 16px;
-      margin: 0;
-    }
     .reason {
+      margin: 8px 0;
       border: 1px solid;
       width: 100%;
+      flex: 1;
     }
     .buttons {
       display: flex;
     }
     .buttons button {
       flex: 1;
+      height: 44px;
       border: 1px solid;
     }
     .submit {
       margin-left: 4px;
+      background: greenyellow;
     }
     #errors {
       color: tomato;
@@ -44,12 +56,12 @@
 <body>
   <aside id="errors"></aside>
 
-  <form id="form">
+  <form class="form" id="form">
     <label for="reason" id="prompt"></label>
     <textarea class="reason" name="reason" placeholder="請在這裡輸入文字" required></textarea>
     <div class="buttons">
       <button id="cancel" type="button">放棄送出</button>
-      <button class ="submit" type="submit">確定送出</button>
+      <button class="submit" type="submit">確定送出</button>
     </div>
   </form>
   <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
