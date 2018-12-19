@@ -30,16 +30,10 @@
       width: 100%;
       flex: 1;
     }
-    .buttons {
-      display: flex;
-    }
-    .buttons button {
-      flex: 1;
-      height: 44px;
-      border: 1px solid;
-    }
     .submit {
-      margin-left: 4px;
+      height: 44px;
+      width: 100%;
+      border: 1px solid;
       background: greenyellow;
     }
     #errors {
@@ -60,7 +54,6 @@
     <label for="reason" id="prompt"></label>
     <textarea class="reason" name="reason" placeholder="請在這裡輸入文字" required></textarea>
     <div class="buttons">
-      <button id="cancel" type="button">放棄送出</button>
       <button class="submit" type="submit">確定送出</button>
     </div>
   </form>
@@ -72,7 +65,6 @@
       const text = searchParams.get('text');
       const state = searchParams.get('state');
       const prefix = searchParams.get('prefix');
-      const cancel = searchParams.get('cancel');
 
       // Insert prompt
       const $prompt = document.querySelector('#prompt');
@@ -102,16 +94,6 @@
           liff.closeWindow();
         }).catch(handleError);
       });
-
-      const $cancel = document.querySelector('#cancel');
-      $cancel.addEventListener('click', e => {
-        toggleForm(false);
-        liff.sendMessages([
-          { type: 'text', text: cancel },
-        ]).then(() => {
-          liff.closeWindow();
-        }).catch(handleError);
-      })
 
       liff.init(() => {
         toggleForm(true);

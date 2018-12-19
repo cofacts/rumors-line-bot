@@ -1,14 +1,11 @@
 import gql from '../gql';
-import { getArticleURL, REASON_PREFIX, CANCEL_TEXT } from './utils';
+import { getArticleURL, REASON_PREFIX } from './utils';
 
 export default async function askingArticleSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
   const { selectedArticleId } = data;
 
-  if (event.input === CANCEL_TEXT) {
-    replies = [{ type: 'text', text: '沒有送出，謝謝您的使用。' }];
-    state = '__INIT__';
-  } else if (!event.input.startsWith(REASON_PREFIX)) {
+  if (!event.input.startsWith(REASON_PREFIX)) {
     replies = [
       {
         type: 'text',

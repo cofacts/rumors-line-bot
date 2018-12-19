@@ -151,8 +151,6 @@ export default async function askingReplyFeedback(params) {
     visitor.send();
     state = '__INIT__';
   } else {
-    // This includes the case when event.input === CANCEL_TEXT
-
     replies = [
       {
         type: 'text',

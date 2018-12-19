@@ -1,23 +1,13 @@
 import ga from '../ga';
 import gql from '../gql';
-import { REASON_PREFIX, getArticleURL, CANCEL_TEXT } from './utils';
+import { REASON_PREFIX, getArticleURL } from './utils';
 
 export default async function askingArticleSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
   const visitor = ga(userId, state, data.searchedText);
 
-  if (event.input === CANCEL_TEXT) {
-    // Track whether user create Article or not if the Article is not found in DB.
-    visitor.event({
-      ec: 'Article',
-      ea: 'Create',
-      el: 'No',
-    });
-
-    replies = [{ type: 'text', text: '訊息沒有送出，謝謝您的使用。' }];
-    state = '__INIT__';
-  } else if (!event.input.startsWith(REASON_PREFIX)) {
+  if (!event.input.startsWith(REASON_PREFIX)) {
     replies = [
       {
         type: 'text',

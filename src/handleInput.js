@@ -5,7 +5,7 @@ import askingReplyFeedback from './handlers/askingReplyFeedback';
 import askingArticleSubmissionReason from './handlers/askingArticleSubmissionReason';
 import askingReplyRequestReason from './handlers/askingReplyRequestReason';
 import defaultState from './handlers/defaultState';
-import { REASON_PREFIX, DOWNVOTE_PREFIX, CANCEL_TEXT } from './handlers/utils';
+import { REASON_PREFIX, DOWNVOTE_PREFIX } from './handlers/utils';
 
 /**
  * Given input event and context, outputs the new context and the reply to emit.
@@ -34,8 +34,7 @@ export default async function handleInput(
   if (
     event.input.length >= 3 &&
     !event.input.startsWith(REASON_PREFIX) &&
-    !event.input.startsWith(DOWNVOTE_PREFIX) &&
-    event.input !== CANCEL_TEXT
+    !event.input.startsWith(DOWNVOTE_PREFIX)
   ) {
     // If input contains more than 3 words and is not reason text,
     // consider it as a new query and start over.

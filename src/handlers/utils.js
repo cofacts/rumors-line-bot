@@ -64,7 +64,6 @@ export function createReferenceWords({ reference, type }) {
  */
 export const REASON_PREFIX = '💁 我查到的是：\n';
 export const DOWNVOTE_PREFIX = '💡 我覺得回應沒有幫助，可以這樣改進：\n';
-export const CANCEL_TEXT = '✖️ 我放棄送出';
 
 /**
  * @param {string} state The current state
@@ -75,9 +74,7 @@ export const CANCEL_TEXT = '✖️ 我放棄送出';
 export function getLIFFURL(state, text, prefix) {
   return `${process.env.LIFF_URL}?state=${state}&text=${encodeURIComponent(
     text
-  )}&prefix=${encodeURIComponent(prefix)}&cancel=${encodeURIComponent(
-    CANCEL_TEXT
-  )}`;
+  )}&prefix=${encodeURIComponent(prefix)}`;
 }
 
 /**
