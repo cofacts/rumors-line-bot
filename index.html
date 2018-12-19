@@ -94,6 +94,7 @@
       const $form = document.querySelector('#form');
       $form.addEventListener('submit', e => {
         e.preventDefault();
+        toggleForm(false);
         const reason = e.target.reason.value;
         liff.sendMessages([
           { type: 'text', text: `${searchParams.get('prefix')}${reason}` },
@@ -104,6 +105,7 @@
 
       const $cancel = document.querySelector('#cancel');
       $cancel.addEventListener('click', e => {
+        toggleForm(false);
         liff.sendMessages([
           { type: 'text', text: cancel },
         ]).then(() => {
@@ -112,12 +114,19 @@
       })
 
       liff.init(() => {
-        $form.classList.remove('disabled');
+        toggleForm(true);
       }, handleError);
 
       function handleError(err) {
         document.querySelector('#errors').textContent = err.toString();
-        $form.classList.add('disabled');
+      }
+
+      function toggleForm(isEnabled) {
+        if(isEnabled) {
+          $form.classList.remove('disabled');
+        } else {
+          $form.classList.add('disabled');
+        }
       }
     }());
   </script>
