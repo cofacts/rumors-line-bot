@@ -53,7 +53,7 @@ Object {
               "action": Object {
                 "label": "🆕 我要送出訊息",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E6%9F%A5%E5%88%B0%E7%9A%84%E6%98%AF%EF%BC%9A%0A&cancel=%E2%9C%96%EF%B8%8F%20%E6%88%91%E6%94%BE%E6%A3%84%E9%80%81%E5%87%BA",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
               },
               "style": "primary",
               "type": "button",
@@ -609,7 +609,7 @@ Object {
               "action": Object {
                 "label": "🙋 我也想知道",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_REQUEST_REASON&text=%E8%80%81%E5%8F%B8%E6%A9%9F%E8%BB%8A%E8%A3%A1%E7%B8%BD%E5%82%99%E4%B8%80%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E6%9F%A5%E5%88%B0%E7%9A%84%E6%98%AF%EF%BC%9A%0A&cancel=%E2%9C%96%EF%B8%8F%20%E6%88%91%E6%94%BE%E6%A3%84%E9%80%81%E5%87%BA",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_REQUEST_REASON&text=%E8%80%81%E5%8F%B8%E6%A9%9F%E8%BB%8A%E8%A3%A1%E7%B8%BD%E5%82%99%E4%B8%80%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511702208730",
               },
               "style": "primary",
               "type": "button",
