@@ -71,7 +71,8 @@ export default async function choosingArticle(params) {
     replies = createAskArticleSubmissionReply(
       'ASKING_ARTICLE_SUBMISSION_REASON',
       ellipsis(data.searchedText, 10),
-      REASON_PREFIX
+      REASON_PREFIX,
+      issuedAt
     );
 
     state = 'ASKING_ARTICLE_SUBMISSION_REASON';
@@ -274,7 +275,8 @@ export default async function choosingArticle(params) {
                     uri: getLIFFURL(
                       'ASKING_REPLY_REQUEST_REASON',
                       ellipsis(data.searchedText, 10),
-                      REASON_PREFIX
+                      REASON_PREFIX,
+                      issuedAt
                     ),
                   },
                 },

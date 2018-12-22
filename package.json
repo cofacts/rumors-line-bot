@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/cofacts/rumors-line-bot#readme",
   "dependencies": {
+    "@koa/cors": "^2.2.3",
     "@line/bot-sdk": "^6.0.0",
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.22.0",

@@ -65,6 +65,7 @@
       const text = searchParams.get('text');
       const state = searchParams.get('state');
       const prefix = searchParams.get('prefix');
+      const issuedAt = searchParams.get('issuedAt');
 
       // Insert prompt
       const $prompt = document.querySelector('#prompt');
@@ -95,8 +96,14 @@
         }).catch(handleError);
       });
 
-      liff.init(() => {
+      liff.init(({context: {userId}}) => {
         toggleForm(true);
+        fetch(`https://rumor-line-bot.ngrok.io/context/${userId}`).then(resp => resp.json()).then(data => {
+          if(!data || data.state !== state || data.issuedAt.toString() !== issuedAt ) {
+            alert('這個按鈕已經失效囉！');
+            liff.closeWindow();
+          }
+        }).catch(alert)
       }, handleError);
 
       function handleError(err) {
