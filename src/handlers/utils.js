@@ -153,6 +153,11 @@ export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
             },
           ],
         },
+        styles: {
+          body: {
+            separator: true,
+          },
+        },
       },
     },
   ];
