@@ -115,7 +115,7 @@
         toggleForm(true);
         fetch(`https://rumor-line-bot.ngrok.io/context/${userId}`).then(resp => resp.json()).then(data => {
           if(!data || data.state !== state || data.issuedAt.toString() !== issuedAt ) {
-            alert('這個按鈕已經失效囉！');
+            alert('因為您傳了新的訊息進來，所以這顆舊按鈕已經不會動囉！');
             liff.closeWindow();
           }
         }).catch(alert)
