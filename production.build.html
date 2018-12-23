@@ -115,7 +115,7 @@
         toggleForm(true);
         fetch(`https://rumors-line-bot.herokuapp.com/context/${userId}`).then(resp => resp.json()).then(data => {
           if(!data || data.state !== state || data.issuedAt.toString() !== issuedAt ) {
-            alert('因為您已經傳了新的訊息，所以這個按鈕已經不會動囉！');
+            alert('因為您傳了新的訊息進來，所以這顆舊按鈕已經不會動囉！');
             liff.closeWindow();
           }
         }).catch(alert)
