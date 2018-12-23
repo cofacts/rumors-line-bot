@@ -246,6 +246,11 @@ Object {
           "layout": "horizontal",
           "type": "box",
         },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
+          },
+        },
         "type": "bubble",
       },
       "type": "flex",
