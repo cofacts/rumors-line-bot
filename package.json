@@ -9,6 +9,7 @@
     "postinstall": "babel src -d build",
     "lint:fix": "eslint --fix .",
     "lint": "eslint .",
+    "preliff": "bash build-liff.sh",
     "liff": "gh-pages -d liff"
   },
   "repository": {
