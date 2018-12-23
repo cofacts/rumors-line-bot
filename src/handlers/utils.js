@@ -106,10 +106,9 @@ export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
           contents: [
             {
               type: 'text',
-              text: '送出訊息到公開資料庫？',
+              text: '🥇 成為全球首位回報此訊息的人',
               weight: 'bold',
               color: '#009900',
-              size: 'sm',
             },
           ],
         },
@@ -121,7 +120,14 @@ export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
             {
               type: 'text',
               text:
-                '若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。',
+                '目前資料庫裡沒有您傳的訊息。若這是「轉傳訊息」，而且您覺得它很可能是一則「謠言」，',
+              wrap: true,
+            },
+            {
+              type: 'text',
+              text:
+                '請按「🆕 送進公開資料庫」，公開這則訊息、讓好心人查證與回覆。',
+              color: '#009900',
               wrap: true,
             },
             {
@@ -141,7 +147,7 @@ export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
               style: 'primary',
               action: {
                 type: 'uri',
-                label: '🆕 我要送出訊息',
+                label: '🆕 送進公開資料庫',
                 uri: getLIFFURL(state, text, prefix, issuedAt),
               },
             },

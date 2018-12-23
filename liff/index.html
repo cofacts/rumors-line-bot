@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>送出新文章</title>
+  <title>傳訊息給 Cofacts</title>
   <style>
     * {
       box-sizing: border-box;
@@ -115,7 +115,7 @@
         toggleForm(true);
         fetch(`https://rumor-line-bot.ngrok.io/context/${userId}`).then(resp => resp.json()).then(data => {
           if(!data || data.state !== state || data.issuedAt.toString() !== issuedAt ) {
-            alert('因為您傳了新的訊息進來，所以這顆舊按鈕已經不會動囉！');
+            alert('這個按鈕已經失效囉！');
             liff.closeWindow();
           }
         }).catch(alert)
