@@ -3,6 +3,7 @@ jest.mock('../../gql');
 import askingReplyFeedback from '../askingReplyFeedback';
 import * as apiResult from '../__fixtures__/askingReplyFeedback';
 import gql from '../../gql';
+import { DOWNVOTE_PREFIX } from '../utils';
 
 const commonParamsYes = {
   data: {
@@ -59,10 +60,14 @@ const commonParamsNo = {
   },
   state: 'ASKING_REPLY_FEEDBACK',
   event: {
-    type: 'postback',
-    input: 'n',
+    type: 'text',
+    input: `${DOWNVOTE_PREFIX}我覺得不行`,
     timestamp: 1519019734813,
-    postback: { data: '{"input":"n","issuedAt":1519019701265}' },
+    message: {
+      id: 1519019734813,
+      type: 'text',
+      text: `${DOWNVOTE_PREFIX}我覺得不行`,
+    },
   },
   issuedAt: 1519019735467,
   userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',

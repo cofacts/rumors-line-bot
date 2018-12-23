@@ -29,7 +29,7 @@ Create .env file from `.env.sample` template, at least fill in:
 API_URL=https://cofacts-api.g0v.tw/graphql
 LINE_CHANNEL_SECRET=<paste LINE@'s channel secret here>
 LINE_CHANNEL_TOKEN=<paste LINE@'s channel token here>
-LINE_AT_ID=<paste LINE@'s id without '@' here>
+LIFF_URL=<paste LIFF app's LiFF URL>
 ```
 
 Other customizable env vars are:
@@ -73,6 +73,13 @@ $ ngrok http 5001
 `ngrok` will give you a public URL. Use this to set the webhook URL of your Channel (See the section "Channel Console" in [LINE official tutorial](https://developers.line.me/messaging-api/getting-started)).
 
 We recommend using [ngrok configuration file](https://ngrok.com/docs#config) to setup a tunnel with a fixed `subdomain`. In this way the public URL can be fixed (means no repeatitive copy-pasting to LINE Channel settings!) as long as the `subdomain` is not occupied by others.
+
+### LIFF setup
+
+We are using LIFF to collect user's reason when submitting article & negative feedbacks.
+
+This would require a separate HTTPS server serving `liff/index.html`,
+and some setup on [LINE developer console](https://developers.line.biz/console/).
 
 ### Upload image/video
 
@@ -122,6 +129,7 @@ $ heroku config:set SITE_URL=https://cofacts.g0v.tw
 $ heroku config:set LINE_CHANNEL_SECRET=<Your channel secret>
 $ heroku config:set LINE_CHANNEL_TOKEN=<Your channel token>
 $ heroku config:set GOOGLE_CREDENTIALS=<Your google credential (optional)>
+$ heroku config:set LIFF_URL=<LIFF URL>
 ```
 
 ## Google Analytics Events table

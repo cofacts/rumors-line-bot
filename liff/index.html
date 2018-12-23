@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>送出新文章</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+      flex-flow: column;
+      padding: 16px;
+      margin: 0;
+      min-height: 100vh;
+    }
+    .form {
+      flex: 1;
+      display: flex;
+      flex-flow: column;
+    }
+    .disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    .reason {
+      margin: 8px 0;
+      border: 1px solid;
+      width: 100%;
+      flex: 1;
+    }
+    .submit {
+      height: 44px;
+      width: 100%;
+      border: 1px solid;
+      background: greenyellow;
+    }
+    #errors {
+      color: tomato;
+      border: 1px currentColor solid;
+      padding: 4px;
+      margin: 0 0 8px;
+    }
+    #errors:empty {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <aside id="errors"></aside>
+
+  <form class="form" id="form">
+    <label for="reason" id="prompt"></label>
+    <textarea class="reason" name="reason" placeholder="請在這裡輸入文字" required></textarea>
+    <div class="buttons">
+      <button class="submit" type="submit">確定送出</button>
+    </div>
+  </form>
+  <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+  <script>
+    (function(){
+      // Initialize
+      const searchParams = (new URL(location.href)).searchParams;
+      const text = searchParams.get('text');
+      const state = searchParams.get('state');
+      const prefix = searchParams.get('prefix');
+
+      // Insert prompt
+      const $prompt = document.querySelector('#prompt');
+      switch(state){
+        case 'ASKING_ARTICLE_SUBMISSION_REASON':
+          $prompt.innerText = `您即將把「${text}」送入公開資料庫建檔。請主動查證並且在這裡輸入你查到的初步結果，就能對查證有幫助。`;
+          break;
+        case 'ASKING_REPLY_REQUEST_REASON':
+          $prompt.innerText = `有人跟你一樣對「${text}」有疑問，請提供更多資訊，分享你的初步查證結果。`;
+          break;
+        case 'ASKING_REPLY_FEEDBACK':
+          $prompt.innerText = `請問您覺得「${text} 」的回應應該怎麼改會更有幫助呢？`;
+          break;
+        default:
+          $prompt.innerText = '請提供理由：';
+          break;
+      }
+
+      const $form = document.querySelector('#form');
+      $form.addEventListener('submit', e => {
+        e.preventDefault();
+        toggleForm(false);
+        const reason = e.target.reason.value;
+        liff.sendMessages([
+          { type: 'text', text: `${searchParams.get('prefix')}${reason}` },
+        ]).then(() => {
+          liff.closeWindow();
+        }).catch(handleError);
+      });
+
+      liff.init(() => {
+        toggleForm(true);
+      }, handleError);
+
+      function handleError(err) {
+        document.querySelector('#errors').textContent = err.toString();
+      }
+
+      function toggleForm(isEnabled) {
+        if(isEnabled) {
+          $form.classList.remove('disabled');
+        } else {
+          $form.classList.add('disabled');
+        }
+      }
+    }());
+  </script>
+</body>
+</html>

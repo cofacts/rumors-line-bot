@@ -4,6 +4,8 @@ import {
   createPostbackAction,
   isNonsenseText,
   createAskArticleSubmissionReply,
+  ellipsis,
+  REASON_PREFIX,
 } from './utils';
 import ga from '../ga';
 
@@ -168,7 +170,13 @@ export default async function initState(params) {
           type: 'text',
           text: `找不到關於「${articleSummary}」訊息耶 QQ`,
         },
-      ].concat(createAskArticleSubmissionReply(issuedAt));
+      ].concat(
+        createAskArticleSubmissionReply(
+          'ASKING_ARTICLE_SUBMISSION_REASON',
+          ellipsis(articleSummary, 10),
+          REASON_PREFIX
+        )
+      );
       state = 'ASKING_ARTICLE_SUBMISSION_REASON';
     }
   }

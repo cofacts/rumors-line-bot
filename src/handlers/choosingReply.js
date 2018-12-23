@@ -5,6 +5,8 @@ import {
   createTypeWords,
   ellipsis,
   getArticleURL,
+  getLIFFURL,
+  DOWNVOTE_PREFIX,
 } from './utils';
 import ga from '../ga';
 
@@ -64,13 +66,21 @@ export default async function choosingReply(params) {
       {
         type: 'template',
         altText:
-          '請問上面回應是否有幫助？\n「是」請輸入「y」，「否」請輸入其他任何訊息。',
+          '請問上面回應是否有幫助？\n「是」請輸入「y」，「否」請至手機上回應',
         template: {
           type: 'confirm',
           text: '請問上面回應是否有幫助？',
           actions: [
             createPostbackAction('是', 'y', issuedAt),
-            createPostbackAction('否', 'n', issuedAt),
+            {
+              type: 'uri',
+              label: '否',
+              uri: getLIFFURL(
+                'ASKING_REPLY_FEEDBACK',
+                ellipsis(GetReply.text, 10),
+                DOWNVOTE_PREFIX
+              ),
+            },
           ],
         },
       },
