@@ -78,7 +78,8 @@ export default async function choosingReply(params) {
               uri: getLIFFURL(
                 'ASKING_REPLY_FEEDBACK',
                 ellipsis(GetReply.text, 10),
-                DOWNVOTE_PREFIX
+                DOWNVOTE_PREFIX,
+                issuedAt
               ),
             },
           ],

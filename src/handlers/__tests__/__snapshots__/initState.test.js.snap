@@ -199,7 +199,13 @@ Object {
         "body": Object {
           "contents": Array [
             Object {
-              "text": "若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。",
+              "text": "目前資料庫裡沒有您傳的訊息。若這是「轉傳訊息」，而且您覺得它很可能是一則「謠言」，",
+              "type": "text",
+              "wrap": true,
+            },
+            Object {
+              "color": "#009900",
+              "text": "請按「🆕 送進公開資料庫」，公開這則訊息、讓好心人查證與回覆。",
               "type": "text",
               "wrap": true,
             },
@@ -217,9 +223,9 @@ Object {
           "contents": Array [
             Object {
               "action": Object {
-                "label": "🆕 我要送出訊息",
+                "label": "🆕 送進公開資料庫",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=YouTube%20%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E6%9F%A5%E5%88%B0%E7%9A%84%E6%98%AF%EF%BC%9A%0A&cancel=%E2%9C%96%EF%B8%8F%20%E6%88%91%E6%94%BE%E6%A3%84%E9%80%81%E5%87%BA",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=YouTube%20%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1497994017447",
               },
               "style": "primary",
               "type": "button",
@@ -232,14 +238,18 @@ Object {
           "contents": Array [
             Object {
               "color": "#009900",
-              "size": "sm",
-              "text": "送出訊息到公開資料庫？",
+              "text": "🥇 成為全球首位回報此訊息的人",
               "type": "text",
               "weight": "bold",
             },
           ],
           "layout": "horizontal",
           "type": "box",
+        },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
+          },
         },
         "type": "bubble",
       },

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>送出新文章</title>
+  <title>傳訊息給 Cofacts</title>
   <style>
     * {
       box-sizing: border-box;
@@ -30,6 +30,13 @@
       width: 100%;
       flex: 1;
     }
+    #prompt {
+      margin: 0 0 8px;
+    }
+    #reason-label {
+      color: firebrick;
+      font-weight: bold;
+    }
     .submit {
       height: 44px;
       width: 100%;
@@ -51,7 +58,8 @@
   <aside id="errors"></aside>
 
   <form class="form" id="form">
-    <label for="reason" id="prompt"></label>
+    <p id="prompt"></p>
+    <label for="reason" id="reason-label"></label>
     <textarea class="reason" name="reason" placeholder="請在這裡輸入文字" required></textarea>
     <div class="buttons">
       <button class="submit" type="submit">確定送出</button>
@@ -65,18 +73,26 @@
       const text = searchParams.get('text');
       const state = searchParams.get('state');
       const prefix = searchParams.get('prefix');
+      const issuedAt = searchParams.get('issuedAt');
 
       // Insert prompt
       const $prompt = document.querySelector('#prompt');
+      const $reasonLabel = document.querySelector('#reason-label');
+      const $textarea = document.querySelector('.reason');
       switch(state){
         case 'ASKING_ARTICLE_SUBMISSION_REASON':
-          $prompt.innerText = `您即將把「${text}」送入公開資料庫建檔。請主動查證並且在這裡輸入你查到的初步結果，就能對查證有幫助。`;
+          $prompt.innerText = `您即將把「${text}」送入公開資料庫建檔。為了協助查證，請告訴闢謠編輯：`;
+          $reasonLabel.innerText = '為何您覺得這是謠言？';
+          $textarea.placeholder = '例：我用 OO 關鍵字查詢 Facebook，發現⋯⋯ / 我在 XX 官網上找到不一樣的說法如下⋯⋯'
           break;
         case 'ASKING_REPLY_REQUEST_REASON':
-          $prompt.innerText = `有人跟你一樣對「${text}」有疑問，請提供更多資訊，分享你的初步查證結果。`;
+          $prompt.innerText = `有人跟你一樣對「${text}」有疑問。為了協助查證，請告訴闢謠編輯：`;
+          $reasonLabel.innerText = '為何您覺得這是謠言？';
+          $textarea.placeholder = '例：我用 OO 關鍵字查詢 Facebook，發現⋯⋯ / 我在 XX 官網上找到不一樣的說法如下⋯⋯'
           break;
         case 'ASKING_REPLY_FEEDBACK':
-          $prompt.innerText = `請問您覺得「${text} 」的回應應該怎麼改會更有幫助呢？`;
+          $prompt.innerText = `很遺憾您覺得「${text} 」這則回應沒有幫助。`;
+          $reasonLabel.innerText = '請問您覺得怎麼改才會更有幫助呢？'
           break;
         default:
           $prompt.innerText = '請提供理由：';
@@ -95,8 +111,14 @@
         }).catch(handleError);
       });
 
-      liff.init(() => {
+      liff.init(({context: {userId}}) => {
         toggleForm(true);
+        fetch(`https://rumor-line-bot.ngrok.io/context/${userId}`).then(resp => resp.json()).then(data => {
+          if(!data || data.state !== state || data.issuedAt.toString() !== issuedAt ) {
+            alert('因為您傳了新的訊息進來，所以這顆舊按鈕已經不會動囉！');
+            liff.closeWindow();
+          }
+        }).catch(alert)
       }, handleError);
 
       function handleError(err) {

@@ -62,28 +62,30 @@ export function createReferenceWords({ reference, type }) {
 /**
  * prefilled text for reasons
  */
-export const REASON_PREFIX = '💁 我查到的是：\n';
+export const REASON_PREFIX = '💁 我的理由是：\n';
 export const DOWNVOTE_PREFIX = '💡 我覺得回應沒有幫助，可以這樣改進：\n';
 
 /**
  * @param {string} state The current state
  * @param {string} text The prompt text
  * @param {string} prefix The prefix to use in the result text
+ * @param {number} issuedAt The issuedAt that created this URL
  * @returns {string}
  */
-export function getLIFFURL(state, text, prefix) {
+export function getLIFFURL(state, text, prefix, issuedAt) {
   return `${process.env.LIFF_URL}?state=${state}&text=${encodeURIComponent(
     text
-  )}&prefix=${encodeURIComponent(prefix)}`;
+  )}&prefix=${encodeURIComponent(prefix)}&issuedAt=${issuedAt}`;
 }
 
 /**
  * @param {string} state The current state
  * @param {string} text The prompt text
  * @param {string} prefix The prefix to use in the result text
+ * @param {string} issuedAt The current issuedAt
  * @returns {array} an array of reply message instances
  */
-export function createAskArticleSubmissionReply(state, text, prefix) {
+export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
   const altText =
     '【送出訊息到公開資料庫？】\n' +
     '若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。\n' +
@@ -104,10 +106,9 @@ export function createAskArticleSubmissionReply(state, text, prefix) {
           contents: [
             {
               type: 'text',
-              text: '送出訊息到公開資料庫？',
+              text: '🥇 成為全球首位回報此訊息的人',
               weight: 'bold',
               color: '#009900',
-              size: 'sm',
             },
           ],
         },
@@ -119,7 +120,14 @@ export function createAskArticleSubmissionReply(state, text, prefix) {
             {
               type: 'text',
               text:
-                '若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。',
+                '目前資料庫裡沒有您傳的訊息。若這是「轉傳訊息」，而且您覺得它很可能是一則「謠言」，',
+              wrap: true,
+            },
+            {
+              type: 'text',
+              text:
+                '請按「🆕 送進公開資料庫」，公開這則訊息、讓好心人查證與回覆。',
+              color: '#009900',
               wrap: true,
             },
             {
@@ -139,11 +147,16 @@ export function createAskArticleSubmissionReply(state, text, prefix) {
               style: 'primary',
               action: {
                 type: 'uri',
-                label: '🆕 我要送出訊息',
-                uri: getLIFFURL(state, text, prefix),
+                label: '🆕 送進公開資料庫',
+                uri: getLIFFURL(state, text, prefix, issuedAt),
               },
             },
           ],
+        },
+        styles: {
+          body: {
+            separator: true,
+          },
         },
       },
     },

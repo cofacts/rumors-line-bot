@@ -1,5 +1,7 @@
 import Koa from 'koa';
 import Router from 'koa-router';
+import cors from '@koa/cors';
+
 import rollbar from './rollbar';
 import { version } from '../package.json';
 
@@ -26,6 +28,21 @@ app.use(async (ctx, next) => {
 router.get('/', ctx => {
   ctx.body = JSON.stringify({ version });
 });
+
+router.get(
+  '/context/:userId',
+  cors({
+    origin: process.env.LIFF_CORS_ORIGIN,
+  }),
+  async ctx => {
+    const { state, issuedAt } = (await redis.get(ctx.params.userId)) || {};
+
+    ctx.body = {
+      state,
+      issuedAt,
+    };
+  }
+);
 
 const singleUserHandler = async (
   req,

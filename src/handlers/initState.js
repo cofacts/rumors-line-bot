@@ -174,7 +174,8 @@ export default async function initState(params) {
         createAskArticleSubmissionReply(
           'ASKING_ARTICLE_SUBMISSION_REASON',
           ellipsis(articleSummary, 10),
-          REASON_PREFIX
+          REASON_PREFIX,
+          issuedAt
         )
       );
       state = 'ASKING_ARTICLE_SUBMISSION_REASON';
