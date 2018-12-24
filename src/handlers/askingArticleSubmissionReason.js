@@ -29,12 +29,36 @@ export default async function askingArticleSubmission(params) {
       }
     `({ text: data.searchedText, reason }, { userId });
 
+    const articleUrl = getArticleURL(CreateArticle.id);
+
     replies = [
       {
         type: 'text',
-        text: `您回報的訊息已經被收錄至：${getArticleURL(CreateArticle.id)}`,
+        text: `您回報的訊息已經被收錄至：${articleUrl}`,
       },
-      { type: 'text', text: '感謝您的回報！' },
+      {
+        type: 'template',
+        altText: 'this is a buttons template',
+        template: {
+          type: 'buttons',
+          actions: [
+            {
+              type: 'uri',
+              label: '向 LINE 群組求救',
+              uri: `line://msg/text/?${encodeURIComponent(
+                `我收到這則訊息覺得怪怪的，請幫我看看這是真的還是假的：${articleUrl}`
+              )}`,
+            },
+            {
+              type: 'uri',
+              label: '問問臉書大神',
+              uri: `https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&href=${articleUrl}`,
+            },
+          ],
+          title: '🙏 Call out 向朋友求救',
+          text: '來向朋友們請教，這則訊息到底真的假的吧！',
+        },
+      },
     ];
     state = '__INIT__';
   }
