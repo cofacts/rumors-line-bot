@@ -1,5 +1,5 @@
 import gql from '../gql';
-import { getArticleURL, REASON_PREFIX } from './utils';
+import { getArticleURL, REASON_PREFIX, createArticleShareReply } from './utils';
 
 export default async function askingArticleSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -25,15 +25,16 @@ export default async function askingArticleSubmission(params) {
       }
     `({ id: selectedArticleId, reason }, { userId });
 
+    const articleUrl = getArticleURL(selectedArticleId);
+
     replies = [
       {
         type: 'text',
         text: `已經將您的需求記錄下來了，共有 ${
           CreateReplyRequest.replyRequestCount
-        } 人跟您一樣渴望看到針對這篇訊息的回應。若有最新回應，會寫在這個地方：${getArticleURL(
-          selectedArticleId
-        )}`,
+        } 人跟您一樣渴望看到針對這篇訊息的回應。若有最新回應，會寫在這個地方：${articleUrl}`,
       },
+      createArticleShareReply(articleUrl, reason),
     ];
     state = '__INIT__';
   }

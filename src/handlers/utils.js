@@ -191,3 +191,35 @@ const SITE_URL = process.env.SITE_URL || 'https://cofacts.g0v.tw';
 export function getArticleURL(articleId) {
   return `${SITE_URL}/article/${articleId}`;
 }
+
+/**
+ * @param {string} articleUrl
+ * @param {string} reason
+ * @returns {object} Reply object with sharing buttings
+ */
+export function createArticleShareReply(articleUrl, reason) {
+  return {
+    type: 'template',
+    altText:
+      '遇到疑惑，問問親友總沒錯。把訊息分享給朋友們，說不定有人能幫你解惑！',
+    template: {
+      type: 'buttons',
+      actions: [
+        {
+          type: 'uri',
+          label: '向 LINE 群組求救',
+          uri: `line://msg/text/?${encodeURIComponent(
+            `我收到這則訊息的想法是：\n${reason}\n\n請幫我看看這是真的還是假的：${articleUrl}\n #Cofacts求解惑`
+          )}`,
+        },
+        {
+          type: 'uri',
+          label: '問問臉書大神',
+          uri: `https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&href=${articleUrl}`,
+        },
+      ],
+      title: '🙏 問問親友總沒錯',
+      text: '來向朋友們請教，這則訊息到底真的假的吧！',
+    },
+  };
+}
