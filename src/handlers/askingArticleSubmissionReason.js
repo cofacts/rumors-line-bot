@@ -52,11 +52,14 @@ export default async function askingArticleSubmission(params) {
             {
               type: 'uri',
               label: '問問臉書大神',
-              uri: `https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&href=${articleUrl}`,
+              uri: `https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=${
+                process.env.FACEBOOK_APP_ID
+              }&display=popup&quote=QAQAQ&href=${articleUrl}`,
             },
           ],
           title: '🙏 Call out 向朋友求救',
-          text: '來向朋友們請教，這則訊息到底真的假的吧！',
+          text:
+            '遠親不如近鄰。說不定你的朋友裡，就有能替你解惑的人唷！\n\n來向朋友們請教，這則訊息到底是真是假吧！',
         },
       },
     ];
