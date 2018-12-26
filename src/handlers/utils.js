@@ -125,8 +125,7 @@ export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
             },
             {
               type: 'text',
-              text:
-                '請按「🆕 送進公開資料庫」，公開這則訊息、讓好心人查證與回覆。',
+              text: '請按「🆕 送進資料庫」，公開這則訊息、讓好心人查證與回覆。',
               color: '#009900',
               wrap: true,
             },
@@ -147,7 +146,7 @@ export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
               style: 'primary',
               action: {
                 type: 'uri',
-                label: '🆕 送進公開資料庫',
+                label: '🆕 送進資料庫',
                 uri: getLIFFURL(state, text, prefix, issuedAt),
               },
             },
@@ -190,4 +189,42 @@ const SITE_URL = process.env.SITE_URL || 'https://cofacts.g0v.tw';
  */
 export function getArticleURL(articleId) {
   return `${SITE_URL}/article/${articleId}`;
+}
+
+/**
+ * @param {string} articleUrl
+ * @param {string} reason
+ * @returns {object} Reply object with sharing buttings
+ */
+export function createArticleShareReply(articleUrl, reason) {
+  return {
+    type: 'template',
+    altText:
+      '遠親不如近鄰🌟問問親友總沒錯。把訊息分享給朋友們，說不定有人能幫你解惑！',
+    template: {
+      type: 'buttons',
+      actions: [
+        {
+          type: 'uri',
+          label: 'LINE 群組',
+          uri: `line://msg/text/?${encodeURIComponent(
+            `我收到這則訊息的想法是：\n${reason}\n\n請幫我看看這是真的還是假的：${articleUrl}`
+          )}`,
+        },
+        {
+          type: 'uri',
+          label: '臉書大神',
+          uri: `https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=${
+            process.env.FACEBOOK_APP_ID
+          }&display=popup&quote=${encodeURIComponent(
+            reason
+          )}&hashtag=${encodeURIComponent(
+            '#Cofacts求解惑'
+          )}&href=${encodeURIComponent(articleUrl)}`,
+        },
+      ],
+      title: '遠親不如近鄰🌟問問親友總沒錯',
+      text: '說不定你的朋友裡，就有能替你解惑的人唷！\n你想要 Call-out 誰呢？',
+    },
+  };
 }

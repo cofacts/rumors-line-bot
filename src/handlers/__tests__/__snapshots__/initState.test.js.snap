@@ -205,7 +205,7 @@ Object {
             },
             Object {
               "color": "#009900",
-              "text": "請按「🆕 送進公開資料庫」，公開這則訊息、讓好心人查證與回覆。",
+              "text": "請按「🆕 送進資料庫」，公開這則訊息、讓好心人查證與回覆。",
               "type": "text",
               "wrap": true,
             },
@@ -223,7 +223,7 @@ Object {
           "contents": Array [
             Object {
               "action": Object {
-                "label": "🆕 送進公開資料庫",
+                "label": "🆕 送進資料庫",
                 "type": "uri",
                 "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=YouTube%20%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1497994017447",
               },
