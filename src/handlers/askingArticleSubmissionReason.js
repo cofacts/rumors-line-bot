@@ -1,6 +1,6 @@
 import ga from '../ga';
 import gql from '../gql';
-import { REASON_PREFIX, getArticleURL } from './utils';
+import { REASON_PREFIX, getArticleURL, createArticleShareReply } from './utils';
 
 export default async function askingArticleSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -29,12 +29,14 @@ export default async function askingArticleSubmission(params) {
       }
     `({ text: data.searchedText, reason }, { userId });
 
+    const articleUrl = getArticleURL(CreateArticle.id);
+
     replies = [
       {
         type: 'text',
-        text: `您回報的訊息已經被收錄至：${getArticleURL(CreateArticle.id)}`,
+        text: `您回報的訊息已經被收錄至：${articleUrl}`,
       },
-      { type: 'text', text: '感謝您的回報！' },
+      createArticleShareReply(articleUrl, reason),
     ];
     state = '__INIT__';
   }
