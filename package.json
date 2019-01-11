@@ -32,30 +32,30 @@
     "@line/bot-sdk": "^6.0.0",
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.22.0",
-    "googleapis": "^32.0.0",
+    "googleapis": "^36.0.0",
     "koa": "^2.5.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "node-fetch": "^2.0.0",
-    "pm2": "=2.10.4",
+    "pm2": "=3.2.8",
     "raw-body": "^2.3.2",
     "redis": "^2.6.5",
     "rollbar": "^2.2.9",
-    "string-similarity": "^1.1.0",
+    "string-similarity": "^3.0.0",
     "universal-analytics": "^0.4.16"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",
-    "babel-eslint": "^8.0.0",
+    "babel-eslint": "^10.0.0",
     "babel-jest": "^23.0.0",
     "babel-preset-env": "^1.1.8",
     "babel-preset-stage-3": "^6.22.0",
     "coveralls": "^3.0.0",
     "dotenv": "^6.2.0",
     "eslint": "^5.0.0",
-    "eslint-config-prettier": "^2.0.0",
+    "eslint-config-prettier": "^3.0.0",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-prettier": "^2.0.1",
+    "eslint-plugin-prettier": "^3.0.0",
     "gh-pages": "^2.0.1",
     "jest-cli": "^23.0.0",
     "prettier": "=1.12.1"
@@ -73,6 +73,6 @@
   },
   "engines": {
     "node": "8.11.1",
-    "npm": "6.3.0"
+    "npm": "6.5.0"
   }
 }
