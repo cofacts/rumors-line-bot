@@ -59,7 +59,7 @@
     "eslint-plugin-prettier": "^3.0.0",
     "gh-pages": "^2.0.1",
     "jest-cli": "^23.6.0",
-    "prettier": "=1.12.1"
+    "prettier": "=1.13.0"
   },
   "jest": {
     "testEnvironment": "node",
