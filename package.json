@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "node main.js",
+    "start": "pm2-runtime start ecosystem.config.js --env production",
+    "dev": "pm2-dev ecosystem.dev.config.js",
     "postinstall": "babel src -d build",
     "lint:fix": "eslint --fix .",
     "lint": "eslint .",
@@ -57,7 +58,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-prettier": "^3.0.0",
     "gh-pages": "^2.0.1",
-    "jest-cli": "^23.0.0",
+    "jest-cli": "^23.6.0",
     "prettier": "=1.12.1"
   },
   "jest": {
@@ -72,7 +73,6 @@
     "setupTestFrameworkScriptFile": "./setup-jest.js"
   },
   "engines": {
-    "node": "8.11.1",
-    "npm": "6.5.0"
+    "node": "10.x"
   }
 }
