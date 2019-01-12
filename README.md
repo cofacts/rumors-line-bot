@@ -54,10 +54,8 @@ $ npm i
 
 ### Get the bot server running on your local machine
 
-With Heroku toolbelt installed, just do this:
-
 ```
-$ heroku local
+$ npm run dev
 ```
 
 and the server will be started on `localhost:5001`. (Or the `PORT` you specified in your `.env` file.)
