@@ -101,12 +101,12 @@
 
       const $form = document.querySelector('#form');
       const lengthenHint = `
-        你可以試著：
-        A. 闡述更多想法
-        B. 去 google 查查看
-        C. 把全文複製貼上到 Facebook 搜尋框看看
+你可以試著：
+A. 闡述更多想法
+B. 去 google 查查看
+C. 把全文複製貼上到 Facebook 搜尋框看看
 
-        把你的結果給給編輯參考吧！
+把你的結果給給編輯參考吧！
       `
       $form.addEventListener('submit', e => {
         e.preventDefault();
@@ -114,18 +114,18 @@
 
         if(reason.length < 15) {
           alert(`
-            您提供的資訊太少，編輯無法幫您查詢。
+您提供的資訊太少，編輯無法幫您查詢。
 
-            ${lengthenHint}
+${lengthenHint}
           `);
           return;
         } else if(reason.length < 40) {
           if(!confirm(`
-            提供給編輯的資訊可以再豐富一些，會讓編輯回覆越快唷！
+提供給編輯的資訊可以再豐富一些，會讓編輯回覆越快唷！
 
-            ${lengthenHint}
+${lengthenHint}
 
-            若要補充資訊，請按「取消」；覺得現在這樣送出就好，請按「確定」
+若要補充資訊，請按「取消」；覺得現在這樣送出就好，請按「確定」
           `)) {
             return;
           }
