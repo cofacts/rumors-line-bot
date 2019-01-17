@@ -112,8 +112,8 @@ C. 把全文複製貼上到 Facebook 搜尋框看看
         e.preventDefault();
         const reason = e.target.reason.value;
 
-        if(state === ASKING_ARTICLE_SUBMISSION_REASON ||
-           state === ASKING_REPLY_REQUEST_REASON) {
+        if(state === 'ASKING_ARTICLE_SUBMISSION_REASON' ||
+           state === 'ASKING_REPLY_REQUEST_REASON') {
           if(reason.length < 15) {
             alert(`
   您提供的資訊太少，編輯無法幫您查詢。
