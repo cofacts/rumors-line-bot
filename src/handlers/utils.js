@@ -35,13 +35,13 @@ export function createFlexMessageText(text = '') {
 export function createTypeWords(type) {
   switch (type) {
     case 'RUMOR':
-      return '❌ 含有不實訊息';
+      return '含有不實訊息';
     case 'NOT_RUMOR':
-      return '⭕ 含有真實訊息';
+      return '含有真實訊息';
     case 'OPINIONATED':
-      return '💬 含有個人意見';
+      return '含有個人意見';
     case 'NOT_ARTICLE':
-      return '⚠️️ 不在查證範圍';
+      return '不在查證範圍';
   }
   return '回應的狀態未定義！';
 }
