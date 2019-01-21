@@ -61,7 +61,7 @@ Object {
   "issuedAt": 1518964688672,
   "replies": Array [
     Object {
-      "text": "有人標記這個訊息 ⚠️️ 不在查證範圍，理由是：",
+      "text": "💡 網路上有人這樣回應這則訊息：",
       "type": "text",
     },
     Object {
@@ -73,7 +73,12 @@ Object {
       "type": "text",
     },
     Object {
-      "text": "💁 以上訊息由好心人提供。建議至 https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz 觀看完整的訊息內容、其他鄉親的回應，以及他們各自所提出的理由與出處。",
+      "text": "⬆️ 綜合以上，回應者認為它不在查證範圍。
+
+💁 以上資訊由好心人提供。請斟酌出處與理由思考判斷。
+
+⁉️ 如果你對這則訊息有不同看法，歡迎到下面這裡寫入新的回應：
+https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
       "type": "text",
     },
     Object {

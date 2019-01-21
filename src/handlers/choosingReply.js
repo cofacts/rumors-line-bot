@@ -44,10 +44,12 @@ export default async function choosingReply(params) {
       }
     `({ id: selectedReplyId });
 
+    const articleUrl = getArticleURL(data.selectedArticleId);
+
     replies = [
       {
         type: 'text',
-        text: `有人標記這個訊息 ${createTypeWords(GetReply.type)}，理由是：`,
+        text: `💡 網路上有人這樣回應這則訊息：`,
       },
       {
         type: 'text',
@@ -59,9 +61,13 @@ export default async function choosingReply(params) {
       },
       {
         type: 'text',
-        text: `💁 以上訊息由好心人提供。建議至 ${getArticleURL(
-          data.selectedArticleId
-        )} 觀看完整的訊息內容、其他鄉親的回應，以及他們各自所提出的理由與出處。`,
+        text: `⬆️ 綜合以上，回應者認為它${createTypeWords(
+          GetReply.type
+        )}。\n\n💁 以上資訊由好心人提供。請斟酌出處與理由思考判斷。\n${
+          data.foundReplyIds.length > 1
+            ? `🗣️ 這則訊息有很多不同回應，建議到這裡一次讀完再下判斷：\n${articleUrl}\n`
+            : ''
+        }\n⁉️ 如果你對這則訊息有不同看法，歡迎到下面這裡寫入新的回應：\n${articleUrl}`,
       },
       {
         type: 'template',
