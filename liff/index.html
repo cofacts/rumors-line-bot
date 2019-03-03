@@ -41,7 +41,7 @@
       height: 44px;
       width: 100%;
       border: 1px solid;
-      background: greenyellow;
+      background: grey;
     }
     #errors {
       color: tomato;
@@ -62,7 +62,7 @@
     <label for="reason" id="reason-label"></label>
     <textarea class="reason" name="reason" placeholder="請在這裡輸入文字" required></textarea>
     <div class="buttons">
-      <button class="submit" type="submit">確定送出</button>
+      <button class="submit" type="submit" id="submit-button"></button>
     </div>
   </form>
   <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
@@ -98,6 +98,25 @@
           $prompt.innerText = '請提供理由：';
           break;
       }
+      const minReasonLength = 15;
+      const sufficientReasonLength = 40;
+      const $submitButton = document.querySelector('#submit-button');
+      $submitButton.innerText = `還要寫 ${minReasonLength} 字才能送出訊息唷！`
+      $textarea.addEventListener('input', e => {
+        e.preventDefault();
+        const text = e.target.value;
+        if (text.length < minReasonLength) {
+          $submitButton.innerText = `還要寫 ${minReasonLength - text.length} 字才能送出訊息唷！`;
+          $submitButton.style.background = 'grey';
+        } else {
+          if (text.length >= minReasonLength && text.length < sufficientReasonLength) {
+            $submitButton.style.backgroundColor = 'yellow';
+          } else {
+            $submitButton.style.backgroundColor = 'greenyellow';
+          }
+          $submitButton.innerText = '確定送出';
+        }
+      })
 
       const $form = document.querySelector('#form');
       const lengthenHint = `
