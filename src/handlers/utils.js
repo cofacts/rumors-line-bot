@@ -77,7 +77,7 @@ export const DOWNVOTE_PREFIX = '💡 我覺得回應沒有幫助，可以這樣�
  */
 export function getLIFFURL(state, text, prefix, issuedAt) {
   return `${process.env.LIFF_URL}?state=${state}&text=${encodeURIComponent(
-    text
+    ellipsis(text, 10)
   )}&prefix=${encodeURIComponent(prefix)}&issuedAt=${issuedAt}`;
 }
 

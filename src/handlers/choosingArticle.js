@@ -70,7 +70,7 @@ export default async function choosingArticle(params) {
   } else if (doesNotContainMyArticle) {
     replies = createAskArticleSubmissionReply(
       'ASKING_ARTICLE_SUBMISSION_REASON',
-      ellipsis(data.searchedText, 10),
+      data.searchedText,
       REASON_PREFIX,
       issuedAt
     );
@@ -274,7 +274,7 @@ export default async function choosingArticle(params) {
                     label: '🙋 我也想知道',
                     uri: getLIFFURL(
                       'ASKING_REPLY_REQUEST_REASON',
-                      ellipsis(data.searchedText, 10),
+                      data.searchedText,
                       REASON_PREFIX,
                       issuedAt
                     ),
