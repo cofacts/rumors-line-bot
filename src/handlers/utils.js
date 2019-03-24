@@ -1,3 +1,6 @@
+import GraphemeSplitter from 'grapheme-splitter';
+const splitter = new GraphemeSplitter();
+
 export function createPostbackAction(label, input, issuedAt) {
   return {
     type: 'postback',
@@ -176,9 +179,14 @@ const ELLIPSIS = '⋯⋯';
  *                  text with ellipsis.
  */
 export function ellipsis(text, limit) {
-  if (text.length < limit) return text;
+  if (splitter.countGraphemes(text) < limit) return text;
 
-  return text.slice(0, limit - ELLIPSIS.length) + ELLIPSIS;
+  return (
+    splitter
+      .splitGraphemes(text)
+      .slice(0, limit - ELLIPSIS.length)
+      .join('') + ELLIPSIS
+  );
 }
 
 const SITE_URL = process.env.SITE_URL || 'https://cofacts.g0v.tw';

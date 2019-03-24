@@ -3,7 +3,25 @@ import {
   createFeedbackWords,
   isNonsenseText,
   createReferenceWords,
+  ellipsis,
 } from '../utils';
+
+describe('ellipsis()', () => {
+  it('should not ellipsis when text is short', () => {
+    expect(ellipsis('12345', 10)).toBe('12345');
+  });
+
+  it('should ellipsis when text is too long', () => {
+    const limit = 5;
+    const processed = ellipsis('1234567890', limit);
+    expect(processed).toHaveLength(limit);
+    expect(processed).toMatchSnapshot();
+  });
+
+  it('should properly cut emojis', () => {
+    expect(ellipsis('🏳️‍🌈🏳️‍🌈🏳️‍🌈🏳️‍🌈🏳️‍🌈🏳️‍🌈🏳️‍🌈🏳️‍🌈🏳️‍🌈🏳️‍🌈', 5)).toMatchSnapshot();
+  });
+});
 
 describe('createPostbackAction()', () => {
   it('should return postback message body', () => {
