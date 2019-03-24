@@ -21,6 +21,10 @@ describe('ellipsis()', () => {
   it('should properly cut emojis', () => {
     expect(ellipsis('🏳️‍🌈🏳️‍🌈🏳️‍🌈🏳️‍🌈🏳️‍🌈🏳️‍🌈🏳️‍🌈🏳️‍🌈🏳️‍🌈🏳️‍🌈', 5)).toMatchSnapshot();
   });
+
+  it('should be able to customize ellipsis', () => {
+    expect(ellipsis('1234567890', 5, '')).toBe('12345');
+  });
 });
 
 describe('createPostbackAction()', () => {

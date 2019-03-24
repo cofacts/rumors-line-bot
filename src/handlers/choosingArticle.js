@@ -40,7 +40,7 @@ function createAltText(articleReplies) {
       const prefix = `閱讀請傳 ${idx + 1}> ${createTypeWords(
         reply.type
       )}\n${createFeedbackWords(positiveFeedbackCount, negativeFeedbackCount)}`;
-      const content = reply.text.slice(0, eachLimit - prefix.length);
+      const content = ellipsis(reply.text, eachLimit - prefix.length, '');
       return `${prefix}\n${content}`;
     })
     .join('\n\n');
@@ -190,7 +190,7 @@ export default async function choosingArticle(params) {
                     negativeFeedbackCount
                   ) +
                   '\n' +
-                  reply.text.slice(0, 80),
+                  ellipsis(reply.text, 80, ''),
                 actions: [
                   createPostbackAction('閱讀此回應', idx + 1, issuedAt),
                 ],
