@@ -1,4 +1,6 @@
 import ua from 'universal-analytics';
+import GraphemeSplitter from 'grapheme-splitter';
+const splitter = new GraphemeSplitter();
 
 // When document title is too long, event will be dropped.
 // See: https://github.com/cofacts/rumors-line-bot/issues/97
@@ -22,7 +24,13 @@ export default function ga(userId, state = 'N/A', documentTitle = '') {
   visitor.screenview(state, 'rumors-line-bot');
 
   if (documentTitle) {
-    visitor.set('dt', documentTitle.slice(0, DOCUMENT_TITLE_LENGTH));
+    visitor.set(
+      'dt',
+      splitter
+        .splitGraphemes(documentTitle)
+        .slice(0, DOCUMENT_TITLE_LENGTH)
+        .join('')
+    );
   }
 
   return visitor;

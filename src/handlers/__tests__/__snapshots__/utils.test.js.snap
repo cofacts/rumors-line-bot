@@ -22,3 +22,7 @@ Object {
 exports[`createReferenceWords() should create reference for opinions 1`] = `"不同觀點請見：This is refering to different opinions"`;
 
 exports[`createReferenceWords() should create reference for rumors 1`] = `"出處：This is a reference"`;
+
+exports[`ellipsis() should ellipsis when text is too long 1`] = `"123⋯⋯"`;
+
+exports[`ellipsis() should properly cut emojis 1`] = `"🏳️‍🌈🏳️‍🌈🏳️‍🌈⋯⋯"`;

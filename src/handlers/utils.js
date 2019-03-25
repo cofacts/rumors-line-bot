@@ -1,3 +1,6 @@
+import GraphemeSplitter from 'grapheme-splitter';
+const splitter = new GraphemeSplitter();
+
 export function createPostbackAction(label, input, issuedAt) {
   return {
     type: 'postback',
@@ -29,7 +32,7 @@ export function createFeedbackWords(positive, negative) {
 export function createFlexMessageText(text = '') {
   // Actually the upper limit is 2000, but 100 should be enough
   // because we only show the first line
-  return text.slice(0, 100);
+  return ellipsis(text, 100, '');
 }
 
 export function createTypeWords(type) {
@@ -74,7 +77,7 @@ export const DOWNVOTE_PREFIX = '💡 我覺得回應沒有幫助，可以這樣�
  */
 export function getLIFFURL(state, text, prefix, issuedAt) {
   return `${process.env.LIFF_URL}?state=${state}&text=${encodeURIComponent(
-    text
+    ellipsis(text, 10)
   )}&prefix=${encodeURIComponent(prefix)}&issuedAt=${issuedAt}`;
 }
 
@@ -167,18 +170,21 @@ export function isNonsenseText(/* text */) {
   return false; // according to 20181017 meeting note, we remove limitation and observe
 }
 
-const ELLIPSIS = '⋯⋯';
-
 /**
  * @param {string} text
  * @param {number} limit
  * @return {string} if the text length is lower than limit, return text; else, return
  *                  text with ellipsis.
  */
-export function ellipsis(text, limit) {
-  if (text.length < limit) return text;
+export function ellipsis(text, limit, ellipsis = '⋯⋯') {
+  if (splitter.countGraphemes(text) < limit) return text;
 
-  return text.slice(0, limit - ELLIPSIS.length) + ELLIPSIS;
+  return (
+    splitter
+      .splitGraphemes(text)
+      .slice(0, limit - ellipsis.length)
+      .join('') + ellipsis
+  );
 }
 
 const SITE_URL = process.env.SITE_URL || 'https://cofacts.g0v.tw';

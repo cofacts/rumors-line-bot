@@ -43,9 +43,7 @@ export default async function initState(params) {
     text: event.input,
   });
 
-  const articleSummary = `${event.input.slice(0, 10)}${
-    event.input.length > 10 ? '⋯⋯' : ''
-  }`;
+  const articleSummary = ellipsis(event.input, 12);
 
   if (ListArticles.edges.length) {
     // Track if find similar Articles in DB.
@@ -102,7 +100,7 @@ export default async function initState(params) {
       altText: edgesSortedWithSimilarity
         .map(
           ({ node: { text } }, idx) =>
-            `選擇請打 ${idx + 1}> ${text.slice(0, 20)}`
+            `選擇請打 ${idx + 1}> ${ellipsis(text, 20, '')}`
         )
         .concat(hasIdenticalDocs ? [] : ['若以上皆非，請打 0。'])
         .join('\n\n'),
@@ -111,7 +109,7 @@ export default async function initState(params) {
         columns: edgesSortedWithSimilarity
           .map(({ node: { text }, similarity }, idx) => ({
             text: `[相似度:${(similarity * 100).toFixed(2) +
-              '%'}] \n ${text.slice(0, 100)}`,
+              '%'}] \n ${ellipsis(text, 100, '')}`,
             actions: [createPostbackAction('選擇此則', idx + 1, issuedAt)],
           }))
           .concat(
@@ -173,7 +171,7 @@ export default async function initState(params) {
       ].concat(
         createAskArticleSubmissionReply(
           'ASKING_ARTICLE_SUBMISSION_REASON',
-          ellipsis(articleSummary, 10),
+          articleSummary,
           REASON_PREFIX,
           issuedAt
         )
