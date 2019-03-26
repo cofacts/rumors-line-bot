@@ -41,7 +41,7 @@
       height: 44px;
       width: 100%;
       border: 1px solid;
-      background: greenyellow;
+      background: silver;
     }
     #errors {
       color: tomato;
@@ -62,7 +62,7 @@
     <label for="reason" id="reason-label"></label>
     <textarea class="reason" name="reason" placeholder="請在這裡輸入文字" required></textarea>
     <div class="buttons">
-      <button class="submit" type="submit">確定送出</button>
+      <button class="submit" type="submit" id="submit-button"></button>
     </div>
   </form>
   <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
@@ -98,6 +98,26 @@
           $prompt.innerText = '請提供理由：';
           break;
       }
+      
+      const MIN_REASON_LENGTH = 15;
+      const SUFFICIENT_REASON_LENGTH = 40;
+      const $submitButton = document.querySelector('#submit-button');
+      $submitButton.innerText = `還要寫 ${MIN_REASON_LENGTH} 字才能送出訊息唷！`
+      $textarea.addEventListener('input', e => {
+        e.preventDefault();
+        const text = e.target.value;
+        if (text.length < MIN_REASON_LENGTH) {
+          $submitButton.innerText = `還要寫 ${MIN_REASON_LENGTH - text.length} 字才能送出訊息唷！`;
+          $submitButton.style.background = 'silver';
+        } else {
+          if (text.length >= MIN_REASON_LENGTH && text.length < SUFFICIENT_REASON_LENGTH) {
+            $submitButton.style.backgroundColor = 'yellow';
+          } else {
+            $submitButton.style.backgroundColor = 'greenyellow';
+          }
+          $submitButton.innerText = '確定送出';
+        }
+      })
 
       const $form = document.querySelector('#form');
       const lengthenHint = `
@@ -114,14 +134,14 @@ C. 把全文複製貼上到 Facebook 搜尋框看看
 
         if(state === 'ASKING_ARTICLE_SUBMISSION_REASON' ||
            state === 'ASKING_REPLY_REQUEST_REASON') {
-          if(reason.length < 15) {
+          if(reason.length < MIN_REASON_LENGTH) {
             alert(`
 您提供的資訊太少，編輯無法幫您查詢。
 
 ${lengthenHint}
             `);
             return;
-          } else if(reason.length < 40) {
+          } else if(reason.length < SUFFICIENT_REASON_LENGTH) {
             if(!confirm(`
 提供給編輯的資訊可以再豐富一些，會讓編輯回覆越快唷！
 
