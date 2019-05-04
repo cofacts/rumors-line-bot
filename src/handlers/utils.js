@@ -214,7 +214,10 @@ export function createArticleShareReply(articleUrl, reason) {
           type: 'uri',
           label: 'LINE 群組',
           uri: `line://msg/text/?${encodeURIComponent(
-            `我收到這則訊息的想法是：\n${reason}\n\n請幫我看看這是真的還是假的：${articleUrl}`
+            `我收到這則訊息的想法是：\n${ellipsis(
+              reason,
+              70
+            )}\n\n請幫我看看這是真的還是假的：${articleUrl}`
           )}`,
         },
         {
@@ -223,7 +226,7 @@ export function createArticleShareReply(articleUrl, reason) {
           uri: `https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=${
             process.env.FACEBOOK_APP_ID
           }&display=popup&quote=${encodeURIComponent(
-            reason
+            ellipsis(reason, 80)
           )}&hashtag=${encodeURIComponent(
             '#Cofacts求解惑'
           )}&href=${encodeURIComponent(articleUrl)}`,
