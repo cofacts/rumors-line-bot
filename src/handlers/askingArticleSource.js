@@ -1,12 +1,13 @@
-import { REASON_PREFIX, getLIFFURL } from './utils';
+import {
+  REASON_PREFIX,
+  getLIFFURL,
+  createAskArticleSubmissionReply,
+  ellipsis,
+} from './utils';
 import ga from '../ga';
 
 export default async function askingArticleSource(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
-
-  if (!data.foundArticleIds) {
-    throw new Error('foundArticleIds not set in data');
-  }
 
   const visitor = ga(userId, state, data.selectedArticleText);
   // Track the source of the new message.
@@ -41,7 +42,7 @@ export default async function askingArticleSource(params) {
     ];
 
     state = '__INIT__';
-  } else {
+  } else if (data.foundArticleIds && data.foundArticleIds.length > 0) {
     const altText =
       '【跟編輯說您的疑惑】\n' +
       '好的，謝謝您。若您覺得這是一則謠言，請指出您有疑惑之處，說服編輯這是一份應該被闢謠的訊息。\n' +
@@ -106,6 +107,21 @@ export default async function askingArticleSource(params) {
     ];
 
     state = 'ASKING_REPLY_REQUEST_REASON';
+  } else {
+    replies = [
+      {
+        type: 'text',
+        text: '好的，謝謝您。',
+      },
+    ].concat(
+      createAskArticleSubmissionReply(
+        'ASKING_ARTICLE_SUBMISSION_REASON',
+        ellipsis(data.searchedText, 12),
+        REASON_PREFIX,
+        issuedAt
+      )
+    );
+    state = 'ASKING_ARTICLE_SUBMISSION_REASON';
   }
   visitor.send();
   return { data, state, event, issuedAt, userId, replies, isSkipUser };

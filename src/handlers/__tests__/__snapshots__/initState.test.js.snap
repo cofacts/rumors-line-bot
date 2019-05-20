@@ -185,78 +185,42 @@ Object {
   "issuedAt": 1497994017447,
   "replies": Array [
     Object {
-      "text": "找不到關於「YouTube · ⋯⋯」訊息耶 QQ",
-      "type": "text",
-    },
-    Object {
-      "altText": "【送出訊息到公開資料庫？】
-若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。
+      "altText": "找不到關於「YouTube · ⋯⋯」訊息耶 QQ
 
-雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。
+請問您是從哪裡看到這則訊息呢？
 
-請在 📱 智慧型手機上完成操作。",
-      "contents": Object {
-        "body": Object {
-          "contents": Array [
-            Object {
-              "text": "目前資料庫裡沒有您傳的訊息。若這是「轉傳訊息」，而且您覺得它很可能是一則「謠言」，",
-              "type": "text",
-              "wrap": true,
-            },
-            Object {
-              "color": "#009900",
-              "text": "請按「🆕 送進資料庫」，公開這則訊息、讓好心人查證與回覆。",
-              "type": "text",
-              "wrap": true,
-            },
-            Object {
-              "text": "雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。",
-              "type": "text",
-              "wrap": true,
-            },
-          ],
-          "layout": "vertical",
-          "spacing": "md",
-          "type": "box",
-        },
-        "footer": Object {
-          "contents": Array [
-            Object {
-              "action": Object {
-                "label": "🆕 送進資料庫",
-                "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=YouTube%20%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1497994017447",
-              },
-              "style": "primary",
-              "type": "button",
-            },
-          ],
-          "layout": "vertical",
-          "type": "box",
-        },
-        "header": Object {
-          "contents": Array [
-            Object {
-              "color": "#009900",
-              "text": "🥇 成為全球首位回報此訊息的人",
-              "type": "text",
-              "weight": "bold",
-            },
-          ],
-          "layout": "horizontal",
-          "type": "box",
-        },
-        "styles": Object {
-          "body": Object {
-            "separator": true,
+請按左下角「⌨️」鈕，輸入「親戚轉傳」、「同事轉傳」、「朋友轉傳」或「自己輸入的」。",
+      "template": Object {
+        "actions": Array [
+          Object {
+            "data": "{\\"input\\":\\"親戚轉傳\\",\\"issuedAt\\":1497994017447}",
+            "label": "親戚轉傳",
+            "type": "postback",
           },
-        },
-        "type": "bubble",
+          Object {
+            "data": "{\\"input\\":\\"同事轉傳\\",\\"issuedAt\\":1497994017447}",
+            "label": "同事轉傳",
+            "type": "postback",
+          },
+          Object {
+            "data": "{\\"input\\":\\"朋友轉傳\\",\\"issuedAt\\":1497994017447}",
+            "label": "朋友轉傳",
+            "type": "postback",
+          },
+          Object {
+            "data": "{\\"input\\":\\"自己輸入的\\",\\"issuedAt\\":1497994017447}",
+            "label": "自己輸入的",
+            "type": "postback",
+          },
+        ],
+        "text": "找不到關於「YouTube · ⋯⋯」訊息耶 QQ
+請問您是從哪裡看到這則訊息呢？",
+        "type": "buttons",
       },
-      "type": "flex",
+      "type": "template",
     },
   ],
-  "state": "ASKING_ARTICLE_SUBMISSION_REASON",
+  "state": "ASKING_ARTICLE_SOURCE",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
