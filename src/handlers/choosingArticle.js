@@ -8,7 +8,6 @@ import {
   createAskArticleSubmissionReply,
   REASON_PREFIX,
   ellipsis,
-  getLIFFURL,
 } from './utils';
 import ga from '../ga';
 
@@ -216,77 +215,31 @@ export default async function choosingArticle(params) {
       });
 
       const altText =
-        '【跟編輯說您的疑惑】\n' +
         '抱歉這篇訊息還沒有人回應過唷！\n' +
         '\n' +
-        '若您覺得這是一則謠言，請指出您有疑惑之處，說服編輯這是一份應該被闢謠的訊息。\n' +
+        '請問您是從哪裡看到這則訊息呢？\n' +
         '\n' +
-        '請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您的疑惑；\n' +
-        '若想跳過，請輸入「n」。';
+        '請按左下角「⌨️」鈕，輸入「親戚轉傳」、「同事轉傳」、「朋友轉傳」或「自己輸入的」。';
 
       replies = [
         {
-          type: 'flex',
+          type: 'template',
           altText,
-          contents: {
-            type: 'bubble',
-            header: {
-              type: 'box',
-              layout: 'horizontal',
-              contents: [
-                {
-                  type: 'text',
-                  text: '跟編輯說您的疑惑',
-                  weight: 'bold',
-                  color: '#009900',
-                  size: 'sm',
-                },
-              ],
-            },
-            body: {
-              type: 'box',
-              layout: 'vertical',
-              spacing: 'md',
-              contents: [
-                {
-                  type: 'text',
-                  text: '抱歉這篇訊息還沒有人回應過唷！',
-                  wrap: true,
-                  color: '#990000',
-                },
-                {
-                  type: 'text',
-                  text:
-                    '若您希望闢謠的好心人可以關注這一篇，請按「我也想知道」告訴大家你的想法。',
-                  wrap: true,
-                },
-              ],
-            },
-            footer: {
-              type: 'box',
-              layout: 'vertical',
-              contents: [
-                {
-                  type: 'button',
-                  style: 'primary',
-                  action: {
-                    type: 'uri',
-                    label: '🙋 我也想知道',
-                    uri: getLIFFURL(
-                      'ASKING_REPLY_REQUEST_REASON',
-                      data.searchedText,
-                      REASON_PREFIX,
-                      issuedAt
-                    ),
-                  },
-                },
-              ],
-            },
+          template: {
+            type: 'buttons',
+            text:
+              '抱歉這篇訊息還沒有人回應過唷！\n請問您是從哪裡看到這則訊息呢？',
+            actions: [
+              createPostbackAction('親戚轉傳', '親戚轉傳', issuedAt),
+              createPostbackAction('同事轉傳', '同事轉傳', issuedAt),
+              createPostbackAction('朋友轉傳', '朋友轉傳', issuedAt),
+              createPostbackAction('自己輸入的', '自己輸入的', issuedAt),
+            ],
           },
         },
       ];
 
-      state = 'ASKING_REPLY_REQUEST_REASON';
+      state = 'ASKING_ARTICLE_SOURCE';
     }
     visitor.send();
   }

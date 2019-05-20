@@ -4,6 +4,7 @@ import choosingReply from './handlers/choosingReply';
 import askingReplyFeedback from './handlers/askingReplyFeedback';
 import askingArticleSubmissionReason from './handlers/askingArticleSubmissionReason';
 import askingReplyRequestReason from './handlers/askingReplyRequestReason';
+import askingArticleSource from './handlers/askingArticleSource';
 import defaultState from './handlers/defaultState';
 import { REASON_PREFIX, DOWNVOTE_PREFIX } from './handlers/utils';
 
@@ -34,7 +35,8 @@ export default async function handleInput(
   if (
     event.input.length >= 3 &&
     !event.input.startsWith(REASON_PREFIX) &&
-    !event.input.startsWith(DOWNVOTE_PREFIX)
+    !event.input.startsWith(DOWNVOTE_PREFIX) &&
+    state !== 'ASKING_ARTICLE_SOURCE'
   ) {
     // If input contains more than 3 words and is not reason text,
     // consider it as a new query and start over.
@@ -79,6 +81,10 @@ export default async function handleInput(
       }
       case 'ASKING_REPLY_REQUEST_REASON': {
         params = await askingReplyRequestReason(params);
+        break;
+      }
+      case 'ASKING_ARTICLE_SOURCE': {
+        params = await askingArticleSource(params);
         break;
       }
       default: {
