@@ -86,6 +86,58 @@ it('should select article with no replies', async () => {
   expect(await choosingArticle(params)).toMatchSnapshot();
 });
 
+it('should select article with just one reply', async () => {
+  gql.__push(apiResult.oneReply);
+  gql.__push(apiResult.createReplyRequest);
+
+  const params = {
+    data: {
+      searchedText:
+        'Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply',
+      foundArticleIds: ['AV_4WX8vyCdS-nWhujyH'],
+    },
+    state: 'CHOOSING_ARTICLE',
+    event: {
+      type: 'message',
+      input: '1',
+      timestamp: 1511702208226,
+      message: { type: 'text', id: '7049700770815', text: '1' },
+    },
+    issuedAt: 1511702208730,
+    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+    replies: undefined,
+    isSkipUser: false,
+  };
+
+  expect(await choosingArticle(params)).toMatchSnapshot();
+});
+
+it('should ask users to re-enter a valid number if an invalid number is received', async () => {
+  gql.__push(apiResult.oneReply);
+  gql.__push(apiResult.createReplyRequest);
+
+  const params = {
+    data: {
+      searchedText:
+        'Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply',
+      foundArticleIds: ['AV_4WX8vyCdS-nWhujyH'],
+    },
+    state: 'CHOOSING_ARTICLE',
+    event: {
+      type: 'message',
+      input: '10',
+      timestamp: 1511702208226,
+      message: { type: 'text', id: '7049700770815', text: '10' },
+    },
+    issuedAt: 1511702208730,
+    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+    replies: undefined,
+    isSkipUser: false,
+  };
+
+  expect(await choosingArticle(params)).toMatchSnapshot();
+});
+
 it('should select article and slice replies when over 10', async () => {
   gql.__push(apiResult.elevenReplies);
 

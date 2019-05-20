@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`handles "no" postback with other existing feedbacks 1`] = `
+exports[`handles "no" postback with other existing feedback comments 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [
@@ -33,6 +33,51 @@ Object {
   "replies": Array [
     Object {
       "text": "感謝您的回饋，您是第一個評論這個回應的人 :)",
+      "type": "text",
+    },
+    Object {
+      "text": "💁 若您認為自己能回應得更好，歡迎到 https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz 提交新的回應唷！",
+      "type": "text",
+    },
+  ],
+  "state": "__INIT__",
+  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+}
+`;
+
+exports[`handles "no" postback with other existing feedback comments 2`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AWDZYXxAyCdS-nWhumlz",
+      "5483323992880-rumor",
+      "AV-Urc0jyCdS-nWhuity",
+      "AVsh8u7StKp96s659Dgq",
+    ],
+    "foundReplyIds": Array [
+      "AWDZeeV0yCdS-nWhuml8",
+    ],
+    "searchedText": "貼圖",
+    "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
+    "selectedReplyId": "AWDZeeV0yCdS-nWhuml8",
+  },
+  "event": Object {
+    "input": "💡 我覺得回應沒有幫助，可以這樣改進：
+我覺得不行",
+    "message": Object {
+      "id": 1519019734813,
+      "text": "💡 我覺得回應沒有幫助，可以這樣改進：
+我覺得不行",
+      "type": "text",
+    },
+    "timestamp": 1519019734813,
+    "type": "text",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1519019735467,
+  "replies": Array [
+    Object {
+      "text": "感謝您與其他 1 人的回饋。",
       "type": "text",
     },
     Object {
@@ -179,6 +224,45 @@ https://line.me/S/sticker/10207",
     },
   ],
   "state": "__INIT__",
+  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+}
+`;
+
+exports[`handles unexpected feedbacks 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AWDZYXxAyCdS-nWhumlz",
+      "5483323992880-rumor",
+      "AV-Urc0jyCdS-nWhuity",
+      "AVsh8u7StKp96s659Dgq",
+    ],
+    "foundReplyIds": Array [
+      "AWDZeeV0yCdS-nWhuml8",
+    ],
+    "searchedText": "貼圖",
+    "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
+    "selectedReplyId": "AWDZeeV0yCdS-nWhuml8",
+  },
+  "event": Object {
+    "input": "asdasdasd",
+    "message": Object {
+      "id": 1519019734813,
+      "text": "asdasdasd",
+      "type": "text",
+    },
+    "timestamp": 1519019734813,
+    "type": "text",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1519019735467,
+  "replies": Array [
+    Object {
+      "text": "請點擊上面的「是」、「否」對回應表達意見，或改轉傳其他訊息給我查詢。",
+      "type": "text",
+    },
+  ],
+  "state": "ASKING_REPLY_FEEDBACK",
   "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
 }
 `;

@@ -75,10 +75,83 @@ const commonParamsNo = {
   isSkipUser: false,
 };
 
-it('handles "no" postback with other existing feedbacks', async () => {
+it('handles "no" postback with other existing feedback comments', async () => {
+  gql.__push(apiResult.oneFeedback);
+  expect(await askingReplyFeedback(commonParamsNo)).toMatchSnapshot();
+
+  gql.__push(apiResult.twoFeedbacks);
+  expect(await askingReplyFeedback(commonParamsNo)).toMatchSnapshot();
+});
+
+const commonParamsOthers = {
+  data: {
+    searchedText: '貼圖',
+    foundArticleIds: [
+      'AWDZYXxAyCdS-nWhumlz',
+      '5483323992880-rumor',
+      'AV-Urc0jyCdS-nWhuity',
+      'AVsh8u7StKp96s659Dgq',
+    ],
+    selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
+    foundReplyIds: ['AWDZeeV0yCdS-nWhuml8'],
+    selectedReplyId: 'AWDZeeV0yCdS-nWhuml8',
+  },
+  state: 'ASKING_REPLY_FEEDBACK',
+  event: {
+    type: 'text',
+    input: 'asdasdasd',
+    timestamp: 1519019734813,
+    message: {
+      id: 1519019734813,
+      type: 'text',
+      text: 'asdasdasd',
+    },
+  },
+  issuedAt: 1519019735467,
+  userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
+  replies: undefined,
+  isSkipUser: false,
+};
+
+it('handles unexpected feedbacks', async () => {
   gql.__push(apiResult.oneFeedback);
 
-  expect(await askingReplyFeedback(commonParamsNo)).toMatchSnapshot();
+  expect(await askingReplyFeedback(commonParamsOthers)).toMatchSnapshot();
+});
+
+const commonParamsInvalid = {
+  data: {
+    searchedText: '貼圖',
+    foundArticleIds: [
+      'AWDZYXxAyCdS-nWhumlz',
+      '5483323992880-rumor',
+      'AV-Urc0jyCdS-nWhuity',
+      'AVsh8u7StKp96s659Dgq',
+    ],
+    selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
+    foundReplyIds: ['AWDZeeV0yCdS-nWhuml8'],
+  },
+  state: 'ASKING_REPLY_FEEDBACK',
+  event: {
+    type: 'text',
+    input: 'asdasdasd',
+    timestamp: 1519019734813,
+    message: {
+      id: 1519019734813,
+      type: 'text',
+      text: 'asdasdasd',
+    },
+  },
+  issuedAt: 1519019735467,
+  userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
+  replies: undefined,
+  isSkipUser: false,
+};
+
+it('handles invalid params', async () => {
+  gql.__push(apiResult.oneFeedback);
+
+  await expect(askingReplyFeedback(commonParamsInvalid)).rejects.toThrow(Error);
 });
 
 afterEach(() => {

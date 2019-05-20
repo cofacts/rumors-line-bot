@@ -95,6 +95,38 @@ Object {
 }
 `;
 
+exports[`should ask users to re-enter a valid number if an invalid number is received 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AV_4WX8vyCdS-nWhujyH",
+    ],
+    "searchedText": "Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply",
+    "selectedArticleId": undefined,
+  },
+  "event": Object {
+    "input": "10",
+    "message": Object {
+      "id": "7049700770815",
+      "text": "10",
+      "type": "text",
+    },
+    "timestamp": 1511702208226,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1511702208730,
+  "replies": Array [
+    Object {
+      "text": "請輸入 1～1 的數字，來選擇訊息。",
+      "type": "text",
+    },
+  ],
+  "state": "CHOOSING_ARTICLE",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
 exports[`should block user from submitting articles that is too short 1`] = `
 Object {
   "data": Object {
@@ -556,6 +588,47 @@ Object {
         "type": "carousel",
       },
       "type": "template",
+    },
+  ],
+  "state": "CHOOSING_REPLY",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should select article with just one reply 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AV_4WX8vyCdS-nWhujyH",
+    ],
+    "foundReplyIds": Array [
+      "AV--O3nfyCdS-nWhujMD",
+    ],
+    "searchedText": "Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply",
+    "selectedArticleId": "AV_4WX8vyCdS-nWhujyH",
+    "selectedArticleText": "Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply ",
+  },
+  "event": Object {
+    "input": 1,
+    "message": Object {
+      "id": "7049700770815",
+      "text": "1",
+      "type": "text",
+    },
+    "timestamp": 1511702208226,
+    "type": "message",
+  },
+  "isSkipUser": true,
+  "issuedAt": 1511702208730,
+  "replies": Array [
+    Object {
+      "text": "這個訊息有：
+1 則回應標成 ❌ 含有不實訊息
+0 則回應標成 ⭕ 含有真實訊息
+0 則回應標成 💬 含有個人意見
+0 則回應標成 ⚠️️ 不在查證範圍
+",
+      "type": "text",
     },
   ],
   "state": "CHOOSING_REPLY",
