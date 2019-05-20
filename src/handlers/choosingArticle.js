@@ -117,7 +117,6 @@ export default async function choosingArticle(params) {
       ec: 'Article',
       ea: 'Selected',
       el: selectedArticleId,
-      dt: data.selectedArticleText,
     });
 
     const count = {};
