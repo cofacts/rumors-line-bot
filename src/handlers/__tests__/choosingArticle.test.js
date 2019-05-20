@@ -187,6 +187,28 @@ it('should ask users if they want to submit article when user say not found', as
   expect(result).toMatchSnapshot();
 });
 
+it('should handle invalid params', async () => {
+  const params = {
+    data: {
+      searchedText:
+        '這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。',
+    },
+    state: 'CHOOSING_ARTICLE',
+    event: {
+      type: 'message',
+      input: '0',
+      timestamp: 1511633232479,
+      message: { type: 'text', id: '7045918737413', text: '0' },
+    },
+    issuedAt: 1511633232970,
+    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+    replies: undefined,
+    isSkipUser: false,
+  };
+
+  await expect(choosingArticle(params)).rejects.toThrow();
+});
+
 xit('should block user from submitting articles that is too short', async () => {
   const params = {
     data: {
