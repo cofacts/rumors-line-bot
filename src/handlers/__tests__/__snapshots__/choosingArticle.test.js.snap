@@ -587,66 +587,42 @@ Object {
   "issuedAt": 1511702208730,
   "replies": Array [
     Object {
-      "altText": "【跟編輯說您的疑惑】
-抱歉這篇訊息還沒有人回應過唷！
+      "altText": "抱歉這篇訊息還沒有人回應過唷！
 
-若您覺得這是一則謠言，請指出您有疑惑之處，說服編輯這是一份應該被闢謠的訊息。
+請問您是從哪裡看到這則訊息呢？
 
-請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您的疑惑；
-若想跳過，請輸入「n」。",
-      "contents": Object {
-        "body": Object {
-          "contents": Array [
-            Object {
-              "color": "#990000",
-              "text": "抱歉這篇訊息還沒有人回應過唷！",
-              "type": "text",
-              "wrap": true,
-            },
-            Object {
-              "text": "若您希望闢謠的好心人可以關注這一篇，請按「我也想知道」告訴大家你的想法。",
-              "type": "text",
-              "wrap": true,
-            },
-          ],
-          "layout": "vertical",
-          "spacing": "md",
-          "type": "box",
-        },
-        "footer": Object {
-          "contents": Array [
-            Object {
-              "action": Object {
-                "label": "🙋 我也想知道",
-                "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_REQUEST_REASON&text=%E8%80%81%E5%8F%B8%E6%A9%9F%E8%BB%8A%E8%A3%A1%E7%B8%BD%E5%82%99%E4%B8%80%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511702208730",
-              },
-              "style": "primary",
-              "type": "button",
-            },
-          ],
-          "layout": "vertical",
-          "type": "box",
-        },
-        "header": Object {
-          "contents": Array [
-            Object {
-              "color": "#009900",
-              "size": "sm",
-              "text": "跟編輯說您的疑惑",
-              "type": "text",
-              "weight": "bold",
-            },
-          ],
-          "layout": "horizontal",
-          "type": "box",
-        },
-        "type": "bubble",
+請按左下角「⌨️」鈕，輸入「親戚轉傳」、「同事轉傳」、「朋友轉傳」或「自己輸入的」。",
+      "template": Object {
+        "actions": Array [
+          Object {
+            "data": "{\\"input\\":\\"親戚轉傳\\",\\"issuedAt\\":1511702208730}",
+            "label": "親戚轉傳",
+            "type": "postback",
+          },
+          Object {
+            "data": "{\\"input\\":\\"同事轉傳\\",\\"issuedAt\\":1511702208730}",
+            "label": "同事轉傳",
+            "type": "postback",
+          },
+          Object {
+            "data": "{\\"input\\":\\"朋友轉傳\\",\\"issuedAt\\":1511702208730}",
+            "label": "朋友轉傳",
+            "type": "postback",
+          },
+          Object {
+            "data": "{\\"input\\":\\"自己輸入的\\",\\"issuedAt\\":1511702208730}",
+            "label": "自己輸入的",
+            "type": "postback",
+          },
+        ],
+        "text": "抱歉這篇訊息還沒有人回應過唷！
+請問您是從哪裡看到這則訊息呢？",
+        "type": "buttons",
       },
-      "type": "flex",
+      "type": "template",
     },
   ],
-  "state": "ASKING_REPLY_REQUEST_REASON",
+  "state": "ASKING_ARTICLE_SOURCE",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
