@@ -1,0 +1,611 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should ask users about the source of an article when the article exists in our database but is not yet replied should ask users to seek help from other fact-checkers if the article is manually input 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AV8d2-YtyCdS-nWhuhdi",
+    ],
+    "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
+  },
+  "event": Object {
+    "input": "自己打的",
+    "message": Object {
+      "id": "7045918737413",
+      "text": "自己打的",
+      "type": "text",
+    },
+    "timestamp": 1511633232479,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1511633232970,
+  "replies": Array [
+    Object {
+      "altText": "好的，建議您把訊息轉傳給 MyGoPen 或蘭姆酒吐司，兩個都是很專業的謠言破解網站，而且有 💁 專人為您解答喔！",
+      "template": Object {
+        "actions": Array [
+          Object {
+            "label": "MyGoPen",
+            "type": "uri",
+            "uri": "line://ti/p/%40mygopen",
+          },
+          Object {
+            "label": "蘭姆酒吐司",
+            "type": "uri",
+            "uri": "line://ti/p/1q14ZZ8yjb",
+          },
+        ],
+        "text": "好的，建議您把訊息轉傳給 MyGoPen 或蘭姆酒吐司，兩個都是很專業的謠言破解網站，而且有 💁 專人為您解答喔！",
+        "type": "confirm",
+      },
+      "type": "template",
+    },
+  ],
+  "state": "__INIT__",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should ask users about the source of an article when the article exists in our database but is not yet replied should ask users to submit their reasons via LIFF if the article is from their colleagues 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AV8d2-YtyCdS-nWhuhdi",
+    ],
+    "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
+  },
+  "event": Object {
+    "input": "同事轉傳",
+    "message": Object {
+      "id": "7045918737413",
+      "text": "同事轉傳",
+      "type": "text",
+    },
+    "timestamp": 1511633232479,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1511633232970,
+  "replies": Array [
+    Object {
+      "altText": "【跟編輯說您的疑惑】
+好的，謝謝您。若您覺得這是一則謠言，請指出您有疑惑之處，說服編輯這是一份應該被闢謠的訊息。
+
+請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您的疑惑；
+若想跳過，請輸入「n」。",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "好的，謝謝您。若您希望闢謠的好心人可以關注這一篇，請按「我也想知道」告訴大家你的想法。",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "🙋 我也想知道",
+                "type": "uri",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_REQUEST_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
+              },
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "header": Object {
+          "contents": Array [
+            Object {
+              "color": "#009900",
+              "size": "sm",
+              "text": "跟編輯說您的疑惑",
+              "type": "text",
+              "weight": "bold",
+            },
+          ],
+          "layout": "horizontal",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "ASKING_REPLY_REQUEST_REASON",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should ask users about the source of an article when the article exists in our database but is not yet replied should ask users to submit their reasons via LIFF if the article is from their friends 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AV8d2-YtyCdS-nWhuhdi",
+    ],
+    "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
+  },
+  "event": Object {
+    "input": "朋友轉傳",
+    "message": Object {
+      "id": "7045918737413",
+      "text": "朋友轉傳",
+      "type": "text",
+    },
+    "timestamp": 1511633232479,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1511633232970,
+  "replies": Array [
+    Object {
+      "altText": "【跟編輯說您的疑惑】
+好的，謝謝您。若您覺得這是一則謠言，請指出您有疑惑之處，說服編輯這是一份應該被闢謠的訊息。
+
+請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您的疑惑；
+若想跳過，請輸入「n」。",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "好的，謝謝您。若您希望闢謠的好心人可以關注這一篇，請按「我也想知道」告訴大家你的想法。",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "🙋 我也想知道",
+                "type": "uri",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_REQUEST_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
+              },
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "header": Object {
+          "contents": Array [
+            Object {
+              "color": "#009900",
+              "size": "sm",
+              "text": "跟編輯說您的疑惑",
+              "type": "text",
+              "weight": "bold",
+            },
+          ],
+          "layout": "horizontal",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "ASKING_REPLY_REQUEST_REASON",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should ask users about the source of an article when the article exists in our database but is not yet replied should ask users to submit their reasons via LIFF if the article is from their relatives 1`] = `
+Object {
+  "data": Object {
+    "foundArticleIds": Array [
+      "AV8d2-YtyCdS-nWhuhdi",
+    ],
+    "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
+  },
+  "event": Object {
+    "input": "親戚轉傳",
+    "message": Object {
+      "id": "7045918737413",
+      "text": "親戚轉傳",
+      "type": "text",
+    },
+    "timestamp": 1511633232479,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1511633232970,
+  "replies": Array [
+    Object {
+      "altText": "【跟編輯說您的疑惑】
+好的，謝謝您。若您覺得這是一則謠言，請指出您有疑惑之處，說服編輯這是一份應該被闢謠的訊息。
+
+請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您的疑惑；
+若想跳過，請輸入「n」。",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "好的，謝謝您。若您希望闢謠的好心人可以關注這一篇，請按「我也想知道」告訴大家你的想法。",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "🙋 我也想知道",
+                "type": "uri",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_REQUEST_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
+              },
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "header": Object {
+          "contents": Array [
+            Object {
+              "color": "#009900",
+              "size": "sm",
+              "text": "跟編輯說您的疑惑",
+              "type": "text",
+              "weight": "bold",
+            },
+          ],
+          "layout": "horizontal",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "ASKING_REPLY_REQUEST_REASON",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should ask users about the source of an article when the article is not in our database should ask users to seek help from other fact-checkers if the article is manually input 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
+  },
+  "event": Object {
+    "input": "自己打的",
+    "message": Object {
+      "id": "7045918737413",
+      "text": "自己打的",
+      "type": "text",
+    },
+    "timestamp": 1511633232479,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1511633232970,
+  "replies": Array [
+    Object {
+      "altText": "好的，建議您把訊息轉傳給 MyGoPen 或蘭姆酒吐司，兩個都是很專業的謠言破解網站，而且有 💁 專人為您解答喔！",
+      "template": Object {
+        "actions": Array [
+          Object {
+            "label": "MyGoPen",
+            "type": "uri",
+            "uri": "line://ti/p/%40mygopen",
+          },
+          Object {
+            "label": "蘭姆酒吐司",
+            "type": "uri",
+            "uri": "line://ti/p/1q14ZZ8yjb",
+          },
+        ],
+        "text": "好的，建議您把訊息轉傳給 MyGoPen 或蘭姆酒吐司，兩個都是很專業的謠言破解網站，而且有 💁 專人為您解答喔！",
+        "type": "confirm",
+      },
+      "type": "template",
+    },
+  ],
+  "state": "__INIT__",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should ask users about the source of an article when the article is not in our database should ask users to submit their reasons via LIFF if the article is from their colleagues 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
+  },
+  "event": Object {
+    "input": "同事轉傳",
+    "message": Object {
+      "id": "7045918737413",
+      "text": "同事轉傳",
+      "type": "text",
+    },
+    "timestamp": 1511633232479,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1511633232970,
+  "replies": Array [
+    Object {
+      "text": "好的，謝謝您。",
+      "type": "text",
+    },
+    Object {
+      "altText": "【送出訊息到公開資料庫？】
+若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。
+
+雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。
+
+請在 📱 智慧型手機上完成操作。",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "目前資料庫裡沒有您傳的訊息。若這是「轉傳訊息」，而且您覺得它很可能是一則「謠言」，",
+              "type": "text",
+              "wrap": true,
+            },
+            Object {
+              "color": "#009900",
+              "text": "請按「🆕 送進資料庫」，公開這則訊息、讓好心人查證與回覆。",
+              "type": "text",
+              "wrap": true,
+            },
+            Object {
+              "text": "雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "🆕 送進資料庫",
+                "type": "uri",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
+              },
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "header": Object {
+          "contents": Array [
+            Object {
+              "color": "#009900",
+              "text": "🥇 成為全球首位回報此訊息的人",
+              "type": "text",
+              "weight": "bold",
+            },
+          ],
+          "layout": "horizontal",
+          "type": "box",
+        },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
+          },
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "ASKING_ARTICLE_SUBMISSION_REASON",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should ask users about the source of an article when the article is not in our database should ask users to submit their reasons via LIFF if the article is from their friends 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
+  },
+  "event": Object {
+    "input": "朋友轉傳",
+    "message": Object {
+      "id": "7045918737413",
+      "text": "朋友轉傳",
+      "type": "text",
+    },
+    "timestamp": 1511633232479,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1511633232970,
+  "replies": Array [
+    Object {
+      "text": "好的，謝謝您。",
+      "type": "text",
+    },
+    Object {
+      "altText": "【送出訊息到公開資料庫？】
+若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。
+
+雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。
+
+請在 📱 智慧型手機上完成操作。",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "目前資料庫裡沒有您傳的訊息。若這是「轉傳訊息」，而且您覺得它很可能是一則「謠言」，",
+              "type": "text",
+              "wrap": true,
+            },
+            Object {
+              "color": "#009900",
+              "text": "請按「🆕 送進資料庫」，公開這則訊息、讓好心人查證與回覆。",
+              "type": "text",
+              "wrap": true,
+            },
+            Object {
+              "text": "雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "🆕 送進資料庫",
+                "type": "uri",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
+              },
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "header": Object {
+          "contents": Array [
+            Object {
+              "color": "#009900",
+              "text": "🥇 成為全球首位回報此訊息的人",
+              "type": "text",
+              "weight": "bold",
+            },
+          ],
+          "layout": "horizontal",
+          "type": "box",
+        },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
+          },
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "ASKING_ARTICLE_SUBMISSION_REASON",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should ask users about the source of an article when the article is not in our database should ask users to submit their reasons via LIFF if the article is from their relatives 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
+  },
+  "event": Object {
+    "input": "親戚轉傳",
+    "message": Object {
+      "id": "7045918737413",
+      "text": "親戚轉傳",
+      "type": "text",
+    },
+    "timestamp": 1511633232479,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1511633232970,
+  "replies": Array [
+    Object {
+      "text": "好的，謝謝您。",
+      "type": "text",
+    },
+    Object {
+      "altText": "【送出訊息到公開資料庫？】
+若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。
+
+雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。
+
+請在 📱 智慧型手機上完成操作。",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "目前資料庫裡沒有您傳的訊息。若這是「轉傳訊息」，而且您覺得它很可能是一則「謠言」，",
+              "type": "text",
+              "wrap": true,
+            },
+            Object {
+              "color": "#009900",
+              "text": "請按「🆕 送進資料庫」，公開這則訊息、讓好心人查證與回覆。",
+              "type": "text",
+              "wrap": true,
+            },
+            Object {
+              "text": "雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "🆕 送進資料庫",
+                "type": "uri",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
+              },
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "header": Object {
+          "contents": Array [
+            Object {
+              "color": "#009900",
+              "text": "🥇 成為全球首位回報此訊息的人",
+              "type": "text",
+              "weight": "bold",
+            },
+          ],
+          "layout": "horizontal",
+          "type": "box",
+        },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
+          },
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "ASKING_ARTICLE_SUBMISSION_REASON",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
