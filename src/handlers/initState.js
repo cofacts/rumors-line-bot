@@ -157,12 +157,17 @@ export default async function initState(params) {
         el: 'ArticleNotFound',
       });
 
+      data.articleSources = ['親戚轉傳', '同事轉傳', '朋友轉傳', '自己輸入的'];
       const altText =
         `找不到關於「${articleSummary}」訊息耶 QQ\n` +
         '\n' +
         '請問您是從哪裡看到這則訊息呢？\n' +
         '\n' +
-        '請按左下角「⌨️」鈕，輸入「親戚轉傳」、「同事轉傳」、「朋友轉傳」或「自己輸入的」。';
+        data.articleSources
+          .map((option, index) => `${option} > 請傳 ${index + 1}\n`)
+          .join('') +
+        '\n' +
+        '請按左下角「⌨️」鈕輸入選項編號。';
 
       replies = [
         {
@@ -171,12 +176,9 @@ export default async function initState(params) {
           template: {
             type: 'buttons',
             text: `找不到關於「${articleSummary}」訊息耶 QQ\n請問您是從哪裡看到這則訊息呢？`,
-            actions: [
-              createPostbackAction('親戚轉傳', '親戚轉傳', issuedAt),
-              createPostbackAction('同事轉傳', '同事轉傳', issuedAt),
-              createPostbackAction('朋友轉傳', '朋友轉傳', issuedAt),
-              createPostbackAction('自己輸入的', '自己輸入的', issuedAt),
-            ],
+            actions: data.articleSources.map((option, index) =>
+              createPostbackAction(option, index + 1, issuedAt)
+            ),
           },
         },
       ];

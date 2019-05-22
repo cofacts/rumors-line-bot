@@ -9,13 +9,22 @@ import ga from '../ga';
 export default async function askingArticleSource(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
+  const source = data.articleSources[event.input - 1];
+  if (!source) {
+    replies = [
+      {
+        type: 'text',
+        text: `請輸入 1～${data.articleSources.length} 的數字，選擇訊息來源。`,
+      },
+    ];
+    state = 'ASKING_ARTICLE_SOURCE';
+    return { data, state, event, issuedAt, userId, replies, isSkipUser };
+  }
+
   const visitor = ga(userId, state, data.selectedArticleText);
   // Track the source of the new message.
-  visitor.event({ ec: 'Article', ea: 'ProvidingSource', el: event.input });
-  if (
-    event.input.indexOf('自己輸入') !== -1 ||
-    event.input.indexOf('自己打') !== -1
-  ) {
+  visitor.event({ ec: 'Article', ea: 'ProvidingSource', el: source });
+  if (source === '自己輸入的') {
     replies = [
       {
         type: 'template',
@@ -43,6 +52,7 @@ export default async function askingArticleSource(params) {
 
     state = '__INIT__';
   } else if (data.foundArticleIds && data.foundArticleIds.length > 0) {
+    // articles that are already reported
     const altText =
       '【跟編輯說您的疑惑】\n' +
       '好的，謝謝您。若您覺得這是一則謠言，請指出您有疑惑之處，說服編輯這是一份應該被闢謠的訊息。\n' +
@@ -108,6 +118,7 @@ export default async function askingArticleSource(params) {
 
     state = 'ASKING_REPLY_REQUEST_REASON';
   } else {
+    // brand new articles
     replies = [
       {
         type: 'text',

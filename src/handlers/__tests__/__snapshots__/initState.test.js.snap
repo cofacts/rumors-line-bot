@@ -169,6 +169,12 @@ Object {
 exports[`should handle article not found 1`] = `
 Object {
   "data": Object {
+    "articleSources": Array [
+      "親戚轉傳",
+      "同事轉傳",
+      "朋友轉傳",
+      "自己輸入的",
+    ],
     "searchedText": "YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...",
   },
   "event": Object {
@@ -189,26 +195,31 @@ Object {
 
 請問您是從哪裡看到這則訊息呢？
 
-請按左下角「⌨️」鈕，輸入「親戚轉傳」、「同事轉傳」、「朋友轉傳」或「自己輸入的」。",
+親戚轉傳 > 請傳 1
+同事轉傳 > 請傳 2
+朋友轉傳 > 請傳 3
+自己輸入的 > 請傳 4
+
+請按左下角「⌨️」鈕輸入選項編號。",
       "template": Object {
         "actions": Array [
           Object {
-            "data": "{\\"input\\":\\"親戚轉傳\\",\\"issuedAt\\":1497994017447}",
+            "data": "{\\"input\\":1,\\"issuedAt\\":1497994017447}",
             "label": "親戚轉傳",
             "type": "postback",
           },
           Object {
-            "data": "{\\"input\\":\\"同事轉傳\\",\\"issuedAt\\":1497994017447}",
+            "data": "{\\"input\\":2,\\"issuedAt\\":1497994017447}",
             "label": "同事轉傳",
             "type": "postback",
           },
           Object {
-            "data": "{\\"input\\":\\"朋友轉傳\\",\\"issuedAt\\":1497994017447}",
+            "data": "{\\"input\\":3,\\"issuedAt\\":1497994017447}",
             "label": "朋友轉傳",
             "type": "postback",
           },
           Object {
-            "data": "{\\"input\\":\\"自己輸入的\\",\\"issuedAt\\":1497994017447}",
+            "data": "{\\"input\\":4,\\"issuedAt\\":1497994017447}",
             "label": "自己輸入的",
             "type": "postback",
           },

@@ -3,16 +3,22 @@
 exports[`should ask users about the source of an article when the article exists in our database but is not yet replied should ask users to seek help from other fact-checkers if the article is manually input 1`] = `
 Object {
   "data": Object {
+    "articleSources": Array [
+      "親戚轉傳",
+      "同事轉傳",
+      "朋友轉傳",
+      "自己輸入的",
+    ],
     "foundArticleIds": Array [
       "AV8d2-YtyCdS-nWhuhdi",
     ],
     "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
   },
   "event": Object {
-    "input": "自己打的",
+    "input": "4",
     "message": Object {
       "id": "7045918737413",
-      "text": "自己打的",
+      "text": "4",
       "type": "text",
     },
     "timestamp": 1511633232479,
@@ -50,16 +56,22 @@ Object {
 exports[`should ask users about the source of an article when the article exists in our database but is not yet replied should ask users to submit their reasons via LIFF if the article is from their colleagues 1`] = `
 Object {
   "data": Object {
+    "articleSources": Array [
+      "親戚轉傳",
+      "同事轉傳",
+      "朋友轉傳",
+      "自己輸入的",
+    ],
     "foundArticleIds": Array [
       "AV8d2-YtyCdS-nWhuhdi",
     ],
     "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
   },
   "event": Object {
-    "input": "同事轉傳",
+    "input": "2",
     "message": Object {
       "id": "7045918737413",
-      "text": "同事轉傳",
+      "text": "2",
       "type": "text",
     },
     "timestamp": 1511633232479,
@@ -128,16 +140,22 @@ Object {
 exports[`should ask users about the source of an article when the article exists in our database but is not yet replied should ask users to submit their reasons via LIFF if the article is from their friends 1`] = `
 Object {
   "data": Object {
+    "articleSources": Array [
+      "親戚轉傳",
+      "同事轉傳",
+      "朋友轉傳",
+      "自己輸入的",
+    ],
     "foundArticleIds": Array [
       "AV8d2-YtyCdS-nWhuhdi",
     ],
     "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
   },
   "event": Object {
-    "input": "朋友轉傳",
+    "input": "3",
     "message": Object {
       "id": "7045918737413",
-      "text": "朋友轉傳",
+      "text": "3",
       "type": "text",
     },
     "timestamp": 1511633232479,
@@ -206,16 +224,22 @@ Object {
 exports[`should ask users about the source of an article when the article exists in our database but is not yet replied should ask users to submit their reasons via LIFF if the article is from their relatives 1`] = `
 Object {
   "data": Object {
+    "articleSources": Array [
+      "親戚轉傳",
+      "同事轉傳",
+      "朋友轉傳",
+      "自己輸入的",
+    ],
     "foundArticleIds": Array [
       "AV8d2-YtyCdS-nWhuhdi",
     ],
     "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
   },
   "event": Object {
-    "input": "親戚轉傳",
+    "input": "1",
     "message": Object {
       "id": "7045918737413",
-      "text": "親戚轉傳",
+      "text": "1",
       "type": "text",
     },
     "timestamp": 1511633232479,
@@ -281,16 +305,56 @@ Object {
 }
 `;
 
-exports[`should ask users about the source of an article when the article is not in our database should ask users to seek help from other fact-checkers if the article is manually input 1`] = `
+exports[`should ask users about the source of an article when the article is not in our database should ask users to re-submit a valid option number 1`] = `
 Object {
   "data": Object {
+    "articleSources": Array [
+      "親戚轉傳",
+      "同事轉傳",
+      "朋友轉傳",
+      "自己輸入的",
+    ],
     "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
   },
   "event": Object {
-    "input": "自己打的",
+    "input": "10",
     "message": Object {
       "id": "7045918737413",
-      "text": "自己打的",
+      "text": "10",
+      "type": "text",
+    },
+    "timestamp": 1511633232479,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1511633232970,
+  "replies": Array [
+    Object {
+      "text": "請輸入 1～4 的數字，選擇訊息來源。",
+      "type": "text",
+    },
+  ],
+  "state": "ASKING_ARTICLE_SOURCE",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should ask users about the source of an article when the article is not in our database should ask users to seek help from other fact-checkers if the article is manually input 1`] = `
+Object {
+  "data": Object {
+    "articleSources": Array [
+      "親戚轉傳",
+      "同事轉傳",
+      "朋友轉傳",
+      "自己輸入的",
+    ],
+    "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
+  },
+  "event": Object {
+    "input": "4",
+    "message": Object {
+      "id": "7045918737413",
+      "text": "4",
       "type": "text",
     },
     "timestamp": 1511633232479,
@@ -328,13 +392,19 @@ Object {
 exports[`should ask users about the source of an article when the article is not in our database should ask users to submit their reasons via LIFF if the article is from their colleagues 1`] = `
 Object {
   "data": Object {
+    "articleSources": Array [
+      "親戚轉傳",
+      "同事轉傳",
+      "朋友轉傳",
+      "自己輸入的",
+    ],
     "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
   },
   "event": Object {
-    "input": "同事轉傳",
+    "input": "2",
     "message": Object {
       "id": "7045918737413",
-      "text": "同事轉傳",
+      "text": "2",
       "type": "text",
     },
     "timestamp": 1511633232479,
@@ -423,13 +493,19 @@ Object {
 exports[`should ask users about the source of an article when the article is not in our database should ask users to submit their reasons via LIFF if the article is from their friends 1`] = `
 Object {
   "data": Object {
+    "articleSources": Array [
+      "親戚轉傳",
+      "同事轉傳",
+      "朋友轉傳",
+      "自己輸入的",
+    ],
     "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
   },
   "event": Object {
-    "input": "朋友轉傳",
+    "input": "3",
     "message": Object {
       "id": "7045918737413",
-      "text": "朋友轉傳",
+      "text": "3",
       "type": "text",
     },
     "timestamp": 1511633232479,
@@ -518,13 +594,19 @@ Object {
 exports[`should ask users about the source of an article when the article is not in our database should ask users to submit their reasons via LIFF if the article is from their relatives 1`] = `
 Object {
   "data": Object {
+    "articleSources": Array [
+      "親戚轉傳",
+      "同事轉傳",
+      "朋友轉傳",
+      "自己輸入的",
+    ],
     "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
   },
   "event": Object {
-    "input": "親戚轉傳",
+    "input": "1",
     "message": Object {
       "id": "7045918737413",
-      "text": "親戚轉傳",
+      "text": "1",
       "type": "text",
     },
     "timestamp": 1511633232479,
