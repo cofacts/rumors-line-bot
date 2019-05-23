@@ -1,12 +1,6 @@
 import stringSimilarity from 'string-similarity';
 import gql from '../gql';
-import {
-  createPostbackAction,
-  isNonsenseText,
-  createAskArticleSubmissionReply,
-  ellipsis,
-  REASON_PREFIX,
-} from './utils';
+import { createPostbackAction, isNonsenseText, ellipsis } from './utils';
 import ga from '../ga';
 
 const SIMILARITY_THRESHOLD = 0.95;
@@ -163,20 +157,32 @@ export default async function initState(params) {
         el: 'ArticleNotFound',
       });
 
+      data.articleSources = ['親戚轉傳', '同事轉傳', '朋友轉傳', '自己輸入的'];
+      const altText =
+        `找不到關於「${articleSummary}」訊息耶 QQ\n` +
+        '\n' +
+        '請問您是從哪裡看到這則訊息呢？\n' +
+        '\n' +
+        data.articleSources
+          .map((option, index) => `${option} > 請傳 ${index + 1}\n`)
+          .join('') +
+        '\n' +
+        '請按左下角「⌨️」鈕輸入選項編號。';
+
       replies = [
         {
-          type: 'text',
-          text: `找不到關於「${articleSummary}」訊息耶 QQ`,
+          type: 'template',
+          altText,
+          template: {
+            type: 'buttons',
+            text: `找不到關於「${articleSummary}」訊息耶 QQ\n請問您是從哪裡看到這則訊息呢？`,
+            actions: data.articleSources.map((option, index) =>
+              createPostbackAction(option, index + 1, issuedAt)
+            ),
+          },
         },
-      ].concat(
-        createAskArticleSubmissionReply(
-          'ASKING_ARTICLE_SUBMISSION_REASON',
-          articleSummary,
-          REASON_PREFIX,
-          issuedAt
-        )
-      );
-      state = 'ASKING_ARTICLE_SUBMISSION_REASON';
+      ];
+      state = 'ASKING_ARTICLE_SOURCE';
     }
   }
   visitor.send();

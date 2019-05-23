@@ -30,6 +30,28 @@ export const selectedArticleId = {
   },
 };
 
+export const oneReply = {
+  data: {
+    GetArticle: {
+      replyCount: 1,
+      text:
+        'Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply ',
+      articleReplies: [
+        {
+          reply: {
+            id: 'AV--O3nfyCdS-nWhujMD',
+            type: 'RUMOR',
+            text:
+              'The Only Reply The Only Reply The Only Reply The Only Reply The Only Reply The Only Reply The Only Reply The Only Reply The Only Reply ',
+          },
+          positiveFeedbackCount: 3,
+          negativeFeedbackCount: 0,
+        },
+      ],
+    },
+  },
+};
+
 export const multipleReplies = {
   data: {
     GetArticle: {

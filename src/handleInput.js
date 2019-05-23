@@ -4,6 +4,7 @@ import choosingReply from './handlers/choosingReply';
 import askingReplyFeedback from './handlers/askingReplyFeedback';
 import askingArticleSubmissionReason from './handlers/askingArticleSubmissionReason';
 import askingReplyRequestReason from './handlers/askingReplyRequestReason';
+import askingArticleSource from './handlers/askingArticleSource';
 import defaultState from './handlers/defaultState';
 import { REASON_PREFIX, DOWNVOTE_PREFIX } from './handlers/utils';
 
@@ -79,6 +80,10 @@ export default async function handleInput(
       }
       case 'ASKING_REPLY_REQUEST_REASON': {
         params = await askingReplyRequestReason(params);
+        break;
+      }
+      case 'ASKING_ARTICLE_SOURCE': {
+        params = await askingArticleSource(params);
         break;
       }
       default: {

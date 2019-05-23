@@ -5,6 +5,8 @@ import {
   createReferenceWords,
   ellipsis,
   createArticleShareReply,
+  createFlexMessageText,
+  createTypeWords,
 } from '../utils';
 
 describe('createArticleShareReply()', () => {
@@ -81,6 +83,67 @@ describe('createReferenceWords()', () => {
         type: 'OPINIONATED',
       })
     ).toMatchSnapshot();
+  });
+});
+
+describe('createFlexMessageText', () => {
+  it('should create a text for flex message', () => {
+    expect(
+      createFlexMessageText(
+        '計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入，下車時使用老人悠遊卡，跳錶車資105元，優惠32元，只扣73元，哈哈，這是屬於我們的福利，與大家分享，可以善加利用！=7折，朋友使用ok'
+      )
+    ).toMatchSnapshot();
+  });
+
+  it('should handle the situation without input', () => {
+    expect(createFlexMessageText()).toMatchSnapshot();
+  });
+});
+
+describe('createTypeWords', () => {
+  it('should return the type words for RUMOR', () => {
+    expect(createTypeWords('RUMOR')).toMatchSnapshot();
+  });
+
+  it('should return the type words for NOT_RUMOR', () => {
+    expect(createTypeWords('NOT_RUMOR')).toMatchSnapshot();
+  });
+
+  it('should return the type words for OPINIONATED', () => {
+    expect(createTypeWords('OPINIONATED')).toMatchSnapshot();
+  });
+
+  it('should return the type words for NOT_ARTICLE', () => {
+    expect(createTypeWords('NOT_ARTICLE')).toMatchSnapshot();
+  });
+
+  it('should return the type words for other types', () => {
+    expect(createTypeWords('some other type')).toMatchSnapshot();
+  });
+});
+
+describe('Test SITE_URL', () => {
+  const OLD_ENV = process.env;
+
+  beforeEach(() => {
+    jest.resetModules();
+    process.env = { ...OLD_ENV };
+    delete process.env.SITE_URL;
+  });
+
+  afterEach(() => {
+    process.env = OLD_ENV;
+  });
+
+  it('use the default SITE_URL', () => {
+    const utils = require('../utils');
+    expect(utils.getArticleURL('AWDZYXxAyCdS-nWhumlz')).toMatchSnapshot();
+  });
+
+  it('use SITE_URL from env variables', () => {
+    process.env.SITE_URL = 'https://cofacts.hacktabl.org';
+    const utils = require('../utils');
+    expect(utils.getArticleURL('AWDZYXxAyCdS-nWhumlz')).toMatchSnapshot();
   });
 });
 
