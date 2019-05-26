@@ -5,9 +5,8 @@ import {
   createTypeWords,
   isNonsenseText,
   getArticleURL,
-  createAskArticleSubmissionReply,
-  REASON_PREFIX,
   ellipsis,
+  ARTICLE_SOURCES,
 } from './utils';
 import ga from '../ga';
 
@@ -67,14 +66,34 @@ export default async function choosingArticle(params) {
     ];
     state = '__INIT__';
   } else if (doesNotContainMyArticle) {
-    replies = createAskArticleSubmissionReply(
-      'ASKING_ARTICLE_SUBMISSION_REASON',
-      data.searchedText,
-      REASON_PREFIX,
-      issuedAt
-    );
+    data.articleSources = ARTICLE_SOURCES;
+    const altText =
+      '啊，看來您的訊息還沒有收錄到我們的資料庫裡。\n' +
+      '\n' +
+      '請問您是從哪裡看到這則訊息呢？\n' +
+      '\n' +
+      data.articleSources
+        .map((option, index) => `${option} > 請傳 ${index + 1}\n`)
+        .join('') +
+      '\n' +
+      '請按左下角「⌨️」鈕輸入選項編號。';
 
-    state = 'ASKING_ARTICLE_SUBMISSION_REASON';
+    replies = [
+      {
+        type: 'template',
+        altText,
+        template: {
+          type: 'buttons',
+          text:
+            '啊，看來您的訊息還沒有收錄到我們的資料庫裡。\n請問您是從哪裡看到這則訊息呢？',
+          actions: data.articleSources.map((option, index) =>
+            createPostbackAction(option, index + 1, issuedAt)
+          ),
+        },
+      },
+    ];
+
+    state = 'ASKING_ARTICLE_SOURCE';
   } else if (!selectedArticleId) {
     replies = [
       {
@@ -214,7 +233,7 @@ export default async function choosingArticle(params) {
         el: selectedArticleId,
       });
 
-      data.articleSources = ['親戚轉傳', '同事轉傳', '朋友轉傳', '自己輸入的'];
+      data.articleSources = ARTICLE_SOURCES;
       const altText =
         '抱歉這篇訊息還沒有人回應過唷！\n' +
         '\n' +

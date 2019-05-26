@@ -1,6 +1,11 @@
 import stringSimilarity from 'string-similarity';
 import gql from '../gql';
-import { createPostbackAction, isNonsenseText, ellipsis } from './utils';
+import {
+  createPostbackAction,
+  isNonsenseText,
+  ellipsis,
+  ARTICLE_SOURCES,
+} from './utils';
 import ga from '../ga';
 
 const SIMILARITY_THRESHOLD = 0.95;
@@ -157,7 +162,7 @@ export default async function initState(params) {
         el: 'ArticleNotFound',
       });
 
-      data.articleSources = ['親戚轉傳', '同事轉傳', '朋友轉傳', '自己輸入的'];
+      data.articleSources = ARTICLE_SOURCES;
       const altText =
         `找不到關於「${articleSummary}」訊息耶 QQ\n` +
         '\n' +
