@@ -51,7 +51,11 @@ export default async function askingArticleSource(params) {
     ];
 
     state = '__INIT__';
-  } else if (data.foundArticleIds && data.foundArticleIds.length > 0) {
+  } else if (
+    data.foundArticleIds &&
+    data.foundArticleIds.length > 0 &&
+    data.selectedArticleId
+  ) {
     // articles that are already reported
     const altText =
       '【跟編輯說您的疑惑】\n' +

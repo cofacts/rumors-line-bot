@@ -237,3 +237,13 @@ export function createArticleShareReply(articleUrl, reason) {
     },
   };
 }
+
+/**
+ * possible sources of incoming articles
+ */
+export const ARTICLE_SOURCES = [
+  '親戚轉傳',
+  '同事轉傳',
+  '朋友轉傳',
+  '自己輸入的',
+];
