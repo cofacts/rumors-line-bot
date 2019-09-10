@@ -41,7 +41,7 @@
       height: 44px;
       width: 100%;
       border: 1px solid;
-      background: silver;
+      background: yellow;
     }
     #errors {
       color: tomato;
@@ -60,7 +60,7 @@
   <form class="form" id="form">
     <p id="prompt"></p>
     <label for="reason" id="reason-label"></label>
-    <textarea class="reason" name="reason" placeholder="請在這裡輸入文字" required></textarea>
+    <textarea class="reason" name="reason" placeholder="請在這裡輸入文字"></textarea>
     <div class="buttons">
       <button class="submit" type="submit" id="submit-button">確定送出</button>
     </div>
@@ -105,7 +105,7 @@
         e.preventDefault();
         const text = e.target.value;
         if (text.length < SUFFICIENT_REASON_LENGTH) {
-          $submitButton.style.backgroundColor = 'yellow';
+          $submitButton.style.backgroundColor = '';
         } else {
           $submitButton.style.backgroundColor = 'greenyellow';
         }
