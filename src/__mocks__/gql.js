@@ -29,4 +29,11 @@ gqlMock.__reset = function() {
   mockResultQueue.length = 0;
 };
 
+/**
+ * @returns {Boolean} if the mock response has been depleted
+ */
+gqlMock.__finished = function() {
+  return mockResultQueue.length === 0;
+};
+
 export default gqlMock;
