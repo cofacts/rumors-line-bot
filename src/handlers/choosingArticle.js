@@ -262,7 +262,9 @@ export default async function choosingArticle(params) {
       // Submit article replies early, no need to wait for the request
       gql`
         mutation SubmitReplyRequestWithoutReason($id: String!) {
-          CreateOrUpdateReplyRequest(articleId: $id)
+          CreateOrUpdateReplyRequest(articleId: $id) {
+            status
+          }
         }
       `({ id: selectedArticleId }, { userId });
 
