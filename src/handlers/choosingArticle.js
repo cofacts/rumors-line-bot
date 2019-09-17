@@ -263,7 +263,7 @@ export default async function choosingArticle(params) {
       gql`
         mutation SubmitReplyRequestWithoutReason($id: String!) {
           CreateOrUpdateReplyRequest(articleId: $id) {
-            status
+            replyRequestCount
           }
         }
       `({ id: selectedArticleId }, { userId });
