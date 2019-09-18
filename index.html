@@ -41,7 +41,7 @@
       height: 44px;
       width: 100%;
       border: 1px solid;
-      background: silver;
+      background: yellow;
     }
     #errors {
       color: tomato;
@@ -60,9 +60,9 @@
   <form class="form" id="form">
     <p id="prompt"></p>
     <label for="reason" id="reason-label"></label>
-    <textarea class="reason" name="reason" placeholder="請在這裡輸入文字" required></textarea>
+    <textarea class="reason" name="reason" placeholder="請在這裡輸入文字"></textarea>
     <div class="buttons">
-      <button class="submit" type="submit" id="submit-button"></button>
+      <button class="submit" type="submit" id="submit-button">確定送出</button>
     </div>
   </form>
   <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
@@ -98,24 +98,16 @@
           $prompt.innerText = '請提供理由：';
           break;
       }
-      
-      const MIN_REASON_LENGTH = 15;
+
       const SUFFICIENT_REASON_LENGTH = 40;
       const $submitButton = document.querySelector('#submit-button');
-      $submitButton.innerText = `還要寫 ${MIN_REASON_LENGTH} 字才能送出訊息唷！`
       $textarea.addEventListener('input', e => {
         e.preventDefault();
         const text = e.target.value;
-        if (text.length < MIN_REASON_LENGTH) {
-          $submitButton.innerText = `還要寫 ${MIN_REASON_LENGTH - text.length} 字才能送出訊息唷！`;
-          $submitButton.style.background = 'silver';
+        if (text.length < SUFFICIENT_REASON_LENGTH) {
+          $submitButton.style.backgroundColor = '';
         } else {
-          if (text.length >= MIN_REASON_LENGTH && text.length < SUFFICIENT_REASON_LENGTH) {
-            $submitButton.style.backgroundColor = 'yellow';
-          } else {
-            $submitButton.style.backgroundColor = 'greenyellow';
-          }
-          $submitButton.innerText = '確定送出';
+          $submitButton.style.backgroundColor = 'greenyellow';
         }
       })
 
@@ -124,24 +116,14 @@
 你可以試著：
 A. 闡述更多想法
 B. 去 google 查查看
-C. 把全文複製貼上到 Facebook 搜尋框看看
-
-把你的結果傳給編輯參考吧！
-      `
+C. 把全文複製貼上到 Facebook 搜尋框看看`
       $form.addEventListener('submit', e => {
         e.preventDefault();
         const reason = e.target.reason.value;
 
         if(state === 'ASKING_ARTICLE_SUBMISSION_REASON' ||
            state === 'ASKING_REPLY_REQUEST_REASON') {
-          if(reason.length < MIN_REASON_LENGTH) {
-            alert(`
-您提供的資訊太少，編輯無法幫您查詢。
-
-${lengthenHint}
-            `);
-            return;
-          } else if(reason.length < SUFFICIENT_REASON_LENGTH) {
+          if(reason.length < SUFFICIENT_REASON_LENGTH) {
             if(!confirm(`
 提供給編輯的資訊可以再豐富一些，會讓編輯回覆越快唷！
 
@@ -152,12 +134,15 @@ ${lengthenHint}
               return;
             }
           } else if (reason === text) {
-            alert(`您提供的資訊不應該與訊息原文相同。`);
+            alert(`
+您提供的資訊不應該與訊息原文相同。
+
+${lengthenHint}
+`);
             return;
           }
         }
 
-        toggleForm(false);
         liff.sendMessages([
           { type: 'text', text: `${searchParams.get('prefix')}${reason}` },
         ]).then(() => {
@@ -166,7 +151,6 @@ ${lengthenHint}
       });
 
       liff.init(({context: {userId}}) => {
-        toggleForm(true);
         fetch(`https://rumor-line-bot.ngrok.io/context/${userId}`).then(resp => resp.json()).then(data => {
           if(!data || data.state !== state || data.issuedAt.toString() !== issuedAt ) {
             alert('因為您傳了新的訊息進來，所以這顆舊按鈕已經不會動囉！');
@@ -177,14 +161,6 @@ ${lengthenHint}
 
       function handleError(err) {
         document.querySelector('#errors').textContent = err.toString();
-      }
-
-      function toggleForm(isEnabled) {
-        if(isEnabled) {
-          $form.classList.remove('disabled');
-        } else {
-          $form.classList.add('disabled');
-        }
       }
     }());
   </script>
