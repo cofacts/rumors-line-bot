@@ -223,6 +223,6 @@ export const noReplies = {
   },
 };
 
-export const createReplyRequest = {
-  data: { CreateReplyRequest: { replyRequestCount: 2 } },
+export const createOrUpdateReplyRequest = {
+  data: { CreateOrUpdateReplyRequest: { replyRequestCount: 1 } },
 };

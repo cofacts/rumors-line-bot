@@ -34,6 +34,7 @@ it('should select article by articleId', async () => {
   };
 
   expect(await choosingArticle(params)).toMatchSnapshot();
+  expect(gql.__finished()).toBe(true);
 });
 
 it('should select article and have OPINIONATED and NOT_ARTICLE replies', async () => {
@@ -59,11 +60,12 @@ it('should select article and have OPINIONATED and NOT_ARTICLE replies', async (
   };
 
   expect(await choosingArticle(params)).toMatchSnapshot();
+  expect(gql.__finished()).toBe(true);
 });
 
 it('should select article with no replies', async () => {
   gql.__push(apiResult.noReplies);
-  gql.__push(apiResult.createReplyRequest);
+  gql.__push(apiResult.createOrUpdateReplyRequest);
 
   const params = {
     data: {
@@ -84,11 +86,11 @@ it('should select article with no replies', async () => {
   };
 
   expect(await choosingArticle(params)).toMatchSnapshot();
+  expect(gql.__finished()).toBe(true);
 });
 
 it('should select article with just one reply', async () => {
   gql.__push(apiResult.oneReply);
-  gql.__push(apiResult.createReplyRequest);
 
   const params = {
     data: {
@@ -110,12 +112,10 @@ it('should select article with just one reply', async () => {
   };
 
   expect(await choosingArticle(params)).toMatchSnapshot();
+  expect(gql.__finished()).toBe(true);
 });
 
 it('should ask users to re-enter a valid number if an invalid number is received', async () => {
-  gql.__push(apiResult.oneReply);
-  gql.__push(apiResult.createReplyRequest);
-
   const params = {
     data: {
       searchedText:
@@ -161,6 +161,7 @@ it('should select article and slice replies when over 10', async () => {
   };
 
   expect(await choosingArticle(params)).toMatchSnapshot();
+  expect(gql.__finished()).toBe(true);
 });
 
 it('should ask users if they want to submit article when user say not found', async () => {

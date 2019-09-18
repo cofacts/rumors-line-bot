@@ -259,6 +259,15 @@ export default async function choosingArticle(params) {
         },
       ];
 
+      // Submit article replies early, no need to wait for the request
+      gql`
+        mutation SubmitReplyRequestWithoutReason($id: String!) {
+          CreateOrUpdateReplyRequest(articleId: $id) {
+            replyRequestCount
+          }
+        }
+      `({ id: selectedArticleId }, { userId });
+
       state = 'ASKING_ARTICLE_SOURCE';
     }
     visitor.send();
