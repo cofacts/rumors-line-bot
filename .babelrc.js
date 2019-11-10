@@ -13,6 +13,9 @@ module.exports = {
     "@babel/plugin-proposal-class-properties",
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-syntax-import-meta",
-    "@babel/plugin-proposal-json-strings"
+    "@babel/plugin-proposal-json-strings",
+    [
+      'ttag', {resolve: {translations: `i18n/${process.env.LOCALE || 'en_US'}.po`}}
+    ],
   ]
 }

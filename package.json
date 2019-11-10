@@ -11,7 +11,9 @@
     "lint:fix": "eslint --fix .",
     "lint": "eslint .",
     "preliff": "bash build-liff.sh",
-    "liff": "gh-pages -d liff"
+    "liff": "gh-pages -d liff",
+    "i18n:extract": "ttag update i18n/zh_TW.po src/",
+    "i18n:validate": "ttag validate i18n/zh_TW.po"
   },
   "repository": {
     "type": "git",
@@ -29,10 +31,10 @@
   },
   "homepage": "https://github.com/cofacts/rumors-line-bot#readme",
   "dependencies": {
-    "@koa/cors": "^2.2.3",
-    "@line/bot-sdk": "^6.0.0",
     "@babel/polyfill": "^7.7.0",
     "@babel/runtime-corejs2": "^7.7.0",
+    "@koa/cors": "^2.2.3",
+    "@line/bot-sdk": "^6.0.0",
     "googleapis": "^36.0.0",
     "grapheme-splitter": "^1.0.4",
     "koa": "^2.5.0",
@@ -44,6 +46,7 @@
     "redis": "^2.6.5",
     "rollbar": "^2.2.9",
     "string-similarity": "^3.0.0",
+    "ttag": "^1.7.20",
     "universal-analytics": "^0.4.16"
   },
   "devDependencies": {
@@ -64,7 +67,8 @@
     "eslint-plugin-prettier": "^3.0.0",
     "gh-pages": "^2.0.1",
     "jest-cli": "^24.9.0",
-    "prettier": "=1.13.0"
+    "prettier": "=1.13.0",
+    "ttag-cli": "^1.7.25"
   },
   "jest": {
     "testEnvironment": "node",
