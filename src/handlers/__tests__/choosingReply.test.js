@@ -4,7 +4,7 @@ import choosingReply from '../choosingReply';
 import * as apiResult from '../__fixtures__/choosingReply';
 import gql from '../../gql';
 
-describe('should select reply by replyId', async () => {
+describe('should select reply by replyId', () => {
   const params = {
     data: {
       searchedText: '貼圖',

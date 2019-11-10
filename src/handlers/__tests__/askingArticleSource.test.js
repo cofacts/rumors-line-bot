@@ -1,6 +1,6 @@
 import askingArticleSource from '../askingArticleSource';
 
-describe('should ask users about the source of an article when the article exists in our database but is not yet replied', async () => {
+describe('should ask users about the source of an article when the article exists in our database but is not yet replied', () => {
   it('should ask users to seek help from other fact-checkers if the article is manually input', async () => {
     const params = {
       data: {
@@ -106,7 +106,7 @@ describe('should ask users about the source of an article when the article exist
   });
 });
 
-describe('should ask users about the source of an article when none of our articles matches their query', async () => {
+describe('should ask users about the source of an article when none of our articles matches their query', () => {
   it('should ask users to seek help from other fact-checkers if the article is manually input', async () => {
     const params = {
       data: {
@@ -212,7 +212,7 @@ describe('should ask users about the source of an article when none of our artic
   });
 });
 
-describe('should ask users about the source of an article when the article is not in our database', async () => {
+describe('should ask users about the source of an article when the article is not in our database', () => {
   it('should ask users to seek help from other fact-checkers if the article is manually input', async () => {
     const params = {
       data: {
