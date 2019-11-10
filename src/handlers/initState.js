@@ -110,7 +110,8 @@ export default async function initState(params) {
           .map(({ node: { text }, similarity }, idx) => ({
             text: ellipsis(
               `[${t`Similarity`}:${(similarity * 100).toFixed(2) +
-                '%'}] \n ${(text, 115)}`,
+                '%'}] \n ${text}`,
+              115,
               '⋯'
             ),
             actions: [
