@@ -22,11 +22,12 @@ Object {
   "issuedAt": 1497994017447,
   "replies": Array [
     Object {
-      "text": "幫您查詢「計程車上有裝悠遊卡感⋯⋯」的相關回應。",
+      "text": "🔍 There are some messages that looks similar to \\"計程車上有裝悠遊卡感⋯⋯\\" you have sent to me.",
       "type": "text",
     },
     Object {
-      "text": "請問下列文章中，哪一篇是您剛才傳送的訊息呢？",
+      "text": "Internet rumors are often mutated and shared.
+Please choose the version that looks the most similar👇",
       "type": "text",
     },
     Object {
@@ -39,22 +40,22 @@ Object {
             "actions": Array [
               Object {
                 "data": "{\\"input\\":1,\\"issuedAt\\":1497994017447}",
-                "label": "選擇此則",
+                "label": "Choose this one",
                 "type": "postback",
               },
             ],
-            "text": "[相似度:52.41%] 
- 計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入，下車時使用老人悠遊卡，跳錶車資105元，優惠32元，只扣73元，哈哈，這是屬於我們的福利，與大家分享，可以善加利用！=7",
+            "text": "[Similarity:52.41%] 
+ 計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入，下車時使用老人悠遊卡，跳錶車資105元，優惠32元，只扣73元，哈哈，這是屬於我們的福利，與大家分享，可⋯",
           },
           Object {
             "actions": Array [
               Object {
                 "data": "{\\"input\\":0,\\"issuedAt\\":1497994017447}",
-                "label": "選擇",
+                "label": "Choose this one",
                 "type": "postback",
               },
             ],
-            "text": "這裡沒有一篇是我傳的訊息。",
+            "text": "These messages don't match mine :(",
           },
         ],
         "type": "carousel",
@@ -90,11 +91,12 @@ Object {
   "issuedAt": 1497994017447,
   "replies": Array [
     Object {
-      "text": "幫您查詢「YouTube · ⋯⋯」的相關回應。",
+      "text": "🔍 There are some messages that looks similar to \\"YouTube · ⋯⋯\\" you have sent to me.",
       "type": "text",
     },
     Object {
-      "text": "請問下列文章中，哪一篇是您剛才傳送的訊息呢？",
+      "text": "Internet rumors are often mutated and shared.
+Please choose the version that looks the most similar👇",
       "type": "text",
     },
     Object {
@@ -109,22 +111,22 @@ Object {
             "actions": Array [
               Object {
                 "data": "{\\"input\\":1,\\"issuedAt\\":1497994017447}",
-                "label": "選擇此則",
+                "label": "Choose this one",
                 "type": "postback",
               },
             ],
-            "text": "[相似度:100.00%] 
+            "text": "[Similarity:100.00%] 
  YouTube  ·  寻找健康人生",
           },
           Object {
             "actions": Array [
               Object {
                 "data": "{\\"input\\":2,\\"issuedAt\\":1497994017447}",
-                "label": "選擇此則",
+                "label": "Choose this one",
                 "type": "postback",
               },
             ],
-            "text": "[相似度:100.00%] 
+            "text": "[Similarity:100.00%] 
  YouTube
 ·
 寻找健康人生",

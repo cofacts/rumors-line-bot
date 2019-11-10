@@ -123,7 +123,7 @@ Object {
               "action": Object {
                 "label": "🆕 送進資料庫",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20My%20reason%20is%3A%0A&issuedAt=1511633232970",
               },
               "style": "primary",
               "type": "button",
@@ -228,7 +228,7 @@ Object {
               "action": Object {
                 "label": "🆕 送進資料庫",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20My%20reason%20is%3A%0A&issuedAt=1511633232970",
               },
               "style": "primary",
               "type": "button",
@@ -333,7 +333,7 @@ Object {
               "action": Object {
                 "label": "🆕 送進資料庫",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20My%20reason%20is%3A%0A&issuedAt=1511633232970",
               },
               "style": "primary",
               "type": "button",
@@ -476,7 +476,7 @@ Object {
               "action": Object {
                 "label": "🙋 我也想知道",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_REQUEST_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_REQUEST_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20My%20reason%20is%3A%0A&issuedAt=1511633232970",
               },
               "style": "primary",
               "type": "button",
@@ -561,7 +561,7 @@ Object {
               "action": Object {
                 "label": "🙋 我也想知道",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_REQUEST_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_REQUEST_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20My%20reason%20is%3A%0A&issuedAt=1511633232970",
               },
               "style": "primary",
               "type": "button",
@@ -646,7 +646,7 @@ Object {
               "action": Object {
                 "label": "🙋 我也想知道",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_REQUEST_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_REQUEST_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20My%20reason%20is%3A%0A&issuedAt=1511633232970",
               },
               "style": "primary",
               "type": "button",
@@ -827,7 +827,7 @@ Object {
               "action": Object {
                 "label": "🆕 送進資料庫",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20My%20reason%20is%3A%0A&issuedAt=1511633232970",
               },
               "style": "primary",
               "type": "button",
@@ -928,7 +928,7 @@ Object {
               "action": Object {
                 "label": "🆕 送進資料庫",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20My%20reason%20is%3A%0A&issuedAt=1511633232970",
               },
               "style": "primary",
               "type": "button",
@@ -1029,7 +1029,7 @@ Object {
               "action": Object {
                 "label": "🆕 送進資料庫",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20%E6%88%91%E7%9A%84%E7%90%86%E7%94%B1%E6%98%AF%EF%BC%9A%0A&issuedAt=1511633232970",
+                "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_ARTICLE_SUBMISSION_REASON&text=%E9%80%99%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%A2%BA%E5%AF%A6%E6%98%AF%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%81%20My%20reason%20is%3A%0A&issuedAt=1511633232970",
               },
               "style": "primary",
               "type": "button",
