@@ -1,3 +1,4 @@
+import { t } from 'ttag';
 import gql from '../gql';
 import {
   createPostbackAction,
@@ -153,16 +154,38 @@ export default async function choosingArticle(params) {
 
     const articleReplies = reorderArticleReplies(GetArticle.articleReplies);
     const summary =
-      '這個訊息有：\n' +
-      `${count.RUMOR || 0} 則回應標成 ❌ 含有不實訊息\n` +
-      `${count.NOT_RUMOR || 0} 則回應標成 ⭕ 含有真實訊息\n` +
-      `${count.OPINIONATED || 0} 則回應標成 💬 含有個人意見\n` +
-      `${count.NOT_ARTICLE || 0} 則回應標成 ⚠️️ 不在查證範圍\n`;
+      t`Volunteer editors has publised several replies to this message.` +
+      '\n\n👨‍👩‍👧‍👦 ' +
+      [
+        count.RUMOR > 0
+          ? t`${count.RUMOR} of them say it ❌ contains misinformation`
+          : '',
+        count.NOT_RUMOR > 0
+          ? t`${count.NOT_RUMOR} of them says it ⭕ contains true information`
+          : '',
+        count.OPINIONATED > 0
+          ? t`${
+              count.OPINIONATED
+            } of them says it 💬 contains personal perspective\n`
+          : '',
+        count.NOT_ARTICLE > 0
+          ? t`${
+              count.NOT_ARTICLE
+            } of them says it ⚠️️ is out of scope of Cofacts\n`
+          : '',
+      ]
+        .filter(s => s)
+        .join(', ') +
+      '.';
 
     replies = [
       {
         type: 'text',
         text: summary,
+      },
+      {
+        type: 'text',
+        text: t`Let's pick one` + ' 👇',
       },
     ];
 
@@ -209,7 +232,11 @@ export default async function choosingArticle(params) {
                   '\n' +
                   ellipsis(reply.text, 80, ''),
                 actions: [
-                  createPostbackAction('閱讀此回應', idx + 1, issuedAt),
+                  createPostbackAction(
+                    `👀 ${t`Take a look`}`,
+                    idx + 1,
+                    issuedAt
+                  ),
                 ],
               })
             ),
@@ -217,9 +244,10 @@ export default async function choosingArticle(params) {
       });
 
       if (articleReplies.length > 10) {
+        const articleUrl = getArticleURL(selectedArticleId);
         replies.push({
           type: 'text',
-          text: `更多回應請到：${getArticleURL(selectedArticleId)}`,
+          text: t`Visit ${articleUrl} for more replies.`,
         });
       }
     } else {

@@ -1,6 +1,7 @@
 import Koa from 'koa';
 import Router from 'koa-router';
 import cors from '@koa/cors';
+import { t } from 'ttag';
 
 import rollbar from './rollbar';
 import { version } from '../package.json';
@@ -75,7 +76,7 @@ const singleUserHandler = async (
     replies: [
       {
         type: 'text',
-        text: '我們還不支援文字以外的訊息唷！',
+        text: t`I cannot understand messages other than text.`,
       },
     ],
   };
@@ -142,7 +143,7 @@ const singleUserHandler = async (
         replies: [
           {
             type: 'text',
-            text: '糟糕，bot 故障了。可以再傳一次嗎？ QQ',
+            text: t`Oops, something is not working. Would you please send that again?`,
           },
         ],
       };
