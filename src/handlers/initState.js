@@ -108,8 +108,11 @@ export default async function initState(params) {
         type: 'carousel',
         columns: edgesSortedWithSimilarity
           .map(({ node: { text }, similarity }, idx) => ({
-            text: `[${t`Similarity`}:${(similarity * 100).toFixed(2) +
-              '%'}] \n ${ellipsis(text, 100, '')}`,
+            text: ellipsis(
+              `[${t`Similarity`}:${(similarity * 100).toFixed(2) +
+                '%'}] \n ${(text, 115)}`,
+              '⋯'
+            ),
             actions: [
               createPostbackAction(t`Choose this one`, idx + 1, issuedAt),
             ],
