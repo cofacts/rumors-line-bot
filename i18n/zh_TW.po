@@ -8,7 +8,7 @@ msgstr ""
 
 #: src/index.js:79
 #. Set default result
-#.
+#. 
 msgid "I cannot understand messages other than text."
 msgstr "我們還不支援文字以外的訊息唷！"
 
@@ -103,29 +103,30 @@ msgstr "看他怎麼說"
 msgid "Visit ${ articleUrl } for more replies."
 msgstr "更多回應請到：${ articleUrl }"
 
-#: src/handlers/initState.js:111
+#: src/handlers/initState.js:112
 msgid "Similarity"
 msgstr "相似度"
 
-#: src/handlers/initState.js:114
-#: src/handlers/initState.js:124
+#: src/handlers/initState.js:118
+#: src/handlers/initState.js:128
 msgid "Choose this one"
 msgstr "選擇這篇"
 
-#: src/handlers/initState.js:122
+#: src/handlers/initState.js:126
 msgid "These messages don't match mine :("
 msgstr "找不到我想查的訊息 QQ"
 
-#: src/handlers/initState.js:135
+#: src/handlers/initState.js:139
 #, javascript-format
 msgid ""
 "There are some messages that looks similar to \"${ articleSummary }\" you "
 "have sent to me."
 msgstr "資料庫裡有幾篇訊息，跟您傳給我的「${ articleSummary }」有點接近。"
 
-#: src/handlers/initState.js:140
+#: src/handlers/initState.js:144
 msgid ""
 "Internet rumors are often mutated and shared.\n"
 "Please choose the version that looks the most similar"
-msgstr "不實訊息常常會被人修改重發。\n"
+msgstr ""
+"不實訊息常常會被人修改重發。\n"
 "請選擇比較接近的版本"

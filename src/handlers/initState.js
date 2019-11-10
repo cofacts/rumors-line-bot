@@ -141,8 +141,8 @@ export default async function initState(params) {
       {
         type: 'text',
         text:
-          t`Internet rumors are often mutated and shared.\nPlease choose the version that looks the most similar` +
-          '👇',
+          t`Internet rumors are often mutated and shared.
+            Please choose the version that looks the most similar` + '👇',
       },
       templateMessage,
     ];
