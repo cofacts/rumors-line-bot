@@ -8,7 +8,7 @@ msgstr ""
 
 #: src/index.js:79
 #. Set default result
-#. 
+#.
 msgid "I cannot understand messages other than text."
 msgstr "我們還不支援文字以外的訊息唷！"
 
@@ -130,3 +130,40 @@ msgid ""
 msgstr ""
 "不實訊息常常會被人修改重發。\n"
 "請選擇比較接近的版本"
+
+#: src/handlers/choosingReply.js:54
+msgid "Someone on the internet replies to the message:"
+msgstr "網路上有人這樣回應這則訊息："
+
+#: src/handlers/choosingReply.js:66
+#, javascript-format
+msgid "Therefore, the author think the message ${ typeStr }."
+msgstr "綜合以上，回應者認為它${typeStr}。"
+
+#: src/handlers/choosingReply.js:67
+msgid ""
+"These messages are provided by some nice volunteers. Please refer to their "
+"references and make judgements on your own."
+msgstr "以上資訊由好心人提供。請斟酌出處與理由思考判斷。"
+
+#: src/handlers/choosingReply.js:70
+msgid ""
+"There are different replies for the message. Read them all here before "
+"making judgements:"
+msgstr "這則訊息有很多不同回應，建議到這裡一次讀完再下判斷："
+
+#: src/handlers/choosingReply.js:73
+msgid "If you have different thoughts, you may have your say here:"
+msgstr "如果你對這則訊息有不同看法，歡迎到下面這裡寫入新的回應："
+
+#: src/handlers/choosingReply.js:81
+msgid "Is the reply helpful?"
+msgstr "請問上面回應是否有幫助？"
+
+#: src/handlers/choosingReply.js:83
+msgid "Yes"
+msgstr "是"
+
+#: src/handlers/choosingReply.js:86
+msgid "No"
+msgstr "否"

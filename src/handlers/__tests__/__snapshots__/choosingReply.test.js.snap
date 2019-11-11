@@ -61,7 +61,7 @@ Object {
   "issuedAt": 1518964688672,
   "replies": Array [
     Object {
-      "text": "💡 網路上有人這樣回應這則訊息：",
+      "text": "💡 Someone on the internet replies to the message:",
       "type": "text",
     },
     Object {
@@ -73,11 +73,11 @@ Object {
       "type": "text",
     },
     Object {
-      "text": "⬆️ 綜合以上，回應者認為它Invalid request。
+      "text": "⬆️ Therefore, the author think the message invalid request.
 
-💁 以上資訊由好心人提供。請斟酌出處與理由思考判斷。
+💁 These messages are provided by some nice volunteers. Please refer to their references and make judgements on your own.
 
-⁉️ 如果你對這則訊息有不同看法，歡迎到下面這裡寫入新的回應：
+⁉️ If you have different thoughts, you may have your say here:
 https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
       "type": "text",
     },
@@ -88,16 +88,16 @@ https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
         "actions": Array [
           Object {
             "data": "{\\"input\\":\\"y\\",\\"issuedAt\\":1518964688672}",
-            "label": "是",
+            "label": "Yes",
             "type": "postback",
           },
           Object {
-            "label": "否",
+            "label": "No",
             "type": "uri",
             "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_FEEDBACK&text=%E9%80%99%E6%98%AF%E5%95%86%E6%A5%AD%E6%B4%BB%E5%8B%95%E5%BB%A3%E5%91%8A%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%A1%20I%20think%20the%20reply%20is%20not%20useful%20and%20I%20suggest%3A%0A&issuedAt=1518964688672",
           },
         ],
-        "text": "請問上面回應是否有幫助？",
+        "text": "Is the reply helpful?",
         "type": "confirm",
       },
       "type": "template",
@@ -137,7 +137,7 @@ Object {
   "issuedAt": 1518964688672,
   "replies": Array [
     Object {
-      "text": "💡 網路上有人這樣回應這則訊息：",
+      "text": "💡 Someone on the internet replies to the message:",
       "type": "text",
     },
     Object {
@@ -149,13 +149,13 @@ Object {
       "type": "text",
     },
     Object {
-      "text": "⬆️ 綜合以上，回應者認為它Invalid request。
+      "text": "⬆️ Therefore, the author think the message invalid request.
 
-💁 以上資訊由好心人提供。請斟酌出處與理由思考判斷。
-🗣️ 這則訊息有很多不同回應，建議到這裡一次讀完再下判斷：
+💁 These messages are provided by some nice volunteers. Please refer to their references and make judgements on your own.
+🗣️ There are different replies for the message. Read them all here before making judgements:
 https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz
 
-⁉️ 如果你對這則訊息有不同看法，歡迎到下面這裡寫入新的回應：
+⁉️ If you have different thoughts, you may have your say here:
 https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
       "type": "text",
     },
@@ -166,16 +166,16 @@ https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
         "actions": Array [
           Object {
             "data": "{\\"input\\":\\"y\\",\\"issuedAt\\":1518964688672}",
-            "label": "是",
+            "label": "Yes",
             "type": "postback",
           },
           Object {
-            "label": "否",
+            "label": "No",
             "type": "uri",
             "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_FEEDBACK&text=%E9%80%99%E6%98%AF%E5%95%86%E6%A5%AD%E6%B4%BB%E5%8B%95%E5%BB%A3%E5%91%8A%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%A1%20I%20think%20the%20reply%20is%20not%20useful%20and%20I%20suggest%3A%0A&issuedAt=1518964688672",
           },
         ],
-        "text": "請問上面回應是否有幫助？",
+        "text": "Is the reply helpful?",
         "type": "confirm",
       },
       "type": "template",

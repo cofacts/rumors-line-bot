@@ -1,3 +1,4 @@
+import { t } from 'ttag';
 import gql from '../gql';
 import {
   createPostbackAction,
@@ -45,11 +46,12 @@ export default async function choosingReply(params) {
     `({ id: selectedReplyId });
 
     const articleUrl = getArticleURL(data.selectedArticleId);
+    const typeStr = createTypeWords(GetReply.type).toLocaleLowerCase();
 
     replies = [
       {
         type: 'text',
-        text: `💡 網路上有人這樣回應這則訊息：`,
+        text: `💡 ${t`Someone on the internet replies to the message:`}`,
       },
       {
         type: 'text',
@@ -61,13 +63,13 @@ export default async function choosingReply(params) {
       },
       {
         type: 'text',
-        text: `⬆️ 綜合以上，回應者認為它${createTypeWords(
-          GetReply.type
-        )}。\n\n💁 以上資訊由好心人提供。請斟酌出處與理由思考判斷。\n${
-          data.foundReplyIds.length > 1
-            ? `🗣️ 這則訊息有很多不同回應，建議到這裡一次讀完再下判斷：\n${articleUrl}\n`
-            : ''
-        }\n⁉️ 如果你對這則訊息有不同看法，歡迎到下面這裡寫入新的回應：\n${articleUrl}`,
+        text:
+          `⬆️ ${t`Therefore, the author think the message ${typeStr}.`}\n\n` +
+          `💁 ${t`These messages are provided by some nice volunteers. Please refer to their references and make judgements on your own.`}\n` +
+          (data.foundReplyIds.length > 1
+            ? `🗣️ ${t`There are different replies for the message. Read them all here before making judgements:`}\n${articleUrl}\n`
+            : '') +
+          `\n⁉️ ${t`If you have different thoughts, you may have your say here:`}\n${articleUrl}`,
       },
       {
         type: 'template',
@@ -75,12 +77,12 @@ export default async function choosingReply(params) {
           '請問上面回應是否有幫助？\n「是」請輸入「y」，「否」請至手機上回應',
         template: {
           type: 'confirm',
-          text: '請問上面回應是否有幫助？',
+          text: t`Is the reply helpful?`,
           actions: [
-            createPostbackAction('是', 'y', issuedAt),
+            createPostbackAction(t`Yes`, 'y', issuedAt),
             {
               type: 'uri',
-              label: '否',
+              label: t`No`,
               uri: getLIFFURL(
                 'ASKING_REPLY_FEEDBACK',
                 GetReply.text,
