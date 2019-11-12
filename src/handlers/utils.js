@@ -24,7 +24,7 @@ export function createFeedbackWords(positive, negative) {
   if (positive)
     result +=
       ngettext(
-        msgid`${positive} user consider this helpful`,
+        msgid`${positive} user considers this helpful`,
         `${positive} users consider this helpful`,
         positive
       ) + '\n';

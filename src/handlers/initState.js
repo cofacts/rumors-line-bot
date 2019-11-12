@@ -109,7 +109,7 @@ export default async function initState(params) {
         columns: edgesSortedWithSimilarity
           .map(({ node: { text }, similarity }, idx) => ({
             text: ellipsis(
-              `[${t`Similarity`}:${(similarity * 100).toFixed(2) +
+              `[${t`Similarity`}: ${(similarity * 100).toFixed(2) +
                 '%'}] \n ${text}`,
               115,
               '⋯'
@@ -123,7 +123,7 @@ export default async function initState(params) {
               ? []
               : [
                   {
-                    text: t`These messages don't match mine :(`,
+                    text: t`None of these messages matches mine :(`,
                     actions: [
                       createPostbackAction(t`Choose this one`, 0, issuedAt),
                     ],
