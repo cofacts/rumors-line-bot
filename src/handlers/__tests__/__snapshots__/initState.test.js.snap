@@ -44,8 +44,8 @@ Please choose the version that looks the most similar👇",
                 "type": "postback",
               },
             ],
-            "text": "[Similarity:52.41%] 
- 計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入，下車時使用老人悠遊卡，跳錶車資105元，優惠32元，只扣73元，哈哈，這是屬於我們的福利，與大家分享，可⋯",
+            "text": "[Similarity: 52.41%] 
+ 計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入，下車時使用老人悠遊卡，跳錶車資105元，優惠32元，只扣73元，哈哈，這是屬於我們的福利，與大家分享，⋯",
           },
           Object {
             "actions": Array [
@@ -55,7 +55,7 @@ Please choose the version that looks the most similar👇",
                 "type": "postback",
               },
             ],
-            "text": "These messages don't match mine :(",
+            "text": "None of these messages matches mine :(",
           },
         ],
         "type": "carousel",
@@ -115,7 +115,7 @@ Please choose the version that looks the most similar👇",
                 "type": "postback",
               },
             ],
-            "text": "[Similarity:100.00%] 
+            "text": "[Similarity: 100.00%] 
  YouTube  ·  寻找健康人生",
           },
           Object {
@@ -126,7 +126,7 @@ Please choose the version that looks the most similar👇",
                 "type": "postback",
               },
             ],
-            "text": "[Similarity:100.00%] 
+            "text": "[Similarity: 100.00%] 
  YouTube
 ·
 寻找健康人生",
