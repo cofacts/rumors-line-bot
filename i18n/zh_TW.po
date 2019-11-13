@@ -20,12 +20,6 @@ msgstr "糟糕，bot 故障了。可以再傳一次嗎？ QQ"
 msgid "No feedback yet"
 msgstr "還沒有人針對此回應評價"
 
-#: src/handlers/utils.js:26
-#, javascript-format
-msgid "${ positive } user consider this helpful"
-msgid_plural "${ positive } users consider this helpful"
-msgstr[0] "有 ${positive} 人覺得此回應有幫助"
-
 #: src/handlers/utils.js:33
 msgid "${ negative } user consider this not useful"
 msgid_plural "${ negative } users consider this not useful"
@@ -112,10 +106,6 @@ msgstr "相似度"
 msgid "Choose this one"
 msgstr "選擇這篇"
 
-#: src/handlers/initState.js:126
-msgid "These messages don't match mine :("
-msgstr "找不到我想查的訊息 QQ"
-
 #: src/handlers/initState.js:139
 #, javascript-format
 msgid ""
@@ -135,12 +125,12 @@ msgstr ""
 msgid "Someone on the internet replies to the message:"
 msgstr "網路上有人這樣回應這則訊息："
 
-#: src/handlers/choosingReply.js:66
+#: src/handlers/choosingReply.js:67
 #, javascript-format
 msgid "Therefore, the author think the message ${ typeStr }."
 msgstr "綜合以上，回應者認為它${typeStr}。"
 
-#: src/handlers/choosingReply.js:67
+#: src/handlers/choosingReply.js:68
 msgid ""
 "These messages are provided by some nice volunteers. Please refer to their "
 "references and make judgements on your own."
@@ -152,18 +142,28 @@ msgid ""
 "making judgements:"
 msgstr "這則訊息有很多不同回應，建議到這裡一次讀完再下判斷："
 
-#: src/handlers/choosingReply.js:73
+#: src/handlers/choosingReply.js:72
 msgid "If you have different thoughts, you may have your say here:"
 msgstr "如果你對這則訊息有不同看法，歡迎到下面這裡寫入新的回應："
 
-#: src/handlers/choosingReply.js:81
+#: src/handlers/choosingReply.js:80
 msgid "Is the reply helpful?"
 msgstr "請問上面回應是否有幫助？"
 
-#: src/handlers/choosingReply.js:83
+#: src/handlers/choosingReply.js:82
 msgid "Yes"
 msgstr "是"
 
-#: src/handlers/choosingReply.js:86
+#: src/handlers/choosingReply.js:85
 msgid "No"
 msgstr "否"
+
+#: src/handlers/initState.js:126
+msgid "None of these messages matches mine :("
+msgstr "找不到我想查的訊息 QQ"
+
+#: src/handlers/utils.js:26
+#, javascript-format
+msgid "${ positive } user considers this helpful"
+msgid_plural "${ positive } users consider this helpful"
+msgstr[0] "有 ${positive} 人覺得此回應有幫助"
