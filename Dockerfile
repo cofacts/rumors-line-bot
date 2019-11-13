@@ -1,4 +1,4 @@
-FROM node:carbon
+FROM node:12
 WORKDIR /srv/www
 
 # make node_modules cached.

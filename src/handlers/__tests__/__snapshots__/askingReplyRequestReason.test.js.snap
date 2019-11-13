@@ -6,7 +6,7 @@ Object {
     "selectedArticleId": "selected-article-id",
   },
   "event": Object {
-    "input": "💁 我的理由是：
+    "input": "💁 My reason is:
 Reason goes here",
   },
   "isSkipUser": undefined,

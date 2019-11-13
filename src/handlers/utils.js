@@ -1,3 +1,4 @@
+import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
 const splitter = new GraphemeSplitter();
 
@@ -18,10 +19,22 @@ export function createPostbackAction(label, input, issuedAt) {
  * @return {string} Description of feedback counts
  */
 export function createFeedbackWords(positive, negative) {
-  if (positive + negative === 0) return '[還沒有人針對此回應評價]';
+  if (positive + negative === 0) return `[${t`No feedback yet`}]`;
   let result = '';
-  if (positive) result += `有 ${positive} 人覺得此回應有幫助\n`;
-  if (negative) result += `有 ${negative} 人覺得此回應沒幫助\n`;
+  if (positive)
+    result +=
+      ngettext(
+        msgid`${positive} user considers this helpful`,
+        `${positive} users consider this helpful`,
+        positive
+      ) + '\n';
+  if (negative)
+    result +=
+      ngettext(
+        msgid`${negative} user consider this not useful`,
+        `${negative} users consider this not useful`,
+        negative
+      ) + '\n';
   return `[${result.trim()}]`;
 }
 
@@ -38,15 +51,15 @@ export function createFlexMessageText(text = '') {
 export function createTypeWords(type) {
   switch (type) {
     case 'RUMOR':
-      return '含有不實訊息';
+      return t`Contains misinformation`;
     case 'NOT_RUMOR':
-      return '含有真實訊息';
+      return t`Contains true information`;
     case 'OPINIONATED':
-      return '含有個人意見';
+      return t`Contains personal perspective`;
     case 'NOT_ARTICLE':
-      return '不在查證範圍';
+      return t`Invalid request`;
   }
-  return '回應的狀態未定義！';
+  return 'Undefined';
 }
 
 /**
@@ -56,17 +69,17 @@ export function createTypeWords(type) {
  * @returns {string} The reference message to send
  */
 export function createReferenceWords({ reference, type }) {
-  const prompt = type === 'OPINIONATED' ? '不同觀點請見' : '出處';
+  const prompt = type === 'OPINIONATED' ? t`different opinions` : t`references`;
 
   if (reference) return `${prompt}：${reference}`;
-  return `\uDBC0\uDC85 ⚠️️ 此回應沒有${prompt}，請自行斟酌回應之可信度。⚠️️  \uDBC0\uDC85`;
+  return `\uDBC0\uDC85 ⚠️️ ${t`This reply has no ${prompt} and it may be biased`} ⚠️️  \uDBC0\uDC85`;
 }
 
 /**
  * prefilled text for reasons
  */
-export const REASON_PREFIX = '💁 我的理由是：\n';
-export const DOWNVOTE_PREFIX = '💡 我覺得回應沒有幫助，可以這樣改進：\n';
+export const REASON_PREFIX = `💁 ${t`My reason is:`}\n`;
+export const DOWNVOTE_PREFIX = `💡 ${t`I think the reply is not useful and I suggest:`}\n`;
 
 /**
  * @param {string} state The current state

@@ -1,4 +1,5 @@
 import stringSimilarity from 'string-similarity';
+import { t } from 'ttag';
 import gql from '../gql';
 import {
   createPostbackAction,
@@ -107,17 +108,25 @@ export default async function initState(params) {
         type: 'carousel',
         columns: edgesSortedWithSimilarity
           .map(({ node: { text }, similarity }, idx) => ({
-            text: `[相似度:${(similarity * 100).toFixed(2) +
-              '%'}] \n ${ellipsis(text, 100, '')}`,
-            actions: [createPostbackAction('選擇此則', idx + 1, issuedAt)],
+            text: ellipsis(
+              `[${t`Similarity`}: ${(similarity * 100).toFixed(2) +
+                '%'}] \n ${text}`,
+              115,
+              '⋯'
+            ),
+            actions: [
+              createPostbackAction(t`Choose this one`, idx + 1, issuedAt),
+            ],
           }))
           .concat(
             hasIdenticalDocs
               ? []
               : [
                   {
-                    text: '這裡沒有一篇是我傳的訊息。',
-                    actions: [createPostbackAction('選擇', 0, issuedAt)],
+                    text: t`None of these messages matches mine :(`,
+                    actions: [
+                      createPostbackAction(t`Choose this one`, 0, issuedAt),
+                    ],
                   },
                 ]
           ),
@@ -127,11 +136,13 @@ export default async function initState(params) {
     replies = [
       {
         type: 'text',
-        text: `幫您查詢「${articleSummary}」的相關回應。`,
+        text: `🔍 ${t`There are some messages that looks similar to "${articleSummary}" you have sent to me.`}`,
       },
       {
         type: 'text',
-        text: '請問下列文章中，哪一篇是您剛才傳送的訊息呢？',
+        text:
+          t`Internet rumors are often mutated and shared.
+            Please choose the version that looks the most similar` + '👇',
       },
       templateMessage,
     ];

@@ -11,7 +11,9 @@
     "lint:fix": "eslint --fix .",
     "lint": "eslint .",
     "preliff": "bash build-liff.sh",
-    "liff": "gh-pages -d liff"
+    "liff": "gh-pages -d liff",
+    "i18n:extract": "ttag update i18n/zh_TW.po src/",
+    "i18n:validate": "ttag validate i18n/zh_TW.po"
   },
   "repository": {
     "type": "git",
@@ -29,10 +31,10 @@
   },
   "homepage": "https://github.com/cofacts/rumors-line-bot#readme",
   "dependencies": {
+    "@babel/polyfill": "^7.7.0",
+    "@babel/runtime-corejs2": "^7.7.0",
     "@koa/cors": "^2.2.3",
     "@line/bot-sdk": "^6.0.0",
-    "babel-polyfill": "^6.23.0",
-    "babel-runtime": "^6.22.0",
     "googleapis": "^36.0.0",
     "grapheme-splitter": "^1.0.4",
     "koa": "^2.5.0",
@@ -44,14 +46,20 @@
     "redis": "^2.6.5",
     "rollbar": "^2.2.9",
     "string-similarity": "^3.0.0",
+    "ttag": "^1.7.20",
     "universal-analytics": "^0.4.16"
   },
   "devDependencies": {
-    "babel-cli": "^6.23.0",
-    "babel-eslint": "^10.0.0",
-    "babel-jest": "^23.0.0",
-    "babel-preset-env": "^1.1.8",
-    "babel-preset-stage-3": "^6.22.0",
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
+    "@babel/node": "^7.6.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-json-strings": "^7.2.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-syntax-import-meta": "^7.2.0",
+    "@babel/preset-env": "^7.6.0",
+    "babel-eslint": "^10.0.3",
+    "babel-jest": "^24.9.0",
     "coveralls": "^3.0.0",
     "dotenv": "^6.2.0",
     "eslint": "^5.16.0",
@@ -59,8 +67,9 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-prettier": "^3.0.0",
     "gh-pages": "^2.0.1",
-    "jest-cli": "^23.6.0",
-    "prettier": "=1.13.0"
+    "jest-cli": "^24.9.0",
+    "prettier": "=1.13.0",
+    "ttag-cli": "^1.7.25"
   },
   "jest": {
     "testEnvironment": "node",
@@ -74,6 +83,6 @@
     "setupTestFrameworkScriptFile": "./setup-jest.js"
   },
   "engines": {
-    "node": "10.x"
+    "node": "12.x"
   }
 }
