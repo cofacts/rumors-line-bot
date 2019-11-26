@@ -1,8 +1,13 @@
 import fetch from 'node-fetch';
 import { google } from 'googleapis';
+import fs from 'fs';
+import util from 'util';
+import { exec as child_process_exec } from 'child_process';
+const exec = util.promisify(child_process_exec);
 
 const OAuth2 = google.auth.OAuth2;
 let drive = null;
+const tmpDir = 'tmp_image_process/';
 
 initGDrive();
 
@@ -31,14 +36,27 @@ function initGDrive() {
   drive = google.drive({ version: 'v3', auth: oauth2Client });
 }
 
-export async function uploadImageFile(messageId) {
+export async function downloadFile(messageId) {
+  //get line message file
+  const LINE_API_URL = `https://api.line.me/v2/bot/message/${messageId}/content`;
+  const options = {
+    headers: {
+      Authorization: `Bearer ${process.env.LINE_CHANNEL_TOKEN}`,
+    },
+    method: 'GET',
+  };
+  const res = await fetch(LINE_API_URL, options);
+  return res;
+}
+
+export async function uploadImageFile(fetchResponse, messageId) {
   const fileMetadata = {
     name: `${messageId}.jpg`,
     mimeType: 'image/jpeg',
     parents: [process.env.GOOGLE_DRIVE_IMAGE_FOLDER],
   };
 
-  uploadFile(messageId, fileMetadata);
+  uploadFile(fetchResponse, fileMetadata);
 }
 
 export async function uploadVideoFile(messageId) {
@@ -51,25 +69,52 @@ export async function uploadVideoFile(messageId) {
   uploadFile(messageId, fileMetadata);
 }
 
-async function uploadFile(messageId, fileMetadata) {
+export async function saveImageFile(fetchResponse, fileName) {
+  fs.existsSync(tmpDir) || fs.mkdirSync(tmpDir);
+  var filePath = tmpDir + fileName + '.jpg';
+  var file = fs.createWriteStream(filePath);
+  fetchResponse.body.pipe(file);
+  file.on('finish', function() {
+    file.close();
+  });
+}
+
+export async function processImage(messageId) {
+  var filePath = tmpDir + messageId;
+  var command = `tesseract ${filePath}.jpg ${filePath} -l chi_tra`;
+  await exec(command);
+  // console.log('stdout:', stdout);
+  // console.log('stderr:', stderr);
+
+  // Convert fs.readFile into Promise version of same
+  const readFile = fileName => util.promisify(fs.readFile)(fileName, 'utf8');
+  filePath = tmpDir + messageId + '.txt';
+  var r = await readFile(filePath);
+  // Remove jpg file after read
+  fs.unlink(tmpDir + messageId + '.jpg', err => {
+    if (err) {
+      console.error(err);
+    }
+  });
+  // Remove txt file after read
+  fs.unlink(tmpDir + messageId + '.txt', err => {
+    if (err) {
+      console.error(err);
+    }
+  });
+  // remove all spaces output from tesseract so that elasticsearch can have a better search result
+  return r.replace(/\s+/g, '');
+}
+
+async function uploadFile(fetchResponse, fileMetadata) {
   if (!drive) {
     console.log('Gdrive is not initial, skip uploading data.');
     return;
   }
 
-  //get line message file
-  const LINE_API_URL = `https://api.line.me/v2/bot/message/${messageId}/content`;
-  const options = {
-    headers: {
-      Authorization: `Bearer ${process.env.LINE_CHANNEL_TOKEN}`,
-    },
-    method: 'GET',
-  };
-  const res = await fetch(LINE_API_URL, options);
-
   const media = {
     mimeType: 'image/jpeg',
-    body: res.body,
+    body: fetchResponse.body,
   };
   //upload to google drive
   drive.files.create(
