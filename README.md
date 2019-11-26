@@ -39,6 +39,7 @@ Other customizable env vars are:
 * `GOOGLE_DRIVE_IMAGE_FOLDER`: Google drive folder id is needed when you want to test uploading image.
 * `GOOGLE_CREDENTIALS`: will be populated by `authGoogleDrive.js`. See "Upload image/video" section below.
 * `GA_ID`: Google analytics universal analytics tracking ID, for tracking events
+* `IMAGE_MESSAGE_ENABLED`: Default disabled. To enable, please see "Process image message" section below.
 
 ### Redis server
 
@@ -79,6 +80,12 @@ We are using LIFF to collect user's reason when submitting article & negative fe
 This would require a separate HTTPS server serving `liff/index.html`,
 and some setup on [LINE developer console](https://developers.line.biz/console/).
 
+### Process image message(using Tesseract-OCR)
+
+[Install tesseract-ocr binary](https://github.com/tesseract-ocr/tesseract/wiki) and set `IMAGE_MESSAGE_ENABLED` to `true`. If you are going to deploy linebot on heroku, you should [use buildpack](https://github.com/cofacts/rumors-line-bot#tesseract-ocr-on-heroku).
+
+Note : Linebot will temporarily save both image and tesseract output file in `tmp_image_process` folder every time image message sends in. If you develop through `npm run dev`, you should set `autorestart` and `watch` in ecosystem.dev.config.js to false.
+
 ### Upload image/video
 
 First, follow the step1 in this [url](https://developers.google.com/drive/v3/web/quickstart/nodejs) to get `client_secret.json` and save it to project root.
@@ -117,6 +124,10 @@ Despite the fact that we don't use `Procfile`, Heroku still does detection and i
 
 [Provision a Heroku Redis addon](https://elements.heroku.com/addons/heroku-redis) to get redis. It sets the env var `REDIS_URL` for you.
 
+### Tesseract-ocr on heroku
+
+[Install heroku tesseract buildpack](https://github.com/cofacts/heroku-buildpack-tesseract) and set var `IMAGE_MESSAGE_ENABLED` to `true`. 
+
 ### Configurations
 
 You will still have to set the following config vars manually:
@@ -128,6 +139,7 @@ $ heroku config:set LINE_CHANNEL_SECRET=<Your channel secret>
 $ heroku config:set LINE_CHANNEL_TOKEN=<Your channel token>
 $ heroku config:set GOOGLE_CREDENTIALS=<Your google credential (optional)>
 $ heroku config:set LIFF_URL=<LIFF URL>
+$ heroku config:set IMAGE_MESSAGE_ENABLED=true
 ```
 
 ## Google Analytics Events table

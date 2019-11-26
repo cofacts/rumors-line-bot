@@ -139,21 +139,26 @@ const singleUserHandler = async (
       })
       .send();
 
-    const context = (await redis.get(userId)) || {};
+    if (
+      process.env.IMAGE_MESSAGE_ENABLED === 'true' ||
+      process.env.IMAGE_MESSAGE_ENABLED === 'TRUE'
+    ) {
+      const context = (await redis.get(userId)) || {};
 
-    var res = await downloadFile(otherFields.message.id);
-    uploadImageFile(res.clone(), otherFields.message.id);
-    await saveImageFile(res, otherFields.message.id);
-    var text = await processImage(otherFields.message.id);
-    result = await processText(
-      result,
-      context,
-      type,
-      text,
-      otherFields,
-      userId,
-      req
-    );
+      var res = await downloadFile(otherFields.message.id);
+      uploadImageFile(res.clone(), otherFields.message.id);
+      await saveImageFile(res, otherFields.message.id);
+      var text = await processImage(otherFields.message.id);
+      result = await processText(
+        result,
+        context,
+        type,
+        text,
+        otherFields,
+        userId,
+        req
+      );
+    }
   } else if (type === 'message' && otherFields.message.type === 'video') {
     // Track video message type send by user
     ga(userId)
