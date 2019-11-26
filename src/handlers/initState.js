@@ -20,6 +20,8 @@ export default async function initState(params) {
 
   // Store user input into context
   data.searchedText = event.input;
+  // Store input message type to context for non-init states use
+  data.messageType = event.message.type;
 
   // Search for articles
   const {
@@ -133,11 +135,13 @@ export default async function initState(params) {
       },
     };
 
-    replies = [
+    var prefixTextArticleFound = [
       {
         type: 'text',
         text: `🔍 ${t`There are some messages that looks similar to "${articleSummary}" you have sent to me.`}`,
       },
+    ];
+    var textArticleFound = [
       {
         type: 'text',
         text:
@@ -146,9 +150,16 @@ export default async function initState(params) {
       },
       templateMessage,
     ];
+    console.log(JSON.stringify(event));
+    if (data.messageType === 'image') {
+      replies = textArticleFound;
+    } else {
+      replies = prefixTextArticleFound.concat(textArticleFound);
+    }
+
     state = 'CHOOSING_ARTICLE';
   } else {
-    if (isNonsenseText(event.input)) {
+    if (isNonsenseText(event.input) && data.messageType === 'text') {
       // Track if find similar Articles in DB.
       visitor.event({
         ec: 'UserInput',
@@ -174,8 +185,14 @@ export default async function initState(params) {
       });
 
       data.articleSources = ARTICLE_SOURCES;
+
+      // use `articleSummary` for text only because ocr may get wrong text from image
+      let prefixTextArticleNotFound = '找不到關於相似的訊息耶 QQ\n';
+      if (data.messageType === 'text') {
+        prefixTextArticleNotFound = `找不到關於「${articleSummary}」訊息耶 QQ\n`;
+      }
       const altText =
-        `找不到關於「${articleSummary}」訊息耶 QQ\n` +
+        prefixTextArticleNotFound +
         '\n' +
         '請問您是從哪裡看到這則訊息呢？\n' +
         '\n' +
@@ -191,7 +208,7 @@ export default async function initState(params) {
           altText,
           template: {
             type: 'buttons',
-            text: `找不到關於「${articleSummary}」訊息耶 QQ\n請問您是從哪裡看到這則訊息呢？`,
+            text: prefixTextArticleNotFound + `請問您是從哪裡看到這則訊息呢？`,
             actions: data.articleSources.map((option, index) =>
               createPostbackAction(option, index + 1, issuedAt)
             ),

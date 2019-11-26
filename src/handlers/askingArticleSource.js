@@ -121,7 +121,7 @@ export default async function askingArticleSource(params) {
     ];
 
     state = 'ASKING_REPLY_REQUEST_REASON';
-  } else {
+  } else if (data.messageType === 'text') {
     // brand new articles
     replies = [
       {
@@ -137,6 +137,33 @@ export default async function askingArticleSource(params) {
       )
     );
     state = 'ASKING_ARTICLE_SUBMISSION_REASON';
+  } else {
+    replies = [
+      {
+        type: 'template',
+        altText:
+          '好的，建議您把訊息轉傳給 MyGoPen 或蘭姆酒吐司，兩個都是很專業的謠言破解網站，而且有 💁 專人為您解答喔！',
+        template: {
+          type: 'confirm',
+          text:
+            '好的，建議您把訊息轉傳給 MyGoPen 或蘭姆酒吐司，兩個都是很專業的謠言破解網站，而且有 💁 專人為您解答喔！',
+          actions: [
+            {
+              type: 'uri',
+              label: 'MyGoPen',
+              uri: `line://ti/p/%40mygopen`,
+            },
+            {
+              type: 'uri',
+              label: '蘭姆酒吐司',
+              uri: `line://ti/p/1q14ZZ8yjb`,
+            },
+          ],
+        },
+      },
+    ];
+
+    state = '__INIT__';
   }
   visitor.send();
   return { data, state, event, issuedAt, userId, replies, isSkipUser };
