@@ -1,6 +1,6 @@
 var fs = require('fs');
 var readline = require('readline');
-var google = require('googleapis');
+var google = require('googleapis').google;
 var OAuth2 = google.auth.OAuth2;
 
 // If modifying these scopes, delete your previously saved credentials
