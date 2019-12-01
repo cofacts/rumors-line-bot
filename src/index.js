@@ -15,7 +15,7 @@ import {
   uploadImageFile,
   saveImageFile,
   processImage,
-} from './fileUpload';
+} from './handlers/fileHandler';
 import ga from './ga';
 
 const app = new Koa();
