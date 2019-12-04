@@ -145,10 +145,10 @@ const singleUserHandler = async (
     ) {
       const context = (await redis.get(userId)) || {};
 
-      var res = await downloadFile(otherFields.message.id);
+      const res = await downloadFile(otherFields.message.id);
       uploadImageFile(res.clone(), otherFields.message.id);
       await saveImageFile(res, otherFields.message.id);
-      var text = await processImage(otherFields.message.id);
+      const text = await processImage(otherFields.message.id);
       result = await processText(
         result,
         context,

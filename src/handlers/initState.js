@@ -135,13 +135,13 @@ export default async function initState(params) {
       },
     };
 
-    var prefixTextArticleFound = [
+    const prefixTextArticleFound = [
       {
         type: 'text',
         text: `🔍 ${t`There are some messages that looks similar to "${articleSummary}" you have sent to me.`}`,
       },
     ];
-    var textArticleFound = [
+    const textArticleFound = [
       {
         type: 'text',
         text:
@@ -150,7 +150,6 @@ export default async function initState(params) {
       },
       templateMessage,
     ];
-    console.log(JSON.stringify(event));
     if (data.messageType === 'image') {
       replies = textArticleFound;
     } else {

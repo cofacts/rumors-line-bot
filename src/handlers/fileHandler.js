@@ -71,8 +71,8 @@ export async function uploadVideoFile(messageId) {
 
 export async function saveImageFile(fetchResponse, fileName) {
   fs.existsSync(tmpDir) || fs.mkdirSync(tmpDir);
-  var filePath = tmpDir + fileName + '.jpg';
-  var file = fs.createWriteStream(filePath);
+  const filePath = tmpDir + fileName + '.jpg';
+  const file = fs.createWriteStream(filePath);
   fetchResponse.body.pipe(file);
   file.on('finish', function() {
     file.close();
@@ -80,16 +80,16 @@ export async function saveImageFile(fetchResponse, fileName) {
 }
 
 export async function processImage(messageId) {
-  var filePath = tmpDir + messageId;
-  var command = `tesseract ${filePath}.jpg ${filePath} -l chi_tra`;
+  const filePath = tmpDir + messageId;
+  const command = `tesseract ${filePath}.jpg ${filePath} -l chi_tra`;
   await exec(command);
   // console.log('stdout:', stdout);
   // console.log('stderr:', stderr);
 
   // Convert fs.readFile into Promise version of same
   const readFile = fileName => util.promisify(fs.readFile)(fileName, 'utf8');
-  filePath = tmpDir + messageId + '.txt';
-  var r = await readFile(filePath);
+  const textFilePath = filePath + '.txt';
+  const r = await readFile(textFilePath);
   // Remove jpg file after read
   fs.unlink(tmpDir + messageId + '.jpg', err => {
     if (err) {
