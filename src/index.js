@@ -10,7 +10,12 @@ import redis from './redisClient';
 import checkSignatureAndParse from './checkSignatureAndParse';
 import lineClient from './lineClient';
 import handleInput from './handleInput';
-import { uploadImageFile } from './fileUpload';
+import {
+  downloadFile,
+  uploadImageFile,
+  saveImageFile,
+  processImage,
+} from './handlers/fileHandler';
 import ga from './ga';
 
 const app = new Koa();
@@ -115,57 +120,15 @@ const singleUserHandler = async (
       return;
     }
 
-    try {
-      // When this message is received.
-      //
-      const issuedAt = Date.now();
-      result = await handleInput(
-        context,
-        { type, input, ...otherFields },
-        issuedAt,
-        userId
-      );
-
-      if (!result.replies) {
-        throw new Error(
-          'Returned replies is empty, please check processMessages() implementation.'
-        );
-      }
-
-      // Renew "issuedAt" of the resulting context.
-      result.context.issuedAt = issuedAt;
-    } catch (e) {
-      console.error(e);
-      rollbar.error(e, req);
-
-      result = {
-        context: { state: '__INIT__', data: {} },
-        replies: [
-          {
-            type: 'text',
-            text: t`Oops, something is not working. Would you please send that again?`,
-          },
-        ],
-      };
-    }
-
-    // LOGGING:
-    // 60 chars per line, each prepended with [[LOG]]
-    //
-    console.log('\n||LOG||<----------');
-    JSON.stringify({
-      CONTEXT: context,
-      INPUT: { type, userId, ...otherFields },
-      OUTPUT: result,
-    })
-      .split(/(.{60})/)
-      .forEach(line => {
-        if (line) {
-          // Leading \n makes sure ||LOG|| is in the first line
-          console.log(`\n||LOG||${line}`);
-        }
-      });
-    console.log('\n||LOG||---------->');
+    result = await processText(
+      result,
+      context,
+      type,
+      input,
+      otherFields,
+      userId,
+      req
+    );
   } else if (type === 'message' && otherFields.message.type === 'image') {
     // Track image message type send by user
     ga(userId)
@@ -176,7 +139,26 @@ const singleUserHandler = async (
       })
       .send();
 
-    uploadImageFile(otherFields.message.id);
+    if (
+      process.env.IMAGE_MESSAGE_ENABLED === 'true' ||
+      process.env.IMAGE_MESSAGE_ENABLED === 'TRUE'
+    ) {
+      const context = (await redis.get(userId)) || {};
+
+      const res = await downloadFile(otherFields.message.id);
+      uploadImageFile(res.clone(), otherFields.message.id);
+      await saveImageFile(res, otherFields.message.id);
+      const text = await processImage(otherFields.message.id);
+      result = await processText(
+        result,
+        context,
+        type,
+        text,
+        otherFields,
+        userId,
+        req
+      );
+    }
   } else if (type === 'message' && otherFields.message.type === 'video') {
     // Track video message type send by user
     ga(userId)
@@ -244,3 +226,59 @@ app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log('Listening port', process.env.PORT);
 });
+async function processText(
+  result,
+  context,
+  type,
+  input,
+  otherFields,
+  userId,
+  req
+) {
+  try {
+    const issuedAt = Date.now();
+    result = await handleInput(
+      context,
+      { type, input, ...otherFields },
+      issuedAt,
+      userId
+    );
+    if (!result.replies) {
+      throw new Error(
+        'Returned replies is empty, please check processMessages() implementation.'
+      );
+    }
+    // Renew "issuedAt" of the resulting context.
+    result.context.issuedAt = issuedAt;
+  } catch (e) {
+    console.error(e);
+    rollbar.error(e, req);
+    result = {
+      context: { state: '__INIT__', data: {} },
+      replies: [
+        {
+          type: 'text',
+          text: t`Oops, something is not working. Would you please send that again?`,
+        },
+      ],
+    };
+  }
+  // LOGGING:
+  // 60 chars per line, each prepended with [[LOG]]
+  //
+  console.log('\n||LOG||<----------');
+  JSON.stringify({
+    CONTEXT: context,
+    INPUT: { type, userId, ...otherFields },
+    OUTPUT: result,
+  })
+    .split(/(.{60})/)
+    .forEach(line => {
+      if (line) {
+        // Leading \n makes sure ||LOG|| is in the first line
+        console.log(`\n||LOG||${line}`);
+      }
+    });
+  console.log('\n||LOG||---------->');
+  return result;
+}

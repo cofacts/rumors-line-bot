@@ -6,6 +6,7 @@ Object {
     "foundArticleIds": Array [
       "AVvY-yizyCdS-nWhuYWx",
     ],
+    "messageType": "text",
     "searchedText": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入",
   },
   "event": Object {
@@ -75,6 +76,7 @@ Object {
       "AVvY-yizyCdS-nWhuYWx",
       "AVvY-yizyCdS-nWhuYWy",
     ],
+    "messageType": "text",
     "searchedText": "YouTube · 寻找健康人生",
   },
   "event": Object {
@@ -148,6 +150,7 @@ Object {
     "foundArticleIds": Array [
       "AVvY-yizyCdS-nWhuYWx",
     ],
+    "messageType": "text",
     "searchedText": "YouTube · 寻找健康人生",
   },
   "event": Object {
@@ -177,6 +180,7 @@ Object {
       "朋友轉傳",
       "自己輸入的",
     ],
+    "messageType": "text",
     "searchedText": "YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...",
   },
   "event": Object {
