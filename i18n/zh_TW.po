@@ -6,13 +6,13 @@ msgstr ""
 "mime-version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/index.js:79
+#: src/index.js:84
 #. Set default result
 #.
 msgid "I cannot understand messages other than text."
 msgstr "我們還不支援文字以外的訊息唷！"
 
-#: src/index.js:146
+#: src/index.js:261
 msgid "Oops, something is not working. Would you please send that again?"
 msgstr "糟糕，bot 故障了。可以再傳一次嗎？ QQ"
 
@@ -97,23 +97,22 @@ msgstr "看他怎麼說"
 msgid "Visit ${ articleUrl } for more replies."
 msgstr "更多回應請到：${ articleUrl }"
 
-#: src/handlers/initState.js:112
+#: src/handlers/initState.js:110
 msgid "Similarity"
 msgstr "相似度"
 
-#: src/handlers/initState.js:118
-#: src/handlers/initState.js:128
+#: src/handlers/initState.js:143
 msgid "Choose this one"
 msgstr "選擇這篇"
 
-#: src/handlers/initState.js:139
+#: src/handlers/initState.js:212
 #, javascript-format
 msgid ""
 "There are some messages that looks similar to \"${ articleSummary }\" you "
 "have sent to me."
 msgstr "資料庫裡有幾篇訊息，跟您傳給我的「${ articleSummary }」有點接近。"
 
-#: src/handlers/initState.js:144
+#: src/handlers/initState.js:219
 msgid ""
 "Internet rumors are often mutated and shared.\n"
 "Please choose the version that looks the most similar"
@@ -158,7 +157,7 @@ msgstr "是"
 msgid "No"
 msgstr "否"
 
-#: src/handlers/initState.js:126
+#: src/handlers/initState.js:178
 msgid "None of these messages matches mine :("
 msgstr "找不到我想查的訊息 QQ"
 
@@ -167,3 +166,11 @@ msgstr "找不到我想查的訊息 QQ"
 msgid "${ positive } user considers this helpful"
 msgid_plural "${ positive } users consider this helpful"
 msgstr[0] "有 ${positive} 人覺得此回應有幫助"
+
+#: src/handlers/initState.js:193
+msgid "Tell us more"
+msgstr "回報此訊息"
+
+#: src/handlers/initState.js:202
+msgid "Please choose the most similar message from the list."
+msgstr "請從下列選擇您要查的訊息。"
