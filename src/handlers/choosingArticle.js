@@ -31,19 +31,6 @@ function reorderArticleReplies(articleReplies) {
 }
 
 // https://developers.line.me/en/docs/messaging-api/reference/#template-messages
-function createAltText(articleReplies) {
-  const eachLimit = 400 / articleReplies.length - 5;
-  return articleReplies
-    .slice(0, 10)
-    .map(({ reply, positiveFeedbackCount, negativeFeedbackCount }, idx) => {
-      const prefix = `閱讀請傳 ${idx + 1}> ${createTypeWords(
-        reply.type
-      )}\n${createFeedbackWords(positiveFeedbackCount, negativeFeedbackCount)}`;
-      const content = ellipsis(reply.text, eachLimit - prefix.length, '');
-      return `${prefix}\n${content}`;
-    })
-    .join('\n\n');
-}
 
 export default async function choosingArticle(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -210,36 +197,76 @@ export default async function choosingArticle(params) {
         };
       }
 
-      replies.push({
-        type: 'template',
-        altText: createAltText(articleReplies),
-        template: {
-          type: 'carousel',
-          columns: articleReplies
-            .slice(0, 10)
-            .map(
-              (
-                { reply, positiveFeedbackCount, negativeFeedbackCount },
-                idx
-              ) => ({
-                text:
-                  createTypeWords(reply.type) +
-                  '\n' +
-                  createFeedbackWords(
-                    positiveFeedbackCount,
-                    negativeFeedbackCount
-                  ) +
-                  '\n' +
-                  ellipsis(reply.text, 80, ''),
-                actions: [
-                  createPostbackAction(
+      const postMessage = articleReplies
+        .slice(0, 10)
+        .map(
+          ({ reply, positiveFeedbackCount, negativeFeedbackCount }, idx) => ({
+            type: 'bubble',
+            direction: 'ltr',
+            body: {
+              type: 'box',
+              layout: 'vertical',
+              contents: [
+                {
+                  type: 'text',
+                  text: createTypeWords(reply.type),
+                  size: 'sm',
+                },
+                {
+                  type: 'text',
+                  text: ellipsis(reply.text, 80, ''),
+                  align: 'start',
+                  wrap: true,
+                  margin: 'md',
+                  maxLines: 10,
+                },
+                {
+                  type: 'separator',
+                  margin: 'md',
+                },
+                {
+                  type: 'box',
+                  layout: 'horizontal',
+                  contents: [
+                    {
+                      type: 'text',
+                      text: createFeedbackWords(
+                        positiveFeedbackCount,
+                        negativeFeedbackCount
+                      ),
+                      size: 'xs',
+                      wrap: true,
+                    },
+                  ],
+                  margin: 'md',
+                  spacing: 'none',
+                },
+              ],
+            },
+            footer: {
+              type: 'box',
+              layout: 'vertical',
+              contents: [
+                {
+                  type: 'button',
+                  action: createPostbackAction(
                     `👀 ${t`Take a look`}`,
                     idx + 1,
                     issuedAt
                   ),
-                ],
-              })
-            ),
+                  style: 'primary',
+                },
+              ],
+            },
+          })
+        );
+
+      replies.push({
+        type: 'flex',
+        altText: t`Please take a look at the following replies.`,
+        contents: {
+          type: 'carousel',
+          contents: postMessage,
         },
       });
 
