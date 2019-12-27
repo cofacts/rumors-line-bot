@@ -107,6 +107,38 @@ ref:
 
 [Googleapi Nodejs Client](https://github.com/google/google-api-nodejs-client)   P.S. This page provide the newest api usage then [this](https://developers.google.com/drive/v3/web/quickstart/nodejs).
 
+### Translation
+
+We use [ttag](https://ttag.js.org/) to support build-time i18n for the chatbot.
+
+Please refer to ttag documentation for [annotating strings to translate](https://ttag.js.org/docs/quickstart.html).
+
+To extract annotated strings to translation files, use:
+
+```
+$ npm run i18n:extract
+```
+
+#### Translation files
+
+The translation files are located under `i18n/`, in [Gettext PO format](https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html).
+
+- `en_US.po`: Since the language used in code is already English, this empty translation file exists to simplify settings.
+- `zh_TW.po`: Traditional Chinese translation.
+
+#### Supporting other languages
+
+You can replace this with [any language](https://www.gnu.org/software/gettext/manual/html_node/Locale-Names.html) you want to support, by leveraging Gettext [`msginit` command](https://www.gnu.org/software/gettext/manual/html_node/msginit-Invocation.html).
+
+You will need to change `i18n:extract` and `i18n:validate` script in `package.json` to reflect the locale change.
+
+#### Building in different languages
+
+By default, the chatbot will be built under `en_US` locale.
+
+On Heroku, please set `LOCALE` to one of `en_US`, `zh_TW` or any other language code that exists under `i18n/` directory.
+
+If you want to build using docker instead, you may need to modify Dockerfile to include the desired `LOCALE`.
 
 ---
 
@@ -126,7 +158,7 @@ Despite the fact that we don't use `Procfile`, Heroku still does detection and i
 
 ### Tesseract-ocr on heroku
 
-[Install heroku tesseract buildpack](https://github.com/cofacts/heroku-buildpack-tesseract) and set var `IMAGE_MESSAGE_ENABLED` to `true`. 
+[Install heroku tesseract buildpack](https://github.com/cofacts/heroku-buildpack-tesseract) and set var `IMAGE_MESSAGE_ENABLED` to `true`.
 
 ### Configurations
 
