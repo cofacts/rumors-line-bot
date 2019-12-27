@@ -62,37 +62,37 @@ msgstr "我的理由是："
 msgid "I think the reply is not useful and I suggest:"
 msgstr "我覺得回應沒有幫助，可以這樣改進："
 
-#: src/handlers/choosingArticle.js:157
+#: src/handlers/choosingArticle.js:144
 msgid "Volunteer editors has publised several replies to this message."
 msgstr "Cofacts 志工對這則訊息發表了多則看法唷！"
 
-#: src/handlers/choosingArticle.js:161
+#: src/handlers/choosingArticle.js:148
 #, javascript-format
 msgid "${ count.RUMOR } of them say it ❌ contains misinformation"
 msgstr "${ count.RUMOR } 則說它 ❌ 含有不實訊息"
 
-#: src/handlers/choosingArticle.js:164
+#: src/handlers/choosingArticle.js:151
 msgid "${ count.NOT_RUMOR } of them says it ⭕ contains true information"
 msgstr "${ count.NOT_RUMOR } 則說它 ⭕ 含有真實訊息"
 
-#: src/handlers/choosingArticle.js:167
+#: src/handlers/choosingArticle.js:154
 #, javascript-format
 msgid "${ count.OPINIONATED } of them says it 💬 contains personal perspective"
 msgstr "${ count.OPINIONATED } 則說它 💬 含有個人意見"
 
-#: src/handlers/choosingArticle.js:172
+#: src/handlers/choosingArticle.js:159
 msgid "${ count.NOT_ARTICLE } of them says it ⚠️️ is out of scope of Cofacts"
 msgstr "${ count.NOT_ARTICLE } 則說它 ⚠️️ 不在查證範圍"
 
-#: src/handlers/choosingArticle.js:188
+#: src/handlers/choosingArticle.js:175
 msgid "Let's pick one"
 msgstr "選一則來閱讀吧"
 
-#: src/handlers/choosingArticle.js:236
+#: src/handlers/choosingArticle.js:253
 msgid "Take a look"
 msgstr "看他怎麼說"
 
-#: src/handlers/choosingArticle.js:250
+#: src/handlers/choosingArticle.js:277
 #, javascript-format
 msgid "Visit ${ articleUrl } for more replies."
 msgstr "更多回應請到：${ articleUrl }"
@@ -174,3 +174,7 @@ msgstr "回報此訊息"
 #: src/handlers/initState.js:202
 msgid "Please choose the most similar message from the list."
 msgstr "請從下列選擇您要查的訊息。"
+
+#: src/handlers/choosingArticle.js:266
+msgid "Please take a look at the following replies."
+msgstr "請從下列選擇您要查看的回應。"
