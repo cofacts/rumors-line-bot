@@ -214,7 +214,7 @@ export default async function choosingArticle(params) {
                 },
                 {
                   type: 'text',
-                  text: ellipsis(reply.text, 80, ''),
+                  text: ellipsis(reply.text, 300, '...'), // 50KB for entire Flex carousel
                   align: 'start',
                   wrap: true,
                   margin: 'md',
