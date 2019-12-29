@@ -188,11 +188,6 @@ Object {
             "body": Object {
               "contents": Array [
                 Object {
-                  "size": "sm",
-                  "text": "Contains misinformation",
-                  "type": "text",
-                },
-                Object {
                   "align": "start",
                   "margin": "md",
                   "maxLines": 10,
@@ -202,6 +197,9 @@ Object {
                   "wrap": true,
                 },
                 Object {
+                  "type": "filler",
+                },
+                Object {
                   "margin": "md",
                   "type": "separator",
                 },
@@ -209,7 +207,7 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[3 users consider this helpful]",
+                      "text": "👍 3 users consider this helpful",
                       "type": "text",
                       "wrap": true,
                     },
@@ -239,16 +237,33 @@ Object {
               "layout": "vertical",
               "type": "box",
             },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
             "type": "bubble",
           },
           Object {
             "body": Object {
               "contents": Array [
-                Object {
-                  "size": "sm",
-                  "text": "Contains personal perspective",
-                  "type": "text",
-                },
                 Object {
                   "align": "start",
                   "margin": "md",
@@ -258,6 +273,9 @@ Object {
                   "wrap": true,
                 },
                 Object {
+                  "type": "filler",
+                },
+                Object {
                   "margin": "md",
                   "type": "separator",
                 },
@@ -265,7 +283,7 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[No feedback yet]",
+                      "text": "No feedback yet",
                       "type": "text",
                       "wrap": true,
                     },
@@ -295,16 +313,33 @@ Object {
               "layout": "vertical",
               "type": "box",
             },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains personal perspective",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
             "type": "bubble",
           },
           Object {
             "body": Object {
               "contents": Array [
-                Object {
-                  "size": "sm",
-                  "text": "Invalid request",
-                  "type": "text",
-                },
                 Object {
                   "align": "start",
                   "margin": "md",
@@ -315,6 +350,9 @@ Object {
                   "wrap": true,
                 },
                 Object {
+                  "type": "filler",
+                },
+                Object {
                   "margin": "md",
                   "type": "separator",
                 },
@@ -322,7 +360,7 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[No feedback yet]",
+                      "text": "No feedback yet",
                       "type": "text",
                       "wrap": true,
                     },
@@ -352,16 +390,33 @@ Object {
               "layout": "vertical",
               "type": "box",
             },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it invalid request",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
             "type": "bubble",
           },
           Object {
             "body": Object {
               "contents": Array [
-                Object {
-                  "size": "sm",
-                  "text": "Invalid request",
-                  "type": "text",
-                },
                 Object {
                   "align": "start",
                   "margin": "md",
@@ -371,6 +426,9 @@ Object {
                   "wrap": true,
                 },
                 Object {
+                  "type": "filler",
+                },
+                Object {
                   "margin": "md",
                   "type": "separator",
                 },
@@ -378,7 +436,7 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[No feedback yet]",
+                      "text": "No feedback yet",
                       "type": "text",
                       "wrap": true,
                     },
@@ -406,6 +464,28 @@ Object {
                 },
               ],
               "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it invalid request",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
               "type": "box",
             },
             "type": "bubble",
@@ -477,17 +557,15 @@ Object {
             "body": Object {
               "contents": Array [
                 Object {
-                  "size": "sm",
-                  "text": "Contains misinformation",
-                  "type": "text",
-                },
-                Object {
                   "align": "start",
                   "margin": "md",
                   "maxLines": 10,
                   "text": "回應1",
                   "type": "text",
                   "wrap": true,
+                },
+                Object {
+                  "type": "filler",
                 },
                 Object {
                   "margin": "md",
@@ -497,7 +575,7 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[No feedback yet]",
+                      "text": "No feedback yet",
                       "type": "text",
                       "wrap": true,
                     },
@@ -527,16 +605,33 @@ Object {
               "layout": "vertical",
               "type": "box",
             },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
             "type": "bubble",
           },
           Object {
             "body": Object {
               "contents": Array [
-                Object {
-                  "size": "sm",
-                  "text": "Contains misinformation",
-                  "type": "text",
-                },
                 Object {
                   "align": "start",
                   "margin": "md",
@@ -546,6 +641,9 @@ Object {
                   "wrap": true,
                 },
                 Object {
+                  "type": "filler",
+                },
+                Object {
                   "margin": "md",
                   "type": "separator",
                 },
@@ -553,7 +651,7 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[No feedback yet]",
+                      "text": "No feedback yet",
                       "type": "text",
                       "wrap": true,
                     },
@@ -583,16 +681,33 @@ Object {
               "layout": "vertical",
               "type": "box",
             },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
             "type": "bubble",
           },
           Object {
             "body": Object {
               "contents": Array [
-                Object {
-                  "size": "sm",
-                  "text": "Contains true information",
-                  "type": "text",
-                },
                 Object {
                   "align": "start",
                   "margin": "md",
@@ -602,6 +717,9 @@ Object {
                   "wrap": true,
                 },
                 Object {
+                  "type": "filler",
+                },
+                Object {
                   "margin": "md",
                   "type": "separator",
                 },
@@ -609,7 +727,7 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[No feedback yet]",
+                      "text": "No feedback yet",
                       "type": "text",
                       "wrap": true,
                     },
@@ -639,16 +757,33 @@ Object {
               "layout": "vertical",
               "type": "box",
             },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains true information",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
             "type": "bubble",
           },
           Object {
             "body": Object {
               "contents": Array [
-                Object {
-                  "size": "sm",
-                  "text": "Contains true information",
-                  "type": "text",
-                },
                 Object {
                   "align": "start",
                   "margin": "md",
@@ -658,6 +793,9 @@ Object {
                   "wrap": true,
                 },
                 Object {
+                  "type": "filler",
+                },
+                Object {
                   "margin": "md",
                   "type": "separator",
                 },
@@ -665,7 +803,7 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[No feedback yet]",
+                      "text": "No feedback yet",
                       "type": "text",
                       "wrap": true,
                     },
@@ -695,16 +833,33 @@ Object {
               "layout": "vertical",
               "type": "box",
             },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains true information",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
             "type": "bubble",
           },
           Object {
             "body": Object {
               "contents": Array [
-                Object {
-                  "size": "sm",
-                  "text": "Contains misinformation",
-                  "type": "text",
-                },
                 Object {
                   "align": "start",
                   "margin": "md",
@@ -714,6 +869,9 @@ Object {
                   "wrap": true,
                 },
                 Object {
+                  "type": "filler",
+                },
+                Object {
                   "margin": "md",
                   "type": "separator",
                 },
@@ -721,7 +879,7 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[No feedback yet]",
+                      "text": "No feedback yet",
                       "type": "text",
                       "wrap": true,
                     },
@@ -751,16 +909,33 @@ Object {
               "layout": "vertical",
               "type": "box",
             },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
             "type": "bubble",
           },
           Object {
             "body": Object {
               "contents": Array [
-                Object {
-                  "size": "sm",
-                  "text": "Contains misinformation",
-                  "type": "text",
-                },
                 Object {
                   "align": "start",
                   "margin": "md",
@@ -770,6 +945,9 @@ Object {
                   "wrap": true,
                 },
                 Object {
+                  "type": "filler",
+                },
+                Object {
                   "margin": "md",
                   "type": "separator",
                 },
@@ -777,7 +955,7 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[No feedback yet]",
+                      "text": "No feedback yet",
                       "type": "text",
                       "wrap": true,
                     },
@@ -807,16 +985,33 @@ Object {
               "layout": "vertical",
               "type": "box",
             },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
             "type": "bubble",
           },
           Object {
             "body": Object {
               "contents": Array [
-                Object {
-                  "size": "sm",
-                  "text": "Contains personal perspective",
-                  "type": "text",
-                },
                 Object {
                   "align": "start",
                   "margin": "md",
@@ -826,6 +1021,9 @@ Object {
                   "wrap": true,
                 },
                 Object {
+                  "type": "filler",
+                },
+                Object {
                   "margin": "md",
                   "type": "separator",
                 },
@@ -833,7 +1031,7 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[No feedback yet]",
+                      "text": "No feedback yet",
                       "type": "text",
                       "wrap": true,
                     },
@@ -863,16 +1061,33 @@ Object {
               "layout": "vertical",
               "type": "box",
             },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains personal perspective",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
             "type": "bubble",
           },
           Object {
             "body": Object {
               "contents": Array [
-                Object {
-                  "size": "sm",
-                  "text": "Contains misinformation",
-                  "type": "text",
-                },
                 Object {
                   "align": "start",
                   "margin": "md",
@@ -882,6 +1097,9 @@ Object {
                   "wrap": true,
                 },
                 Object {
+                  "type": "filler",
+                },
+                Object {
                   "margin": "md",
                   "type": "separator",
                 },
@@ -889,7 +1107,7 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[No feedback yet]",
+                      "text": "No feedback yet",
                       "type": "text",
                       "wrap": true,
                     },
@@ -919,16 +1137,33 @@ Object {
               "layout": "vertical",
               "type": "box",
             },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
             "type": "bubble",
           },
           Object {
             "body": Object {
               "contents": Array [
-                Object {
-                  "size": "sm",
-                  "text": "Contains misinformation",
-                  "type": "text",
-                },
                 Object {
                   "align": "start",
                   "margin": "md",
@@ -938,6 +1173,9 @@ Object {
                   "wrap": true,
                 },
                 Object {
+                  "type": "filler",
+                },
+                Object {
                   "margin": "md",
                   "type": "separator",
                 },
@@ -945,7 +1183,7 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[No feedback yet]",
+                      "text": "No feedback yet",
                       "type": "text",
                       "wrap": true,
                     },
@@ -975,16 +1213,33 @@ Object {
               "layout": "vertical",
               "type": "box",
             },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
             "type": "bubble",
           },
           Object {
             "body": Object {
               "contents": Array [
-                Object {
-                  "size": "sm",
-                  "text": "Invalid request",
-                  "type": "text",
-                },
                 Object {
                   "align": "start",
                   "margin": "md",
@@ -995,6 +1250,9 @@ Object {
                   "wrap": true,
                 },
                 Object {
+                  "type": "filler",
+                },
+                Object {
                   "margin": "md",
                   "type": "separator",
                 },
@@ -1002,7 +1260,7 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[No feedback yet]",
+                      "text": "No feedback yet",
                       "type": "text",
                       "wrap": true,
                     },
@@ -1030,6 +1288,28 @@ Object {
                 },
               ],
               "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it invalid request",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
               "type": "box",
             },
             "type": "bubble",
@@ -1106,11 +1386,6 @@ Object {
             "body": Object {
               "contents": Array [
                 Object {
-                  "size": "sm",
-                  "text": "Contains misinformation",
-                  "type": "text",
-                },
-                Object {
                   "align": "start",
                   "margin": "md",
                   "maxLines": 10,
@@ -1120,6 +1395,9 @@ Object {
                   "wrap": true,
                 },
                 Object {
+                  "type": "filler",
+                },
+                Object {
                   "margin": "md",
                   "type": "separator",
                 },
@@ -1127,8 +1405,8 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[14 users consider this helpful
-2 users consider this not useful]",
+                      "text": "👍 14 users consider this helpful
+😕 2 users consider this not useful",
                       "type": "text",
                       "wrap": true,
                     },
@@ -1158,16 +1436,33 @@ Object {
               "layout": "vertical",
               "type": "box",
             },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
             "type": "bubble",
           },
           Object {
             "body": Object {
               "contents": Array [
-                Object {
-                  "size": "sm",
-                  "text": "Contains misinformation",
-                  "type": "text",
-                },
                 Object {
                   "align": "start",
                   "margin": "md",
@@ -1177,6 +1472,9 @@ Object {
                   "wrap": true,
                 },
                 Object {
+                  "type": "filler",
+                },
+                Object {
                   "margin": "md",
                   "type": "separator",
                 },
@@ -1184,7 +1482,7 @@ Object {
                   "contents": Array [
                     Object {
                       "size": "xs",
-                      "text": "[24 users consider this helpful]",
+                      "text": "👍 24 users consider this helpful",
                       "type": "text",
                       "wrap": true,
                     },
@@ -1212,6 +1510,28 @@ Object {
                 },
               ],
               "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
               "type": "box",
             },
             "type": "bubble",
