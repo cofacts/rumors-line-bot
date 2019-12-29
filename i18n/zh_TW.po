@@ -20,45 +20,45 @@ msgstr "糟糕，bot 故障了。可以再傳一次嗎？ QQ"
 msgid "No feedback yet"
 msgstr "還沒有人針對此回應評價"
 
-#: src/handlers/utils.js:33
+#: src/handlers/utils.js:36
 msgid "${ negative } user consider this not useful"
 msgid_plural "${ negative } users consider this not useful"
 msgstr[0] "有 ${negative} 人覺得此回應沒幫助"
 
-#: src/handlers/utils.js:54
+#: src/handlers/utils.js:58
 msgid "Contains misinformation"
 msgstr "含有不實訊息"
 
-#: src/handlers/utils.js:56
+#: src/handlers/utils.js:60
 msgid "Contains true information"
 msgstr "含有真實訊息"
 
-#: src/handlers/utils.js:58
+#: src/handlers/utils.js:62
 msgid "Contains personal perspective"
 msgstr "含有個人意見"
 
-#: src/handlers/utils.js:60
+#: src/handlers/utils.js:64
 msgid "Invalid request"
 msgstr "不在查證範圍"
 
-#: src/handlers/utils.js:72
+#: src/handlers/utils.js:76
 msgid "different opinions"
 msgstr "不同觀點"
 
-#: src/handlers/utils.js:72
+#: src/handlers/utils.js:76
 msgid "references"
 msgstr "出處"
 
-#: src/handlers/utils.js:75
+#: src/handlers/utils.js:79
 #, javascript-format
 msgid "This reply has no ${ prompt } and it may be biased"
 msgstr "此回應沒有${prompt}，請自行斟酌回應之可信度。"
 
-#: src/handlers/utils.js:81
+#: src/handlers/utils.js:85
 msgid "My reason is:"
 msgstr "我的理由是："
 
-#: src/handlers/utils.js:82
+#: src/handlers/utils.js:86
 msgid "I think the reply is not useful and I suggest:"
 msgstr "我覺得回應沒有幫助，可以這樣改進："
 
@@ -88,31 +88,27 @@ msgstr "${ count.NOT_ARTICLE } 則說它 ⚠️️ 不在查證範圍"
 msgid "Let's pick one"
 msgstr "選一則來閱讀吧"
 
-#: src/handlers/choosingArticle.js:253
+#: src/handlers/choosingArticle.js:274
 msgid "Take a look"
 msgstr "看他怎麼說"
 
-#: src/handlers/choosingArticle.js:277
+#: src/handlers/choosingArticle.js:298
 #, javascript-format
 msgid "Visit ${ articleUrl } for more replies."
 msgstr "更多回應請到：${ articleUrl }"
 
-#: src/handlers/initState.js:110
-msgid "Similarity"
-msgstr "相似度"
-
-#: src/handlers/initState.js:143
+#: src/handlers/initState.js:155
 msgid "Choose this one"
 msgstr "選擇這篇"
 
-#: src/handlers/initState.js:212
+#: src/handlers/initState.js:225
 #, javascript-format
 msgid ""
 "There are some messages that looks similar to \"${ articleSummary }\" you "
 "have sent to me."
 msgstr "資料庫裡有幾篇訊息，跟您傳給我的「${ articleSummary }」有點接近。"
 
-#: src/handlers/initState.js:219
+#: src/handlers/initState.js:232
 msgid ""
 "Internet rumors are often mutated and shared.\n"
 "Please choose the version that looks the most similar"
@@ -157,24 +153,34 @@ msgstr "是"
 msgid "No"
 msgstr "否"
 
-#: src/handlers/initState.js:178
+#: src/handlers/initState.js:191
 msgid "None of these messages matches mine :("
 msgstr "找不到我想查的訊息 QQ"
 
-#: src/handlers/utils.js:26
+#: src/handlers/utils.js:27
 #, javascript-format
 msgid "${ positive } user considers this helpful"
 msgid_plural "${ positive } users consider this helpful"
 msgstr[0] "有 ${positive} 人覺得此回應有幫助"
 
-#: src/handlers/initState.js:193
+#: src/handlers/initState.js:206
 msgid "Tell us more"
 msgstr "回報此訊息"
 
-#: src/handlers/initState.js:202
+#: src/handlers/initState.js:215
 msgid "Please choose the most similar message from the list."
 msgstr "請從下列選擇您要查的訊息。"
 
-#: src/handlers/choosingArticle.js:266
+#: src/handlers/choosingArticle.js:287
 msgid "Please take a look at the following replies."
 msgstr "請從下列選擇您要查看的回應。"
+
+#: src/handlers/choosingArticle.js:220
+#, javascript-format
+msgid "Someone thinks it ${ typeWords }"
+msgstr "有人認為它${typeWords}"
+
+#: src/handlers/initState.js:122
+#, javascript-format
+msgid "Looks ${ similarityPercentage }% similar"
+msgstr "看起來 ${similarityPercentage}% 像"
