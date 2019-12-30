@@ -199,19 +199,37 @@ export default async function choosingArticle(params) {
 
       const postMessage = articleReplies
         .slice(0, 10)
-        .map(
-          ({ reply, positiveFeedbackCount, negativeFeedbackCount }, idx) => ({
+        .map(({ reply, positiveFeedbackCount, negativeFeedbackCount }, idx) => {
+          const typeWords = createTypeWords(reply.type).toLowerCase();
+          return {
             type: 'bubble',
             direction: 'ltr',
+            header: {
+              type: 'box',
+              layout: 'horizontal',
+              spacing: 'md',
+              paddingBottom: 'none',
+              contents: [
+                {
+                  type: 'text',
+                  text: '💬',
+                  flex: 0,
+                },
+                {
+                  type: 'text',
+                  text: t`Someone thinks it ${typeWords}`,
+                  gravity: 'center',
+                  size: 'sm',
+                  weight: 'bold',
+                  wrap: true,
+                  color: '#AAAAAA',
+                },
+              ],
+            },
             body: {
               type: 'box',
               layout: 'vertical',
               contents: [
-                {
-                  type: 'text',
-                  text: createTypeWords(reply.type),
-                  size: 'sm',
-                },
                 {
                   type: 'text',
                   text: ellipsis(reply.text, 300, '...'), // 50KB for entire Flex carousel
@@ -219,6 +237,9 @@ export default async function choosingArticle(params) {
                   wrap: true,
                   margin: 'md',
                   maxLines: 10,
+                },
+                {
+                  type: 'filler',
                 },
                 {
                   type: 'separator',
@@ -258,8 +279,8 @@ export default async function choosingArticle(params) {
                 },
               ],
             },
-          })
-        );
+          };
+        });
 
       replies.push({
         type: 'flex',

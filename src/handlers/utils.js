@@ -19,23 +19,27 @@ export function createPostbackAction(label, input, issuedAt) {
  * @return {string} Description of feedback counts
  */
 export function createFeedbackWords(positive, negative) {
-  if (positive + negative === 0) return `[${t`No feedback yet`}]`;
+  if (positive + negative === 0) return t`No feedback yet`;
   let result = '';
   if (positive)
     result +=
+      '👍 ' +
       ngettext(
         msgid`${positive} user considers this helpful`,
         `${positive} users consider this helpful`,
         positive
-      ) + '\n';
+      ) +
+      '\n';
   if (negative)
     result +=
+      '😕 ' +
       ngettext(
         msgid`${negative} user consider this not useful`,
         `${negative} users consider this not useful`,
         negative
-      ) + '\n';
-  return `[${result.trim()}]`;
+      ) +
+      '\n';
+  return result.trim();
 }
 
 /**

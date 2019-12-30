@@ -99,19 +99,31 @@ export default async function initState(params) {
 
     const postMessage = edgesSortedWithSimilarity.map(
       ({ node: { text }, similarity }, idx) => {
+        const similarityPercentage = Math.round(similarity * 100);
+        const similarityEmoji = ['😐', '🙂', '😀', '😃', '😄'][
+          Math.floor(similarity * 4.999)
+        ];
         return {
           type: 'bubble',
+          direction: 'ltr',
           header: {
             type: 'box',
             layout: 'horizontal',
+            spacing: 'md',
+            paddingBottom: 'none',
             contents: [
               {
                 type: 'text',
-                text: `[${t`Similarity`}: ${(similarity * 100).toFixed(2) +
-                  '%'}] \n`,
-                margin: 'none',
+                text: similarityEmoji,
+                flex: 0,
+              },
+              {
+                type: 'text',
+                text: t`Looks ${similarityPercentage}% similar`,
+                gravity: 'center',
                 size: 'sm',
                 weight: 'bold',
+                wrap: true,
                 color: '#AAAAAA',
               },
             ],
@@ -124,8 +136,8 @@ export default async function initState(params) {
             contents: [
               {
                 type: 'text',
-                text,
-                maxLines: 5,
+                text: ellipsis(text, 300, '...'), // 50KB for entire Flex carousel,
+                maxLines: 6,
                 flex: 0,
                 gravity: 'top',
                 weight: 'regular',
@@ -156,10 +168,11 @@ export default async function initState(params) {
       header: {
         type: 'box',
         layout: 'horizontal',
+        paddingBottom: 'none',
         contents: [
           {
             type: 'text',
-            text: ' ',
+            text: '😶',
             margin: 'none',
             size: 'sm',
             weight: 'bold',
