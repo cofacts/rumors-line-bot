@@ -32,36 +32,121 @@ Please choose the version that looks the most similar👇",
       "type": "text",
     },
     Object {
-      "altText": "選擇請打 1> 計程車上有裝悠遊卡感應器，老人悠悠卡可以
-
-若以上皆非，請打 0。",
-      "template": Object {
-        "columns": Array [
+      "altText": "Please choose the most similar message from the list.",
+      "contents": Object {
+        "contents": Array [
           Object {
-            "actions": Array [
-              Object {
-                "data": "{\\"input\\":1,\\"issuedAt\\":1497994017447}",
-                "label": "Choose this one",
-                "type": "postback",
-              },
-            ],
-            "text": "[Similarity: 52.41%] 
- 計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入，下車時使用老人悠遊卡，跳錶車資105元，優惠32元，只扣73元，哈哈，這是屬於我們的福利，與大家分享，⋯",
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "gravity": "top",
+                  "maxLines": 6,
+                  "text": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入，下車時使用老人悠遊卡，跳錶車資105元，優惠32元，只扣73元，哈哈，這是屬於我們的福利，與大家分享，可以善加利用！=7折，朋友使用ok",
+                  "type": "text",
+                  "weight": "regular",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "margin": "none",
+              "spacing": "none",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":1,\\"issuedAt\\":1497994017447}",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😀",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Looks 52% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
           },
           Object {
-            "actions": Array [
-              Object {
-                "data": "{\\"input\\":0,\\"issuedAt\\":1497994017447}",
-                "label": "Choose this one",
-                "type": "postback",
-              },
-            ],
-            "text": "None of these messages matches mine :(",
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "gravity": "top",
+                  "maxLines": 5,
+                  "text": "None of these messages matches mine :(",
+                  "type": "text",
+                  "weight": "regular",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "margin": "none",
+              "spacing": "none",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":0,\\"issuedAt\\":1497994017447}",
+                    "label": "Tell us more",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "color": "#AAAAAA",
+                  "margin": "none",
+                  "size": "sm",
+                  "text": "😶",
+                  "type": "text",
+                  "weight": "bold",
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "type": "box",
+            },
+            "type": "bubble",
           },
         ],
         "type": "carousel",
       },
-      "type": "template",
+      "type": "flex",
     },
   ],
   "state": "CHOOSING_ARTICLE",
@@ -102,41 +187,181 @@ Please choose the version that looks the most similar👇",
       "type": "text",
     },
     Object {
-      "altText": "選擇請打 1> YouTube  ·  寻找健康人生
-
-選擇請打 2> YouTube
-·
-寻找健康人生",
-      "template": Object {
-        "columns": Array [
+      "altText": "Please choose the most similar message from the list.",
+      "contents": Object {
+        "contents": Array [
           Object {
-            "actions": Array [
-              Object {
-                "data": "{\\"input\\":1,\\"issuedAt\\":1497994017447}",
-                "label": "Choose this one",
-                "type": "postback",
-              },
-            ],
-            "text": "[Similarity: 100.00%] 
- YouTube  ·  寻找健康人生",
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "gravity": "top",
+                  "maxLines": 6,
+                  "text": "YouTube  ·  寻找健康人生",
+                  "type": "text",
+                  "weight": "regular",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "margin": "none",
+              "spacing": "none",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":1,\\"issuedAt\\":1497994017447}",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😄",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Looks 100% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
           },
           Object {
-            "actions": Array [
-              Object {
-                "data": "{\\"input\\":2,\\"issuedAt\\":1497994017447}",
-                "label": "Choose this one",
-                "type": "postback",
-              },
-            ],
-            "text": "[Similarity: 100.00%] 
- YouTube
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "gravity": "top",
+                  "maxLines": 6,
+                  "text": "YouTube
 ·
 寻找健康人生",
+                  "type": "text",
+                  "weight": "regular",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "margin": "none",
+              "spacing": "none",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":2,\\"issuedAt\\":1497994017447}",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😄",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Looks 100% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "gravity": "top",
+                  "maxLines": 5,
+                  "text": "None of these messages matches mine :(",
+                  "type": "text",
+                  "weight": "regular",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "margin": "none",
+              "spacing": "none",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":0,\\"issuedAt\\":1497994017447}",
+                    "label": "Tell us more",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "color": "#AAAAAA",
+                  "margin": "none",
+                  "size": "sm",
+                  "text": "😶",
+                  "type": "text",
+                  "weight": "bold",
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "type": "box",
+            },
+            "type": "bubble",
           },
         ],
         "type": "carousel",
       },
-      "type": "template",
+      "type": "flex",
     },
   ],
   "state": "CHOOSING_ARTICLE",

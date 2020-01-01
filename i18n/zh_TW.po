@@ -6,13 +6,13 @@ msgstr ""
 "mime-version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/index.js:79
+#: src/index.js:84
 #. Set default result
 #.
 msgid "I cannot understand messages other than text."
 msgstr "我們還不支援文字以外的訊息唷！"
 
-#: src/index.js:146
+#: src/index.js:261
 msgid "Oops, something is not working. Would you please send that again?"
 msgstr "糟糕，bot 故障了。可以再傳一次嗎？ QQ"
 
@@ -20,100 +20,95 @@ msgstr "糟糕，bot 故障了。可以再傳一次嗎？ QQ"
 msgid "No feedback yet"
 msgstr "還沒有人針對此回應評價"
 
-#: src/handlers/utils.js:33
+#: src/handlers/utils.js:36
 msgid "${ negative } user consider this not useful"
 msgid_plural "${ negative } users consider this not useful"
 msgstr[0] "有 ${negative} 人覺得此回應沒幫助"
 
-#: src/handlers/utils.js:54
+#: src/handlers/utils.js:58
 msgid "Contains misinformation"
 msgstr "含有不實訊息"
 
-#: src/handlers/utils.js:56
+#: src/handlers/utils.js:60
 msgid "Contains true information"
 msgstr "含有真實訊息"
 
-#: src/handlers/utils.js:58
+#: src/handlers/utils.js:62
 msgid "Contains personal perspective"
 msgstr "含有個人意見"
 
-#: src/handlers/utils.js:60
+#: src/handlers/utils.js:64
 msgid "Invalid request"
 msgstr "不在查證範圍"
 
-#: src/handlers/utils.js:72
+#: src/handlers/utils.js:76
 msgid "different opinions"
 msgstr "不同觀點"
 
-#: src/handlers/utils.js:72
+#: src/handlers/utils.js:76
 msgid "references"
 msgstr "出處"
 
-#: src/handlers/utils.js:75
+#: src/handlers/utils.js:79
 #, javascript-format
 msgid "This reply has no ${ prompt } and it may be biased"
 msgstr "此回應沒有${prompt}，請自行斟酌回應之可信度。"
 
-#: src/handlers/utils.js:81
+#: src/handlers/utils.js:85
 msgid "My reason is:"
 msgstr "我的理由是："
 
-#: src/handlers/utils.js:82
+#: src/handlers/utils.js:86
 msgid "I think the reply is not useful and I suggest:"
 msgstr "我覺得回應沒有幫助，可以這樣改進："
 
-#: src/handlers/choosingArticle.js:157
+#: src/handlers/choosingArticle.js:144
 msgid "Volunteer editors has publised several replies to this message."
 msgstr "Cofacts 志工對這則訊息發表了多則看法唷！"
 
-#: src/handlers/choosingArticle.js:161
+#: src/handlers/choosingArticle.js:148
 #, javascript-format
 msgid "${ count.RUMOR } of them say it ❌ contains misinformation"
 msgstr "${ count.RUMOR } 則說它 ❌ 含有不實訊息"
 
-#: src/handlers/choosingArticle.js:164
+#: src/handlers/choosingArticle.js:151
 msgid "${ count.NOT_RUMOR } of them says it ⭕ contains true information"
 msgstr "${ count.NOT_RUMOR } 則說它 ⭕ 含有真實訊息"
 
-#: src/handlers/choosingArticle.js:167
+#: src/handlers/choosingArticle.js:154
 #, javascript-format
 msgid "${ count.OPINIONATED } of them says it 💬 contains personal perspective"
 msgstr "${ count.OPINIONATED } 則說它 💬 含有個人意見"
 
-#: src/handlers/choosingArticle.js:172
+#: src/handlers/choosingArticle.js:159
 msgid "${ count.NOT_ARTICLE } of them says it ⚠️️ is out of scope of Cofacts"
 msgstr "${ count.NOT_ARTICLE } 則說它 ⚠️️ 不在查證範圍"
 
-#: src/handlers/choosingArticle.js:188
+#: src/handlers/choosingArticle.js:175
 msgid "Let's pick one"
 msgstr "選一則來閱讀吧"
 
-#: src/handlers/choosingArticle.js:236
+#: src/handlers/choosingArticle.js:274
 msgid "Take a look"
 msgstr "看他怎麼說"
 
-#: src/handlers/choosingArticle.js:250
+#: src/handlers/choosingArticle.js:298
 #, javascript-format
 msgid "Visit ${ articleUrl } for more replies."
 msgstr "更多回應請到：${ articleUrl }"
 
-#: src/handlers/initState.js:112
-msgid "Similarity"
-msgstr "相似度"
-
-#: src/handlers/initState.js:118
-#: src/handlers/initState.js:128
+#: src/handlers/initState.js:155
 msgid "Choose this one"
 msgstr "選擇這篇"
 
-#: src/handlers/initState.js:139
+#: src/handlers/initState.js:225
 #, javascript-format
 msgid ""
 "There are some messages that looks similar to \"${ articleSummary }\" you "
 "have sent to me."
 msgstr "資料庫裡有幾篇訊息，跟您傳給我的「${ articleSummary }」有點接近。"
 
-#: src/handlers/initState.js:144
+#: src/handlers/initState.js:232
 msgid ""
 "Internet rumors are often mutated and shared.\n"
 "Please choose the version that looks the most similar"
@@ -158,12 +153,34 @@ msgstr "是"
 msgid "No"
 msgstr "否"
 
-#: src/handlers/initState.js:126
+#: src/handlers/initState.js:191
 msgid "None of these messages matches mine :("
 msgstr "找不到我想查的訊息 QQ"
 
-#: src/handlers/utils.js:26
+#: src/handlers/utils.js:27
 #, javascript-format
 msgid "${ positive } user considers this helpful"
 msgid_plural "${ positive } users consider this helpful"
 msgstr[0] "有 ${positive} 人覺得此回應有幫助"
+
+#: src/handlers/initState.js:206
+msgid "Tell us more"
+msgstr "回報此訊息"
+
+#: src/handlers/initState.js:215
+msgid "Please choose the most similar message from the list."
+msgstr "請從下列選擇您要查的訊息。"
+
+#: src/handlers/choosingArticle.js:287
+msgid "Please take a look at the following replies."
+msgstr "請從下列選擇您要查看的回應。"
+
+#: src/handlers/choosingArticle.js:220
+#, javascript-format
+msgid "Someone thinks it ${ typeWords }"
+msgstr "有人認為它${typeWords}"
+
+#: src/handlers/initState.js:122
+#, javascript-format
+msgid "Looks ${ similarityPercentage }% similar"
+msgstr "看起來 ${similarityPercentage}% 像"

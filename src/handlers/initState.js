@@ -97,41 +97,125 @@ export default async function initState(params) {
       };
     }
 
-    const templateMessage = {
-      type: 'template',
-      altText: edgesSortedWithSimilarity
-        .map(
-          ({ node: { text } }, idx) =>
-            `選擇請打 ${idx + 1}> ${ellipsis(text, 20, '')}`
-        )
-        .concat(hasIdenticalDocs ? [] : ['若以上皆非，請打 0。'])
-        .join('\n\n'),
-      template: {
-        type: 'carousel',
-        columns: edgesSortedWithSimilarity
-          .map(({ node: { text }, similarity }, idx) => ({
-            text: ellipsis(
-              `[${t`Similarity`}: ${(similarity * 100).toFixed(2) +
-                '%'}] \n ${text}`,
-              115,
-              '⋯'
-            ),
-            actions: [
-              createPostbackAction(t`Choose this one`, idx + 1, issuedAt),
+    const postMessage = edgesSortedWithSimilarity.map(
+      ({ node: { text }, similarity }, idx) => {
+        const similarityPercentage = Math.round(similarity * 100);
+        const similarityEmoji = ['😐', '🙂', '😀', '😃', '😄'][
+          Math.floor(similarity * 4.999)
+        ];
+        return {
+          type: 'bubble',
+          direction: 'ltr',
+          header: {
+            type: 'box',
+            layout: 'horizontal',
+            spacing: 'md',
+            paddingBottom: 'none',
+            contents: [
+              {
+                type: 'text',
+                text: similarityEmoji,
+                flex: 0,
+              },
+              {
+                type: 'text',
+                text: t`Looks ${similarityPercentage}% similar`,
+                gravity: 'center',
+                size: 'sm',
+                weight: 'bold',
+                wrap: true,
+                color: '#AAAAAA',
+              },
             ],
-          }))
-          .concat(
-            hasIdenticalDocs
-              ? []
-              : [
-                  {
-                    text: t`None of these messages matches mine :(`,
-                    actions: [
-                      createPostbackAction(t`Choose this one`, 0, issuedAt),
-                    ],
-                  },
-                ]
-          ),
+          },
+          body: {
+            type: 'box',
+            layout: 'horizontal',
+            spacing: 'none',
+            margin: 'none',
+            contents: [
+              {
+                type: 'text',
+                text: ellipsis(text, 300, '...'), // 50KB for entire Flex carousel,
+                maxLines: 6,
+                flex: 0,
+                gravity: 'top',
+                weight: 'regular',
+                wrap: true,
+              },
+            ],
+          },
+          footer: {
+            type: 'box',
+            layout: 'horizontal',
+            contents: [
+              {
+                type: 'button',
+                action: createPostbackAction(
+                  t`Choose this one`,
+                  idx + 1,
+                  issuedAt
+                ),
+                style: 'primary',
+              },
+            ],
+          },
+        };
+      }
+    );
+    postMessage.push({
+      type: 'bubble',
+      header: {
+        type: 'box',
+        layout: 'horizontal',
+        paddingBottom: 'none',
+        contents: [
+          {
+            type: 'text',
+            text: '😶',
+            margin: 'none',
+            size: 'sm',
+            weight: 'bold',
+            color: '#AAAAAA',
+          },
+        ],
+      },
+      body: {
+        type: 'box',
+        layout: 'horizontal',
+        spacing: 'none',
+        margin: 'none',
+        contents: [
+          {
+            type: 'text',
+            text: t`None of these messages matches mine :(`,
+            maxLines: 5,
+            flex: 0,
+            gravity: 'top',
+            weight: 'regular',
+            wrap: true,
+          },
+        ],
+      },
+      footer: {
+        type: 'box',
+        layout: 'horizontal',
+        contents: [
+          {
+            type: 'button',
+            action: createPostbackAction(t`Tell us more`, 0, issuedAt),
+            style: 'primary',
+          },
+        ],
+      },
+    });
+
+    const templateMessage = {
+      type: 'flex',
+      altText: t`Please choose the most similar message from the list.`,
+      contents: {
+        type: 'carousel',
+        contents: postMessage,
       },
     };
 
