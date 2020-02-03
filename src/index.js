@@ -282,3 +282,15 @@ async function processText(
   console.log('\n||LOG||---------->');
   return result;
 }
+
+// Graceful shutdown
+// https://pm2.keymetrics.io/docs/usage/cluster-mode/#graceful-shutdown
+process.on('SIGINT', async () => {
+  try {
+    await redis.quit();
+    process.exit(0);
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
+});
