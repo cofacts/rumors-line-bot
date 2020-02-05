@@ -13,6 +13,9 @@ module.exports = {
       autorestart: true,
       watch: false,
       max_memory_restart: `${process.env.WEB_MEMORY || 512}M`, // // Auto-restart if process takes more than XXmo
+
+      // https://devcenter.heroku.com/articles/optimizing-dyno-usage#node-js
+      exec_mode: 'cluster',
     },
   ],
 };
