@@ -55,8 +55,21 @@ function del(key) {
   });
 }
 
+function quit() {
+  return new Promise((resolve, reject) => {
+    client.quit(err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+}
+
 export default {
   set,
   get,
   del,
+  quit,
 };
