@@ -6,13 +6,13 @@ msgstr ""
 "mime-version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/index.js:84
+#: src/index.js:104
 #. Set default result
-#.
+#. 
 msgid "I cannot understand messages other than text."
 msgstr "我們還不支援文字以外的訊息唷！"
 
-#: src/index.js:261
+#: src/index.js:292
 msgid "Oops, something is not working. Would you please send that again?"
 msgstr "糟糕，bot 故障了。可以再傳一次嗎？ QQ"
 
@@ -184,3 +184,9 @@ msgstr "有人認為它${typeWords}"
 #, javascript-format
 msgid "Looks ${ similarityPercentage }% similar"
 msgstr "看起來 ${similarityPercentage}% 像"
+
+#: src/index.js:74
+msgid ""
+"Line bot is busy, or we cannot handle this message. Maybe you can try again "
+"a few minutes later."
+msgstr "不好意思！系統可能在忙線中，無法及時處理您傳的訊息。請稍等幾分鐘再試試看唷。"
