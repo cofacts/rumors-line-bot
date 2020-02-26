@@ -66,6 +66,13 @@ const singleUserHandler = async (
     if (isReplied) return;
 
     isReplied = true;
+    console.log(
+      `[LOG] Timeout ${JSON.stringify({
+        type,
+        userId,
+        ...otherFields,
+      })}\n`
+    );
     lineClient('/message/reply', {
       replyToken,
       messages: [
