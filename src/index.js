@@ -54,9 +54,36 @@ const singleUserHandler = async (
   req,
   type,
   replyToken,
+  timeout,
   userId,
   otherFields
 ) => {
+  // reply before timeout
+  // the reply token becomes invalid after a certain period of time
+  // https://developers.line.biz/en/reference/messaging-api/#send-reply-message
+  let isReplied = false;
+  setTimeout(function() {
+    if (isReplied) return;
+
+    isReplied = true;
+    console.log(
+      `[LOG] Timeout ${JSON.stringify({
+        type,
+        userId,
+        ...otherFields,
+      })}\n`
+    );
+    lineClient('/message/reply', {
+      replyToken,
+      messages: [
+        {
+          type: 'text',
+          text: t`Line bot is busy, or we cannot handle this message. Maybe you can try again a few minutes later.`,
+        },
+      ],
+    });
+  }, timeout);
+
   if (userIdBlacklist.indexOf(userId) !== -1) {
     // User blacklist
     console.log(
@@ -181,6 +208,12 @@ const singleUserHandler = async (
       .send();
   }
 
+  if (isReplied) {
+    console.log('[LOG] reply & context setup aborted');
+    return;
+  }
+  isReplied = true;
+
   // Send replies. Does not need to wait for lineClient's callbacks.
   // lineClient's callback does error handling by itself.
   //
@@ -208,9 +241,18 @@ router.post('/callback', ctx => {
 
   ctx.request.body.events.forEach(
     async ({ type, replyToken, source, ...otherFields }) => {
+      // set 28s timeout
+      const timeout = 28000;
       let { userId } = source;
       if (source.type === 'user') {
-        singleUserHandler(ctx.request, type, replyToken, userId, otherFields);
+        singleUserHandler(
+          ctx.request,
+          type,
+          replyToken,
+          timeout,
+          userId,
+          otherFields
+        );
       } else if (source.type === 'group') {
         groupHandler(ctx.request, type, replyToken, userId, otherFields);
       }
@@ -264,7 +306,7 @@ async function processText(
     };
   }
   // LOGGING:
-  // 60 chars per line, each prepended with [[LOG]]
+  // 60 chars per line, each prepended with ||LOG||
   //
   console.log('\n||LOG||<----------');
   JSON.stringify({
