@@ -208,11 +208,15 @@ const singleUserHandler = async (
       .send();
   }
 
+  if (isReplied) {
+    console.log('[LOG] reply & context setup aborted');
+    return;
+  }
+  isReplied = true;
+
   // Send replies. Does not need to wait for lineClient's callbacks.
   // lineClient's callback does error handling by itself.
   //
-  if (isReplied) return;
-  isReplied = true;
   lineClient('/message/reply', {
     replyToken,
     messages: result.replies,
@@ -302,7 +306,7 @@ async function processText(
     };
   }
   // LOGGING:
-  // 60 chars per line, each prepended with [[LOG]]
+  // 60 chars per line, each prepended with ||LOG||
   //
   console.log('\n||LOG||<----------');
   JSON.stringify({
