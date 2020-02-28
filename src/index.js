@@ -178,15 +178,17 @@ const singleUserHandler = async (
       uploadImageFile(res.clone(), otherFields.message.id);
       await saveImageFile(res, otherFields.message.id);
       const text = await processImage(otherFields.message.id);
-      result = await processText(
-        result,
-        context,
-        type,
-        text,
-        otherFields,
-        userId,
-        req
-      );
+      if (text.length >= 3) {
+        result = await processText(
+          result,
+          context,
+          type,
+          text,
+          otherFields,
+          userId,
+          req
+        );
+      }
     }
   } else if (type === 'message' && otherFields.message.type === 'video') {
     // Track video message type send by user
