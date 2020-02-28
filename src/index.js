@@ -62,9 +62,7 @@ const singleUserHandler = async (
   // the reply token becomes invalid after a certain period of time
   // https://developers.line.biz/en/reference/messaging-api/#send-reply-message
   let isReplied = false;
-  setTimeout(function() {
-    if (isReplied) return;
-
+  const timerId = setTimeout(function() {
     isReplied = true;
     console.log(
       `[LOG] Timeout ${JSON.stringify({
@@ -93,11 +91,13 @@ const singleUserHandler = async (
         ...otherFields,
       })}\n`
     );
+    clearTimeout(timerId);
     return;
   }
 
   // Handle follow/unfollow event
   if (type === 'unfollow' || type === 'follow') {
+    clearTimeout(timerId);
     return;
   }
 
@@ -132,6 +132,7 @@ const singleUserHandler = async (
       //
       if (data.issuedAt !== context.issuedAt) {
         console.log('Previous button pressed.');
+        clearTimeout(timerId);
         return;
       }
 
@@ -144,6 +145,7 @@ const singleUserHandler = async (
     //
     if (input === 'RESET') {
       redis.del(userId);
+      clearTimeout(timerId);
       return;
     }
 
@@ -212,7 +214,7 @@ const singleUserHandler = async (
     console.log('[LOG] reply & context setup aborted');
     return;
   }
-  isReplied = true;
+  clearTimeout(timerId);
 
   // Send replies. Does not need to wait for lineClient's callbacks.
   // lineClient's callback does error handling by itself.
