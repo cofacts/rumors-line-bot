@@ -175,7 +175,7 @@ const singleUserHandler = async (
       process.env.IMAGE_MESSAGE_ENABLED === 'TRUE'
     ) {
       const context = (await redis.get(userId)) || {};
-      if (imageProcessingCount > 2) {
+      if (imageProcessingCount >= (process.env.MAX_IMAGE_PROCESS_NUMBER || 3)) {
         console.log('[LOG] request abort, too many images are processing now.');
         lineClient('/message/reply', {
           replyToken,
