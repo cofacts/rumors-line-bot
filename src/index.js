@@ -21,6 +21,7 @@ import ga from './ga';
 const app = new Koa();
 const router = Router();
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
+let imageProcessingCount = 0;
 
 app.use(async (ctx, next) => {
   try {
@@ -62,6 +63,12 @@ const singleUserHandler = async (
   // the reply token becomes invalid after a certain period of time
   // https://developers.line.biz/en/reference/messaging-api/#send-reply-message
   let isReplied = false;
+  const messageBotIsBusy = [
+    {
+      type: 'text',
+      text: t`Line bot is busy, or we cannot handle this message. Maybe you can try again a few minutes later.`,
+    },
+  ];
   const timerId = setTimeout(function() {
     isReplied = true;
     console.log(
@@ -73,12 +80,7 @@ const singleUserHandler = async (
     );
     lineClient('/message/reply', {
       replyToken,
-      messages: [
-        {
-          type: 'text',
-          text: t`Line bot is busy, or we cannot handle this message. Maybe you can try again a few minutes later.`,
-        },
-      ],
+      messages: messageBotIsBusy,
     });
   }, timeout);
 
@@ -173,11 +175,21 @@ const singleUserHandler = async (
       process.env.IMAGE_MESSAGE_ENABLED === 'TRUE'
     ) {
       const context = (await redis.get(userId)) || {};
-
+      if (imageProcessingCount > 2) {
+        console.log('[LOG] request abort, too many images are processing now.');
+        lineClient('/message/reply', {
+          replyToken,
+          messages: messageBotIsBusy,
+        });
+        clearTimeout(timerId);
+        return;
+      }
+      imageProcessingCount++;
       const res = await downloadFile(otherFields.message.id);
       uploadImageFile(res.clone(), otherFields.message.id);
       await saveImageFile(res, otherFields.message.id);
       const text = await processImage(otherFields.message.id);
+      imageProcessingCount--;
       if (text.length >= 3) {
         result = await processText(
           result,
