@@ -184,12 +184,20 @@ const singleUserHandler = async (
         clearTimeout(timerId);
         return;
       }
+
+      let text = '';
       imageProcessingCount++;
-      const res = await downloadFile(otherFields.message.id);
-      uploadImageFile(res.clone(), otherFields.message.id);
-      await saveImageFile(res, otherFields.message.id);
-      const text = await processImage(otherFields.message.id);
-      imageProcessingCount--;
+      try {
+        const res = await downloadFile(otherFields.message.id);
+        uploadImageFile(res.clone(), otherFields.message.id);
+        await saveImageFile(res, otherFields.message.id);
+        text = await processImage(otherFields.message.id);
+      } catch (e) {
+        console.error(e);
+        rollbar.error(e);
+      } finally {
+        imageProcessingCount--;
+      }
       if (text.length >= 3) {
         result = await processText(
           result,
