@@ -55,6 +55,30 @@ function del(key) {
   });
 }
 
+function incr(key) {
+  return new Promise((resolve, reject) => {
+    client.incr(key, (err, reply) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(reply);
+      }
+    });
+  });
+}
+
+function decr(key) {
+  return new Promise((resolve, reject) => {
+    client.decr(key, (err, reply) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(reply);
+      }
+    });
+  });
+}
+
 function quit() {
   return new Promise((resolve, reject) => {
     client.quit(err => {
@@ -71,5 +95,7 @@ export default {
   set,
   get,
   del,
+  incr,
+  decr,
   quit,
 };
