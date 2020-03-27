@@ -21,7 +21,6 @@ import ga from './ga';
 const app = new Koa();
 const router = Router();
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
-let imageProcessingCount = 0;
 
 app.use(async (ctx, next) => {
   try {
@@ -175,18 +174,24 @@ const singleUserHandler = async (
       process.env.IMAGE_MESSAGE_ENABLED === 'TRUE'
     ) {
       const context = (await redis.get(userId)) || {};
-      if (imageProcessingCount >= (process.env.MAX_IMAGE_PROCESS_NUMBER || 3)) {
+
+      // Limit the number of images that can be processed simultaneously.
+      // To avoid race condiction,
+      // use `incr` to increase and read 'imageProcessingCount'(one step)
+      // instead of using `get` then check to `incr` or do noting(two step).
+      const imageProcessingCount = await redis.incr('imageProcessingCount');
+      if (imageProcessingCount > (process.env.MAX_IMAGE_PROCESS_NUMBER || 3)) {
         console.log('[LOG] request abort, too many images are processing now.');
         lineClient('/message/reply', {
           replyToken,
           messages: messageBotIsBusy,
         });
         clearTimeout(timerId);
+        await redis.decr('imageProcessingCount');
         return;
       }
 
       let text = '';
-      imageProcessingCount++;
       try {
         const res = await downloadFile(otherFields.message.id);
         uploadImageFile(res.clone(), otherFields.message.id);
@@ -196,7 +201,7 @@ const singleUserHandler = async (
         console.error(e);
         rollbar.error(e);
       } finally {
-        imageProcessingCount--;
+        await redis.decr('imageProcessingCount');
       }
       if (text.length >= 3) {
         result = await processText(
@@ -360,3 +365,7 @@ process.on('SIGINT', async () => {
     process.exit(1);
   }
 });
+
+// If shutdown during imageProcessing, count will be non-zero value on next deploy.
+// So reset imageProcessingCount to 0 every time.
+redis.set('imageProcessingCount', 0);
