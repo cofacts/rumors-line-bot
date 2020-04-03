@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "cofacts/schemas/userArticleLink",
+  "$comment": "design document https://g0v.hackmd.io/eIeU2g86Tfu5VnLazNfUvQ",
+  "description": "A representation of an UserSettings",
+  "title": "UserSettings",
+  "type": "object",
+
+  "properties": {
+    "id": {
+      "isObjectId": true
+    },
+    "userId": {
+      "type": "string"
+    },
+    "allowNewReplyUpdate": {
+      "type": "boolean"
+    },
+    "newReplyNotifyToken": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "string" }
+      ]
+    }
+  },
+  "required": [
+    "userId",
+    "allowNewReplyUpdate",
+    "newReplyNotifyToken"
+  ]
+}
