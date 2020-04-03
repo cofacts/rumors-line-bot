@@ -1,8 +1,8 @@
-jest.mock('../../gql');
+jest.mock('src/lib/gql');
 
 import choosingReply from '../choosingReply';
 import * as apiResult from '../__fixtures__/choosingReply';
-import gql from '../../gql';
+import gql from 'src/lib/gql';
 
 describe('should select reply by replyId', () => {
   const params = {

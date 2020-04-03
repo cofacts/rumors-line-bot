@@ -1,13 +1,13 @@
 import stringSimilarity from 'string-similarity';
 import { t } from 'ttag';
-import gql from '../gql';
+import gql from 'src/lib/gql';
 import {
   createPostbackAction,
   isNonsenseText,
   ellipsis,
   ARTICLE_SOURCES,
 } from './utils';
-import ga from '../ga';
+import ga from 'src/lib/ga';
 
 const SIMILARITY_THRESHOLD = 0.95;
 

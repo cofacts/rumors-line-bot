@@ -1,5 +1,5 @@
-import ga from '../ga';
-import gql from '../gql';
+import ga from '../../lib/ga';
+import gql from '../../lib/gql';
 import { REASON_PREFIX, getArticleURL, createArticleShareReply } from './utils';
 
 export default async function askingArticleSubmission(params) {

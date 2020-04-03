@@ -1,8 +1,8 @@
-jest.mock('../../gql');
+jest.mock('src/lib/gql');
 
 import initState from '../initState';
 import * as apiResult from '../__fixtures__/initState';
-import gql from '../../gql';
+import gql from 'src/lib/gql';
 
 it('article found', async () => {
   gql.__push(apiResult.longArticle);

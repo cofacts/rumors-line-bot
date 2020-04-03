@@ -1,8 +1,8 @@
-jest.mock('../../gql');
+jest.mock('src/lib/gql');
 
 import choosingArticle from '../choosingArticle';
 import * as apiResult from '../__fixtures__/choosingArticle';
-import gql from '../../gql';
+import gql from 'src/lib/gql';
 
 it('should select article by articleId', async () => {
   gql.__push(apiResult.selectedArticleId);

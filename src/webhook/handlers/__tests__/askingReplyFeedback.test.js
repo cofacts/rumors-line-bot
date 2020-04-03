@@ -1,8 +1,8 @@
-jest.mock('../../gql');
+jest.mock('src/lib/gql');
 
 import askingReplyFeedback from '../askingReplyFeedback';
 import * as apiResult from '../__fixtures__/askingReplyFeedback';
-import gql from '../../gql';
+import gql from 'src/lib/gql';
 import { DOWNVOTE_PREFIX } from '../utils';
 
 const commonParamsYes = {
