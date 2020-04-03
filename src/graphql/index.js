@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { ApolloServer } from 'apollo-server-koa';
+import { ApolloServer, makeExecutableSchema } from 'apollo-server-koa';
 
-const server = new ApolloServer({
+export const schema = makeExecutableSchema({
   typeDefs: fs.readFileSync(path.join(__dirname, `./typeDefs.graphql`), {
     encoding: 'utf-8',
   }),
@@ -15,5 +15,7 @@ const server = new ApolloServer({
       return resolvers;
     }, {}),
 });
+
+const server = new ApolloServer({ schema });
 
 export default server.getMiddleware();
