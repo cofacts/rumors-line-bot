@@ -17,5 +17,6 @@ module.exports = {
     [
       'ttag', {resolve: {translations: `i18n/${process.env.LOCALE || 'en_US'}.po`}}
     ],
+    ["module-resolver", { "root": ["./"] }]
   ]
 }
