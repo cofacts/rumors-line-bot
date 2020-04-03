@@ -1,8 +1,8 @@
 import { t } from 'ttag';
 import Router from 'koa-router';
-import rollbar from '../lib/rollbar';
+import rollbar from 'src/lib/rollbar';
 
-import redis from '../lib/redisClient';
+import redis from 'src/lib/redisClient';
 import lineClient from './lineClient';
 import checkSignatureAndParse from './checkSignatureAndParse';
 import handleInput from './handleInput';

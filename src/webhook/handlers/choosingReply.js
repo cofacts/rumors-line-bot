@@ -1,5 +1,5 @@
 import { t } from 'ttag';
-import gql from '../../lib/gql';
+import gql from 'src/lib/gql';
 import {
   createPostbackAction,
   createReferenceWords,
@@ -9,7 +9,7 @@ import {
   getLIFFURL,
   DOWNVOTE_PREFIX,
 } from './utils';
-import ga from '../../lib/ga';
+import ga from 'src/lib/ga';
 
 export default async function choosingReply(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
