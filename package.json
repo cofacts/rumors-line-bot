@@ -34,7 +34,7 @@
     "@babel/polyfill": "^7.7.0",
     "@babel/runtime-corejs2": "^7.7.0",
     "@koa/cors": "^2.2.3",
-    "@line/bot-sdk": "^6.0.0",
+    "@line/bot-sdk": "^6.8.4",
     "apollo-server-koa": "^2.11.0",
     "googleapis": "^36.0.0",
     "grapheme-splitter": "^1.0.4",

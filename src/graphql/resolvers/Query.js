@@ -1,3 +1,6 @@
 export default {
-  hello: () => 'world',
+  insights() {
+    // Resolvers in next level
+    return {};
+  },
 };

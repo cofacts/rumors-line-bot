@@ -1,3 +1,125 @@
 type Query {
-  hello: String
+  insights: MessagingAPIInsight
+}
+
+type MessagingAPIInsight {
+
+  """
+  Ref: https://developers.line.biz/en/reference/messaging-api/#get-number-of-delivery-messages
+  """
+  messageDelivery(date: MessagingAPIDate!): MessagingAPIMessageDeliveryInsight
+
+  """
+  Ref: https://developers.line.biz/en/reference/messaging-api/#get-number-of-followers
+  """
+  followers(date: MessagingAPIDate!): MessagingAPIFollowersInsight
+
+  """
+  Ref: https://developers.line.biz/en/reference/messaging-api/#get-demographic
+  """
+  demographic(date: MessagingAPIDate!): MessaginAPIDemographicInsight
+}
+
+type MessagingAPIMessageDeliveryInsight {
+  status: MessagingAPIInsightStatus
+  broadcast: Int
+  targeting: Int
+  autoResponse: Int
+  welcomeResponse: Int
+  chat: Int
+  apiPush: Int
+  apiMulticast: Int
+  apiNarrowcast: Int
+  apiReply: Int
+}
+
+
+type MessagingAPIFollowersInsight {
+  status: MessagingAPIInsightStatus
+  followers: Int
+  targetedReaches: Int
+  blocks: Int
+}
+
+type MessaginAPIDemographicInsight {
+  available: Boolean
+  genders: [MessagingAPIInsightGenderStat]
+  ages: [MessagingAPIInsightAgeStat]
+  areas: [MessagingAPIInsightAreaStat]
+  appTypes: [MessagingAPIInsightAppTypeStat]
+  subscriptionPeriods: [MessagingAPIInsightSubscriptionStat]
+}
+
+type MessagingAPIInsightGenderStat {
+  """
+  Raw string from Messaging API
+  Ref: https://developers.line.biz/en/reference/messaging-api/#response-28
+  """
+  gender: String
+  percentage: Float
+}
+
+type MessagingAPIInsightAgeStat {
+  """
+  Raw string from Messaging API
+  Ref: https://developers.line.biz/en/reference/messaging-api/#response-28
+  """
+  age: String
+
+  # null when unknown
+  from: Int
+
+  # null for "from50" or unknown
+  to: Int
+
+  percentage: Float
+}
+
+type MessagingAPIInsightAreaStat {
+  """
+  Raw string from Messaging API
+  Ref: https://developers.line.biz/en/reference/messaging-api/#response-28
+  """
+  area: String
+
+  percentage: Float
+}
+
+type MessagingAPIInsightAppTypeStat {
+  """
+  Raw string from Messaging API
+  Ref: https://developers.line.biz/en/reference/messaging-api/#response-28
+  """
+  appType: String
+
+  percentage: Float
+}
+
+type MessagingAPIInsightSubscriptionStat {
+  """
+  Raw string from Messaging API
+  Ref: https://developers.line.biz/en/reference/messaging-api/#response-28
+  """
+  subscriptionPeriod: String
+
+  # null when unknown; -1 for over365days
+  withinDays: Int
+
+  percentage: Float
+}
+
+"""
+Date format accepted by messaging API, in form of "yyyyMMdd".
+Ref: https://developers.line.biz/en/reference/messaging-api/#get-number-of-followers
+"""
+scalar MessagingAPIDate
+
+"""
+1-1 mapping of status returned by Messaging API.
+Ref: https://developers.line.biz/en/reference/messaging-api/#get-number-of-followers
+"""
+enum MessagingAPIInsightStatus {
+  READY
+  UNREADY
+  OUT_OF_SERVICE
 }
