@@ -1,10 +1,10 @@
-jest.mock("@line/bot-sdk");
+jest.mock('@line/bot-sdk');
 import {
   mockedGetNumberOfMessageDeliveries,
   mockedGetNumberOfFollowers,
-  mockedGetFriendDemographics
-} from "@line/bot-sdk";
-import { gql } from "../testUtils";
+  mockedGetFriendDemographics,
+} from '@line/bot-sdk';
+import { gql } from '../testUtils';
 
 beforeEach(() => {
   mockedGetNumberOfMessageDeliveries.mockClear();
@@ -12,11 +12,11 @@ beforeEach(() => {
   mockedGetFriendDemographics.mockClear();
 });
 
-it("messageDelivery returns messageDelivery data", async () => {
+it('messageDelivery returns messageDelivery data', async () => {
   mockedGetNumberOfMessageDeliveries.mockImplementationOnce(() => ({
-    status: "ready",
+    status: 'ready',
     broadcast: 5385,
-    targeting: 522
+    targeting: 522,
   }));
 
   const result = await gql`
@@ -60,12 +60,12 @@ it("messageDelivery returns messageDelivery data", async () => {
   `);
 });
 
-it("followers returns followers data", async () => {
+it('followers returns followers data', async () => {
   mockedGetNumberOfFollowers.mockImplementationOnce(() => ({
-    status: "ready",
+    status: 'ready',
     followers: 7620,
     targetedReaches: 5848,
-    blocks: 237
+    blocks: 237,
   }));
   const result = await gql`
     {
@@ -95,87 +95,87 @@ it("followers returns followers data", async () => {
   `);
 });
 
-it("demographic returns demographic data", async () => {
+it('demographic returns demographic data', async () => {
   mockedGetFriendDemographics.mockImplementationOnce(() => ({
     available: true,
     genders: [
       {
-        gender: "unknown",
-        percentage: 37.6
+        gender: 'unknown',
+        percentage: 37.6,
       },
       {
-        gender: "male",
-        percentage: 31.8
+        gender: 'male',
+        percentage: 31.8,
       },
       {
-        gender: "female",
-        percentage: 30.6
-      }
+        gender: 'female',
+        percentage: 30.6,
+      },
     ],
     ages: [
       {
-        age: "unknown",
-        percentage: 37.6
+        age: 'unknown',
+        percentage: 37.6,
       },
       {
-        age: "from50",
-        percentage: 17.3
+        age: 'from50',
+        percentage: 17.3,
       },
       {
-        age: "from45to50",
-        percentage: 12.1
-      }
+        age: 'from45to50',
+        percentage: 12.1,
+      },
     ],
     areas: [
       {
-        area: "unknown",
-        percentage: 42.9
+        area: 'unknown',
+        percentage: 42.9,
       },
       {
-        area: "徳島",
-        percentage: 2.9
-      }
+        area: '徳島',
+        percentage: 2.9,
+      },
     ],
     appTypes: [
       {
-        appType: "ios",
-        percentage: 62.4
+        appType: 'ios',
+        percentage: 62.4,
       },
       {
-        appType: "android",
-        percentage: 27.7
+        appType: 'android',
+        percentage: 27.7,
       },
       {
-        appType: "others",
-        percentage: 9.9
-      }
+        appType: 'others',
+        percentage: 9.9,
+      },
     ],
     subscriptionPeriods: [
       {
-        subscriptionPeriod: "over365days",
-        percentage: 96.4
+        subscriptionPeriod: 'over365days',
+        percentage: 96.4,
       },
       {
-        subscriptionPeriod: "within365days",
-        percentage: 1.9
+        subscriptionPeriod: 'within365days',
+        percentage: 1.9,
       },
       {
-        subscriptionPeriod: "within180days",
-        percentage: 1.2
+        subscriptionPeriod: 'within180days',
+        percentage: 1.2,
       },
       {
-        subscriptionPeriod: "within90days",
-        percentage: 0.5
+        subscriptionPeriod: 'within90days',
+        percentage: 0.5,
       },
       {
-        subscriptionPeriod: "within30days",
-        percentage: 0.1
+        subscriptionPeriod: 'within30days',
+        percentage: 0.1,
       },
       {
-        subscriptionPeriod: "within7days",
-        percentage: 0
-      }
-    ]
+        subscriptionPeriod: 'within7days',
+        percentage: 0,
+      },
+    ],
   }));
 
   const result = await gql`
