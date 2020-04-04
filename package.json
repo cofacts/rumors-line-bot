@@ -13,7 +13,8 @@
     "preliff": "bash build-liff.sh",
     "liff": "gh-pages -d liff",
     "i18n:extract": "ttag update i18n/zh_TW.po src/",
-    "i18n:validate": "ttag validate i18n/zh_TW.po"
+    "i18n:validate": "ttag validate i18n/zh_TW.po",
+    "clean": "rm -rf build"
   },
   "repository": {
     "type": "git",
@@ -77,14 +78,11 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "roots": [
-      "src"
-    ],
     "collectCoverage": true,
     "coveragePathIgnorePatterns": [
       "/__fixtures__/"
     ],
-    "setupTestFrameworkScriptFile": "./setup-jest.js"
+    "setupFilesAfterEnv": ["./setup-jest.js"]
   },
   "engines": {
     "node": "12.x"
