@@ -1,3 +1,6 @@
+// ./index.js contains imports to redisClient, which should be mocked in unit tests.
+jest.mock('src/lib/redisClient');
+
 import { graphql } from 'graphql';
 import { schema } from './';
 
