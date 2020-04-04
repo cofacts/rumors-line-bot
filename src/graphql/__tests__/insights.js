@@ -1,4 +1,3 @@
-jest.mock('@line/bot-sdk');
 import {
   mockedGetNumberOfMessageDeliveries,
   mockedGetNumberOfFollowers,
