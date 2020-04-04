@@ -11,7 +11,7 @@ class AuthDirective extends SchemaDirectiveVisitor {
     field.resolve = (...args) => {
       const [, , context] = args;
 
-      if (!context.userContext) {
+      if (!context.userId || !context.userContext) {
         throw new AuthenticationError('Invalid authentication header');
       }
 

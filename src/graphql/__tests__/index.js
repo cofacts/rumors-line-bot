@@ -14,6 +14,7 @@ describe('getContext', () => {
     expect(context).toMatchInlineSnapshot(`
       Object {
         "userContext": null,
+        "userId": "",
       }
     `);
   });
@@ -38,6 +39,7 @@ describe('getContext', () => {
     expect(context).toMatchInlineSnapshot(`
       Object {
         "userContext": null,
+        "userId": "user1",
       }
     `);
   });
@@ -66,6 +68,7 @@ describe('getContext', () => {
           "foo": "bar",
           "nonce": "correctpass",
         },
+        "userId": "user1",
       }
     `);
   });

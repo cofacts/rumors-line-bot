@@ -46,6 +46,7 @@ export async function getContext({ ctx: { req } }) {
   }
 
   return {
+    userId,
     userContext,
   };
 }
