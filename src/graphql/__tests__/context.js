@@ -1,6 +1,6 @@
-import { gql } from "../testUtils";
+import { gql } from '../testUtils';
 
-it("context rejects anonymous users", async () => {
+it('context rejects anonymous users', async () => {
   const result = await gql`
     {
       context {
@@ -20,7 +20,7 @@ it("context rejects anonymous users", async () => {
   `);
 });
 
-it("Returns user context", async () => {
+it('Returns user context', async () => {
   const result = await gql`
     {
       context {
@@ -35,12 +35,12 @@ it("Returns user context", async () => {
     {},
     {
       userContext: {
-        state: "CHOOSING_ARTICLE",
+        state: 'CHOOSING_ARTICLE',
         issuedAt: 1586013070089,
         data: {
-          searchedText: "Foo"
-        }
-      }
+          searchedText: 'Foo',
+        },
+      },
     }
   );
   expect(result).toMatchInlineSnapshot(`
