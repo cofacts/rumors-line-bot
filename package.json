@@ -79,10 +79,15 @@
   "jest": {
     "testEnvironment": "node",
     "collectCoverage": true,
+    "roots": [
+      "<rootDir>/src"
+    ],
     "coveragePathIgnorePatterns": [
       "/__fixtures__/"
     ],
-    "setupFilesAfterEnv": ["./setup-jest.js"]
+    "setupFilesAfterEnv": [
+      "./setup-jest.js"
+    ]
   },
   "engines": {
     "node": "12.x"
