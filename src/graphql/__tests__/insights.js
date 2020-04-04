@@ -12,6 +12,44 @@ beforeEach(() => {
   mockedGetFriendDemographics.mockClear();
 });
 
+it('MessagingAPIDate throws error on invalid date', async () => {
+  const literalResult = await gql`
+    {
+      insights {
+        messageDelivery(date: "ABCDEFG") {
+          status
+        }
+      }
+    }
+  `();
+  expect(literalResult).toMatchInlineSnapshot(`
+    Object {
+      "errors": Array [
+        [GraphQLError: Expected value of type "MessagingAPIDate!", found "ABCDEFG"; Should be a string of "yyyyMMdd"],
+      ],
+    }
+  `);
+
+  const valueResult = await gql`
+    query($date: MessagingAPIDate!) {
+      insights {
+        messageDelivery(date: $date) {
+          status
+        }
+      }
+    }
+  `({
+    date: 'ABCDEFG',
+  });
+  expect(valueResult).toMatchInlineSnapshot(`
+    Object {
+      "errors": Array [
+        [GraphQLError: Variable "$date" got invalid value "ABCDEFG"; Expected type "MessagingAPIDate". Should be a string of "yyyyMMdd"],
+      ],
+    }
+  `);
+});
+
 it('messageDelivery returns messageDelivery data', async () => {
   mockedGetNumberOfMessageDeliveries.mockImplementationOnce(() => ({
     status: 'ready',
@@ -179,9 +217,9 @@ it('demographic returns demographic data', async () => {
   }));
 
   const result = await gql`
-    {
+    query($date: MessagingAPIDate!) {
       insights {
-        demographic(date: "20200401") {
+        demographic(date: $date) {
           available
           ages {
             age
@@ -209,7 +247,7 @@ it('demographic returns demographic data', async () => {
         }
       }
     }
-  `();
+  `({ date: '20200401' });
 
   expect(result).toMatchInlineSnapshot(`
     Object {
