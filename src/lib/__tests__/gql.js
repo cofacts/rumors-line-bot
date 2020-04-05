@@ -1,20 +1,20 @@
-jest.mock("node-fetch");
-jest.mock("../rollbar");
+jest.mock('node-fetch');
+jest.mock('../rollbar');
 
-import fetch from "node-fetch";
-import rollbar from "../rollbar";
-import gql from "../gql";
+import fetch from 'node-fetch';
+import rollbar from '../rollbar';
+import gql from '../gql';
 
 beforeEach(() => {
   fetch.mockClear();
   rollbar.error.mockClear();
 });
 
-it("invokes fetch and returns result", async () => {
+it('invokes fetch and returns result', async () => {
   fetch.mockImplementationOnce(() =>
     Promise.resolve({ json: () => Promise.resolve({ data: { foo: 1 } }) })
   );
-  const result = await gql`(bar: String){foo}`({ bar: "bar" });
+  const result = await gql`(bar: String){foo}`({ bar: 'bar' });
 
   expect(fetch.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -42,12 +42,12 @@ it("invokes fetch and returns result", async () => {
   `);
 });
 
-it("handles syntax error", async () => {
+it('handles syntax error', async () => {
   fetch.mockImplementationOnce(() =>
     Promise.resolve({
       status: 400,
       json: () =>
-        Promise.resolve({ data: null, errors: [{ message: "Syntax error" }] })
+        Promise.resolve({ data: null, errors: [{ message: 'Syntax error' }] }),
     })
   );
   const result = await gql`
@@ -59,12 +59,12 @@ it("handles syntax error", async () => {
   expect(result).toMatchInlineSnapshot(`[Error: GraphQL Error: Syntax error]`);
 });
 
-it("handles runtime error", async () => {
+it('handles runtime error', async () => {
   fetch.mockImplementationOnce(() =>
     Promise.resolve({
       status: 200,
       json: () =>
-        Promise.resolve({ data: null, errors: [{ message: "Runtime error" }] })
+        Promise.resolve({ data: null, errors: [{ message: 'Runtime error' }] }),
     })
   );
   const result = await gql`
