@@ -1,7 +1,7 @@
-jest.mock("src/lib/gql");
+jest.mock('src/lib/gql');
 
-import apiGql from "src/lib/gql";
-import { gql } from "../testUtils";
+import apiGql from 'src/lib/gql';
+import { gql } from '../testUtils';
 
 beforeEach(() => {
   apiGql.__reset();
@@ -11,7 +11,7 @@ afterEach(() => {
   expect(apiGql.__finished()).toBe(true);
 });
 
-it("rejects anonymous users", async () => {
+it('rejects anonymous users', async () => {
   const result = await gql`
     mutation {
       voteReply(vote: UPVOTE)
@@ -29,7 +29,7 @@ it("rejects anonymous users", async () => {
   `);
 });
 
-it("do not submit with wrong context", async () => {
+it('do not submit with wrong context', async () => {
   const result = await gql`
     mutation {
       voteReply(vote: UPVOTE)
@@ -37,11 +37,11 @@ it("do not submit with wrong context", async () => {
   `(
     {},
     {
-      userId: "U12345678",
+      userId: 'U12345678',
       userContext: {
-        state: "INIT_STATE",
-        data: {}
-      }
+        state: 'INIT_STATE',
+        data: {},
+      },
     }
   );
   expect(result).toMatchInlineSnapshot(`
@@ -56,11 +56,11 @@ it("do not submit with wrong context", async () => {
   `);
 });
 
-it("submits feedback on article reply", async () => {
+it('submits feedback on article reply', async () => {
   apiGql.__push({
     data: {
-      CreateOrUpdateArticleReplyFeedback: { feedbackCount: 3 }
-    }
+      CreateOrUpdateArticleReplyFeedback: { feedbackCount: 3 },
+    },
   });
 
   const result = await gql`
@@ -70,11 +70,11 @@ it("submits feedback on article reply", async () => {
   `(
     {},
     {
-      userId: "U12345678",
+      userId: 'U12345678',
       userContext: {
-        state: "ASKING_REPLY_FEEDBACK",
-        data: { selectedArticleId: "Foo", selectedReplyId: "Bar" }
-      }
+        state: 'ASKING_REPLY_FEEDBACK',
+        data: { selectedArticleId: 'Foo', selectedReplyId: 'Bar' },
+      },
     }
   );
   expect(result).toMatchInlineSnapshot(`
