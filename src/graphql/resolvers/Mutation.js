@@ -28,31 +28,6 @@ export default {
     return id;
   },
 
-  async submitReplyRequest(root, args, context) {
-    const {
-      userContext: {
-        data: { selectedArticleId },
-      },
-      userId,
-    } = context;
-
-    if (!selectedArticleId) {
-      throw new Error('selectedArticleId not in user context');
-    }
-
-    const {
-      data: { CreateOrUpdateReplyRequest },
-    } = await gql`
-      mutation($id: String!) {
-        CreateOrUpdateReplyRequest(articleId: $id) {
-          replyRequestCount
-        }
-      }
-    `({ id: selectedArticleId }, { userId });
-
-    return CreateOrUpdateReplyRequest.replyRequestCount;
-  },
-
   async voteReply(root, args, context) {
     const { vote } = args;
     const {

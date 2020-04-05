@@ -18,12 +18,6 @@ type Mutation {
   submitArticle: ID @auth
 
   """
-  Submit empty reply request to the articleId in context.
-  Returns number of reply request count after submit
-  """
-  submitReplyRequest: Int @auth
-
-  """
   Add feedback to article-reply in context.
   Returns feedback count after vote.
   """
