@@ -6,7 +6,7 @@ module.exports = {
     'plugin:import/warnings',
     'prettier',
   ],
-  env: {node: true, es6: true, jest: true},
+  env: {node: true, es6: true, jest: true, browser: true},
   plugins: [
     'prettier',
   ],
