@@ -1,13 +1,13 @@
-jest.mock("node-fetch");
+jest.mock('node-fetch');
 
-import fetch from "node-fetch";
-import gql from "../gql";
+import fetch from 'node-fetch';
+import gql from '../gql';
 
-it("invokes fetch and returns result", async () => {
+it('invokes fetch and returns result', async () => {
   fetch.mockImplementationOnce(() =>
     Promise.resolve({ json: () => Promise.resolve({ data: { foo: 1 } }) })
   );
-  const result = await gql`(bar: String){foo}`({ bar: "bar" });
+  const result = await gql`(bar: String){foo}`({ bar: 'bar' });
 
   expect(fetch.mock.calls).toMatchInlineSnapshot(`
     Array [
