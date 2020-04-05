@@ -31,6 +31,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.js$/,
+        use: ['babel-loader'],
+      },
+      {
         test: /\.svelte$/,
         use: [
           {
@@ -41,7 +45,10 @@ module.exports = {
                   'ttag',
                   {
                     resolve: {
-                      translations: path.resolve(__dirname, './i18n/zh_TW.po'),
+                      translations: path.resolve(
+                        __dirname,
+                        `./i18n/${process.env.LOCALE}.po`
+                      ),
                     },
                   },
                 ],
