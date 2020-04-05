@@ -12,12 +12,6 @@ type Query {
 
 type Mutation {
   """
-  Submits searchedText in context, then store articleId to context.
-  Returns created article ID.
-  """
-  submitArticle: ID @auth
-
-  """
   Add feedback to article-reply in context.
   Returns feedback count after vote.
   """
