@@ -17,7 +17,9 @@
     "preliff": "bash build-liff.sh",
     "i18n:extract": "ttag update i18n/zh_TW.po src/",
     "i18n:validate": "ttag validate i18n/zh_TW.po",
-    "clean": "rm -rf build"
+    "clean": "run-s clean:*",
+    "clean:server": "rm -rf build",
+    "clean:liff": "rm -rf liff"
   },
   "repository": {
     "type": "git",

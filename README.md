@@ -77,7 +77,12 @@ We recommend using [ngrok configuration file](https://ngrok.com/docs#config) to 
 
 We are using LIFF to collect user's reason when submitting article & negative feedbacks.
 
-It is accessible under `/liff` of open dev server or production chatbot server.
+It is accessible under `/liff` of dev server (http://localhost:5001) or production chatbot server.
+
+In development mode, it spins a webpack-dev-server on `localhost:<LIFF_DEV_PORT>` (default to `8080`),
+and `/liff` of chatbot server proxies all requests to the webpack-dev-server.
+
+In production, LIFF files are compiled to `/liff` directory and served as static files by the chatbot server.
 
 To connect with chatbot, some setup on [LINE developer console](https://developers.line.biz/console/) are required.
 

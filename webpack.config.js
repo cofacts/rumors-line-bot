@@ -85,5 +85,6 @@ module.exports = {
 
   devServer: {
     port: process.env.LIFF_DEV_PORT,
+    publicPath: '/liff/',
   },
 };
