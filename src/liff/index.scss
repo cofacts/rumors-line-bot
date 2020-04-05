@@ -1,0 +1,40 @@
+$mdc-typography-font-family: unquote("'Noto Sans TC', Roboto, sans-serif");
+
+// https://github.com/hperrin/svelte-material-ui/blob/master/site/src/routes/demo/typography.scss
+@import "@material/typography/mixins";
+
+html {
+  @include mdc-typography('body1');
+}
+
+h1 {
+  @include mdc-typography('headline1');
+}
+
+h2 {
+  @include mdc-typography('headline2');
+}
+
+h3 {
+  @include mdc-typography('headline3');
+}
+
+h4 {
+  @include mdc-typography('headline4');
+}
+
+h5 {
+  @include mdc-typography('headline5');
+}
+
+h6 {
+  @include mdc-typography('headline6');
+}
+
+caption {
+  @include mdc-typography('caption');
+}
+
+body {
+  padding: 16px;
+}

@@ -58,6 +58,25 @@ module.exports = {
         ],
       },
       {
+        test: /\.scss$/,
+        use: [
+          /**
+           * MiniCssExtractPlugin doesn't support HMR.
+           * For developing, use 'style-loader' instead.
+           * */
+          prod ? MiniCssExtractPlugin.loader : 'style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                includePaths: ['./node_modules', './src/liff'],
+              },
+            },
+          },
+        ],
+      },
+      {
         test: /\.css$/,
         use: [
           /**

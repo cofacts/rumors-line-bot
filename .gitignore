@@ -49,5 +49,5 @@ client_secret.json
 
 *.log
 
-# Ignore all built files under liff
-liff
+# Ignore all built files under /liff
+/liff
