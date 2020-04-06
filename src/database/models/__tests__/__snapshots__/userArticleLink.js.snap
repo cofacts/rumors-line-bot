@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`userArticleLink [model] should create a document 1`] = `
+Object {
+  "articleId": "this_is_article_id",
+  "createdAt": 1989-06-04T00:00:00.000Z,
+  "lastPositiveFeedbackRepliedAt": null,
+  "lastRepliedAt": null,
+  "lastViewedAt": null,
+  "userId": "this_is_user_id",
+}
+`;
+
+exports[`userArticleLink [model] should fail to create a document 1`] = `
+"[
+  {
+    \\"keyword\\": \\"required\\",
+    \\"dataPath\\": \\"\\",
+    \\"schemaPath\\": \\"#/required\\",
+    \\"params\\": {
+      \\"missingProperty\\": \\"userId\\"
+    },
+    \\"message\\": \\"should have required property 'userId'\\"
+  }
+]"
+`;
+
+exports[`userArticleLink [schema] should fail with wrong type of createdAt 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "dataPath": ".createdAt",
+      "keyword": "instanceOf",
+      "message": "should pass \\"instanceOf\\" keyword validation",
+      "params": Object {
+        "keyword": "instanceOf",
+      },
+      "schemaPath": "#/properties/createdAt/instanceOf",
+    },
+  ],
+  "valid": false,
+}
+`;
+
+exports[`userArticleLink [schema] should pass 1`] = `
+Object {
+  "errors": null,
+  "valid": true,
+}
+`;
