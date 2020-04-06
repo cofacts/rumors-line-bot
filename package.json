@@ -4,6 +4,8 @@
   "description": "Line bot that checks if a message contains internet rumor. Edit",
   "main": "index.js",
   "scripts": {
+    "pretest": "docker-compose up -d && sleep 10",
+    "posttest": "docker-compose down",
     "test": "jest",
     "start": "pm2-runtime start ecosystem.config.js --env production",
     "dev": "run-p dev:*",

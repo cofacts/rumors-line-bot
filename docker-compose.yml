@@ -1,0 +1,13 @@
+version: '2'
+services:
+  mongo-container:
+    image: mongo:3.6
+    container_name: mongodb
+    environment:
+        - MONGO_INITDB_ROOT_USERNAME=root
+        - MONGO_INITDB_ROOT_PASSWORD=root-test-password
+    ports:
+      - "27017:27017"
+    volumes:
+      - "./data/mongo:/data/db"
+    command: mongod
