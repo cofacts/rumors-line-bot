@@ -176,6 +176,7 @@ $ heroku config:set LINE_CHANNEL_TOKEN=<Your channel token>
 $ heroku config:set GOOGLE_CREDENTIALS=<Your google credential (optional)>
 $ heroku config:set LIFF_URL=<LIFF URL>
 $ heroku config:set IMAGE_MESSAGE_ENABLED=true
+$ heroku config:set MONGODB_URI=<MONGODB URI>
 ```
 
 ## Google Analytics Events table
