@@ -4,11 +4,17 @@ import Base from './base';
  * https://g0v.hackmd.io/eIeU2g86Tfu5VnLazNfUvQ
  */
 class UserArticleLink extends Base {
+  static get collection() {
+    return 'userArticleLink';
+  }
+
   /**
-   *
+   * @static
    * @override
+   * @param {UserArticleLink} data
+   * @returns {UserArticleLink}
    */
-  async create(data) {
+  static async create(data) {
     // Set default value
     const {
       createdAt = new Date(),
@@ -26,6 +32,31 @@ class UserArticleLink extends Base {
       lastPositiveFeedbackRepliedAt,
     });
   }
+
+  /**
+   * @type {?import('mongodb').ObjectId}
+   */
+  _id;
+  /**
+   * @type {string}
+   */
+  userId;
+  /**
+   * @type {string}
+   */
+  articleId;
+  /**
+   * @type {?Date}
+   */
+  lastRepliedAt;
+  /**
+   * @type {?Date}
+   */
+  lastRepliedAt;
+  /**
+   * @type {?Date}
+   */
+  lastPositiveFeedbackRepliedAt;
 }
 
-export default new UserArticleLink('userArticleLink');
+export default UserArticleLink;

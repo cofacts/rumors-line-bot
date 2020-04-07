@@ -34,15 +34,12 @@ export default class CofactsMongoClient {
     return this.mongoClient.db(dbName);
   }
 
-  async insert(collection, data) {
-    return this.db.collection(collection).insertOne(data);
-  }
-
-  async find(collection, query) {
-    return this.db
-      .collection(collection)
-      .find(query)
-      .toArray();
+  /**
+   *
+   * @param {string} name
+   */
+  async collection(name) {
+    return this.db.collection(name);
   }
 
   async close() {

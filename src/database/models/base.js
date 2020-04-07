@@ -1,19 +1,30 @@
 import { compile } from './schemaValidator';
-import client from '../mongoClient';
+import mongoClient from '../mongoClient';
 
 export default class Base {
-  constructor(collection) {
-    this.collection = collection;
-    this.validator = compile(collection);
+  /**
+   * @returns {string} collection
+   */
+  static get collection() {
+    throw new Error('not yet implement');
   }
 
-  async create(data) {
+  static get validator() {
+    return compile(this.collection);
+  }
+
+  static get client() {
+    return mongoClient.getInstance().then(e => e.collection(this.collection));
+  }
+
+  /**
+   *
+   * @param {object} data
+   */
+  static async create(data) {
     const { valid, errors } = this.validator(data);
     if (valid) {
-      const result = await (await client.getInstance()).insert(
-        this.collection,
-        data
-      );
+      const result = await (await this.client).insertOne(data);
       return result.ops[0];
     }
     if (errors) {
