@@ -1,5 +1,5 @@
 import { compile } from '../schemaValidator';
-import userSettings from '../userSettings';
+import UserSettings from '../userSettings';
 
 const userSettingsValidator = compile('userSettings');
 
@@ -34,7 +34,7 @@ describe('userSettings', () => {
   });
 
   it('[model] should create a document', async () => {
-    const result = await userSettings.create({ userId: 'this_is_user_id' });
+    const result = await UserSettings.create({ userId: 'this_is_user_id' });
     delete result._id;
 
     expect(result).toMatchSnapshot();
@@ -42,7 +42,7 @@ describe('userSettings', () => {
 
   it('[model] should fail to create a document', async () => {
     expect(
-      userSettings.create({
+      UserSettings.create({
         allowNewReplyUpdate: false,
       })
     ).rejects.toThrowErrorMatchingSnapshot();

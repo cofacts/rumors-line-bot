@@ -1,7 +1,7 @@
 import Client from '../../mongoClient';
 import MockDate from 'mockdate';
 import { compile } from '../schemaValidator';
-import userArticleLink from '../userArticleLink';
+import UserArticleLink from '../userArticleLink';
 
 const userArticleLinkValidator = compile('userArticleLink');
 
@@ -41,7 +41,7 @@ describe('userArticleLink', () => {
   });
 
   it('[model] should create a document', async () => {
-    const result = await userArticleLink.create({
+    const result = await UserArticleLink.create({
       userId: 'this_is_user_id',
       articleId: 'this_is_article_id',
     });
@@ -52,7 +52,7 @@ describe('userArticleLink', () => {
   it('[model] should fail to create a document', async () => {
     MockDate.set(612921600011);
     expect(
-      userArticleLink.create({
+      UserArticleLink.create({
         articleId: 'this_is_article_id',
       })
     ).rejects.toThrowErrorMatchingSnapshot();
