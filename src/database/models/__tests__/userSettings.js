@@ -1,9 +1,15 @@
 import { compile } from '../schemaValidator';
+import MockDate from 'mockdate';
 import UserSettings from '../userSettings';
 
 const userSettingsValidator = compile('userSettings');
 
 describe('userSettings', () => {
+  beforeAll(async () => {
+    MockDate.set(612921600000);
+    await (await UserSettings.client).drop();
+  });
+
   it('[schema] should pass with newReplyNotifyToken is null', async () => {
     const data = {
       userId: 'this_is_user_id',
@@ -46,5 +52,69 @@ describe('userSettings', () => {
         allowNewReplyUpdate: false,
       })
     ).rejects.toThrowErrorMatchingSnapshot();
+  });
+
+  it('[model] findByUserId()', async () => {
+    const userId = 'userId-0';
+    await UserSettings.create({ userId, allowNewReplyUpdate: false });
+
+    const result = await UserSettings.findByUserId(userId);
+    delete result._id;
+
+    expect(result).toMatchSnapshot();
+  });
+
+  it('[model] findByUserId() upsert', async () => {
+    const userId = 'userId-1';
+    const result = await UserSettings.findByUserId(userId);
+    delete result._id;
+
+    expect(result).toMatchSnapshot();
+  });
+
+  it('[model] setAllowNewReplyUpdate()', async () => {
+    const userId = 'userId-2';
+    await UserSettings.create({ userId, allowNewReplyUpdate: true });
+
+    const result = await UserSettings.setAllowNewReplyUpdate(userId, false);
+
+    delete result._id;
+
+    expect(result).toMatchSnapshot();
+  });
+
+  it('[model] setAllowNewReplyUpdate() upsert', async () => {
+    const userId = 'userId-3';
+    const result = await UserSettings.setAllowNewReplyUpdate(userId, false);
+
+    delete result._id;
+
+    expect(result).toMatchSnapshot();
+  });
+
+  it('[model] setNewReplyNotifyToken()', async () => {
+    const userId = 'userId-4';
+    await UserSettings.create({ userId, newReplyNotifyToken: 'notify-token' });
+
+    const result = await UserSettings.setNewReplyNotifyToken(
+      userId,
+      'notify-token-new'
+    );
+
+    delete result._id;
+
+    expect(result).toMatchSnapshot();
+  });
+
+  it('[model] setNewReplyNotifyToken() upsert', async () => {
+    const userId = 'userId-5';
+    const result = await UserSettings.setNewReplyNotifyToken(
+      userId,
+      'notify-token'
+    );
+
+    delete result._id;
+
+    expect(result).toMatchSnapshot();
   });
 });
