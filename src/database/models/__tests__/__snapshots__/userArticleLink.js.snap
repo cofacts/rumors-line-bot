@@ -1,5 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`userArticleLink [model] findByUserIdAndArticleId() (upsert) 1`] = `
+Object {
+  "articleId": "articleId-1",
+  "createdAt": 1989-06-04T00:00:00.000Z,
+  "lastPositiveFeedbackRepliedAt": null,
+  "lastRepliedAt": null,
+  "lastViewedAt": null,
+  "userId": "userId-1",
+}
+`;
+
+exports[`userArticleLink [model] findByUserIdAndArticleId() 1`] = `
+Object {
+  "articleId": "articleId-0",
+  "createdAt": 1989-06-04T00:00:00.000Z,
+  "lastPositiveFeedbackRepliedAt": null,
+  "lastRepliedAt": null,
+  "lastViewedAt": null,
+  "userId": "userId-0",
+}
+`;
+
 exports[`userArticleLink [model] should create a document 1`] = `
 Object {
   "articleId": "this_is_article_id",
@@ -23,6 +45,28 @@ exports[`userArticleLink [model] should fail to create a document 1`] = `
     \\"message\\": \\"should have required property 'userId'\\"
   }
 ]"
+`;
+
+exports[`userArticleLink [model] updateTimestamps() (upsert) 1`] = `
+Object {
+  "articleId": "articleId-3",
+  "createdAt": 1989-06-04T00:00:00.000Z,
+  "lastPositiveFeedbackRepliedAt": null,
+  "lastRepliedAt": null,
+  "lastViewedAt": 1989-06-04T00:01:00.000Z,
+  "userId": "userId-3",
+}
+`;
+
+exports[`userArticleLink [model] updateTimestamps() 1`] = `
+Object {
+  "articleId": "articleId-2",
+  "createdAt": 1989-06-04T00:00:00.000Z,
+  "lastPositiveFeedbackRepliedAt": null,
+  "lastRepliedAt": null,
+  "lastViewedAt": 1989-06-04T00:01:00.000Z,
+  "userId": "userId-2",
+}
 `;
 
 exports[`userArticleLink [schema] should fail with wrong type of createdAt 1`] = `

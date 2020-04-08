@@ -5,9 +5,12 @@ import UserArticleLink from '../userArticleLink';
 
 const userArticleLinkValidator = compile('userArticleLink');
 
+const FIXED_DATE = 612921600000;
+
 describe('userArticleLink', () => {
   beforeAll(async () => {
-    MockDate.set(612921600000);
+    MockDate.set(FIXED_DATE);
+    await (await UserArticleLink.client).drop();
   });
 
   afterAll(async () => {
@@ -50,11 +53,72 @@ describe('userArticleLink', () => {
   });
 
   it('[model] should fail to create a document', async () => {
-    MockDate.set(612921600011);
     expect(
       UserArticleLink.create({
         articleId: 'this_is_article_id',
       })
     ).rejects.toThrowErrorMatchingSnapshot();
+  });
+
+  it('[model] findByUserIdAndArticleId()', async () => {
+    const userId = 'userId-0';
+    const articleId = 'articleId-0';
+
+    await UserArticleLink.create({ userId, articleId });
+
+    const result = await UserArticleLink.findByUserIdAndArticleId(
+      userId,
+      articleId
+    );
+    delete result._id;
+
+    expect(result).toMatchSnapshot();
+  });
+
+  it('[model] findByUserIdAndArticleId() (upsert)', async () => {
+    const userId = 'userId-1';
+    const articleId = 'articleId-1';
+
+    const result = await UserArticleLink.findByUserIdAndArticleId(
+      userId,
+      articleId
+    );
+    delete result._id;
+
+    expect(result).toMatchSnapshot();
+  });
+
+  it('[model] updateTimestamps()', async () => {
+    const userId = 'userId-2';
+    const articleId = 'articleId-2';
+
+    await UserArticleLink.create({ userId, articleId });
+
+    const updatedDate = await UserArticleLink.updateTimestamps(
+      userId,
+      articleId,
+      {
+        lastViewedAt: new Date(FIXED_DATE + 60 * 1000),
+      }
+    );
+
+    delete updatedDate._id;
+    expect(updatedDate).toMatchSnapshot();
+  });
+
+  it('[model] updateTimestamps() (upsert)', async () => {
+    const userId = 'userId-3';
+    const articleId = 'articleId-3';
+
+    const updatedData = await UserArticleLink.updateTimestamps(
+      userId,
+      articleId,
+      {
+        lastViewedAt: new Date(FIXED_DATE + 60 * 1000),
+      }
+    );
+
+    delete updatedData._id;
+    expect(updatedData).toMatchSnapshot();
   });
 });
