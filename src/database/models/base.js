@@ -13,6 +13,9 @@ export default class Base {
     return compile(this.collection);
   }
 
+  /**
+   * @returns {Promise<import('mongodb').Collection>}
+   */
   static get client() {
     return mongoClient.getInstance().then(e => e.collection(this.collection));
   }
@@ -20,6 +23,7 @@ export default class Base {
   /**
    *
    * @param {object} data
+   * @returns {object}
    */
   static async create(data) {
     const { valid, errors } = this.validator(data);
@@ -30,5 +34,33 @@ export default class Base {
     if (errors) {
       throw new Error(JSON.stringify(errors, null, 2));
     }
+  }
+
+  /**
+   * An atomic and upsert enabled operation.
+   * @param {import('mongodb').FilterQuery} query
+   * @param {object} $set
+   * @param {object} $setOnInsert
+   * @returns {object}
+   */
+  static async findOneAndUpdate(query, $set, $setOnInsert) {
+    /**
+     * TODO
+     * Partial validate on query and data
+     */
+    const update = {};
+
+    if ($set) {
+      update['$set'] = $set;
+    }
+
+    if ($setOnInsert) {
+      update['$setOnInsert'] = $setOnInsert;
+    }
+
+    return (await (await this.client).findOneAndUpdate(query, update, {
+      upsert: true,
+      returnOriginal: false,
+    })).value;
   }
 }
