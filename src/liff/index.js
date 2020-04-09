@@ -1,3 +1,4 @@
+import 'core-js';
 import 'normalize.css';
 import './index.scss';
 import App from './App.svelte';

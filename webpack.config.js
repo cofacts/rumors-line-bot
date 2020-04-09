@@ -1,16 +1,41 @@
 require('dotenv').config();
 
-// Reference: https://github.com/sveltejs/template-webpack
+// Webpack config for LIFF
 //
+// Reference:
+// https://github.com/sveltejs/template-webpack
+// https://github.com/hperrin/smui-example-webpack/blob/master/webpack.config.js
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const path = require('path');
 
 const mode = process.env.NODE_ENV || 'development';
 const prod = mode === 'production';
+
+const babelLoaderConfig = {
+  loader: 'babel-loader',
+  options: {
+    presets: [
+      [
+        '@babel/preset-env',
+        {
+          targets: {
+            // https://g0v.hackmd.io/pDyGj-w0QPWKdV2gp2h9LQ#LIFF-compatibility
+            ios: '10',
+            android: '52',
+          },
+          useBuiltIns: 'entry',
+          corejs: 3,
+        },
+      ],
+    ],
+  },
+};
 
 module.exports = {
   entry: {
@@ -32,29 +57,17 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: ['babel-loader'],
+        exclude: [
+          // As long as we use useBuiltIns: 'entry' in preset-env, we don't need to process node_modules.
+          // All polyfills are included by `import 'core-js'` statement in liff/index.
+          path.resolve(__dirname, 'node_modules'),
+        ],
+        use: [babelLoaderConfig],
       },
       {
         test: /\.svelte$/,
         use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              plugins: [
-                [
-                  'ttag',
-                  {
-                    resolve: {
-                      translations: path.resolve(
-                        __dirname,
-                        `./i18n/${process.env.LOCALE}.po`
-                      ),
-                    },
-                  },
-                ],
-              ],
-            },
-          },
+          babelLoaderConfig,
           {
             loader: 'svelte-loader',
             options: {
@@ -77,6 +90,7 @@ module.exports = {
             loader: 'sass-loader',
             options: {
               sassOptions: {
+                // Process svelte-material-ui SCSS files in node_modules as well
                 includePaths: ['./node_modules', './src/liff'],
               },
             },
@@ -108,9 +122,30 @@ module.exports = {
     new CompressionPlugin(),
   ],
   devtool: prod ? false : 'source-map',
+  optimization: {
+    minimize: prod,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          // We are supporting iOS 7, which uses Safari 10 by default.
+          // Solves "Cannot declare a let variable twice".
+          safari10: true,
+        },
+      }),
+      new OptimizeCSSAssetsPlugin(),
+    ],
+  },
 
   devServer: {
     port: process.env.LIFF_DEV_PORT,
     publicPath: '/liff/',
+
+    // Browserstack is having issue testing iOS on localhost domain, use ngrok instead:
+    // https://www.browserstack.com/question/663
+    //
+    // Disable host name check to enable ngrok:
+    // https://github.com/webpack/webpack-dev-server/issues/1604#issue-393549402
+    //
+    disableHostCheck: true,
   },
 };
