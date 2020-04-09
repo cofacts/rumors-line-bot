@@ -1,4 +1,4 @@
-import gql from '../gql';
+import gql from 'src/lib/gql';
 import { getArticleURL, REASON_PREFIX, createArticleShareReply } from './utils';
 
 export default async function askingArticleSubmission(params) {

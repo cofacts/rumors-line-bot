@@ -4,7 +4,7 @@ import {
   createAskArticleSubmissionReply,
   ellipsis,
 } from './utils';
-import ga from '../ga';
+import ga from 'src/lib/ga';
 
 export default async function askingArticleSource(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;

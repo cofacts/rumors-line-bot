@@ -1,5 +1,5 @@
-import gql from '../gql';
-import ga from '../ga';
+import gql from 'src/lib/gql';
+import ga from 'src/lib/ga';
 import {
   getArticleURL,
   createTypeWords,

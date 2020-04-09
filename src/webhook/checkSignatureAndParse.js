@@ -1,4 +1,4 @@
-import rollbar from './rollbar';
+import rollbar from 'src/lib/rollbar';
 import { validateSignature } from '@line/bot-sdk';
 import getRawBody from 'raw-body';
 

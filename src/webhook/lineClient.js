@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import rollbar from './rollbar';
+import rollbar from 'src/lib/rollbar';
 
 export default async function lineClient(
   endpoint = '',

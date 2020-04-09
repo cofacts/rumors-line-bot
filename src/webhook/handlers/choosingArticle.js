@@ -1,5 +1,5 @@
 import { t } from 'ttag';
-import gql from '../gql';
+import gql from 'src/lib/gql';
 import {
   createPostbackAction,
   createFeedbackWords,
@@ -9,7 +9,7 @@ import {
   ellipsis,
   ARTICLE_SOURCES,
 } from './utils';
-import ga from '../ga';
+import ga from 'src/lib/ga';
 
 /**
  * 第2句 (template message)：按照時間排序「不在查證範圍」之外的回應，每則回應第一行是
