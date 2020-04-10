@@ -93,11 +93,11 @@ const singleUserHandler = async (
     if (type === 'postback') {
       const data = JSON.parse(otherFields.postback.data);
 
-      // When if the postback is expired,
+      // When the postback is expired,
       // i.e. If other new messages have been sent before pressing buttons,
       // Don't do anything, just ignore silently.
       //
-      if (data.issuedAt !== context.issuedAt) {
+      if (data.sessionId !== context.data.sessionId) {
         console.log('Previous button pressed.');
         clearTimeout(timerId);
         return;
@@ -221,11 +221,9 @@ const groupHandler = async (req, type, replyToken, userId, otherFields) => {
 async function processText(context, type, input, otherFields, userId, req) {
   let result;
   try {
-    const issuedAt = Date.now();
     result = await handleInput(
       context,
       { type, input, ...otherFields },
-      issuedAt,
       userId
     );
     if (!result.replies) {
@@ -233,8 +231,6 @@ async function processText(context, type, input, otherFields, userId, req) {
         'Returned replies is empty, please check processMessages() implementation.'
       );
     }
-    // Renew "issuedAt" of the resulting context.
-    result.context.issuedAt = issuedAt;
   } catch (e) {
     console.error(e);
     rollbar.error(e, req);

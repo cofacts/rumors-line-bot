@@ -16,13 +16,11 @@ import { REASON_PREFIX, DOWNVOTE_PREFIX } from './handlers/utils';
  *
  * @param {Object<state, data>} context The current context of the bot
  * @param {*} event The input event
- * @param {*} issuedAt When this request is issued. Will be written in postback replies.
  * @param {*} userId LINE user ID that does the input
  */
 export default async function handleInput(
   { state = '__INIT__', data = {} },
   event,
-  issuedAt,
   userId
 ) {
   let replies;
@@ -33,13 +31,19 @@ export default async function handleInput(
   }
 
   if (
-    event.input.length >= 3 &&
+    event.type === 'message' &&
     !event.input.startsWith(REASON_PREFIX) &&
     !event.input.startsWith(DOWNVOTE_PREFIX)
   ) {
-    // If input contains more than 3 words and is not reason text,
-    // consider it as a new query and start over.
-    data = {};
+    // The user forwarded us an new message.
+    // Create a new "search session" and reset state to `__INIT__`.
+    //
+    data = {
+      // Used to determine button postbacks and GraphQL requests are from
+      // previous sessions
+      //
+      sessionId: Date.now(),
+    };
     state = '__INIT__';
   }
 
@@ -47,7 +51,6 @@ export default async function handleInput(
     data,
     state,
     event,
-    issuedAt,
     userId,
     replies,
     isSkipUser,
