@@ -116,15 +116,7 @@ const singleUserHandler = async (
       return;
     }
 
-    result = await processText(
-      result,
-      context,
-      type,
-      input,
-      otherFields,
-      userId,
-      req
-    );
+    result = await processText(context, type, input, otherFields, userId, req);
   } else if (type === 'message' && otherFields.message.type === 'image') {
     // Track image message type send by user
     ga(userId)
@@ -171,7 +163,6 @@ const singleUserHandler = async (
       }
       if (text.length >= 3) {
         result = await processText(
-          result,
           context,
           type,
           text,
@@ -227,15 +218,8 @@ const groupHandler = async (req, type, replyToken, userId, otherFields) => {
   // TODO
 };
 
-async function processText(
-  result,
-  context,
-  type,
-  input,
-  otherFields,
-  userId,
-  req
-) {
+async function processText(context, type, input, otherFields, userId, req) {
+  let result;
   try {
     const issuedAt = Date.now();
     result = await handleInput(
