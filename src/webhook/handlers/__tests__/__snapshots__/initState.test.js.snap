@@ -8,6 +8,7 @@ Object {
     ],
     "messageType": "text",
     "searchedText": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入",
+    "sessionId": 1497994017447,
   },
   "event": Object {
     "input": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入",
@@ -20,7 +21,6 @@ Object {
     "type": "message",
   },
   "isSkipUser": false,
-  "issuedAt": 1497994017447,
   "replies": Array [
     Object {
       "text": "🔍 There are some messages that looks similar to \\"計程車上有裝悠遊卡感⋯⋯\\" you have sent to me.",
@@ -58,7 +58,7 @@ Please choose the version that looks the most similar👇",
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":1,\\"issuedAt\\":1497994017447}",
+                    "data": "{\\"input\\":1,\\"sessionId\\":1497994017447}",
                     "label": "Choose this one",
                     "type": "postback",
                   },
@@ -115,7 +115,7 @@ Please choose the version that looks the most similar👇",
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":0,\\"issuedAt\\":1497994017447}",
+                    "data": "{\\"input\\":0,\\"sessionId\\":1497994017447}",
                     "label": "Tell us more",
                     "type": "postback",
                   },
@@ -163,6 +163,7 @@ Object {
     ],
     "messageType": "text",
     "searchedText": "YouTube · 寻找健康人生",
+    "sessionId": 1497994017447,
   },
   "event": Object {
     "input": "YouTube · 寻找健康人生",
@@ -175,7 +176,6 @@ Object {
     "type": "message",
   },
   "isSkipUser": false,
-  "issuedAt": 1497994017447,
   "replies": Array [
     Object {
       "text": "🔍 There are some messages that looks similar to \\"YouTube · ⋯⋯\\" you have sent to me.",
@@ -213,7 +213,7 @@ Please choose the version that looks the most similar👇",
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":1,\\"issuedAt\\":1497994017447}",
+                    "data": "{\\"input\\":1,\\"sessionId\\":1497994017447}",
                     "label": "Choose this one",
                     "type": "postback",
                   },
@@ -273,7 +273,7 @@ Please choose the version that looks the most similar👇",
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":2,\\"issuedAt\\":1497994017447}",
+                    "data": "{\\"input\\":2,\\"sessionId\\":1497994017447}",
                     "label": "Choose this one",
                     "type": "postback",
                   },
@@ -330,7 +330,7 @@ Please choose the version that looks the most similar👇",
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":0,\\"issuedAt\\":1497994017447}",
+                    "data": "{\\"input\\":0,\\"sessionId\\":1497994017447}",
                     "label": "Tell us more",
                     "type": "postback",
                   },
@@ -377,6 +377,7 @@ Object {
     ],
     "messageType": "text",
     "searchedText": "YouTube · 寻找健康人生",
+    "sessionId": 1497994017447,
   },
   "event": Object {
     "input": 1,
@@ -389,7 +390,6 @@ Object {
     "type": "message",
   },
   "isSkipUser": true,
-  "issuedAt": 1497994017447,
   "replies": undefined,
   "state": "CHOOSING_ARTICLE",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
@@ -399,14 +399,9 @@ Object {
 exports[`should handle article not found 1`] = `
 Object {
   "data": Object {
-    "articleSources": Array [
-      "親戚轉傳",
-      "同事轉傳",
-      "朋友轉傳",
-      "自己輸入的",
-    ],
     "messageType": "text",
     "searchedText": "YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...",
+    "sessionId": 1497994017447,
   },
   "event": Object {
     "input": "YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...",
@@ -419,50 +414,77 @@ Object {
     "type": "message",
   },
   "isSkipUser": false,
-  "issuedAt": 1497994017447,
   "replies": Array [
     Object {
-      "altText": "找不到關於「YouTube · ⋯⋯」訊息耶 QQ
-
-請問您是從哪裡看到這則訊息呢？
-
-親戚轉傳 > 請傳 1
-同事轉傳 > 請傳 2
-朋友轉傳 > 請傳 3
-自己輸入的 > 請傳 4
-
-請按左下角「⌨️」鈕輸入選項編號。",
-      "template": Object {
-        "actions": Array [
-          Object {
-            "data": "{\\"input\\":1,\\"issuedAt\\":1497994017447}",
-            "label": "親戚轉傳",
-            "type": "postback",
+      "text": "We didn't find anything about \\"YouTube · ⋯⋯\\" :(",
+      "type": "text",
+    },
+    Object {
+      "altText": "🥇 Be the first to report the message
+📱 Please proceed on your mobile phone.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "contents": Array [
+                Object {
+                  "text": "Currently we don't have this message in our database. If you think it is probably a rumor,",
+                  "type": "span",
+                },
+                Object {
+                  "text": "Press 🆕 Submit to database to make this message public on Cofacts database for nice volunteers to fact-check.",
+                  "type": "span",
+                },
+                Object {
+                  "text": "Although you won't receive answers rightaway, you can help the people who receive the same message in the future.",
+                  "type": "text",
+                },
+              ],
+              "type": "text",
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "🆕 Submit to database",
+                "type": "uri",
+                "uri": "line://app/1631030389-xb5mnDdN?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE0OTc5OTQwMTc0NDcsImV4cCI6MTU4NjY2ODAwNS4zMjR9.sx8beFxGcQQ2fO-exvlMNIGICP1ewHOFmcMGftd5lDw",
+              },
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "header": Object {
+          "contents": Array [
+            Object {
+              "color": "#ffb600",
+              "text": "🥇 Be the first to submit the message",
+              "type": "text",
+              "weight": "bold",
+            },
+          ],
+          "layout": "horizontal",
+          "type": "box",
+        },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
           },
-          Object {
-            "data": "{\\"input\\":2,\\"issuedAt\\":1497994017447}",
-            "label": "同事轉傳",
-            "type": "postback",
-          },
-          Object {
-            "data": "{\\"input\\":3,\\"issuedAt\\":1497994017447}",
-            "label": "朋友轉傳",
-            "type": "postback",
-          },
-          Object {
-            "data": "{\\"input\\":4,\\"issuedAt\\":1497994017447}",
-            "label": "自己輸入的",
-            "type": "postback",
-          },
-        ],
-        "text": "找不到關於「YouTube · ⋯⋯」訊息耶 QQ
-請問您是從哪裡看到這則訊息呢？",
-        "type": "buttons",
+        },
+        "type": "bubble",
       },
-      "type": "template",
+      "type": "flex",
     },
   ],
-  "state": "ASKING_ARTICLE_SOURCE",
+  "state": "ASKING_ARTICLE_SUBMISSION_CONSENT",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;

@@ -2,11 +2,10 @@ import initState from './handlers/initState';
 import choosingArticle from './handlers/choosingArticle';
 import choosingReply from './handlers/choosingReply';
 import askingReplyFeedback from './handlers/askingReplyFeedback';
-import askingArticleSubmissionReason from './handlers/askingArticleSubmissionReason';
+import askingArticleSubmissionConsent from './handlers/askingArticleSubmissionConsent';
 import askingReplyRequestReason from './handlers/askingReplyRequestReason';
-import askingArticleSource from './handlers/askingArticleSource';
 import defaultState from './handlers/defaultState';
-import { REASON_PREFIX, DOWNVOTE_PREFIX } from './handlers/utils';
+import { REASON_PREFIX, DOWNVOTE_PREFIX } from 'src/lib/sharedUtils';
 
 /**
  * Given input event and context, outputs the new context and the reply to emit.
@@ -77,16 +76,12 @@ export default async function handleInput(
         params = await askingReplyFeedback(params);
         break;
       }
-      case 'ASKING_ARTICLE_SUBMISSION_REASON': {
-        params = await askingArticleSubmissionReason(params);
+      case 'ASKING_ARTICLE_SUBMISSION_CONSENT': {
+        params = await askingArticleSubmissionConsent(params);
         break;
       }
       case 'ASKING_REPLY_REQUEST_REASON': {
         params = await askingReplyRequestReason(params);
-        break;
-      }
-      case 'ASKING_ARTICLE_SOURCE': {
-        params = await askingArticleSource(params);
         break;
       }
       default: {

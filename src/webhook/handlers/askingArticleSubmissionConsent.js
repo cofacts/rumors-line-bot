@@ -2,7 +2,7 @@ import ga from 'src/lib/ga';
 import gql from 'src/lib/gql';
 import { REASON_PREFIX, getArticleURL, createArticleShareReply } from './utils';
 
-export default async function askingArticleSubmission(params) {
+export default async function askingArticleSubmissionConsent(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
   const visitor = ga(userId, state, data.searchedText);
