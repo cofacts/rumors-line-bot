@@ -44,6 +44,7 @@
     "grapheme-splitter": "^1.0.4",
     "graphql": "^15.0.0",
     "graphql-tools": "^4.0.7",
+    "jsrsasign": "^8.0.13",
     "koa": "^2.5.0",
     "koa-router": "^7.4.0",
     "koa-static-server": "^1.5.0",
