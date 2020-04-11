@@ -1,3 +1,4 @@
+import { t } from 'ttag';
 import initState from './handlers/initState';
 import choosingArticle from './handlers/choosingArticle';
 import choosingReply from './handlers/choosingReply';
@@ -5,7 +6,12 @@ import askingReplyFeedback from './handlers/askingReplyFeedback';
 import askingArticleSubmissionConsent from './handlers/askingArticleSubmissionConsent';
 import askingReplyRequestReason from './handlers/askingReplyRequestReason';
 import defaultState from './handlers/defaultState';
-import { REASON_PREFIX, DOWNVOTE_PREFIX } from 'src/lib/sharedUtils';
+import { ManipulationError } from './handlers/utils';
+import {
+  REASON_PREFIX,
+  DOWNVOTE_PREFIX,
+  SOURCE_PREFIX,
+} from 'src/lib/sharedUtils';
 
 /**
  * Given input event and context, outputs the new context and the reply to emit.
@@ -32,7 +38,8 @@ export default async function handleInput(
   if (
     event.type === 'message' &&
     !event.input.startsWith(REASON_PREFIX) &&
-    !event.input.startsWith(DOWNVOTE_PREFIX)
+    !event.input.startsWith(DOWNVOTE_PREFIX) &&
+    !event.input.startsWith(SOURCE_PREFIX)
   ) {
     // The user forwarded us an new message.
     // Create a new "search session" and reset state to `__INIT__`.
@@ -59,34 +66,81 @@ export default async function handleInput(
   //
   do {
     params.isSkipUser = false;
-    switch (params.state) {
-      case '__INIT__': {
-        params = await initState(params);
-        break;
+    try {
+      switch (params.state) {
+        case '__INIT__': {
+          params = await initState(params);
+          break;
+        }
+        case 'CHOOSING_ARTICLE': {
+          params = await choosingArticle(params);
+          break;
+        }
+        case 'CHOOSING_REPLY': {
+          params = await choosingReply(params);
+          break;
+        }
+        case 'ASKING_REPLY_FEEDBACK': {
+          params = await askingReplyFeedback(params);
+          break;
+        }
+        case 'ASKING_ARTICLE_SUBMISSION_CONSENT': {
+          params = await askingArticleSubmissionConsent(params);
+          break;
+        }
+        case 'ASKING_REPLY_REQUEST_REASON': {
+          params = await askingReplyRequestReason(params);
+          break;
+        }
+        default: {
+          params = defaultState(params);
+          break;
+        }
       }
-      case 'CHOOSING_ARTICLE': {
-        params = await choosingArticle(params);
-        break;
-      }
-      case 'CHOOSING_REPLY': {
-        params = await choosingReply(params);
-        break;
-      }
-      case 'ASKING_REPLY_FEEDBACK': {
-        params = await askingReplyFeedback(params);
-        break;
-      }
-      case 'ASKING_ARTICLE_SUBMISSION_CONSENT': {
-        params = await askingArticleSubmissionConsent(params);
-        break;
-      }
-      case 'ASKING_REPLY_REQUEST_REASON': {
-        params = await askingReplyRequestReason(params);
-        break;
-      }
-      default: {
-        params = defaultState(params);
-        break;
+    } catch (e) {
+      if (e instanceof ManipulationError) {
+        params = {
+          ...params,
+          replies: [
+            {
+              type: 'flex',
+              altText: e.toString(),
+              contents: {
+                type: 'bubble',
+                header: {
+                  type: 'box',
+                  layout: 'vertical',
+                  contents: [
+                    {
+                      type: 'text',
+                      text: `⚠️ ${t`Wrong usage`}`,
+                      color: '#ffb600',
+                      weight: 'bold',
+                    },
+                  ],
+                },
+                body: {
+                  type: 'box',
+                  layout: 'vertical',
+                  contents: [
+                    {
+                      type: 'text',
+                      text: e.message,
+                      wrap: true,
+                    },
+                  ],
+                },
+                styles: {
+                  body: {
+                    separator: true,
+                  },
+                },
+              },
+            },
+          ],
+        };
+      } else {
+        throw e;
       }
     }
     ({ isSkipUser } = params);

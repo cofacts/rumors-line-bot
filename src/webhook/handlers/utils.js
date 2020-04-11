@@ -1,6 +1,7 @@
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
 import { sign } from 'src/lib/jwt';
+import { ARTICLE_SOURCE_OPTIONS } from 'src/lib/sharedUtils';
 
 const splitter = new GraphemeSplitter();
 
@@ -100,7 +101,7 @@ export function getLIFFURL(page, userId, sessionId) {
   return `${process.env.LIFF_URL}?p=${page}&token=${jwt}`;
 }
 
-const flexMessageAltText = `📱 ${t`Please proceed on your mobile phone.`}`;
+export const FLEX_MESSAGE_ALT_TEXT = `📱 ${t`Please proceed on your mobile phone.`}`;
 
 /**
  * @param {string} userId - LINE user ID
@@ -130,7 +131,7 @@ export function createAskArticleSubmissionConsent(userId, sessionId) {
   return [
     {
       type: 'flex',
-      altText: titleText + '\n' + flexMessageAltText,
+      altText: titleText + '\n' + FLEX_MESSAGE_ALT_TEXT,
       contents: {
         type: 'bubble',
         header: {
@@ -215,48 +216,91 @@ export function ellipsis(text, limit, ellipsis = '⋯⋯') {
  * @param {string} reason
  * @returns {object} Reply object with sharing buttings
  */
-export function createArticleShareReply(articleUrl, reason) {
+export function createArticleShareReply(articleUrl) {
+  const text = t`Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!`;
+
   return {
-    type: 'template',
-    altText:
-      '遠親不如近鄰🌟問問親友總沒錯。把訊息分享給朋友們，說不定有人能幫你解惑！',
-    template: {
-      type: 'buttons',
-      actions: [
-        {
-          type: 'uri',
-          label: 'LINE 群組',
-          uri: `line://msg/text/?${encodeURIComponent(
-            `我收到這則訊息的想法是：\n${ellipsis(
-              reason,
-              70
-            )}\n\n請幫我看看這是真的還是假的：${articleUrl}`
-          )}`,
-        },
-        {
-          type: 'uri',
-          label: '臉書大神',
-          uri: `https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=${
-            process.env.FACEBOOK_APP_ID
-          }&display=popup&quote=${encodeURIComponent(
-            ellipsis(reason, 80)
-          )}&hashtag=${encodeURIComponent(
-            '#Cofacts求解惑'
-          )}&href=${encodeURIComponent(articleUrl)}`,
-        },
-      ],
-      title: '遠親不如近鄰🌟問問親友總沒錯',
-      text: '說不定你的朋友裡，就有能替你解惑的人唷！\n你想要 Call-out 誰呢？',
+    type: 'flex',
+    altText: text,
+    contents: {
+      type: 'bubble',
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            wrap: true,
+            text,
+          },
+        ],
+      },
+      footer: {
+        type: 'box',
+        layout: 'vertical',
+        spacing: 'sm',
+        contents: [
+          {
+            type: 'button',
+            action: {
+              type: 'uri',
+              label: t`Share on LINE`,
+              uri: `line://msg/text/?${encodeURIComponent(
+                t`Please help me verify if this is true: ${articleUrl}`
+              )}`,
+            },
+            style: 'primary',
+            color: '#ffb600',
+          },
+          {
+            type: 'button',
+            action: {
+              type: 'uri',
+              label: t`Share on Facebook`,
+              uri: `https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=${
+                process.env.FACEBOOK_APP_ID
+              }&display=popup&hashtag=${encodeURIComponent(
+                `#${/* t: Facebook hash tag */ t`ReportedToCofacts`}`
+              )}&href=${encodeURIComponent(articleUrl)}`,
+            },
+            style: 'primary',
+            color: '#ffb600',
+          },
+        ],
+      },
     },
   };
 }
 
 /**
- * possible sources of incoming articles
+ * Exception for unexpected input, thrown in handlers.
+ * This will be catched and the instructions will be used as a reply to the user.
  */
-export const ARTICLE_SOURCES = [
-  '親戚轉傳',
-  '同事轉傳',
-  '朋友轉傳',
-  '自己輸入的',
-];
+export class ManipulationError extends Error {
+  /**
+   *
+   * @param {string} instruction - A message telling user why the manipulation is wrong and what they
+   *                               should do instead.
+   */
+  constructor(instruction) {
+    super(instruction);
+  }
+}
+
+/**
+ * @param {string} articleSourceOptionLabel - Label in ARTICLE_SOURCE_OPTIONS
+ * @returns {object} selected item in ARTICLE_SOURCE_OPTIONS
+ */
+export function getArticleSourceOptionFromLabel(articleSourceOptionLabel) {
+  const option = ARTICLE_SOURCE_OPTIONS.find(
+    ({ label }) => label === articleSourceOptionLabel
+  );
+
+  if (!option) {
+    throw new ManipulationError(
+      t`Please tell us where you have received the message using the options we provided.`
+    );
+  }
+
+  return option;
+}
