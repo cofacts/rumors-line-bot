@@ -4,7 +4,7 @@ jest.mock('src/lib/ga');
 import initState from '../initState';
 import * as apiResult from '../__fixtures__/initState';
 import gql from 'src/lib/gql';
-import { eventMock } from 'src/lib/ga';
+import { eventMock } from 'src/lib/ga'; // eslint-disable-line import/named
 
 beforeEach(() => {
   eventMock.mockClear();
