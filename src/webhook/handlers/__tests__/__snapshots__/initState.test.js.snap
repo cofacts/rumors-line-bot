@@ -428,22 +428,26 @@ Object {
             Object {
               "contents": Array [
                 Object {
-                  "text": "Currently we don't have this message in our database. If you think it is probably a rumor,",
+                  "text": "Currently we don't have this message in our database. If you think it is probably a rumor, ",
                   "type": "span",
                 },
                 Object {
-                  "text": "Press 🆕 Submit to database to make this message public on Cofacts database for nice volunteers to fact-check.",
+                  "color": "#ffb600",
+                  "text": "press “🆕 Submit to database” to make this message public on Cofacts database ",
                   "type": "span",
+                  "weight": "bold",
                 },
                 Object {
-                  "text": "Although you won't receive answers rightaway, you can help the people who receive the same message in the future.",
-                  "type": "text",
+                  "text": "for nice volunteers to fact-check. Although you won't receive answers rightaway, you can help the people who receive the same message in the future.",
+                  "type": "span",
                 },
               ],
               "type": "text",
+              "wrap": true,
             },
           ],
           "layout": "vertical",
+          "paddingAll": "lg",
           "spacing": "md",
           "type": "box",
         },
@@ -453,8 +457,9 @@ Object {
               "action": Object {
                 "label": "🆕 Submit to database",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE0OTc5OTQwMTc0NDcsImV4cCI6MTU4NjY2ODAwNS4zMjR9.sx8beFxGcQQ2fO-exvlMNIGICP1ewHOFmcMGftd5lDw",
+                "uri": "line://app/1631030389-xb5mnDdN?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE0OTc5OTQwMTc0NDcsImV4cCI6MTU4NjY3NDQyNC42MTJ9.qb4K2VEC87EEs-x1yQmAiuCv__XLDEgtDKoNlhRfaH4",
               },
+              "color": "#ffb600",
               "style": "primary",
               "type": "button",
             },
@@ -465,13 +470,22 @@ Object {
         "header": Object {
           "contents": Array [
             Object {
+              "flex": 0,
+              "gravity": "center",
+              "text": "🥇",
+              "type": "text",
+            },
+            Object {
               "color": "#ffb600",
-              "text": "🥇 Be the first to submit the message",
+              "text": "Be the first to submit the message",
               "type": "text",
               "weight": "bold",
+              "wrap": true,
             },
           ],
           "layout": "horizontal",
+          "paddingAll": "lg",
+          "spacing": "sm",
           "type": "box",
         },
         "styles": Object {

@@ -120,28 +120,3 @@ describe('createTypeWords', () => {
     expect(createTypeWords('some other type')).toMatchSnapshot();
   });
 });
-
-describe('Test SITE_URL', () => {
-  const OLD_ENV = process.env;
-
-  beforeEach(() => {
-    jest.resetModules();
-    process.env = { ...OLD_ENV };
-    delete process.env.SITE_URL;
-  });
-
-  afterEach(() => {
-    process.env = OLD_ENV;
-  });
-
-  it('use the default SITE_URL', () => {
-    const utils = require('../utils');
-    expect(utils.getArticleURL('AWDZYXxAyCdS-nWhumlz')).toMatchSnapshot();
-  });
-
-  it('use SITE_URL from env variables', () => {
-    process.env.SITE_URL = 'https://cofacts.hacktabl.org';
-    const utils = require('../utils');
-    expect(utils.getArticleURL('AWDZYXxAyCdS-nWhumlz')).toMatchSnapshot();
-  });
-});

@@ -113,15 +113,17 @@ export function createAskArticleSubmissionConsent(userId, sessionId) {
   const spans = [
     {
       type: 'span',
-      text: t`Currently we don't have this message in our database. If you think it is probably a rumor,`,
+      text: t`Currently we don't have this message in our database. If you think it is probably a rumor, `,
     },
     {
       type: 'span',
-      text: t`Press ${btnText} to make this message public on Cofacts database for nice volunteers to fact-check.`,
+      text: t`press “${btnText}” to make this message public on Cofacts database `,
+      color: '#ffb600',
+      weight: 'bold',
     },
     {
-      type: 'text',
-      text: t`Although you won't receive answers rightaway, you can help the people who receive the same message in the future.`,
+      type: 'span',
+      text: t`for nice volunteers to fact-check. Although you won't receive answers rightaway, you can help the people who receive the same message in the future.`,
     },
   ];
 
@@ -134,12 +136,21 @@ export function createAskArticleSubmissionConsent(userId, sessionId) {
         header: {
           type: 'box',
           layout: 'horizontal',
+          spacing: 'sm',
+          paddingAll: 'lg',
           contents: [
             {
               type: 'text',
-              text: `🥇 ${t`Be the first to submit the message`}`,
+              text: '🥇',
+              flex: 0,
+              gravity: 'center',
+            },
+            {
+              type: 'text',
+              text: t`Be the first to submit the message`,
               weight: 'bold',
               color: '#ffb600',
+              wrap: true,
             },
           ],
         },
@@ -147,9 +158,11 @@ export function createAskArticleSubmissionConsent(userId, sessionId) {
           type: 'box',
           layout: 'vertical',
           spacing: 'md',
+          paddingAll: 'lg',
           contents: [
             {
               type: 'text',
+              wrap: true,
               contents: spans,
             },
           ],
@@ -161,6 +174,7 @@ export function createAskArticleSubmissionConsent(userId, sessionId) {
             {
               type: 'button',
               style: 'primary',
+              color: '#ffb600',
               action: {
                 type: 'uri',
                 label: btnText,

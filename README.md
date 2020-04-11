@@ -22,8 +22,6 @@ Please follow all the steps in [LINE official tutorial](https://developers.line.
 
 ### Environment variables
 
-First, install heroku toolbelt.
-
 Create `.env` file from `.env.sample` template, at least fill in:
 ```
 API_URL=https://cofacts-api.g0v.tw/graphql
@@ -47,7 +45,7 @@ We use Redis to store conversation context / intents. Please run a Redis server 
 
 ### Node Dependencies
 
-You will need `Node.JS` 8+  to proceed.
+You will need `Node.JS` 12+  to proceed.
 
 ```
 $ npm i
