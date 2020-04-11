@@ -1,14 +1,21 @@
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
+import { sign } from 'src/lib/jwt';
+
 const splitter = new GraphemeSplitter();
 
-export function createPostbackAction(label, input, issuedAt) {
+/**
+ * @param {string} label - Postback action button text, max 20 words
+ * @param {string} input - Input when pressed
+ * @param {string} sessionId - Current session ID
+ */
+export function createPostbackAction(label, input, sessionId) {
   return {
     type: 'postback',
     label,
     data: JSON.stringify({
       input,
-      issuedAt,
+      sessionId,
     }),
   };
 }
@@ -79,45 +86,49 @@ export function createReferenceWords({ reference, type }) {
   return `\uDBC0\uDC85 ⚠️️ ${t`This reply has no ${prompt} and it may be biased`} ⚠️️  \uDBC0\uDC85`;
 }
 
-/**
- * prefilled text for reasons
- */
-export const REASON_PREFIX = `💁 ${t`My reason is:`}\n`;
-export const DOWNVOTE_PREFIX = `💡 ${t`I think the reply is not useful and I suggest:`}\n`;
+const LIFF_EXP_SEC = 86400; // LIFF JWT is only valid for 1 day
 
 /**
- * @param {string} state The current state
- * @param {string} text The prompt text
- * @param {string} prefix The prefix to use in the result text
- * @param {number} issuedAt The issuedAt that created this URL
+ * @param {'source'|'reason'|'feedback'} page - The page to display
+ * @param {string} userId - LINE user ID
+ * @param {string} sessionId - The current session ID
  * @returns {string}
  */
-export function getLIFFURL(state, text, prefix, issuedAt) {
-  return `${process.env.LIFF_URL}?state=${state}&text=${encodeURIComponent(
-    ellipsis(text, 10)
-  )}&prefix=${encodeURIComponent(prefix)}&issuedAt=${issuedAt}`;
+export function getLIFFURL(page, userId, sessionId) {
+  const jwt = sign({ sessionId, exp: Date.now() / 1000 + LIFF_EXP_SEC });
+
+  return `${process.env.LIFF_URL}?p=${page}&token=${jwt}`;
 }
 
+const flexMessageAltText = `📱 ${t`Please proceed on your mobile phone.`}`;
+
 /**
- * @param {string} state The current state
- * @param {string} text The prompt text
- * @param {string} prefix The prefix to use in the result text
- * @param {string} issuedAt The current issuedAt
- * @returns {array} an array of reply message instances
+ * @param {string} userId - LINE user ID
+ * @param {string} sessionId - Search session ID
+ * @returns {object[]} an array of reply message instances
  */
-export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
-  const altText =
-    '【送出訊息到公開資料庫？】\n' +
-    '若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。\n' +
-    '\n' +
-    '雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。\n' +
-    '\n' +
-    '請在 📱 智慧型手機上完成操作。';
+export function createAskArticleSubmissionConsent(userId, sessionId) {
+  const titleText = `🥇 ${t`Be the first to report the message`}`;
+  const btnText = `🆕 ${t`Submit to database`}`;
+  const spans = [
+    {
+      type: 'span',
+      text: t`Currently we don't have this message in our database. If you think it is probably a rumor,`,
+    },
+    {
+      type: 'span',
+      text: t`Press ${btnText} to make this message public on Cofacts database for nice volunteers to fact-check.`,
+    },
+    {
+      type: 'text',
+      text: t`Although you won't receive answers rightaway, you can help the people who receive the same message in the future.`,
+    },
+  ];
 
   return [
     {
       type: 'flex',
-      altText,
+      altText: titleText + '\n' + flexMessageAltText,
       contents: {
         type: 'bubble',
         header: {
@@ -126,9 +137,9 @@ export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
           contents: [
             {
               type: 'text',
-              text: '🥇 成為全球首位回報此訊息的人',
+              text: `🥇 ${t`Be the first to submit the message`}`,
               weight: 'bold',
-              color: '#009900',
+              color: '#ffb600',
             },
           ],
         },
@@ -139,21 +150,7 @@ export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
           contents: [
             {
               type: 'text',
-              text:
-                '目前資料庫裡沒有您傳的訊息。若這是「轉傳訊息」，而且您覺得它很可能是一則「謠言」，',
-              wrap: true,
-            },
-            {
-              type: 'text',
-              text: '請按「🆕 送進資料庫」，公開這則訊息、讓好心人查證與回覆。',
-              color: '#009900',
-              wrap: true,
-            },
-            {
-              type: 'text',
-              text:
-                '雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。',
-              wrap: true,
+              contents: spans,
             },
           ],
         },
@@ -166,8 +163,8 @@ export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
               style: 'primary',
               action: {
                 type: 'uri',
-                label: '🆕 送進資料庫',
-                uri: getLIFFURL(state, text, prefix, issuedAt),
+                label: btnText,
+                uri: getLIFFURL('source', userId, sessionId),
               },
             },
           ],
@@ -180,11 +177,6 @@ export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
       },
     },
   ];
-}
-
-export function isNonsenseText(/* text */) {
-  // return text.length < 20;
-  return false; // according to 20181017 meeting note, we remove limitation and observe
 }
 
 /**
@@ -202,16 +194,6 @@ export function ellipsis(text, limit, ellipsis = '⋯⋯') {
       .slice(0, limit - ellipsis.length)
       .join('') + ellipsis
   );
-}
-
-const SITE_URL = process.env.SITE_URL || 'https://cofacts.g0v.tw';
-
-/**
- * @param {string} articleId
- * @returns {string} The article's full URL
- */
-export function getArticleURL(articleId) {
-  return `${SITE_URL}/article/${articleId}`;
 }
 
 /**
