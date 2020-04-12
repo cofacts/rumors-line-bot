@@ -8,15 +8,25 @@ const splitter = new GraphemeSplitter();
 /**
  * @param {string} label - Postback action button text, max 20 words
  * @param {string} input - Input when pressed
+ * @param {string} displayText - Text to display in chat window.
  * @param {string} sessionId - Current session ID
+ * @param {string} state - the state that processes the postback
  */
-export function createPostbackAction(label, input, sessionId) {
+export function createPostbackAction(
+  label,
+  input,
+  displayText,
+  sessionId,
+  state
+) {
   return {
     type: 'postback',
     label,
+    displayText,
     data: JSON.stringify({
       input,
       sessionId,
+      state,
     }),
   };
 }
@@ -357,3 +367,5 @@ export function createSuggestOtherFactCheckerReply() {
     },
   };
 }
+
+export const POSTBACK_NO_ARTICLE_FOUND = '__NO_ARTICLE_FOUND__';

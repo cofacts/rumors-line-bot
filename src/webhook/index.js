@@ -104,6 +104,13 @@ const singleUserHandler = async (
       }
 
       input = data.input;
+
+      // Pass to handleInput
+      // FIXME:
+      // handleIput(), processText() arguments is pretty messy here. Should refactor when applying
+      // Typescript.
+      //
+      otherFields.postbackHandlerState = data.state;
     } else if (type === 'message') {
       input = otherFields.message.text;
     }
