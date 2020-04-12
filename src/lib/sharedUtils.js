@@ -21,25 +21,35 @@ export function getArticleURL(articleId) {
   return `${SITE_URL}/article/${articleId}`;
 }
 
+/**
+ * label: Display text in LIFF & the value sent via sendMessage
+ * value: Normalized value to store in database / Google Analytics
+ * valid: If we should proceed submission
+ */
 export const ARTICLE_SOURCE_OPTIONS = [
   {
     label: t`A LINE group`,
+    value: 'group message',
     valid: true,
   },
   {
     label: t`A LINE official account`,
+    value: 'official account',
     valid: true,
   },
   {
     label: t`Someone sent me on LINE in private`,
+    value: 'private message',
     valid: true,
   },
   {
     label: t`Somewhere outside LINE`,
+    value: 'outside LINE',
     valid: false,
   },
   {
     label: t`I typed it out myself`,
+    value: 'manual input',
     valid: false,
   },
 ];
