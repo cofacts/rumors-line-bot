@@ -1,8 +1,17 @@
 jest.mock('src/lib/gql');
 
+import MockDate from 'mockdate';
 import choosingReply from '../choosingReply';
 import * as apiResult from '../__fixtures__/choosingReply';
 import gql from 'src/lib/gql';
+
+beforeEach(() => {
+  MockDate.set('2020-01-01');
+});
+
+afterEach(() => {
+  MockDate.reset();
+});
 
 describe('should select reply by replyId', () => {
   const params = {
