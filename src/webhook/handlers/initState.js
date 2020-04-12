@@ -70,7 +70,8 @@ export default async function initState(params) {
         );
         return edge;
       })
-      .sort((edge1, edge2) => edge2.similarity - edge1.similarity);
+      .sort((edge1, edge2) => edge2.similarity - edge1.similarity)
+      .slice(0, 9) /* flex carousel has at most 10 bubbles */;
 
     // Store article ids
     data.foundArticleIds = edgesSortedWithSimilarity.map(

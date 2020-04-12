@@ -1,6 +1,7 @@
 jest.mock('src/lib/gql');
 jest.mock('src/lib/ga');
 
+import MockDate from 'mockdate';
 import initState from '../initState';
 import * as apiResult from '../__fixtures__/initState';
 import gql from 'src/lib/gql';
@@ -66,8 +67,8 @@ it('article found', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
-it('article found with 120 words limit', async () => {
-  gql.__push(apiResult.twoLongArticles);
+it('long article replies still below flex message limit', async () => {
+  gql.__push(apiResult.twelveLongArticles);
 
   const input = {
     data: {
@@ -91,19 +92,11 @@ it('article found with 120 words limit', async () => {
   };
 
   const result = await initState(input);
-
-  for (let reply of result.replies) {
-    if (reply.type === 'text') {
-      expect(reply.text.length < 120).toBe(true);
-    } else if (reply.type === 'template') {
-      expect(reply.altText.length < 120).toBe(true);
-      if (reply.template.type === 'carousel') {
-        for (let column of reply.template.columns) {
-          expect(column.text.length < 120).toBe(true);
-        }
-      }
-    }
-  }
+  expect(result.replies.length).toBeLessThanOrEqual(5); // Reply message API limit
+  const carousel = result.replies.find(({ type }) => type === 'flex').contents;
+  expect(carousel.type).toBe('carousel');
+  expect(carousel.contents.length).toBeLessThanOrEqual(10); // Flex message carousel 10 bubble limit
+  expect(JSON.stringify(carousel).length).toBeLessThan(50 * 1000); // Flex message carousel 50K limit
 });
 
 it('articles found with high similarity', async () => {
