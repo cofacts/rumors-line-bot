@@ -213,7 +213,7 @@ it('only one article found with high similarity', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
-it('should handle article not found', async () => {
+it('should handle text not found', async () => {
   gql.__push(apiResult.notFound);
 
   const input = {
@@ -249,6 +249,50 @@ it('should handle article not found', async () => {
           "ea": "MessageType",
           "ec": "UserInput",
           "el": "text",
+        },
+      ],
+      Array [
+        Object {
+          "ea": "ArticleSearch",
+          "ec": "UserInput",
+          "el": "ArticleNotFound",
+        },
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
+});
+
+it('should handle image not found', async () => {
+  gql.__push(apiResult.notFound);
+
+  const input = {
+    data: {
+      sessionId: 1497994017447,
+    },
+    state: '__INIT__',
+    event: {
+      type: 'message',
+      input: 'OCR text OCR text OCR text',
+      timestamp: 1497994016356,
+      message: {
+        type: 'image',
+      },
+    },
+    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+    replies: undefined,
+    isSkipUser: false,
+  };
+
+  expect(await initState(input)).toMatchSnapshot();
+
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "MessageType",
+          "ec": "UserInput",
+          "el": "image",
         },
       ],
       Array [

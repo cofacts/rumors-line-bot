@@ -118,15 +118,6 @@ const singleUserHandler = async (
 
     result = await processText(context, type, input, otherFields, userId, req);
   } else if (type === 'message' && otherFields.message.type === 'image') {
-    // Track image message type send by user
-    ga(userId)
-      .event({
-        ec: 'UserInput',
-        ea: 'MessageType',
-        el: otherFields.message.type,
-      })
-      .send();
-
     if (
       process.env.IMAGE_MESSAGE_ENABLED === 'true' ||
       process.env.IMAGE_MESSAGE_ENABLED === 'TRUE'

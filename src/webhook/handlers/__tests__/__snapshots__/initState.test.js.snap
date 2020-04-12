@@ -6,7 +6,6 @@ Object {
     "foundArticleIds": Array [
       "AVvY-yizyCdS-nWhuYWx",
     ],
-    "messageType": "text",
     "searchedText": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入",
     "sessionId": 1497994017447,
   },
@@ -161,7 +160,6 @@ Object {
       "AVvY-yizyCdS-nWhuYWx",
       "AVvY-yizyCdS-nWhuYWy",
     ],
-    "messageType": "text",
     "searchedText": "YouTube · 寻找健康人生",
     "sessionId": 1497994017447,
   },
@@ -375,7 +373,6 @@ Object {
     "foundArticleIds": Array [
       "AVvY-yizyCdS-nWhuYWx",
     ],
-    "messageType": "text",
     "searchedText": "YouTube · 寻找健康人生",
     "sessionId": 1497994017447,
   },
@@ -396,10 +393,87 @@ Object {
 }
 `;
 
-exports[`should handle article not found 1`] = `
+exports[`should handle image not found 1`] = `
 Object {
   "data": Object {
-    "messageType": "text",
+    "searchedText": "OCR text OCR text OCR text",
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "OCR text OCR text OCR text",
+    "message": Object {
+      "type": "image",
+    },
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "text": "We didn't find anything about this image :(",
+      "type": "text",
+    },
+    Object {
+      "altText": "We suggest forwarding the message to the following fact-checkers instead. They have 💁 1-on-1 Q&A service to respond to your questions.
+
+📱 Please proceed on your mobile phone.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "We suggest forwarding the message to the following fact-checkers instead. They have 💁 1-on-1 Q&A service to respond to your questions.",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "MyGoPen 賣擱騙",
+                "type": "uri",
+                "uri": "line://ti/p/%40mygopen",
+              },
+              "color": "#333333",
+              "style": "primary",
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "label": "蘭姆酒吐司",
+                "type": "uri",
+                "uri": "line://ti/p/%40rumtoast",
+              },
+              "color": "#333333",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
+          },
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "__INIT__",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should handle text not found 1`] = `
+Object {
+  "data": Object {
     "searchedText": "YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...",
     "sessionId": 1497994017447,
   },

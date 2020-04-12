@@ -4,7 +4,8 @@ import gql from 'src/lib/gql';
 import {
   createPostbackAction,
   ellipsis,
-  createAskArticleSubmissionConsent,
+  createAskArticleSubmissionConsentReply,
+  createSuggestOtherFactCheckerReply,
 } from './utils';
 import ga from 'src/lib/ga';
 
@@ -15,12 +16,10 @@ export default async function initState(params) {
 
   // Track text message type send by user
   const visitor = ga(userId, state, event.input);
-  visitor.event({ ec: 'UserInput', ea: 'MessageType', el: 'text' });
+  visitor.event({ ec: 'UserInput', ea: 'MessageType', el: event.message.type });
 
   // Store user input into context
   data.searchedText = event.input;
-  // Store input message type to context for non-init states use
-  data.messageType = event.message.type;
 
   // Search for articles
   const {
@@ -233,7 +232,7 @@ export default async function initState(params) {
       },
       templateMessage,
     ];
-    if (data.messageType === 'image') {
+    if (event.message.type === 'image') {
       replies = textArticleFound;
     } else {
       replies = prefixTextArticleFound.concat(textArticleFound);
@@ -248,18 +247,25 @@ export default async function initState(params) {
       el: 'ArticleNotFound',
     });
 
-    replies = [
-      {
-        type: 'text',
-        // use `articleSummary` for text only because ocr may get wrong text from image
-        text:
-          data.messageType === 'text'
-            ? t`We didn't find anything about "${articleSummary}" :(`
-            : t`We didn't find anything about that :(`,
-      },
-      ...createAskArticleSubmissionConsent(userId, data.sessionId),
-    ];
-    state = 'ASKING_ARTICLE_SUBMISSION_CONSENT';
+    if (event.message.type === 'image') {
+      replies = [
+        {
+          type: 'text',
+          text: t`We didn't find anything about this image :(`,
+        },
+        createSuggestOtherFactCheckerReply(),
+      ];
+      state = '__INIT__';
+    } else {
+      replies = [
+        {
+          type: 'text',
+          text: t`We didn't find anything about "${articleSummary}" :(`,
+        },
+        createAskArticleSubmissionConsentReply(userId, data.sessionId),
+      ];
+      state = 'ASKING_ARTICLE_SUBMISSION_CONSENT';
+    }
   }
   visitor.send();
   return { data, state, event, userId, replies, isSkipUser };

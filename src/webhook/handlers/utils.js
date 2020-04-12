@@ -106,9 +106,9 @@ export const FLEX_MESSAGE_ALT_TEXT = `📱 ${t`Please proceed on your mobile pho
 /**
  * @param {string} userId - LINE user ID
  * @param {string} sessionId - Search session ID
- * @returns {object[]} an array of reply message instances
+ * @returns {object} reply message object with button that opens source LIFF
  */
-export function createAskArticleSubmissionConsent(userId, sessionId) {
+export function createAskArticleSubmissionConsentReply(userId, sessionId) {
   const titleText = `🥇 ${t`Be the first to report the message`}`;
   const btnText = `🆕 ${t`Submit to database`}`;
   const spans = [
@@ -128,70 +128,68 @@ export function createAskArticleSubmissionConsent(userId, sessionId) {
     },
   ];
 
-  return [
-    {
-      type: 'flex',
-      altText: titleText + '\n' + FLEX_MESSAGE_ALT_TEXT,
-      contents: {
-        type: 'bubble',
-        header: {
-          type: 'box',
-          layout: 'horizontal',
-          spacing: 'sm',
-          paddingAll: 'lg',
-          contents: [
-            {
-              type: 'text',
-              text: '🥇',
-              flex: 0,
-              gravity: 'center',
-            },
-            {
-              type: 'text',
-              text: t`Be the first to submit the message`,
-              weight: 'bold',
-              color: '#ffb600',
-              wrap: true,
-            },
-          ],
-        },
-        body: {
-          type: 'box',
-          layout: 'vertical',
-          spacing: 'md',
-          paddingAll: 'lg',
-          contents: [
-            {
-              type: 'text',
-              wrap: true,
-              contents: spans,
-            },
-          ],
-        },
-        footer: {
-          type: 'box',
-          layout: 'vertical',
-          contents: [
-            {
-              type: 'button',
-              style: 'primary',
-              color: '#ffb600',
-              action: {
-                type: 'uri',
-                label: btnText,
-                uri: getLIFFURL('source', userId, sessionId),
-              },
-            },
-          ],
-        },
-        styles: {
-          body: {
-            separator: true,
+  return {
+    type: 'flex',
+    altText: titleText + '\n' + FLEX_MESSAGE_ALT_TEXT,
+    contents: {
+      type: 'bubble',
+      header: {
+        type: 'box',
+        layout: 'horizontal',
+        spacing: 'sm',
+        paddingAll: 'lg',
+        contents: [
+          {
+            type: 'text',
+            text: '🥇',
+            flex: 0,
+            gravity: 'center',
           },
+          {
+            type: 'text',
+            text: t`Be the first to submit the message`,
+            weight: 'bold',
+            color: '#ffb600',
+            wrap: true,
+          },
+        ],
+      },
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        spacing: 'md',
+        paddingAll: 'lg',
+        contents: [
+          {
+            type: 'text',
+            wrap: true,
+            contents: spans,
+          },
+        ],
+      },
+      footer: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'button',
+            style: 'primary',
+            color: '#ffb600',
+            action: {
+              type: 'uri',
+              label: btnText,
+              uri: getLIFFURL('source', userId, sessionId),
+            },
+          },
+        ],
+      },
+      styles: {
+        body: {
+          separator: true,
         },
       },
     },
-  ];
+  };
 }
 
 /**
@@ -303,4 +301,59 @@ export function getArticleSourceOptionFromLabel(articleSourceOptionLabel) {
   }
 
   return option;
+}
+
+const MANUAL_FACT_CHECKERS = [
+  {
+    label: 'MyGoPen 賣擱騙',
+    value: 'line://ti/p/%40mygopen',
+  },
+  {
+    label: '蘭姆酒吐司',
+    value: 'line://ti/p/%40rumtoast',
+  },
+];
+/**
+ * @returns {object} Reply object with buttons that goes to other fact checkers
+ */
+export function createSuggestOtherFactCheckerReply() {
+  const suggestion = t`We suggest forwarding the message to the following fact-checkers instead. They have 💁 1-on-1 Q&A service to respond to your questions.`;
+  return {
+    type: 'flex',
+    altText: `${suggestion}\n\n${FLEX_MESSAGE_ALT_TEXT}`,
+    contents: {
+      type: 'bubble',
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: suggestion,
+            wrap: true,
+          },
+        ],
+      },
+      footer: {
+        type: 'box',
+        layout: 'vertical',
+        spacing: 'sm',
+        contents: MANUAL_FACT_CHECKERS.map(({ label, value }) => ({
+          type: 'button',
+          action: {
+            type: 'uri',
+            label,
+            uri: value,
+          },
+          style: 'primary',
+          color: '#333333',
+        })),
+      },
+      styles: {
+        body: {
+          separator: true,
+        },
+      },
+    },
+  };
 }
