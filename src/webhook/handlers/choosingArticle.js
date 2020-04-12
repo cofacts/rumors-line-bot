@@ -6,6 +6,9 @@ import {
   createFeedbackWords,
   createTypeWords,
   ellipsis,
+  ManipulationError,
+  createAskArticleSubmissionConsentReply,
+  POSTBACK_NO_ARTICLE_FOUND,
 } from './utils';
 import ga from 'src/lib/ga';
 
@@ -31,29 +34,247 @@ function reorderArticleReplies(articleReplies) {
 // https://developers.line.me/en/docs/messaging-api/reference/#template-messages
 
 export default async function choosingArticle(params) {
-  let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
+  let { data, state, event, userId, replies, isSkipUser } = params;
 
-  if (!data.foundArticleIds) {
-    throw new Error('foundArticleIds not set in data');
+  if (event.type !== 'postback') {
+    throw new ManipulationError(t`Please choose from provided options.`);
   }
 
-  data.selectedArticleId = data.foundArticleIds[event.input - 1];
-  const { selectedArticleId } = data;
-  const doesNotContainMyArticle = +event.input === 0;
+  if (event.input === POSTBACK_NO_ARTICLE_FOUND) {
+    ga(userId, state, data.searchedText)
+      .event({
+        ec: 'UserInput',
+        ea: 'ArticleSearch',
+        el: 'ArticleFoundButNoHit',
+      })
+      .send();
 
-  if (doesNotContainMyArticle) {
+    return {
+      data,
+      state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
+      event,
+      userId,
+      replies: [createAskArticleSubmissionConsentReply(userId, data.sessionId)],
+      isSkipUser,
+    };
+  }
+
+  const selectedArticleId = (data.selectedArticleId = event.input);
+
+  const {
+    data: { GetArticle },
+  } = await gql`
+    query($id: String!) {
+      GetArticle(id: $id) {
+        text
+        replyCount
+        articleReplies(status: NORMAL) {
+          reply {
+            id
+            type
+            text
+          }
+          positiveFeedbackCount
+          negativeFeedbackCount
+        }
+      }
+    }
+  `({
+    id: selectedArticleId,
+  });
+
+  // Store it so that other handlers can use
+  data.selectedArticleText = GetArticle.text;
+
+  const visitor = ga(userId, state, data.selectedArticleText);
+
+  // Track which Article is selected by user.
+  visitor.event({
+    ec: 'Article',
+    ea: 'Selected',
+    el: selectedArticleId,
+  });
+
+  const articleReplies = reorderArticleReplies(GetArticle.articleReplies);
+  if (articleReplies.length === 1) {
+    // choose for user
+    event.input = 1;
+
+    visitor.send();
+    return {
+      data,
+      state: 'CHOOSING_REPLY',
+      event: {
+        type: 'postback',
+        input: articleReplies[0].reply.id,
+      },
+      userId,
+      replies,
+      isSkipUser: true,
+    };
+  }
+
+  if (articleReplies.length !== 0) {
+    const countOfType = {};
+    articleReplies.forEach(ar => {
+      // Track which Reply is searched. And set tracking event as non-interactionHit.
+      visitor.event({ ec: 'Reply', ea: 'Search', el: ar.reply.id, ni: true });
+
+      const type = ar.reply.type;
+      countOfType[type] = (countOfType[type] || 0) + 1;
+    });
+
+    const summary =
+      t`Volunteer editors has publised several replies to this message.` +
+      '\n\n👨‍👩‍👧‍👦 ' +
+      [
+        countOfType.RUMOR > 0
+          ? t`${countOfType.RUMOR} of them say it ❌ contains misinformation.`
+          : '',
+        countOfType.NOT_RUMOR > 0
+          ? t`${
+              countOfType.NOT_RUMOR
+            } of them says it ⭕ contains true information.`
+          : '',
+        countOfType.OPINIONATED > 0
+          ? t`${
+              countOfType.OPINIONATED
+            } of them says it 💬 contains personal perspective.`
+          : '',
+        countOfType.NOT_ARTICLE > 0
+          ? t`${
+              countOfType.NOT_ARTICLE
+            } of them says it ⚠️️ is out of scope of Cofacts.`
+          : '',
+      ]
+        .filter(s => s)
+        .join('\n');
+
+    const replyOptions = articleReplies
+      .slice(0, 10)
+      .map(({ reply, positiveFeedbackCount, negativeFeedbackCount }, idx) => {
+        const typeWords = createTypeWords(reply.type).toLowerCase();
+        return {
+          type: 'bubble',
+          direction: 'ltr',
+          header: {
+            type: 'box',
+            layout: 'horizontal',
+            spacing: 'md',
+            paddingBottom: 'none',
+            contents: [
+              {
+                type: 'text',
+                text: '💬',
+                flex: 0,
+              },
+              {
+                type: 'text',
+                text: t`Someone thinks it ${typeWords}`,
+                gravity: 'center',
+                size: 'sm',
+                weight: 'bold',
+                wrap: true,
+                color: '#AAAAAA',
+              },
+            ],
+          },
+          body: {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'text',
+                text: ellipsis(reply.text, 300, '...'), // 50KB for entire Flex carousel
+                align: 'start',
+                wrap: true,
+                margin: 'md',
+                maxLines: 10,
+              },
+              {
+                type: 'filler',
+              },
+              {
+                type: 'separator',
+                margin: 'md',
+              },
+              {
+                type: 'box',
+                layout: 'horizontal',
+                contents: [
+                  {
+                    type: 'text',
+                    text: createFeedbackWords(
+                      positiveFeedbackCount,
+                      negativeFeedbackCount
+                    ),
+                    size: 'xs',
+                    wrap: true,
+                  },
+                ],
+                margin: 'md',
+                spacing: 'none',
+              },
+            ],
+          },
+          footer: {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'button',
+                action: createPostbackAction(
+                  `👀 ${t`Take a look`}`,
+                  idx + 1,
+                  data.sessionId
+                ),
+                style: 'primary',
+              },
+            ],
+          },
+        };
+      });
+
     replies = [
       {
         type: 'text',
-        text:
-          '剛才您傳的訊息資訊量太少，編輯無從查證。\n' +
-          '查證範圍請參考📖使用手冊 http://bit.ly/cofacts-line-users',
+        text: summary,
+      },
+      {
+        type: 'text',
+        text: t`Let's pick one` + ' 👇',
+      },
+      {
+        type: 'flex',
+        altText: t`Please take a look at the following replies.`,
+        contents: {
+          type: 'carousel',
+          contents: replyOptions,
+        },
       },
     ];
-    state = '__INIT__';
-  } else if (doesNotContainMyArticle) {
+
+    if (articleReplies.length > 10) {
+      const articleUrl = getArticleURL(selectedArticleId);
+      replies.push({
+        type: 'text',
+        text: t`Visit ${articleUrl} for more replies.`,
+      });
+    }
+
+    state = 'CHOOSING_REPLY';
+  } else {
+    // No one has replied to this yet.
+
+    // Track not yet reply Articles.
+    visitor.event({
+      ec: 'Article',
+      ea: 'NoReply',
+      el: selectedArticleId,
+    });
+
     const altText =
-      '啊，看來您的訊息還沒有收錄到我們的資料庫裡。\n' +
+      '抱歉這篇訊息還沒有人回應過唷！\n' +
       '\n' +
       '請問您是從哪裡看到這則訊息呢？\n' +
       '\n' +
@@ -70,7 +291,7 @@ export default async function choosingArticle(params) {
         template: {
           type: 'buttons',
           text:
-            '啊，看來您的訊息還沒有收錄到我們的資料庫裡。\n請問您是從哪裡看到這則訊息呢？',
+            '抱歉這篇訊息還沒有人回應過唷！\n請問您是從哪裡看到這則訊息呢？',
           actions: data.articleSources.map((option, index) =>
             createPostbackAction(option, index + 1, issuedAt)
           ),
@@ -78,272 +299,19 @@ export default async function choosingArticle(params) {
       },
     ];
 
-    state = 'ASKING_ARTICLE_SOURCE';
-  } else if (!selectedArticleId) {
-    replies = [
-      {
-        type: 'text',
-        text: `請輸入 1～${data.foundArticleIds.length} 的數字，來選擇訊息。`,
-      },
-    ];
-
-    state = 'CHOOSING_ARTICLE';
-  } else {
-    const {
-      data: { GetArticle },
-    } = await gql`
-      query($id: String!) {
-        GetArticle(id: $id) {
-          text
-          replyCount
-          articleReplies(status: NORMAL) {
-            reply {
-              id
-              type
-              text
-            }
-            positiveFeedbackCount
-            negativeFeedbackCount
-          }
+    // Submit article replies early, no need to wait for the request
+    gql`
+      mutation SubmitReplyRequestWithoutReason($id: String!) {
+        CreateOrUpdateReplyRequest(articleId: $id) {
+          replyRequestCount
         }
       }
-    `({
-      id: selectedArticleId,
-    });
+    `({ id: selectedArticleId }, { userId });
 
-    data.selectedArticleText = GetArticle.text;
-
-    const visitor = ga(userId, state, data.selectedArticleText);
-
-    // Track which Article is selected by user.
-    visitor.event({
-      ec: 'Article',
-      ea: 'Selected',
-      el: selectedArticleId,
-    });
-
-    const count = {};
-
-    GetArticle.articleReplies.forEach(ar => {
-      // Track which Reply is searched. And set tracking event as non-interactionHit.
-      visitor.event({ ec: 'Reply', ea: 'Search', el: ar.reply.id, ni: true });
-
-      const type = ar.reply.type;
-      if (!count[type]) {
-        count[type] = 1;
-      } else {
-        count[type]++;
-      }
-    });
-
-    const articleReplies = reorderArticleReplies(GetArticle.articleReplies);
-    const summary =
-      t`Volunteer editors has publised several replies to this message.` +
-      '\n\n👨‍👩‍👧‍👦 ' +
-      [
-        count.RUMOR > 0
-          ? t`${count.RUMOR} of them say it ❌ contains misinformation`
-          : '',
-        count.NOT_RUMOR > 0
-          ? t`${count.NOT_RUMOR} of them says it ⭕ contains true information`
-          : '',
-        count.OPINIONATED > 0
-          ? t`${
-              count.OPINIONATED
-            } of them says it 💬 contains personal perspective\n`
-          : '',
-        count.NOT_ARTICLE > 0
-          ? t`${
-              count.NOT_ARTICLE
-            } of them says it ⚠️️ is out of scope of Cofacts\n`
-          : '',
-      ]
-        .filter(s => s)
-        .join(', ') +
-      '.';
-
-    replies = [
-      {
-        type: 'text',
-        text: summary,
-      },
-      {
-        type: 'text',
-        text: t`Let's pick one` + ' 👇',
-      },
-    ];
-
-    if (articleReplies.length !== 0) {
-      data.foundReplyIds = articleReplies.map(({ reply }) => reply.id);
-
-      state = 'CHOOSING_REPLY';
-
-      if (articleReplies.length === 1) {
-        // choose for user
-        event.input = 1;
-
-        visitor.send();
-        return {
-          data,
-          state: 'CHOOSING_REPLY',
-          event,
-          issuedAt,
-          userId,
-          replies,
-          isSkipUser: true,
-        };
-      }
-
-      const postMessage = articleReplies
-        .slice(0, 10)
-        .map(({ reply, positiveFeedbackCount, negativeFeedbackCount }, idx) => {
-          const typeWords = createTypeWords(reply.type).toLowerCase();
-          return {
-            type: 'bubble',
-            direction: 'ltr',
-            header: {
-              type: 'box',
-              layout: 'horizontal',
-              spacing: 'md',
-              paddingBottom: 'none',
-              contents: [
-                {
-                  type: 'text',
-                  text: '💬',
-                  flex: 0,
-                },
-                {
-                  type: 'text',
-                  text: t`Someone thinks it ${typeWords}`,
-                  gravity: 'center',
-                  size: 'sm',
-                  weight: 'bold',
-                  wrap: true,
-                  color: '#AAAAAA',
-                },
-              ],
-            },
-            body: {
-              type: 'box',
-              layout: 'vertical',
-              contents: [
-                {
-                  type: 'text',
-                  text: ellipsis(reply.text, 300, '...'), // 50KB for entire Flex carousel
-                  align: 'start',
-                  wrap: true,
-                  margin: 'md',
-                  maxLines: 10,
-                },
-                {
-                  type: 'filler',
-                },
-                {
-                  type: 'separator',
-                  margin: 'md',
-                },
-                {
-                  type: 'box',
-                  layout: 'horizontal',
-                  contents: [
-                    {
-                      type: 'text',
-                      text: createFeedbackWords(
-                        positiveFeedbackCount,
-                        negativeFeedbackCount
-                      ),
-                      size: 'xs',
-                      wrap: true,
-                    },
-                  ],
-                  margin: 'md',
-                  spacing: 'none',
-                },
-              ],
-            },
-            footer: {
-              type: 'box',
-              layout: 'vertical',
-              contents: [
-                {
-                  type: 'button',
-                  action: createPostbackAction(
-                    `👀 ${t`Take a look`}`,
-                    idx + 1,
-                    issuedAt
-                  ),
-                  style: 'primary',
-                },
-              ],
-            },
-          };
-        });
-
-      replies.push({
-        type: 'flex',
-        altText: t`Please take a look at the following replies.`,
-        contents: {
-          type: 'carousel',
-          contents: postMessage,
-        },
-      });
-
-      if (articleReplies.length > 10) {
-        const articleUrl = getArticleURL(selectedArticleId);
-        replies.push({
-          type: 'text',
-          text: t`Visit ${articleUrl} for more replies.`,
-        });
-      }
-    } else {
-      // No one has replied to this yet.
-
-      // Track not yet reply Articles.
-      visitor.event({
-        ec: 'Article',
-        ea: 'NoReply',
-        el: selectedArticleId,
-      });
-
-      const altText =
-        '抱歉這篇訊息還沒有人回應過唷！\n' +
-        '\n' +
-        '請問您是從哪裡看到這則訊息呢？\n' +
-        '\n' +
-        data.articleSources
-          .map((option, index) => `${option} > 請傳 ${index + 1}\n`)
-          .join('') +
-        '\n' +
-        '請按左下角「⌨️」鈕輸入選項編號。';
-
-      replies = [
-        {
-          type: 'template',
-          altText,
-          template: {
-            type: 'buttons',
-            text:
-              '抱歉這篇訊息還沒有人回應過唷！\n請問您是從哪裡看到這則訊息呢？',
-            actions: data.articleSources.map((option, index) =>
-              createPostbackAction(option, index + 1, issuedAt)
-            ),
-          },
-        },
-      ];
-
-      // Submit article replies early, no need to wait for the request
-      gql`
-        mutation SubmitReplyRequestWithoutReason($id: String!) {
-          CreateOrUpdateReplyRequest(articleId: $id) {
-            replyRequestCount
-          }
-        }
-      `({ id: selectedArticleId }, { userId });
-
-      state = 'ASKING_ARTICLE_SOURCE';
-    }
-    visitor.send();
+    state = 'ASKING_REPLY_REQUEST_REASON';
   }
 
-  return { data, state, event, issuedAt, userId, replies, isSkipUser };
+  visitor.send();
+
+  return { data, state, event, userId, replies, isSkipUser };
 }

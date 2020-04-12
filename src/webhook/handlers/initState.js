@@ -6,6 +6,7 @@ import {
   ellipsis,
   createAskArticleSubmissionConsentReply,
   createSuggestOtherFactCheckerReply,
+  POSTBACK_NO_ARTICLE_FOUND,
 } from './utils';
 import ga from 'src/lib/ga';
 
@@ -43,7 +44,7 @@ export default async function initState(params) {
     text: event.input,
   });
 
-  const articleSummary = ellipsis(event.input, 12);
+  const inputSummary = ellipsis(event.input, 12);
 
   if (ListArticles.edges.length) {
     // Track if find similar Articles in DB.
@@ -72,11 +73,6 @@ export default async function initState(params) {
       .sort((edge1, edge2) => edge2.similarity - edge1.similarity)
       .slice(0, 9) /* flex carousel has at most 10 bubbles */;
 
-    // Store article ids
-    data.foundArticleIds = edgesSortedWithSimilarity.map(
-      ({ node: { id } }) => id
-    );
-
     const hasIdenticalDocs =
       edgesSortedWithSimilarity[0].similarity >= SIMILARITY_THRESHOLD;
 
@@ -88,19 +84,24 @@ export default async function initState(params) {
       return {
         data,
         state: 'CHOOSING_ARTICLE',
-        event,
+        event: {
+          type: 'postback',
+          input: edgesSortedWithSimilarity[0].node.id,
+        },
         userId,
         replies,
         isSkipUser: true,
       };
     }
 
-    const postMessage = edgesSortedWithSimilarity.map(
-      ({ node: { text }, similarity }, idx) => {
+    const articleOptions = edgesSortedWithSimilarity.map(
+      ({ node: { text, id }, similarity }) => {
         const similarityPercentage = Math.round(similarity * 100);
         const similarityEmoji = ['😐', '🙂', '😀', '😃', '😄'][
           Math.floor(similarity * 4.999)
         ];
+        const displayTextWhenChosen = ellipsis(text, 25, '...');
+
         return {
           type: 'bubble',
           direction: 'ltr',
@@ -151,8 +152,10 @@ export default async function initState(params) {
                 type: 'button',
                 action: createPostbackAction(
                   t`Choose this one`,
-                  idx + 1,
-                  data.sessionId
+                  id,
+                  t`I choose “${displayTextWhenChosen}”`,
+                  data.sessionId,
+                  'CHOOSING_ARTICLE'
                 ),
                 style: 'primary',
               },
@@ -161,66 +164,75 @@ export default async function initState(params) {
         };
       }
     );
-    postMessage.push({
-      type: 'bubble',
-      header: {
-        type: 'box',
-        layout: 'horizontal',
-        paddingBottom: 'none',
-        contents: [
-          {
-            type: 'text',
-            text: '😶',
-            margin: 'none',
-            size: 'sm',
-            weight: 'bold',
-            color: '#AAAAAA',
-          },
-        ],
-      },
-      body: {
-        type: 'box',
-        layout: 'horizontal',
-        spacing: 'none',
-        margin: 'none',
-        contents: [
-          {
-            type: 'text',
-            text: t`None of these messages matches mine :(`,
-            maxLines: 5,
-            flex: 0,
-            gravity: 'top',
-            weight: 'regular',
-            wrap: true,
-          },
-        ],
-      },
-      footer: {
-        type: 'box',
-        layout: 'horizontal',
-        contents: [
-          {
-            type: 'button',
-            action: createPostbackAction(t`Tell us more`, 0, data.sessionId),
-            style: 'primary',
-          },
-        ],
-      },
-    });
+
+    if (!hasIdenticalDocs) {
+      articleOptions.push({
+        type: 'bubble',
+        header: {
+          type: 'box',
+          layout: 'horizontal',
+          paddingBottom: 'none',
+          contents: [
+            {
+              type: 'text',
+              text: '😶',
+              margin: 'none',
+              size: 'sm',
+              weight: 'bold',
+              color: '#AAAAAA',
+            },
+          ],
+        },
+        body: {
+          type: 'box',
+          layout: 'horizontal',
+          spacing: 'none',
+          margin: 'none',
+          contents: [
+            {
+              type: 'text',
+              text: t`None of these messages matches mine :(`,
+              maxLines: 5,
+              flex: 0,
+              gravity: 'top',
+              weight: 'regular',
+              wrap: true,
+            },
+          ],
+        },
+        footer: {
+          type: 'box',
+          layout: 'horizontal',
+          contents: [
+            {
+              type: 'button',
+              action: createPostbackAction(
+                t`Tell us more`,
+                POSTBACK_NO_ARTICLE_FOUND,
+                t`None of these messages matches mine :(`,
+                data.sessionId,
+                'CHOOSING_ARTICLE'
+              ),
+              style: 'primary',
+            },
+          ],
+        },
+      });
+    }
 
     const templateMessage = {
       type: 'flex',
       altText: t`Please choose the most similar message from the list.`,
       contents: {
         type: 'carousel',
-        contents: postMessage,
+        contents: articleOptions,
       },
     };
 
     const prefixTextArticleFound = [
       {
         type: 'text',
-        text: `🔍 ${t`There are some messages that looks similar to "${articleSummary}" you have sent to me.`}`,
+        text: `🔍 ${t`There are some messages that looks similar to "${inputSummary}" you have sent to me.`}`,
       },
     ];
     const textArticleFound = [
@@ -260,7 +272,7 @@ export default async function initState(params) {
       replies = [
         {
           type: 'text',
-          text: t`We didn't find anything about "${articleSummary}" :(`,
+          text: t`We didn't find anything about "${inputSummary}" :(`,
         },
         createAskArticleSubmissionConsentReply(userId, data.sessionId),
       ];
