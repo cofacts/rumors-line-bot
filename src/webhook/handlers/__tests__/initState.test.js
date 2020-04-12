@@ -4,10 +4,11 @@ jest.mock('src/lib/ga');
 import initState from '../initState';
 import * as apiResult from '../__fixtures__/initState';
 import gql from 'src/lib/gql';
-import { eventMock } from 'src/lib/ga'; // eslint-disable-line import/named
+import ga from 'src/lib/ga';
 
 beforeEach(() => {
-  eventMock.mockClear();
+  ga.clearAllMocks();
+  gql.__reset();
 });
 
 it('article found', async () => {
@@ -36,7 +37,7 @@ it('article found', async () => {
   };
 
   expect(await initState(input)).toMatchSnapshot();
-  expect(eventMock.mock.calls).toMatchInlineSnapshot(`
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
         Object {
@@ -62,6 +63,7 @@ it('article found', async () => {
       ],
     ]
   `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
 it('article found with 120 words limit', async () => {
@@ -128,7 +130,7 @@ it('articles found with high similarity', async () => {
   };
 
   expect(await initState(input)).toMatchSnapshot();
-  expect(eventMock.mock.calls).toMatchInlineSnapshot(`
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
         Object {
@@ -162,6 +164,7 @@ it('articles found with high similarity', async () => {
       ],
     ]
   `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
 it('only one article found with high similarity', async () => {
@@ -188,6 +191,33 @@ it('only one article found with high similarity', async () => {
   };
 
   expect(await initState(input)).toMatchSnapshot();
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "MessageType",
+          "ec": "UserInput",
+          "el": "text",
+        },
+      ],
+      Array [
+        Object {
+          "ea": "ArticleSearch",
+          "ec": "UserInput",
+          "el": "ArticleFound",
+        },
+      ],
+      Array [
+        Object {
+          "ea": "Search",
+          "ec": "Article",
+          "el": "AVvY-yizyCdS-nWhuYWx",
+          "ni": true,
+        },
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
 it('should handle article not found', async () => {
@@ -215,8 +245,11 @@ it('should handle article not found', async () => {
     isSkipUser: false,
   };
 
+  MockDate.set('2020-01-01');
   expect(await initState(input)).toMatchSnapshot();
-  expect(eventMock.mock.calls).toMatchInlineSnapshot(`
+  MockDate.reset();
+
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
         Object {
@@ -234,8 +267,5 @@ it('should handle article not found', async () => {
       ],
     ]
   `);
-});
-
-afterEach(() => {
-  gql.__reset();
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });

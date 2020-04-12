@@ -457,7 +457,7 @@ Object {
               "action": Object {
                 "label": "🆕 Submit to database",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE0OTc5OTQwMTc0NDcsImV4cCI6MTU4NjY3NDQyNC42MTJ9.qb4K2VEC87EEs-x1yQmAiuCv__XLDEgtDKoNlhRfaH4",
+                "uri": "line://app/1631030389-xb5mnDdN?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE0OTc5OTQwMTc0NDcsImV4cCI6MTU3NzkyMzIwMH0.swCHAII1dNMjmwCyhIIBZII_Csw8ME_xe5U6TgjNRJQ",
               },
               "color": "#ffb600",
               "style": "primary",
