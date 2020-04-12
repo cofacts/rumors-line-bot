@@ -5,6 +5,7 @@ import cors from '@koa/cors';
 import rollbar from './lib/rollbar';
 import { version } from '../package.json';
 import webhookRouter from './webhook';
+import graphqlMiddleware from './graphql';
 import redis from './lib/redisClient';
 
 const app = new Koa();
@@ -41,6 +42,7 @@ router.get(
 router.use('/callback', webhookRouter.routes(), webhookRouter.allowedMethods());
 
 app.use(router.routes());
+app.use(graphqlMiddleware);
 app.use(router.allowedMethods());
 
 app.listen(process.env.PORT, () => {
