@@ -1,5 +1,6 @@
 import gql from 'src/lib/gql';
-import { getArticleURL, REASON_PREFIX, createArticleShareReply } from './utils';
+import { createArticleShareReply } from './utils';
+import { getArticleURL, REASON_PREFIX } from 'src/lib/sharedUtils';
 
 export default async function askingArticleSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;

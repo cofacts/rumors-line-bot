@@ -1,11 +1,7 @@
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
-import {
-  getArticleURL,
-  createTypeWords,
-  ellipsis,
-  DOWNVOTE_PREFIX,
-} from './utils';
+import { getArticleURL, DOWNVOTE_PREFIX } from 'src/lib/sharedUtils';
+import { createTypeWords, ellipsis } from './utils';
 
 export default async function askingReplyFeedback(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;

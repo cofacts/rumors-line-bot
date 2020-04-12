@@ -3,7 +3,11 @@ jest.mock('src/lib/gql');
 import askingReplyFeedback from '../askingReplyFeedback';
 import * as apiResult from '../__fixtures__/askingReplyFeedback';
 import gql from 'src/lib/gql';
-import { DOWNVOTE_PREFIX } from '../utils';
+import { DOWNVOTE_PREFIX } from 'src/lib/sharedUtils';
+
+beforeEach(() => {
+  gql.__reset();
+});
 
 const commonParamsYes = {
   data: {
@@ -152,8 +156,4 @@ it('handles invalid params', async () => {
   gql.__push(apiResult.oneFeedback);
 
   await expect(askingReplyFeedback(commonParamsInvalid)).rejects.toThrow(Error);
-});
-
-afterEach(() => {
-  gql.__reset();
 });
