@@ -7,6 +7,8 @@ import * as apiResult from '../__fixtures__/initState';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
 
+import { REASON_PREFIX } from 'src/lib/sharedUtils';
+
 beforeEach(() => {
   ga.clearAllMocks();
   gql.__reset();
@@ -38,6 +40,7 @@ it('article found', async () => {
   };
 
   expect(await initState(input)).toMatchSnapshot();
+  expect(gql.__finished()).toBe(true);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
@@ -92,6 +95,7 @@ it('long article replies still below flex message limit', async () => {
   };
 
   const result = await initState(input);
+  expect(gql.__finished()).toBe(true);
   expect(result.replies.length).toBeLessThanOrEqual(5); // Reply message API limit
   const carousel = result.replies.find(({ type }) => type === 'flex').contents;
   expect(carousel.type).toBe('carousel');
@@ -123,6 +127,7 @@ it('articles found with high similarity', async () => {
   };
 
   expect(await initState(input)).toMatchSnapshot();
+  expect(gql.__finished()).toBe(true);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
@@ -184,6 +189,7 @@ it('only one article found with high similarity', async () => {
   };
 
   expect(await initState(input)).toMatchSnapshot();
+  expect(gql.__finished()).toBe(true);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
@@ -241,6 +247,7 @@ it('should handle text not found', async () => {
   MockDate.set('2020-01-01');
   expect(await initState(input)).toMatchSnapshot();
   MockDate.reset();
+  expect(gql.__finished()).toBe(true);
 
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -285,6 +292,7 @@ it('should handle image not found', async () => {
   };
 
   expect(await initState(input)).toMatchSnapshot();
+  expect(gql.__finished()).toBe(true);
 
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -305,4 +313,53 @@ it('should handle image not found', async () => {
     ]
   `);
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
+});
+
+it('handles reason LIFF: incorrect context', async () => {
+  const input = {
+    data: {
+      sessionId: 1497994017447,
+      // No selectedArticleId
+    },
+    state: '__INIT__',
+    event: {
+      type: 'message',
+      input: REASON_PREFIX + 'My reason',
+      timestamp: 1497994016356,
+    },
+    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+    replies: undefined,
+    isSkipUser: false,
+  };
+
+  await expect(initState(input)).rejects.toMatchInlineSnapshot(
+    `[Error: Please press the latest button to submit message to database.]`
+  );
+  expect(ga.sendMock).toHaveBeenCalledTimes(0);
+});
+
+it('handles reason LIFF: reply request update failed', async () => {
+  const input = {
+    data: {
+      sessionId: 1497994017447,
+      selectedArticleId: 'article-id',
+    },
+    state: '__INIT__',
+    event: {
+      type: 'message',
+      input: REASON_PREFIX + 'My reason',
+      timestamp: 1497994016356,
+    },
+    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+    replies: undefined,
+    isSkipUser: false,
+  };
+
+  gql.__push(apiResult.apiError);
+
+  await expect(initState(input)).rejects.toMatchInlineSnapshot(
+    `[Error: Something went wrong when recording your reason, please try again later.]`
+  );
+  expect(gql.__finished()).toBe(true);
+  expect(ga.sendMock).toHaveBeenCalledTimes(0);
 });

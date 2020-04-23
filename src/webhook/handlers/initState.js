@@ -62,7 +62,7 @@ export default async function initState(params) {
 
     const articleUrl = getArticleURL(data.selectedArticleId);
     const otherReplyRequestCount =
-      mutationData.CreateOrUpdateReplyRequest.replyRequestCount;
+      mutationData.CreateOrUpdateReplyRequest.replyRequestCount - 1;
     const replyRequestUpdatedMsg = t`Thanks for the info you provided.`;
 
     replies = [
@@ -80,7 +80,7 @@ export default async function initState(params) {
                 wrap: true,
                 text: replyRequestUpdatedMsg,
               },
-              {
+              otherReplyRequestCount > 0 && {
                 type: 'text',
                 wrap: true,
                 text: ngettext(
@@ -89,7 +89,7 @@ export default async function initState(params) {
                   otherReplyRequestCount
                 ),
               },
-            ],
+            ].filter(m => m),
           },
           footer: createReasonButtonFooter(articleUrl, userId, data.sessionId),
         },
@@ -251,6 +251,8 @@ export default async function initState(params) {
       }
     );
 
+    // Show "no-article-found" option only when no identical docs are found
+    //
     if (!hasIdenticalDocs) {
       articleOptions.push({
         type: 'bubble',

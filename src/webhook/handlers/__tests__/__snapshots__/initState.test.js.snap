@@ -3,9 +3,6 @@
 exports[`article found 1`] = `
 Object {
   "data": Object {
-    "foundArticleIds": Array [
-      "AVvY-yizyCdS-nWhuYWx",
-    ],
     "searchedText": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入",
     "sessionId": 1497994017447,
   },
@@ -57,7 +54,8 @@ Please choose the version that looks the most similar👇",
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":1,\\"sessionId\\":1497994017447}",
+                    "data": "{\\"input\\":\\"AVvY-yizyCdS-nWhuYWx\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “計程車上有裝悠遊卡感應器，老人悠悠卡可以享受...”",
                     "label": "Choose this one",
                     "type": "postback",
                   },
@@ -114,7 +112,8 @@ Please choose the version that looks the most similar👇",
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":0,\\"sessionId\\":1497994017447}",
+                    "data": "{\\"input\\":\\"__NO_ARTICLE_FOUND__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "None of these messages matches mine :(",
                     "label": "Tell us more",
                     "type": "postback",
                   },
@@ -156,10 +155,6 @@ Please choose the version that looks the most similar👇",
 exports[`articles found with high similarity 1`] = `
 Object {
   "data": Object {
-    "foundArticleIds": Array [
-      "AVvY-yizyCdS-nWhuYWx",
-      "AVvY-yizyCdS-nWhuYWy",
-    ],
     "searchedText": "YouTube · 寻找健康人生",
     "sessionId": 1497994017447,
   },
@@ -211,7 +206,8 @@ Please choose the version that looks the most similar👇",
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":1,\\"sessionId\\":1497994017447}",
+                    "data": "{\\"input\\":\\"AVvY-yizyCdS-nWhuYWx\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “YouTube  ·  寻找健康人生”",
                     "label": "Choose this one",
                     "type": "postback",
                   },
@@ -271,7 +267,10 @@ Please choose the version that looks the most similar👇",
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":2,\\"sessionId\\":1497994017447}",
+                    "data": "{\\"input\\":\\"AVvY-yizyCdS-nWhuYWy\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “YouTube
+·
+寻找健康人生”",
                     "label": "Choose this one",
                     "type": "postback",
                   },
@@ -306,56 +305,6 @@ Please choose the version that looks the most similar👇",
             },
             "type": "bubble",
           },
-          Object {
-            "body": Object {
-              "contents": Array [
-                Object {
-                  "flex": 0,
-                  "gravity": "top",
-                  "maxLines": 5,
-                  "text": "None of these messages matches mine :(",
-                  "type": "text",
-                  "weight": "regular",
-                  "wrap": true,
-                },
-              ],
-              "layout": "horizontal",
-              "margin": "none",
-              "spacing": "none",
-              "type": "box",
-            },
-            "footer": Object {
-              "contents": Array [
-                Object {
-                  "action": Object {
-                    "data": "{\\"input\\":0,\\"sessionId\\":1497994017447}",
-                    "label": "Tell us more",
-                    "type": "postback",
-                  },
-                  "style": "primary",
-                  "type": "button",
-                },
-              ],
-              "layout": "horizontal",
-              "type": "box",
-            },
-            "header": Object {
-              "contents": Array [
-                Object {
-                  "color": "#AAAAAA",
-                  "margin": "none",
-                  "size": "sm",
-                  "text": "😶",
-                  "type": "text",
-                  "weight": "bold",
-                },
-              ],
-              "layout": "horizontal",
-              "paddingBottom": "none",
-              "type": "box",
-            },
-            "type": "bubble",
-          },
         ],
         "type": "carousel",
       },
@@ -370,21 +319,12 @@ Please choose the version that looks the most similar👇",
 exports[`only one article found with high similarity 1`] = `
 Object {
   "data": Object {
-    "foundArticleIds": Array [
-      "AVvY-yizyCdS-nWhuYWx",
-    ],
     "searchedText": "YouTube · 寻找健康人生",
     "sessionId": 1497994017447,
   },
   "event": Object {
-    "input": 1,
-    "message": Object {
-      "id": "6270464463537",
-      "text": "YouTube · 寻找健康人生",
-      "type": "text",
-    },
-    "timestamp": 1497994016356,
-    "type": "message",
+    "input": "AVvY-yizyCdS-nWhuYWx",
+    "type": "postback",
   },
   "isSkipUser": true,
   "replies": undefined,

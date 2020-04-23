@@ -84,3 +84,7 @@ export const notFound = {
     },
   },
 };
+
+export const apiError = {
+  errors: [{ message: 'Syntax error' }]
+};
