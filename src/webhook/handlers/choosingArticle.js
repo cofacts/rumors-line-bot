@@ -43,13 +43,13 @@ export default async function choosingArticle(params) {
   }
 
   if (event.input === POSTBACK_NO_ARTICLE_FOUND) {
-    ga(userId, state, data.searchedText)
-      .event({
-        ec: 'UserInput',
-        ea: 'ArticleSearch',
-        el: 'ArticleFoundButNoHit',
-      })
-      .send();
+    const visitor = ga(userId, state, data.searchedText);
+    visitor.event({
+      ec: 'UserInput',
+      ea: 'ArticleSearch',
+      el: 'ArticleFoundButNoHit',
+    });
+    visitor.send();
 
     return {
       data,
@@ -99,10 +99,9 @@ export default async function choosingArticle(params) {
 
   const articleReplies = reorderArticleReplies(GetArticle.articleReplies);
   if (articleReplies.length === 1) {
-    // choose for user
-    event.input = 1;
-
     visitor.send();
+
+    // choose for user
     return {
       data,
       state: 'CHOOSING_REPLY',
@@ -127,8 +126,9 @@ export default async function choosingArticle(params) {
     });
 
     const summary =
+      '👨‍👩‍👧‍👦  ' +
       t`Volunteer editors has publised several replies to this message.` +
-      '\n\n👨‍👩‍👧‍👦 ' +
+      '\n\n' +
       [
         countOfType.RUMOR > 0
           ? t`${countOfType.RUMOR} of them say it ❌ contains misinformation.`
@@ -283,11 +283,11 @@ export default async function choosingArticle(params) {
     const spans = [
       {
         type: 'span',
-        text: t`Unfortunately no one has replied to this message yet. To help Cofacts editors checking the message, please`,
+        text: t`Unfortunately no one has replied to this message yet. To help Cofacts editors checking the message, please `,
       },
       {
         type: 'span',
-        text: t`provide more information using “${btnText}” button.`,
+        text: t`provide more information using “${btnText}” button. `,
         color: '#ffb600',
         weight: 'bold',
       },
