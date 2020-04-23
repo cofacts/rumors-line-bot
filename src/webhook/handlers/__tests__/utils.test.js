@@ -45,7 +45,13 @@ describe('ellipsis()', () => {
 describe('createPostbackAction()', () => {
   it('should return postback message body', () => {
     expect(
-      createPostbackAction('閱讀此回應', 3, 1519019701265)
+      createPostbackAction(
+        '閱讀此回應',
+        3,
+        'I chose this',
+        1519019701265,
+        'some-id'
+      )
     ).toMatchSnapshot();
   });
 });

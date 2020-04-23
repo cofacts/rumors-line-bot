@@ -1,5 +1,6 @@
 jest.mock('src/lib/ga');
 
+import MockDate from 'mockdate';
 import askingReplyRequestReason from '../askingReplyRequestReason';
 import {
   REASON_PREFIX,
@@ -39,7 +40,11 @@ it('records article source', async () => {
         SOURCE_PREFIX + ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label, // From LIFF
     },
   };
+
+  MockDate.set('2020-01-01');
   expect(await askingReplyRequestReason(params)).toMatchSnapshot();
+  MockDate.reset();
+
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
