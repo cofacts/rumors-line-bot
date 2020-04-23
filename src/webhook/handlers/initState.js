@@ -1,12 +1,16 @@
 import stringSimilarity from 'string-similarity';
-import { t } from 'ttag';
+import { t, msgid, ngettext } from 'ttag';
 import gql from 'src/lib/gql';
+import { REASON_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
 import {
+  ManipulationError,
   createPostbackAction,
   ellipsis,
   createAskArticleSubmissionConsentReply,
   createSuggestOtherFactCheckerReply,
   POSTBACK_NO_ARTICLE_FOUND,
+  createReasonButtonFooter,
+  createArticleShareReply,
 } from './utils';
 import ga from 'src/lib/ga';
 
@@ -14,6 +18,88 @@ const SIMILARITY_THRESHOLD = 0.95;
 
 export default async function initState(params) {
   let { data, state, event, userId, replies, isSkipUser } = params;
+
+  if (event.input.startsWith(REASON_PREFIX)) {
+    // Check required data to update reply request
+    if (!data.selectedArticleId) {
+      throw new ManipulationError(
+        t`Please press the latest button to submit message to database.`
+      );
+    }
+
+    // Update the reply request
+    const { data: mutationData, errors } = await gql`
+      mutation UpdateReplyRequest($id: String!, $reason: String) {
+        CreateOrUpdateReplyRequest(articleId: $id, reason: $reason) {
+          text
+          replyRequestCount
+        }
+      }
+    `(
+      {
+        id: data.selectedArticleId,
+        reason: event.input.slice(REASON_PREFIX.length),
+      },
+      { userId }
+    );
+
+    if (errors) {
+      throw new ManipulationError(
+        t`Something went wrong when recording your reason, please try again later.`
+      );
+    }
+
+    const visitor = ga(
+      userId,
+      state,
+      mutationData.CreateOrUpdateReplyRequest.text
+    );
+    visitor.event({
+      ec: 'Article',
+      ea: 'ProvidingReason',
+      el: data.selectedArticleId,
+    });
+
+    const articleUrl = getArticleURL(data.selectedArticleId);
+    const otherReplyRequestCount =
+      mutationData.CreateOrUpdateReplyRequest.replyRequestCount;
+    const replyRequestUpdatedMsg = t`Thanks for the info you provided.`;
+
+    replies = [
+      {
+        type: 'flex',
+        altText: replyRequestUpdatedMsg,
+        contents: {
+          type: 'bubble',
+          body: {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'text',
+                wrap: true,
+                text: replyRequestUpdatedMsg,
+              },
+              {
+                type: 'text',
+                wrap: true,
+                text: ngettext(
+                  msgid`There is ${otherReplyRequestCount} user also waiting for clarification.`,
+                  `There are ${otherReplyRequestCount} users also waiting for clarification.`,
+                  otherReplyRequestCount
+                ),
+              },
+            ],
+          },
+          footer: createReasonButtonFooter(articleUrl, userId, data.sessionId),
+        },
+      },
+      createArticleShareReply(articleUrl),
+    ];
+    visitor.send();
+
+    return { data, state, event, userId, replies, isSkipUser };
+  }
 
   // Track text message type send by user
   const visitor = ga(userId, state, event.input);

@@ -111,6 +111,9 @@ export default async function askingArticleSubmissionConsent(params) {
       },
       createArticleShareReply(articleUrl),
     ];
+
+    // Record article ID in context for reason LIFF
+    data.selectedArticleId = CreateArticle.id;
     state = '__INIT__';
   }
 

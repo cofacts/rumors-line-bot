@@ -368,4 +368,41 @@ export function createSuggestOtherFactCheckerReply() {
   };
 }
 
+/**
+ *
+ * @param {string} articleUrl
+ * @param {string} userId
+ * @param {string} sessionId
+ * @returns {object} Flex bubble message's footer object
+ */
+export function createReasonButtonFooter(articleUrl, userId, sessionId) {
+  return {
+    type: 'box',
+    layout: 'vertical',
+    spacing: 'sm',
+    contents: [
+      {
+        type: 'button',
+        action: {
+          type: 'uri',
+          label: t`See reported message`,
+          uri: articleUrl,
+        },
+        style: 'primary',
+        color: '#333333',
+      },
+      {
+        type: 'button',
+        action: {
+          type: 'uri',
+          label: t`Provide more info`,
+          uri: getLIFFURL('reason', userId, sessionId),
+        },
+        style: 'primary',
+        color: '#ffb600',
+      },
+    ],
+  };
+}
+
 export const POSTBACK_NO_ARTICLE_FOUND = '__NO_ARTICLE_FOUND__';

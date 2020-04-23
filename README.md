@@ -217,3 +217,6 @@ Sent event format: `Event category` / `Event action` / `Event label`
 
 6. User does not want to submit an article
   - `Article` / `Create` / `No`
+
+7. User updates their reason of reply request
+  - `Article` / `ProvidingReason` / `<articleId>`
