@@ -9,6 +9,8 @@ import {
   ManipulationError,
   createAskArticleSubmissionConsentReply,
   POSTBACK_NO_ARTICLE_FOUND,
+  FLEX_MESSAGE_ALT_TEXT,
+  getLIFFURL,
 } from './utils';
 import ga from 'src/lib/ga';
 
@@ -152,8 +154,10 @@ export default async function choosingArticle(params) {
 
     const replyOptions = articleReplies
       .slice(0, 10)
-      .map(({ reply, positiveFeedbackCount, negativeFeedbackCount }, idx) => {
+      .map(({ reply, positiveFeedbackCount, negativeFeedbackCount }) => {
         const typeWords = createTypeWords(reply.type).toLowerCase();
+        const displayTextWhenChosen = ellipsis(reply.text, 25);
+
         return {
           type: 'bubble',
           direction: 'ltr',
@@ -225,8 +229,10 @@ export default async function choosingArticle(params) {
                 type: 'button',
                 action: createPostbackAction(
                   `👀 ${t`Take a look`}`,
-                  idx + 1,
-                  data.sessionId
+                  reply.id,
+                  t`I choose “${displayTextWhenChosen}”`,
+                  data.sessionId,
+                  'CHOOSING_REPLY'
                 ),
                 style: 'primary',
               },
@@ -273,28 +279,64 @@ export default async function choosingArticle(params) {
       el: selectedArticleId,
     });
 
-    const altText =
-      '抱歉這篇訊息還沒有人回應過唷！\n' +
-      '\n' +
-      '請問您是從哪裡看到這則訊息呢？\n' +
-      '\n' +
-      data.articleSources
-        .map((option, index) => `${option} > 請傳 ${index + 1}\n`)
-        .join('') +
-      '\n' +
-      '請按左下角「⌨️」鈕輸入選項編號。';
+    const btnText = `ℹ️ ${t`Provide more info`}`;
+    const spans = [
+      {
+        type: 'span',
+        text: t`Unfortunately no one has replied to this message yet. To help Cofacts editors checking the message, please`,
+      },
+      {
+        type: 'span',
+        text: t`provide more information using “${btnText}” button.`,
+        color: '#ffb600',
+        weight: 'bold',
+      },
+      {
+        type: 'span',
+        text: t`Although you won't receive answers rightaway, you can help the people who receive the same message in the future.`,
+      },
+    ];
 
     replies = [
       {
-        type: 'template',
-        altText,
-        template: {
-          type: 'buttons',
-          text:
-            '抱歉這篇訊息還沒有人回應過唷！\n請問您是從哪裡看到這則訊息呢？',
-          actions: data.articleSources.map((option, index) =>
-            createPostbackAction(option, index + 1, issuedAt)
-          ),
+        type: 'flex',
+        altText: FLEX_MESSAGE_ALT_TEXT,
+        contents: {
+          type: 'bubble',
+          body: {
+            type: 'box',
+            layout: 'vertical',
+            spacing: 'md',
+            paddingAll: 'lg',
+            contents: [
+              {
+                type: 'text',
+                wrap: true,
+                contents: spans,
+              },
+            ],
+          },
+          footer: {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'button',
+                style: 'primary',
+                color: '#ffb600',
+                action: {
+                  type: 'uri',
+                  label: btnText,
+                  uri: getLIFFURL('source', userId, data.sessionId),
+                },
+              },
+            ],
+          },
+          styles: {
+            body: {
+              separator: true,
+            },
+          },
         },
       },
     ];
