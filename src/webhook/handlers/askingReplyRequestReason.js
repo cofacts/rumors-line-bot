@@ -5,7 +5,7 @@ import {
   ManipulationError,
   createArticleShareReply,
   getArticleSourceOptionFromLabel,
-  getLIFFURL,
+  createReasonButtonFooter,
 } from './utils';
 
 export default async function askingReplyRequestSubmission(params) {
@@ -55,33 +55,7 @@ export default async function askingReplyRequestSubmission(params) {
             },
           ],
         },
-        footer: {
-          type: 'box',
-          layout: 'vertical',
-          spacing: 'sm',
-          contents: [
-            {
-              type: 'button',
-              action: {
-                type: 'uri',
-                label: t`See reported message`,
-                uri: articleUrl,
-              },
-              style: 'primary',
-              color: '#333333',
-            },
-            {
-              type: 'button',
-              action: {
-                type: 'uri',
-                label: t`Provide more info`,
-                uri: getLIFFURL('reason', userId, data.sessionId),
-              },
-              style: 'primary',
-              color: '#ffb600',
-            },
-          ],
-        },
+        footer: createReasonButtonFooter(articleUrl, userId, data.sessionId),
       },
     },
     createArticleShareReply(articleUrl),
