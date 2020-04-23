@@ -46,7 +46,9 @@ it('should block non-existence source option', async () => {
     },
   };
 
-  expect(askingArticleSubmissionConsent(params)).rejects.toMatchInlineSnapshot(
+  await expect(
+    askingArticleSubmissionConsent(params)
+  ).rejects.toMatchInlineSnapshot(
     `[Error: Please tell us where you have received the message using the options we provided.]`
   );
 });
