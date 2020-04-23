@@ -61,6 +61,6 @@ export default async function askingReplyRequestSubmission(params) {
     createArticleShareReply(articleUrl),
   ];
   state = '__INIT__';
-
+  visitor.send();
   return { data, state, event, issuedAt, userId, replies, isSkipUser };
 }
