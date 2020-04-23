@@ -316,6 +316,231 @@ Please choose the version that looks the most similar👇",
 }
 `;
 
+exports[`handles reason LIFF: reply request update success, multiple reply requests 1`] = `
+Object {
+  "data": Object {
+    "selectedArticleId": "article-id",
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "💁 My reason is:
+My reason",
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "altText": "Thanks for the info you provided.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "Thanks for the info you provided.",
+              "type": "text",
+              "wrap": true,
+            },
+            Object {
+              "text": "There is 1 user also waiting for clarification.",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "See reported message",
+                "type": "uri",
+                "uri": "https://cofacts.hacktabl.org/article/article-id",
+              },
+              "color": "#333333",
+              "style": "primary",
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "label": "Provide more info",
+                "type": "uri",
+                "uri": "line://app/1631030389-xb5mnDdN?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE0OTc5OTQwMTc0NDcsImV4cCI6MTU3NzkyMzIwMH0.swCHAII1dNMjmwCyhIIBZII_Csw8ME_xe5U6TgjNRJQ",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+    Object {
+      "altText": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "Share on LINE",
+                "type": "uri",
+                "uri": "line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Farticle-id",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "label": "Share on Facebook",
+                "type": "uri",
+                "uri": "https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Farticle-id",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "__INIT__",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`handles reason LIFF: reply request update success, only 1 reply request 1`] = `
+Object {
+  "data": Object {
+    "selectedArticleId": "article-id",
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "💁 My reason is:
+My reason",
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "altText": "Thanks for the info you provided.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "Thanks for the info you provided.",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "See reported message",
+                "type": "uri",
+                "uri": "https://cofacts.hacktabl.org/article/article-id",
+              },
+              "color": "#333333",
+              "style": "primary",
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "label": "Provide more info",
+                "type": "uri",
+                "uri": "line://app/1631030389-xb5mnDdN?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE0OTc5OTQwMTc0NDcsImV4cCI6MTU3NzkyMzIwMH0.swCHAII1dNMjmwCyhIIBZII_Csw8ME_xe5U6TgjNRJQ",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+    Object {
+      "altText": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "Share on LINE",
+                "type": "uri",
+                "uri": "line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Farticle-id",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "label": "Share on Facebook",
+                "type": "uri",
+                "uri": "https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Farticle-id",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "__INIT__",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
 exports[`only one article found with high similarity 1`] = `
 Object {
   "data": Object {

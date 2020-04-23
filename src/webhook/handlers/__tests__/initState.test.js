@@ -363,3 +363,79 @@ it('handles reason LIFF: reply request update failed', async () => {
   expect(gql.__finished()).toBe(true);
   expect(ga.sendMock).toHaveBeenCalledTimes(0);
 });
+
+it('handles reason LIFF: reply request update success, only 1 reply request', async () => {
+  const input = {
+    data: {
+      sessionId: 1497994017447,
+      selectedArticleId: 'article-id',
+    },
+    state: '__INIT__',
+    event: {
+      type: 'message',
+      input: REASON_PREFIX + 'My reason',
+      timestamp: 1497994016356,
+    },
+    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+    replies: undefined,
+    isSkipUser: false,
+  };
+
+  gql.__push(apiResult.updateReplyRequestSuccess);
+
+  MockDate.set('2020-01-01');
+  expect(await initState(input)).toMatchSnapshot();
+  MockDate.reset();
+
+  expect(gql.__finished()).toBe(true);
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "ProvidingReason",
+          "ec": "Article",
+          "el": "article-id",
+        },
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
+});
+
+it('handles reason LIFF: reply request update success, multiple reply requests', async () => {
+  const input = {
+    data: {
+      sessionId: 1497994017447,
+      selectedArticleId: 'article-id',
+    },
+    state: '__INIT__',
+    event: {
+      type: 'message',
+      input: REASON_PREFIX + 'My reason',
+      timestamp: 1497994016356,
+    },
+    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+    replies: undefined,
+    isSkipUser: false,
+  };
+
+  gql.__push(apiResult.updateReplyRequestSuccess2);
+
+  MockDate.set('2020-01-01');
+  expect(await initState(input)).toMatchSnapshot();
+  MockDate.reset();
+
+  expect(gql.__finished()).toBe(true);
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "ProvidingReason",
+          "ec": "Article",
+          "el": "article-id",
+        },
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
+});
