@@ -41,7 +41,9 @@ async function updateFeedback(variables, search) {
   `(variables, search);
 
   if (errors) {
-    throw ManipulationError(t`Cannot record your feedback. Try again later?`);
+    throw new ManipulationError(
+      t`Cannot record your feedback. Try again later?`
+    );
   }
 
   return data.CreateOrUpdateArticleReplyFeedback;
