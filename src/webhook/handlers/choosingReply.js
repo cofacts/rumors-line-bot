@@ -20,9 +20,7 @@ export default async function choosingReply(params) {
 
   const selectedReplyId = (data.selectedReplyId = event.input);
 
-  const {
-    data: { GetReply, GetArticle },
-  } = await gql`
+  const { data: getReplyData, errors } = await gql`
     query GetReplyRelatedData($id: String!, $articleId: String!) {
       GetReply(id: $id) {
         type
@@ -35,6 +33,14 @@ export default async function choosingReply(params) {
       }
     }
   `({ id: selectedReplyId, articleId: data.selectedArticleId });
+
+  if (errors) {
+    throw new ManipulationError(
+      t`We have problem retrieving message and reply data, please forward the message again`
+    );
+  }
+
+  const { GetReply, GetArticle } = getReplyData;
 
   const articleUrl = getArticleURL(data.selectedArticleId);
   const typeStr = createTypeWords(GetReply.type).toLocaleLowerCase();

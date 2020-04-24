@@ -1,58 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should handle invalid reply ids 1`] = `
-Object {
-  "data": Object {
-    "foundArticleIds": Array [
-      "AWDZYXxAyCdS-nWhumlz",
-      "5483323992880-rumor",
-      "AV-Urc0jyCdS-nWhuity",
-      "AVsh8u7StKp96s659Dgq",
-    ],
-    "foundReplyIds": Array [
-      "AWDZeeV0yCdS-nWhuml8",
-    ],
-    "searchedText": "貼圖",
-    "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
-  },
-  "event": Object {
-    "input": "123",
-    "timestamp": 1518964687709,
-    "type": "text",
-  },
-  "isSkipUser": false,
-  "issuedAt": 1518964688672,
-  "replies": Array [
-    Object {
-      "text": "請輸入 1～1 的數字，來選擇回應。",
-      "type": "text",
-    },
-  ],
-  "state": "CHOOSING_REPLY",
-  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
-}
-`;
-
 exports[`should select reply by replyId should handle the case with just one reply 1`] = `
 Object {
   "data": Object {
-    "foundArticleIds": Array [
-      "AWDZYXxAyCdS-nWhumlz",
-      "5483323992880-rumor",
-      "AV-Urc0jyCdS-nWhuity",
-      "AVsh8u7StKp96s659Dgq",
-    ],
-    "foundReplyIds": Array [
-      "AWDZeeV0yCdS-nWhuml8",
-    ],
     "searchedText": "貼圖",
     "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
     "selectedReplyId": "AWDZeeV0yCdS-nWhuml8",
   },
   "event": Object {
-    "input": 1,
+    "input": "AWDZeeV0yCdS-nWhuml8",
     "postback": Object {
-      "data": "{\\"input\\":1,\\"issuedAt\\":1518964675191}",
+      "data": "{\\"input\\":\\"AWDZeeV0yCdS-nWhuml8\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
     },
     "timestamp": 1518964687709,
     "type": "postback",
@@ -82,25 +40,52 @@ https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
       "type": "text",
     },
     Object {
-      "altText": "請問上面回應是否有幫助？
-「是」請輸入「y」，「否」請至手機上回應",
-      "template": Object {
-        "actions": Array [
-          Object {
-            "data": "{\\"input\\":\\"y\\",\\"sessionId\\":1518964688672}",
-            "label": "Yes",
-            "type": "postback",
-          },
-          Object {
-            "label": "No",
-            "type": "uri",
-            "uri": "line://app/1631030389-xb5mnDdN?p=ASKING_REPLY_FEEDBACK&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOiLwn5KhIEkgdGhpbmsgdGhlIHJlcGx5IGlzIG5vdCB1c2VmdWwgYW5kIEkgc3VnZ2VzdDpcbiIsImV4cCI6MTU3NzkyMzIwMH0._hEe14XF6DQvMOmgv_G1yPkVGExgNPtGaaTaBK_BuuQ",
-          },
-        ],
-        "text": "Is the reply helpful?",
-        "type": "confirm",
+      "altText": "Is the reply helpful?
+📱 Please proceed on your mobile phone.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "Is the reply helpful?",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "paddingAll": "lg",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "Yes",
+                "type": "uri",
+                "uri": "line://app/1631030389-xb5mnDdN?p=feedback/yes&token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Nzc5MjMyMDB9.zfrE2uvmsu7mPH23-TZ5L_mfjiNEeiX-x5Md4Lvsk7I",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "label": "No",
+                "type": "uri",
+                "uri": "line://app/1631030389-xb5mnDdN?p=feedback/no&token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Nzc5MjMyMDB9.zfrE2uvmsu7mPH23-TZ5L_mfjiNEeiX-x5Md4Lvsk7I",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "horizontal",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "type": "bubble",
       },
-      "type": "template",
+      "type": "flex",
     },
   ],
   "state": "ASKING_REPLY_FEEDBACK",
@@ -108,27 +93,17 @@ https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
 }
 `;
 
-exports[`should select reply by replyId should handle the case with multiple replues 1`] = `
+exports[`should select reply by replyId should handle the case with multiple replies 1`] = `
 Object {
   "data": Object {
-    "foundArticleIds": Array [
-      "AWDZYXxAyCdS-nWhumlz",
-      "5483323992880-rumor",
-      "AV-Urc0jyCdS-nWhuity",
-      "AVsh8u7StKp96s659Dgq",
-    ],
-    "foundReplyIds": Array [
-      "AWDZeeV0yCdS-nWhuml8",
-      "BVDZeeV0yCdS-nWhuml8",
-    ],
     "searchedText": "貼圖",
     "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
     "selectedReplyId": "AWDZeeV0yCdS-nWhuml8",
   },
   "event": Object {
-    "input": 1,
+    "input": "AWDZeeV0yCdS-nWhuml8",
     "postback": Object {
-      "data": "{\\"input\\":1,\\"issuedAt\\":1518964675191}",
+      "data": "{\\"input\\":\\"AWDZeeV0yCdS-nWhuml8\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
     },
     "timestamp": 1518964687709,
     "type": "postback",
@@ -160,25 +135,52 @@ https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
       "type": "text",
     },
     Object {
-      "altText": "請問上面回應是否有幫助？
-「是」請輸入「y」，「否」請至手機上回應",
-      "template": Object {
-        "actions": Array [
-          Object {
-            "data": "{\\"input\\":\\"y\\",\\"sessionId\\":1518964688672}",
-            "label": "Yes",
-            "type": "postback",
-          },
-          Object {
-            "label": "No",
-            "type": "uri",
-            "uri": "line://app/1631030389-xb5mnDdN?p=ASKING_REPLY_FEEDBACK&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOiLwn5KhIEkgdGhpbmsgdGhlIHJlcGx5IGlzIG5vdCB1c2VmdWwgYW5kIEkgc3VnZ2VzdDpcbiIsImV4cCI6MTU3NzkyMzIwMH0._hEe14XF6DQvMOmgv_G1yPkVGExgNPtGaaTaBK_BuuQ",
-          },
-        ],
-        "text": "Is the reply helpful?",
-        "type": "confirm",
+      "altText": "Is the reply helpful?
+📱 Please proceed on your mobile phone.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "Is the reply helpful?",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "paddingAll": "lg",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "Yes",
+                "type": "uri",
+                "uri": "line://app/1631030389-xb5mnDdN?p=feedback/yes&token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Nzc5MjMyMDB9.zfrE2uvmsu7mPH23-TZ5L_mfjiNEeiX-x5Md4Lvsk7I",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "label": "No",
+                "type": "uri",
+                "uri": "line://app/1631030389-xb5mnDdN?p=feedback/no&token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Nzc5MjMyMDB9.zfrE2uvmsu7mPH23-TZ5L_mfjiNEeiX-x5Md4Lvsk7I",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "horizontal",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "type": "bubble",
       },
-      "type": "template",
+      "type": "flex",
     },
   ],
   "state": "ASKING_REPLY_FEEDBACK",
