@@ -122,7 +122,7 @@ export default async function askingReplyFeedback(params) {
                 color: '#ffb600',
                 action: {
                   type: 'uri',
-                  label: t`Submit new reply`,
+                  label: t`See reported message`,
                   uri: getArticleURL(data.selectedArticleId),
                 },
               },
