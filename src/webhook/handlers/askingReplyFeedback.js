@@ -1,13 +1,169 @@
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
-import { getArticleURL, DOWNVOTE_PREFIX } from 'src/lib/sharedUtils';
-import { createTypeWords, ellipsis } from './utils';
+import { t } from 'ttag';
+import {
+  getArticleURL,
+  UPVOTE_PREFIX,
+  DOWNVOTE_PREFIX,
+} from 'src/lib/sharedUtils';
+import {
+  createTypeWords,
+  ellipsis,
+  ManipulationError,
+  FLEX_MESSAGE_ALT_TEXT,
+} from './utils';
+
+/**
+ * @param {{vote: FeedbackVote, articleId: String, replyId: String, comment: String}} variables
+ * @param {object} search
+ * @returns {Promise}
+ */
+const updateFeedback = gql`
+  mutation UpdateFeedback(
+    $vote: FeedbackVote!
+    $articleId: String!
+    $replyId: String!
+    $comment: String
+  ) {
+    CreateOrUpdateArticleReplyFeedback(
+      vote: $vote
+      articleId: $articleId
+      replyId: $replyId
+      comment: $comment
+    ) {
+      reply {
+        type
+      }
+      feedbackCount
+    }
+  }
+`;
 
 export default async function askingReplyFeedback(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
   if (!data.selectedReplyId) {
     throw new Error('selectedReply not set in data');
+  }
+
+  if (event.input.startsWith(UPVOTE_PREFIX)) {
+    const { data: updateData, errors } = await updateFeedback(
+      {
+        articleId: data.selectedArticleId,
+        replyId: data.selectedReplyId,
+        vote: 'UPVOTE',
+        comment: event.input.slice(UPVOTE_PREFIX.length),
+      },
+      { userId }
+    );
+
+    if (errors) {
+      throw ManipulationError(t`Cannot record your feedback. Try again later?`);
+    }
+
+    const articleText = ellipsis(data.selectedArticleText, 15);
+    const replyType = createTypeWords(
+      updateData.CreateOrUpdateArticleReplyFeedback.reply.type
+    ).toLowerCase();
+    const articleUrl = getArticleURL(data.selectedArticleId);
+    const sharedText = t`Someone says the message “${articleText}” ${replyType}.\n\nPlease refer to ${articleUrl} for more information, replies and references.`;
+
+    const otherFeedbackCount =
+      updateData.CreateOrUpdateArticleReplyFeedback.feedbackCount - 1;
+    const callToAction = t`Don't forget to forward the messages above to others and share with them!`;
+
+    replies = [
+      {
+        type: 'text',
+        text:
+          otherFeedbackCount > 0
+            ? t`We've received feedback from you and ${otherFeedbackCount} other users!`
+            : t`Thanks. You're the first one who gave feedback on this reply!`,
+      },
+      {
+        type: 'flex',
+        altText: callToAction + '\n' + FLEX_MESSAGE_ALT_TEXT,
+        contents: {
+          type: 'bubble',
+          body: {
+            type: 'box',
+            layout: 'vertical',
+            spacing: 'md',
+            paddingAll: 'lg',
+            contents: [
+              {
+                type: 'text',
+                wrap: true,
+                text: callToAction,
+              },
+            ],
+          },
+          footer: {
+            type: 'box',
+            layout: 'vertical',
+            spacing: 'sm',
+            contents: [
+              {
+                type: 'button',
+                style: 'primary',
+                color: '#ffb600',
+                action: {
+                  type: 'uri',
+                  label: t`Share to friends`,
+                  uri: `https://line.me/R/msg/text/?${encodeURI(sharedText)}`,
+                },
+              },
+              {
+                type: 'button',
+                style: 'link',
+                color: '#ffb600',
+                action: {
+                  type: 'uri',
+                  label: t`Submit new reply`,
+                  uri: getArticleURL(data.selectedArticleId),
+                },
+              },
+            ],
+          },
+        },
+      },
+    ];
+  } else if (event.input.startsWith(DOWNVOTE_PREFIX)) {
+    const { data: updateData, errors } = await updateFeedback(
+      {
+        articleId: data.selectedArticleId,
+        replyId: data.selectedReplyId,
+        vote: 'DOWNVOTE',
+        comment: event.input.slice(DOWNVOTE_PREFIX.length),
+      },
+      { userId }
+    );
+
+    if (errors) {
+      throw ManipulationError(t`Cannot record your feedback. Try again later?`);
+    }
+
+    const articleUrl = getArticleURL(data.selectedArticleId);
+    const otherFeedbackCount =
+      updateData.CreateOrUpdateArticleReplyFeedback.feedbackCount - 1;
+
+    replies = [
+      {
+        type: 'text',
+        text:
+          otherFeedbackCount > 0
+            ? t`We've received feedback from you and ${otherFeedbackCount} other users!`
+            : t`Thanks. You're the first one who gave feedback on this reply!`,
+      },
+      {
+        type: 'text',
+        text: `💁 ${t`If you have a better reply, feel free to submit it to ${articleUrl} .`}`,
+      },
+    ];
+  } else {
+    throw new ManipulationError(
+      t`Please press the latest button to provide feedback to reply.`
+    );
   }
 
   const visitor = ga(userId, state, data.selectedArticleText);
@@ -19,144 +175,7 @@ export default async function askingReplyFeedback(params) {
     el: `${data.selectedArticleId}/${data.selectedReplyId}`,
   });
 
-  if (event.input === 'y') {
-    const {
-      data: {
-        action: { feedbackCount },
-      },
-    } = await gql`
-      mutation($vote: FeedbackVote!, $articleId: String!, $replyId: String!) {
-        action: CreateOrUpdateArticleReplyFeedback(
-          vote: $vote
-          articleId: $articleId
-          replyId: $replyId
-        ) {
-          feedbackCount
-        }
-      }
-    `(
-      {
-        articleId: data.selectedArticleId,
-        replyId: data.selectedReplyId,
-        vote: 'UPVOTE',
-      },
-      { userId }
-    );
-    const {
-      data: { GetReply },
-    } = await gql`
-      query($replyId: String!) {
-        GetReply(id: $replyId) {
-          type
-          text
-          reference
-        }
-      }
-    `({
-      replyId: data.selectedReplyId,
-    });
-
-    const articleUrl = getArticleURL(data.selectedArticleId);
-    let sharedText = `網路上有人說「${ellipsis(
-      data.selectedArticleText,
-      15
-    )}」 ${createTypeWords(
-      GetReply.type
-    )}喔！\n\n請至 ${articleUrl} 看看鄉親們針對這則訊息的回應、理由，與相關的出處唷！`;
-
-    replies = [
-      {
-        type: 'text',
-        text:
-          feedbackCount > 1
-            ? `感謝您與其他 ${feedbackCount - 1} 人的回饋。`
-            : '感謝您的回饋，您是第一個評論這個回應的人 :)',
-      },
-      {
-        type: 'template',
-        altText: `📲 別忘了把上面的回應轉傳回您的聊天室，給其他人也看看！\n💁 若您認為自己能回應得更好，歡迎到 ${articleUrl} 提交新的回應唷！`,
-        template: {
-          type: 'confirm',
-          text: `📲 別忘了把上面的回應轉傳回您的聊天室，給其他人也看看！\n💁 若您認為自己能回應得更好，歡迎提交新的回應唷！`,
-          actions: [
-            {
-              type: 'uri',
-              label: '分享給朋友',
-              uri: `line://msg/text/?${encodeURI(sharedText)}`,
-            },
-            {
-              type: 'uri',
-              label: '提交新回應',
-              uri: getArticleURL(data.selectedArticleId),
-            },
-          ],
-        },
-      },
-    ];
-
-    visitor.send();
-    state = '__INIT__';
-  } else if (event.input.startsWith(DOWNVOTE_PREFIX)) {
-    const comment = event.input.slice(DOWNVOTE_PREFIX.length);
-    const {
-      data: {
-        action: { feedbackCount },
-      },
-    } = await gql`
-      mutation(
-        $comment: String!
-        $vote: FeedbackVote!
-        $articleId: String!
-        $replyId: String!
-      ) {
-        action: CreateOrUpdateArticleReplyFeedback(
-          comment: $comment
-          articleId: $articleId
-          replyId: $replyId
-          vote: $vote
-        ) {
-          feedbackCount
-        }
-      }
-    `(
-      {
-        articleId: data.selectedArticleId,
-        replyId: data.selectedReplyId,
-        comment,
-        vote: 'DOWNVOTE',
-      },
-      { userId }
-    );
-
-    replies = [
-      {
-        type: 'text',
-        text:
-          feedbackCount > 1
-            ? `感謝您與其他 ${feedbackCount - 1} 人的回饋。`
-            : '感謝您的回饋，您是第一個評論這個回應的人 :)',
-      },
-      {
-        type: 'text',
-        text: `💁 若您認為自己能回應得更好，歡迎到 ${getArticleURL(
-          data.selectedArticleId
-        )} 提交新的回應唷！`,
-      },
-    ];
-
-    visitor.send();
-    state = '__INIT__';
-  } else {
-    replies = [
-      {
-        type: 'text',
-        text:
-          '請點擊上面的「是」、「否」對回應表達意見，或改轉傳其他訊息給我查詢。',
-      },
-    ];
-
-    // Don't do visitor.send() nor change state here because user did not respond yet
-  }
+  visitor.send();
 
   return { data, state, event, issuedAt, userId, replies, isSkipUser };
 }
