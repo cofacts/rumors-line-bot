@@ -1,107 +1,125 @@
 import { t } from 'ttag';
 import gql from 'src/lib/gql';
-import { getArticleURL, DOWNVOTE_PREFIX } from 'src/lib/sharedUtils';
+import { getArticleURL } from 'src/lib/sharedUtils';
 import {
-  createPostbackAction,
   createReferenceWords,
   createTypeWords,
   ellipsis,
   getLIFFURL,
+  ManipulationError,
+  FLEX_MESSAGE_ALT_TEXT,
 } from './utils';
 import ga from 'src/lib/ga';
 
 export default async function choosingReply(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
-  if (!data.foundReplyIds) {
-    throw new Error('foundReplyIds not set in data');
+  if (event.type !== 'postback') {
+    throw new ManipulationError(t`Please choose from provided options.`);
   }
 
-  const visitor = ga(userId, state, data.selectedArticleText);
+  const selectedReplyId = (data.selectedReplyId = event.input);
 
-  const selectedReplyId = data.foundReplyIds[event.input - 1];
-
-  if (!selectedReplyId) {
-    replies = [
-      {
-        type: 'text',
-        text: `請輸入 1～${data.foundReplyIds.length} 的數字，來選擇回應。`,
-      },
-    ];
-
-    state = 'CHOOSING_REPLY';
-  } else {
-    const {
-      data: { GetReply },
-    } = await gql`
-      query($id: String!) {
-        GetReply(id: $id) {
-          type
-          text
-          reference
-          createdAt
-        }
+  const {
+    data: { GetReply, GetArticle },
+  } = await gql`
+    query GetReplyRelatedData($id: String!, $articleId: String!) {
+      GetReply(id: $id) {
+        type
+        text
+        reference
+        createdAt
       }
-    `({ id: selectedReplyId });
+      GetArticle(id: $articleId) {
+        replyCount
+      }
+    }
+  `({ id: selectedReplyId, articleId: data.selectedArticleId });
 
-    const articleUrl = getArticleURL(data.selectedArticleId);
-    const typeStr = createTypeWords(GetReply.type).toLocaleLowerCase();
+  const articleUrl = getArticleURL(data.selectedArticleId);
+  const typeStr = createTypeWords(GetReply.type).toLocaleLowerCase();
+  const helpfulTitle = t`Is the reply helpful?`;
 
-    replies = [
-      {
-        type: 'text',
-        text: `💡 ${t`Someone on the internet replies to the message:`}`,
-      },
-      {
-        type: 'text',
-        text: ellipsis(GetReply.text, 2000),
-      },
-      {
-        type: 'text',
-        text: ellipsis(createReferenceWords(GetReply), 2000),
-      },
-      {
-        type: 'text',
-        text:
-          `⬆️ ${t`Therefore, the author think the message ${typeStr}.`}\n\n` +
-          `💁 ${t`These messages are provided by some nice volunteers. Please refer to their references and make judgements on your own.`}\n` +
-          (data.foundReplyIds.length > 1
-            ? `🗣️ ${t`There are different replies for the message. Read them all here before making judgements:`}\n${articleUrl}\n`
-            : '') +
-          `\n⁉️ ${t`If you have different thoughts, you may have your say here:`}\n${articleUrl}`,
-      },
-      {
-        type: 'template',
-        altText:
-          '請問上面回應是否有幫助？\n「是」請輸入「y」，「否」請至手機上回應',
-        template: {
-          type: 'confirm',
-          text: t`Is the reply helpful?`,
-          actions: [
-            createPostbackAction(t`Yes`, 'y', issuedAt),
+  replies = [
+    {
+      type: 'text',
+      text: `💡 ${t`Someone on the internet replies to the message:`}`,
+    },
+    {
+      type: 'text',
+      text: ellipsis(GetReply.text, 2000),
+    },
+    {
+      type: 'text',
+      text: ellipsis(createReferenceWords(GetReply), 2000),
+    },
+    {
+      type: 'text',
+      text:
+        `⬆️ ${t`Therefore, the author think the message ${typeStr}.`}\n\n` +
+        `💁 ${t`These messages are provided by some nice volunteers. Please refer to their references and make judgements on your own.`}\n` +
+        (GetArticle.replyCount > 1
+          ? `🗣️ ${t`There are different replies for the message. Read them all here before making judgements:`}\n${articleUrl}\n`
+          : '') +
+        `\n⁉️ ${t`If you have different thoughts, you may have your say here:`}\n${articleUrl}`,
+    },
+    {
+      type: 'flex',
+      altText: helpfulTitle + '\n' + FLEX_MESSAGE_ALT_TEXT,
+      contents: {
+        type: 'bubble',
+        body: {
+          type: 'box',
+          layout: 'vertical',
+          spacing: 'md',
+          paddingAll: 'lg',
+          contents: [
             {
-              type: 'uri',
-              label: t`No`,
-              uri: getLIFFURL(
-                'ASKING_REPLY_FEEDBACK',
-                GetReply.text,
-                DOWNVOTE_PREFIX,
-                issuedAt
-              ),
+              type: 'text',
+              wrap: true,
+              text: helpfulTitle,
+            },
+          ],
+        },
+        footer: {
+          type: 'box',
+          layout: 'horizontal',
+          spacing: 'sm',
+          contents: [
+            {
+              type: 'button',
+              style: 'primary',
+              color: '#ffb600',
+              action: {
+                type: 'uri',
+                label: t`Yes`,
+                uri: getLIFFURL('feedback/yes', userId, data.sessionId),
+              },
+            },
+            {
+              type: 'button',
+              style: 'primary',
+              color: '#ffb600',
+              action: {
+                type: 'uri',
+                label: t`No`,
+                uri: getLIFFURL('feedback/no', userId, data.sessionId),
+              },
             },
           ],
         },
       },
-    ];
-    // Track when user select a reply.
-    visitor.event({ ec: 'Reply', ea: 'Selected', el: selectedReplyId });
-    // Track which reply type reply to user.
-    visitor.event({ ec: 'Reply', ea: 'Type', el: GetReply.type, ni: true });
+    },
+  ];
 
-    data.selectedReplyId = selectedReplyId;
-    state = 'ASKING_REPLY_FEEDBACK';
-  }
-
+  const visitor = ga(userId, state, data.selectedArticleText);
+  // Track when user select a reply.
+  visitor.event({ ec: 'Reply', ea: 'Selected', el: selectedReplyId });
+  // Track which reply type reply to user.
+  visitor.event({ ec: 'Reply', ea: 'Type', el: GetReply.type, ni: true });
   visitor.send();
+
+  state = 'ASKING_REPLY_FEEDBACK';
+
   return { data, state, event, issuedAt, userId, replies, isSkipUser };
 }
