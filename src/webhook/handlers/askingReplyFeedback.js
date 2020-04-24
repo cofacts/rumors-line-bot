@@ -16,28 +16,36 @@ import {
 /**
  * @param {{vote: FeedbackVote, articleId: String, replyId: String, comment: String}} variables
  * @param {object} search
- * @returns {Promise}
+ * @returns {Promise<{reply: Object, feedbackCount: Number}>}
  */
-const updateFeedback = gql`
-  mutation UpdateFeedback(
-    $vote: FeedbackVote!
-    $articleId: String!
-    $replyId: String!
-    $comment: String
-  ) {
-    CreateOrUpdateArticleReplyFeedback(
-      vote: $vote
-      articleId: $articleId
-      replyId: $replyId
-      comment: $comment
+async function updateFeedback(variables, search) {
+  const { data, errors } = await gql`
+    mutation UpdateFeedback(
+      $vote: FeedbackVote!
+      $articleId: String!
+      $replyId: String!
+      $comment: String
     ) {
-      reply {
-        type
+      CreateOrUpdateArticleReplyFeedback(
+        vote: $vote
+        articleId: $articleId
+        replyId: $replyId
+        comment: $comment
+      ) {
+        reply {
+          type
+        }
+        feedbackCount
       }
-      feedbackCount
     }
+  `(variables, search);
+
+  if (errors) {
+    throw ManipulationError(t`Cannot record your feedback. Try again later?`);
   }
-`;
+
+  return data.CreateOrUpdateArticleReplyFeedback;
+}
 
 export default async function askingReplyFeedback(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -47,7 +55,7 @@ export default async function askingReplyFeedback(params) {
   }
 
   if (event.input.startsWith(UPVOTE_PREFIX)) {
-    const { data: updateData, errors } = await updateFeedback(
+    const updatedArticleReply = await updateFeedback(
       {
         articleId: data.selectedArticleId,
         replyId: data.selectedReplyId,
@@ -57,19 +65,14 @@ export default async function askingReplyFeedback(params) {
       { userId }
     );
 
-    if (errors) {
-      throw ManipulationError(t`Cannot record your feedback. Try again later?`);
-    }
-
     const articleText = ellipsis(data.selectedArticleText, 15);
     const replyType = createTypeWords(
-      updateData.CreateOrUpdateArticleReplyFeedback.reply.type
+      updatedArticleReply.reply.type
     ).toLowerCase();
     const articleUrl = getArticleURL(data.selectedArticleId);
     const sharedText = t`Someone says the message “${articleText}” ${replyType}.\n\nPlease refer to ${articleUrl} for more information, replies and references.`;
 
-    const otherFeedbackCount =
-      updateData.CreateOrUpdateArticleReplyFeedback.feedbackCount - 1;
+    const otherFeedbackCount = updatedArticleReply.feedbackCount - 1;
     const callToAction = t`Don't forget to forward the messages above to others and share with them!`;
 
     replies = [
@@ -129,7 +132,7 @@ export default async function askingReplyFeedback(params) {
       },
     ];
   } else if (event.input.startsWith(DOWNVOTE_PREFIX)) {
-    const { data: updateData, errors } = await updateFeedback(
+    const updatedArticleReply = await updateFeedback(
       {
         articleId: data.selectedArticleId,
         replyId: data.selectedReplyId,
@@ -139,13 +142,8 @@ export default async function askingReplyFeedback(params) {
       { userId }
     );
 
-    if (errors) {
-      throw ManipulationError(t`Cannot record your feedback. Try again later?`);
-    }
-
     const articleUrl = getArticleURL(data.selectedArticleId);
-    const otherFeedbackCount =
-      updateData.CreateOrUpdateArticleReplyFeedback.feedbackCount - 1;
+    const otherFeedbackCount = updatedArticleReply.feedbackCount - 1;
 
     replies = [
       {
