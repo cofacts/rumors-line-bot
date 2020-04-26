@@ -53,7 +53,7 @@ Object {
               "action": Object {
                 "label": "🆕 Submit to database",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYzc2ZDhhZTljY2QxYWRhNGYwNmM0ZTE1MTVkNDY0NjYiLCJleHAiOjE1Nzc5MjMyMDB9.ZxHN5etvaneWUumNx9bqdBA_6IPmBIQ5sfz7jneJNvI",
+                "uri": "line://app/1631030389-xb5mnDdN/liff/index.html?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYzc2ZDhhZTljY2QxYWRhNGYwNmM0ZTE1MTVkNDY0NjYiLCJleHAiOjE1Nzc5MjMyMDB9.ZxHN5etvaneWUumNx9bqdBA_6IPmBIQ5sfz7jneJNvI",
               },
               "color": "#ffb600",
               "style": "primary",
@@ -1554,7 +1554,7 @@ Object {
               "action": Object {
                 "label": "ℹ️ Provide more info",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYzc2ZDhhZTljY2QxYWRhNGYwNmM0ZTE1MTVkNDY0NjYiLCJleHAiOjE1Nzc5MjMyMDB9.ZxHN5etvaneWUumNx9bqdBA_6IPmBIQ5sfz7jneJNvI",
+                "uri": "line://app/1631030389-xb5mnDdN/liff/index.html?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYzc2ZDhhZTljY2QxYWRhNGYwNmM0ZTE1MTVkNDY0NjYiLCJleHAiOjE1Nzc5MjMyMDB9.ZxHN5etvaneWUumNx9bqdBA_6IPmBIQ5sfz7jneJNvI",
               },
               "color": "#ffb600",
               "style": "primary",

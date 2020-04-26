@@ -3,6 +3,12 @@ import { writable } from 'svelte/store';
 const params = new URLSearchParams(location.search);
 
 /**
+ * Boolean value indicating if we are in the middle of LIFF redirect.
+ * Ref: https://www.facebook.com/groups/linebot/permalink/2380490388948200/?comment_id=2380868955577010
+ */
+export const isDuringLiffRedirect = !!params.get('liff.state');
+
+/**
  * Current page. Initialized from URL param.
  */
 export const page = writable(params.get('p'));

@@ -1,11 +1,15 @@
 import 'core-js';
 import 'normalize.css';
 import './index.scss';
+import { isDuringLiffRedirect } from './lib';
 import App from './App.svelte';
 
-const target = document.body;
-target.innerHTML = ''; // Cleanup loading
+liff.init({ liffId: LIFF_ID }).then(() => {
+  // liff.init should have corrected the path now, don't initialize app and just wait...
+  // Ref: https://www.facebook.com/groups/linebot/permalink/2380490388948200/?comment_id=2380868955577010
+  if (isDuringLiffRedirect) return;
 
-const app = new App({ target });
-
-export default app;
+  // Cleanup loading
+  document.getElementById('loading').remove();
+  new App({ target: document.body });
+});
