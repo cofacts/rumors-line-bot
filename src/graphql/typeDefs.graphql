@@ -145,11 +145,11 @@ enum MessagingAPIInsightStatus {
 
 type UserContext {
   state: String
-  issuedAt: Float
   data: StateData
 }
 
 type StateData {
+  sessionId: String
   searchedText: String
   selectedArticleId: ID
   selectedArticleText: String
