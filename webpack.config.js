@@ -126,7 +126,7 @@ module.exports = {
     new CompressionPlugin(),
     new DefinePlugin({
       LIFF_ID: JSON.stringify(
-        process.env.LIFF_URL.replace('https://liff.line.me/', '')
+        (process.env.LIFF_URL || '').replace('https://liff.line.me/', '')
       ),
     }),
   ],
