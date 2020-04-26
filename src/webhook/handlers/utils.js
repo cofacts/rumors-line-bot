@@ -106,7 +106,11 @@ const LIFF_EXP_SEC = 86400; // LIFF JWT is only valid for 1 day
  * @returns {string}
  */
 export function getLIFFURL(page, userId, sessionId) {
-  const jwt = sign({ sessionId, exp: Date.now() / 1000 + LIFF_EXP_SEC });
+  const jwt = sign({
+    sessionId,
+    sub: userId,
+    exp: Date.now() / 1000 + LIFF_EXP_SEC,
+  });
 
   return `${process.env.LIFF_URL}?p=${page}&token=${jwt}`;
 }
