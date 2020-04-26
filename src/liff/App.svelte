@@ -6,7 +6,7 @@
   import PositiveFeedback from './pages/PositiveFeedback.svelte';
   import NegativeFeedback from './pages/NegativeFeedback.svelte';
 
-	const routes = {
+  const routes = {
     source: Source,
     reason: Reason,
     'feedback/yes': PositiveFeedback,
