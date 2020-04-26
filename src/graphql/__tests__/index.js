@@ -73,6 +73,28 @@ describe('getContext', () => {
         "userId": null,
       }
     `);
+
+    const jwtWithNoSub = sign({
+      sessionId: 'correct-session-id',
+      exp: Date.now() / 1000 + 10, // future timestamp
+    });
+
+    expect(
+      await getContext({
+        ctx: {
+          req: {
+            headers: {
+              authorization: `Bearer ${jwtWithNoSub}`,
+            },
+          },
+        },
+      })
+    ).toMatchInlineSnapshot(`
+      Object {
+        "userContext": null,
+        "userId": null,
+      }
+    `);
   });
 
   it('reads userContext for logged-in requests', async () => {
