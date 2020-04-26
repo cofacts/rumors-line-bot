@@ -1,6 +1,5 @@
 import Koa from 'koa';
 import Router from 'koa-router';
-import cors from '@koa/cors';
 import serve from 'koa-static-server';
 import path from 'path';
 
@@ -26,21 +25,6 @@ router.get('/', ctx => {
   ctx.body = JSON.stringify({ version });
 });
 
-// TODO: legacy route, remove this
-router.get(
-  '/context/:userId',
-  cors({
-    origin: process.env.LIFF_CORS_ORIGIN,
-  }),
-  async ctx => {
-    const { state, issuedAt } = (await redis.get(ctx.params.userId)) || {};
-
-    ctx.body = {
-      state,
-      issuedAt,
-    };
-  }
-);
 router.use('/callback', webhookRouter.routes(), webhookRouter.allowedMethods());
 
 if (process.env.NODE_ENV === 'production') {
