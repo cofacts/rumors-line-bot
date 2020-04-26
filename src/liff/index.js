@@ -3,10 +3,15 @@ import 'normalize.css';
 import './index.scss';
 import App from './App.svelte';
 
+const params = new URLSearchParams(location.search);
+const target = document.body;
+target.innerHTML = ''; // Cleanup loading
+
 const app = new App({
-  target: document.body,
+  target,
   props: {
-    name: 'world',
+    landing: params.get('p'),
+    token: params.get('token'),
   },
 });
 

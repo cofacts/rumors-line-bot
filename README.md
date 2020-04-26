@@ -75,14 +75,28 @@ We recommend using [ngrok configuration file](https://ngrok.com/docs#config) to 
 
 We are using LIFF to collect user's reason when submitting article & negative feedbacks.
 
-It is accessible under `/liff` of dev server (http://localhost:5001) or production chatbot server.
+If you don't need to develop LIFF, you can directly use `LIFF_URL` provided in `.env.sample`.
+
+If you want to modify LIFF, you may need to follow these steps:
+
+#### Creating your own LIFF app
+
+To create LIFF apps, please follow instructions under [official document](https://developers.line.biz/en/docs/liff/getting-started/), which involves
+- Creating a LINE login channel
+- Select `chat_message.write` in scope (for LIFF to send messages)
+After acquiring LIFF URL, place it in `.env` as `LIFF_URL`.
+- Set `Endpoint URL` to start with your chabbot endpoint, and add `/liff/index.html` as postfix.
+
+#### Developing LIFF
+
+To develop LIFF, after `npm run dev`, it is accessible under `/liff/index.html` of dev server (http://localhost:5001) or production chatbot server.
 
 In development mode, it spins a webpack-dev-server on `localhost:<LIFF_DEV_PORT>` (default to `8080`),
 and `/liff` of chatbot server proxies all requests to the webpack-dev-server.
 
-In production, LIFF files are compiled to `/liff` directory and served as static files by the chatbot server.
+#### How LIFF is deployed on production
 
-To connect with chatbot, some setup on [LINE developer console](https://developers.line.biz/console/) are required.
+On production, LIFF files are compiled to `/liff` directory and served as static files by the chatbot server.
 
 ### Process image message(using Tesseract-OCR)
 
