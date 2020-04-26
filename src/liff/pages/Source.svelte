@@ -1,19 +1,47 @@
 <script>
-	import { onMount } from 'svelte';
   import { t } from 'ttag';
-  import { page } from '../lib';
+  import Button, { Label } from '@smui/button';
 
-  // Demo purpose, will remove in next PR
-  export let context;
+  import { page } from '../lib';
+  import { ARTICLE_SOURCE_OPTIONS, SOURCE_PREFIX } from 'src/lib/sharedUtils';
+
+  let processing = false;
+
+  const handleClick = async ({label, valid}) => {
+    processing = true;
+
+    await liff.sendMessages([
+      {
+        type: 'text',
+        text: `${SOURCE_PREFIX}${label}`,
+      }
+    ]);
+
+    if(valid) {
+      page.set('reason');
+    } else {
+      liff.closeWindow();
+    }
+
+    processing = false;
+  }
 </script>
 
 <svelte:head>
-  <title>{t`Provide more info on the message`} (1/2)</title>
+  <title>{t`Provide more info`} (1/2)</title>
 </svelte:head>
 
-<p>Source select</p>
+<p>
+  {t`How did you get the message?`}
+</p>
 
-<pre>{JSON.stringify(context, null, '  ')}</pre>
-
-<!-- Fake; demonstrates how to navigate through pages -->
-<button on:click={() => page.set('reason')}>Go to reason</button>
+{#each ARTICLE_SOURCE_OPTIONS as option}
+  <Button
+    style="display: block; width: 100%; margin-bottom: 8px;"
+    variant="raised"
+    on:click={() => handleClick(option)}
+    disabled={processing}
+  >
+    <Label>{option.label}</Label>
+  </Button>
+{/each}
