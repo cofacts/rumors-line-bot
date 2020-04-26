@@ -118,6 +118,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: './src/liff/index.html',
+      // custom constants passed to index.html via htmlWebpackPlugin.options
+      ROLLBAR_ENV: process.env.ROLLBAR_ENV,
+      ROLLBAR_CLIENT_TOKEN: process.env.ROLLBAR_CLIENT_TOKEN,
     }),
     new CompressionPlugin(),
   ],
