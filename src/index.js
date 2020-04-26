@@ -29,7 +29,11 @@ router.use('/callback', webhookRouter.routes(), webhookRouter.allowedMethods());
 
 if (process.env.NODE_ENV === 'production') {
   app.use(
-    serve({ rootDir: path.join(__dirname, '../liff'), rootPath: '/liff' })
+    serve({
+      rootDir: path.join(__dirname, '../liff'),
+      rootPath: '/liff',
+      maxage: 31536000 * 1000, // https://stackoverflow.com/a/7071880/1582110
+    })
   );
 } else {
   app.use(
