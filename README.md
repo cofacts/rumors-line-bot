@@ -94,6 +94,14 @@ To develop LIFF, after `npm run dev`, it is accessible under `/liff/index.html` 
 In development mode, it spins a webpack-dev-server on `localhost:<LIFF_DEV_PORT>` (default to `8080`),
 and `/liff` of chatbot server proxies all requests to the webpack-dev-server.
 
+A tip to develop LIFF in browser is:
+1. trigger LIFF in the mobile phone
+2. Get LIFF token from dev server proxy log (something like `GET /liff/index.html?p=<page>&token=<jwt> proxy to -> ...`)
+3. Visit `https://<your-dev-chatbot.ngrok.io>/liff/index.html?p=<page>&token=<jwt>` in desktop browser for easier development
+
+`liff.init()` would still work in desktop browser, so that the app renders, enabling us to debug web layouts on desktop.
+`liff.sendMessages()` would not work, though.
+
 #### How LIFF is deployed on production
 
 On production, LIFF files are compiled to `/liff` directory and served as static files by the chatbot server.
