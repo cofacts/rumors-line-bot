@@ -75,7 +75,7 @@ We recommend using [ngrok configuration file](https://ngrok.com/docs#config) to 
 
 We are using LIFF to collect user's reason when submitting article & negative feedbacks.
 
-If you don't need to develop LIFF, you can directly use `LIFF_URL` provided in `.env.sample`.
+If you don't need to develop LIFF, you can directly use `LIFF_URL` provided in `.env.sample`, which links to staging LIFF site.
 
 If you want to modify LIFF, you may need to follow these steps:
 
