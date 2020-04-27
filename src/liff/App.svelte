@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   import { t } from 'ttag';
   import { page, parsedToken, gql } from './lib';
   import Source from './pages/Source.svelte';
@@ -15,10 +16,13 @@
 
   const expired = (parsedToken.exp || -Infinity) < Date.now() / 1000;
 
+  // Chatbot context of current user
   let context = null;
 
-  if(!expired){
-    gql`
+  onMount(async () => {
+    if(expired) return;
+
+    const {data, errors} = await gql`
       query GetContextForLIFF {
         context {
           state
@@ -29,21 +33,21 @@
           }
         }
       }
-    `().then(({data, errors}) => {
-      if(errors && errors[0].message === 'Invalid authentication header') {
-        alert(t`This button was for previous search and is now expired.`);
-        liff.closeWindow();
-        return;
-      }
+    `();
 
-      if(!data || !data.context) {
-        alert(/* t: In LIFF, should not happen */ t`Unexpected error, no search data is retrieved.`);
-        returnl;
-      }
+    if(errors && errors[0].message === 'Invalid authentication header') {
+      alert(t`This button was for previous search and is now expired.`);
+      liff.closeWindow();
+      return;
+    }
 
-      context = data.context;
-    });
-  }
+    if(!data || !data.context) {
+      alert(/* t: In LIFF, should not happen */ t`Unexpected error, no search data is retrieved.`);
+      returnl;
+    }
+
+    context = data.context;
+  })
 </script>
 
 {#if expired}
