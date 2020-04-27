@@ -77,6 +77,7 @@ ${LENGHEN_HINT}`
 <Button
   style="display: block; width: 100%; margin: 8px 0;"
   variant="raised"
+  color={ reason.length >= SUFFICIENT_REASON_LENGTH ? 'primary' : 'secondary'}
   on:click={handleSubmit}
   disabled={processing}
 >
