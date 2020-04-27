@@ -1,23 +1,10 @@
 <script>
 	import { onMount } from 'svelte';
   import { t } from 'ttag';
-  import { page, gql } from '../lib';
-
-  let data = null;
+  import { page } from '../lib';
 
   // Demo purpose, will remove in next PR
-  onMount(() => {
-    gql`{
-      context {
-        state
-        data {
-          sessionId
-        }
-      }
-    }`().then(d => {
-      data = d;
-    })
-  })
+  export let context;
 </script>
 
 <svelte:head>
@@ -26,7 +13,7 @@
 
 <p>Source select</p>
 
-<pre>{JSON.stringify(data)}</pre>
+<pre>{JSON.stringify(context, null, '  ')}</pre>
 
 <!-- Fake; demonstrates how to navigate through pages -->
 <button on:click={() => page.set('reason')}>Go to reason</button>
