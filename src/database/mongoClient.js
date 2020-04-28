@@ -43,6 +43,7 @@ export default class CofactsMongoClient {
   }
 
   async close() {
-    return this.mongoClient.close();
+    await this.mongoClient.close();
+    this._instance = null;
   }
 }
