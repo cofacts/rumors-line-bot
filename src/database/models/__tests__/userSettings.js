@@ -1,3 +1,4 @@
+import Client from '../../mongoClient';
 import { compile } from '../schemaValidator';
 import MockDate from 'mockdate';
 import UserSettings from '../userSettings';
@@ -11,6 +12,10 @@ describe('userSettings', () => {
     if (await UserSettings.collectionExists()) {
       await (await UserSettings.client).drop();
     }
+  });
+
+  afterAll(async () => {
+    await (await Client.getInstance()).close();
   });
 
   it('[schema] should pass with newReplyNotifyToken is null', async () => {
