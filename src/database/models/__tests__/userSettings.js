@@ -7,7 +7,10 @@ const userSettingsValidator = compile('userSettings');
 describe('userSettings', () => {
   beforeAll(async () => {
     MockDate.set(612921600000);
-    await (await UserSettings.client).drop();
+
+    if (await UserSettings.collectionExists()) {
+      await (await UserSettings.client).drop();
+    }
   });
 
   it('[schema] should pass with newReplyNotifyToken is null', async () => {

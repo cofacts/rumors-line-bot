@@ -20,6 +20,12 @@ export default class Base {
     return mongoClient.getInstance().then(e => e.collection(this.collection));
   }
 
+  static async collectionExists() {
+    return mongoClient
+      .getInstance()
+      .then(e => e.db.listCollections({ name: this.collection }).hasNext());
+  }
+
   /**
    *
    * @param {object} data
