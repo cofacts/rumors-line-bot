@@ -40,6 +40,7 @@
     "googleapis": "^36.0.0",
     "grapheme-splitter": "^1.0.4",
     "graphql": "^15.0.0",
+    "graphql-tools": "^4.0.7",
     "koa": "^2.5.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",

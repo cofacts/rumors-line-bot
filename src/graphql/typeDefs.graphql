@@ -1,5 +1,10 @@
+directive @auth on FIELD_DEFINITION
+
 type Query {
   insights: MessagingAPIInsight
+
+  # Current user's chatbot context
+  context: UserContext @auth
 }
 
 type MessagingAPIInsight {
@@ -122,4 +127,17 @@ enum MessagingAPIInsightStatus {
   READY
   UNREADY
   OUT_OF_SERVICE
+}
+
+type UserContext {
+  state: String
+  issuedAt: Float
+  data: StateData
+}
+
+type StateData {
+  searchedText: String
+  selectedArticleId: ID
+  selectedArticleText: String
+  selectedReplyId: ID
 }
