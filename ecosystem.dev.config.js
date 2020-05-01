@@ -11,7 +11,9 @@ module.exports = {
       env: Object.assign({}, process.env),
 
       autorestart: true,
-      watch: true,
+      watch: ['src/'],
+      // Don't reload server for LIFF changes
+      ignore_watch: ['src/liff'],
       interpreter: './node_modules/.bin/babel-node',
     },
   ],

@@ -24,7 +24,7 @@ Please follow all the steps in [LINE official tutorial](https://developers.line.
 
 First, install heroku toolbelt.
 
-Create .env file from `.env.sample` template, at least fill in:
+Create `.env` file from `.env.sample` template, at least fill in:
 ```
 API_URL=https://cofacts-api.g0v.tw/graphql
 LINE_CHANNEL_SECRET=<paste LINE@'s channel secret here>
@@ -77,8 +77,14 @@ We recommend using [ngrok configuration file](https://ngrok.com/docs#config) to 
 
 We are using LIFF to collect user's reason when submitting article & negative feedbacks.
 
-This would require a separate HTTPS server serving `liff/index.html`,
-and some setup on [LINE developer console](https://developers.line.biz/console/).
+It is accessible under `/liff` of dev server (http://localhost:5001) or production chatbot server.
+
+In development mode, it spins a webpack-dev-server on `localhost:<LIFF_DEV_PORT>` (default to `8080`),
+and `/liff` of chatbot server proxies all requests to the webpack-dev-server.
+
+In production, LIFF files are compiled to `/liff` directory and served as static files by the chatbot server.
+
+To connect with chatbot, some setup on [LINE developer console](https://developers.line.biz/console/) are required.
 
 ### Process image message(using Tesseract-OCR)
 

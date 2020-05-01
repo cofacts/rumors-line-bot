@@ -1,6 +1,8 @@
 import Koa from 'koa';
 import Router from 'koa-router';
 import cors from '@koa/cors';
+import serve from 'koa-static-server';
+import path from 'path';
 
 import rollbar from './lib/rollbar';
 import { version } from '../package.json';
@@ -41,6 +43,18 @@ router.get(
 );
 router.use('/callback', webhookRouter.routes(), webhookRouter.allowedMethods());
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(
+    serve({ rootDir: path.join(__dirname, '../liff'), rootPath: '/liff' })
+  );
+} else {
+  app.use(
+    require('koa-proxies')('/liff', {
+      target: `http://localhost:${process.env.LIFF_DEV_PORT}`,
+      logs: true,
+    })
+  );
+}
 app.use(router.routes());
 app.use(graphqlMiddleware);
 app.use(router.allowedMethods());

@@ -1,3 +1,4 @@
 build/*
 coverage/*
 src/__fixtures__/*
+liff/*
