@@ -5,6 +5,20 @@ type Query {
 
   # Current user's chatbot context
   context: UserContext @auth
+
+  # TODO: Implement after database is established
+  readArticleIds(skip: Int, limit: Int): [String]
+}
+
+type Mutation {
+  """
+  Add feedback to article-reply in context.
+  Returns feedback count after vote.
+  """
+  voteReply(vote: FeedbackVote!): Int @auth
+
+  # TODO: Implement after database is established
+  setViewed(articleId: String!): Boolean @auth
 }
 
 type MessagingAPIInsight {
@@ -140,4 +154,9 @@ type StateData {
   selectedArticleId: ID
   selectedArticleText: String
   selectedReplyId: ID
+}
+
+enum FeedbackVote {
+  UPVOTE
+  DOWNVOTE
 }

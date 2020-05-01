@@ -2,7 +2,8 @@ import fetch from 'node-fetch';
 import rollbar from './rollbar';
 import url from 'url';
 
-const API_URL = process.env.API_URL || 'http://localhost:5000/graphql';
+const API_URL =
+  process.env.API_URL || 'https://cofacts-api.hacktabl.org/graphql';
 
 // Usage:
 //
