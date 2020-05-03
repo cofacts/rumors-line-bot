@@ -36,7 +36,7 @@ class UserArticleLink extends Base {
    * @param {string} articleId
    * @returns {Promise<UserArticleLink>}
    */
-  static async findByUserIdAndArticleId(userId, articleId) {
+  static async findOrInsertByUserIdAndArticleId(userId, articleId) {
     return this.findOneAndUpdate(
       { userId, articleId },
       null,

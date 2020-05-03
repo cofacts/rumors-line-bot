@@ -62,19 +62,19 @@ describe('userSettings', () => {
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  it('[model] findByUserId()', async () => {
+  it('[model] findOrInsertByUserId()', async () => {
     const userId = 'userId-0';
     await UserSettings.create({ userId, allowNewReplyUpdate: false });
 
-    const result = await UserSettings.findByUserId(userId);
+    const result = await UserSettings.findOrInsertByUserId(userId);
     delete result._id;
 
     expect(result).toMatchSnapshot();
   });
 
-  it('[model] findByUserId() upsert', async () => {
+  it('[model] findOrInsertByUserId() upsert', async () => {
     const userId = 'userId-1';
-    const result = await UserSettings.findByUserId(userId);
+    const result = await UserSettings.findOrInsertByUserId(userId);
     delete result._id;
 
     expect(result).toMatchSnapshot();

@@ -63,13 +63,13 @@ describe('userArticleLink', () => {
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  it('[model] findByUserIdAndArticleId()', async () => {
+  it('[model] findOrInsertByUserIdAndArticleId()', async () => {
     const userId = 'userId-0';
     const articleId = 'articleId-0';
 
     await UserArticleLink.create({ userId, articleId });
 
-    const result = await UserArticleLink.findByUserIdAndArticleId(
+    const result = await UserArticleLink.findOrInsertByUserIdAndArticleId(
       userId,
       articleId
     );
@@ -78,11 +78,11 @@ describe('userArticleLink', () => {
     expect(result).toMatchSnapshot();
   });
 
-  it('[model] findByUserIdAndArticleId() (upsert)', async () => {
+  it('[model] findOrInsertByUserIdAndArticleId() (upsert)', async () => {
     const userId = 'userId-1';
     const articleId = 'articleId-1';
 
-    const result = await UserArticleLink.findByUserIdAndArticleId(
+    const result = await UserArticleLink.findOrInsertByUserIdAndArticleId(
       userId,
       articleId
     );

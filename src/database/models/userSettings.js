@@ -34,7 +34,7 @@ class UserSettings extends Base {
    * @param {string} userId
    * @returns {Promise<UserSettings>}
    */
-  static async findByUserId(userId) {
+  static async findOrInsertByUserId(userId) {
     return this.findOneAndUpdate({ userId }, null, this.DEFAULT_DATA);
   }
 

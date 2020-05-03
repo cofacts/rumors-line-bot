@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`userArticleLink [model] findByUserIdAndArticleId() (upsert) 1`] = `
+exports[`userArticleLink [model] findOrInsertByUserIdAndArticleId() (upsert) 1`] = `
 Object {
   "articleId": "articleId-1",
   "createdAt": 1989-06-04T00:00:00.000Z,
@@ -11,7 +11,7 @@ Object {
 }
 `;
 
-exports[`userArticleLink [model] findByUserIdAndArticleId() 1`] = `
+exports[`userArticleLink [model] findOrInsertByUserIdAndArticleId() 1`] = `
 Object {
   "articleId": "articleId-0",
   "createdAt": 1989-06-04T00:00:00.000Z,

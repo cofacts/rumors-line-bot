@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`userSettings [model] findByUserId() 1`] = `
+exports[`userSettings [model] findOrInsertByUserId() 1`] = `
 Object {
   "allowNewReplyUpdate": false,
   "createdAt": 1989-06-04T00:00:00.000Z,
@@ -9,7 +9,7 @@ Object {
 }
 `;
 
-exports[`userSettings [model] findByUserId() upsert 1`] = `
+exports[`userSettings [model] findOrInsertByUserId() upsert 1`] = `
 Object {
   "allowNewReplyUpdate": true,
   "createdAt": 1989-06-04T00:00:00.000Z,
