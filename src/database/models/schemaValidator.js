@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb';
 import Ajv from 'ajv';
 
 const ajv = new Ajv();
@@ -17,14 +16,6 @@ ajv.addKeyword('instanceOf', {
     var Class = ClassTable[className];
     return function(data) {
       return data instanceof Class;
-    };
-  },
-});
-
-ajv.addKeyword('isObjectId', {
-  compile: function(isObjectId) {
-    return function(data) {
-      return isObjectId ? ObjectId.isValid(data) : true;
     };
   },
 });

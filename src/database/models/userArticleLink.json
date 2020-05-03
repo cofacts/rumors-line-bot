@@ -7,9 +7,6 @@
   "type": "object",
 
   "properties": {
-    "id": {
-      "isObjectId": true
-    },
     "userId": {
       "type": "string"
     },

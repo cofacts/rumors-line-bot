@@ -1,15 +1,12 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "cofacts/schemas/userArticleLink",
+  "$id": "cofacts/schemas/userSettings",
   "$comment": "design document https://g0v.hackmd.io/eIeU2g86Tfu5VnLazNfUvQ",
   "description": "A representation of an UserSettings",
   "title": "UserSettings",
   "type": "object",
 
   "properties": {
-    "id": {
-      "isObjectId": true
-    },
     "userId": {
       "type": "string"
     },

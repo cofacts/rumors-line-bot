@@ -77,11 +77,6 @@ class UserSettings extends Base {
   }
 
   /**
-   * @type {?import('mongodb').ObjectId}
-   */
-  _id;
-
-  /**
    * @type {string}
    */
   userId;

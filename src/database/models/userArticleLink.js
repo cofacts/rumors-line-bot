@@ -65,10 +65,6 @@ class UserArticleLink extends Base {
 
     return this.findOneAndUpdate({ userId, articleId }, data, setOnInsert);
   }
-  /**
-   * @type {?import('mongodb').ObjectId}
-   */
-  _id;
 
   /**
    * @type {string}
