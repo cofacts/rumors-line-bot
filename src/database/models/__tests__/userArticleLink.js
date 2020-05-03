@@ -1,9 +1,9 @@
 import Client from '../../mongoClient';
 import MockDate from 'mockdate';
-import { compile } from '../schemaValidator';
+import { validators } from '../schemaValidator';
 import UserArticleLink from '../userArticleLink';
 
-const userArticleLinkValidator = compile('userArticleLink');
+const userArticleLinkValidator = validators.userArticleLink;
 
 const FIXED_DATE = 612921600000;
 

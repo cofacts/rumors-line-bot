@@ -1,4 +1,4 @@
-import { compile } from './schemaValidator';
+import { validators } from './schemaValidator';
 import mongoClient from '../mongoClient';
 
 export default class Base {
@@ -10,7 +10,7 @@ export default class Base {
   }
 
   static get validator() {
-    return compile(this.collection);
+    return validators[this.collection];
   }
 
   /**

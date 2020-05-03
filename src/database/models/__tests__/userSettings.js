@@ -1,9 +1,9 @@
 import Client from '../../mongoClient';
-import { compile } from '../schemaValidator';
 import MockDate from 'mockdate';
+import { validators } from '../schemaValidator';
 import UserSettings from '../userSettings';
 
-const userSettingsValidator = compile('userSettings');
+const userSettingsValidator = validators.userSettings;
 
 describe('userSettings', () => {
   beforeAll(async () => {

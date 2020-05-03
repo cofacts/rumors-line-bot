@@ -20,11 +20,6 @@ ajv.addKeyword('instanceOf', {
   },
 });
 
-export function validate(schemaName, data) {
-  const valid = ajv.validate(SCHEMAS[schemaName], data);
-  return { valid, errors: ajv.errors };
-}
-
 export function compile(schemaName) {
   return data => {
     const validate = ajv.compile(SCHEMAS[schemaName]);
@@ -32,3 +27,8 @@ export function compile(schemaName) {
     return { valid, errors: validate.errors };
   };
 }
+
+export const validators = {
+  userArticleLink: compile('userArticleLink'),
+  userSettings: compile('userSettings'),
+};
