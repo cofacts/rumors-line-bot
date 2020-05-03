@@ -26,6 +26,12 @@ export default class CofactsMongoClient {
     return this._instance;
   }
 
+  /**
+   * Use CofactsMongoClient.getInstance(). Do not use constructor
+   *
+   * @param {string} uri
+   * @param {import('mongodb').MongoClientOptions} options
+   */
   constructor(uri, options) {
     this.mongoClient = new MongoClient(uri, options);
   }
