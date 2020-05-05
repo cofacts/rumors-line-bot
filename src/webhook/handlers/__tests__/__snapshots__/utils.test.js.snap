@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`createArticleShareReply() should uri size less then 1000 1`] = `"line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2FAWDZYXxAyCdS-nWhumlz"`;
+exports[`createArticleShareBubble() should uri size less then 1000 1`] = `"line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2FAWDZYXxAyCdS-nWhumlz"`;
 
-exports[`createArticleShareReply() should uri size less then 1000 2`] = `"https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2FAWDZYXxAyCdS-nWhumlz"`;
+exports[`createArticleShareBubble() should uri size less then 1000 2`] = `"https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2FAWDZYXxAyCdS-nWhumlz"`;
 
 exports[`createFeedbackWords() should create both feedback words 1`] = `
 "👍 1 user considers this helpful

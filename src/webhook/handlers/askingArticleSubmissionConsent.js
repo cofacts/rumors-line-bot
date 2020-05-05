@@ -4,7 +4,7 @@ import gql from 'src/lib/gql';
 import { SOURCE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
 import {
   ManipulationError,
-  createArticleShareReply,
+  createArticleShareBubble,
   createSuggestOtherFactCheckerReply,
   getArticleSourceOptionFromLabel,
   createReasonButtonFooter,
@@ -68,22 +68,31 @@ export default async function askingArticleSubmissionConsent(params) {
         type: 'flex',
         altText: articleCreatedMsg,
         contents: {
-          type: 'bubble',
-          body: {
-            type: 'box',
-            layout: 'vertical',
-            contents: [
-              {
-                type: 'text',
-                wrap: true,
-                text: articleCreatedMsg,
+          type: 'carousel',
+          contents: [
+            {
+              type: 'bubble',
+              body: {
+                type: 'box',
+                layout: 'vertical',
+                contents: [
+                  {
+                    type: 'text',
+                    wrap: true,
+                    text: articleCreatedMsg,
+                  },
+                ],
               },
-            ],
-          },
-          footer: createReasonButtonFooter(articleUrl, userId, data.sessionId),
+              footer: createReasonButtonFooter(
+                articleUrl,
+                userId,
+                data.sessionId
+              ),
+            },
+            createArticleShareBubble(articleUrl),
+          ],
         },
       },
-      createArticleShareReply(articleUrl),
     ];
 
     // Record article ID in context for reason LIFF

@@ -233,58 +233,52 @@ export function ellipsis(text, limit, ellipsis = '⋯⋯') {
  * @param {string} reason
  * @returns {object} Reply object with sharing buttings
  */
-export function createArticleShareReply(articleUrl) {
-  const text = t`Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!`;
-
+export function createArticleShareBubble(articleUrl) {
   return {
-    type: 'flex',
-    altText: text,
-    contents: {
-      type: 'bubble',
-      body: {
-        type: 'box',
-        layout: 'vertical',
-        contents: [
-          {
-            type: 'text',
-            wrap: true,
-            text,
+    type: 'bubble',
+    body: {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          type: 'text',
+          wrap: true,
+          text: t`Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!`,
+        },
+      ],
+    },
+    footer: {
+      type: 'box',
+      layout: 'vertical',
+      spacing: 'sm',
+      contents: [
+        {
+          type: 'button',
+          action: {
+            type: 'uri',
+            label: t`Share on LINE`,
+            uri: `line://msg/text/?${encodeURIComponent(
+              t`Please help me verify if this is true: ${articleUrl}`
+            )}`,
           },
-        ],
-      },
-      footer: {
-        type: 'box',
-        layout: 'vertical',
-        spacing: 'sm',
-        contents: [
-          {
-            type: 'button',
-            action: {
-              type: 'uri',
-              label: t`Share on LINE`,
-              uri: `line://msg/text/?${encodeURIComponent(
-                t`Please help me verify if this is true: ${articleUrl}`
-              )}`,
-            },
-            style: 'primary',
-            color: '#ffb600',
+          style: 'primary',
+          color: '#ffb600',
+        },
+        {
+          type: 'button',
+          action: {
+            type: 'uri',
+            label: t`Share on Facebook`,
+            uri: `https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=${
+              process.env.FACEBOOK_APP_ID
+            }&display=popup&hashtag=${encodeURIComponent(
+              `#${/* t: Facebook hash tag */ t`ReportedToCofacts`}`
+            )}&href=${encodeURIComponent(articleUrl)}`,
           },
-          {
-            type: 'button',
-            action: {
-              type: 'uri',
-              label: t`Share on Facebook`,
-              uri: `https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=${
-                process.env.FACEBOOK_APP_ID
-              }&display=popup&hashtag=${encodeURIComponent(
-                `#${/* t: Facebook hash tag */ t`ReportedToCofacts`}`
-              )}&href=${encodeURIComponent(articleUrl)}`,
-            },
-            style: 'primary',
-            color: '#ffb600',
-          },
-        ],
-      },
+          style: 'primary',
+          color: '#ffb600',
+        },
+      ],
     },
   };
 }
@@ -382,9 +376,18 @@ export function createSuggestOtherFactCheckerReply() {
  * @param {string} articleUrl
  * @param {string} userId
  * @param {string} sessionId
+ * @param {boolean} isUpdating
  * @returns {object} Flex bubble message's footer object
  */
-export function createReasonButtonFooter(articleUrl, userId, sessionId) {
+export function createReasonButtonFooter(
+  articleUrl,
+  userId,
+  sessionId,
+  isUpdating = false
+) {
+  // Updating is not call-to-action, use normal gray
+  const color = isUpdating ? '#333333' : '#ffb600';
+
   return {
     type: 'box',
     layout: 'vertical',
@@ -398,17 +401,17 @@ export function createReasonButtonFooter(articleUrl, userId, sessionId) {
           uri: articleUrl,
         },
         style: 'primary',
-        color: '#333333',
+        color,
       },
       {
         type: 'button',
         action: {
           type: 'uri',
-          label: t`Provide more info`,
+          label: isUpdating ? t`Rewrite my reason` : t`Provide more info`,
           uri: getLIFFURL('reason', userId, sessionId),
         },
         style: 'primary',
-        color: '#ffb600',
+        color,
       },
     ],
   };

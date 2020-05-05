@@ -3,18 +3,18 @@ import {
   createFeedbackWords,
   createReferenceWords,
   ellipsis,
-  createArticleShareReply,
+  createArticleShareBubble,
   createFlexMessageText,
   createTypeWords,
 } from '../utils';
 
-describe('createArticleShareReply()', () => {
+describe('createArticleShareBubble()', () => {
   it('should uri size less then 1000', () => {
     const articleUrl =
       'https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz';
 
-    const result = createArticleShareReply(articleUrl);
-    result.contents.footer.contents.forEach(({ action }) => {
+    const result = createArticleShareBubble(articleUrl);
+    result.footer.contents.forEach(({ action }) => {
       expect(action.uri.length).toBeLessThan(1000);
       expect(action.uri).toMatchSnapshot();
     });
