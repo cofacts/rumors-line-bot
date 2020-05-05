@@ -34,7 +34,7 @@
   <title>{t`Report not useful`}</title>
 </svelte:head>
 
-<p>{t`We are sorry that the reply is not useful to you.`}</p>
+<p>{t`Your feedback has been recorded. We are sorry that the reply is not useful to you.`}</p>
 
 <Textfield
   fullwidth

@@ -34,13 +34,13 @@
   <title>{t`Report reply useful`}</title>
 </svelte:head>
 
-<p>{t`It's glad to see the reply is helpful.`}</p>
+<p>{t`We have recorded your feedback. It's glad to see the reply is helpful.`}</p>
 
 <Textfield
   fullwidth
   textarea
   bind:value={comment}
-  label={t`Do you have anything to add to the reply?`}
+  label={t`Do you have anything to add about the reply?`}
   input$rows={8}
 />
 
