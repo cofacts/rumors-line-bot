@@ -7,7 +7,7 @@ describe('MongoClient', () => {
 
   it('should connect', async () => {
     const client = await Client.getInstance();
-    expect(client.mongoClient.isConnected()).toMatchSnapshot();
-    expect(client.db.databaseName).toMatchSnapshot();
+    expect(client.mongoClient.isConnected()).toBe(true);
+    expect(client.db.databaseName).toBe('cofacts');
   });
 });
