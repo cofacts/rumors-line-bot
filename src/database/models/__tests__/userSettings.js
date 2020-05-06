@@ -16,6 +16,7 @@ describe('userSettings', () => {
 
   afterAll(async () => {
     await (await Client.getInstance()).close();
+    MockDate.reset();
   });
 
   it('[schema] should pass with newReplyNotifyToken is null', async () => {

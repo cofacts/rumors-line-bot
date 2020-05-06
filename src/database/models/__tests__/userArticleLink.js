@@ -18,6 +18,7 @@ describe('userArticleLink', () => {
 
   afterAll(async () => {
     await (await Client.getInstance()).close();
+    MockDate.reset();
   });
 
   it('[schema] should pass', async () => {
