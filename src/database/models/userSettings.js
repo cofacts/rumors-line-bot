@@ -8,7 +8,6 @@ class UserSettings extends Base {
     return {
       createdAt: new Date(),
       allowNewReplyUpdate: true,
-      newReplyNotifyToken: null,
     };
   }
 

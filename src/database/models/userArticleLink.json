@@ -18,36 +18,21 @@
       "instanceOf": "Date"
     },
     "lastViewedAt": {
-      "oneOf": [ {
-        "type": "null"
-      }, {
-        "format": "date-time",
-        "instanceOf": "Date"
-      }]
+      "format": "date-time",
+      "instanceOf": "Date"
     },
     "lastRepliedAt": {
-      "oneOf": [ {
-        "type": "null"
-      }, {
-        "format": "date-time",
-        "instanceOf": "Date"
-      }]
+      "format": "date-time",
+      "instanceOf": "Date"
     },
     "lastPositiveFeedbackRepliedAt": {
-      "oneOf": [ {
-        "type": "null"
-      }, {
-        "format": "date-time",
-        "instanceOf": "Date"
-      }]
+      "format": "date-time",
+      "instanceOf": "Date"
     }
   },
   "required": [
     "userId",
     "articleId",
-    "createdAt",
-    "lastViewedAt",
-    "lastRepliedAt",
-    "lastPositiveFeedbackRepliedAt"
+    "createdAt"
   ]
 }

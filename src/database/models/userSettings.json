@@ -14,15 +14,11 @@
       "type": "boolean"
     },
     "newReplyNotifyToken": {
-      "oneOf": [
-        { "type": "null" },
-        { "type": "string" }
-      ]
+      "type": "string"
     }
   },
   "required": [
     "userId",
-    "allowNewReplyUpdate",
-    "newReplyNotifyToken"
+    "allowNewReplyUpdate"
   ]
 }

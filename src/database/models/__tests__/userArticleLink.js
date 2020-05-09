@@ -26,9 +26,6 @@ describe('userArticleLink', () => {
       userId: 'this_is_user_id',
       articleId: 'this_is_article_id',
       createdAt: new Date(),
-      lastViewedAt: new Date(),
-      lastRepliedAt: new Date(),
-      lastPositiveFeedbackRepliedAt: new Date(),
     };
     const result = userArticleLinkValidator(data);
     expect(result).toMatchSnapshot();
@@ -39,9 +36,6 @@ describe('userArticleLink', () => {
       userId: 'this_is_user_id',
       articleId: 'this_is_article_id',
       createdAt: '2020-01-01T20:10:18.314Z',
-      lastViewedAt: new Date(),
-      lastRepliedAt: new Date(),
-      lastPositiveFeedbackRepliedAt: new Date(),
     };
     const result = userArticleLinkValidator(data);
     expect(result).toMatchSnapshot();

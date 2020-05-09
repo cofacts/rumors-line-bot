@@ -7,9 +7,6 @@ class UserArticleLink extends Base {
   static get DEFAULT_DATA() {
     return {
       createdAt: new Date(),
-      lastViewedAt: null,
-      lastRepliedAt: null,
-      lastPositiveFeedbackRepliedAt: null,
     };
   }
 

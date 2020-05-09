@@ -4,7 +4,6 @@ exports[`userSettings [model] findOrInsertByUserId() 1`] = `
 Object {
   "allowNewReplyUpdate": false,
   "createdAt": 1989-06-04T00:00:00.000Z,
-  "newReplyNotifyToken": null,
   "userId": "userId-0",
 }
 `;
@@ -13,7 +12,6 @@ exports[`userSettings [model] findOrInsertByUserId() upsert 1`] = `
 Object {
   "allowNewReplyUpdate": true,
   "createdAt": 1989-06-04T00:00:00.000Z,
-  "newReplyNotifyToken": null,
   "userId": "userId-1",
 }
 `;
@@ -22,7 +20,6 @@ exports[`userSettings [model] setAllowNewReplyUpdate() 1`] = `
 Object {
   "allowNewReplyUpdate": false,
   "createdAt": 1989-06-04T00:00:00.000Z,
-  "newReplyNotifyToken": null,
   "userId": "userId-2",
 }
 `;
@@ -31,7 +28,6 @@ exports[`userSettings [model] setAllowNewReplyUpdate() upsert 1`] = `
 Object {
   "allowNewReplyUpdate": false,
   "createdAt": 1989-06-04T00:00:00.000Z,
-  "newReplyNotifyToken": null,
   "userId": "userId-3",
 }
 `;
@@ -58,7 +54,6 @@ exports[`userSettings [model] should create a document 1`] = `
 Object {
   "allowNewReplyUpdate": true,
   "createdAt": 1989-06-04T00:00:00.000Z,
-  "newReplyNotifyToken": null,
   "userId": "this_is_user_id",
 }
 `;
@@ -91,13 +86,6 @@ Object {
     },
   ],
   "valid": false,
-}
-`;
-
-exports[`userSettings [schema] should pass with newReplyNotifyToken is null 1`] = `
-Object {
-  "errors": null,
-  "valid": true,
 }
 `;
 
