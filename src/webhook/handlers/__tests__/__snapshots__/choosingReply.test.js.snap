@@ -87,14 +87,14 @@ https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
       "template": Object {
         "actions": Array [
           Object {
-            "data": "{\\"input\\":\\"y\\",\\"issuedAt\\":1518964688672}",
+            "data": "{\\"input\\":\\"y\\",\\"sessionId\\":1518964688672}",
             "label": "Yes",
             "type": "postback",
           },
           Object {
             "label": "No",
             "type": "uri",
-            "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_FEEDBACK&text=%E9%80%99%E6%98%AF%E5%95%86%E6%A5%AD%E6%B4%BB%E5%8B%95%E5%BB%A3%E5%91%8A%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%A1%20I%20think%20the%20reply%20is%20not%20useful%20and%20I%20suggest%3A%0A&issuedAt=1518964688672",
+            "uri": "line://app/1631030389-xb5mnDdN?p=ASKING_REPLY_FEEDBACK&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOiLwn5KhIEkgdGhpbmsgdGhlIHJlcGx5IGlzIG5vdCB1c2VmdWwgYW5kIEkgc3VnZ2VzdDpcbiIsImV4cCI6MTU3NzkyMzIwMH0._hEe14XF6DQvMOmgv_G1yPkVGExgNPtGaaTaBK_BuuQ",
           },
         ],
         "text": "Is the reply helpful?",
@@ -165,14 +165,14 @@ https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
       "template": Object {
         "actions": Array [
           Object {
-            "data": "{\\"input\\":\\"y\\",\\"issuedAt\\":1518964688672}",
+            "data": "{\\"input\\":\\"y\\",\\"sessionId\\":1518964688672}",
             "label": "Yes",
             "type": "postback",
           },
           Object {
             "label": "No",
             "type": "uri",
-            "uri": "line://app/1631030389-xb5mnDdN?state=ASKING_REPLY_FEEDBACK&text=%E9%80%99%E6%98%AF%E5%95%86%E6%A5%AD%E6%B4%BB%E5%8B%95%E5%BB%A3%E5%91%8A%E2%8B%AF%E2%8B%AF&prefix=%F0%9F%92%A1%20I%20think%20the%20reply%20is%20not%20useful%20and%20I%20suggest%3A%0A&issuedAt=1518964688672",
+            "uri": "line://app/1631030389-xb5mnDdN?p=ASKING_REPLY_FEEDBACK&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOiLwn5KhIEkgdGhpbmsgdGhlIHJlcGx5IGlzIG5vdCB1c2VmdWwgYW5kIEkgc3VnZ2VzdDpcbiIsImV4cCI6MTU3NzkyMzIwMH0._hEe14XF6DQvMOmgv_G1yPkVGExgNPtGaaTaBK_BuuQ",
           },
         ],
         "text": "Is the reply helpful?",

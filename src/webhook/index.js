@@ -93,11 +93,11 @@ const singleUserHandler = async (
     if (type === 'postback') {
       const data = JSON.parse(otherFields.postback.data);
 
-      // When if the postback is expired,
+      // When the postback is expired,
       // i.e. If other new messages have been sent before pressing buttons,
       // Don't do anything, just ignore silently.
       //
-      if (data.issuedAt !== context.issuedAt) {
+      if (data.sessionId !== context.data.sessionId) {
         console.log('Previous button pressed.');
         clearTimeout(timerId);
         return;
@@ -116,25 +116,8 @@ const singleUserHandler = async (
       return;
     }
 
-    result = await processText(
-      result,
-      context,
-      type,
-      input,
-      otherFields,
-      userId,
-      req
-    );
+    result = await processText(context, type, input, otherFields, userId, req);
   } else if (type === 'message' && otherFields.message.type === 'image') {
-    // Track image message type send by user
-    ga(userId)
-      .event({
-        ec: 'UserInput',
-        ea: 'MessageType',
-        el: otherFields.message.type,
-      })
-      .send();
-
     if (
       process.env.IMAGE_MESSAGE_ENABLED === 'true' ||
       process.env.IMAGE_MESSAGE_ENABLED === 'TRUE'
@@ -171,7 +154,6 @@ const singleUserHandler = async (
       }
       if (text.length >= 3) {
         result = await processText(
-          result,
           context,
           type,
           text,
@@ -227,21 +209,12 @@ const groupHandler = async (req, type, replyToken, userId, otherFields) => {
   // TODO
 };
 
-async function processText(
-  result,
-  context,
-  type,
-  input,
-  otherFields,
-  userId,
-  req
-) {
+async function processText(context, type, input, otherFields, userId, req) {
+  let result;
   try {
-    const issuedAt = Date.now();
     result = await handleInput(
       context,
       { type, input, ...otherFields },
-      issuedAt,
       userId
     );
     if (!result.replies) {
@@ -249,8 +222,6 @@ async function processText(
         'Returned replies is empty, please check processMessages() implementation.'
       );
     }
-    // Renew "issuedAt" of the resulting context.
-    result.context.issuedAt = issuedAt;
   } catch (e) {
     console.error(e);
     rollbar.error(e, req);

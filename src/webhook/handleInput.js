@@ -1,12 +1,17 @@
+import { t } from 'ttag';
 import initState from './handlers/initState';
 import choosingArticle from './handlers/choosingArticle';
 import choosingReply from './handlers/choosingReply';
 import askingReplyFeedback from './handlers/askingReplyFeedback';
-import askingArticleSubmissionReason from './handlers/askingArticleSubmissionReason';
+import askingArticleSubmissionConsent from './handlers/askingArticleSubmissionConsent';
 import askingReplyRequestReason from './handlers/askingReplyRequestReason';
-import askingArticleSource from './handlers/askingArticleSource';
 import defaultState from './handlers/defaultState';
-import { REASON_PREFIX, DOWNVOTE_PREFIX } from './handlers/utils';
+import { ManipulationError } from './handlers/utils';
+import {
+  REASON_PREFIX,
+  DOWNVOTE_PREFIX,
+  SOURCE_PREFIX,
+} from 'src/lib/sharedUtils';
 
 /**
  * Given input event and context, outputs the new context and the reply to emit.
@@ -16,13 +21,11 @@ import { REASON_PREFIX, DOWNVOTE_PREFIX } from './handlers/utils';
  *
  * @param {Object<state, data>} context The current context of the bot
  * @param {*} event The input event
- * @param {*} issuedAt When this request is issued. Will be written in postback replies.
  * @param {*} userId LINE user ID that does the input
  */
 export default async function handleInput(
   { state = '__INIT__', data = {} },
   event,
-  issuedAt,
   userId
 ) {
   let replies;
@@ -33,13 +36,20 @@ export default async function handleInput(
   }
 
   if (
-    event.input.length >= 3 &&
+    event.type === 'message' &&
     !event.input.startsWith(REASON_PREFIX) &&
-    !event.input.startsWith(DOWNVOTE_PREFIX)
+    !event.input.startsWith(DOWNVOTE_PREFIX) &&
+    !event.input.startsWith(SOURCE_PREFIX)
   ) {
-    // If input contains more than 3 words and is not reason text,
-    // consider it as a new query and start over.
-    data = {};
+    // The user forwarded us an new message.
+    // Create a new "search session" and reset state to `__INIT__`.
+    //
+    data = {
+      // Used to determine button postbacks and GraphQL requests are from
+      // previous sessions
+      //
+      sessionId: Date.now(),
+    };
     state = '__INIT__';
   }
 
@@ -47,7 +57,6 @@ export default async function handleInput(
     data,
     state,
     event,
-    issuedAt,
     userId,
     replies,
     isSkipUser,
@@ -57,38 +66,81 @@ export default async function handleInput(
   //
   do {
     params.isSkipUser = false;
-    switch (params.state) {
-      case '__INIT__': {
-        params = await initState(params);
-        break;
+    try {
+      switch (params.state) {
+        case '__INIT__': {
+          params = await initState(params);
+          break;
+        }
+        case 'CHOOSING_ARTICLE': {
+          params = await choosingArticle(params);
+          break;
+        }
+        case 'CHOOSING_REPLY': {
+          params = await choosingReply(params);
+          break;
+        }
+        case 'ASKING_REPLY_FEEDBACK': {
+          params = await askingReplyFeedback(params);
+          break;
+        }
+        case 'ASKING_ARTICLE_SUBMISSION_CONSENT': {
+          params = await askingArticleSubmissionConsent(params);
+          break;
+        }
+        case 'ASKING_REPLY_REQUEST_REASON': {
+          params = await askingReplyRequestReason(params);
+          break;
+        }
+        default: {
+          params = defaultState(params);
+          break;
+        }
       }
-      case 'CHOOSING_ARTICLE': {
-        params = await choosingArticle(params);
-        break;
-      }
-      case 'CHOOSING_REPLY': {
-        params = await choosingReply(params);
-        break;
-      }
-      case 'ASKING_REPLY_FEEDBACK': {
-        params = await askingReplyFeedback(params);
-        break;
-      }
-      case 'ASKING_ARTICLE_SUBMISSION_REASON': {
-        params = await askingArticleSubmissionReason(params);
-        break;
-      }
-      case 'ASKING_REPLY_REQUEST_REASON': {
-        params = await askingReplyRequestReason(params);
-        break;
-      }
-      case 'ASKING_ARTICLE_SOURCE': {
-        params = await askingArticleSource(params);
-        break;
-      }
-      default: {
-        params = defaultState(params);
-        break;
+    } catch (e) {
+      if (e instanceof ManipulationError) {
+        params = {
+          ...params,
+          replies: [
+            {
+              type: 'flex',
+              altText: e.toString(),
+              contents: {
+                type: 'bubble',
+                header: {
+                  type: 'box',
+                  layout: 'vertical',
+                  contents: [
+                    {
+                      type: 'text',
+                      text: `⚠️ ${t`Wrong usage`}`,
+                      color: '#ffb600',
+                      weight: 'bold',
+                    },
+                  ],
+                },
+                body: {
+                  type: 'box',
+                  layout: 'vertical',
+                  contents: [
+                    {
+                      type: 'text',
+                      text: e.message,
+                      wrap: true,
+                    },
+                  ],
+                },
+                styles: {
+                  body: {
+                    separator: true,
+                  },
+                },
+              },
+            },
+          ],
+        };
+      } else {
+        throw e;
       }
     }
     ({ isSkipUser } = params);

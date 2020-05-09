@@ -1,13 +1,12 @@
 import { t } from 'ttag';
 import gql from 'src/lib/gql';
+import { getArticleURL, DOWNVOTE_PREFIX } from 'src/lib/sharedUtils';
 import {
   createPostbackAction,
   createReferenceWords,
   createTypeWords,
   ellipsis,
-  getArticleURL,
   getLIFFURL,
-  DOWNVOTE_PREFIX,
 } from './utils';
 import ga from 'src/lib/ga';
 

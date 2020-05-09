@@ -22,8 +22,6 @@ Please follow all the steps in [LINE official tutorial](https://developers.line.
 
 ### Environment variables
 
-First, install heroku toolbelt.
-
 Create `.env` file from `.env.sample` template, at least fill in:
 ```
 API_URL=https://cofacts-api.g0v.tw/graphql
@@ -47,7 +45,7 @@ We use Redis to store conversation context / intents. Please run a Redis server 
 
 ### Node Dependencies
 
-You will need `Node.JS` 8+  to proceed.
+You will need `Node.JS` 12+  to proceed.
 
 ```
 $ npm i
@@ -192,10 +190,10 @@ Sent event format: `Event category` / `Event action` / `Event label`
   - If we found a articles in database that matches the message:
     - `UserInput` / `ArticleSearch` / `ArticleFound`
     - `Article` / `Search` / `<article id>` for each article found
-  - If the message does not look like those being forwarded in instant messengers:
-    - `UserInput` / `ArticleSearch` / `NonsenseText`
   - If nothing found in database:
     - `UserInput` / `ArticleSearch` / `ArticleNotFound`
+  - When user provides source (includes invalid source)
+    - `UserInput` / `ProvidingSource` / `<source value>`
 
 2. User chooses a found article
   - `Article` / `Selected` / `<selected article id>`
@@ -213,6 +211,7 @@ Sent event format: `Event category` / `Event action` / `Event label`
 
 5. User want to submit a new article
   - `Article` / `Create` / `Yes`
+  - `Article` / `ProvidingSource` / `<articleId>/<source value>`
 
 6. User does not want to submit an article
   - `Article` / `Create` / `No`

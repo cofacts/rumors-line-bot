@@ -3,25 +3,23 @@ import { t } from 'ttag';
 import gql from 'src/lib/gql';
 import {
   createPostbackAction,
-  isNonsenseText,
   ellipsis,
-  ARTICLE_SOURCES,
+  createAskArticleSubmissionConsentReply,
+  createSuggestOtherFactCheckerReply,
 } from './utils';
 import ga from 'src/lib/ga';
 
 const SIMILARITY_THRESHOLD = 0.95;
 
 export default async function initState(params) {
-  let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
+  let { data, state, event, userId, replies, isSkipUser } = params;
 
   // Track text message type send by user
   const visitor = ga(userId, state, event.input);
-  visitor.event({ ec: 'UserInput', ea: 'MessageType', el: 'text' });
+  visitor.event({ ec: 'UserInput', ea: 'MessageType', el: event.message.type });
 
   // Store user input into context
   data.searchedText = event.input;
-  // Store input message type to context for non-init states use
-  data.messageType = event.message.type;
 
   // Search for articles
   const {
@@ -71,7 +69,8 @@ export default async function initState(params) {
         );
         return edge;
       })
-      .sort((edge1, edge2) => edge2.similarity - edge1.similarity);
+      .sort((edge1, edge2) => edge2.similarity - edge1.similarity)
+      .slice(0, 9) /* flex carousel has at most 10 bubbles */;
 
     // Store article ids
     data.foundArticleIds = edgesSortedWithSimilarity.map(
@@ -90,7 +89,6 @@ export default async function initState(params) {
         data,
         state: 'CHOOSING_ARTICLE',
         event,
-        issuedAt,
         userId,
         replies,
         isSkipUser: true,
@@ -154,7 +152,7 @@ export default async function initState(params) {
                 action: createPostbackAction(
                   t`Choose this one`,
                   idx + 1,
-                  issuedAt
+                  data.sessionId
                 ),
                 style: 'primary',
               },
@@ -203,7 +201,7 @@ export default async function initState(params) {
         contents: [
           {
             type: 'button',
-            action: createPostbackAction(t`Tell us more`, 0, issuedAt),
+            action: createPostbackAction(t`Tell us more`, 0, data.sessionId),
             style: 'primary',
           },
         ],
@@ -234,7 +232,7 @@ export default async function initState(params) {
       },
       templateMessage,
     ];
-    if (data.messageType === 'image') {
+    if (event.message.type === 'image') {
       replies = textArticleFound;
     } else {
       replies = prefixTextArticleFound.concat(textArticleFound);
@@ -242,65 +240,33 @@ export default async function initState(params) {
 
     state = 'CHOOSING_ARTICLE';
   } else {
-    if (isNonsenseText(event.input) && data.messageType === 'text') {
-      // Track if find similar Articles in DB.
-      visitor.event({
-        ec: 'UserInput',
-        ea: 'ArticleSearch',
-        el: 'NonsenseText',
-      });
+    // Track if find similar Articles in DB.
+    visitor.event({
+      ec: 'UserInput',
+      ea: 'ArticleSearch',
+      el: 'ArticleNotFound',
+    });
 
+    if (event.message.type === 'image') {
       replies = [
         {
           type: 'text',
-          text:
-            '你傳的資訊太少，無法為你搜尋資料庫噢！\n' +
-            '正確使用方式，請參考📖使用手冊 http://bit.ly/cofacts-line-users',
+          text: t`We didn't find anything about this image :(`,
         },
+        createSuggestOtherFactCheckerReply(),
       ];
       state = '__INIT__';
     } else {
-      // Track if find similar Articles in DB.
-      visitor.event({
-        ec: 'UserInput',
-        ea: 'ArticleSearch',
-        el: 'ArticleNotFound',
-      });
-
-      data.articleSources = ARTICLE_SOURCES;
-
-      // use `articleSummary` for text only because ocr may get wrong text from image
-      let prefixTextArticleNotFound = '找不到關於相似的訊息耶 QQ\n';
-      if (data.messageType === 'text') {
-        prefixTextArticleNotFound = `找不到關於「${articleSummary}」訊息耶 QQ\n`;
-      }
-      const altText =
-        prefixTextArticleNotFound +
-        '\n' +
-        '請問您是從哪裡看到這則訊息呢？\n' +
-        '\n' +
-        data.articleSources
-          .map((option, index) => `${option} > 請傳 ${index + 1}\n`)
-          .join('') +
-        '\n' +
-        '請按左下角「⌨️」鈕輸入選項編號。';
-
       replies = [
         {
-          type: 'template',
-          altText,
-          template: {
-            type: 'buttons',
-            text: prefixTextArticleNotFound + `請問您是從哪裡看到這則訊息呢？`,
-            actions: data.articleSources.map((option, index) =>
-              createPostbackAction(option, index + 1, issuedAt)
-            ),
-          },
+          type: 'text',
+          text: t`We didn't find anything about "${articleSummary}" :(`,
         },
+        createAskArticleSubmissionConsentReply(userId, data.sessionId),
       ];
-      state = 'ASKING_ARTICLE_SOURCE';
+      state = 'ASKING_ARTICLE_SUBMISSION_CONSENT';
     }
   }
   visitor.send();
-  return { data, state, event, issuedAt, userId, replies, isSkipUser };
+  return { data, state, event, userId, replies, isSkipUser };
 }

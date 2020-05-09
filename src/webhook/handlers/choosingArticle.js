@@ -1,13 +1,11 @@
 import { t } from 'ttag';
 import gql from 'src/lib/gql';
+import { getArticleURL } from 'src/lib/sharedUtils';
 import {
   createPostbackAction,
   createFeedbackWords,
   createTypeWords,
-  isNonsenseText,
-  getArticleURL,
   ellipsis,
-  ARTICLE_SOURCES,
 } from './utils';
 import ga from 'src/lib/ga';
 
@@ -43,7 +41,7 @@ export default async function choosingArticle(params) {
   const { selectedArticleId } = data;
   const doesNotContainMyArticle = +event.input === 0;
 
-  if (doesNotContainMyArticle && isNonsenseText(data.searchedText)) {
+  if (doesNotContainMyArticle) {
     replies = [
       {
         type: 'text',
@@ -54,7 +52,6 @@ export default async function choosingArticle(params) {
     ];
     state = '__INIT__';
   } else if (doesNotContainMyArticle) {
-    data.articleSources = ARTICLE_SOURCES;
     const altText =
       '啊，看來您的訊息還沒有收錄到我們的資料庫裡。\n' +
       '\n' +
@@ -308,7 +305,6 @@ export default async function choosingArticle(params) {
         el: selectedArticleId,
       });
 
-      data.articleSources = ARTICLE_SOURCES;
       const altText =
         '抱歉這篇訊息還沒有人回應過唷！\n' +
         '\n' +

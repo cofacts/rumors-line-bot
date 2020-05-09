@@ -106,39 +106,6 @@ Object {
 }
 `;
 
-exports[`should block user from submitting articles that is too short 1`] = `
-Object {
-  "data": Object {
-    "foundArticleIds": Array [
-      "AV8d2-YtyCdS-nWhuhdi",
-    ],
-    "searchedText": "這真的假的？？！！！？？！",
-    "selectedArticleId": undefined,
-  },
-  "event": Object {
-    "input": "0",
-    "message": Object {
-      "id": "7045918737413",
-      "text": "0",
-      "type": "text",
-    },
-    "timestamp": 1511633232479,
-    "type": "message",
-  },
-  "isSkipUser": false,
-  "issuedAt": 1511633232970,
-  "replies": Array [
-    Object {
-      "text": "剛才您傳的訊息資訊量太少，編輯無從查證。
-查證範圍請參考📖使用手冊 http://bit.ly/cofacts-line-users",
-      "type": "text",
-    },
-  ],
-  "state": "__INIT__",
-  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
-}
-`;
-
 exports[`should select article and have OPINIONATED and NOT_ARTICLE replies 1`] = `
 Object {
   "data": Object {

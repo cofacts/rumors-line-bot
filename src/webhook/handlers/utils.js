@@ -1,14 +1,22 @@
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
+import { sign } from 'src/lib/jwt';
+import { ARTICLE_SOURCE_OPTIONS } from 'src/lib/sharedUtils';
+
 const splitter = new GraphemeSplitter();
 
-export function createPostbackAction(label, input, issuedAt) {
+/**
+ * @param {string} label - Postback action button text, max 20 words
+ * @param {string} input - Input when pressed
+ * @param {string} sessionId - Current session ID
+ */
+export function createPostbackAction(label, input, sessionId) {
   return {
     type: 'postback',
     label,
     data: JSON.stringify({
       input,
-      issuedAt,
+      sessionId,
     }),
   };
 }
@@ -79,112 +87,109 @@ export function createReferenceWords({ reference, type }) {
   return `\uDBC0\uDC85 ⚠️️ ${t`This reply has no ${prompt} and it may be biased`} ⚠️️  \uDBC0\uDC85`;
 }
 
-/**
- * prefilled text for reasons
- */
-export const REASON_PREFIX = `💁 ${t`My reason is:`}\n`;
-export const DOWNVOTE_PREFIX = `💡 ${t`I think the reply is not useful and I suggest:`}\n`;
+const LIFF_EXP_SEC = 86400; // LIFF JWT is only valid for 1 day
 
 /**
- * @param {string} state The current state
- * @param {string} text The prompt text
- * @param {string} prefix The prefix to use in the result text
- * @param {number} issuedAt The issuedAt that created this URL
+ * @param {'source'|'reason'|'feedback'} page - The page to display
+ * @param {string} userId - LINE user ID
+ * @param {string} sessionId - The current session ID
  * @returns {string}
  */
-export function getLIFFURL(state, text, prefix, issuedAt) {
-  return `${process.env.LIFF_URL}?state=${state}&text=${encodeURIComponent(
-    ellipsis(text, 10)
-  )}&prefix=${encodeURIComponent(prefix)}&issuedAt=${issuedAt}`;
+export function getLIFFURL(page, userId, sessionId) {
+  const jwt = sign({ sessionId, exp: Date.now() / 1000 + LIFF_EXP_SEC });
+
+  return `${process.env.LIFF_URL}?p=${page}&token=${jwt}`;
 }
 
-/**
- * @param {string} state The current state
- * @param {string} text The prompt text
- * @param {string} prefix The prefix to use in the result text
- * @param {string} issuedAt The current issuedAt
- * @returns {array} an array of reply message instances
- */
-export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
-  const altText =
-    '【送出訊息到公開資料庫？】\n' +
-    '若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。\n' +
-    '\n' +
-    '雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。\n' +
-    '\n' +
-    '請在 📱 智慧型手機上完成操作。';
+export const FLEX_MESSAGE_ALT_TEXT = `📱 ${t`Please proceed on your mobile phone.`}`;
 
-  return [
+/**
+ * @param {string} userId - LINE user ID
+ * @param {string} sessionId - Search session ID
+ * @returns {object} reply message object with button that opens source LIFF
+ */
+export function createAskArticleSubmissionConsentReply(userId, sessionId) {
+  const titleText = `🥇 ${t`Be the first to report the message`}`;
+  const btnText = `🆕 ${t`Submit to database`}`;
+  const spans = [
     {
-      type: 'flex',
-      altText,
-      contents: {
-        type: 'bubble',
-        header: {
-          type: 'box',
-          layout: 'horizontal',
-          contents: [
-            {
-              type: 'text',
-              text: '🥇 成為全球首位回報此訊息的人',
-              weight: 'bold',
-              color: '#009900',
-            },
-          ],
-        },
-        body: {
-          type: 'box',
-          layout: 'vertical',
-          spacing: 'md',
-          contents: [
-            {
-              type: 'text',
-              text:
-                '目前資料庫裡沒有您傳的訊息。若這是「轉傳訊息」，而且您覺得它很可能是一則「謠言」，',
-              wrap: true,
-            },
-            {
-              type: 'text',
-              text: '請按「🆕 送進資料庫」，公開這則訊息、讓好心人查證與回覆。',
-              color: '#009900',
-              wrap: true,
-            },
-            {
-              type: 'text',
-              text:
-                '雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。',
-              wrap: true,
-            },
-          ],
-        },
-        footer: {
-          type: 'box',
-          layout: 'vertical',
-          contents: [
-            {
-              type: 'button',
-              style: 'primary',
-              action: {
-                type: 'uri',
-                label: '🆕 送進資料庫',
-                uri: getLIFFURL(state, text, prefix, issuedAt),
-              },
-            },
-          ],
-        },
-        styles: {
-          body: {
-            separator: true,
+      type: 'span',
+      text: t`Currently we don't have this message in our database. If you think it is probably a rumor, `,
+    },
+    {
+      type: 'span',
+      text: t`press “${btnText}” to make this message public on Cofacts database `,
+      color: '#ffb600',
+      weight: 'bold',
+    },
+    {
+      type: 'span',
+      text: t`for nice volunteers to fact-check. Although you won't receive answers rightaway, you can help the people who receive the same message in the future.`,
+    },
+  ];
+
+  return {
+    type: 'flex',
+    altText: titleText + '\n' + FLEX_MESSAGE_ALT_TEXT,
+    contents: {
+      type: 'bubble',
+      header: {
+        type: 'box',
+        layout: 'horizontal',
+        spacing: 'sm',
+        paddingAll: 'lg',
+        contents: [
+          {
+            type: 'text',
+            text: '🥇',
+            flex: 0,
+            gravity: 'center',
           },
+          {
+            type: 'text',
+            text: t`Be the first to submit the message`,
+            weight: 'bold',
+            color: '#ffb600',
+            wrap: true,
+          },
+        ],
+      },
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        spacing: 'md',
+        paddingAll: 'lg',
+        contents: [
+          {
+            type: 'text',
+            wrap: true,
+            contents: spans,
+          },
+        ],
+      },
+      footer: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'button',
+            style: 'primary',
+            color: '#ffb600',
+            action: {
+              type: 'uri',
+              label: btnText,
+              uri: getLIFFURL('source', userId, sessionId),
+            },
+          },
+        ],
+      },
+      styles: {
+        body: {
+          separator: true,
         },
       },
     },
-  ];
-}
-
-export function isNonsenseText(/* text */) {
-  // return text.length < 20;
-  return false; // according to 20181017 meeting note, we remove limitation and observe
+  };
 }
 
 /**
@@ -204,63 +209,151 @@ export function ellipsis(text, limit, ellipsis = '⋯⋯') {
   );
 }
 
-const SITE_URL = process.env.SITE_URL || 'https://cofacts.g0v.tw';
-
-/**
- * @param {string} articleId
- * @returns {string} The article's full URL
- */
-export function getArticleURL(articleId) {
-  return `${SITE_URL}/article/${articleId}`;
-}
-
 /**
  * @param {string} articleUrl
  * @param {string} reason
  * @returns {object} Reply object with sharing buttings
  */
-export function createArticleShareReply(articleUrl, reason) {
+export function createArticleShareReply(articleUrl) {
+  const text = t`Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!`;
+
   return {
-    type: 'template',
-    altText:
-      '遠親不如近鄰🌟問問親友總沒錯。把訊息分享給朋友們，說不定有人能幫你解惑！',
-    template: {
-      type: 'buttons',
-      actions: [
-        {
-          type: 'uri',
-          label: 'LINE 群組',
-          uri: `line://msg/text/?${encodeURIComponent(
-            `我收到這則訊息的想法是：\n${ellipsis(
-              reason,
-              70
-            )}\n\n請幫我看看這是真的還是假的：${articleUrl}`
-          )}`,
-        },
-        {
-          type: 'uri',
-          label: '臉書大神',
-          uri: `https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=${
-            process.env.FACEBOOK_APP_ID
-          }&display=popup&quote=${encodeURIComponent(
-            ellipsis(reason, 80)
-          )}&hashtag=${encodeURIComponent(
-            '#Cofacts求解惑'
-          )}&href=${encodeURIComponent(articleUrl)}`,
-        },
-      ],
-      title: '遠親不如近鄰🌟問問親友總沒錯',
-      text: '說不定你的朋友裡，就有能替你解惑的人唷！\n你想要 Call-out 誰呢？',
+    type: 'flex',
+    altText: text,
+    contents: {
+      type: 'bubble',
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            wrap: true,
+            text,
+          },
+        ],
+      },
+      footer: {
+        type: 'box',
+        layout: 'vertical',
+        spacing: 'sm',
+        contents: [
+          {
+            type: 'button',
+            action: {
+              type: 'uri',
+              label: t`Share on LINE`,
+              uri: `line://msg/text/?${encodeURIComponent(
+                t`Please help me verify if this is true: ${articleUrl}`
+              )}`,
+            },
+            style: 'primary',
+            color: '#ffb600',
+          },
+          {
+            type: 'button',
+            action: {
+              type: 'uri',
+              label: t`Share on Facebook`,
+              uri: `https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=${
+                process.env.FACEBOOK_APP_ID
+              }&display=popup&hashtag=${encodeURIComponent(
+                `#${/* t: Facebook hash tag */ t`ReportedToCofacts`}`
+              )}&href=${encodeURIComponent(articleUrl)}`,
+            },
+            style: 'primary',
+            color: '#ffb600',
+          },
+        ],
+      },
     },
   };
 }
 
 /**
- * possible sources of incoming articles
+ * Exception for unexpected input, thrown in handlers.
+ * This will be catched and the instructions will be used as a reply to the user.
  */
-export const ARTICLE_SOURCES = [
-  '親戚轉傳',
-  '同事轉傳',
-  '朋友轉傳',
-  '自己輸入的',
+export class ManipulationError extends Error {
+  /**
+   *
+   * @param {string} instruction - A message telling user why the manipulation is wrong and what they
+   *                               should do instead.
+   */
+  constructor(instruction) {
+    super(instruction);
+  }
+}
+
+/**
+ * @param {string} articleSourceOptionLabel - Label in ARTICLE_SOURCE_OPTIONS
+ * @returns {object} selected item in ARTICLE_SOURCE_OPTIONS
+ */
+export function getArticleSourceOptionFromLabel(articleSourceOptionLabel) {
+  const option = ARTICLE_SOURCE_OPTIONS.find(
+    ({ label }) => label === articleSourceOptionLabel
+  );
+
+  if (!option) {
+    throw new ManipulationError(
+      t`Please tell us where you have received the message using the options we provided.`
+    );
+  }
+
+  return option;
+}
+
+const MANUAL_FACT_CHECKERS = [
+  {
+    label: 'MyGoPen 賣擱騙',
+    value: 'line://ti/p/%40mygopen',
+  },
+  {
+    label: '蘭姆酒吐司',
+    value: 'line://ti/p/%40rumtoast',
+  },
 ];
+/**
+ * @returns {object} Reply object with buttons that goes to other fact checkers
+ */
+export function createSuggestOtherFactCheckerReply() {
+  const suggestion = t`We suggest forwarding the message to the following fact-checkers instead. They have 💁 1-on-1 Q&A service to respond to your questions.`;
+  return {
+    type: 'flex',
+    altText: `${suggestion}\n\n${FLEX_MESSAGE_ALT_TEXT}`,
+    contents: {
+      type: 'bubble',
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: suggestion,
+            wrap: true,
+          },
+        ],
+      },
+      footer: {
+        type: 'box',
+        layout: 'vertical',
+        spacing: 'sm',
+        contents: MANUAL_FACT_CHECKERS.map(({ label, value }) => ({
+          type: 'button',
+          action: {
+            type: 'uri',
+            label,
+            uri: value,
+          },
+          style: 'primary',
+          color: '#333333',
+        })),
+      },
+      styles: {
+        body: {
+          separator: true,
+        },
+      },
+    },
+  };
+}
