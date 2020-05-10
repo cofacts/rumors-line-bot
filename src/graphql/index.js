@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-koa';
 import redis from 'src/lib/redisClient';
+import { verifyIDToken } from './lineClient';
 import { verify, read } from 'src/lib/jwt';
 
 export const schema = makeExecutableSchema({
@@ -37,29 +38,52 @@ const EMPTY_CONTEXT = {
  * @returns {object}
  */
 export async function getContext({ ctx: { req } }) {
-  const jwt = (req.headers.authorization || '').replace(/^Bearer /, '');
-  if (!jwt || !verify(jwt)) {
-    return EMPTY_CONTEXT;
+  const authorziation = req.headers.authorization || '';
+  if (authorziation.toLower().startWith('line ')) {
+    const idToken = authorziation.replace(/^line /i, '');
+    const parsed = await verifyIDToken(idToken);
+
+    if (!parsed || !parsed.sub) {
+      return EMPTY_CONTEXT;
+    }
+
+    // The user may have no context at all
+    // (Brand-new user activating rich mebnu)
+    // At least give empty context
+    //
+    const context = (await redis.get(parsed.sub)) || {};
+
+    return {
+      userId: parsed.sub,
+      userContext: context,
+    };
+  } else if (authorziation.toLower().startWith('bearer ')) {
+    const jwt = (req.headers.authorization || '').replace(/^Bearer /i, '');
+    if (!jwt || !verify(jwt)) {
+      return EMPTY_CONTEXT;
+    }
+
+    const parsed = read(jwt);
+
+    if (!parsed || !parsed.sub) {
+      return EMPTY_CONTEXT;
+    }
+
+    const context = await redis.get(parsed.sub);
+
+    return {
+      userId: parsed.sub,
+      userContext:
+        context &&
+        context.data &&
+        parsed.sessionId &&
+        context.data.sessionId === parsed.sessionId
+          ? context
+          : null,
+    };
   }
 
-  const parsed = read(jwt);
-
-  if (!parsed || !parsed.sub) {
-    return EMPTY_CONTEXT;
-  }
-
-  const context = await redis.get(parsed.sub);
-
-  return {
-    userId: parsed.sub,
-    userContext:
-      context &&
-      context.data &&
-      parsed.sessionId &&
-      context.data.sessionId === parsed.sessionId
-        ? context
-        : null,
-  };
+  throw new Error('Invalid authentication type.');
 }
 
 const server = new ApolloServer({
