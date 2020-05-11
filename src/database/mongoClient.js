@@ -5,6 +5,14 @@ const MONGODB_URI = process.env.MONGODB_URI;
 // Database Name
 const dbName = 'cofacts';
 
+// Somewhere outside the class:
+//
+async function instantiateClientAndConnect() {
+  const client = new CofactsMongoClient(MONGODB_URI);
+  await client.mongoClient.connect();
+  return client;
+}
+
 export default class CofactsMongoClient {
   /**
    * @type {?Promise<CofactsMongoClient>}
@@ -12,18 +20,7 @@ export default class CofactsMongoClient {
   static _instance = null;
 
   static async getInstance() {
-    if (this._instance === null) {
-      this._instance = new Promise(async (resolve, reject) => {
-        const client = new CofactsMongoClient(MONGODB_URI);
-        try {
-          await client.mongoClient.connect();
-          resolve(client);
-        } catch (e) {
-          reject(e);
-        }
-      });
-    }
-    return this._instance;
+    return (this._instance = this._instance || instantiateClientAndConnect());
   }
 
   /**
