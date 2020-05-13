@@ -25,8 +25,8 @@ it('Returns user context', async () => {
     {
       context {
         state
-        issuedAt
         data {
+          sessionId
           searchedText
         }
       }
@@ -37,8 +37,8 @@ it('Returns user context', async () => {
       userId: 'U12345678',
       userContext: {
         state: 'CHOOSING_ARTICLE',
-        issuedAt: 1586013070089,
         data: {
+          sessionId: 1586013070089,
           searchedText: 'Foo',
         },
       },
@@ -50,8 +50,8 @@ it('Returns user context', async () => {
         "context": Object {
           "data": Object {
             "searchedText": "Foo",
+            "sessionId": "1586013070089",
           },
-          "issuedAt": 1586013070089,
           "state": "CHOOSING_ARTICLE",
         },
       },

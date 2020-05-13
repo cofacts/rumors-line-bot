@@ -6,6 +6,7 @@ require('dotenv').config();
 // https://github.com/sveltejs/template-webpack
 // https://github.com/hperrin/smui-example-webpack/blob/master/webpack.config.js
 
+const { DefinePlugin } = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
@@ -118,8 +119,16 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: './src/liff/index.html',
+      // custom constants passed to index.html via htmlWebpackPlugin.options
+      ROLLBAR_ENV: process.env.ROLLBAR_ENV,
+      ROLLBAR_CLIENT_TOKEN: process.env.ROLLBAR_CLIENT_TOKEN,
     }),
     new CompressionPlugin(),
+    new DefinePlugin({
+      LIFF_ID: JSON.stringify(
+        (process.env.LIFF_URL || '').replace('https://liff.line.me/', '')
+      ),
+    }),
   ],
   devtool: prod ? false : 'source-map',
   optimization: {

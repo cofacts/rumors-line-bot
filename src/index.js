@@ -1,6 +1,5 @@
 import Koa from 'koa';
 import Router from 'koa-router';
-import cors from '@koa/cors';
 import serve from 'koa-static-server';
 import path from 'path';
 
@@ -26,26 +25,15 @@ router.get('/', ctx => {
   ctx.body = JSON.stringify({ version });
 });
 
-// TODO: legacy route, remove this
-router.get(
-  '/context/:userId',
-  cors({
-    origin: process.env.LIFF_CORS_ORIGIN,
-  }),
-  async ctx => {
-    const { state, issuedAt } = (await redis.get(ctx.params.userId)) || {};
-
-    ctx.body = {
-      state,
-      issuedAt,
-    };
-  }
-);
 router.use('/callback', webhookRouter.routes(), webhookRouter.allowedMethods());
 
 if (process.env.NODE_ENV === 'production') {
   app.use(
-    serve({ rootDir: path.join(__dirname, '../liff'), rootPath: '/liff' })
+    serve({
+      rootDir: path.join(__dirname, '../liff'),
+      rootPath: '/liff',
+      maxage: 31536000 * 1000, // https://stackoverflow.com/a/7071880/1582110
+    })
   );
 } else {
   app.use(
