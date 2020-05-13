@@ -51,6 +51,9 @@ export default async function handleInput(
       sessionId: Date.now(),
     };
     state = '__INIT__';
+  } else if (event.type === 'postback') {
+    // Jump to the correct state to handle the postback input
+    state = event.postbackHandlerState;
   }
 
   let params = {

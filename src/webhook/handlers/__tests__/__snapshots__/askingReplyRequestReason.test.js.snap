@@ -1,20 +1,61 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`extracts reason and submits replyrequest 1`] = `
+exports[`records article source 1`] = `
 Object {
   "data": Object {
     "selectedArticleId": "selected-article-id",
   },
   "event": Object {
-    "input": "💁 My reason is:
-Reason goes here",
+    "input": "ℹ️ I got the message from:
+A LINE group",
   },
   "isSkipUser": undefined,
   "issuedAt": undefined,
   "replies": Array [
     Object {
-      "text": "已經將您的需求記錄下來了，共有 1 人跟您一樣渴望看到針對這篇訊息的回應。若有最新回應，會寫在這個地方：https://cofacts.hacktabl.org/article/selected-article-id",
-      "type": "text",
+      "altText": "Thanks for the info.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "Thanks for the info.",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "See reported message",
+                "type": "uri",
+                "uri": "https://cofacts.hacktabl.org/article/selected-article-id",
+              },
+              "color": "#333333",
+              "style": "primary",
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "label": "Provide more info",
+                "type": "uri",
+                "uri": "line://app/1631030389-xb5mnDdN?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Nzc5MjMyMDB9.zfrE2uvmsu7mPH23-TZ5L_mfjiNEeiX-x5Md4Lvsk7I",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
     },
     Object {
       "altText": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
@@ -63,27 +104,6 @@ Reason goes here",
     },
   ],
   "state": "__INIT__",
-  "userId": undefined,
-}
-`;
-
-exports[`handles the case when prefix does not match 1`] = `
-Object {
-  "data": Object {
-    "selectedArticleId": "selected-article-id",
-  },
-  "event": Object {
-    "input": "FOO",
-  },
-  "isSkipUser": undefined,
-  "issuedAt": undefined,
-  "replies": Array [
-    Object {
-      "text": "請點擊上面的「我也想知道」，或放棄這則，改轉傳其他訊息。",
-      "type": "text",
-    },
-  ],
-  "state": "ASKING_REPLY_REQUEST_REASON",
   "userId": undefined,
 }
 `;

@@ -8,15 +8,25 @@ const splitter = new GraphemeSplitter();
 /**
  * @param {string} label - Postback action button text, max 20 words
  * @param {string} input - Input when pressed
+ * @param {string} displayText - Text to display in chat window.
  * @param {string} sessionId - Current session ID
+ * @param {string} state - the state that processes the postback
  */
-export function createPostbackAction(label, input, sessionId) {
+export function createPostbackAction(
+  label,
+  input,
+  displayText,
+  sessionId,
+  state
+) {
   return {
     type: 'postback',
     label,
+    displayText,
     data: JSON.stringify({
       input,
       sessionId,
+      state,
     }),
   };
 }
@@ -357,3 +367,42 @@ export function createSuggestOtherFactCheckerReply() {
     },
   };
 }
+
+/**
+ *
+ * @param {string} articleUrl
+ * @param {string} userId
+ * @param {string} sessionId
+ * @returns {object} Flex bubble message's footer object
+ */
+export function createReasonButtonFooter(articleUrl, userId, sessionId) {
+  return {
+    type: 'box',
+    layout: 'vertical',
+    spacing: 'sm',
+    contents: [
+      {
+        type: 'button',
+        action: {
+          type: 'uri',
+          label: t`See reported message`,
+          uri: articleUrl,
+        },
+        style: 'primary',
+        color: '#333333',
+      },
+      {
+        type: 'button',
+        action: {
+          type: 'uri',
+          label: t`Provide more info`,
+          uri: getLIFFURL('reason', userId, sessionId),
+        },
+        style: 'primary',
+        color: '#ffb600',
+      },
+    ],
+  };
+}
+
+export const POSTBACK_NO_ARTICLE_FOUND = '__NO_ARTICLE_FOUND__';

@@ -80,6 +80,7 @@ Object {
   "data": Object {
     "foundArticleIds": Array [],
     "searchedText": "Some text forwarded by the user",
+    "selectedArticleId": "new-article-id",
   },
   "event": Object {
     "input": "ℹ️ I got the message from:

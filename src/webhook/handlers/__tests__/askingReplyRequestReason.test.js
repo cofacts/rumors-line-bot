@@ -1,38 +1,67 @@
-jest.mock('src/lib/gql');
+jest.mock('src/lib/ga');
 
+import MockDate from 'mockdate';
 import askingReplyRequestReason from '../askingReplyRequestReason';
-import * as apiResult from '../__fixtures__/askingReplyRequestReason';
-import gql from 'src/lib/gql';
-import { REASON_PREFIX } from 'src/lib/sharedUtils';
+import {
+  REASON_PREFIX,
+  SOURCE_PREFIX,
+  ARTICLE_SOURCE_OPTIONS,
+} from 'src/lib/sharedUtils';
+import ga from 'src/lib/ga';
 
 beforeEach(() => {
-  gql.__reset();
+  ga.clearAllMocks();
 });
 
-it('handles the case when prefix does not match', async () => {
+it('should block incorrect prefix', async () => {
   const params = {
     data: {
       selectedArticleId: 'selected-article-id',
     },
     state: 'ASKING_REPLY_REQUEST_REASON',
     event: {
-      input: 'FOO', // Wrong format
+      type: 'message',
+      input: REASON_PREFIX + 'foo', // Wrong prefix
     },
   };
-  expect(await askingReplyRequestReason(params)).toMatchSnapshot();
+  await expect(askingReplyRequestReason(params)).rejects.toMatchInlineSnapshot(
+    `[Error: Please press the latest button to submit message to database.]`
+  );
 });
 
-it('extracts reason and submits replyrequest', async () => {
-  gql.__push(apiResult.createReplyRequestSuccess);
+it('records article source', async () => {
   const params = {
     data: {
       selectedArticleId: 'selected-article-id',
     },
     state: 'ASKING_REPLY_REQUEST_REASON',
     event: {
-      input: `${REASON_PREFIX}Reason goes here`, // From LIFF
+      input:
+        SOURCE_PREFIX + ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label, // From LIFF
     },
   };
+
+  MockDate.set('2020-01-01');
   expect(await askingReplyRequestReason(params)).toMatchSnapshot();
-  expect(gql.__finished()).toBe(true);
+  MockDate.reset();
+
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "ProvidingSource",
+          "ec": "UserInput",
+          "el": "group message",
+        },
+      ],
+      Array [
+        Object {
+          "ea": "ProvidingSource",
+          "ec": "Article",
+          "el": "selected-article-id/group message",
+        },
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });

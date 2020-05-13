@@ -6,6 +6,11 @@ import {
   createFeedbackWords,
   createTypeWords,
   ellipsis,
+  ManipulationError,
+  createAskArticleSubmissionConsentReply,
+  POSTBACK_NO_ARTICLE_FOUND,
+  FLEX_MESSAGE_ALT_TEXT,
+  getLIFFURL,
 } from './utils';
 import ga from 'src/lib/ga';
 
@@ -31,136 +36,210 @@ function reorderArticleReplies(articleReplies) {
 // https://developers.line.me/en/docs/messaging-api/reference/#template-messages
 
 export default async function choosingArticle(params) {
-  let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
+  let { data, state, event, userId, replies, isSkipUser } = params;
 
-  if (!data.foundArticleIds) {
-    throw new Error('foundArticleIds not set in data');
+  if (event.type !== 'postback') {
+    throw new ManipulationError(t`Please choose from provided options.`);
   }
 
-  data.selectedArticleId = data.foundArticleIds[event.input - 1];
-  const { selectedArticleId } = data;
-  const doesNotContainMyArticle = +event.input === 0;
+  if (event.input === POSTBACK_NO_ARTICLE_FOUND) {
+    const visitor = ga(userId, state, data.searchedText);
+    visitor.event({
+      ec: 'UserInput',
+      ea: 'ArticleSearch',
+      el: 'ArticleFoundButNoHit',
+    });
+    visitor.send();
 
-  if (doesNotContainMyArticle) {
-    replies = [
-      {
-        type: 'text',
-        text:
-          '剛才您傳的訊息資訊量太少，編輯無從查證。\n' +
-          '查證範圍請參考📖使用手冊 http://bit.ly/cofacts-line-users',
-      },
-    ];
-    state = '__INIT__';
-  } else if (doesNotContainMyArticle) {
-    const altText =
-      '啊，看來您的訊息還沒有收錄到我們的資料庫裡。\n' +
-      '\n' +
-      '請問您是從哪裡看到這則訊息呢？\n' +
-      '\n' +
-      data.articleSources
-        .map((option, index) => `${option} > 請傳 ${index + 1}\n`)
-        .join('') +
-      '\n' +
-      '請按左下角「⌨️」鈕輸入選項編號。';
+    return {
+      data,
+      state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
+      event,
+      userId,
+      replies: [createAskArticleSubmissionConsentReply(userId, data.sessionId)],
+      isSkipUser,
+    };
+  }
 
-    replies = [
-      {
-        type: 'template',
-        altText,
-        template: {
-          type: 'buttons',
-          text:
-            '啊，看來您的訊息還沒有收錄到我們的資料庫裡。\n請問您是從哪裡看到這則訊息呢？',
-          actions: data.articleSources.map((option, index) =>
-            createPostbackAction(option, index + 1, issuedAt)
-          ),
-        },
-      },
-    ];
+  const selectedArticleId = (data.selectedArticleId = event.input);
 
-    state = 'ASKING_ARTICLE_SOURCE';
-  } else if (!selectedArticleId) {
-    replies = [
-      {
-        type: 'text',
-        text: `請輸入 1～${data.foundArticleIds.length} 的數字，來選擇訊息。`,
-      },
-    ];
-
-    state = 'CHOOSING_ARTICLE';
-  } else {
-    const {
-      data: { GetArticle },
-    } = await gql`
-      query($id: String!) {
-        GetArticle(id: $id) {
-          text
-          replyCount
-          articleReplies(status: NORMAL) {
-            reply {
-              id
-              type
-              text
-            }
-            positiveFeedbackCount
-            negativeFeedbackCount
+  const {
+    data: { GetArticle },
+  } = await gql`
+    query($id: String!) {
+      GetArticle(id: $id) {
+        text
+        replyCount
+        articleReplies(status: NORMAL) {
+          reply {
+            id
+            type
+            text
           }
+          positiveFeedbackCount
+          negativeFeedbackCount
         }
       }
-    `({
-      id: selectedArticleId,
-    });
+    }
+  `({
+    id: selectedArticleId,
+  });
 
-    data.selectedArticleText = GetArticle.text;
+  // Store it so that other handlers can use
+  data.selectedArticleText = GetArticle.text;
 
-    const visitor = ga(userId, state, data.selectedArticleText);
+  const visitor = ga(userId, state, data.selectedArticleText);
 
-    // Track which Article is selected by user.
-    visitor.event({
-      ec: 'Article',
-      ea: 'Selected',
-      el: selectedArticleId,
-    });
+  // Track which Article is selected by user.
+  visitor.event({
+    ec: 'Article',
+    ea: 'Selected',
+    el: selectedArticleId,
+  });
 
-    const count = {};
+  const articleReplies = reorderArticleReplies(GetArticle.articleReplies);
+  if (articleReplies.length === 1) {
+    visitor.send();
 
-    GetArticle.articleReplies.forEach(ar => {
+    // choose for user
+    return {
+      data,
+      state: 'CHOOSING_REPLY',
+      event: {
+        type: 'postback',
+        input: articleReplies[0].reply.id,
+      },
+      userId,
+      replies,
+      isSkipUser: true,
+    };
+  }
+
+  if (articleReplies.length !== 0) {
+    const countOfType = {};
+    articleReplies.forEach(ar => {
       // Track which Reply is searched. And set tracking event as non-interactionHit.
       visitor.event({ ec: 'Reply', ea: 'Search', el: ar.reply.id, ni: true });
 
       const type = ar.reply.type;
-      if (!count[type]) {
-        count[type] = 1;
-      } else {
-        count[type]++;
-      }
+      countOfType[type] = (countOfType[type] || 0) + 1;
     });
 
-    const articleReplies = reorderArticleReplies(GetArticle.articleReplies);
     const summary =
+      '👨‍👩‍👧‍👦  ' +
       t`Volunteer editors has publised several replies to this message.` +
-      '\n\n👨‍👩‍👧‍👦 ' +
+      '\n\n' +
       [
-        count.RUMOR > 0
-          ? t`${count.RUMOR} of them say it ❌ contains misinformation`
+        countOfType.RUMOR > 0
+          ? t`${countOfType.RUMOR} of them say it ❌ contains misinformation.`
           : '',
-        count.NOT_RUMOR > 0
-          ? t`${count.NOT_RUMOR} of them says it ⭕ contains true information`
-          : '',
-        count.OPINIONATED > 0
+        countOfType.NOT_RUMOR > 0
           ? t`${
-              count.OPINIONATED
-            } of them says it 💬 contains personal perspective\n`
+              countOfType.NOT_RUMOR
+            } of them says it ⭕ contains true information.`
           : '',
-        count.NOT_ARTICLE > 0
+        countOfType.OPINIONATED > 0
           ? t`${
-              count.NOT_ARTICLE
-            } of them says it ⚠️️ is out of scope of Cofacts\n`
+              countOfType.OPINIONATED
+            } of them says it 💬 contains personal perspective.`
+          : '',
+        countOfType.NOT_ARTICLE > 0
+          ? t`${
+              countOfType.NOT_ARTICLE
+            } of them says it ⚠️️ is out of scope of Cofacts.`
           : '',
       ]
         .filter(s => s)
-        .join(', ') +
-      '.';
+        .join('\n');
+
+    const replyOptions = articleReplies
+      .slice(0, 10)
+      .map(({ reply, positiveFeedbackCount, negativeFeedbackCount }) => {
+        const typeWords = createTypeWords(reply.type).toLowerCase();
+        const displayTextWhenChosen = ellipsis(reply.text, 25);
+
+        return {
+          type: 'bubble',
+          direction: 'ltr',
+          header: {
+            type: 'box',
+            layout: 'horizontal',
+            spacing: 'md',
+            paddingBottom: 'none',
+            contents: [
+              {
+                type: 'text',
+                text: '💬',
+                flex: 0,
+              },
+              {
+                type: 'text',
+                text: t`Someone thinks it ${typeWords}`,
+                gravity: 'center',
+                size: 'sm',
+                weight: 'bold',
+                wrap: true,
+                color: '#AAAAAA',
+              },
+            ],
+          },
+          body: {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'text',
+                text: ellipsis(reply.text, 300, '...'), // 50KB for entire Flex carousel
+                align: 'start',
+                wrap: true,
+                margin: 'md',
+                maxLines: 10,
+              },
+              {
+                type: 'filler',
+              },
+              {
+                type: 'separator',
+                margin: 'md',
+              },
+              {
+                type: 'box',
+                layout: 'horizontal',
+                contents: [
+                  {
+                    type: 'text',
+                    text: createFeedbackWords(
+                      positiveFeedbackCount,
+                      negativeFeedbackCount
+                    ),
+                    size: 'xs',
+                    wrap: true,
+                  },
+                ],
+                margin: 'md',
+                spacing: 'none',
+              },
+            ],
+          },
+          footer: {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'button',
+                action: createPostbackAction(
+                  `👀 ${t`Take a look`}`,
+                  reply.id,
+                  t`I choose “${displayTextWhenChosen}”`,
+                  data.sessionId,
+                  'CHOOSING_REPLY'
+                ),
+                style: 'primary',
+              },
+            ],
+          },
+        };
+      });
 
     replies = [
       {
@@ -171,179 +250,110 @@ export default async function choosingArticle(params) {
         type: 'text',
         text: t`Let's pick one` + ' 👇',
       },
-    ];
-
-    if (articleReplies.length !== 0) {
-      data.foundReplyIds = articleReplies.map(({ reply }) => reply.id);
-
-      state = 'CHOOSING_REPLY';
-
-      if (articleReplies.length === 1) {
-        // choose for user
-        event.input = 1;
-
-        visitor.send();
-        return {
-          data,
-          state: 'CHOOSING_REPLY',
-          event,
-          issuedAt,
-          userId,
-          replies,
-          isSkipUser: true,
-        };
-      }
-
-      const postMessage = articleReplies
-        .slice(0, 10)
-        .map(({ reply, positiveFeedbackCount, negativeFeedbackCount }, idx) => {
-          const typeWords = createTypeWords(reply.type).toLowerCase();
-          return {
-            type: 'bubble',
-            direction: 'ltr',
-            header: {
-              type: 'box',
-              layout: 'horizontal',
-              spacing: 'md',
-              paddingBottom: 'none',
-              contents: [
-                {
-                  type: 'text',
-                  text: '💬',
-                  flex: 0,
-                },
-                {
-                  type: 'text',
-                  text: t`Someone thinks it ${typeWords}`,
-                  gravity: 'center',
-                  size: 'sm',
-                  weight: 'bold',
-                  wrap: true,
-                  color: '#AAAAAA',
-                },
-              ],
-            },
-            body: {
-              type: 'box',
-              layout: 'vertical',
-              contents: [
-                {
-                  type: 'text',
-                  text: ellipsis(reply.text, 300, '...'), // 50KB for entire Flex carousel
-                  align: 'start',
-                  wrap: true,
-                  margin: 'md',
-                  maxLines: 10,
-                },
-                {
-                  type: 'filler',
-                },
-                {
-                  type: 'separator',
-                  margin: 'md',
-                },
-                {
-                  type: 'box',
-                  layout: 'horizontal',
-                  contents: [
-                    {
-                      type: 'text',
-                      text: createFeedbackWords(
-                        positiveFeedbackCount,
-                        negativeFeedbackCount
-                      ),
-                      size: 'xs',
-                      wrap: true,
-                    },
-                  ],
-                  margin: 'md',
-                  spacing: 'none',
-                },
-              ],
-            },
-            footer: {
-              type: 'box',
-              layout: 'vertical',
-              contents: [
-                {
-                  type: 'button',
-                  action: createPostbackAction(
-                    `👀 ${t`Take a look`}`,
-                    idx + 1,
-                    issuedAt
-                  ),
-                  style: 'primary',
-                },
-              ],
-            },
-          };
-        });
-
-      replies.push({
+      {
         type: 'flex',
         altText: t`Please take a look at the following replies.`,
         contents: {
           type: 'carousel',
-          contents: postMessage,
+          contents: replyOptions,
         },
+      },
+    ];
+
+    if (articleReplies.length > 10) {
+      const articleUrl = getArticleURL(selectedArticleId);
+      replies.push({
+        type: 'text',
+        text: t`Visit ${articleUrl} for more replies.`,
       });
+    }
 
-      if (articleReplies.length > 10) {
-        const articleUrl = getArticleURL(selectedArticleId);
-        replies.push({
-          type: 'text',
-          text: t`Visit ${articleUrl} for more replies.`,
-        });
-      }
-    } else {
-      // No one has replied to this yet.
+    state = 'CHOOSING_REPLY';
+  } else {
+    // No one has replied to this yet.
 
-      // Track not yet reply Articles.
-      visitor.event({
-        ec: 'Article',
-        ea: 'NoReply',
-        el: selectedArticleId,
-      });
+    // Track not yet reply Articles.
+    visitor.event({
+      ec: 'Article',
+      ea: 'NoReply',
+      el: selectedArticleId,
+    });
 
-      const altText =
-        '抱歉這篇訊息還沒有人回應過唷！\n' +
-        '\n' +
-        '請問您是從哪裡看到這則訊息呢？\n' +
-        '\n' +
-        data.articleSources
-          .map((option, index) => `${option} > 請傳 ${index + 1}\n`)
-          .join('') +
-        '\n' +
-        '請按左下角「⌨️」鈕輸入選項編號。';
+    const btnText = `ℹ️ ${t`Provide more info`}`;
+    const spans = [
+      {
+        type: 'span',
+        text: t`Unfortunately no one has replied to this message yet. To help Cofacts editors checking the message, please `,
+      },
+      {
+        type: 'span',
+        text: t`provide more information using “${btnText}” button. `,
+        color: '#ffb600',
+        weight: 'bold',
+      },
+      {
+        type: 'span',
+        text: t`Although you won't receive answers rightaway, you can help the people who receive the same message in the future.`,
+      },
+    ];
 
-      replies = [
-        {
-          type: 'template',
-          altText,
-          template: {
-            type: 'buttons',
-            text:
-              '抱歉這篇訊息還沒有人回應過唷！\n請問您是從哪裡看到這則訊息呢？',
-            actions: data.articleSources.map((option, index) =>
-              createPostbackAction(option, index + 1, issuedAt)
-            ),
+    replies = [
+      {
+        type: 'flex',
+        altText: FLEX_MESSAGE_ALT_TEXT,
+        contents: {
+          type: 'bubble',
+          body: {
+            type: 'box',
+            layout: 'vertical',
+            spacing: 'md',
+            paddingAll: 'lg',
+            contents: [
+              {
+                type: 'text',
+                wrap: true,
+                contents: spans,
+              },
+            ],
+          },
+          footer: {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'button',
+                style: 'primary',
+                color: '#ffb600',
+                action: {
+                  type: 'uri',
+                  label: btnText,
+                  uri: getLIFFURL('source', userId, data.sessionId),
+                },
+              },
+            ],
+          },
+          styles: {
+            body: {
+              separator: true,
+            },
           },
         },
-      ];
+      },
+    ];
 
-      // Submit article replies early, no need to wait for the request
-      gql`
-        mutation SubmitReplyRequestWithoutReason($id: String!) {
-          CreateOrUpdateReplyRequest(articleId: $id) {
-            replyRequestCount
-          }
+    // Submit article replies early, no need to wait for the request
+    gql`
+      mutation SubmitReplyRequestWithoutReason($id: String!) {
+        CreateOrUpdateReplyRequest(articleId: $id) {
+          replyRequestCount
         }
-      `({ id: selectedArticleId }, { userId });
+      }
+    `({ id: selectedArticleId }, { userId });
 
-      state = 'ASKING_ARTICLE_SOURCE';
-    }
-    visitor.send();
+    state = 'ASKING_REPLY_REQUEST_REASON';
   }
 
-  return { data, state, event, issuedAt, userId, replies, isSkipUser };
+  visitor.send();
+
+  return { data, state, event, userId, replies, isSkipUser };
 }

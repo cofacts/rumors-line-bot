@@ -21,7 +21,8 @@ exports[`createFlexMessageText should handle the situation without input 1`] = `
 
 exports[`createPostbackAction() should return postback message body 1`] = `
 Object {
-  "data": "{\\"input\\":3,\\"sessionId\\":1519019701265}",
+  "data": "{\\"input\\":3,\\"sessionId\\":1519019701265,\\"state\\":\\"some-id\\"}",
+  "displayText": "I chose this",
   "label": "閱讀此回應",
   "type": "postback",
 }

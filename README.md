@@ -192,6 +192,8 @@ Sent event format: `Event category` / `Event action` / `Event label`
     - `Article` / `Search` / `<article id>` for each article found
   - If nothing found in database:
     - `UserInput` / `ArticleSearch` / `ArticleNotFound`
+  - If articles found in database but is not what user want:
+    - `UserInput` / `ArticleSearch` / `ArticleFoundButNoHit`
   - When user provides source (includes invalid source)
     - `UserInput` / `ProvidingSource` / `<source value>`
 
@@ -215,3 +217,6 @@ Sent event format: `Event category` / `Event action` / `Event label`
 
 6. User does not want to submit an article
   - `Article` / `Create` / `No`
+
+7. User updates their reason of reply request
+  - `Article` / `ProvidingReason` / `<articleId>`
