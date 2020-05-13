@@ -92,90 +92,91 @@ A LINE group",
     Object {
       "altText": "Your submission is now recorded at https://cofacts.hacktabl.org/article/new-article-id",
       "contents": Object {
-        "body": Object {
-          "contents": Array [
-            Object {
-              "text": "Your submission is now recorded at https://cofacts.hacktabl.org/article/new-article-id",
-              "type": "text",
-              "wrap": true,
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "Your submission is now recorded at https://cofacts.hacktabl.org/article/new-article-id",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
             },
-          ],
-          "layout": "vertical",
-          "type": "box",
-        },
-        "footer": Object {
-          "contents": Array [
-            Object {
-              "action": Object {
-                "label": "See reported message",
-                "type": "uri",
-                "uri": "https://cofacts.hacktabl.org/article/new-article-id",
-              },
-              "color": "#333333",
-              "style": "primary",
-              "type": "button",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "See reported message",
+                    "type": "uri",
+                    "uri": "https://cofacts.hacktabl.org/article/new-article-id",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "Provide more info",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Nzc5MjMyMDB9.zfrE2uvmsu7mPH23-TZ5L_mfjiNEeiX-x5Md4Lvsk7I",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
             },
-            Object {
-              "action": Object {
-                "label": "Provide more info",
-                "type": "uri",
-                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Nzc5MjMyMDB9.zfrE2uvmsu7mPH23-TZ5L_mfjiNEeiX-x5Md4Lvsk7I",
-              },
-              "color": "#ffb600",
-              "style": "primary",
-              "type": "button",
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
             },
-          ],
-          "layout": "vertical",
-          "spacing": "sm",
-          "type": "box",
-        },
-        "type": "bubble",
-      },
-      "type": "flex",
-    },
-    Object {
-      "altText": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
-      "contents": Object {
-        "body": Object {
-          "contents": Array [
-            Object {
-              "text": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
-              "type": "text",
-              "wrap": true,
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "Share on LINE",
+                    "type": "uri",
+                    "uri": "line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Fnew-article-id",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "Share on Facebook",
+                    "type": "uri",
+                    "uri": "https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Fnew-article-id",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
             },
-          ],
-          "layout": "vertical",
-          "type": "box",
-        },
-        "footer": Object {
-          "contents": Array [
-            Object {
-              "action": Object {
-                "label": "Share on LINE",
-                "type": "uri",
-                "uri": "line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Fnew-article-id",
-              },
-              "color": "#ffb600",
-              "style": "primary",
-              "type": "button",
-            },
-            Object {
-              "action": Object {
-                "label": "Share on Facebook",
-                "type": "uri",
-                "uri": "https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Fnew-article-id",
-              },
-              "color": "#ffb600",
-              "style": "primary",
-              "type": "button",
-            },
-          ],
-          "layout": "vertical",
-          "spacing": "sm",
-          "type": "box",
-        },
-        "type": "bubble",
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
       },
       "type": "flex",
     },

@@ -10,7 +10,7 @@ import {
   createSuggestOtherFactCheckerReply,
   POSTBACK_NO_ARTICLE_FOUND,
   createReasonButtonFooter,
-  createArticleShareReply,
+  createArticleShareBubble,
 } from './utils';
 import ga from 'src/lib/ga';
 
@@ -70,31 +70,41 @@ export default async function initState(params) {
         type: 'flex',
         altText: replyRequestUpdatedMsg,
         contents: {
-          type: 'bubble',
-          body: {
-            type: 'box',
-            layout: 'vertical',
-            contents: [
-              {
-                type: 'text',
-                wrap: true,
-                text: replyRequestUpdatedMsg,
+          type: 'carousel',
+          contents: [
+            createArticleShareBubble(articleUrl),
+            {
+              type: 'bubble',
+              body: {
+                type: 'box',
+                layout: 'vertical',
+                contents: [
+                  {
+                    type: 'text',
+                    wrap: true,
+                    text: replyRequestUpdatedMsg,
+                  },
+                  otherReplyRequestCount > 0 && {
+                    type: 'text',
+                    wrap: true,
+                    text: ngettext(
+                      msgid`There is ${otherReplyRequestCount} user also waiting for clarification.`,
+                      `There are ${otherReplyRequestCount} users also waiting for clarification.`,
+                      otherReplyRequestCount
+                    ),
+                  },
+                ].filter(m => m),
               },
-              otherReplyRequestCount > 0 && {
-                type: 'text',
-                wrap: true,
-                text: ngettext(
-                  msgid`There is ${otherReplyRequestCount} user also waiting for clarification.`,
-                  `There are ${otherReplyRequestCount} users also waiting for clarification.`,
-                  otherReplyRequestCount
-                ),
-              },
-            ].filter(m => m),
-          },
-          footer: createReasonButtonFooter(articleUrl, userId, data.sessionId),
+              footer: createReasonButtonFooter(
+                articleUrl,
+                userId,
+                data.sessionId,
+                true
+              ),
+            },
+          ],
         },
       },
-      createArticleShareReply(articleUrl),
     ];
     visitor.send();
 

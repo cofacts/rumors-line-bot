@@ -3,7 +3,7 @@ import ga from 'src/lib/ga';
 import { getArticleURL, SOURCE_PREFIX } from 'src/lib/sharedUtils';
 import {
   ManipulationError,
-  createArticleShareReply,
+  createArticleShareBubble,
   getArticleSourceOptionFromLabel,
   createReasonButtonFooter,
 } from './utils';
@@ -43,22 +43,31 @@ export default async function askingReplyRequestSubmission(params) {
       type: 'flex',
       altText: sourceRecordedMsg,
       contents: {
-        type: 'bubble',
-        body: {
-          type: 'box',
-          layout: 'vertical',
-          contents: [
-            {
-              type: 'text',
-              wrap: true,
-              text: sourceRecordedMsg,
+        type: 'carousel',
+        contents: [
+          {
+            type: 'bubble',
+            body: {
+              type: 'box',
+              layout: 'vertical',
+              contents: [
+                {
+                  type: 'text',
+                  wrap: true,
+                  text: sourceRecordedMsg,
+                },
+              ],
             },
-          ],
-        },
-        footer: createReasonButtonFooter(articleUrl, userId, data.sessionId),
+            footer: createReasonButtonFooter(
+              articleUrl,
+              userId,
+              data.sessionId
+            ),
+          },
+          createArticleShareBubble(articleUrl),
+        ],
       },
     },
-    createArticleShareReply(articleUrl),
   ];
   state = '__INIT__';
   visitor.send();
