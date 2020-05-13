@@ -99,6 +99,17 @@ const singleUserHandler = async (
       //
       if (data.sessionId !== context.data.sessionId) {
         console.log('Previous button pressed.');
+        lineClient('/message/reply', {
+          replyToken,
+          messages: [
+            {
+              type: 'text',
+              text:
+                '🚧 ' +
+                t`You are currently searching for another message, buttons from previous search sessions do not work now.`,
+            },
+          ],
+        });
         clearTimeout(timerId);
         return;
       }
@@ -237,7 +248,7 @@ async function processText(context, type, input, otherFields, userId, req) {
       replies: [
         {
           type: 'text',
-          text: t`Oops, something is not working. Would you please send that again?`,
+          text: t`Oops, something is not working. We have cleared your search data, hopefully the error will go away. Would you please send us the message from the start?`,
         },
       ],
     };

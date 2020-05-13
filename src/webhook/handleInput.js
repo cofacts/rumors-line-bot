@@ -10,6 +10,7 @@ import { ManipulationError } from './handlers/utils';
 import {
   REASON_PREFIX,
   DOWNVOTE_PREFIX,
+  UPVOTE_PREFIX,
   SOURCE_PREFIX,
 } from 'src/lib/sharedUtils';
 
@@ -38,6 +39,7 @@ export default async function handleInput(
   if (
     event.type === 'message' &&
     !event.input.startsWith(REASON_PREFIX) &&
+    !event.input.startsWith(UPVOTE_PREFIX) &&
     !event.input.startsWith(DOWNVOTE_PREFIX) &&
     !event.input.startsWith(SOURCE_PREFIX)
   ) {

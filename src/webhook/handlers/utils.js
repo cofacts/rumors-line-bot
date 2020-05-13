@@ -111,7 +111,9 @@ export function getLIFFURL(page, userId, sessionId) {
   return `${process.env.LIFF_URL}?p=${page}&token=${jwt}`;
 }
 
-export const FLEX_MESSAGE_ALT_TEXT = `📱 ${t`Please proceed on your mobile phone.`}`;
+export const FLEX_MESSAGE_ALT_TEXT = `📱 ${
+  /* t: Flex message alt-text */ t`Please proceed on your mobile phone.`
+}`;
 
 /**
  * @param {string} userId - LINE user ID
