@@ -9,7 +9,7 @@ This is a one of the sub-project of [真的假的](http://beta.hackfoldr.org/rum
 
 This state diagram describes how the LINE bot talks to users:
 
-[![The state diagram](https://docs.google.com/drawings/d/1GIuprSEGpthMW6KuCgawMky5Nnxm7P7mlxeODPdA-lI/pub?w=1405&h=1116)](http://beta.hackfoldr.org/cofacts/https%253A%252F%252Fdocs.google.com%252Fdrawings%252Fd%252F1GIuprSEGpthMW6KuCgawMky5Nnxm7P7mlxeODPdA-lI%252Fedit)
+[![The state diagram](https://docs.google.com/drawings/d/e/2PACX-1vTeXGMSaPQadbe7kXay6n0vWWKHbLrMWtNB1xWuuH7SEO9KlPjDSML_TZgcuk6_kpsGLwM6YlosB1MI/pub?w=1428&amp;h=1057)](https://docs.google.com/drawings/d/1sSzI0PSggkA3PPP99Nl18H4zMO4lk-2y5s7dGRNJwAE/edit)
 
 
 ## Development
@@ -75,7 +75,7 @@ We recommend using [ngrok configuration file](https://ngrok.com/docs#config) to 
 
 We are using LIFF to collect user's reason when submitting article & negative feedbacks.
 
-If you don't need to develop LIFF, you can directly use `LIFF_URL` provided in `.env.sample`.
+If you don't need to develop LIFF, you can directly use `LIFF_URL` provided in `.env.sample`, which links to staging LIFF site.
 
 If you want to modify LIFF, you may need to follow these steps:
 

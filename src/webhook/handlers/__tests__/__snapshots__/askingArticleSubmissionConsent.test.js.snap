@@ -119,7 +119,7 @@ A LINE group",
               "action": Object {
                 "label": "Provide more info",
                 "type": "uri",
-                "uri": "line://app/1631030389-xb5mnDdN/liff/index.html?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Nzc5MjMyMDB9.zfrE2uvmsu7mPH23-TZ5L_mfjiNEeiX-x5Md4Lvsk7I",
+                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Nzc5MjMyMDB9.zfrE2uvmsu7mPH23-TZ5L_mfjiNEeiX-x5Md4Lvsk7I",
               },
               "color": "#ffb600",
               "style": "primary",
