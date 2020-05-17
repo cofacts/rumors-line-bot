@@ -166,7 +166,7 @@ export function createAskArticleSubmissionConsentReply(userId, sessionId) {
           },
           {
             type: 'text',
-            text: t`Be the first to submit the message`,
+            text: t`Be the first to report the message`,
             weight: 'bold',
             color: '#ffb600',
             wrap: true,

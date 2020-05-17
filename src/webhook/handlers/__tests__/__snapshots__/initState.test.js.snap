@@ -718,7 +718,7 @@ Object {
             },
             Object {
               "color": "#ffb600",
-              "text": "Be the first to submit the message",
+              "text": "Be the first to report the message",
               "type": "text",
               "weight": "bold",
               "wrap": true,
