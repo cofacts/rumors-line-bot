@@ -49,4 +49,8 @@ client_secret.json
 
 *.log
 
-liff/*.build.html
+# Ignore all built files under /liff
+/liff
+
+# Used by mongodb docker
+data/

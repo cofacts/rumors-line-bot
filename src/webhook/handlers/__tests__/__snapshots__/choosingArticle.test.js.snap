@@ -1,0 +1,1580 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should ask users if they want to submit article when user say not found 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
+  },
+  "event": Object {
+    "input": "__NO_ARTICLE_FOUND__",
+    "postback": Object {
+      "data": "{\\"input\\":\\"__NO_ARTICLE_FOUND__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+    },
+    "timestamp": 1519019734813,
+    "type": "postback",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "altText": "🥇 Be the first to report the message
+📱 Please proceed on your mobile phone.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "contents": Array [
+                Object {
+                  "text": "Currently we don't have this message in our database. If you think it is probably a rumor, ",
+                  "type": "span",
+                },
+                Object {
+                  "color": "#ffb600",
+                  "text": "press “🆕 Submit to database” to make this message public on Cofacts database ",
+                  "type": "span",
+                  "weight": "bold",
+                },
+                Object {
+                  "text": "for nice volunteers to fact-check. Although you won't receive answers rightaway, you can help the people who receive the same message in the future.",
+                  "type": "span",
+                },
+              ],
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "paddingAll": "lg",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "🆕 Submit to database",
+                "type": "uri",
+                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYzc2ZDhhZTljY2QxYWRhNGYwNmM0ZTE1MTVkNDY0NjYiLCJleHAiOjE1Nzc5MjMyMDB9.ZxHN5etvaneWUumNx9bqdBA_6IPmBIQ5sfz7jneJNvI",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "header": Object {
+          "contents": Array [
+            Object {
+              "flex": 0,
+              "gravity": "center",
+              "text": "🥇",
+              "type": "text",
+            },
+            Object {
+              "color": "#ffb600",
+              "text": "Be the first to report the message",
+              "type": "text",
+              "weight": "bold",
+              "wrap": true,
+            },
+          ],
+          "layout": "horizontal",
+          "paddingAll": "lg",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
+          },
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "ASKING_ARTICLE_SUBMISSION_CONSENT",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should select article and have OPINIONATED and NOT_ARTICLE replies 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人",
+    "selectedArticleId": "article-id",
+    "selectedArticleText": "老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人",
+  },
+  "event": Object {
+    "input": "article-id",
+    "postback": Object {
+      "data": "{\\"input\\":\\"article-id\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+    },
+    "timestamp": 1519019734813,
+    "type": "postback",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "text": "👨‍👩‍👧‍👦  Volunteer editors has publised several replies to this message.
+
+1 of them say it ❌ contains misinformation.
+1 of them says it 💬 contains personal perspective.
+2 of them says it ⚠️️ is out of scope of Cofacts.",
+      "type": "text",
+    },
+    Object {
+      "text": "Let's pick one 👇",
+      "type": "text",
+    },
+    Object {
+      "altText": "Please take a look at the following replies.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "老榮民有住所，有月退俸，也不需要特別的醫療護理，因此較適合榮民之家養老，慈濟也一直關懷陪伴。護理之家有免費方案，入住資格和有無捐款沒有關係。
+慈善機構使用資源需符合規定，不能僅為少數人開特例。不是曾捐款就需要特別厚待，不是未曾捐款就可以不理。",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "👍 3 users consider this helpful",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “老榮民有住所，有月退俸，也不需要特別的醫療護理⋯⋯”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "慈濟自來有褒有貶，每人有各自的看法。",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "No feedback yet",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AV8fXikZyCdS-nWhuhfN\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “慈濟自來有褒有貶，每人有各自的看法。”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains personal perspective",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "整個基督教徒的打手，自己不努力去牧人、募款，利用攻擊別人，三分真七分假，更利用多帳號來造勢及造風向，害我也差點相信了，各位有智慧的看官，看過之後，笑一笑即可，別太認真去相信他的話啦。
+",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "No feedback yet",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AV--LRZYyCdS-nWhujL9\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “整個基督教徒的打手，自己不努力去牧人、募款，利⋯⋯”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it invalid request",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "文章是假的 照片也是盜用我方家人的照片,嚴重影響我家人名譽,我方已對po文的人聯絡並打算提出告訴,請勿相信謠言.",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "No feedback yet",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AV8jkRlByCdS-nWhuhiY\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “文章是假的 照片也是盜用我方家人的照片,嚴重影⋯⋯”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it invalid request",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "CHOOSING_REPLY",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should select article and slice replies when over 10 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人",
+    "selectedArticleId": "article-id",
+    "selectedArticleText": "eleven Replies article text",
+  },
+  "event": Object {
+    "input": "article-id",
+    "postback": Object {
+      "data": "{\\"input\\":\\"article-id\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+    },
+    "timestamp": 1519019734813,
+    "type": "postback",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "text": "👨‍👩‍👧‍👦  Volunteer editors has publised several replies to this message.
+
+6 of them say it ❌ contains misinformation.
+2 of them says it ⭕ contains true information.
+1 of them says it 💬 contains personal perspective.
+2 of them says it ⚠️️ is out of scope of Cofacts.",
+      "type": "text",
+    },
+    Object {
+      "text": "Let's pick one 👇",
+      "type": "text",
+    },
+    Object {
+      "altText": "Please take a look at the following replies.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "回應1",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "No feedback yet",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “回應1”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "回應2",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "No feedback yet",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “回應2”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "回應3",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "No feedback yet",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “回應3”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains true information",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "回應4",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "No feedback yet",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “回應4”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains true information",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "回應5",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "No feedback yet",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “回應5”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "回應6",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "No feedback yet",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “回應6”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "回應9",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "No feedback yet",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AV8fXikZyCdS-nWhuhfN\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “回應9”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains personal perspective",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "回應10",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "No feedback yet",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “回應10”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "回應11",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "No feedback yet",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “回應11”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "回應7。
+",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "No feedback yet",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AV--LRZYyCdS-nWhujL9\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “回應7。
+”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it invalid request",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+    Object {
+      "text": "Visit https://cofacts.hacktabl.org/article/article-id for more replies.",
+      "type": "text",
+    },
+  ],
+  "state": "CHOOSING_REPLY",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should select article by articleId 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "《緊急通知》
+台北馬偕醫院傳來訊息：
+資深醫生（林清風）傳來：「請大家以後千萬不要再吃生魚片了！」
+因為最近已經發現- 好多病人因為吃了生魚片，胃壁附著《海獸胃腺蟲》，大小隻不一定，有的病人甚至胃壁上滿滿都是無法夾出來，驅蟲藥也很難根治，罹患機率每個國家的人都一樣。
+尤其；鮭魚的含蟲量最高、最可怕！
+請傳給朋友，讓他們有所警惕!",
+    "selectedArticleId": "article-id",
+    "selectedArticleText": "《緊急通知》
+台北馬偕醫院傳來訊息：
+資深醫生（林清風）傳來：「請大家以後千萬不要再吃生魚片了！」
+因為最近已經發現- 好多病人因為吃了生魚片，胃壁附著《海獸胃腺蟲》，大小隻不一定，有的病人甚至胃壁上滿滿都是無法夾出來，驅蟲藥也很難根治，罹患機率每個國家的人都一樣。
+尤其；鮭魚的含蟲量最高、最可怕！
+請傳給朋友，讓他們有所警惕!",
+  },
+  "event": Object {
+    "input": "article-id",
+    "postback": Object {
+      "data": "{\\"input\\":\\"article-id\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+    },
+    "timestamp": 1519019734813,
+    "type": "postback",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "text": "👨‍👩‍👧‍👦  Volunteer editors has publised several replies to this message.
+
+2 of them say it ❌ contains misinformation.",
+      "type": "text",
+    },
+    Object {
+      "text": "Let's pick one 👇",
+      "type": "text",
+    },
+    Object {
+      "altText": "Please take a look at the following replies.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "查證這則謠言的過程中，約翰走鹿也發現其實網路早就有許多解答，就讓約翰走鹿來借花獻佛一下囉。多家媒體都有針對這則「吃生魚片會有海獸胃腺蟲附著胃壁」的謠言請教醫師，受訪的醫師們皆表示，這則謠言太誇大，海獸胃腺蟲沒那麼神通廣大。
+醫師們表示，台灣的衛生條件很進步，吃生魚片被寄生蟲寄生的案例很少，大部份都是生魚片不乾淨，感染沙門氏菌、大腸桿菌的案例，此外，寄生蟲也不是什麼難治之症，服用一些抗寄生蟲藥就可以殺死胃裡的這些蟲子，除非這些蟲子跑到身體其他部位那才比較難處理，但那也是要大量地吃生魚片（一週兩次以上），中獎機率才會比較高。",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "👍 14 users consider this helpful
+😕 2 users consider this not useful",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AVygFA0RyCdS-nWhuaXY\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “查證這則謠言的過程中，約翰走鹿也發現其實網路早⋯⋯”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "過去台灣只有一個海獸胃腺蟲鑽入胃壁的病例，而且僅有一隻蟲。而經查詢，台北馬偕醫院也沒有名為林清風的醫師。",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "👍 24 users consider this helpful",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AVy6LkWIyCdS-nWhuaqu\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “過去台灣只有一個海獸胃腺蟲鑽入胃壁的病例，而且⋯⋯”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "CHOOSING_REPLY",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should select article with just one reply 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply",
+    "selectedArticleId": "article-id",
+    "selectedArticleText": "Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply ",
+  },
+  "event": Object {
+    "input": "AV--O3nfyCdS-nWhujMD",
+    "type": "postback",
+  },
+  "isSkipUser": true,
+  "replies": undefined,
+  "state": "CHOOSING_REPLY",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should select article with no replies 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "老司機車裡總備一塊香皂，知道內情的新手默默也準備了一塊",
+    "selectedArticleId": "article-id",
+    "selectedArticleText": "老司機車裡總備一塊香皂，知道內情的新手默默也準備了一塊",
+  },
+  "event": Object {
+    "input": "article-id",
+    "postback": Object {
+      "data": "{\\"input\\":\\"article-id\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+    },
+    "timestamp": 1519019734813,
+    "type": "postback",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "altText": "📱 Please proceed on your mobile phone.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "contents": Array [
+                Object {
+                  "text": "Unfortunately no one has replied to this message yet. To help Cofacts editors checking the message, please ",
+                  "type": "span",
+                },
+                Object {
+                  "color": "#ffb600",
+                  "text": "provide more information using “ℹ️ Provide more info” button. ",
+                  "type": "span",
+                  "weight": "bold",
+                },
+                Object {
+                  "text": "Although you won't receive answers rightaway, you can help the people who receive the same message in the future.",
+                  "type": "span",
+                },
+              ],
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "paddingAll": "lg",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "ℹ️ Provide more info",
+                "type": "uri",
+                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYzc2ZDhhZTljY2QxYWRhNGYwNmM0ZTE1MTVkNDY0NjYiLCJleHAiOjE1Nzc5MjMyMDB9.ZxHN5etvaneWUumNx9bqdBA_6IPmBIQ5sfz7jneJNvI",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
+          },
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "ASKING_REPLY_REQUEST_REASON",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;

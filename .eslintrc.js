@@ -17,4 +17,9 @@ module.exports = {
     }],
     'no-console': 'off', // just use console :P
   },
+  settings: {
+    'import/resolver': {
+      'babel-module': {}
+    }
+  }
 }

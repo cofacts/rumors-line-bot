@@ -9,7 +9,7 @@ This is a one of the sub-project of [真的假的](http://beta.hackfoldr.org/rum
 
 This state diagram describes how the LINE bot talks to users:
 
-[![The state diagram](https://docs.google.com/drawings/d/1GIuprSEGpthMW6KuCgawMky5Nnxm7P7mlxeODPdA-lI/pub?w=1405&h=1116)](http://beta.hackfoldr.org/cofacts/https%253A%252F%252Fdocs.google.com%252Fdrawings%252Fd%252F1GIuprSEGpthMW6KuCgawMky5Nnxm7P7mlxeODPdA-lI%252Fedit)
+[![The state diagram](https://docs.google.com/drawings/d/e/2PACX-1vTeXGMSaPQadbe7kXay6n0vWWKHbLrMWtNB1xWuuH7SEO9KlPjDSML_TZgcuk6_kpsGLwM6YlosB1MI/pub?w=1428&amp;h=1057)](https://docs.google.com/drawings/d/1sSzI0PSggkA3PPP99Nl18H4zMO4lk-2y5s7dGRNJwAE/edit)
 
 
 ## Development
@@ -22,9 +22,7 @@ Please follow all the steps in [LINE official tutorial](https://developers.line.
 
 ### Environment variables
 
-First, install heroku toolbelt.
-
-Create .env file from `.env.sample` template, at least fill in:
+Create `.env` file from `.env.sample` template, at least fill in:
 ```
 API_URL=https://cofacts-api.g0v.tw/graphql
 LINE_CHANNEL_SECRET=<paste LINE@'s channel secret here>
@@ -47,7 +45,7 @@ We use Redis to store conversation context / intents. Please run a Redis server 
 
 ### Node Dependencies
 
-You will need `Node.JS` 8+  to proceed.
+You will need `Node.JS` 12+  to proceed.
 
 ```
 $ npm i
@@ -77,8 +75,42 @@ We recommend using [ngrok configuration file](https://ngrok.com/docs#config) to 
 
 We are using LIFF to collect user's reason when submitting article & negative feedbacks.
 
-This would require a separate HTTPS server serving `liff/index.html`,
-and some setup on [LINE developer console](https://developers.line.biz/console/).
+If you don't need to develop LIFF, you can directly use `LIFF_URL` provided in `.env.sample`, which links to staging LIFF site.
+
+If you want to modify LIFF, you may need to follow these steps:
+
+#### Creating your own LIFF app
+
+To create LIFF apps, please follow instructions under [official document](https://developers.line.biz/en/docs/liff/getting-started/), which involves
+- Creating a LINE login channel
+- Select `chat_message.write` in scope (for LIFF to send messages)
+After acquiring LIFF URL, place it in `.env` as `LIFF_URL`.
+- Set `Endpoint URL` to start with your chabbot endpoint, and add `/liff/index.html` as postfix.
+
+#### Developing LIFF
+
+To develop LIFF, after `npm run dev`, it is accessible under `/liff/index.html` of dev server (http://localhost:5001) or production chatbot server.
+
+In development mode, it spins a webpack-dev-server on `localhost:<LIFF_DEV_PORT>` (default to `8080`),
+and `/liff` of chatbot server proxies all requests to the webpack-dev-server.
+
+A tip to develop LIFF in browser is:
+1. trigger LIFF in the mobile phone
+2. Get LIFF token from dev server proxy log (something like `GET /liff/index.html?p=<page>&token=<jwt> proxy to -> ...`)
+3. Visit `https://<your-dev-chatbot.ngrok.io>/liff/index.html?p=<page>&token=<jwt>` in desktop browser for easier development
+
+`liff.init()` would still work in desktop browser, so that the app renders, enabling us to debug web layouts on desktop.
+`liff.sendMessages()` would not work, though.
+
+#### How LIFF is deployed on production
+
+On production, LIFF files are compiled to `/liff` directory and served as static files by the chatbot server.
+
+If you get `400 bad request` in LIFF, please search for `liff.init` function call in compiled JS binary and see
+if LIFF ID is consistent with your LIFF URL, which should be the path without leading `https://liff.line.me/`.
+
+The LIFF ID is set using Webpack Define plugin during build,
+thus swapping LIFF URL env variable without rebuilding the LIFF binaries will cause 400 bad request.
 
 ### Process image message(using Tesseract-OCR)
 
@@ -172,6 +204,7 @@ $ heroku config:set LINE_CHANNEL_TOKEN=<Your channel token>
 $ heroku config:set GOOGLE_CREDENTIALS=<Your google credential (optional)>
 $ heroku config:set LIFF_URL=<LIFF URL>
 $ heroku config:set IMAGE_MESSAGE_ENABLED=true
+$ heroku config:set MONGODB_URI=<MONGODB URI>
 ```
 
 ## Google Analytics Events table
@@ -186,10 +219,12 @@ Sent event format: `Event category` / `Event action` / `Event label`
   - If we found a articles in database that matches the message:
     - `UserInput` / `ArticleSearch` / `ArticleFound`
     - `Article` / `Search` / `<article id>` for each article found
-  - If the message does not look like those being forwarded in instant messengers:
-    - `UserInput` / `ArticleSearch` / `NonsenseText`
   - If nothing found in database:
     - `UserInput` / `ArticleSearch` / `ArticleNotFound`
+  - If articles found in database but is not what user want:
+    - `UserInput` / `ArticleSearch` / `ArticleFoundButNoHit`
+  - When user provides source (includes invalid source)
+    - `UserInput` / `ProvidingSource` / `<source value>`
 
 2. User chooses a found article
   - `Article` / `Selected` / `<selected article id>`
@@ -207,6 +242,10 @@ Sent event format: `Event category` / `Event action` / `Event label`
 
 5. User want to submit a new article
   - `Article` / `Create` / `Yes`
+  - `Article` / `ProvidingSource` / `<articleId>/<source value>`
 
 6. User does not want to submit an article
   - `Article` / `Create` / `No`
+
+7. User updates their reason of reply request
+  - `Article` / `ProvidingReason` / `<articleId>`

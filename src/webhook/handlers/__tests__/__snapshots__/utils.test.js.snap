@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createArticleShareBubble() should uri size less then 1000 1`] = `"line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2FAWDZYXxAyCdS-nWhumlz"`;
+
+exports[`createArticleShareBubble() should uri size less then 1000 2`] = `"https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2FAWDZYXxAyCdS-nWhumlz"`;
+
+exports[`createFeedbackWords() should create both feedback words 1`] = `
+"👍 1 user considers this helpful
+😕 2 users consider this not useful"
+`;
+
+exports[`createFeedbackWords() should create empty feedback words 1`] = `"No feedback yet"`;
+
+exports[`createFeedbackWords() should create negative feedback words 1`] = `"😕 2 users consider this not useful"`;
+
+exports[`createFeedbackWords() should create positive feedback words 1`] = `"👍 3 users consider this helpful"`;
+
+exports[`createFlexMessageText should create a text for flex message 1`] = `"計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入，下車時使用老人悠遊卡，跳錶車資105元，優惠32元，只扣73元，哈哈，這是屬於我們的福利，與大家分享，可以善加利用！=7"`;
+
+exports[`createFlexMessageText should handle the situation without input 1`] = `""`;
+
+exports[`createPostbackAction() should return postback message body 1`] = `
+Object {
+  "data": "{\\"input\\":3,\\"sessionId\\":1519019701265,\\"state\\":\\"some-id\\"}",
+  "displayText": "I chose this",
+  "label": "閱讀此回應",
+  "type": "postback",
+}
+`;
+
+exports[`createReferenceWords() should create reference for opinions 1`] = `"different opinions：This is refering to different opinions"`;
+
+exports[`createReferenceWords() should create reference for rumors 1`] = `"references：This is a reference"`;
+
+exports[`createTypeWords should return the type words for NOT_ARTICLE 1`] = `"Invalid request"`;
+
+exports[`createTypeWords should return the type words for NOT_RUMOR 1`] = `"Contains true information"`;
+
+exports[`createTypeWords should return the type words for OPINIONATED 1`] = `"Contains personal perspective"`;
+
+exports[`createTypeWords should return the type words for RUMOR 1`] = `"Contains misinformation"`;
+
+exports[`createTypeWords should return the type words for other types 1`] = `"Undefined"`;
+
+exports[`ellipsis() should ellipsis when text is too long 1`] = `"123⋯⋯"`;
+
+exports[`ellipsis() should properly cut emojis 1`] = `"🏳️‍🌈🏳️‍🌈🏳️‍🌈⋯⋯"`;

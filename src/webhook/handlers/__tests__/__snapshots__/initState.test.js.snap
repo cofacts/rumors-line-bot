@@ -1,0 +1,745 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`article found 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入",
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入",
+    "message": Object {
+      "id": "6270464463537",
+      "text": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入",
+      "type": "text",
+    },
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "text": "🔍 There are some messages that looks similar to \\"計程車上有裝悠遊卡感⋯⋯\\" you have sent to me.",
+      "type": "text",
+    },
+    Object {
+      "text": "Internet rumors are often mutated and shared.
+Please choose the version that looks the most similar👇",
+      "type": "text",
+    },
+    Object {
+      "altText": "Please choose the most similar message from the list.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "gravity": "top",
+                  "maxLines": 6,
+                  "text": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入，下車時使用老人悠遊卡，跳錶車資105元，優惠32元，只扣73元，哈哈，這是屬於我們的福利，與大家分享，可以善加利用！=7折，朋友使用ok",
+                  "type": "text",
+                  "weight": "regular",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "margin": "none",
+              "spacing": "none",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AVvY-yizyCdS-nWhuYWx\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “計程車上有裝悠遊卡感應器，老人悠悠卡可以享受...”",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😀",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Looks 52% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "gravity": "top",
+                  "maxLines": 5,
+                  "text": "None of these messages matches mine :(",
+                  "type": "text",
+                  "weight": "regular",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "margin": "none",
+              "spacing": "none",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"__NO_ARTICLE_FOUND__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "None of these messages matches mine :(",
+                    "label": "Tell us more",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "color": "#AAAAAA",
+                  "margin": "none",
+                  "size": "sm",
+                  "text": "😶",
+                  "type": "text",
+                  "weight": "bold",
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "CHOOSING_ARTICLE",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`articles found with high similarity 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "YouTube · 寻找健康人生",
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "YouTube · 寻找健康人生",
+    "message": Object {
+      "id": "6270464463537",
+      "text": "YouTube · 寻找健康人生",
+      "type": "text",
+    },
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "text": "🔍 There are some messages that looks similar to \\"YouTube · ⋯⋯\\" you have sent to me.",
+      "type": "text",
+    },
+    Object {
+      "text": "Internet rumors are often mutated and shared.
+Please choose the version that looks the most similar👇",
+      "type": "text",
+    },
+    Object {
+      "altText": "Please choose the most similar message from the list.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "gravity": "top",
+                  "maxLines": 6,
+                  "text": "YouTube  ·  寻找健康人生",
+                  "type": "text",
+                  "weight": "regular",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "margin": "none",
+              "spacing": "none",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AVvY-yizyCdS-nWhuYWx\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “YouTube  ·  寻找健康人生”",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😄",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Looks 100% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "gravity": "top",
+                  "maxLines": 6,
+                  "text": "YouTube
+·
+寻找健康人生",
+                  "type": "text",
+                  "weight": "regular",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "margin": "none",
+              "spacing": "none",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AVvY-yizyCdS-nWhuYWy\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “YouTube
+·
+寻找健康人生”",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😄",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Looks 100% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "CHOOSING_ARTICLE",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`handles reason LIFF: reply request update success, multiple reply requests 1`] = `
+Object {
+  "data": Object {
+    "selectedArticleId": "article-id",
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "💁 My reason is:
+My reason",
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "altText": "Thanks for the info you provided.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "Share on LINE",
+                    "type": "uri",
+                    "uri": "line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Farticle-id",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "Share on Facebook",
+                    "type": "uri",
+                    "uri": "https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Farticle-id",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "Thanks for the info you provided.",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "text": "There is 1 user also waiting for clarification.",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "See reported message",
+                    "type": "uri",
+                    "uri": "https://cofacts.hacktabl.org/article/article-id",
+                  },
+                  "color": "#333333",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "Rewrite my reason",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE0OTc5OTQwMTc0NDcsInN1YiI6IlVjNzZkOGFlOWNjZDFhZGE0ZjA2YzRlMTUxNWQ0NjQ2NiIsImV4cCI6MTU3NzkyMzIwMH0.V4OTSDA0wDDrlc665JRyjkC0Ux3RFqUM-RN_VNKNCcs",
+                  },
+                  "color": "#333333",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "__INIT__",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`handles reason LIFF: reply request update success, only 1 reply request 1`] = `
+Object {
+  "data": Object {
+    "selectedArticleId": "article-id",
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "💁 My reason is:
+My reason",
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "altText": "Thanks for the info you provided.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "Share on LINE",
+                    "type": "uri",
+                    "uri": "line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Farticle-id",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "Share on Facebook",
+                    "type": "uri",
+                    "uri": "https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Farticle-id",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "Thanks for the info you provided.",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "See reported message",
+                    "type": "uri",
+                    "uri": "https://cofacts.hacktabl.org/article/article-id",
+                  },
+                  "color": "#333333",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "Rewrite my reason",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE0OTc5OTQwMTc0NDcsInN1YiI6IlVjNzZkOGFlOWNjZDFhZGE0ZjA2YzRlMTUxNWQ0NjQ2NiIsImV4cCI6MTU3NzkyMzIwMH0.V4OTSDA0wDDrlc665JRyjkC0Ux3RFqUM-RN_VNKNCcs",
+                  },
+                  "color": "#333333",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "__INIT__",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`only one article found with high similarity 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "YouTube · 寻找健康人生",
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "AVvY-yizyCdS-nWhuYWx",
+    "type": "postback",
+  },
+  "isSkipUser": true,
+  "replies": undefined,
+  "state": "CHOOSING_ARTICLE",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should handle image not found 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "OCR text OCR text OCR text",
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "OCR text OCR text OCR text",
+    "message": Object {
+      "type": "image",
+    },
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "text": "We didn't find anything about this image :(",
+      "type": "text",
+    },
+    Object {
+      "altText": "We suggest forwarding the message to the following fact-checkers instead. They have 💁 1-on-1 Q&A service to respond to your questions.
+
+📱 Please proceed on your mobile phone.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "We suggest forwarding the message to the following fact-checkers instead. They have 💁 1-on-1 Q&A service to respond to your questions.",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "MyGoPen 賣擱騙",
+                "type": "uri",
+                "uri": "line://ti/p/%40mygopen",
+              },
+              "color": "#333333",
+              "style": "primary",
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "label": "蘭姆酒吐司",
+                "type": "uri",
+                "uri": "line://ti/p/%40rumtoast",
+              },
+              "color": "#333333",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
+          },
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "__INIT__",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should handle text not found 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...",
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...",
+    "message": Object {
+      "id": "6270464463537",
+      "text": "YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...",
+      "type": "text",
+    },
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "text": "We didn't find anything about \\"YouTube · ⋯⋯\\" :(",
+      "type": "text",
+    },
+    Object {
+      "altText": "🥇 Be the first to report the message
+📱 Please proceed on your mobile phone.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "contents": Array [
+                Object {
+                  "text": "Currently we don't have this message in our database. If you think it is probably a rumor, ",
+                  "type": "span",
+                },
+                Object {
+                  "color": "#ffb600",
+                  "text": "press “🆕 Submit to database” to make this message public on Cofacts database ",
+                  "type": "span",
+                  "weight": "bold",
+                },
+                Object {
+                  "text": "for nice volunteers to fact-check. Although you won't receive answers rightaway, you can help the people who receive the same message in the future.",
+                  "type": "span",
+                },
+              ],
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "paddingAll": "lg",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "🆕 Submit to database",
+                "type": "uri",
+                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE0OTc5OTQwMTc0NDcsInN1YiI6IlVjNzZkOGFlOWNjZDFhZGE0ZjA2YzRlMTUxNWQ0NjQ2NiIsImV4cCI6MTU3NzkyMzIwMH0.V4OTSDA0wDDrlc665JRyjkC0Ux3RFqUM-RN_VNKNCcs",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "header": Object {
+          "contents": Array [
+            Object {
+              "flex": 0,
+              "gravity": "center",
+              "text": "🥇",
+              "type": "text",
+            },
+            Object {
+              "color": "#ffb600",
+              "text": "Be the first to report the message",
+              "type": "text",
+              "weight": "bold",
+              "wrap": true,
+            },
+          ],
+          "layout": "horizontal",
+          "paddingAll": "lg",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
+          },
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "ASKING_ARTICLE_SUBMISSION_CONSENT",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;

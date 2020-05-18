@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`userSettings [model] findOrInsertByUserId() 1`] = `
+Object {
+  "allowNewReplyUpdate": false,
+  "createdAt": 1989-06-04T00:00:00.000Z,
+  "userId": "userId-0",
+}
+`;
+
+exports[`userSettings [model] findOrInsertByUserId() upsert 1`] = `
+Object {
+  "allowNewReplyUpdate": true,
+  "createdAt": 1989-06-04T00:00:00.000Z,
+  "userId": "userId-1",
+}
+`;
+
+exports[`userSettings [model] setAllowNewReplyUpdate() 1`] = `
+Object {
+  "allowNewReplyUpdate": false,
+  "createdAt": 1989-06-04T00:00:00.000Z,
+  "userId": "userId-2",
+}
+`;
+
+exports[`userSettings [model] setAllowNewReplyUpdate() upsert 1`] = `
+Object {
+  "allowNewReplyUpdate": false,
+  "createdAt": 1989-06-04T00:00:00.000Z,
+  "userId": "userId-3",
+}
+`;
+
+exports[`userSettings [model] setNewReplyNotifyToken() 1`] = `
+Object {
+  "allowNewReplyUpdate": true,
+  "createdAt": 1989-06-04T00:00:00.000Z,
+  "newReplyNotifyToken": "notify-token-new",
+  "userId": "userId-4",
+}
+`;
+
+exports[`userSettings [model] setNewReplyNotifyToken() upsert 1`] = `
+Object {
+  "allowNewReplyUpdate": true,
+  "createdAt": 1989-06-04T00:00:00.000Z,
+  "newReplyNotifyToken": "notify-token",
+  "userId": "userId-5",
+}
+`;
+
+exports[`userSettings [model] should create a document 1`] = `
+Object {
+  "allowNewReplyUpdate": true,
+  "createdAt": 1989-06-04T00:00:00.000Z,
+  "userId": "this_is_user_id",
+}
+`;
+
+exports[`userSettings [model] should fail to create a document 1`] = `
+"[
+  {
+    \\"keyword\\": \\"required\\",
+    \\"dataPath\\": \\"\\",
+    \\"schemaPath\\": \\"#/required\\",
+    \\"params\\": {
+      \\"missingProperty\\": \\"userId\\"
+    },
+    \\"message\\": \\"should have required property 'userId'\\"
+  }
+]"
+`;
+
+exports[`userSettings [schema] should fail with missing userId 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "dataPath": "",
+      "keyword": "required",
+      "message": "should have required property 'userId'",
+      "params": Object {
+        "missingProperty": "userId",
+      },
+      "schemaPath": "#/required",
+    },
+  ],
+  "valid": false,
+}
+`;
+
+exports[`userSettings [schema] should pass with newReplyNotifyToken is string 1`] = `
+Object {
+  "errors": null,
+  "valid": true,
+}
+`;
