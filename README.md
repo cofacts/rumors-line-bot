@@ -106,6 +106,12 @@ A tip to develop LIFF in browser is:
 
 On production, LIFF files are compiled to `/liff` directory and served as static files by the chatbot server.
 
+If you get `400 bad request` in LIFF, please search for `liff.init` function call in compiled JS binary and see
+if LIFF ID is consistent with your LIFF URL, which should be the path without leading `https://liff.line.me/`.
+
+The LIFF ID is set using Webpack Define plugin during build,
+thus swapping LIFF URL env variable without rebuilding the LIFF binaries will cause 400 bad request.
+
 ### Process image message(using Tesseract-OCR)
 
 [Install tesseract-ocr binary](https://github.com/tesseract-ocr/tesseract/wiki) and set `IMAGE_MESSAGE_ENABLED` to `true`. If you are going to deploy linebot on heroku, you should [use buildpack](https://github.com/cofacts/rumors-line-bot#tesseract-ocr-on-heroku).
