@@ -57,6 +57,7 @@
     "redis": "^2.6.5",
     "rollbar": "^2.2.9",
     "string-similarity": "^3.0.0",
+    "supertest": "^4.0.2",
     "ttag": "^1.7.22",
     "universal-analytics": "^0.4.16"
   },
