@@ -1,9 +1,11 @@
 <script>
+  import { onMount } from 'svelte';
   import { t } from 'ttag';
   import Button, { Label } from '@smui/button';
   import Textfield, { Input, Textarea } from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text/index';
   import { REASON_PREFIX } from 'src/lib/sharedUtils';
+  import { ClientOnlyCheck } from '../lib';
 
   export let context;
 
@@ -28,7 +30,10 @@ ${LENGHEN_HINT}`
 
   let processing = false;
   let reason = '';
-
+  
+  onMount(() => {
+    ClientOnlyCheck();
+  });
   const handleSubmit = async () => {
     if(context && context.data.searchedText.trim() === reason.trim()) {
       alert(DUP_SUGGESTION);

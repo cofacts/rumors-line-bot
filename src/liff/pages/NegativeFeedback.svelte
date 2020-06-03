@@ -4,17 +4,20 @@
   import Button, { Label } from '@smui/button';
   import Textfield, { Input, Textarea } from '@smui/textfield';
   import { DOWNVOTE_PREFIX } from 'src/lib/sharedUtils';
-  import { gql } from '../lib';
+  import { gql, ClientOnlyCheck } from '../lib';
 
   let processing = false;
   let comment = '';
 
   // Submitting feedback without comment first
-  onMount(() => gql`
+  onMount(() => {
+    ClientOnlyCheck();
+    gql`
     mutation VoteDown {
       voteReply(vote: DOWNVOTE)
     }
-  `());
+  `()
+  });
 
   const handleSubmit = async () => {
     processing = true;
