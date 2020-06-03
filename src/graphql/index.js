@@ -38,9 +38,9 @@ const EMPTY_CONTEXT = {
  * @returns {object}
  */
 export async function getContext({ ctx: { req } }) {
-  const authorziation = req.headers.authorization || '';
-  if (authorziation.toLower().startWith('line ')) {
-    const idToken = authorziation.replace(/^line /i, '');
+  const authorization = req.headers.authorization || '';
+  if (authorization.toLowerCase().startsWith('line ')) {
+    const idToken = authorization.replace(/^line /i, '');
     const parsed = await verifyIDToken(idToken);
 
     if (!parsed || !parsed.sub) {
@@ -57,7 +57,7 @@ export async function getContext({ ctx: { req } }) {
       userId: parsed.sub,
       userContext: context,
     };
-  } else if (authorziation.toLower().startWith('bearer ')) {
+  } else if (authorization.toLowerCase().startsWith('bearer ')) {
     const jwt = (req.headers.authorization || '').replace(/^Bearer /i, '');
     if (!jwt || !verify(jwt)) {
       return EMPTY_CONTEXT;

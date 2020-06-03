@@ -17,7 +17,7 @@ export async function verifyIDToken(idToken) {
     },
     body: querystring.stringify({
       id_token: idToken,
-      client_id: process.env.LINE_CHANNEL_ID,
+      client_id: process.env.LINE_LOGIN_CHANNEL_ID,
     }),
   });
 
