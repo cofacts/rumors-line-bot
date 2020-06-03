@@ -24,12 +24,6 @@
   onMount(async () => {
     if(expired) return;
 
-    if(!parsedToken) {
-      // Set gql token to `line xxx` instead
-
-      return;
-    }
-
     const {data, errors} = await gql`
       query GetContextForLIFF {
         context {

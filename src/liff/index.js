@@ -23,6 +23,13 @@ liff.init({ liffId: LIFF_ID }).then(() => {
     liff.closeWindow();
   }
 
+  if (!liff.isLoggedIn()) {
+    liff.login({
+      // redirectUri:
+      // will default redirect to endpointURL set in Line LOGIN developer console.
+    });
+  }
+
   // Cleanup loading
   document.getElementById('loading').remove();
   new App({ target: document.body });
