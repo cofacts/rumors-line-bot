@@ -65,7 +65,7 @@ export default async function choosingArticle(params) {
 
   const selectedArticleId = (data.selectedArticleId = event.input);
 
-  await UserArticleLink.updateTimestamps(userId, selectedArticleId, {
+  await UserArticleLink.upsertByUserIdAndArticleId(userId, selectedArticleId, {
     lastViewedAt: new Date(),
   });
 

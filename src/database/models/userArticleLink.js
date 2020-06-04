@@ -29,29 +29,13 @@ class UserArticleLink extends Base {
 
   /**
    * An atomic and upsert enabled operation.
-   * @param {string} userId
-   * @param {string} articleId
-   * @returns {Promise<UserArticleLink>}
-   */
-  static async findOrInsertByUserIdAndArticleId(userId, articleId) {
-    return this.findOneAndUpdate(
-      { userId, articleId },
-      null,
-      this.DEFAULT_DATA
-    );
-  }
-
-  /**
-   * An atomic and upsert enabled operation.
-   * @typedef Timestamps
-   * @property {?Date} lastViewedAt
    *
    * @param {string} userId
    * @param {string} articleId
-   * @param {Timestamps} data
+   * @param {object} data
    * @returns {Promise<UserArticleLink>}
    */
-  static async updateTimestamps(userId, articleId, data) {
+  static async upsertByUserIdAndArticleId(userId, articleId, data) {
     const setOnInsert = Object.assign({}, this.DEFAULT_DATA);
 
     for (let key in data) {

@@ -1,21 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`userArticleLink [model] findOrInsertByUserIdAndArticleId() (upsert) 1`] = `
-Object {
-  "articleId": "articleId-1",
-  "createdAt": 1989-06-04T00:00:00.000Z,
-  "userId": "userId-1",
-}
-`;
-
-exports[`userArticleLink [model] findOrInsertByUserIdAndArticleId() 1`] = `
-Object {
-  "articleId": "articleId-0",
-  "createdAt": 1989-06-04T00:00:00.000Z,
-  "userId": "userId-0",
-}
-`;
-
 exports[`userArticleLink [model] should create a document 1`] = `
 Object {
   "articleId": "this_is_article_id",
@@ -38,7 +22,7 @@ exports[`userArticleLink [model] should fail to create a document 1`] = `
 ]"
 `;
 
-exports[`userArticleLink [model] updateTimestamps() (upsert) 1`] = `
+exports[`userArticleLink [model] upsertByUserIdAndArticleId() (upsert) 1`] = `
 Object {
   "articleId": "articleId-3",
   "createdAt": 1989-06-04T00:00:00.000Z,
@@ -47,7 +31,7 @@ Object {
 }
 `;
 
-exports[`userArticleLink [model] updateTimestamps() 1`] = `
+exports[`userArticleLink [model] upsertByUserIdAndArticleId() 1`] = `
 Object {
   "articleId": "articleId-2",
   "createdAt": 1989-06-04T00:00:00.000Z,
