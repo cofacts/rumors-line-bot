@@ -58,7 +58,7 @@ export async function getContext({ ctx: { req } }) {
       userContext: context,
     };
   } else if (authorization.toLowerCase().startsWith('bearer ')) {
-    const jwt = (req.headers.authorization || '').replace(/^Bearer /i, '');
+    const jwt = authorization.replace(/^Bearer /i, '');
     if (!jwt || !verify(jwt)) {
       return EMPTY_CONTEXT;
     }
@@ -83,7 +83,7 @@ export async function getContext({ ctx: { req } }) {
     };
   }
 
-  throw new Error('Invalid authentication type.');
+  return EMPTY_CONTEXT;
 }
 
 const server = new ApolloServer({
