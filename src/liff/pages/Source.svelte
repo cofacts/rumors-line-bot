@@ -1,12 +1,16 @@
 <script>
+  import { onMount } from 'svelte';
   import { t } from 'ttag';
   import Button, { Label } from '@smui/button';
 
   import { page } from '../lib';
   import { ARTICLE_SOURCE_OPTIONS, SOURCE_PREFIX } from 'src/lib/sharedUtils';
+  import { assertInClient } from '../lib';
 
   let processing = false;
-
+  onMount(() => {
+    assertInClient();
+  });
   const handleClick = async ({label, valid}) => {
     processing = true;
 

@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { t } from 'ttag';
 
 const params = new URLSearchParams(location.search);
 
@@ -16,7 +17,7 @@ export const page = writable(params.get('p'));
 /**
  * Original JWT token from URL param.
  */
-export const token = params.get('token');
+export const urlToken = params.get('token');
 
 /**
  * Data parsed from JWT token (Javascript object).
@@ -24,7 +25,9 @@ export const token = params.get('token');
  * Note: the JWT token is taken from URL and is not validated, thus its data cannot be considered as
  * safe from XSS.
  */
-export const parsedToken = token ? JSON.parse(atob(token.split('.')[1])) : {};
+export const parsedToken = urlToken
+  ? JSON.parse(atob(urlToken.split('.')[1]))
+  : null;
 
 /**
  * Usage: gql`query {...}`(variables)
@@ -39,12 +42,18 @@ export const gql = (query, ...substitutions) => variables => {
   if (variables) queryAndVariable.variables = variables;
 
   let status;
+  let lineIDToken;
+  if (!urlToken) {
+    lineIDToken = liff.getIDToken();
+    if (!lineIDToken) throw new Error(`gql Error: token not set.`);
+  }
+  const token = urlToken ? `Bearer ${urlToken}` : `line ${lineIDToken}`;
 
   return fetch('/graphql', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
     body: JSON.stringify(queryAndVariable),
   })
@@ -74,4 +83,21 @@ export const gql = (query, ...substitutions) => variables => {
       }
       return resp;
     });
+};
+
+/**
+ * Prevent users from proceeding with external browsers.
+ * Useful when the following process involves functions only available within LINE client,
+ * such as invoking `liff.sendMessage()`.
+ */
+export const assertInClient = () => {
+  if (!liff.isInClient()) {
+    alert(
+      t`Sorry, the function is not applicable on desktop.` +
+        '\n' +
+        t`Please proceed on your mobile phone.` +
+        ' 📲 '
+    );
+    liff.closeWindow();
+  }
 };

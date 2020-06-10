@@ -4,17 +4,20 @@
   import Button, { Label } from '@smui/button';
   import Textfield, { Input, Textarea } from '@smui/textfield';
   import { UPVOTE_PREFIX } from 'src/lib/sharedUtils';
-  import { gql } from '../lib';
+  import { gql, assertInClient } from '../lib';
 
   let processing = false;
   let comment = '';
 
   // Submitting feedback without comment first
-  onMount(() => gql`
+  onMount(() => {
+    assertInClient();
+    gql`
     mutation VoteUp {
       voteReply(vote: UPVOTE)
     }
-  `());
+  `()
+  });
 
   const handleSubmit = async () => {
     processing = true;

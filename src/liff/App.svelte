@@ -14,7 +14,9 @@
     'feedback/no': NegativeFeedback,
   };
 
-  const expired = (parsedToken.exp || -Infinity) < Date.now() / 1000;
+  const expired = parsedToken && (
+    (parsedToken.exp || -Infinity) < Date.now() / 1000
+  );
 
   // Chatbot context of current user
   let context = null;
