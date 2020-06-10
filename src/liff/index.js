@@ -11,8 +11,8 @@ liff.init({ liffId: LIFF_ID }).then(() => {
 
   if (!liff.isLoggedIn()) {
     liff.login({
-      // redirectUri:
-      // will default redirect to endpointURL set in Line LOGIN developer console.
+      // https://github.com/line/line-liff-v2-starter/issues/4
+      redirectUri: `${location.href}${location.search}`,
     });
   }
 
