@@ -5,11 +5,11 @@
 
   import { page } from '../lib';
   import { ARTICLE_SOURCE_OPTIONS, SOURCE_PREFIX } from 'src/lib/sharedUtils';
-  import { ClientOnlyCheck } from '../lib';
+  import { assertInClient } from '../lib';
 
   let processing = false;
   onMount(() => {
-    ClientOnlyCheck();
+    assertInClient();
   });
   const handleClick = async ({label, valid}) => {
     processing = true;

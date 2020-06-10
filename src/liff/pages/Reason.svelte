@@ -5,7 +5,7 @@
   import Textfield, { Input, Textarea } from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text/index';
   import { REASON_PREFIX } from 'src/lib/sharedUtils';
-  import { ClientOnlyCheck } from '../lib';
+  import { assertInClient } from '../lib';
 
   export let context;
 
@@ -32,7 +32,7 @@ ${LENGHEN_HINT}`
   let reason = '';
   
   onMount(() => {
-    ClientOnlyCheck();
+    assertInClient();
   });
   const handleSubmit = async () => {
     if(context && context.data.searchedText.trim() === reason.trim()) {

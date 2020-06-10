@@ -85,10 +85,12 @@ export const gql = (query, ...substitutions) => variables => {
     });
 };
 
-export const ClientOnlyCheck = () => {
-  // Commenting this secion out during LIFF development to enable debugging on desktop
-  // (Can do everything except liff.sendMessage)
-  //
+/**
+ * Prevent users from proceeding with external browsers.
+ * Useful when the following process involves functions only available within LINE client,
+ * such as invoking `liff.sendMessage()`.
+ */
+export const assertInClient = () => {
   if (!liff.isInClient()) {
     alert(
       t`Sorry, the function is not applicable on desktop.` +
