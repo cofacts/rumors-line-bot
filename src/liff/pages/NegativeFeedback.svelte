@@ -4,19 +4,20 @@
   import Button, { Label } from '@smui/button';
   import Textfield, { Input, Textarea } from '@smui/textfield';
   import { DOWNVOTE_PREFIX } from 'src/lib/sharedUtils';
-  import { gql, assertInClient } from '../lib';
+  import { gql, assertInClient, assertSameSearchSession } from '../lib';
 
   let processing = false;
   let comment = '';
 
   // Submitting feedback without comment first
-  onMount(() => {
+  onMount(async () => {
     assertInClient();
+    await assertSameSearchSession();
     gql`
-    mutation VoteDown {
-      voteReply(vote: DOWNVOTE)
-    }
-  `()
+      mutation VoteDown {
+        voteReply(vote: DOWNVOTE)
+      }
+    `();
   });
 
   const handleSubmit = async () => {
