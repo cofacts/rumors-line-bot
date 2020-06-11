@@ -5,7 +5,7 @@
   import Textfield, { Input, Textarea } from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text/index';
   import { REASON_PREFIX } from 'src/lib/sharedUtils';
-  import { assertInClient, assertSameSearchSession } from '../lib';
+  import { gql, assertInClient, assertSameSearchSession } from '../lib';
 
   const SUFFICIENT_REASON_LENGTH = 40;
   const LENGHEN_HINT = /* t: Guidance in LIFF */ t`
@@ -49,11 +49,11 @@ ${LENGHEN_HINT}`
       return;
     }
 
-    searchedText = data.context.data.searchedText;
+    searchedText = data.context.data.searchedText.trim();
   });
 
   const handleSubmit = async () => {
-    if(context && context.data.searchedText.trim() === reason.trim()) {
+    if(searchedText === reason.trim()) {
       alert(DUP_SUGGESTION);
       return;
     }
