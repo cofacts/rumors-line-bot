@@ -11,5 +11,6 @@ module.exports = {
 
     // Define plugin
     LIFF_ID: 'readonly',
+    DEBUG_LIFF: 'readonly',
   }
 };

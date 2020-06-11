@@ -81,8 +81,9 @@ export const gql = (query, ...substitutions) => variables => {
  * such as invoking `liff.sendMessage()`.
  */
 export const assertInClient = () => {
-  // To develop on browser, you may want to skip the logic by uncommenting the line below:
-  // return;
+  if (DEBUG_LIFF) {
+    return;
+  }
 
   if (!liff.isInClient()) {
     alert(
