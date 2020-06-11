@@ -9,14 +9,16 @@ liff.init({ liffId: LIFF_ID }).then(() => {
   // Ref: https://www.facebook.com/groups/linebot/permalink/2380490388948200/?comment_id=2380868955577010
   if (isDuringLiffRedirect) return;
 
+  document.getElementById('loading').remove(); // Cleanup loading
+
+  // Kickstart app loading; fire assertions
+  new App({ target: document.body });
+
+  // For devs (and users on LINE desktop, which is rare)
   if (!liff.isLoggedIn()) {
     liff.login({
       // https://github.com/line/line-liff-v2-starter/issues/4
-      redirectUri: `${location.href}${location.search}`,
+      redirectUri: location.href,
     });
   }
-
-  // Cleanup loading
-  document.getElementById('loading').remove();
-  new App({ target: document.body });
 });

@@ -38,6 +38,7 @@ Other customizable env vars are:
 * `GOOGLE_CREDENTIALS`: will be populated by `authGoogleDrive.js`. See "Upload image/video" section below.
 * `GA_ID`: Google analytics universal analytics tracking ID, for tracking events
 * `IMAGE_MESSAGE_ENABLED`: Default disabled. To enable, please see "Process image message" section below.
+* `DEBUG_LIFF`: Disables external browser check in LIFF. Useful when debugging LIFF in external browser. Don't enable this on production.
 
 ### Redis server
 

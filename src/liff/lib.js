@@ -17,17 +17,7 @@ export const page = writable(params.get('p'));
 /**
  * Original JWT token from URL param.
  */
-export const urlToken = params.get('token');
-
-/**
- * Data parsed from JWT token (Javascript object).
- *
- * Note: the JWT token is taken from URL and is not validated, thus its data cannot be considered as
- * safe from XSS.
- */
-export const parsedToken = urlToken
-  ? JSON.parse(atob(urlToken.split('.')[1]))
-  : null;
+const urlToken = params.get('token');
 
 /**
  * Usage: gql`query {...}`(variables)
@@ -91,6 +81,10 @@ export const gql = (query, ...substitutions) => variables => {
  * such as invoking `liff.sendMessage()`.
  */
 export const assertInClient = () => {
+  if (DEBUG_LIFF) {
+    return;
+  }
+
   if (!liff.isInClient()) {
     alert(
       t`Sorry, the function is not applicable on desktop.` +
@@ -99,5 +93,58 @@ export const assertInClient = () => {
         ' 📲 '
     );
     liff.closeWindow();
+  }
+};
+
+/**
+ * Checks if still in the same search session.
+ * This checks URL token for expiracy and try retrieving sessionId from GraphQL server.
+ *
+ * Closes LIFF when GraphQL server rejects.
+ */
+export const assertSameSearchSession = async () => {
+  if (!urlToken) {
+    alert(t`Cannot get token from URL`);
+    liff.closeWindow();
+    return;
+  }
+
+  const parsedToken = urlToken
+    ? JSON.parse(atob(urlToken.split('.')[1]))
+    : null;
+
+  if ((parsedToken.exp || -Infinity) < Date.now() / 1000) {
+    alert(t`Sorry, the button is expired.`);
+    liff.closeWindow();
+    return;
+  }
+
+  const { data, errors } = await gql`
+    query CheckSessionId {
+      context {
+        data {
+          sessionId
+        }
+      }
+    }
+  `();
+
+  if (errors && errors[0].message === 'Invalid authentication header') {
+    alert(t`This button was for previous search and is now expired.`);
+    liff.closeWindow();
+    return;
+  }
+
+  if (
+    !data ||
+    !data.context ||
+    !data.context.data ||
+    !data.context.data.sessionId
+  ) {
+    alert(
+      /* t: In LIFF, should not happen */ t`Unexpected error, no search session data is retrieved.`
+    );
+    liff.closeWindow();
+    return;
   }
 };

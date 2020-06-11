@@ -5,11 +5,12 @@
 
   import { page } from '../lib';
   import { ARTICLE_SOURCE_OPTIONS, SOURCE_PREFIX } from 'src/lib/sharedUtils';
-  import { assertInClient } from '../lib';
+  import { assertInClient, assertSameSearchSession } from '../lib';
 
   let processing = false;
-  onMount(() => {
+  onMount(async () => {
     assertInClient();
+    await assertSameSearchSession();
   });
   const handleClick = async ({label, valid}) => {
     processing = true;
