@@ -8,9 +8,9 @@
   import { assertInClient, assertSameSearchSession } from '../lib';
 
   let processing = false;
-  onMount(() => {
+  onMount(async () => {
     assertInClient();
-    assertSameSearchSession();
+    await assertSameSearchSession();
   });
   const handleClick = async ({label, valid}) => {
     processing = true;
