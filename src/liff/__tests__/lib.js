@@ -283,4 +283,32 @@ describe('assertSameSearchSession', () => {
       expect(liff.closeWindow).toHaveBeenCalledTimes(1);
     }
   });
+
+  it('does nothing when all pass', async () => {
+    global.location = {
+      search: `?token=foo.bar`, // Has token
+    };
+    global.liff = { closeWindow: jest.fn() };
+    global.atob = () => JSON.stringify({ exp: Date.now() / 1000 + 10 }); // not-expired time
+
+    const { assertSameSearchSession } = require('../lib');
+
+    global.fetch = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        json: () =>
+          Promise.resolve({
+            data: {
+              context: {
+                data: {
+                  sessionId: 'foo',
+                },
+              },
+            },
+          }),
+      })
+    );
+
+    await expect(assertSameSearchSession()).resolves.toBe(undefined);
+    expect(liff.closeWindow).toHaveBeenCalledTimes(0);
+  });
 });
