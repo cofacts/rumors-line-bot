@@ -176,13 +176,15 @@ describe('assertSameSearchSession', () => {
 
     const { assertSameSearchSession } = require('../lib');
 
-    [
-      // All variations of incorrect GraphQL response
+    // All variations of incorrect GraphQL response
+    const incorrectFetchedData = [
       { data: null },
       { data: { context: null } },
       { data: { context: { data: null } } },
       { data: { context: { data: { sessionId: null } } } },
-    ].forEach(async fetchedData => {
+    ];
+
+    for (const fetchedData of incorrectFetchedData) {
       alert.mockClear();
       liff.closeWindow.mockClear();
 
@@ -198,6 +200,6 @@ describe('assertSameSearchSession', () => {
         'Unexpected error, no search session data is retrieved.'
       );
       expect(liff.closeWindow).toHaveBeenCalledTimes(1);
-    });
+    }
   });
 });
