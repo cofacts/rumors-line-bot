@@ -1,4 +1,7 @@
 beforeEach(() => {
+  // We are changing global.location and other global variables very frequently in this file,
+  // thus we reset require before each unit test.
+  //
   jest.resetModules();
 });
 
