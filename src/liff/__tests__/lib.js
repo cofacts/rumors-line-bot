@@ -17,11 +17,92 @@ it('isDuringLiffRedirect reacts to URL search string', () => {
   expect(lib.isDuringLiffRedirect).toBe(false);
 });
 
+describe('gql', () => {
+  afterEach(() => {
+    delete global.location;
+    delete global.fetch;
+    delete global.rollbar;
+    delete global.liff;
+  });
+
+  it('throws when no token provided', async () => {
+    global.location = { search: '?' }; // empty url token
+    global.liff = { getIDToken: jest.fn() }; // No id token
+
+    const { gql } = require('../lib');
+    await expect(gql`query`()).rejects.toMatchInlineSnapshot(
+      `"gql Error: token not set."`
+    );
+    expect(liff.getIDToken).toHaveBeenCalledTimes(1);
+  });
+
+  it('throws on GraphQL query error', async () => {
+    global.location = { search: '?' }; // empty url token
+    global.liff = { getIDToken: () => 'id-token' }; // Has id token
+    global.fetch = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        status: 400,
+        json: () =>
+          Promise.resolve({
+            errors: [{ message: 'some query syntax error' }],
+          }),
+      })
+    );
+
+    const { gql } = require('../lib');
+    await expect(gql`query`()).rejects.toMatchInlineSnapshot(
+      `[Error: GraphQL Error: some query syntax error]`
+    );
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('returns GraphQL result', async () => {
+    global.location = { search: '?token=foo' }; // has url token
+    global.fetch = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        status: 200,
+        json: () =>
+          Promise.resolve({
+            data: 'bar',
+          }),
+      })
+    );
+
+    const { gql } = require('../lib');
+    await expect(gql`query`({ variables: { foobar: 123 } })).resolves
+      .toMatchInlineSnapshot(`
+            Object {
+              "data": "bar",
+            }
+          `);
+    expect(fetch.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "/graphql",
+          Object {
+            "body": "{\\"query\\":\\"query\\",\\"variables\\":{\\"variables\\":{\\"foobar\\":123}}}",
+            "headers": Object {
+              "Authorization": "Bearer foo",
+              "Content-Type": "application/json",
+            },
+            "method": "POST",
+          },
+        ],
+      ]
+    `);
+  });
+});
+
 describe('assertInClient', () => {
+  beforeEach(() => {
+    global.location = { search: '' };
+  });
+
   afterEach(() => {
     delete global.DEBUG_LIFF;
     delete global.alert;
     delete global.liff;
+    delete global.location;
   });
 
   it('DEBUG_LIFF works', () => {
