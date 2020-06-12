@@ -6,20 +6,21 @@ module.exports = {
     'plugin:import/warnings',
     'prettier',
   ],
-  env: {node: true, es6: true, jest: true},
-  plugins: [
-    'prettier',
-  ],
+  env: { node: true, es6: true, jest: true },
+  plugins: ['prettier'],
   rules: {
-    'prettier/prettier': ['error', {
-      trailingComma: 'es5',
-      'singleQuote': true,
-    }],
+    'prettier/prettier': [
+      'error',
+      {
+        trailingComma: 'es5',
+        singleQuote: true,
+      },
+    ],
     'no-console': 'off', // just use console :P
   },
   settings: {
     'import/resolver': {
-      'babel-module': {}
-    }
-  }
-}
+      'babel-module': {},
+    },
+  },
+};

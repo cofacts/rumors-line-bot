@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { t } from 'ttag';
   import Button, { Label } from '@smui/button';
-  import Textfield, { Input, Textarea } from '@smui/textfield';
+  import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text/index';
   import { REASON_PREFIX } from 'src/lib/sharedUtils';
   import { gql, assertInClient, assertSameSearchSession } from '../lib';
