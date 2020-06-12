@@ -59,7 +59,7 @@ describe('gql', () => {
     expect(global.fetch).toHaveBeenCalledTimes(1);
   });
 
-  it('throws on GraphQL response error', async () => {
+  it('emits runtime error to Rollbar and return partial data on GraphQL runtime error', async () => {
     global.location = { search: '?' }; // empty url token
     global.liff = { getIDToken: () => 'id-token' }; // Has id token
     global.rollbar = { error: jest.fn() };
