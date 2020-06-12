@@ -64,10 +64,7 @@ export const gql = (query, ...substitutions) => variables => {
         console.error('GraphQL operation contains error:', resp.errors);
         rollbar.error(
           'GraphQL error',
-          {
-            body: JSON.stringify(queryAndVariable),
-            url: URL,
-          },
+          { body: JSON.stringify(queryAndVariable) },
           { resp }
         );
       }

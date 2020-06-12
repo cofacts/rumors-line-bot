@@ -59,6 +59,36 @@ describe('gql', () => {
     expect(global.fetch).toHaveBeenCalledTimes(1);
   });
 
+  it('throws on GraphQL response error', async () => {
+    global.location = { search: '?' }; // empty url token
+    global.liff = { getIDToken: () => 'id-token' }; // Has id token
+    global.rollbar = { error: jest.fn() };
+    global.fetch = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        status: 200,
+        json: () =>
+          Promise.resolve({
+            data: 'partial-data',
+            errors: [{ message: 'some execution error' }],
+          }),
+      })
+    );
+
+    const { gql } = require('../lib');
+    await expect(gql`query`()).resolves.toMatchInlineSnapshot(`
+            Object {
+              "data": "partial-data",
+              "errors": Array [
+                Object {
+                  "message": "some execution error",
+                },
+              ],
+            }
+          `);
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(rollbar.error).toHaveBeenCalledTimes(1);
+  });
+
   it('returns GraphQL result', async () => {
     global.location = { search: '?token=foo' }; // has url token
     global.fetch = jest.fn().mockImplementation(() =>
