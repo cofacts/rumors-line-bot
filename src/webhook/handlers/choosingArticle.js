@@ -14,6 +14,8 @@ import {
 } from './utils';
 import ga from 'src/lib/ga';
 
+import UserArticleLink from '../../database/models/userArticleLink';
+
 /**
  * 第2句 (template message)：按照時間排序「不在查證範圍」之外的回應，每則回應第一行是
  * 「⭕ 含有真實訊息」或「❌ 含有不實訊息」之類的 (含 emoticon)，然後是回應文字。如果
@@ -62,6 +64,10 @@ export default async function choosingArticle(params) {
   }
 
   const selectedArticleId = (data.selectedArticleId = event.input);
+
+  await UserArticleLink.updateTimestamps(userId, selectedArticleId, {
+    lastViewedAt: new Date(),
+  });
 
   const {
     data: { GetArticle },
