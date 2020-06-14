@@ -160,6 +160,41 @@ describe('userArticleLink', () => {
       await UserArticleLink.create(fixture);
     }
 
+    // No skip, no limit
+    const allResult = await UserArticleLink.find({ userId: 'u1' });
+    expect(
+      allResult.map(
+        ({
+          _id, // eslint-disable-line no-unused-vars
+          ...fields
+        }) => fields
+      )
+    ).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "articleId": "a5",
+          "createdAt": 2020-01-01T22:10:18.314Z,
+          "userId": "u1",
+        },
+        Object {
+          "articleId": "a3",
+          "createdAt": 2020-01-01T21:10:18.314Z,
+          "userId": "u1",
+        },
+        Object {
+          "articleId": "a4",
+          "createdAt": 2020-01-01T20:10:18.314Z,
+          "userId": "u1",
+        },
+        Object {
+          "articleId": "a2",
+          "createdAt": 2020-01-01T19:10:18.314Z,
+          "userId": "u1",
+        },
+      ]
+    `);
+
+    // Skip & limit works
     const result = await UserArticleLink.find({
       userId: 'u1',
       skip: 1,

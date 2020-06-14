@@ -26,6 +26,7 @@ it('context rejects anonymous users', async () => {
 it('invokes ArticleReplyLinks.find() properly', async () => {
   UserArticleLink.find = jest.fn();
 
+  // No params
   await gql`
     {
       userArticleLinks {
@@ -38,12 +39,41 @@ it('invokes ArticleReplyLinks.find() properly', async () => {
       userId: 'U12345678',
     }
   );
+
   expect(UserArticleLink.find.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
         Object {
           "limit": undefined,
           "skip": undefined,
+          "userId": "U12345678",
+        },
+      ],
+    ]
+  `);
+
+  UserArticleLink.find.mockClear();
+
+  // Has limit and skip
+  await gql`
+    {
+      userArticleLinks(limit: 100, skip: 20) {
+        articleId
+      }
+    }
+  `(
+    {},
+    {
+      userId: 'U12345678',
+    }
+  );
+
+  expect(UserArticleLink.find.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "limit": 100,
+          "skip": 20,
           "userId": "U12345678",
         },
       ],
