@@ -345,3 +345,100 @@ describe('assertSameSearchSession', () => {
     expect(liff.closeWindow).toHaveBeenCalledTimes(0);
   });
 });
+
+describe('getArticlesFromCofacts', () => {
+  let getArticlesFromCofacts;
+  beforeEach(() => {
+    global.location = { search: '?foo=bar' };
+    global.COFACTS_API_URL = 'http://cofacts.api';
+    global.APP_ID = 'mock_app_id';
+    global.fetch = jest.fn();
+
+    jest.resetModules();
+    getArticlesFromCofacts = require('../lib').getArticlesFromCofacts;
+  });
+
+  afterEach(() => {
+    delete global.COFACTS_API_URL;
+    delete global.fetch;
+    delete global.APP_ID;
+    delete global.location;
+  });
+
+  it('handles empty', async () => {
+    await expect(getArticlesFromCofacts([])).resolves.toEqual([]);
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it('rejects on GraphQL error', async () => {
+    fetch.mockReturnValueOnce(
+      Promise.resolve({
+        status: 400,
+        json: jest.fn().mockReturnValueOnce(
+          Promise.resolve({
+            errors: [{ message: 'fake error' }],
+          })
+        ),
+      })
+    );
+
+    await expect(getArticlesFromCofacts(['id1'])).rejects.toMatchInlineSnapshot(
+      `[Error: getArticlesFromCofacts Error: fake error]`
+    );
+  });
+
+  it('converts article ids to GraphQL request and returns result', async () => {
+    const ids = ['id1', 'id2'];
+    fetch.mockReturnValueOnce(
+      Promise.resolve({
+        status: 200,
+        json: jest.fn().mockReturnValueOnce(
+          Promise.resolve({
+            data: {
+              a0: {
+                id: 'id1',
+                text: 'text1',
+              },
+              a1: {
+                id: 'id2',
+                text: 'text2',
+              },
+            },
+          })
+        ),
+      })
+    );
+
+    await expect(getArticlesFromCofacts(ids)).resolves.toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "id": "id1",
+          "text": "text1",
+        },
+        Object {
+          "id": "id2",
+          "text": "text2",
+        },
+      ]
+    `);
+
+    // Check sent GraphQL query & variables
+    expect(JSON.parse(fetch.mock.calls[0][1].body)).toMatchInlineSnapshot(`
+      Object {
+        "query": "
+          query GetArticlesLinkedToUser(
+            $a0: String!
+      $a1: String!
+          ) {
+            a0: GetArticle(id: $a0) { text }
+      a1: GetArticle(id: $a1) { text }
+          }
+        ",
+        "variables": Object {
+          "a0": "id1",
+          "a1": "id2",
+        },
+      }
+    `);
+  });
+});
