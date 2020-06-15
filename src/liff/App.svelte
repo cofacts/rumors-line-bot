@@ -1,13 +1,13 @@
 <script>
   import { page } from './lib';
-  import ArticleList from './pages/ArticleList.svelte';
+  import Articles from './pages/Articles.svelte';
   import Source from './pages/Source.svelte';
   import Reason from './pages/Reason.svelte';
   import PositiveFeedback from './pages/PositiveFeedback.svelte';
   import NegativeFeedback from './pages/NegativeFeedback.svelte';
 
   const routes = {
-    articles: ArticleList,
+    articles: Articles,
     source: Source,
     reason: Reason,
     'feedback/yes': PositiveFeedback,
