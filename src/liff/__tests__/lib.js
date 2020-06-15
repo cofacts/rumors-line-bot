@@ -437,9 +437,9 @@ describe('getArticlesFromCofacts', () => {
       $a1: String!
       $a2: String!
           ) {
-            a0: GetArticle(id: $a0) { text }
-      a1: GetArticle(id: $a1) { text }
-      a2: GetArticle(id: $a2) { text }
+            a0: GetArticle(id: $a0) { id text }
+      a1: GetArticle(id: $a1) { id text }
+      a2: GetArticle(id: $a2) { id text }
           }
         ",
         "variables": Object {
