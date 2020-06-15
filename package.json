@@ -6,7 +6,7 @@
   "scripts": {
     "pretest": "docker-compose up -d && sleep 10",
     "posttest": "docker-compose down",
-    "test": "jest",
+    "test": "TZ=UTC jest",
     "start": "pm2-runtime start ecosystem.config.js --env production",
     "dev": "run-p dev:*",
     "dev:server": "pm2-dev ecosystem.dev.config.js",

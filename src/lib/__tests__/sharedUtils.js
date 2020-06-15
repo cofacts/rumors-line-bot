@@ -43,7 +43,7 @@ describe('date-fns', () => {
   it('use the default LOCALE', () => {
     const { format, formatDistanceToNow } = require('../sharedUtils');
     expect(format(new Date(612921600000))).toMatchInlineSnapshot(
-      `"06/04/1989, 8:00 AM"`
+      `"06/04/1989, 12:00 AM"`
     );
     expect(
       formatDistanceToNow(new Date(Date.now() - 86400000))
@@ -55,7 +55,7 @@ describe('date-fns', () => {
 
     const { format, formatDistanceToNow } = require('../sharedUtils');
     expect(format(new Date(612921600000))).toMatchInlineSnapshot(
-      `"89-06-04 上午 8:00"`
+      `"89-06-04 上午 12:00"`
     );
     expect(
       formatDistanceToNow(new Date(Date.now() - 86400000))
