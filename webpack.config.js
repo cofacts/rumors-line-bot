@@ -131,6 +131,7 @@ module.exports = {
       APP_ID: JSON.stringify(process.env.APP_ID),
       DEBUG_LIFF: process.env.DEBUG_LIFF,
       COFACTS_API_URL: JSON.stringify(process.env.API_URL),
+      'process.env.SITE_URL': JSON.stringify(process.env.SITE_URL),
     }),
   ],
   devtool: prod ? false : 'source-map',

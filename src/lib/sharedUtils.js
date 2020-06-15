@@ -13,6 +13,7 @@ export const REASON_PREFIX = `💁 ${t`My reason is`}:\n`;
 export const SOURCE_PREFIX = `ℹ️ ${t`I got the message from`}:\n`;
 export const UPVOTE_PREFIX = `👍 ${t`I think the reply is useful and I want to add`}:\n`;
 export const DOWNVOTE_PREFIX = `💡 ${t`I think the reply is not useful and I suggest`}:\n`;
+export const VIEW_ARTICLE_PREFIX = `📃 ${t`See replies of`}:\n`;
 
 /**
  * @param {string} articleId
