@@ -1,6 +1,5 @@
 <script>
   import { onMount } from 'svelte';
-  import { t } from 'ttag';
   import { gql, assertInClient, getArticlesFromCofacts } from '../lib';
 
   let articleData = null;
