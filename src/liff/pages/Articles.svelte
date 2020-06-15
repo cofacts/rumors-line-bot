@@ -3,7 +3,7 @@
   import { t } from 'ttag';
   import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
   import { gql, assertInClient, getArticlesFromCofacts } from '../lib';
-  import ViewedArticle from '../components/ViewedArticle';
+  import ViewedArticle from '../components/ViewedArticle.svelte';
 
   let articleData = null;
   let articleMap = {};
