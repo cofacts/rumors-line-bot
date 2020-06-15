@@ -3,6 +3,8 @@
  */
 
 import { t } from 'ttag';
+import dateFnsFormat from 'date-fns/format';
+import dateFnsFormatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 const SITE_URL = process.env.SITE_URL || 'https://cofacts.g0v.tw';
 
@@ -55,3 +57,19 @@ export const ARTICLE_SOURCE_OPTIONS = [
     valid: false,
   },
 ];
+
+let locale = require(`date-fns/locale/${(process.env.LOCALE || 'en_US').replace(
+  '_',
+  '-'
+)}`);
+
+// Svelte fix: babel interprets default automatically, but svelte doesn't.
+locale = locale.default ? locale.default : locale;
+
+export function format(date, format = 'Pp') {
+  return dateFnsFormat(date, format, { locale });
+}
+
+export function formatDistanceToNow(date, config = {}) {
+  return dateFnsFormatDistanceToNow(date, { ...config, locale });
+}

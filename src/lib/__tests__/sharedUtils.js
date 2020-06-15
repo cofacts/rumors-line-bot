@@ -26,3 +26,39 @@ describe('Test SITE_URL', () => {
     );
   });
 });
+
+describe('date-fns', () => {
+  const OLD_ENV = process.env;
+
+  beforeEach(() => {
+    jest.resetModules();
+    process.env = { ...OLD_ENV };
+    delete process.env.LOCALE;
+  });
+
+  afterEach(() => {
+    process.env = OLD_ENV;
+  });
+
+  it('use the default LOCALE', () => {
+    const { format, formatDistanceToNow } = require('../sharedUtils');
+    expect(format(new Date(612921600000))).toMatchInlineSnapshot(
+      `"06/04/1989, 8:00 AM"`
+    );
+    expect(
+      formatDistanceToNow(new Date(Date.now() - 86400000))
+    ).toMatchInlineSnapshot(`"1 day"`);
+  });
+
+  it('use other locale', () => {
+    process.env.LOCALE = 'zh_TW';
+
+    const { format, formatDistanceToNow } = require('../sharedUtils');
+    expect(format(new Date(612921600000))).toMatchInlineSnapshot(
+      `"89-06-04 上午 8:00"`
+    );
+    expect(
+      formatDistanceToNow(new Date(Date.now() - 86400000))
+    ).toMatchInlineSnapshot(`"1 天"`);
+  });
+});
