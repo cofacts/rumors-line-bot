@@ -353,6 +353,7 @@ describe('getArticlesFromCofacts', () => {
     global.COFACTS_API_URL = 'http://cofacts.api';
     global.APP_ID = 'mock_app_id';
     global.fetch = jest.fn();
+    global.rollbar = { error: jest.fn() };
 
     jest.resetModules();
     getArticlesFromCofacts = require('../lib').getArticlesFromCofacts;
@@ -363,6 +364,7 @@ describe('getArticlesFromCofacts', () => {
     delete global.fetch;
     delete global.APP_ID;
     delete global.location;
+    delete global.rollbar;
   });
 
   it('handles empty', async () => {
@@ -387,8 +389,8 @@ describe('getArticlesFromCofacts', () => {
     );
   });
 
-  it('converts article ids to GraphQL request and returns result', async () => {
-    const ids = ['id1', 'id2'];
+  it('converts article ids to GraphQL request and returns result, despite minor errors', async () => {
+    const ids = ['id1', 'id2', 'id3'];
     fetch.mockReturnValueOnce(
       Promise.resolve({
         status: 200,
@@ -404,6 +406,7 @@ describe('getArticlesFromCofacts', () => {
                 text: 'text2',
               },
             },
+            errors: [{ message: 'Some error loading id3' }],
           })
         ),
       })
@@ -419,8 +422,11 @@ describe('getArticlesFromCofacts', () => {
           "id": "id2",
           "text": "text2",
         },
+        undefined,
       ]
     `);
+
+    expect(rollbar.error).toHaveBeenCalledTimes(1);
 
     // Check sent GraphQL query & variables
     expect(JSON.parse(fetch.mock.calls[0][1].body)).toMatchInlineSnapshot(`
@@ -429,14 +435,17 @@ describe('getArticlesFromCofacts', () => {
           query GetArticlesLinkedToUser(
             $a0: String!
       $a1: String!
+      $a2: String!
           ) {
             a0: GetArticle(id: $a0) { text }
       a1: GetArticle(id: $a1) { text }
+      a2: GetArticle(id: $a2) { text }
           }
         ",
         "variables": Object {
           "a0": "id1",
           "a1": "id2",
+          "a2": "id3",
         },
       }
     `);
