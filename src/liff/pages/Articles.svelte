@@ -1,9 +1,10 @@
 <script>
   import { onMount } from 'svelte';
   import { t } from 'ttag';
-  import { gql, assertInClient } from '../lib';
+  import { gql, assertInClient, getArticlesFromCofacts } from '../lib';
 
   let articleData = null;
+  let articleMap = {};
 
   onMount(async () => {
     assertInClient();
@@ -26,6 +27,11 @@
 
     articleData = userArticleLinks;
 
+    const articlesFromCofacts = await getArticlesFromCofacts(userArticleLinks.map(({articleId}) => articleId));
+    articlesFromCofacts.forEach(article => {
+      if(!article) return;
+      articleMap[article.id] = article;
+    })
   })
 </script>
 
@@ -34,7 +40,7 @@
 {:else}
   <ul>
     {#each articleData as link}
-      <li>{link.articleId} / {link.createdAt}</li>
+      <li>{link.articleId} / {articleMap[link.articleId] ? articleMap[link.articleId].text : 'Loading...'} / {link.createdAt}</li>
     {/each}
   </ul>
 {/if}
