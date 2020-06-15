@@ -1,16 +1,32 @@
 <script>
-  import { t } from 'ttag';
+  import { t, ngettext, msgid } from 'ttag';
   import Card, { PrimaryAction, Content } from '@smui/card';
+  import { formatDistanceToNow } from 'src/lib/sharedUtils';
 
   export let userArticleLink;
 
   // The article from Cofacts API. null when still loading.
   export let article = null;
 
+  $: replyCount = article ? article.articleReplies.length : 0;
   $: viewedAt = userArticleLink.lastViewedAt ?
     userArticleLink.lastViewedAt :
     userArticleLink.createdAt;
-  $: newArticleReplies = article ? article.articleReplies.map(ar => ar.createdAt > viewedAt ) : [];
+  $: newArticleReplyCount = article ? article.articleReplies.map(ar => ar.createdAt > viewedAt ).length : 0;
+
+  // String translation setup:
+  // Svelte template will mess up with variable names, thus strings with variables
+  // must be translated within <script> tag
+  //
+  $: unreadStr = ngettext(msgid`${newArticleReplyCount} new reply`, `${newArticleReplyCount} new replies`, newArticleReplyCount);
+  $: repliesStr = ngettext(msgid`${replyCount} reply`, `${replyCount} replies`, replyCount);
+
+  let viewedAtStr = '';
+  $: {
+    const fromNow = formatDistanceToNow(new Date(viewedAt));
+    viewedAtStr = t`Viewed ${fromNow} ago`;
+  }
+
 </script>
 
 <style>
@@ -21,6 +37,13 @@
     line-height: 20px;
     color: #ADADAD;
     letter-spacing: 0.25px;
+  }
+  .unread {
+    color: #fff;
+    background: #FFB600;
+    padding: 0 4px;
+    border-radius: 4px;
+    font-weight: bold;
   }
   main {
     overflow: hidden;
@@ -37,20 +60,18 @@
   <PrimaryAction on:click>
     <Content>
       <header>
-        <span>
+        <span class={newArticleReplyCount ? 'unread' : ''}>
           {#if !article}
             {t`Loading`}...
           {:else if article.articleReplies.length === 0}
             {t`No replies yet`}
-          {:else if newArticleReplies.length > 0}
-            {newArticleReplies.length} {t`unread`}
+          {:else if newArticleReplyCount > 0}
+            {unreadStr}
           {:else}
-            {article.articleReplies.length} {t`reply(s)`}
+            {repliesStr}
           {/if}
         </span>
-        <span>
-          {viewedAt}
-        </span>
+        <span>{viewedAtStr}</span>
       </header>
       <main>
         {#if !article}
