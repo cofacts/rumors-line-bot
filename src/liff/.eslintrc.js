@@ -30,7 +30,9 @@ module.exports = {
     liff: 'readonly',
 
     // Define plugin
+    APP_ID: 'readonly',
     LIFF_ID: 'readonly',
     DEBUG_LIFF: 'readonly',
+    COFACTS_API_URL: 'readonly',
   },
 };
