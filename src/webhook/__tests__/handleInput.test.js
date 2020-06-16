@@ -1,5 +1,12 @@
-import handleInput from '../handleInput';
 import MockDate from 'mockdate';
+import initState from '../handlers/initState';
+import choosingArticle from '../handlers/choosingArticle';
+import choosingReply from '../handlers/choosingReply';
+import askingReplyFeedback from '../handlers/askingReplyFeedback';
+import askingArticleSubmissionConsent from '../handlers/askingArticleSubmissionConsent';
+import askingReplyRequestReason from '../handlers/askingReplyRequestReason';
+import { ManipulationError } from '../handlers/utils';
+import handleInput from '../handleInput';
 
 import {
   REASON_PREFIX,
@@ -9,22 +16,12 @@ import {
   getArticleURL,
 } from 'src/lib/sharedUtils';
 
-import initState from '../handlers/initState';
-import choosingArticle from '../handlers/choosingArticle';
-import choosingReply from '../handlers/choosingReply';
-import askingReplyFeedback from '../handlers/askingReplyFeedback';
-import askingArticleSubmissionConsent from '../handlers/askingArticleSubmissionConsent';
-import askingReplyRequestReason from '../handlers/askingReplyRequestReason';
-import defaultState from '../handlers/defaultState';
-import { ManipulationError } from '../handlers/utils';
-
 jest.mock('../handlers/initState');
 jest.mock('../handlers/choosingArticle');
 jest.mock('../handlers/choosingReply');
 jest.mock('../handlers/askingReplyFeedback');
 jest.mock('../handlers/askingArticleSubmissionConsent');
 jest.mock('../handlers/askingReplyRequestReason');
-jest.mock('../handlers/defaultState');
 
 // Original session ID in context
 const FIXED_DATE = 612964800000;
@@ -39,7 +36,6 @@ beforeEach(() => {
   askingReplyFeedback.mockClear();
   askingArticleSubmissionConsent.mockClear();
   askingReplyRequestReason.mockClear();
-  defaultState.mockClear();
   MockDate.set(NOW);
 });
 
@@ -319,13 +315,6 @@ it('handles unimplemented state using defaultState', async () => {
     input: 'foo',
   };
 
-  defaultState.mockImplementationOnce(params => ({
-    ...params,
-    isSkipUser: false,
-    replies: 'Cannot understand reply',
-    state: '__INIT__',
-  }));
-
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
           Object {
             "context": Object {
@@ -334,12 +323,17 @@ it('handles unimplemented state using defaultState', async () => {
               },
               "state": "__INIT__",
             },
-            "replies": "Cannot understand reply",
+            "replies": Array [
+              Object {
+                "text": "我們看不懂 QQ
+          大俠請重新來過。",
+                "type": "text",
+              },
+            ],
           }
         `);
 
   expect(initState).not.toHaveBeenCalled();
-  expect(defaultState).toHaveBeenCalledTimes(1);
 });
 
 it('handles ManipulationError fired in handlers', async () => {
