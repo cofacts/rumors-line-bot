@@ -64,6 +64,7 @@ let locale = require(`date-fns/locale/${(process.env.LOCALE || 'en_US').replace(
 )}`);
 
 // Svelte fix: babel interprets default automatically, but svelte doesn't.
+/* istanbul ignore next */
 locale = locale.default ? locale.default : locale;
 
 export function format(date, format = 'Pp', config = {}) {
