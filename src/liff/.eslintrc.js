@@ -16,6 +16,13 @@ module.exports = {
         'prettier/prettier': 'off',
       },
     },
+    {
+      files: ['__tests__/*'],
+      env: {
+        jest: true,
+        node: true,
+      },
+    },
   ],
   globals: {
     // global scripts include in index.html

@@ -35,7 +35,7 @@ export const gql = (query, ...substitutions) => variables => {
   let lineIDToken;
   if (!urlToken) {
     lineIDToken = liff.getIDToken();
-    if (!lineIDToken) throw new Error(`gql Error: token not set.`);
+    if (!lineIDToken) return Promise.reject('gql Error: token not set.');
   }
   const token = urlToken ? `Bearer ${urlToken}` : `line ${lineIDToken}`;
 
@@ -64,10 +64,7 @@ export const gql = (query, ...substitutions) => variables => {
         console.error('GraphQL operation contains error:', resp.errors);
         rollbar.error(
           'GraphQL error',
-          {
-            body: JSON.stringify(queryAndVariable),
-            url: URL,
-          },
+          { body: JSON.stringify(queryAndVariable) },
           { resp }
         );
       }
