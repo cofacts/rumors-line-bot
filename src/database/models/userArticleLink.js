@@ -69,6 +69,10 @@ class UserArticleLink extends Base {
     return this.findOneAndUpdate({ userId, articleId }, data, setOnInsert);
   }
 
+  static async findByUserId(userId) {
+    return (await this.client).find({ userId }).toArray();
+  }
+
   /**
    * @type {string}
    */

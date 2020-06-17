@@ -222,4 +222,20 @@ describe('userArticleLink', () => {
       ]
     `);
   });
+
+  it('[model] findByUserId() should return data', async () => {
+    const userId = 'userId-4';
+
+    await UserArticleLink.create({ userId, articleId: 'articleId-1' });
+    await UserArticleLink.create({ userId, articleId: 'articleId-2' });
+
+    const userArticleLinks = await UserArticleLink.findByUserId(userId);
+
+    expect(userArticleLinks.map(e => ({ ...e, _id: '_id' }))).toMatchSnapshot();
+  });
+
+  it('[model] findByUserId() should return empty', async () => {
+    const userArticleLinks = await UserArticleLink.findByUserId('id-not-found');
+    expect(userArticleLinks).toStrictEqual([]);
+  });
 });
