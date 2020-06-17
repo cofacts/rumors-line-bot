@@ -10,7 +10,9 @@ const FIXED_DATE = 612921600000;
 describe('userArticleLink', () => {
   beforeAll(async () => {
     MockDate.set(FIXED_DATE);
+  });
 
+  beforeEach(async () => {
     if (await UserArticleLink.collectionExists()) {
       await (await UserArticleLink.client).drop();
     }
@@ -118,5 +120,106 @@ describe('userArticleLink', () => {
 
     delete updatedData._id;
     expect(updatedData).toMatchSnapshot();
+  });
+
+  it('[model] finds by specified params', async () => {
+    const fixtures = [
+      {
+        userId: 'u2',
+        articleId: 'a1',
+        createdAt: new Date('2020-01-01T18:10:18.314Z'),
+      },
+      {
+        userId: 'u1',
+        articleId: 'a2',
+        createdAt: new Date('2020-01-01T19:10:18.314Z'),
+      },
+      {
+        userId: 'u1',
+        articleId: 'a3',
+        createdAt: new Date('2020-01-01T21:10:18.314Z'),
+      },
+      {
+        userId: 'u1',
+        articleId: 'a4',
+        createdAt: new Date('2020-01-01T20:10:18.314Z'),
+      },
+      {
+        userId: 'u1',
+        articleId: 'a5',
+        createdAt: new Date('2020-01-01T22:10:18.314Z'),
+      },
+      {
+        userId: 'u2',
+        articleId: 'a2',
+        createdAt: new Date('2020-01-01T23:10:18.314Z'),
+      },
+    ];
+
+    for (const fixture of fixtures) {
+      await UserArticleLink.create(fixture);
+    }
+
+    // No skip, no limit
+    const allResult = await UserArticleLink.find({ userId: 'u1' });
+    expect(
+      allResult.map(
+        ({
+          _id, // eslint-disable-line no-unused-vars
+          ...fields
+        }) => fields
+      )
+    ).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "articleId": "a5",
+          "createdAt": 2020-01-01T22:10:18.314Z,
+          "userId": "u1",
+        },
+        Object {
+          "articleId": "a3",
+          "createdAt": 2020-01-01T21:10:18.314Z,
+          "userId": "u1",
+        },
+        Object {
+          "articleId": "a4",
+          "createdAt": 2020-01-01T20:10:18.314Z,
+          "userId": "u1",
+        },
+        Object {
+          "articleId": "a2",
+          "createdAt": 2020-01-01T19:10:18.314Z,
+          "userId": "u1",
+        },
+      ]
+    `);
+
+    // Skip & limit works
+    const result = await UserArticleLink.find({
+      userId: 'u1',
+      skip: 1,
+      limit: 2,
+    });
+    return expect(
+      result.map(
+        ({
+          _id, // eslint-disable-line no-unused-vars
+          ...fields
+        }) => fields
+      )
+    ).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "articleId": "a3",
+          "createdAt": 2020-01-01T21:10:18.314Z,
+          "userId": "u1",
+        },
+        Object {
+          "articleId": "a4",
+          "createdAt": 2020-01-01T20:10:18.314Z,
+          "userId": "u1",
+        },
+      ]
+    `);
   });
 });

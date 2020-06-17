@@ -1,4 +1,4 @@
-directive @auth on FIELD_DEFINITION
+directive @auth(check: [String]) on FIELD_DEFINITION
 
 type Query {
   insights: MessagingAPIInsight
@@ -6,8 +6,8 @@ type Query {
   # Current user's chatbot context
   context: UserContext @auth
 
-  # TODO: Implement after database is established
-  readArticleIds(skip: Int, limit: Int): [String]
+  # Returns articleReplyLinks of the current user
+  userArticleLinks(skip: Int, limit: Int): [UserArticleLink!] @auth(check: ["userId"])
 }
 
 type Mutation {
@@ -159,4 +159,15 @@ type StateData {
 enum FeedbackVote {
   UPVOTE
   DOWNVOTE
+}
+
+# Date time object <> ISO timestamp
+scalar Date
+
+type UserArticleLink {
+  articleId: String!
+  createdAt: Date!
+  lastViewedAt: Date
+  lastRepliedAt: Date
+  lastPositiveFeedbackRepliedAt: Date
 }
