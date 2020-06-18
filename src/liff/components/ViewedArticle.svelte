@@ -56,7 +56,7 @@
   }
 </style>
 
-<Card>
+<Card style="margin-bottom: 8px;">
   <PrimaryAction on:click>
     <Content>
       <header>
