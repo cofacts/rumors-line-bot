@@ -1,11 +1,11 @@
 <script>
   import { onMount } from 'svelte';
-  import { t } from 'ttag';
+  import { t, ngettext, msgid } from 'ttag';
   import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
   import { gql, assertInClient, getArticlesFromCofacts } from '../lib';
   import ViewedArticle from '../components/ViewedArticle.svelte';
 
-  let articleData = null;
+  let linksData = null;
   let articleMap = {};
 
   let selectArticle = async articleId => {
@@ -16,6 +16,12 @@
     liff.closeWindow();
   }
 
+  let totalCountStr = '';
+  $: {
+    const totalCount = linksData ? linksData.totalCount : 0;
+    totalCountStr = ngettext(msgid`${totalCount} message viewed`, `${totalCount} messages viewed`, totalCount);
+  }
+
   onMount(async () => {
     assertInClient();
     const {
@@ -24,9 +30,19 @@
     } = await gql`
       query ListUserArticleLinks {
         userArticleLinks {
-          articleId
-          createdAt
-          lastViewedAt
+          totalCount
+          pageInfo {
+            firstCursor
+            lastCursor
+          }
+          edges {
+            cursor
+            node {
+              articleId
+              createdAt
+              lastViewedAt
+            }
+          }
         }
       }
     `();
@@ -36,9 +52,9 @@
       return;
     }
 
-    articleData = userArticleLinks;
+    linksData = userArticleLinks;
 
-    const articlesFromCofacts = await getArticlesFromCofacts(userArticleLinks.map(({articleId}) => articleId));
+    const articlesFromCofacts = await getArticlesFromCofacts(userArticleLinks.edges.map(({node: {articleId}}) => articleId));
     articlesFromCofacts.forEach(article => {
       if(!article) return;
       articleMap[article.id] = article;
@@ -46,20 +62,26 @@
   })
 </script>
 <style>
+  .total {
+    font-size: 12px;
+    line-height: 20px;
+    color: #ADADAD;
+  }
 </style>
 
 <svelte:head>
   <title>{t`Viewed messages`}</title>
 </svelte:head>
 
-{#if articleData === null}
+{#if linksData === null}
   <p>{t`Fetching viewed messages`}...</p>
 {:else}
-  {#each articleData as link (link.articleId)}
+  <p class="total">{totalCountStr}</p>
+  {#each linksData.edges as linkEdge (linkEdge.cursor)}
     <ViewedArticle
-      userArticleLink={link}
-      article={articleMap[link.articleId]}
-      on:click={() => selectArticle(link.articleId)}
+      userArticleLink={linkEdge.node}
+      article={articleMap[linkEdge.node.articleId]}
+      on:click={() => selectArticle(linkEdge.node.articleId)}
     />
   {/each}
 {/if}
