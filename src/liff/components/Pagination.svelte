@@ -3,8 +3,19 @@
   import Button, { Label } from '@smui/button';
   import { createEventDispatcher } from 'svelte';
 
+  /**
+   * If we should disable the prev & next button
+   */
   export let disabled = false;
+
+  /**
+   * PageInfo from GraphQL
+   */
   export let pageInfo;
+
+  /**
+   * edges from GraphQL
+   */
   export let edges;
 
   const dispatch = createEventDispatcher();

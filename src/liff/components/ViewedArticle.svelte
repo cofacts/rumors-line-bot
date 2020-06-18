@@ -3,9 +3,14 @@
   import Card, { PrimaryAction, Content } from '@smui/card';
   import { formatDistanceToNow } from 'src/lib/sharedUtils';
 
+  /**
+   * The userArticleLink from GraphQL
+   */
   export let userArticleLink;
 
-  // The article from Cofacts API. null when still loading.
+  /**
+   * The article from Cofacts API. null when still loading.
+   */
   export let article = null;
 
   $: replyCount = article ? article.articleReplies.length : 0;
