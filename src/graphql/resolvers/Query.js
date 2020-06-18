@@ -1,4 +1,5 @@
 import UserArticleLink from 'src/database/models/userArticleLink';
+import { processConnection } from '../utils/connection';
 
 export default {
   insights() {
@@ -10,7 +11,12 @@ export default {
     return context.userContext;
   },
 
-  userArticleLinks(root, { skip, limit }, { userId }) {
-    return UserArticleLink.find({ userId, skip, limit });
+  userArticleLinks(root, args, { userId }) {
+    const orderBy = args.orderBy || { createdAt: -1 };
+    return processConnection(UserArticleLink, {
+      ...args,
+      filter: { userId },
+      orderBy,
+    });
   },
 };
