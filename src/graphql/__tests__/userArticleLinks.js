@@ -138,4 +138,182 @@ describe('finds', () => {
         },
       }
     `));
+
+  it('filters by before', () =>
+    expect(
+      gql`
+        {
+          userArticleLinks(before: "Mg==") {
+            edges {
+              cursor
+              node {
+                createdAt
+                articleId
+              }
+            }
+          }
+        }
+      `(
+        {},
+        {
+          userId: 'u1',
+        }
+      )
+    ).resolves.toMatchInlineSnapshot(`
+      Object {
+        "data": Object {
+          "userArticleLinks": Object {
+            "edges": Array [
+              Object {
+                "cursor": "MA==",
+                "node": Object {
+                  "articleId": "a5",
+                  "createdAt": 2020-01-01T22:10:18.314Z,
+                },
+              },
+              Object {
+                "cursor": "MQ==",
+                "node": Object {
+                  "articleId": "a3",
+                  "createdAt": 2020-01-01T21:10:18.314Z,
+                },
+              },
+            ],
+          },
+        },
+      }
+    `));
+
+  it('filters by before', () =>
+    expect(
+      gql`
+        query($after: Cursor) {
+          userArticleLinks(after: $after) {
+            edges {
+              cursor
+              node {
+                createdAt
+                articleId
+              }
+            }
+          }
+        }
+      `(
+        { after: 'MQ==' },
+        {
+          userId: 'u1',
+        }
+      )
+    ).resolves.toMatchInlineSnapshot(`
+      Object {
+        "data": Object {
+          "userArticleLinks": Object {
+            "edges": Array [
+              Object {
+                "cursor": "Mg==",
+                "node": Object {
+                  "articleId": "a4",
+                  "createdAt": 2020-01-01T20:10:18.314Z,
+                },
+              },
+              Object {
+                "cursor": "Mw==",
+                "node": Object {
+                  "articleId": "a2",
+                  "createdAt": 2020-01-01T19:10:18.314Z,
+                },
+              },
+            ],
+          },
+        },
+      }
+    `));
+
+  it('sorts', () =>
+    expect(
+      gql`
+        {
+          userArticleLinks(orderBy: { createdAt: ASC }) {
+            totalCount
+            pageInfo {
+              firstCursor
+              lastCursor
+            }
+            edges {
+              cursor
+              node {
+                createdAt
+              }
+            }
+          }
+        }
+      `(
+        {},
+        {
+          userId: 'u2',
+        }
+      )
+    ).resolves.toMatchInlineSnapshot(`
+      Object {
+        "data": Object {
+          "userArticleLinks": Object {
+            "edges": Array [
+              Object {
+                "cursor": "MA==",
+                "node": Object {
+                  "createdAt": 2020-01-01T18:10:18.314Z,
+                },
+              },
+              Object {
+                "cursor": "MQ==",
+                "node": Object {
+                  "createdAt": 2020-01-01T23:10:18.314Z,
+                },
+              },
+            ],
+            "pageInfo": Object {
+              "firstCursor": "MA==",
+              "lastCursor": "MQ==",
+            },
+            "totalCount": 2,
+          },
+        },
+      }
+    `));
+
+  it('returns empty search result', () =>
+    expect(
+      gql`
+        {
+          userArticleLinks {
+            totalCount
+            pageInfo {
+              firstCursor
+              lastCursor
+            }
+            edges {
+              cursor
+            }
+          }
+        }
+      `(
+        {},
+        {
+          userId: 'u3', // No such user
+        }
+      )
+    ).resolves.toMatchInlineSnapshot(`
+      Object {
+        "data": Object {
+          "userArticleLinks": Object {
+            "edges": Array [],
+            "pageInfo": Object {
+              "firstCursor": null,
+              "lastCursor": null,
+            },
+            "totalCount": 0,
+          },
+        },
+      }
+    `));
 });

@@ -2,6 +2,7 @@ const { GraphQLScalarType, Kind } = require('graphql');
 
 function decodeToPaginationData(encoded) {
   const value = +Buffer.from(encoded, 'base64').toString('utf8');
+  /* istanbul ignore if */
   if (isNaN(value))
     throw new Error(
       'Should be a base64 string that can decode to pagination data'
@@ -12,6 +13,7 @@ function decodeToPaginationData(encoded) {
 export default new GraphQLScalarType({
   name: 'Cursor',
   parseLiteral(ast) {
+    /* istanbul ignore if */
     if (ast.kind !== Kind.STRING) {
       throw new Error('Should be a base64 string');
     }
@@ -22,7 +24,6 @@ export default new GraphQLScalarType({
     return decodeToPaginationData(source);
   },
   serialize(paginationData) {
-    if (paginationData === null) return null;
     return Buffer.from(paginationData.toString(), 'utf8').toString('base64');
   },
 });
