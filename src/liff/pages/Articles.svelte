@@ -4,8 +4,10 @@
   import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
   import { gql, assertInClient, getArticlesFromCofacts } from '../lib';
   import ViewedArticle from '../components/ViewedArticle.svelte';
+  import Pagination from '../components/Pagination.svelte';
 
   let linksData = null;
+  let isLoadingData = false; // If is in process of loadData()
   let articleMap = {};
 
   let selectArticle = async articleId => {
@@ -22,14 +24,14 @@
     totalCountStr = ngettext(msgid`${totalCount} message viewed`, `${totalCount} messages viewed`, totalCount);
   }
 
-  onMount(async () => {
-    assertInClient();
+  const loadData = async ({before, after} = {}) => {
+    isLoadingData = true;
     const {
       data: {userArticleLinks},
       errors: linksErrors,
     } = await gql`
-      query ListUserArticleLinks {
-        userArticleLinks {
+      query ListUserArticleLinks($before: Cursor, $after: Cursor) {
+        userArticleLinks(before: $before, after: $after) {
           totalCount
           pageInfo {
             firstCursor
@@ -45,7 +47,7 @@
           }
         }
       }
-    `();
+    `({before, after});
 
     if(linksErrors) {
       alert(linksErrors[0].message);
@@ -58,7 +60,14 @@
     articlesFromCofacts.forEach(article => {
       if(!article) return;
       articleMap[article.id] = article;
-    })
+    });
+
+    isLoadingData = false;
+  }
+
+  onMount(async () => {
+    assertInClient();
+    await loadData();
   })
 </script>
 <style>
@@ -84,4 +93,11 @@
       on:click={() => selectArticle(linkEdge.node.articleId)}
     />
   {/each}
+  <Pagination
+    disabled={isLoadingData}
+    pageInfo={linksData.pageInfo}
+    edges={linksData.edges}
+    on:prev={() => loadData({before: linksData.edges[0].cursor})}
+    on:next={() => loadData({after: linksData.edges[linksData.edges.length-1].cursor})}
+  />
 {/if}
