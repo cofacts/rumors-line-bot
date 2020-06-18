@@ -39,8 +39,8 @@ export async function processConnection(model, args) {
 }
 
 /**
- * @param {Base!} model - instance of a model under database/models
- * @param {{before: Cursor, after: Cursor, first: number, orderBy: object}} args - pagination arguments of GraphQL pagination.
+ * @param {Base!} parent.model - instance of a model under database/models
+ * @param {{before: Cursor, after: Cursor, first: number, orderBy: object, filter: object}} parent.args - pagination arguments of GraphQL pagination.
  * @returns {Connection}
  */
 export async function resolveEdges({ model, args }) {
@@ -91,7 +91,6 @@ export function resolvePageInfo({ _totalCount }) {
  * @param {object} parent parent object set by processConnection()
  * @returns {number} The total count of the query
  */
-export function resolveTotalCount(...args) {
-  const { _totalCount } = args[0];
+export function resolveTotalCount({ _totalCount }) {
   return _totalCount;
 }
