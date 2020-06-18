@@ -44,18 +44,21 @@ export async function processConnection(model, args) {
  * @returns {Connection}
  */
 export async function resolveEdges({ model, args }) {
-  let cursor = await (await model.client).find(args.filter).limit(args.first);
+  let cursor = await (await model.client).find(args.filter);
   if (args.orderBy) {
     cursor = cursor.sort(args.orderBy);
   }
 
   let cursorBase = 0;
+  let count = args.first;
   if (args.after !== undefined) {
     cursorBase = args.after + 1;
   } else if (args.before !== undefined) {
-    cursorBase = Math.max(0, args.before - args.first);
+    // min(args.first, args.before) items prior to args.before
+    count = Math.min(args.first, args.before);
+    cursorBase = args.before - count;
   }
-  cursor = cursor.skip(cursorBase);
+  cursor = cursor.skip(cursorBase).limit(count);
 
   return (await cursor.toArray()).map((doc, i) => ({
     node: { ...doc, id: doc._id },
@@ -68,7 +71,7 @@ export async function resolveEdges({ model, args }) {
  * @returns {PageInfo}
  */
 export function resolvePageInfo({ _totalCount }) {
-  if (_totalCount >= 0) {
+  if (_totalCount > 0) {
     return {
       firstCursor: 0,
       lastCursor: _totalCount - 1,
