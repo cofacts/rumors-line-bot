@@ -40,11 +40,12 @@
   "homepage": "https://github.com/cofacts/rumors-line-bot#readme",
   "dependencies": {
     "@line/bot-sdk": "^6.8.4",
-    "apollo-server-koa": "^2.11.0",
     "ajv": "^6.12.2",
+    "apollo-server-koa": "^2.11.0",
     "googleapis": "^36.0.0",
     "grapheme-splitter": "^1.0.4",
     "graphql": "^15.0.0",
+    "graphql-scalar-objectid": "^0.1.2",
     "graphql-tools": "^4.0.7",
     "jsrsasign": "^8.0.13",
     "koa": "^2.5.0",

@@ -7,7 +7,12 @@ type Query {
   context: UserContext @auth
 
   # Returns articleReplyLinks of the current user
-  userArticleLinks(skip: Int, limit: Int): [UserArticleLink!] @auth(check: ["userId"])
+  userArticleLinks(
+    before: Cursor
+    after: Cursor
+    first: Int
+    orderBy: UserArticleLinksOrderBy
+  ): UserArticleLinkConnection! @auth(check: ["userId"])
 }
 
 type Mutation {
@@ -164,10 +169,68 @@ enum FeedbackVote {
 # Date time object <> ISO timestamp
 scalar Date
 
-type UserArticleLink {
+"""One document in userArticleLink collection"""
+type UserArticleLink implements MongoDBDocument {
+  id: ObjectId!
   articleId: String!
   createdAt: Date!
   lastViewedAt: Date
   lastRepliedAt: Date
   lastPositiveFeedbackRepliedAt: Date
+}
+
+input UserArticleLinksOrderBy {
+  createdAt: SortOrderEnum
+}
+
+#
+# Pagination types interface implementation
+#
+
+scalar ObjectId
+
+interface MongoDBDocument {
+  id: ObjectId!
+}
+
+interface Connection {
+  totalCount: Int!
+  edges: [ConnectionEdge!]
+  pageInfo: PageInfo!,
+}
+
+interface ConnectionEdge {
+  node: MongoDBDocument!
+  cursor: Cursor!
+}
+
+# A string that seralizes to Base64 string and parses to pagination data
+scalar Cursor
+
+type PageInfo {
+  """Cursor of the first item. null when no item in list."""
+  firstCursor: Cursor
+
+  """Cursor of the last item. null when no item in list."""
+  lastCursor: Cursor
+}
+
+enum SortOrderEnum {
+  ASC
+  DESC
+}
+
+#
+# Pagination types of individual queries
+#
+
+type UserArticleLinkConnection implements Connection {
+  totalCount: Int!
+  edges: [UserArticleLinkConnectionEdge!],
+  pageInfo: PageInfo!,
+}
+
+type UserArticleLinkConnectionEdge implements ConnectionEdge {
+  node: UserArticleLink!
+  cursor: Cursor!
 }

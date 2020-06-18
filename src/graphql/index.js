@@ -25,6 +25,13 @@ export const schema = makeExecutableSchema({
       ] = require(`./directives/${fileName}`).default;
       return directives;
     }, {}),
+  resolverValidationOptions: {
+    // MongoDBDocument, Connection and ConnectionEdge are for consistent interface.
+    // We don't query fields with these type, thus no __resolveType is needed.
+    //
+    // Ref: https://github.com/apollographql/apollo-server/issues/1075#issuecomment-440768737
+    requireResolversForResolveType: false,
+  },
 });
 
 // Empty context for non-auth public APIs
