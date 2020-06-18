@@ -22,6 +22,7 @@ export default new GraphQLScalarType({
     return decodeToPaginationData(source);
   },
   serialize(paginationData) {
+    if (paginationData === null) return null;
     return Buffer.from(paginationData.toString(), 'utf8').toString('base64');
   },
 });

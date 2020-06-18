@@ -41,12 +41,6 @@ class UserArticleLink extends Base {
     );
   }
 
-  static async find({ userId, skip = 0, limit = 20 }) {
-    return await (await this.client)
-      .find({ userId }, { limit, skip, sort: { createdAt: -1 } })
-      .toArray();
-  }
-
   /**
    * An atomic and upsert enabled operation.
    * @typedef Timestamps

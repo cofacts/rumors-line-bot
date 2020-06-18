@@ -12,7 +12,7 @@ type Query {
     after: Cursor
     first: Int
     orderBy: UserArticleLinksOrderBy
-  ): UserArticleLinkConnection! @auth(check: ["userId"])
+  ): UserArticleLinkConnection @auth(check: ["userId"])
 }
 
 type Mutation {
