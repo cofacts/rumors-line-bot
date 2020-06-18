@@ -154,7 +154,7 @@ msgid ""
 "a few minutes later."
 msgstr "不好意思！系統可能在忙線中，無法及時處理您傳的訊息。請稍等幾分鐘再試試看唷。"
 
-#: src/webhook/handleInput.js:121
+#: src/webhook/handleInput.js:143
 msgid "Wrong usage"
 msgstr "這不是這樣用的"
 
@@ -552,25 +552,25 @@ msgstr ""
 msgid "Unexpected error, no search session data is retrieved."
 msgstr ""
 
-#: src/liff/pages/Articles.svelte:48
+#: src/liff/pages/Articles.svelte:73
 msgid "Viewed messages"
 msgstr "看過的訊息"
 
-#: src/liff/pages/Articles.svelte:49
+#: src/liff/pages/Articles.svelte:74
 msgid "Fetching viewed messages"
 msgstr "載入看過的訊息"
 
-#: src/liff/components/ViewedArticle.svelte:31
-#: src/liff/components/ViewedArticle.svelte:36
+#: src/liff/components/ViewedArticle.svelte:37
+#: src/liff/components/ViewedArticle.svelte:42
 #: src/liff/pages/Reason.svelte:87
 msgid "Loading"
 msgstr "載入中"
 
-#: src/liff/components/ViewedArticle.svelte:32
+#: src/liff/components/ViewedArticle.svelte:38
 msgid "No replies yet"
 msgstr "尚無回應"
 
-#: src/liff/components/ViewedArticle.svelte:22
+#: src/liff/components/ViewedArticle.svelte:27
 msgid "${ replyCount } reply"
 msgid_plural "${ replyCount } replies"
 msgstr[0] "${ replyCount } 則回應"
@@ -579,13 +579,27 @@ msgstr[0] "${ replyCount } 則回應"
 msgid "See replies of"
 msgstr "查看這篇的回應"
 
-#: src/liff/components/ViewedArticle.svelte:27
+#: src/liff/components/ViewedArticle.svelte:32
 #, javascript-format
 msgid "Viewed ${ fromNow } ago"
 msgstr "${fromNow}前看過"
 
-#: src/liff/components/ViewedArticle.svelte:21
+#: src/liff/components/ViewedArticle.svelte:26
 #, javascript-format
 msgid "${ newArticleReplyCount } new reply"
 msgid_plural "${ newArticleReplyCount } new replies"
 msgstr[0] "${ newArticleReplyCount } 則新回應"
+
+#: src/liff/pages/Articles.svelte:24
+#, javascript-format
+msgid "${ totalCount } message viewed"
+msgid_plural "${ totalCount } messages viewed"
+msgstr[0] "總共看過 ${ totalCount } 則訊息"
+
+#: src/liff/components/Pagination.svelte:24
+msgid "Prev"
+msgstr "上一頁"
+
+#: src/liff/components/Pagination.svelte:26
+msgid "Next"
+msgstr "下一頁"
