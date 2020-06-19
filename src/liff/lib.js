@@ -145,3 +145,64 @@ export const assertSameSearchSession = async () => {
     return;
   }
 };
+
+/**
+ * @param {string[]} articleIds
+ * @returns {Article} Article object from Cofacts API
+ */
+export const getArticlesFromCofacts = async articleIds => {
+  if (articleIds.length === 0) return [];
+
+  const variables = articleIds.reduce((agg, articleId, idx) => {
+    agg[`a${idx}`] = articleId;
+    return agg;
+  }, {});
+
+  const variableKeys = Object.keys(variables);
+
+  const query = `
+    query GetArticlesLinkedToUser(
+      ${variableKeys.map(k => `$${k}: String!`).join('\n')}
+    ) {
+      ${variableKeys
+        .map(k => `${k}: GetArticle(id: $${k}) { id text }`)
+        .join('\n')}
+    }
+  `;
+
+  let status;
+  return fetch(COFACTS_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-app-id': APP_ID,
+    },
+    body: JSON.stringify({ query, variables }),
+  })
+    .then(r => {
+      status = r.status;
+      return r.json();
+    })
+    .then(resp => {
+      if (status === 400) {
+        throw new Error(
+          `getArticlesFromCofacts Error: ${resp.errors
+            .map(({ message }) => message)
+            .join('\n')}`
+        );
+      }
+      if (resp.errors) {
+        // When status is 200 but have error, just print them out.
+        console.error(
+          'getArticlesFromCofacts operation contains error:',
+          resp.errors
+        );
+        rollbar.error(
+          'getArticlesFromCofacts error',
+          { body: JSON.stringify({ query, variables }) },
+          { resp }
+        );
+      }
+      return variableKeys.map(key => resp.data[key]);
+    });
+};
