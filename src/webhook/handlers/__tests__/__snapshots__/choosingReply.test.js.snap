@@ -187,3 +187,15 @@ https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
   "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
 }
 `;
+
+exports[`should select reply by replyId should update UserArticleLink 1`] = `
+Array [
+  Object {
+    "_id": "_id",
+    "articleId": "AWDZYXxAyCdS-nWhumlz",
+    "createdAt": 2020-01-01T00:00:00.000Z,
+    "lastRepliedAt": 2020-01-01T00:00:00.000Z,
+    "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+  },
+]
+`;

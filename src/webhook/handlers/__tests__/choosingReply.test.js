@@ -7,6 +7,19 @@ import * as apiResult from '../__fixtures__/choosingReply';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
 
+import UserArticleLink from '../../../database/models/userArticleLink';
+import Client from '../../../database/mongoClient';
+
+beforeAll(async () => {
+  if (await UserArticleLink.collectionExists()) {
+    await (await UserArticleLink.client).drop();
+  }
+});
+
+afterAll(async () => {
+  await (await Client.getInstance()).close();
+});
+
 beforeEach(() => {
   MockDate.set('2020-01-01');
   ga.clearAllMocks();
@@ -70,6 +83,17 @@ describe('should select reply by replyId', () => {
     gql.__push(apiResult.multipleReplies);
     expect(await choosingReply(params)).toMatchSnapshot();
     expect(gql.__finished()).toBe(true);
+  });
+
+  it('should update UserArticleLink', async () => {
+    gql.__push(apiResult.oneReply);
+    await choosingReply(params);
+    expect(
+      (await UserArticleLink.findByUserId(params.userId)).map(e => ({
+        ...e,
+        _id: '_id',
+      }))
+    ).toMatchSnapshot();
   });
 });
 

@@ -11,6 +11,19 @@ import {
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
 
+import UserArticleLink from '../../../database/models/userArticleLink';
+import Client from '../../../database/mongoClient';
+
+beforeAll(async () => {
+  if (await UserArticleLink.collectionExists()) {
+    await (await UserArticleLink.client).drop();
+  }
+});
+
+afterAll(async () => {
+  await (await Client.getInstance()).close();
+});
+
 beforeEach(() => {
   ga.clearAllMocks();
 });
@@ -96,6 +109,7 @@ it('should submit article when valid source is provided', async () => {
       input:
         SOURCE_PREFIX + ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label,
     },
+    userId: 'userId',
   };
 
   MockDate.set('2020-01-01');
@@ -131,4 +145,30 @@ it('should submit article when valid source is provided', async () => {
     ]
   `);
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
+});
+
+it('should create a UserArticleLink when creating a Article', async () => {
+  const userId = 'user-id-0';
+  const params = {
+    data: {
+      searchedText: 'Some text forwarded by the user',
+      foundArticleIds: [],
+    },
+    state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
+    event: {
+      type: 'message',
+      input:
+        SOURCE_PREFIX + ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label,
+    },
+    userId,
+  };
+
+  MockDate.set('2020-01-01');
+  gql.__push({ data: { CreateArticle: { id: 'new-article-id' } } });
+  await askingArticleSubmissionConsent(params);
+  MockDate.reset();
+
+  await UserArticleLink.findByUserId(userId);
+  const userArticleLinks = await UserArticleLink.findByUserId(userId);
+  expect(userArticleLinks.map(e => ({ ...e, _id: '_id' }))).toMatchSnapshot();
 });
