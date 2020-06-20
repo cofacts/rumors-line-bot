@@ -8,6 +8,19 @@ import { POSTBACK_NO_ARTICLE_FOUND } from '../utils';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
 
+import UserArticleLink from '../../../database/models/userArticleLink';
+import Client from '../../../database/mongoClient';
+
+beforeAll(async () => {
+  if (await UserArticleLink.collectionExists()) {
+    await (await UserArticleLink.client).drop();
+  }
+});
+
+afterAll(async () => {
+  await (await Client.getInstance()).close();
+});
+
 beforeEach(() => {
   ga.clearAllMocks();
   gql.__reset();
@@ -320,4 +333,35 @@ it('should ask users if they want to submit article when user say not found', as
     ]
   `);
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
+});
+
+it('should create a UserArticleLink when selecting a article', async () => {
+  const userId = 'user-id-0';
+  const params = {
+    data: {
+      searchedText: '《緊急通知》',
+    },
+    state: 'CHOOSING_ARTICLE',
+    event: {
+      type: 'postback',
+      input: 'article-id',
+      timestamp: 1519019734813,
+      postback: {
+        data:
+          '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
+      },
+    },
+    issuedAt: 1505314295017,
+    userId,
+    isSkipUser: false,
+  };
+
+  MockDate.set('2020-01-01');
+  gql.__push(apiResult.selectedArticleId);
+  await choosingArticle(params);
+  MockDate.reset();
+
+  await UserArticleLink.findByUserId(userId);
+  const userArticleLinks = await UserArticleLink.findByUserId(userId);
+  expect(userArticleLinks.map(e => ({ ...e, _id: '_id' }))).toMatchSnapshot();
 });

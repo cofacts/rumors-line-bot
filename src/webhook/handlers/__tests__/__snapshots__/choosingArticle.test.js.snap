@@ -99,6 +99,18 @@ Object {
 }
 `;
 
+exports[`should create a UserArticleLink when selecting a article 1`] = `
+Array [
+  Object {
+    "_id": "_id",
+    "articleId": "article-id",
+    "createdAt": 2020-01-01T00:00:00.000Z,
+    "lastViewedAt": 2020-01-01T00:00:00.000Z,
+    "userId": "user-id-0",
+  },
+]
+`;
+
 exports[`should select article and have OPINIONATED and NOT_ARTICLE replies 1`] = `
 Object {
   "data": Object {

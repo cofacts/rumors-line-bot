@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`should create a UserArticleLink when creating a Article 1`] = `
+Array [
+  Object {
+    "_id": "_id",
+    "articleId": "new-article-id",
+    "createdAt": 2020-01-01T00:00:00.000Z,
+    "userId": "user-id-0",
+  },
+]
+`;
+
 exports[`should redirect user to other fact-checkers for invalid options 1`] = `
 Object {
   "data": Object {
@@ -121,7 +132,7 @@ A LINE group",
                   "action": Object {
                     "label": "Provide more info",
                     "type": "uri",
-                    "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Nzc5MjMyMDB9.zfrE2uvmsu7mPH23-TZ5L_mfjiNEeiX-x5Md4Lvsk7I",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VySWQiLCJleHAiOjE1Nzc5MjMyMDB9.4tsRDmoKzX7b9gex8UyEgo2ht9hCDAQ_45CTgJ7G8Fg",
                   },
                   "color": "#ffb600",
                   "style": "primary",
@@ -182,6 +193,6 @@ A LINE group",
     },
   ],
   "state": "__INIT__",
-  "userId": undefined,
+  "userId": "userId",
 }
 `;
