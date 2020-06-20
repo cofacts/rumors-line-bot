@@ -11,6 +11,8 @@ import {
 } from './utils';
 import ga from 'src/lib/ga';
 
+import UserArticleLink from '../../database/models/userArticleLink';
+
 export default async function choosingReply(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
@@ -39,6 +41,10 @@ export default async function choosingReply(params) {
       t`We have problem retrieving message and reply data, please forward the message again`
     );
   }
+
+  await UserArticleLink.updateTimestamps(userId, data.selectedArticleId, {
+    lastRepliedAt: new Date(),
+  });
 
   const { GetReply, GetArticle } = getReplyData;
 
