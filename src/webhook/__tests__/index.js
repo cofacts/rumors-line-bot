@@ -1,4 +1,5 @@
 jest.mock('src/webhook/checkSignatureAndParse');
+jest.mock('src/lib/redisClient');
 
 import Koa from 'koa';
 import request from 'supertest';
@@ -6,6 +7,7 @@ import MockDate from 'mockdate';
 
 import webhookRouter from '../';
 import UserSettings from '../../database/models/userSettings';
+import Client from '../../database/mongoClient';
 
 describe('Webhook router', () => {
   beforeAll(async () => {
@@ -14,6 +16,11 @@ describe('Webhook router', () => {
     if (await UserSettings.collectionExists()) {
       await (await UserSettings.client).drop();
     }
+  });
+
+  afterAll(async () => {
+    await (await Client.getInstance()).close();
+    MockDate.reset();
   });
 
   it('singleUserHandler() should handle follow event', async () => {
@@ -35,7 +42,9 @@ describe('Webhook router', () => {
       ],
     };
 
-    await request(app.listen())
+    const server = app.listen();
+
+    await request(server)
       .post('/')
       .send(eventObject)
       .expect(200);
@@ -46,5 +55,12 @@ describe('Webhook router', () => {
 
     expect(user.userId).toBe(eventObject.events[0].source.userId);
     expect(user.allowNewReplyUpdate).toBe(true);
+
+    return new Promise((resolve, reject) => {
+      server.close(error => {
+        if (error) return reject(error);
+        resolve();
+      });
+    });
   });
 });
