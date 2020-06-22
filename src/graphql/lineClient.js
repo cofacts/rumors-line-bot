@@ -35,15 +35,15 @@ export async function verifyIDToken(idToken) {
 /**
  * Reference: https://notify-bot.line.me/doc/en/
  *
- * @param {string} lineNotifyToekn
+ * @param {string} lineNotifyToken
  */
-export async function revokeNotifyToken(lineNotifyToekn) {
+export async function revokeNotifyToken(lineNotifyToken) {
   const URL = 'https://notify-api.line.me/api/revoke';
   const resp = await fetch(URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Bearer ${lineNotifyToekn}`,
+      Authorization: `Bearer ${lineNotifyToken}`,
     },
   });
   const result = await resp.json();
