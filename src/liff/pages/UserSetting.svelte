@@ -35,9 +35,10 @@
   }
 
   const handleLineNotifyClick = async (event) => {
-    const result = await updateNotification(event.target.checked);
     if(event.target.checked)
-      location.href='/login/line';
+      location.href=`/login/line_notify?userId=${liff.getContext().userId}&redirect=/liff/index.html?p=setting`;
+    else
+      await updateNotification(event.target.checked);
   }
   const handlePushApiClick = async (event) => {
     await updateNotification(event.target.checked);
