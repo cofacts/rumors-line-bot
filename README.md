@@ -173,6 +173,25 @@ On Heroku, please set `LOCALE` to one of `en_US`, `zh_TW` or any other language 
 
 If you want to build using docker instead, you may need to modify Dockerfile to include the desired `LOCALE`.
 
+#### Notification setup
+Prequest : [LIFF setup](https://github.com/cofacts/rumors-line-bot#liff-setup)
+
+You may set up a setting page entry point(`/liff/index.html?p=setting`) in [account manager](https://manager.line.biz/account/) -> rich menu
+
+- To use [push message](https://developers.line.biz/en/reference/messaging-api/#send-push-message) :
+  in .env file, sets `NOTIFY_METHOD=PUSH_MESSAGE`
+
+- To use [line notify](https://notify-bot.line.me/en/) :
+  1. You should first [register a service](https://notify-bot.line.me/my/services/).
+  2. Then sets up `Callback Url` : `RUMORS_LINE_BOT_URL`/authcallback/line_notify
+  3. in .env file, sets
+      ```
+      LINE_NOTIFY_CLIENT_ID=<paste LINE Notify Client ID here>
+      LINE_NOTIFY_CLIENT_SECRET=<paste LINE Notify Client Secret here>
+      NOTIFY_METHOD=LINE_NOTIFY
+      RUMORS_LINE_BOT_URL=<line bot server url>
+      ```
+
 ---
 
 ## Production Deployment
