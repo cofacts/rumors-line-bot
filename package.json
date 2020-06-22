@@ -42,6 +42,7 @@
     "@line/bot-sdk": "^6.8.4",
     "ajv": "^6.12.2",
     "apollo-server-koa": "^2.11.0",
+    "date-fns": "^2.14.0",
     "googleapis": "^36.0.0",
     "grapheme-splitter": "^1.0.4",
     "graphql": "^15.0.0",
@@ -86,7 +87,6 @@
     "core-js": "^3.6.4",
     "coveralls": "^3.0.0",
     "css-loader": "^3.4.2",
-    "date-fns": "^2.14.0",
     "dotenv": "^6.2.0",
     "eslint": "^7.0.0",
     "eslint-config-prettier": "^6.0.0",
@@ -112,7 +112,7 @@
     "ttag-cli": "^1.8.2",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.11.0"
   },
   "jest": {
     "testEnvironment": "node",
