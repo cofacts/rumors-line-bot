@@ -46,11 +46,11 @@ export default {
     const { allow } = args;
     const { userId } = context;
     let result = await UserSettings.setAllowNewReplyUpdate(userId, allow);
-    const lineNotifyToekn = result.newReplyNotifyToken;
+    const lineNotifyToken = result.newReplyNotifyToken;
 
-    // revoke when user turns off notification and there exists lineNotifyToekn
-    if (!allow && lineNotifyToekn) {
-      revokeNotifyToken(lineNotifyToekn);
+    // revoke when user turns off notification and there exists lineNotifyToken
+    if (!allow && lineNotifyToken) {
+      revokeNotifyToken(lineNotifyToken);
       result = await UserSettings.setNewReplyNotifyToken(userId, null);
     }
     return result;
