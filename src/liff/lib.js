@@ -165,7 +165,16 @@ export const getArticlesFromCofacts = async articleIds => {
       ${variableKeys.map(k => `$${k}: String!`).join('\n')}
     ) {
       ${variableKeys
-        .map(k => `${k}: GetArticle(id: $${k}) { id text }`)
+        .map(
+          k =>
+            `${k}: GetArticle(id: $${k}) {
+              id
+              text
+              articleReplies(status: NORMAL) {
+                createdAt
+              }
+            }`
+        )
         .join('\n')}
     }
   `;

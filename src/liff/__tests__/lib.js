@@ -413,18 +413,18 @@ describe('getArticlesFromCofacts', () => {
     );
 
     await expect(getArticlesFromCofacts(ids)).resolves.toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "id": "id1",
-          "text": "text1",
-        },
-        Object {
-          "id": "id2",
-          "text": "text2",
-        },
-        undefined,
-      ]
-    `);
+                  Array [
+                    Object {
+                      "id": "id1",
+                      "text": "text1",
+                    },
+                    Object {
+                      "id": "id2",
+                      "text": "text2",
+                    },
+                    undefined,
+                  ]
+              `);
 
     expect(rollbar.error).toHaveBeenCalledTimes(1);
 
@@ -437,9 +437,27 @@ describe('getArticlesFromCofacts', () => {
       $a1: String!
       $a2: String!
           ) {
-            a0: GetArticle(id: $a0) { id text }
-      a1: GetArticle(id: $a1) { id text }
-      a2: GetArticle(id: $a2) { id text }
+            a0: GetArticle(id: $a0) {
+                    id
+                    text
+                    articleReplies(status: NORMAL) {
+                      createdAt
+                    }
+                  }
+      a1: GetArticle(id: $a1) {
+                    id
+                    text
+                    articleReplies(status: NORMAL) {
+                      createdAt
+                    }
+                  }
+      a2: GetArticle(id: $a2) {
+                    id
+                    text
+                    articleReplies(status: NORMAL) {
+                      createdAt
+                    }
+                  }
           }
         ",
         "variables": Object {

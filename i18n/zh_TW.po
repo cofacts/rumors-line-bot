@@ -270,8 +270,8 @@ msgstr "${ countOfType.NOT_ARTICLE } 人認為它 ⚠️️ 不在 Cofacts 的�
 msgid "I choose “${ displayTextWhenChosen }”"
 msgstr "我要選「${displayTextWhenChosen}」"
 
-#: src/liff/pages/Reason.svelte:57
-#: src/liff/pages/Source.svelte:29
+#: src/liff/pages/Reason.svelte:80
+#: src/liff/pages/Source.svelte:33
 #: src/webhook/handlers/choosingArticle.js:282
 #: src/webhook/handlers/utils.js:410
 msgid "Provide more info"
@@ -330,7 +330,7 @@ msgstr "找不到與此圖片相關的資訊 :("
 msgid "We didn't find anything about \"${ inputSummary }\" :("
 msgstr "找不到關於「${ inputSummary }」 的資訊 :("
 
-#: src/liff/index.js:15
+#: src/liff/lib.js:89
 #: src/webhook/handlers/utils.js:122
 #. t: Flex message alt-text
 msgid "Please proceed on your mobile phone."
@@ -403,52 +403,47 @@ msgstr "好的，建議您把訊息轉傳給下面的專業事實查核機構，
 msgid "Rewrite my reason"
 msgstr "重填送出理由"
 
-#: src/liff/App.svelte:39
+#: src/liff/lib.js:130
 msgid "This button was for previous search and is now expired."
 msgstr "您已經傳了新訊息進來，這個舊按鈕已經失效囉。"
 
-#: src/liff/App.svelte:45
-#. t: In LIFF, should not happen
-msgid "Unexpected error, no search data is retrieved."
-msgstr ""
-
-#: src/liff/App.svelte:52
+#: src/liff/lib.js:114
 msgid "Sorry, the button is expired."
 msgstr "不好意思，這是有點久以前的訊息，現在按鈕已經失效囉。"
 
-#: src/liff/index.js:13
+#: src/liff/lib.js:87
 msgid "Sorry, the function is not applicable on desktop."
 msgstr "不好意思，在桌面環境無法使用這個功能。"
 
-#: src/liff/pages/NegativeFeedback.svelte:32
+#: src/liff/pages/NegativeFeedback.svelte:36
 msgid "Report not useful"
 msgstr "表示回應沒幫助"
 
-#: src/liff/pages/NegativeFeedback.svelte:33
+#: src/liff/pages/NegativeFeedback.svelte:37
 msgid ""
 "Your feedback has been recorded. We are sorry that the reply is not useful "
 "to you."
 msgstr "已經記下您的評價。很遺憾這則回應對您沒有幫助。"
 
-#: src/liff/pages/NegativeFeedback.svelte:34
+#: src/liff/pages/NegativeFeedback.svelte:38
 msgid "How can we make it useful to you?"
 msgstr "請問您覺得怎麼改才會更有幫助呢？"
 
-#: src/liff/pages/NegativeFeedback.svelte:37
-#: src/liff/pages/PositiveFeedback.svelte:37
-#: src/liff/pages/Reason.svelte:64
+#: src/liff/pages/NegativeFeedback.svelte:41
+#: src/liff/pages/PositiveFeedback.svelte:41
+#: src/liff/pages/Reason.svelte:87
 msgid "Submit"
 msgstr "送出"
 
-#: src/liff/pages/PositiveFeedback.svelte:32
+#: src/liff/pages/PositiveFeedback.svelte:36
 msgid "Report reply useful"
 msgstr "表示回應有幫助"
 
-#: src/liff/pages/PositiveFeedback.svelte:33
+#: src/liff/pages/PositiveFeedback.svelte:37
 msgid "We have recorded your feedback. It's glad to see the reply is helpful."
 msgstr "已經記下您的評價。很開心這則回應有幫助到您。"
 
-#: src/liff/pages/PositiveFeedback.svelte:34
+#: src/liff/pages/PositiveFeedback.svelte:38
 msgid "Do you have anything to add about the reply?"
 msgstr "針對這則回應，有沒有想補充的呢？"
 
@@ -459,7 +454,8 @@ msgid ""
 "1. Express your thought more\n"
 "2. Google for more info\n"
 "3. Look for similar content using search box on Facebook"
-msgstr "你可以試著：\n"
+msgstr ""
+"你可以試著：\n"
 "1. 闡述更多想法\n"
 "2. 去 google 查查看\n"
 "3. 把全文複製貼上到 Facebook 搜尋框看看"
@@ -474,7 +470,8 @@ msgid ""
 "\n"
 "To provide more info, please press \"Cancel\"; otherwise, press \"OK\" to "
 "submit the current info directly."
-msgstr "提供給編輯的資訊可以再豐富一些，會讓編輯回覆越快唷！\n"
+msgstr ""
+"提供給編輯的資訊可以再豐富一些，會讓編輯回覆越快唷！\n"
 "\n"
 "\n"
 "${ LENGHEN_HINT }\n"
@@ -492,56 +489,103 @@ msgstr ""
 "\n"
 "${ LENGHEN_HINT }"
 
-#: src/liff/pages/Reason.svelte:58
+#: src/liff/pages/Reason.svelte:81
 msgid "To help with fact-checking, please tell the editors:"
 msgstr "為了協助查證，請告訴闢謠編輯："
 
-#: src/liff/pages/Reason.svelte:59
+#: src/liff/pages/Reason.svelte:82
 msgid "Why do you think this is a hoax?"
 msgstr "為何您覺得這是謠言？"
 
-#: src/liff/pages/Reason.svelte:61
+#: src/liff/pages/Reason.svelte:84
 msgid ""
 "Ex: I googled using (some keyword) and found that... / I found different "
 "opinion on (some website) saying that..."
 msgstr "例：我用 OO 關鍵字查詢 Facebook，發現⋯⋯ / 我在 XX 官網上找到不一樣的說法如下⋯⋯"
 
-#: src/liff/pages/Source.svelte:30
+#: src/liff/pages/Source.svelte:34
 msgid "How did you get the message?"
 msgstr "請問您是在哪裡看到這則訊息的？"
 
-#: src/lib/sharedUtils.js:12
+#: src/lib/sharedUtils.js:14
 msgid "My reason is"
 msgstr "我的理由是"
 
-#: src/lib/sharedUtils.js:13
+#: src/lib/sharedUtils.js:15
 msgid "I got the message from"
 msgstr "訊息來源是"
 
-#: src/lib/sharedUtils.js:14
+#: src/lib/sharedUtils.js:16
 msgid "I think the reply is useful and I want to add"
 msgstr "這個回應很有用，我想補充"
 
-#: src/lib/sharedUtils.js:15
+#: src/lib/sharedUtils.js:17
 msgid "I think the reply is not useful and I suggest"
 msgstr "這個回應不太有用，我建議"
 
-#: src/lib/sharedUtils.js:32
+#: src/lib/sharedUtils.js:35
 msgid "A LINE group"
 msgstr "LINE 群組裡看到的"
 
-#: src/lib/sharedUtils.js:37
+#: src/lib/sharedUtils.js:40
 msgid "A LINE official account"
 msgstr "LINE 官方帳號傳的"
 
-#: src/lib/sharedUtils.js:42
+#: src/lib/sharedUtils.js:45
 msgid "Someone sent me on LINE in private"
 msgstr "有人私下用 LINE 傳給我的"
 
-#: src/lib/sharedUtils.js:47
+#: src/lib/sharedUtils.js:50
 msgid "Somewhere outside LINE"
 msgstr "我在 LINE 外頭看到的"
 
-#: src/lib/sharedUtils.js:52
+#: src/lib/sharedUtils.js:55
 msgid "I typed it out myself"
 msgstr "我自己寫的"
+
+#: src/liff/lib.js:104
+msgid "Cannot get token from URL"
+msgstr ""
+
+#: src/liff/lib.js:142
+#. t: In LIFF, should not happen
+msgid "Unexpected error, no search session data is retrieved."
+msgstr ""
+
+#: src/liff/pages/Articles.svelte:48
+msgid "Viewed messages"
+msgstr "看過的訊息"
+
+#: src/liff/pages/Articles.svelte:49
+msgid "Fetching viewed messages"
+msgstr "載入看過的訊息"
+
+#: src/liff/components/ViewedArticle.svelte:31
+#: src/liff/components/ViewedArticle.svelte:36
+#: src/liff/pages/Reason.svelte:87
+msgid "Loading"
+msgstr "載入中"
+
+#: src/liff/components/ViewedArticle.svelte:32
+msgid "No replies yet"
+msgstr "尚無回應"
+
+#: src/liff/components/ViewedArticle.svelte:22
+msgid "${ replyCount } reply"
+msgid_plural "${ replyCount } replies"
+msgstr[0] "${ replyCount } 則回應"
+
+#: src/lib/sharedUtils.js:18
+msgid "See replies of"
+msgstr "查看這篇的回應"
+
+#: src/liff/components/ViewedArticle.svelte:27
+#, javascript-format
+msgid "Viewed ${ fromNow } ago"
+msgstr "${fromNow}前看過"
+
+#: src/liff/components/ViewedArticle.svelte:21
+#, javascript-format
+msgid "${ newArticleReplyCount } new reply"
+msgid_plural "${ newArticleReplyCount } new replies"
+msgstr[0] "${ newArticleReplyCount } 則新回應"

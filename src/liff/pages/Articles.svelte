@@ -1,9 +1,20 @@
 <script>
   import { onMount } from 'svelte';
+  import { t } from 'ttag';
+  import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
   import { gql, assertInClient, getArticlesFromCofacts } from '../lib';
+  import ViewedArticle from '../components/ViewedArticle.svelte';
 
   let articleData = null;
   let articleMap = {};
+
+  let selectArticle = async articleId => {
+    await liff.sendMessages([{
+      type: 'text',
+      text: `${VIEW_ARTICLE_PREFIX}${getArticleURL(articleId)}`,
+    }]);
+    liff.closeWindow();
+  }
 
   onMount(async () => {
     assertInClient();
@@ -15,6 +26,7 @@
         userArticleLinks {
           articleId
           createdAt
+          lastViewedAt
         }
       }
     `();
@@ -33,13 +45,21 @@
     })
   })
 </script>
+<style>
+</style>
+
+<svelte:head>
+  <title>{t`Viewed messages`}</title>
+</svelte:head>
 
 {#if articleData === null}
-  <p>Loading...</p>
+  <p>{t`Fetching viewed messages`}...</p>
 {:else}
-  <ul>
-    {#each articleData as link}
-      <li>{link.articleId} / {articleMap[link.articleId] ? articleMap[link.articleId].text : 'Loading...'} / {link.createdAt}</li>
-    {/each}
-  </ul>
+  {#each articleData as link (link.articleId)}
+    <ViewedArticle
+      userArticleLink={link}
+      article={articleMap[link.articleId]}
+      on:click={() => selectArticle(link.articleId)}
+    />
+  {/each}
 {/if}
