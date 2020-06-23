@@ -122,6 +122,7 @@ module.exports = {
       // custom constants passed to index.html via htmlWebpackPlugin.options
       ROLLBAR_ENV: process.env.ROLLBAR_ENV,
       ROLLBAR_CLIENT_TOKEN: process.env.ROLLBAR_CLIENT_TOKEN,
+      GA_ID: process.env.GA_ID,
     }),
     new CompressionPlugin(),
     new DefinePlugin({
