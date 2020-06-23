@@ -1,4 +1,6 @@
 <script>
+  import { onMount } from 'svelte';
+  import { get } from 'svelte/store';
   import { page } from './lib';
   import Articles from './pages/Articles.svelte';
   import Source from './pages/Source.svelte';
@@ -15,6 +17,27 @@
     'feedback/no': NegativeFeedback,
     setting: UserSetting,
   };
+
+  onMount(() => {
+    gtag('event', 'page_view', {
+      page_path: get(path)
+    });
+    if(window.performance) {
+      gtag('event', 'timing_complete', {
+        name: 'App mounted',
+        value: performance.now(),
+        event_category: 'LIFF',
+        event_label: 'App',
+      });
+      if(performance.navigation) {
+        gtag('event', 'page_redirect', {
+          event_category: 'LIFF',
+          event_label: 'App',
+          value: performance.navigation.redirectCount,
+        });
+      }
+    }
+  })
 </script>
 
 <svelte:component this={routes[$page]} />
