@@ -78,6 +78,7 @@
     "@material/typography": "^3.1.0",
     "@smui/button": "^1.0.0-beta.20",
     "@smui/card": "^1.0.0-beta.21",
+    "@smui/switch": "^1.0.0-beta.21",
     "@smui/textfield": "^1.0.0-beta.20",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
