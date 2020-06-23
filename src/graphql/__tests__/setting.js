@@ -39,10 +39,6 @@ it('creates user1', async () => {
       {},
       {
         userId: 'user1',
-        userContext: {
-          state: 'INIT_STATE',
-          data: {},
-        },
       }
     )
   ).toMatchInlineSnapshot(`
@@ -80,10 +76,6 @@ it('finds user2', async () => {
       {},
       {
         userId: 'user2',
-        userContext: {
-          state: 'INIT_STATE',
-          data: {},
-        },
       }
     )
   ).toMatchInlineSnapshot(`

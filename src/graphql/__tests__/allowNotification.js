@@ -54,10 +54,6 @@ describe('finds', () => {
         },
         {
           userId: 'user1',
-          userContext: {
-            state: 'INIT_STATE',
-            data: {},
-          },
         }
       )
     ).resolves.toMatchInlineSnapshot(`
@@ -94,10 +90,6 @@ describe('finds', () => {
         },
         {
           userId: 'user2',
-          userContext: {
-            state: 'INIT_STATE',
-            data: {},
-          },
         }
       )
     ).toMatchInlineSnapshot(`
