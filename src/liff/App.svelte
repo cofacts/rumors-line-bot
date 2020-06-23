@@ -17,9 +17,12 @@
     setting: UserSetting,
   };
 
-  // Send pageview with correct path on each page change
+  // Send pageview with correct path on each page change.
+  // delay a bit for page components to change page title
   page.subscribe(p => {
-    gtag('event', 'page_view', { page_path: p });
+    setTimeout(() => {
+      gtag('event', 'page_view', { page_path: p });
+    }, 10)
   });
 
   onMount(() => {
