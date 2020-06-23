@@ -28,6 +28,7 @@ module.exports = {
     // global scripts include in index.html
     rollbar: 'readonly',
     liff: 'readonly',
+    gtag: 'readonly',
 
     // Define plugin
     APP_ID: 'readonly',

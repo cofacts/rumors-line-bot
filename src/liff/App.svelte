@@ -1,6 +1,5 @@
 <script>
   import { onMount } from 'svelte';
-  import { get } from 'svelte/store';
   import { page } from './lib';
   import Articles from './pages/Articles.svelte';
   import Source from './pages/Source.svelte';
