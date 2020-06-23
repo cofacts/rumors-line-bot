@@ -19,9 +19,9 @@
   };
 
   onMount(() => {
-    gtag('event', 'page_view', {
-      page_path: get(path)
-    });
+    // Send pageview with correct path
+    gtag('event', 'page_view', { page_path: get(page) });
+
     if(window.performance) {
       gtag('event', 'timing_complete', {
         name: 'App mounted',
