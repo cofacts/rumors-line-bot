@@ -18,10 +18,12 @@
     setting: UserSetting,
   };
 
-  onMount(() => {
-    // Send pageview with correct path
-    gtag('event', 'page_view', { page_path: get(page) });
+  // Send pageview with correct path on each page change
+  page.subscribe(p => {
+    gtag('event', 'page_view', { page_path: p });
+  });
 
+  onMount(() => {
     if(window.performance) {
       gtag('event', 'timing_complete', {
         name: 'App mounted',
