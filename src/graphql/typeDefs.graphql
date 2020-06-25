@@ -13,6 +13,9 @@ type Query {
     first: Int
     orderBy: UserArticleLinksOrderBy
   ): UserArticleLinkConnection @auth(check: ["userId"])
+
+  # Get user's notification setting
+  setting: UserSetting @auth(check: ["userId"])
 }
 
 type Mutation {
@@ -24,6 +27,12 @@ type Mutation {
 
   # TODO: Implement after database is established
   setViewed(articleId: String!): Boolean @auth
+
+  """
+  Add feedback to article-reply in context.
+  Returns UserSetting when done.
+  """
+  allowNotification(allow: Boolean!): UserSetting @auth(check: ["userId"])
 }
 
 type MessagingAPIInsight {
@@ -42,6 +51,12 @@ type MessagingAPIInsight {
   Ref: https://developers.line.biz/en/reference/messaging-api/#get-demographic
   """
   demographic(date: MessagingAPIDate!): MessaginAPIDemographicInsight
+}
+
+type UserSetting {
+  userId: String
+  allowNewReplyUpdate: Boolean
+  newReplyNotifyToken: String
 }
 
 type MessagingAPIMessageDeliveryInsight {

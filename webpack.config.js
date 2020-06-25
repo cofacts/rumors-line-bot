@@ -133,6 +133,7 @@ module.exports = {
       COFACTS_API_URL: JSON.stringify(process.env.API_URL),
       'process.env.SITE_URL': JSON.stringify(process.env.SITE_URL),
       'process.env.LOCALE': JSON.stringify(process.env.LOCALE),
+      NOTIFY_METHOD: JSON.stringify(process.env.NOTIFY_METHOD),
     }),
   ],
   devtool: prod ? false : 'source-map',

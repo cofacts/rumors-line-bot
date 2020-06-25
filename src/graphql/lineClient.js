@@ -24,9 +24,32 @@ export async function verifyIDToken(idToken) {
   const result = await resp.json();
 
   if (resp.status !== 200) {
-    console.error(JSON.stringify(result, null, '  '));
-
     rollbar.error(`[verifyIDToken] ${resp.status}: ${result.message}.`, {
+      result,
+    });
+  }
+
+  return result;
+}
+
+/**
+ * Reference: https://notify-bot.line.me/doc/en/
+ *
+ * @param {string} lineNotifyToken
+ */
+export async function revokeNotifyToken(lineNotifyToken) {
+  const URL = 'https://notify-api.line.me/api/revoke';
+  const resp = await fetch(URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Bearer ${lineNotifyToken}`,
+    },
+  });
+  const result = await resp.json();
+
+  if (resp.status !== 200) {
+    rollbar.error(`[revokeNotifyToken] ${resp.status}: ${result.message}.`, {
       result,
     });
   }
