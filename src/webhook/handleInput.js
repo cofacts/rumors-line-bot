@@ -12,6 +12,8 @@ import {
   DOWNVOTE_PREFIX,
   UPVOTE_PREFIX,
   SOURCE_PREFIX,
+  VIEW_ARTICLE_PREFIX,
+  getArticleURL,
 } from 'src/lib/sharedUtils';
 
 /**
@@ -36,7 +38,30 @@ export default async function handleInput(
     throw new Error('input undefined');
   }
 
-  if (
+  if (event.type === 'postback') {
+    // Jump to the correct state to handle the postback input
+    state = event.postbackHandlerState;
+  } else if (
+    event.type === 'message' &&
+    event.input.startsWith(VIEW_ARTICLE_PREFIX)
+  ) {
+    const articleId = event.input
+      .replace(VIEW_ARTICLE_PREFIX, '')
+      .replace(getArticleURL(''), '');
+
+    // Start new session, reroute to CHOOSING_ARTILCE and simulate "choose article" postback event
+    //
+    state = 'CHOOSING_ARTICLE';
+    data = {
+      // Start a new session
+      sessionId: Date.now(),
+      searchedText: '',
+    };
+    event = {
+      type: 'postback',
+      input: articleId,
+    };
+  } else if (
     event.type === 'message' &&
     !event.input.startsWith(REASON_PREFIX) &&
     !event.input.startsWith(UPVOTE_PREFIX) &&
@@ -53,9 +78,6 @@ export default async function handleInput(
       sessionId: Date.now(),
     };
     state = '__INIT__';
-  } else if (event.type === 'postback') {
-    // Jump to the correct state to handle the postback input
-    state = event.postbackHandlerState;
   }
 
   let params = {
