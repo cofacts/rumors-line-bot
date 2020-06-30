@@ -1,4 +1,6 @@
 import gql from 'src/lib/gql';
+import UserSettings from 'src/database/models/userSettings';
+import { revokeNotifyToken } from '../lineClient';
 
 export default {
   async voteReply(root, args, context) {
@@ -38,5 +40,19 @@ export default {
     );
 
     return CreateOrUpdateArticleReplyFeedback.feedbackCount;
+  },
+
+  async allowNotification(root, args, context) {
+    const { allow } = args;
+    const { userId } = context;
+    let result = await UserSettings.setAllowNewReplyUpdate(userId, allow);
+    const lineNotifyToken = result.newReplyNotifyToken;
+
+    // revoke when user turns off notification and there exists lineNotifyToken
+    if (!allow && lineNotifyToken) {
+      revokeNotifyToken(lineNotifyToken);
+      result = await UserSettings.setNewReplyNotifyToken(userId, null);
+    }
+    return result;
   },
 };
