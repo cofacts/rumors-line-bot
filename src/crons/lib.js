@@ -1,4 +1,5 @@
 import gql from 'src/lib/gql';
+import ga from 'src/lib/ga';
 import UserArticleLink from 'src/database/models/userArticleLink';
 import UserSettings from 'src/database/models/userSettings';
 import SendMessage from 'src/lib/sendMessage';
@@ -84,6 +85,13 @@ const sendNotification = async notificationList => {
     Object.keys(notificationList).map(async key => {
       const setting = await UserSettings.findOrInsertByUserId(key);
       if (setting.allowNewReplyUpdate) {
+        const visitor = ga(setting.userId);
+        visitor.event({
+          ec: 'Cron',
+          ea: 'Send notification',
+          el: notificationList[key],
+        });
+        visitor.send();
         userIdList.push(setting.userId);
         if (process.env.NOTIFY_METHOD == 'LINE_NOTIFY')
           SendMessage.notify(setting.newReplyNotifyToken, message);
