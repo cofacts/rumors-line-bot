@@ -84,17 +84,6 @@ describe('should select reply by replyId', () => {
     expect(await choosingReply(params)).toMatchSnapshot();
     expect(gql.__finished()).toBe(true);
   });
-
-  it('should update UserArticleLink', async () => {
-    gql.__push(apiResult.oneReply);
-    await choosingReply(params);
-    expect(
-      (await UserArticleLink.findByUserId(params.userId)).map(e => ({
-        ...e,
-        _id: '_id',
-      }))
-    ).toMatchSnapshot();
-  });
 });
 
 it('should block non-postback interactions', async () => {

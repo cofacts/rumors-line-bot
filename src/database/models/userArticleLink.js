@@ -45,8 +45,6 @@ class UserArticleLink extends Base {
    * An atomic and upsert enabled operation.
    * @typedef Timestamps
    * @property {?Date} lastViewedAt
-   * @property {?Date} lastRepliedAt
-   * @property {?Date} lastPositiveFeedbackRepliedAt
    *
    * @param {string} userId
    * @param {string} articleId
@@ -86,16 +84,6 @@ class UserArticleLink extends Base {
    * @type {?Date}
    */
   lastViewedAt;
-
-  /**
-   * @type {?Date}
-   */
-  lastRepliedAt;
-
-  /**
-   * @type {?Date}
-   */
-  lastPositiveFeedbackRepliedAt;
 }
 
 export default UserArticleLink;
