@@ -17,6 +17,8 @@ const mongodbCli = evalString => {
   return execSync(command).toString();
 };
 
+const sleep = async ms => new Promise(resolve => setTimeout(resolve, ms));
+
 describe('Webhook router', () => {
   beforeAll(async () => {
     MockDate.set(612921600000);
@@ -32,6 +34,7 @@ describe('Webhook router', () => {
   });
 
   it('singleUserHandler() should handle follow event', async () => {
+    const userId = 'U4af4980629';
     const app = new Koa();
     app.use(webhookRouter.routes(), webhookRouter.allowedMethods());
 
@@ -44,7 +47,7 @@ describe('Webhook router', () => {
           timestamp: 1462629479859,
           source: {
             type: 'user',
-            userId: 'U4af4980629',
+            userId,
           },
         },
       ],
@@ -57,8 +60,62 @@ describe('Webhook router', () => {
       .send(eventObject)
       .expect(200);
 
+    /**
+     * The HTTP response isn't guaranteed the event handling to be complete
+     */
+    await sleep(500);
+
     expect(
-      mongodbCli('db.userSettings.find({}, { _id: 0 })')
+      mongodbCli(`db.userSettings.find({ userId: "${userId}" }, { _id: 0 })`)
+    ).toMatchSnapshot();
+
+    return new Promise((resolve, reject) => {
+      server.close(error => {
+        if (error) return reject(error);
+        resolve();
+      });
+    });
+  });
+
+  it('singleUserHandler() should handle follow then unfollow then follow event', async () => {
+    const userId = 'U4af4980630';
+    const app = new Koa();
+    app.use(webhookRouter.routes(), webhookRouter.allowedMethods());
+
+    const eventObject = {
+      events: [
+        {
+          replyToken: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
+          type: undefined,
+          mode: 'active',
+          timestamp: 1462629479859,
+          source: {
+            type: 'user',
+            userId,
+          },
+        },
+      ],
+    };
+
+    const types = ['follow', 'unfollow', 'follow'];
+
+    const server = app.listen();
+
+    for (const type of types) {
+      eventObject.events[0].type = type;
+      await request(server)
+        .post('/')
+        .send(eventObject)
+        .expect(200);
+
+      /**
+       * The HTTP response isn't guaranteed the event handling to be complete
+       */
+      await sleep(500);
+    }
+
+    expect(
+      mongodbCli(`db.userSettings.find({ userId: "${userId}" }, { _id: 0 })`)
     ).toMatchSnapshot();
 
     return new Promise((resolve, reject) => {
