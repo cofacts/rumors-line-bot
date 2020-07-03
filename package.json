@@ -4,7 +4,7 @@
   "description": "Line bot that checks if a message contains internet rumor. Edit",
   "main": "index.js",
   "scripts": {
-    "pretest": "./src/__tests__/setup-docker.sh",
+    "pretest": "./scripts/setup-docker.sh",
     "posttest": "docker-compose down",
     "test": "TZ=UTC jest",
     "start": "pm2-runtime start ecosystem.config.js --env production",
@@ -125,7 +125,7 @@
       "/__fixtures__/"
     ],
     "setupFilesAfterEnv": [
-      "./setup-jest.js"
+      "./scripts/setup-jest.js"
     ]
   },
   "engines": {
