@@ -1,0 +1,6 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Webhook router singleUserHandler() should handle follow event 1`] = `
+"{ \\"userId\\" : \\"U4af4980629\\", \\"allowNewReplyUpdate\\" : true, \\"createdAt\\" : ISODate(\\"1989-06-04T00:00:00Z\\") }
+"
+`;

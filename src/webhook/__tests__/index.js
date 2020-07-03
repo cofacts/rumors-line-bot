@@ -4,10 +4,18 @@ jest.mock('src/lib/redisClient');
 import Koa from 'koa';
 import request from 'supertest';
 import MockDate from 'mockdate';
+import { execSync } from 'child_process';
 
 import webhookRouter from '../';
 import UserSettings from '../../database/models/userSettings';
 import Client from '../../database/mongoClient';
+
+const mongodbCli = evalString => {
+  const command = `docker exec mongodb mongo ${
+    process.env.MONGODB_URI
+  } --quiet --eval '${evalString}'`;
+  return execSync(command).toString();
+};
 
 describe('Webhook router', () => {
   beforeAll(async () => {
@@ -49,12 +57,9 @@ describe('Webhook router', () => {
       .send(eventObject)
       .expect(200);
 
-    const user = await UserSettings.findOrInsertByUserId(
-      eventObject.events[0].source.userId
-    );
-
-    expect(user.userId).toBe(eventObject.events[0].source.userId);
-    expect(user.allowNewReplyUpdate).toBe(true);
+    expect(
+      mongodbCli('db.userSettings.find({}, { _id: 0 })')
+    ).toMatchSnapshot();
 
     return new Promise((resolve, reject) => {
       server.close(error => {
