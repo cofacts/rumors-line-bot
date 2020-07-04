@@ -4,18 +4,10 @@ jest.mock('src/lib/redisClient');
 import Koa from 'koa';
 import request from 'supertest';
 import MockDate from 'mockdate';
-import { execSync } from 'child_process';
 
 import webhookRouter from '../';
 import UserSettings from '../../database/models/userSettings';
 import Client from '../../database/mongoClient';
-
-const mongodbCli = evalString => {
-  const command = `docker exec mongodb mongo ${
-    process.env.MONGODB_URI
-  } --quiet --eval '${evalString}'`;
-  return execSync(command).toString();
-};
 
 const sleep = async ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -66,7 +58,7 @@ describe('Webhook router', () => {
     await sleep(500);
 
     expect(
-      mongodbCli(`db.userSettings.find({ userId: "${userId}" }, { _id: 0 })`)
+      (await UserSettings.find({ userId })).map(e => ({ ...e, _id: '_id' }))
     ).toMatchSnapshot();
 
     return new Promise((resolve, reject) => {
@@ -112,11 +104,10 @@ describe('Webhook router', () => {
        * The HTTP response isn't guaranteed the event handling to be complete
        */
       await sleep(500);
+      expect(
+        (await UserSettings.find({ userId })).map(e => ({ ...e, _id: '_id' }))
+      ).toMatchSnapshot();
     }
-
-    expect(
-      mongodbCli(`db.userSettings.find({ userId: "${userId}" }, { _id: 0 })`)
-    ).toMatchSnapshot();
 
     return new Promise((resolve, reject) => {
       server.close(error => {

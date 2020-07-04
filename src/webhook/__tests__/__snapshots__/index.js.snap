@@ -1,11 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Webhook router singleUserHandler() should handle follow event 1`] = `
-"{ \\"userId\\" : \\"U4af4980629\\", \\"allowNewReplyUpdate\\" : true, \\"createdAt\\" : ISODate(\\"1989-06-04T00:00:00Z\\") }
-"
+Array [
+  Object {
+    "_id": "_id",
+    "allowNewReplyUpdate": true,
+    "createdAt": 1989-06-04T00:00:00.000Z,
+    "userId": "U4af4980629",
+  },
+]
 `;
 
 exports[`Webhook router singleUserHandler() should handle follow then unfollow then follow event 1`] = `
-"{ \\"userId\\" : \\"U4af4980630\\", \\"allowNewReplyUpdate\\" : true, \\"createdAt\\" : ISODate(\\"1989-06-04T00:00:00Z\\") }
-"
+Array [
+  Object {
+    "_id": "_id",
+    "allowNewReplyUpdate": true,
+    "createdAt": 1989-06-04T00:00:00.000Z,
+    "userId": "U4af4980630",
+  },
+]
+`;
+
+exports[`Webhook router singleUserHandler() should handle follow then unfollow then follow event 2`] = `
+Array [
+  Object {
+    "_id": "_id",
+    "allowNewReplyUpdate": false,
+    "createdAt": 1989-06-04T00:00:00.000Z,
+    "userId": "U4af4980630",
+  },
+]
+`;
+
+exports[`Webhook router singleUserHandler() should handle follow then unfollow then follow event 3`] = `
+Array [
+  Object {
+    "_id": "_id",
+    "allowNewReplyUpdate": true,
+    "createdAt": 1989-06-04T00:00:00.000Z,
+    "userId": "U4af4980630",
+  },
+]
 `;
