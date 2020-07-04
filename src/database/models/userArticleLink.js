@@ -61,8 +61,14 @@ class UserArticleLink extends Base {
     return this.findOneAndUpdate({ userId, articleId }, data, setOnInsert);
   }
 
-  static async findByUserId(userId) {
-    return (await this.client).find({ userId }).toArray();
+  /**
+   *
+   * @param {string} userId
+   * @param {import('mongodb').FindOneOptions} options
+   */
+  static async findByUserId(userId, options = {}) {
+    const { skip = 0, limit = 20, sort = { createdAt: -1 } } = options;
+    return this.find({ userId }, { limit, skip, sort });
   }
 
   /**
