@@ -48,7 +48,7 @@ export default class Base {
    * @returns {Promise<any[]>}
    */
   static async find(query, options = {}) {
-    return (await (await this.client).find(query, options)).toArray();
+    return (await this.client).find(query, options).toArray();
   }
 
   /**
