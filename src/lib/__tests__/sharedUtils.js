@@ -62,31 +62,3 @@ describe('date-fns', () => {
     ).toMatchInlineSnapshot(`"1 天"`);
   });
 });
-
-it('add time offset', () => {
-  const { addTime } = require('../sharedUtils');
-  expect(
-    addTime(new Date(612921600000), { seconds: -5 })
-  ).toMatchInlineSnapshot(`1989-06-03T23:59:55.000Z`);
-
-  expect(addTime(new Date(612921600000), { minutes: 5 })).toMatchInlineSnapshot(
-    `1989-06-04T00:05:00.000Z`
-  );
-
-  expect(addTime(new Date(612921600000), { hours: 5 })).toMatchInlineSnapshot(
-    `1989-06-04T05:00:00.000Z`
-  );
-
-  expect(addTime(new Date(612921600000), { days: 5 })).toMatchInlineSnapshot(
-    `1989-06-09T00:00:00.000Z`
-  );
-
-  expect(
-    addTime(new Date(612921600000), {
-      seconds: -1,
-      minutes: -1,
-      hours: -1,
-      days: 5,
-    })
-  ).toMatchInlineSnapshot(`1989-06-08T22:58:59.000Z`);
-});

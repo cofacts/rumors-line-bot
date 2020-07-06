@@ -1,6 +1,6 @@
 import lib from './lib';
 import redis from 'src/lib/redisClient';
-import { addTime } from 'src/lib/sharedUtils';
+import addTime from 'date-fns/add';
 
 export default async function scanRepliesAndNotify() {
   const timeOffset = JSON.parse(process.env.REVIEW_REPLY_BUFFER) || {};

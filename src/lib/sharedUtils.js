@@ -74,12 +74,3 @@ export function format(date, format = 'Pp', config = {}) {
 export function formatDistanceToNow(date, config = {}) {
   return dateFnsFormatDistanceToNow(date, { ...config, locale });
 }
-
-export function addTime(theDate, { seconds, minutes, hours, days }) {
-  const offset =
-    (seconds ? seconds * 1000 : 0) +
-    (minutes ? minutes * 60 * 1000 : 0) +
-    (hours ? hours * 60 * 60 * 1000 : 0) +
-    (days ? days * 24 * 60 * 60 * 1000 : 0);
-  return new Date(theDate.getTime() + offset);
-}
