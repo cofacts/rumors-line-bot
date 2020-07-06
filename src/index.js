@@ -11,8 +11,6 @@ import redis from './lib/redisClient';
 import session from 'koa-session2';
 import passport from 'koa-passport';
 import { loginRouter, authRouter } from './auth';
-import CronJob from 'cron';
-import scanRepliesAndNotify from './crons/scanRepliesAndNotify';
 
 const app = new Koa();
 const router = Router();
@@ -76,13 +74,3 @@ process.on('SIGINT', async () => {
     process.exit(1);
   }
 });
-
-if (process.env.CRON && process.env.NOTIFY_METHOD) {
-  new CronJob.CronJob(
-    process.env.CRON,
-    scanRepliesAndNotify,
-    null,
-    true,
-    'Asia/Taipei'
-  );
-}

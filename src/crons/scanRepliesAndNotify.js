@@ -2,7 +2,7 @@ import lib from './lib';
 import redis from 'src/lib/redisClient';
 import { addTime } from 'src/lib/sharedUtils';
 
-export default async function() {
+export default async function scanRepliesAndNotify() {
   const timeOffset = JSON.parse(process.env.REVIEW_REPLY_BUFFER) || {};
   const lastScannedAt =
     (await redis.get('lastScannedAt')) ||
@@ -16,4 +16,8 @@ export default async function() {
   );
   await lib.sendNotification(notificationList);
   await redis.set('lastScannedAt', nowWithOffset);
+}
+
+if (require.main === module) {
+  scanRepliesAndNotify();
 }
