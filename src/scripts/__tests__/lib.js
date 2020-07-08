@@ -19,8 +19,21 @@ beforeEach(async () => {
 afterAll(async () => {
   await (await Client.getInstance()).close();
 });
+
 describe('get notification list', () => {
   it('should get notification list', async () => {
+    gql.__push({
+      data: {
+        ListArticles: {
+          pageInfo: {
+            firstCursor: 'WzE1OTM1OTAzNjgyOTQsIjN2dmsxMGNlYTgxdzEiXQ==',
+            lastCursor: 'WzE1NDUyNjQ5NzEwOTUsIjFoendmbnZnYnYwdWkiXQ==',
+          },
+          totalCount: 199,
+        },
+      },
+    });
+
     gql.__push({
       data: {
         ListArticles: {
@@ -37,6 +50,7 @@ describe('get notification list', () => {
                   },
                 ],
               },
+              cursor: 'WzE1OTM0Njk4MjQyOTcsIjFmaTdkbGE5d3R3am4iXQ==',
             },
             {
               node: {
@@ -47,13 +61,16 @@ describe('get notification list', () => {
                   },
                 ],
               },
+              cursor: 'WzE1OTA3NDgzNTQxMDMsIjM2bngyN3Z1enhuZXAiXQ==',
             },
             {
               node: {
                 articleReplies: [],
               },
+              cursor: 'WzE1OTA3NDc3Mjk4MTIsIjJ3aTlkdTlhMnN3MTMiXQ==',
             },
             {
+              // ListArticle(repliedAt) includes an article as long as it has one articleReply within the time range
               node: {
                 id: 'a3',
                 articleReplies: [
@@ -64,13 +81,11 @@ describe('get notification list', () => {
                     createdAt: '2020-05-27T10:22:09.812Z',
                   },
                   {
-                    createdAt: '2020-05-26T10:22:09.812Z',
-                  },
-                  {
-                    createdAt: '2020-05-25T10:22:09.812Z',
+                    createdAt: '2020-01-25T10:22:09.812Z',
                   },
                 ],
               },
+              cursor: 'WzE1OTA1NzE2MTkwNTcsIkFWMXZwMGw0eUNkUy1uV2h1YzRlIl0=',
             },
             {
               node: {
@@ -81,6 +96,7 @@ describe('get notification list', () => {
                   },
                 ],
               },
+              cursor: 'WzE1OTAwNTYyODY3MTksIjE2YW95dXY2dDBjd3oiXQ==',
             },
             {
               node: {
@@ -91,6 +107,7 @@ describe('get notification list', () => {
                   },
                 ],
               },
+              cursor: 'WzE1NDUyNjQ5NzEwOTUsIjFoendmbnZnYnYwdWkiXQ==',
             },
           ],
         },
@@ -102,16 +119,19 @@ describe('get notification list', () => {
         userId: 'u2',
         articleId: 'a1',
         createdAt: new Date('2020-01-01T18:10:18.314Z'),
+        lastViewedAt: new Date('2020-01-01T18:10:18.314Z'),
       },
       {
         userId: 'u1',
         articleId: 'a3',
         createdAt: new Date('2020-01-01T21:10:18.314Z'),
+        lastViewedAt: new Date('2020-01-01T21:10:18.314Z'),
       },
       {
         userId: 'u1',
         articleId: 'a4',
         createdAt: new Date('2020-01-01T20:10:18.314Z'),
+        lastViewedAt: new Date('2020-01-01T20:10:18.314Z'),
       },
       {
         userId: 'u2',
@@ -124,6 +144,7 @@ describe('get notification list', () => {
         userId: 'u3',
         articleId: 'a3',
         createdAt: new Date('2020-01-01T22:10:18.314Z'),
+        lastViewedAt: new Date('2020-01-01T22:10:18.314Z'),
       },
     ];
 
@@ -146,7 +167,15 @@ describe('get notification list', () => {
 
   it('handles empty ListArticles data', async () => {
     gql.__push({
-      data: {},
+      data: {
+        ListArticles: {
+          pageInfo: {
+            firstCursor: null,
+            lastCursor: null,
+          },
+          totalCount: 0,
+        },
+      },
     });
 
     const result = await lib.getNotificationList(
@@ -193,8 +222,8 @@ describe('send notification', () => {
     process.env = { ...OLD_ENV };
     delete process.env.NOTIFY_METHOD;
 
-    if (await UserArticleLink.collectionExists()) {
-      await (await UserArticleLink.client).drop();
+    if (await UserSettings.collectionExists()) {
+      await (await UserSettings.client).drop();
     }
     for (const fixture of fixtures) {
       await UserSettings.create(fixture);
@@ -211,8 +240,7 @@ describe('send notification', () => {
     await lib.sendNotification(list);
     expect(SendMessage.notify).not.toHaveBeenCalled();
     expect(SendMessage.multicast).toHaveBeenCalledTimes(1);
-    // called twice because u2 doesn't allow to send notification
-    expect(ga.sendMock).toHaveBeenCalledTimes(2);
+    expect(ga.sendMock).toHaveBeenCalledTimes(1);
   });
 
   it('should send notification by LINE Notify', async () => {
@@ -222,14 +250,13 @@ describe('send notification', () => {
     // called twice because u2 doesn't allow to send notification
     expect(SendMessage.notify).toHaveBeenCalledTimes(2);
     expect(SendMessage.multicast).not.toHaveBeenCalled();
-    expect(ga.sendMock).toHaveBeenCalledTimes(2);
+    expect(ga.sendMock).toHaveBeenCalledTimes(1);
   });
 
   it('handles empty list', async () => {
     process.env.NOTIFY_METHOD = 'PUSH_MESSAGE';
 
     await lib.sendNotification({});
-    // called twice because u2 doesn't allow to send notification
     expect(SendMessage.notify).not.toHaveBeenCalled();
     expect(SendMessage.multicast).not.toHaveBeenCalled();
     expect(ga.sendMock).not.toHaveBeenCalled();
