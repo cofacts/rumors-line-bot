@@ -230,11 +230,6 @@ msgstr "查看回報的訊息"
 msgid "We've received feedback from you and ${ _otherFeedbackCount } other users!"
 msgstr "感謝您與其他 ${_otherFeedbackCount} 人的評價。"
 
-#: src/webhook/handlers/askingReplyFeedback.js:160
-#, javascript-format
-msgid "If you have a better reply, feel free to submit it to ${ _articleUrl } ."
-msgstr "若您認為自己能回應得更好，歡迎到 ${ _articleUrl } 提交新的回應唷！"
-
 #: src/webhook/handlers/askingReplyFeedback.js:165
 msgid "Please press the latest button to provide feedback to reply."
 msgstr "請用最近的按鈕來評價此回應。"
@@ -380,7 +375,7 @@ msgstr "請幫我看看這是真的還是假的：${ articleUrl }"
 
 #: src/webhook/handlers/utils.js:271
 msgid "Share on Facebook"
-msgstr "就教臉書大神"
+msgstr "請教臉書大神"
 
 #: src/webhook/handlers/utils.js:275
 #. t: Facebook hash tag
@@ -603,3 +598,28 @@ msgstr "上一頁"
 #: src/liff/components/Pagination.svelte:26
 msgid "Next"
 msgstr "下一頁"
+
+#: src/liff/pages/UserSetting.svelte:25
+msgid "Use line notify"
+msgstr ""
+
+#: src/liff/pages/UserSetting.svelte:29
+msgid "Use push message"
+msgstr ""
+
+#: src/liff/pages/UserSetting.svelte:75
+msgid "Settings"
+msgstr ""
+
+#: src/liff/pages/UserSetting.svelte:76
+msgid "Notification"
+msgstr ""
+
+#: src/liff/pages/UserSetting.svelte:78
+msgid "Not available"
+msgstr ""
+
+#: src/webhook/handlers/askingReplyFeedback.js:160
+#, javascript-format
+msgid "If you have a better reply, feel free to submit it to ${ submissionUrl } ."
+msgstr "若您認為自己能回應得更好，歡迎到 ${ submissionUrl } 提交新的回應唷！"

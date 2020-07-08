@@ -16,7 +16,6 @@
     "build:liff": "NODE_ENV=production webpack",
     "lint:fix": "eslint --fix .",
     "lint": "eslint .",
-    "preliff": "bash build-liff.sh",
     "i18n:extract": "ttag update i18n/zh_TW.po src/",
     "i18n:validate": "ttag validate i18n/zh_TW.po",
     "clean": "run-s clean:*",
