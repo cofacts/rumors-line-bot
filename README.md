@@ -194,6 +194,16 @@ If you want to build using docker instead, you may need to modify Dockerfile to 
 
 You can set up a setting page entry point(`LIFF_URL`/liff/index.html?p=setting) in [account manager](https://manager.line.biz/account/) -> rich menu
 
+#### Notification cronjob
+- To run on local machine
+```
+$ npm run notify
+```
+- To run on heroku, you can use [heroku scheduler](https://elements.heroku.com/addons/scheduler)
+```
+$ node build/scripts/scanRepliesAndNotify.js
+```
+
 ---
 
 ## Production Deployment
