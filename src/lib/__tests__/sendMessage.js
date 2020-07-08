@@ -30,7 +30,10 @@ it('send message using LINE Notify', () => {
 });
 
 it('send message using multicast api', () => {
-  sendMessage.multicast(['userId1', 'userId2', 'userId3'], 'message');
+  sendMessage.multicast(
+    ['userId1', 'userId2', 'userId3'],
+    [{ type: 'text', text: 'message' }]
+  );
   expect(fetch.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
@@ -49,7 +52,7 @@ it('send message using multicast api', () => {
 });
 
 it('send message using push api', () => {
-  sendMessage.push('userId1', 'message');
+  sendMessage.push('userId1', [{ type: 'text', text: 'message' }]);
   expect(fetch.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
