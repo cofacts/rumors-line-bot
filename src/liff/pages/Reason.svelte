@@ -1,11 +1,11 @@
 <script>
+  import { onMount } from 'svelte';
   import { t } from 'ttag';
   import Button, { Label } from '@smui/button';
-  import Textfield, { Input, Textarea } from '@smui/textfield';
+  import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text/index';
   import { REASON_PREFIX } from 'src/lib/sharedUtils';
-
-  export let context;
+  import { gql, assertInClient, assertSameSearchSession } from '../lib';
 
   const SUFFICIENT_REASON_LENGTH = 40;
   const LENGHEN_HINT = /* t: Guidance in LIFF */ t`
@@ -26,11 +26,34 @@ The info you provide should not be identical to the message itself.
 
 ${LENGHEN_HINT}`
 
+  let searchedText = null;
   let processing = false;
   let reason = '';
 
+  onMount(async () => {
+    assertInClient();
+    await assertSameSearchSession();
+
+    // Load searchedText from API
+    const {data, errors} = await gql`
+      query GetSearchedTextForReason {
+        context {
+          data {
+            searchedText
+          }
+        }
+      }
+    `();
+    if(errors) {
+      alert(errors[0].message);
+      return;
+    }
+
+    searchedText = data.context.data.searchedText.trim();
+  });
+
   const handleSubmit = async () => {
-    if(context && context.data.searchedText.trim() === reason.trim()) {
+    if(searchedText === reason.trim()) {
       alert(DUP_SUGGESTION);
       return;
     }
@@ -79,7 +102,7 @@ ${LENGHEN_HINT}`
   variant="raised"
   color={ reason.length >= SUFFICIENT_REASON_LENGTH ? 'primary' : 'secondary'}
   on:click={handleSubmit}
-  disabled={processing}
+  disabled={processing || searchedText === null}
 >
-  <Label>{t`Submit`}</Label>
+  <Label>{searchedText === null ? t`Loading` : t`Submit`}</Label>
 </Button>

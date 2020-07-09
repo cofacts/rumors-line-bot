@@ -144,7 +144,7 @@ export default async function askingReplyFeedback(params) {
       { userId }
     );
 
-    const articleUrl = getArticleURL(data.selectedArticleId);
+    const submissionUrl = getArticleURL(data.selectedArticleId);
     const otherFeedbackCount = updatedArticleReply.feedbackCount - 1;
 
     replies = [
@@ -157,7 +157,7 @@ export default async function askingReplyFeedback(params) {
       },
       {
         type: 'text',
-        text: `💁 ${t`If you have a better reply, feel free to submit it to ${articleUrl} .`}`,
+        text: `💁 ${t`If you have a better reply, feel free to submit it to ${submissionUrl} .`}`,
       },
     ];
   } else {

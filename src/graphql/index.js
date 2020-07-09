@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-koa';
 import redis from 'src/lib/redisClient';
+import { verifyIDToken } from './lineClient';
 import { verify, read } from 'src/lib/jwt';
 
 export const schema = makeExecutableSchema({
@@ -24,6 +25,13 @@ export const schema = makeExecutableSchema({
       ] = require(`./directives/${fileName}`).default;
       return directives;
     }, {}),
+  resolverValidationOptions: {
+    // MongoDBDocument, Connection and ConnectionEdge are for consistent interface.
+    // We don't query fields with these type, thus no __resolveType is needed.
+    //
+    // Ref: https://github.com/apollographql/apollo-server/issues/1075#issuecomment-440768737
+    requireResolversForResolveType: false,
+  },
 });
 
 // Empty context for non-auth public APIs
@@ -37,29 +45,52 @@ const EMPTY_CONTEXT = {
  * @returns {object}
  */
 export async function getContext({ ctx: { req } }) {
-  const jwt = (req.headers.authorization || '').replace(/^Bearer /, '');
-  if (!jwt || !verify(jwt)) {
-    return EMPTY_CONTEXT;
+  const authorization = req.headers.authorization || '';
+  if (authorization.toLowerCase().startsWith('line ')) {
+    const idToken = authorization.replace(/^line /i, '');
+    const parsed = await verifyIDToken(idToken);
+
+    if (!parsed || !parsed.sub) {
+      return EMPTY_CONTEXT;
+    }
+
+    // The user may have no context at all
+    // (Brand-new user activating rich mebnu)
+    // At least give empty context
+    //
+    const context = (await redis.get(parsed.sub)) || {};
+
+    return {
+      userId: parsed.sub,
+      userContext: context,
+    };
+  } else if (authorization.toLowerCase().startsWith('bearer ')) {
+    const jwt = authorization.replace(/^Bearer /i, '');
+    if (!jwt || !verify(jwt)) {
+      return EMPTY_CONTEXT;
+    }
+
+    const parsed = read(jwt);
+
+    if (!parsed || !parsed.sub) {
+      return EMPTY_CONTEXT;
+    }
+
+    const context = await redis.get(parsed.sub);
+
+    return {
+      userId: parsed.sub,
+      userContext:
+        context &&
+        context.data &&
+        parsed.sessionId &&
+        context.data.sessionId === parsed.sessionId
+          ? context
+          : null,
+    };
   }
 
-  const parsed = read(jwt);
-
-  if (!parsed || !parsed.sub) {
-    return EMPTY_CONTEXT;
-  }
-
-  const context = await redis.get(parsed.sub);
-
-  return {
-    userId: parsed.sub,
-    userContext:
-      context &&
-      context.data &&
-      parsed.sessionId &&
-      context.data.sessionId === parsed.sessionId
-        ? context
-        : null,
-  };
+  return EMPTY_CONTEXT;
 }
 
 const server = new ApolloServer({

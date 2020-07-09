@@ -2,19 +2,23 @@
   import { onMount } from 'svelte';
   import { t } from 'ttag';
   import Button, { Label } from '@smui/button';
-  import Textfield, { Input, Textarea } from '@smui/textfield';
+  import Textfield from '@smui/textfield';
   import { UPVOTE_PREFIX } from 'src/lib/sharedUtils';
-  import { gql } from '../lib';
+  import { gql, assertInClient, assertSameSearchSession } from '../lib';
 
   let processing = false;
   let comment = '';
 
   // Submitting feedback without comment first
-  onMount(() => gql`
-    mutation VoteUp {
-      voteReply(vote: UPVOTE)
-    }
-  `());
+  onMount(async () => {
+    assertInClient();
+    await assertSameSearchSession();
+    gql`
+      mutation VoteUp {
+        voteReply(vote: UPVOTE)
+      }
+    `();
+  });
 
   const handleSubmit = async () => {
     processing = true;

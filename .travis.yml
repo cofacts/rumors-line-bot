@@ -7,8 +7,5 @@ script:
   - npm run i18n:validate
   - npm run test -- --coverage
 
-env:
-  - MONGODB_URI=mongodb://root:root-test-password@localhost:27017
-
 after_success:
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js

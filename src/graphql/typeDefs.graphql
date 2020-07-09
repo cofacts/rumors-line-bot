@@ -1,4 +1,4 @@
-directive @auth on FIELD_DEFINITION
+directive @auth(check: [String]) on FIELD_DEFINITION
 
 type Query {
   insights: MessagingAPIInsight
@@ -6,8 +6,16 @@ type Query {
   # Current user's chatbot context
   context: UserContext @auth
 
-  # TODO: Implement after database is established
-  readArticleIds(skip: Int, limit: Int): [String]
+  # Returns articleReplyLinks of the current user
+  userArticleLinks(
+    before: Cursor
+    after: Cursor
+    first: Int
+    orderBy: UserArticleLinksOrderBy
+  ): UserArticleLinkConnection @auth(check: ["userId"])
+
+  # Get user's notification setting
+  setting: UserSetting @auth(check: ["userId"])
 }
 
 type Mutation {
@@ -19,6 +27,12 @@ type Mutation {
 
   # TODO: Implement after database is established
   setViewed(articleId: String!): Boolean @auth
+
+  """
+  Add feedback to article-reply in context.
+  Returns UserSetting when done.
+  """
+  allowNotification(allow: Boolean!): UserSetting @auth(check: ["userId"])
 }
 
 type MessagingAPIInsight {
@@ -37,6 +51,12 @@ type MessagingAPIInsight {
   Ref: https://developers.line.biz/en/reference/messaging-api/#get-demographic
   """
   demographic(date: MessagingAPIDate!): MessaginAPIDemographicInsight
+}
+
+type UserSetting {
+  userId: String
+  allowNewReplyUpdate: Boolean
+  newReplyNotifyToken: String
 }
 
 type MessagingAPIMessageDeliveryInsight {
@@ -159,4 +179,73 @@ type StateData {
 enum FeedbackVote {
   UPVOTE
   DOWNVOTE
+}
+
+# Date time object <> ISO timestamp
+scalar Date
+
+"""One document in userArticleLink collection"""
+type UserArticleLink implements MongoDBDocument {
+  id: ObjectId!
+  articleId: String!
+  createdAt: Date!
+  lastViewedAt: Date
+  lastRepliedAt: Date
+  lastPositiveFeedbackRepliedAt: Date
+}
+
+input UserArticleLinksOrderBy {
+  createdAt: SortOrderEnum
+}
+
+#
+# Pagination types interface implementation
+#
+
+scalar ObjectId
+
+interface MongoDBDocument {
+  id: ObjectId!
+}
+
+interface Connection {
+  totalCount: Int!
+  edges: [ConnectionEdge!]
+  pageInfo: PageInfo!,
+}
+
+interface ConnectionEdge {
+  node: MongoDBDocument!
+  cursor: Cursor!
+}
+
+# A string that seralizes to Base64 string and parses to pagination data
+scalar Cursor
+
+type PageInfo {
+  """Cursor of the first item. null when no item in list."""
+  firstCursor: Cursor
+
+  """Cursor of the last item. null when no item in list."""
+  lastCursor: Cursor
+}
+
+enum SortOrderEnum {
+  ASC
+  DESC
+}
+
+#
+# Pagination types of individual queries
+#
+
+type UserArticleLinkConnection implements Connection {
+  totalCount: Int!
+  edges: [UserArticleLinkConnectionEdge!],
+  pageInfo: PageInfo!,
+}
+
+type UserArticleLinkConnectionEdge implements ConnectionEdge {
+  node: UserArticleLink!
+  cursor: Cursor!
 }

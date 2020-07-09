@@ -2,13 +2,12 @@ import { MongoClient } from 'mongodb';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
-// Database Name
-const dbName = 'cofacts';
-
 // Somewhere outside the class:
 //
 async function instantiateClientAndConnect() {
-  const client = new CofactsMongoClient(MONGODB_URI);
+  const client = new CofactsMongoClient(MONGODB_URI, {
+    useUnifiedTopology: true,
+  });
   await client.mongoClient.connect();
   return client;
 }
@@ -34,7 +33,7 @@ export default class CofactsMongoClient {
   }
 
   get db() {
-    return this.mongoClient.db(dbName);
+    return this.mongoClient.db();
   }
 
   /**

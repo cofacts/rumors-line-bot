@@ -10,7 +10,9 @@ const FIXED_DATE = 612921600000;
 describe('userArticleLink', () => {
   beforeAll(async () => {
     MockDate.set(FIXED_DATE);
+  });
 
+  beforeEach(async () => {
     if (await UserArticleLink.collectionExists()) {
       await (await UserArticleLink.client).drop();
     }

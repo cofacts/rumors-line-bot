@@ -8,6 +8,9 @@ import { version } from '../package.json';
 import webhookRouter from './webhook';
 import graphqlMiddleware from './graphql';
 import redis from './lib/redisClient';
+import session from 'koa-session2';
+import passport from 'koa-passport';
+import { loginRouter, authRouter } from './auth';
 
 const app = new Koa();
 const router = Router();
@@ -21,11 +24,18 @@ app.use(async (ctx, next) => {
   }
 });
 
+app.use(session({}, app));
+app.use(passport.initialize());
+app.use(passport.session());
+
 router.get('/', ctx => {
   ctx.body = JSON.stringify({ version });
 });
 
 router.use('/callback', webhookRouter.routes(), webhookRouter.allowedMethods());
+
+router.use('/login', loginRouter.routes(), loginRouter.allowedMethods());
+router.use('/authcallback', authRouter.routes(), authRouter.allowedMethods());
 
 if (process.env.NODE_ENV === 'production') {
   app.use(
@@ -43,6 +53,7 @@ if (process.env.NODE_ENV === 'production') {
     })
   );
 }
+
 app.use(router.routes());
 app.use(graphqlMiddleware);
 app.use(router.allowedMethods());

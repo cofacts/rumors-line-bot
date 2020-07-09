@@ -1,11 +1,14 @@
 jest.mock('src/lib/redisClient');
+jest.mock('../lineClient');
 
 import { getContext } from '../';
 import { sign } from 'src/lib/jwt';
 import redis from 'src/lib/redisClient';
+import { verifyIDToken } from '../lineClient';
 
 beforeEach(() => {
   redis.get.mockClear();
+  verifyIDToken.mockClear();
 });
 
 describe('getContext', () => {
@@ -21,7 +24,7 @@ describe('getContext', () => {
   });
 
   it('generates null context for wrong credentials', async () => {
-    redis.get.mockImplementationOnce(() => ({
+    redis.get.mockImplementation(() => ({
       data: {
         sessionId: 'correct-session-id',
       },
@@ -95,6 +98,37 @@ describe('getContext', () => {
         "userId": null,
       }
     `);
+
+    const lineIDToken = `invalid-token`;
+
+    verifyIDToken.mockImplementationOnce(() => ({
+      data: null,
+      errors: [
+        {
+          message: {
+            error: 'invalid_request',
+            error_description: 'Invalid IdToken.',
+          },
+        },
+      ],
+    }));
+
+    expect(
+      await getContext({
+        ctx: {
+          req: {
+            headers: {
+              authorization: `line ${lineIDToken}`,
+            },
+          },
+        },
+      })
+    ).toMatchInlineSnapshot(`
+      Object {
+        "userContext": null,
+        "userId": null,
+      }
+    `);
   });
 
   it('reads userContext for logged-in requests', async () => {
@@ -129,6 +163,73 @@ describe('getContext', () => {
           },
           "foo": "bar",
         },
+        "userId": "user1",
+      }
+    `);
+
+    const lineIDToken = `correct-token`;
+
+    redis.get.mockImplementationOnce(() => ({
+      data: {
+        sessionId: 'correct-session-id',
+      },
+      foo: 'bar',
+    }));
+    verifyIDToken.mockImplementationOnce(() => ({
+      iss: 'https://access.line.me',
+      sub: 'user1',
+      aud: 1654258834,
+      exp: 1591514952,
+      iat: 1591511352,
+      amr: ['linesso'],
+    }));
+
+    //user is found in redis
+    expect(
+      await getContext({
+        ctx: {
+          req: {
+            headers: {
+              authorization: `line ${lineIDToken}`,
+            },
+          },
+        },
+      })
+    ).toMatchInlineSnapshot(`
+      Object {
+        "userContext": Object {
+          "data": Object {
+            "sessionId": "correct-session-id",
+          },
+          "foo": "bar",
+        },
+        "userId": "user1",
+      }
+    `);
+
+    //user is not found in redis
+    redis.get.mockImplementationOnce(() => null);
+    verifyIDToken.mockImplementationOnce(() => ({
+      iss: 'https://access.line.me',
+      sub: 'user1',
+      aud: 1654258834,
+      exp: 1591514952,
+      iat: 1591511352,
+      amr: ['linesso'],
+    }));
+    expect(
+      await getContext({
+        ctx: {
+          req: {
+            headers: {
+              authorization: `line ${lineIDToken}`,
+            },
+          },
+        },
+      })
+    ).toMatchInlineSnapshot(`
+      Object {
+        "userContext": Object {},
         "userId": "user1",
       }
     `);

@@ -128,6 +128,12 @@ module.exports = {
       LIFF_ID: JSON.stringify(
         (process.env.LIFF_URL || '').replace('https://liff.line.me/', '')
       ),
+      APP_ID: JSON.stringify(process.env.APP_ID),
+      DEBUG_LIFF: process.env.DEBUG_LIFF,
+      COFACTS_API_URL: JSON.stringify(process.env.API_URL),
+      'process.env.SITE_URL': JSON.stringify(process.env.SITE_URL),
+      'process.env.LOCALE': JSON.stringify(process.env.LOCALE),
+      NOTIFY_METHOD: JSON.stringify(process.env.NOTIFY_METHOD),
     }),
   ],
   devtool: prod ? false : 'source-map',
