@@ -55,7 +55,10 @@ export default async function askingArticleSubmissionConsent(params) {
       }
     `({ text: data.searchedText }, { userId });
 
-    await UserArticleLink.create({ userId, articleId: CreateArticle.id });
+    await UserArticleLink.createOrUpdateByUserIdAndArticleId(
+      userId,
+      CreateArticle.id
+    );
 
     const articleUrl = getArticleURL(CreateArticle.id);
     const articleCreatedMsg = t`Your submission is now recorded at ${articleUrl}`;
