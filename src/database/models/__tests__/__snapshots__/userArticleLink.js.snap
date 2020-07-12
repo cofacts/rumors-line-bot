@@ -22,7 +22,7 @@ exports[`userArticleLink [model] should fail to create a document 1`] = `
 ]"
 `;
 
-exports[`userArticleLink [model] upsertByUserIdAndArticleId() (upsert) 1`] = `
+exports[`userArticleLink [model] createOrUpdateByUserIdAndArticleId() (upsert) 1`] = `
 Object {
   "articleId": "articleId-3",
   "createdAt": 1989-06-04T00:00:00.000Z,
@@ -31,7 +31,7 @@ Object {
 }
 `;
 
-exports[`userArticleLink [model] upsertByUserIdAndArticleId() 1`] = `
+exports[`userArticleLink [model] createOrUpdateByUserIdAndArticleId() 1`] = `
 Object {
   "articleId": "articleId-2",
   "createdAt": 1989-06-04T00:00:00.000Z,

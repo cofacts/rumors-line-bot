@@ -65,9 +65,13 @@ export default async function choosingArticle(params) {
 
   const selectedArticleId = (data.selectedArticleId = event.input);
 
-  await UserArticleLink.upsertByUserIdAndArticleId(userId, selectedArticleId, {
-    lastViewedAt: new Date(),
-  });
+  await UserArticleLink.createOrUpdateByUserIdAndArticleId(
+    userId,
+    selectedArticleId,
+    {
+      lastViewedAt: new Date(),
+    }
+  );
 
   const {
     data: { GetArticle },

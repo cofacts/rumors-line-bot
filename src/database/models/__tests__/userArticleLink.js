@@ -60,13 +60,13 @@ describe('userArticleLink', () => {
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  it('[model] upsertByUserIdAndArticleId()', async () => {
+  it('[model] createOrUpdateByUserIdAndArticleId()', async () => {
     const userId = 'userId-2';
     const articleId = 'articleId-2';
 
     await UserArticleLink.create({ userId, articleId });
 
-    const updatedDate = await UserArticleLink.upsertByUserIdAndArticleId(
+    const updatedDate = await UserArticleLink.createOrUpdateByUserIdAndArticleId(
       userId,
       articleId,
       {
@@ -78,11 +78,11 @@ describe('userArticleLink', () => {
     expect(updatedDate).toMatchSnapshot();
   });
 
-  it('[model] upsertByUserIdAndArticleId() (upsert)', async () => {
+  it('[model] createOrUpdateByUserIdAndArticleId() (upsert)', async () => {
     const userId = 'userId-3';
     const articleId = 'articleId-3';
 
-    const updatedData = await UserArticleLink.upsertByUserIdAndArticleId(
+    const updatedData = await UserArticleLink.createOrUpdateByUserIdAndArticleId(
       userId,
       articleId,
       {

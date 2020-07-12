@@ -35,7 +35,7 @@ class UserArticleLink extends Base {
    * @param {object} data
    * @returns {Promise<UserArticleLink>}
    */
-  static async upsertByUserIdAndArticleId(userId, articleId, data) {
+  static async createOrUpdateByUserIdAndArticleId(userId, articleId, data) {
     const setOnInsert = Object.assign({}, this.DEFAULT_DATA);
 
     for (let key in data) {
