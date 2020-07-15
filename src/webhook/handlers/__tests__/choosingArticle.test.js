@@ -361,7 +361,6 @@ it('should create a UserArticleLink when selecting a article', async () => {
   await choosingArticle(params);
   MockDate.reset();
 
-  await UserArticleLink.findByUserId(userId);
   const userArticleLinks = await UserArticleLink.findByUserId(userId);
   expect(userArticleLinks.map(e => ({ ...e, _id: '_id' }))).toMatchSnapshot();
 });

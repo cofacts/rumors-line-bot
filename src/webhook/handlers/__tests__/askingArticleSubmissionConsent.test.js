@@ -168,7 +168,6 @@ it('should create a UserArticleLink when creating a Article', async () => {
   await askingArticleSubmissionConsent(params);
   MockDate.reset();
 
-  await UserArticleLink.findByUserId(userId);
   const userArticleLinks = await UserArticleLink.findByUserId(userId);
   expect(userArticleLinks.map(e => ({ ...e, _id: '_id' }))).toMatchSnapshot();
 });
