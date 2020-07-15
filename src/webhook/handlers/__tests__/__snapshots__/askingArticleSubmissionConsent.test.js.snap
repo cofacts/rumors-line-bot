@@ -6,6 +6,7 @@ Array [
     "_id": "_id",
     "articleId": "new-article-id",
     "createdAt": 2020-01-01T00:00:00.000Z,
+    "lastViewedAt": 2020-01-01T00:00:00.000Z,
     "userId": "user-id-0",
   },
 ]
