@@ -11,3 +11,10 @@ services:
     volumes:
       - "./data/mongo:/data/db"
     command: mongod
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    command: redis-server

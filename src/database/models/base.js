@@ -43,6 +43,15 @@ export default class Base {
   }
 
   /**
+   * @param {import('mongodb').FilterQuery} query
+   * @param {import('mongodb').FindOneOptions} options
+   * @returns {Promise<any[]>}
+   */
+  static async find(query, options = {}) {
+    return (await this.client).find(query, options).toArray();
+  }
+
+  /**
    * An atomic and upsert enabled operation.
    * @param {import('mongodb').FilterQuery} query
    * @param {object} $set

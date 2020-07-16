@@ -126,7 +126,7 @@ First, follow the step1 in this [url](https://developers.google.com/drive/v3/web
 Second, run:
 
 ```
-$ node authGoogleDrive.js
+$ node scripts/authGoogleDrive.js
 ```
 
 Visit the given url provided above. Get the auth code and paste it to console.

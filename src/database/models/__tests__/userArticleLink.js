@@ -60,41 +60,13 @@ describe('userArticleLink', () => {
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  it('[model] findOrInsertByUserIdAndArticleId()', async () => {
-    const userId = 'userId-0';
-    const articleId = 'articleId-0';
-
-    await UserArticleLink.create({ userId, articleId });
-
-    const result = await UserArticleLink.findOrInsertByUserIdAndArticleId(
-      userId,
-      articleId
-    );
-    delete result._id;
-
-    expect(result).toMatchSnapshot();
-  });
-
-  it('[model] findOrInsertByUserIdAndArticleId() (upsert)', async () => {
-    const userId = 'userId-1';
-    const articleId = 'articleId-1';
-
-    const result = await UserArticleLink.findOrInsertByUserIdAndArticleId(
-      userId,
-      articleId
-    );
-    delete result._id;
-
-    expect(result).toMatchSnapshot();
-  });
-
-  it('[model] updateTimestamps()', async () => {
+  it('[model] createOrUpdateByUserIdAndArticleId()', async () => {
     const userId = 'userId-2';
     const articleId = 'articleId-2';
 
     await UserArticleLink.create({ userId, articleId });
 
-    const updatedDate = await UserArticleLink.updateTimestamps(
+    const updatedDate = await UserArticleLink.createOrUpdateByUserIdAndArticleId(
       userId,
       articleId,
       {
@@ -106,11 +78,11 @@ describe('userArticleLink', () => {
     expect(updatedDate).toMatchSnapshot();
   });
 
-  it('[model] updateTimestamps() (upsert)', async () => {
+  it('[model] createOrUpdateByUserIdAndArticleId() (upsert)', async () => {
     const userId = 'userId-3';
     const articleId = 'articleId-3';
 
-    const updatedData = await UserArticleLink.updateTimestamps(
+    const updatedData = await UserArticleLink.createOrUpdateByUserIdAndArticleId(
       userId,
       articleId,
       {

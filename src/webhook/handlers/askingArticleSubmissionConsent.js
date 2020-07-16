@@ -10,6 +10,8 @@ import {
   createReasonButtonFooter,
 } from './utils';
 
+import UserArticleLink from '../../database/models/userArticleLink';
+
 export default async function askingArticleSubmissionConsent(params) {
   let { data, state, event, userId, replies, isSkipUser } = params;
 
@@ -52,6 +54,11 @@ export default async function askingArticleSubmissionConsent(params) {
         }
       }
     `({ text: data.searchedText }, { userId });
+
+    await UserArticleLink.createOrUpdateByUserIdAndArticleId(
+      userId,
+      CreateArticle.id
+    );
 
     const articleUrl = getArticleURL(CreateArticle.id);
     const articleCreatedMsg = t`Your submission is now recorded at ${articleUrl}`;
