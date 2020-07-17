@@ -57,6 +57,16 @@ class UserArticleLink extends Base {
   }
 
   /**
+   *
+   * @param {string|string[]} articleIds
+   * @param {import('mongodb').FindOneOptions} options
+   */
+  static async findByArticleIds(articleIds, options = {}) {
+    const { skip = 0, limit = 20, sort = { createdAt: -1 } } = options;
+    return this.find({ articleId: { $in: articleIds } }, { limit, skip, sort });
+  }
+
+  /**
    * @type {string}
    */
   userId;
