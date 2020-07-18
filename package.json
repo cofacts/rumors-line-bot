@@ -21,7 +21,7 @@
     "clean": "run-s clean:*",
     "clean:server": "rm -rf build",
     "clean:liff": "rm -rf liff",
-    "notify": "npm run build:server node -r dotenv/config build/scripts/scanRepliesAndNotify.js"
+    "notify": "babel-node -r dotenv/config build/scripts/scanRepliesAndNotify.js"
   },
   "repository": {
     "type": "git",
