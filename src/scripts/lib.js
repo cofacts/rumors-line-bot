@@ -70,6 +70,32 @@ async function* getArticlesInBatch(from, to) {
   }
 }
 
+async function* getUserArticleLinksBatch(ids, limit = 20) {
+  let result = [];
+  let skip = 0;
+  while (skip == 0 || result.length == limit) {
+    result = await UserArticleLink.findByArticleIds(ids, { limit, skip });
+
+    yield result;
+
+    // next call should go after the last cursor of this page
+    skip += limit;
+  }
+}
+
+async function* getUserSettingsBatch(ids, limit = 20) {
+  let result = [];
+  let skip = 0;
+  while (skip == 0 || result.length == limit) {
+    result = await UserSettings.findByUserIds(ids, { limit, skip });
+
+    yield result;
+
+    // next call should go after the last cursor of this page
+    skip += limit;
+  }
+}
+
 /**
  * From ListArticles api, get articleIdList that have new replies
  * between lastScannedAt and nowWithOffset.
@@ -89,45 +115,46 @@ const getNotificationList = async (lastScannedAt, nowWithOffset) => {
     lastScannedAt,
     nowWithOffset
   )) {
-    // processes a batch of articleIds
-    const userArticleLinks = await UserArticleLink.findByArticleIds(
+    for await (const userArticleLinks of getUserArticleLinksBatch(
       articles.map(({ id }) => id)
-    );
-    userArticleLinks.forEach(data => {
-      const uid = data.userId;
-      const node = articles.find(({ id }) => id === data.articleId);
-      // return if user viewed the article
-      // Note: Use articleReplies[0] here because in ListArticles the sort of
-      // articleReplies is newest reply first then upvote count sort by desc.
-      if (
-        new Date(data.lastViewedAt) > new Date(node.articleReplies[0].createdAt)
-      )
-        return;
+    )) {
+      // processes a batch of articleIds
+      userArticleLinks.forEach(data => {
+        const uid = data.userId;
+        const node = articles.find(({ id }) => id === data.articleId);
+        // return if user viewed the article
+        // Note: Use articleReplies[0] here because in ListArticles the sort of
+        // articleReplies is newest reply first then upvote count sort by desc.
+        if (
+          new Date(data.lastViewedAt) >
+          new Date(node.articleReplies[0].createdAt)
+        )
+          return;
 
-      if (!result[uid]) result[uid] = [];
-      result[uid].push(data.articleId);
-    });
+        if (!result[uid]) result[uid] = [];
+        result[uid].push(data.articleId);
+      });
+    }
   }
   console.log('[notify] notificationList :' + JSON.stringify(result));
   return result;
 };
 
 const sendNotification = async notificationList => {
-  const message = t`There are new replies for the article you have searched. Click the link for more details:`;
-  const url = `${process.env.LIFF_URL}/liff/index.html?p=articles`;
+  const message = t`There are new replies for the article you have searched. Please see articles on cofacts chat room menu.`;
 
   let userIdList = [];
-  const settings = await UserSettings.findByUserId(
+  for await (const settings of getUserSettingsBatch(
     Object.keys(notificationList)
-  );
-  settings.forEach(setting => {
-    if (setting.userId && setting.allowNewReplyUpdate) {
-      userIdList.push(setting.userId);
-      if (process.env.NOTIFY_METHOD == 'LINE_NOTIFY')
-        SendMessage.notify(setting.newReplyNotifyToken, message + url);
-    }
-  });
-
+  )) {
+    settings.forEach(setting => {
+      if (setting.userId && setting.allowNewReplyUpdate) {
+        userIdList.push(setting.userId);
+        if (process.env.NOTIFY_METHOD == 'LINE_NOTIFY')
+          SendMessage.notify(setting.newReplyNotifyToken, message);
+      }
+    });
+  }
   if (userIdList.length) {
     const visitor = ga('system');
     visitor.event({
@@ -141,12 +168,15 @@ const sendNotification = async notificationList => {
   }
 
   if (process.env.NOTIFY_METHOD == 'PUSH_MESSAGE' && userIdList.length)
-    SendMessage.multicast([createNotifyFlexMessage(url)]);
+    SendMessage.multicast(userIdList, [createNotifyFlexMessage()]);
 };
 
-function createNotifyFlexMessage(url) {
+function createNotifyFlexMessage() {
   const btnText = `🆕 ${t`View new replies`}`;
   const message = t`There are new replies for the article you have searched. Click the button for more details`;
+  const url = `${
+    process.env.LIFF_URL
+  }/liff/index.html?p=articles&utm_source=rumors-line-bot&utm_medium=push`;
 
   return {
     type: 'flex',
@@ -193,6 +223,7 @@ function createNotifyFlexMessage(url) {
 
 export default {
   getArticlesInBatch,
+  getUserArticleLinksBatch,
   getNotificationList,
   sendNotification,
   createNotifyFlexMessage,

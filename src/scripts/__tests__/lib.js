@@ -262,3 +262,45 @@ describe('send notification', () => {
     expect(ga.sendMock).not.toHaveBeenCalled();
   });
 });
+
+it('test getUserArticleLinksBatch', async () => {
+  const fixtures = [
+    {
+      userId: 'u2',
+      articleId: 'a1',
+      createdAt: new Date('2020-01-01T18:10:18.314Z'),
+      lastViewedAt: new Date('2020-01-01T18:10:18.314Z'),
+    },
+    {
+      userId: 'u1',
+      articleId: 'a3',
+      createdAt: new Date('2020-01-01T21:10:18.314Z'),
+      lastViewedAt: new Date('2020-01-01T21:10:18.314Z'),
+    },
+    {
+      userId: 'u2',
+      articleId: 'a3',
+      createdAt: new Date('2020-07-01T23:10:18.314Z'),
+      lastViewedAt: new Date('2020-07-01T23:10:18.314Z'),
+    },
+  ];
+
+  if (await UserArticleLink.collectionExists()) {
+    await (await UserArticleLink.client).drop();
+  }
+
+  for (const fixture of fixtures) {
+    await UserArticleLink.create(fixture);
+  }
+  const articleIds = ['a1', 'a2', 'a3', 'a4'];
+  const generator = await lib.getUserArticleLinksBatch(articleIds, 2);
+  const result1 = await generator.next();
+  expect(result1.value.length).toBe(2);
+  expect(result1.done).toEqual(false);
+  const result2 = await generator.next();
+  expect(result2.value.length).toBe(1);
+  expect(result2.done).toEqual(false);
+  const result3 = await generator.next();
+  expect(result3.value).toMatchInlineSnapshot(`undefined`);
+  expect(result3.done).toEqual(true);
+});
