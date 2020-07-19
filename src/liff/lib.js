@@ -215,3 +215,21 @@ export const getArticlesFromCofacts = async articleIds => {
       return variableKeys.map(key => resp.data[key]);
     });
 };
+
+/**
+ * @param {Object} messages
+ */
+export const sendMessages = async messages => {
+  try {
+    await liff.sendMessages(messages);
+  } catch (e) {
+    if (e.code == 403) {
+      alert(
+        t`Please retry and allow the permission 'send messages to chats', so that you can interact with chatbot while clicking the buttons.`
+      );
+    } else {
+      alert(e);
+      throw e;
+    }
+  }
+};

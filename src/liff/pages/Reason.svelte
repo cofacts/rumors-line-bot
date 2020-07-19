@@ -5,7 +5,7 @@
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text/index';
   import { REASON_PREFIX } from 'src/lib/sharedUtils';
-  import { gql, assertInClient, assertSameSearchSession } from '../lib';
+  import { gql, assertInClient, assertSameSearchSession, sendMessages } from '../lib';
 
   const SUFFICIENT_REASON_LENGTH = 40;
   const LENGHEN_HINT = /* t: Guidance in LIFF */ t`
@@ -67,7 +67,7 @@ ${LENGHEN_HINT}`
 
     processing = true;
 
-    await liff.sendMessages([
+    await sendMessages([
       {
         type: 'text', text: `${REASON_PREFIX}${reason}`,
       }
