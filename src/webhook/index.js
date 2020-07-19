@@ -74,7 +74,7 @@ const singleUserHandler = async (
   // Set default result
   //
   let result = {
-    context: '__INIT__',
+    context: { state: '__INIT__', data: {} },
     replies: [
       {
         type: 'text',
