@@ -20,7 +20,8 @@
     "i18n:validate": "ttag validate i18n/zh_TW.po",
     "clean": "run-s clean:*",
     "clean:server": "rm -rf build",
-    "clean:liff": "rm -rf liff"
+    "clean:liff": "rm -rf liff",
+    "backtrack": "npm run build:server && USER_ID=1 node -r dotenv/config build/database/backtrack.js"
   },
   "repository": {
     "type": "git",
