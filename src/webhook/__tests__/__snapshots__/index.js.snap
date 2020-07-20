@@ -43,3 +43,32 @@ Array [
   },
 ]
 `;
+
+exports[`Webhook router singleUserHandler() should reply default messages 1`] = `
+Array [
+  Array [
+    "/message/reply",
+    Object {
+      "messages": Array [
+        Object {
+          "text": "I cannot understand messages other than text.",
+          "type": "text",
+        },
+      ],
+      "replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA",
+    },
+  ],
+]
+`;
+
+exports[`Webhook router singleUserHandler() should reply default messages 2`] = `
+Array [
+  Array [
+    "U4af4980630",
+    Object {
+      "data": Object {},
+      "state": "__INIT__",
+    },
+  ],
+]
+`;
