@@ -49,25 +49,14 @@ async function main(logFilePath) {
         status.writtenUserSettings++;
 
         if (selectedArticleId) {
-          if (selectedReplyId) {
-            await UserArticleLink.createOrUpdateByUserIdAndArticleId(
-              userId,
-              selectedArticleId,
-              {
-                lastViewedAt: timestamp,
-              }
-            );
-            status.writtenUserArticleLink++;
-          } else {
-            await UserArticleLink.createOrUpdateByUserIdAndArticleId(
-              userId,
-              selectedArticleId,
-              {
-                lastViewedAt: timestamp,
-              }
-            );
-            status.writtenUserArticleLink++;
-          }
+          await UserArticleLink.createOrUpdateByUserIdAndArticleId(
+            userId,
+            selectedArticleId,
+            {
+              lastViewedAt: timestamp,
+            }
+          );
+          status.writtenUserArticleLink++;
         }
       }
 
