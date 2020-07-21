@@ -1,4 +1,5 @@
 jest.mock('src/webhook/checkSignatureAndParse');
+jest.mock('src/webhook/lineClient');
 jest.mock('src/lib/redisClient');
 
 import Koa from 'koa';
@@ -8,10 +9,17 @@ import MockDate from 'mockdate';
 import webhookRouter from '../';
 import UserSettings from '../../database/models/userSettings';
 import Client from '../../database/mongoClient';
+import lineClient from 'src/webhook/lineClient';
+import redis from 'src/lib/redisClient';
 
 const sleep = async ms => new Promise(resolve => setTimeout(resolve, ms));
 
 describe('Webhook router', () => {
+  beforeEach(() => {
+    redis.set.mockClear();
+    lineClient.mockClear();
+  });
+
   beforeAll(async () => {
     MockDate.set(612921600000);
 
@@ -108,6 +116,58 @@ describe('Webhook router', () => {
         (await UserSettings.find({ userId })).map(e => ({ ...e, _id: '_id' }))
       ).toMatchSnapshot();
     }
+
+    return new Promise((resolve, reject) => {
+      server.close(error => {
+        if (error) return reject(error);
+        resolve();
+      });
+    });
+  });
+
+  it('singleUserHandler() should reply default messages', async () => {
+    const userId = 'U4af4980630';
+    const app = new Koa();
+    app.use(webhookRouter.routes(), webhookRouter.allowedMethods());
+
+    const eventObject = {
+      events: [
+        {
+          replyToken: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
+          type: 'messages',
+          mode: 'active',
+          timestamp: 1462629479859,
+          source: {
+            type: 'user',
+            userId,
+          },
+          message: {
+            id: '325708',
+            type: 'sticker',
+            packageId: '1',
+            stickerId: '1',
+            stickerResourceType: 'STATIC',
+          },
+        },
+      ],
+    };
+
+    const server = app.listen();
+
+    await request(server)
+      .post('/')
+      .send(eventObject)
+      .expect(200);
+
+    /**
+     * The HTTP response isn't guaranteed the event handling to be complete
+     */
+    await sleep(500);
+
+    // snapshot reply messages
+    expect(lineClient.mock.calls).toMatchSnapshot();
+    // snapshot user context
+    expect(redis.set.mock.calls).toMatchSnapshot();
 
     return new Promise((resolve, reject) => {
       server.close(error => {
