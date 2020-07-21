@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { t, ngettext, msgid } from 'ttag';
   import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
-  import { gql, assertInClient, getArticlesFromCofacts } from '../lib';
+  import { gql, assertInClient, getArticlesFromCofacts, sendMessages } from '../lib';
   import ViewedArticle from '../components/ViewedArticle.svelte';
   import Pagination from '../components/Pagination.svelte';
 
@@ -11,7 +11,7 @@
   let articleMap = {};
 
   let selectArticle = async articleId => {
-    await liff.sendMessages([{
+    await sendMessages([{
       type: 'text',
       text: `${VIEW_ARTICLE_PREFIX}${getArticleURL(articleId)}`,
     }]);
