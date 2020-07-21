@@ -3,9 +3,9 @@ import UserArticleLink from './models/userArticleLink';
 import { parseToJson } from '@cofacts/line-bot-log-parser';
 
 /**
+ * Usage:
  *
- * @param {string} path a path of rumors-line-bot-logs folder
- *
+ * 1. Prepare the rumors-line-bot-logs folder, and its structure should be like below.
  * ```
  * rumors-line-bot-logs $ tree
  * .
@@ -26,6 +26,15 @@ import { parseToJson } from '@cofacts/line-bot-log-parser';
  * │   │   │   [...]
  * │   │   ├── 03
  * ```
+ *
+ * 2. run
+ * ```bash
+ * npm run build:server
+ * USER_ID=1 node -r dotenv/config build/database/backtrack.js
+ * ```
+ *
+ * @param {string} path a path of rumors-line-bot-logs folder
+ *
  */
 
 async function main(logFilePath) {
@@ -40,9 +49,7 @@ async function main(logFilePath) {
       const timestamp = new Date(data['timestamp']);
       const userId = data['userId'];
       const selectedArticleId = data['context.data.selectedArticleId'];
-      const selectedReplyId = data['context.data.selectedReplyId'];
 
-      // console.log(timestamp, userId, selectedArticleId, selectedReplyId);s
       status.processedLog++;
       if (userId) {
         await UserSettings.findOrInsertByUserId(userId);
