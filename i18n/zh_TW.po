@@ -600,7 +600,7 @@ msgid "Next"
 msgstr "下一頁"
 
 #: src/liff/pages/UserSetting.svelte:25
-msgid "Use line notify"
+msgid "Use LINE Notify"
 msgstr ""
 
 #: src/liff/pages/UserSetting.svelte:29

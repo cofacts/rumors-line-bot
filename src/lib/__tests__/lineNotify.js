@@ -77,7 +77,7 @@ it('handles runtime error', async () => {
   expect(rollbar.error.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
-        "[LINE notify] 400: undefined.",
+        "[LINE Notify] 400: undefined.",
         Object {
           "body": "{\\"message\\":\\"message\\"}",
           "headers": undefined,

@@ -22,7 +22,7 @@ export default async function(token, body = {}, options = {}) {
     // console.error(JSON.stringify(result, null, '  '));
 
     rollbar.error(
-      `[LINE notify] ${resp.status}: ${result.message}.`,
+      `[LINE Notify] ${resp.status}: ${result.message}.`,
       {
         // Request object for rollbar server SDK
         headers: options.headers,
