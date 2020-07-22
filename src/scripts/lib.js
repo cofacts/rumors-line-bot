@@ -141,7 +141,11 @@ const getNotificationList = async (lastScannedAt, nowWithOffset) => {
 };
 
 const sendNotification = async notificationList => {
-  const message = t`There are new replies for the article you have searched. Please see articles on cofacts chat room menu.`;
+  // When using method LINE_NOTIFY, we guide user to go to chatbot instead of directly opening liff.
+  // It's because viewd_article liff will send messages to cofacts chat room.
+  const message = t`There are new replies for the articles you have searched. Please see 'View article' on cofacts chatbot(${
+    process.env.LINE_FRIEND_URL
+  }) menu.`;
 
   let userIdList = [];
   for await (const settings of getUserSettingsBatch(
@@ -173,7 +177,7 @@ const sendNotification = async notificationList => {
 
 function createNotifyFlexMessage() {
   const btnText = `🆕 ${t`View new replies`}`;
-  const message = t`There are new replies for the article you have searched. Click the button for more details`;
+  const message = t`There are new replies for the articles you have searched. Click the button for more details.`;
   const url = `${
     process.env.LIFF_URL
   }/liff/index.html?p=articles&utm_source=rumors-line-bot&utm_medium=push`;
