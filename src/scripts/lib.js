@@ -73,7 +73,7 @@ async function* getArticlesInBatch(from, to) {
 async function* getUserArticleLinksBatch(ids, limit = 20) {
   let result = [];
   let skip = 0;
-  while (skip == 0 || result.length == limit) {
+  while (skip === 0 || result.length === limit) {
     result = await UserArticleLink.findByArticleIds(ids, { limit, skip });
 
     yield result;
@@ -86,7 +86,7 @@ async function* getUserArticleLinksBatch(ids, limit = 20) {
 async function* getUserSettingsBatch(ids, limit = 20) {
   let result = [];
   let skip = 0;
-  while (skip == 0 || result.length == limit) {
+  while (skip === 0 || result.length === limit) {
     result = await UserSettings.findByUserIds(ids, { limit, skip });
 
     yield result;
