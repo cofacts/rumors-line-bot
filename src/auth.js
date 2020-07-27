@@ -26,7 +26,7 @@ if (process.env.LINE_NOTIFY_CLIENT_ID) {
         channelSecret: process.env.LINE_NOTIFY_CLIENT_SECRET,
         callbackURL:
           process.env.RUMORS_LINE_BOT_URL + '/authcallback/line_notify',
-      }, // line notify does not provide refreshToken and profile
+      }, // LINE Notify does not provide refreshToken and profile
       (accessToken, refreshToken, profile, done) => {
         // console.log('accseeToken:' + accessToken);
         // no need to verifyProfile, just return accessToken

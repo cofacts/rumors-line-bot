@@ -38,6 +38,16 @@ class UserSettings extends Base {
   }
 
   /**
+   * @param {string|string[]} userIds
+   * @param {import('mongodb').FindOneOptions} options
+   * @returns {Promise<UserSettings[]>}
+   */
+  static async findByUserIds(userIds, options = {}) {
+    const { skip = 0, limit = 20, sort = { createdAt: -1 } } = options;
+    return this.find({ userId: { $in: userIds } }, { limit, skip, sort });
+  }
+
+  /**
    * An atomic and upsert enabled operation.
    * @param {string} userId
    * @param {boolean} allow

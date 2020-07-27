@@ -181,7 +181,7 @@ If you want to build using docker instead, you may need to modify Dockerfile to 
 - To use [push message](https://developers.line.biz/en/reference/messaging-api/#send-push-message) :
   in `.env` file, sets `NOTIFY_METHOD=PUSH_MESSAGE`
 
-- To use [LINE notify](https://notify-bot.line.me/en/) :
+- To use [LINE Notify](https://notify-bot.line.me/en/) :
   1. You should first [register a service](https://notify-bot.line.me/my/services/).
   2. Then sets up `Callback Url` : `RUMORS_LINE_BOT_URL`/authcallback/line_notify
   3. in `.env` file, sets
@@ -193,6 +193,16 @@ If you want to build using docker instead, you may need to modify Dockerfile to 
       ```
 
 You can set up a setting page entry point(`LIFF_URL`/liff/index.html?p=setting) in [account manager](https://manager.line.biz/account/) -> rich menu
+
+#### Notification cronjob
+- To run on local machine
+```
+$ npm run notify
+```
+- To run on heroku, you can use [heroku scheduler](https://elements.heroku.com/addons/scheduler)
+```
+$ node build/scripts/scanRepliesAndNotify.js
+```
 
 ---
 

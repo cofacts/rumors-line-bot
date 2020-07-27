@@ -62,7 +62,7 @@ function Strategy(options, verify) {
   options.tokenURL =
     options.tokenURL || 'https://notify-bot.line.me/oauth/token';
 
-  // accroding to line notify document, scope should be fixed value 'notify'
+  // accroding to LINE Notify document, scope should be fixed value 'notify'
   if (options.scope) console.error('scope should be fixed value "notify“');
   else options.scope = 'notify';
 

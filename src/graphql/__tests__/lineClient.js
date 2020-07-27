@@ -115,7 +115,7 @@ describe('verifyIDToken', () => {
 });
 
 describe('revokeNotifyToken', () => {
-  it('revokes line notify token', async () => {
+  it('revokes LINE Notify token', async () => {
     fetch.mockImplementationOnce(() =>
       Promise.resolve({
         status: 200,

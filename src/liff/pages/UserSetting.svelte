@@ -22,7 +22,7 @@
 
   switch (NOTIFY_METHOD) {
     case 'LINE_NOTIFY': {
-      methodName = t`Use line notify`;
+      methodName = t`Use LINE Notify`;
       break;
     }
     case 'PUSH_MESSAGE': {

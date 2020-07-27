@@ -18,6 +18,29 @@ Object {
 }
 `;
 
+exports[`userArticleLink [model] findByArticleIds() 1`] = `
+Array [
+  Object {
+    "articleId": "a2",
+    "createdAt": 2020-01-01T23:10:18.314Z,
+    "lastViewedAt": 1989-06-04T00:00:00.000Z,
+    "userId": "userId-2",
+  },
+  Object {
+    "articleId": "a2",
+    "createdAt": 2020-01-01T19:10:18.314Z,
+    "lastViewedAt": 1989-06-04T00:00:00.000Z,
+    "userId": "userId-1",
+  },
+  Object {
+    "articleId": "a1",
+    "createdAt": 2020-01-01T18:10:18.314Z,
+    "lastViewedAt": 1989-06-04T00:00:00.000Z,
+    "userId": "userId-2",
+  },
+]
+`;
+
 exports[`userArticleLink [model] should create a document 1`] = `
 Object {
   "articleId": "this_is_article_id",

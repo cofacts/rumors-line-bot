@@ -93,4 +93,48 @@ describe('userArticleLink', () => {
     delete updatedData._id;
     expect(updatedData).toMatchSnapshot();
   });
+
+  it('[model] findByArticleIds()', async () => {
+    const fixtures = [
+      {
+        userId: 'userId-2',
+        articleId: 'a1',
+        createdAt: new Date('2020-01-01T18:10:18.314Z'),
+      },
+      {
+        userId: 'userId-1',
+        articleId: 'a2',
+        createdAt: new Date('2020-01-01T19:10:18.314Z'),
+      },
+      {
+        userId: 'userId-1',
+        articleId: 'a3',
+        createdAt: new Date('2020-01-01T21:10:18.314Z'),
+      },
+      {
+        userId: 'userId-1',
+        articleId: 'a4',
+        createdAt: new Date('2020-01-01T20:10:18.314Z'),
+      },
+      {
+        userId: 'userId-1',
+        articleId: 'a5',
+        createdAt: new Date('2020-01-01T22:10:18.314Z'),
+      },
+      {
+        userId: 'userId-2',
+        articleId: 'a2',
+        createdAt: new Date('2020-01-01T23:10:18.314Z'),
+      },
+    ];
+
+    for (const fixture of fixtures) {
+      await UserArticleLink.create(fixture);
+    }
+
+    const result = await UserArticleLink.findByArticleIds(['a2', 'a1']);
+
+    result.forEach(x => delete x._id);
+    expect(result).toMatchSnapshot();
+  });
 });
