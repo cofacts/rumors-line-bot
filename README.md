@@ -16,7 +16,7 @@ This state diagram describes how the LINE bot talks to users:
 
 Developing rumors-line-bot requires you to finish the following settings.
 
-### LINE@ account & Developer accounts
+### LINE channels & Developer accounts
 
 Please follow all the steps in [LINE official tutorial](https://developers.line.me/messaging-api/getting-started).
 
@@ -25,8 +25,9 @@ Please follow all the steps in [LINE official tutorial](https://developers.line.
 Create `.env` file from `.env.sample` template, at least fill in:
 ```
 API_URL=https://cofacts-api.g0v.tw/graphql
-LINE_CHANNEL_SECRET=<paste LINE@'s channel secret here>
-LINE_CHANNEL_TOKEN=<paste LINE@'s channel token here>
+LINE_CHANNEL_SECRET=<paste Messaging API's channel secret here>
+LINE_CHANNEL_TOKEN=<paste Messaging API's channel access token here>
+LINE_LOGIN_CHANNEL_ID=<paste LINE Login channel ID here>
 LIFF_URL=<paste LIFF app's LiFF URL>
 ```
 
@@ -279,7 +280,6 @@ Sent event format: `Event category` / `Event action` / `Event label`
   - Page view for page `/articles` is sent
   - If opened via rich menu: `utm_source=rumors-line-bot&utm_medium=richmenu`
   - If opened via push message: `utm_source=rumors-line-bot&utm_medium=push`
-  - If opened via LINE notify: `utm_source=line-notify&utm_medium=push`
 
 9. When user clicks viewed article item in article list
   - `LIFF` / `ChooseArticle` / `<articleId>`
