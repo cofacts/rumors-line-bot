@@ -16,7 +16,7 @@ This state diagram describes how the LINE bot talks to users:
 
 Developing rumors-line-bot requires you to finish the following settings.
 
-### LINE@ account & Developer accounts
+### LINE channels & Developer accounts
 
 Please follow all the steps in [LINE official tutorial](https://developers.line.me/messaging-api/getting-started).
 
@@ -25,8 +25,9 @@ Please follow all the steps in [LINE official tutorial](https://developers.line.
 Create `.env` file from `.env.sample` template, at least fill in:
 ```
 API_URL=https://cofacts-api.g0v.tw/graphql
-LINE_CHANNEL_SECRET=<paste LINE@'s channel secret here>
-LINE_CHANNEL_TOKEN=<paste LINE@'s channel token here>
+LINE_CHANNEL_SECRET=<paste Messaging API's channel secret here>
+LINE_CHANNEL_TOKEN=<paste Messaging API's channel access token here>
+LINE_LOGIN_CHANNEL_ID=<paste LINE Login channel ID here>
 LIFF_URL=<paste LIFF app's LiFF URL>
 ```
 
@@ -174,7 +175,7 @@ On Heroku, please set `LOCALE` to one of `en_US`, `zh_TW` or any other language 
 If you want to build using docker instead, you may need to modify Dockerfile to include the desired `LOCALE`.
 
 #### Notification setup
-- Prerequisites : 
+- Prerequisites :
   1. [LIFF setup](https://github.com/cofacts/rumors-line-bot#liff-setup)
   2. Connect MongoDB
 
@@ -251,6 +252,7 @@ Sent event format: `Event category` / `Event action` / `Event label`
   - If we found a articles in database that matches the message:
     - `UserInput` / `ArticleSearch` / `ArticleFound`
     - `Article` / `Search` / `<article id>` for each article found
+  - When user opens LIFF providing source, page view for page `/source` is sent.
   - If nothing found in database:
     - `UserInput` / `ArticleSearch` / `ArticleNotFound`
   - If articles found in database but is not what user want:
@@ -271,6 +273,7 @@ Sent event format: `Event category` / `Event action` / `Event label`
 
 4. User votes a reply
   - `UserInput` / `Feedback-Vote` / `<articleId>/<replyId>`
+  - When the LIFF opens, page view for page `/feedback/yes` or `/feedback/no` is also sent.
 
 5. User want to submit a new article
   - `Article` / `Create` / `Yes`
@@ -281,3 +284,19 @@ Sent event format: `Event category` / `Event action` / `Event label`
 
 7. User updates their reason of reply request
   - `Article` / `ProvidingReason` / `<articleId>`
+  - When the LIFF opens, page view for page `/reason` is also sent.
+
+8. User opens article list
+  - Page view for page `/articles` is sent
+  - If opened via rich menu: `utm_source=rumors-line-bot&utm_medium=richmenu`
+  - If opened via push message: `utm_source=rumors-line-bot&utm_medium=push`
+
+9. When user clicks viewed article item in article list
+  - `LIFF` / `ChooseArticle` / `<articleId>`
+  - Note: this event is dispatched in LIFF, thus URL params like `utm_source`, `utm_medium` also applies.
+
+10. User opens settings list
+  - Page view for page `/setting` is sent
+
+11. Other LIFF operations
+  - `LIFF` / `page_redirect` / `App` is sent on LIFF redirect, with value being redirect count.

@@ -11,10 +11,20 @@
   let articleMap = {};
 
   let selectArticle = async articleId => {
-    await sendMessages([{
-      type: 'text',
-      text: `${VIEW_ARTICLE_PREFIX}${getArticleURL(articleId)}`,
-    }]);
+    await Promise.all([
+      sendMessages([{
+        type: 'text',
+        text: `${VIEW_ARTICLE_PREFIX}${getArticleURL(articleId)}`,
+      }]),
+      new Promise(
+        resolve =>
+          gtag('event', 'ChooseArticle', {
+            event_category: 'LIFF',
+            event_label: articleId,
+            event_callback: () => resolve(),
+          })
+      )
+    ]);
     liff.closeWindow();
   }
 
