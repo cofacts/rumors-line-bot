@@ -469,3 +469,76 @@ describe('getArticlesFromCofacts', () => {
     `);
   });
 });
+
+describe('sendMessages', () => {
+  let lib;
+  beforeEach(() => {
+    global.location = { search: '' };
+    global.alert = jest.fn();
+
+    jest.resetModules();
+    lib = require('../lib');
+  });
+
+  afterEach(() => {
+    delete global.location;
+    delete global.alert;
+    delete global.liff;
+  });
+
+  it('sendMessages', async () => {
+    global.liff = {
+      sendMessages: jest.fn().mockImplementationOnce(() =>
+        Promise.resolve({
+          code: 200,
+          message: `ok`,
+        })
+      ),
+    };
+    await expect(lib.sendMessages('send message')).resolves.toBe(undefined);
+    expect(alert).not.toHaveBeenCalled();
+    expect(liff.sendMessages).toHaveBeenCalledTimes(1);
+  });
+
+  it('handle 403 error', async () => {
+    global.liff = {
+      sendMessages: jest.fn().mockImplementationOnce(() => {
+        const error = new Error(`user doesn't grant required permissions yet`);
+        error.code = 403;
+        throw error;
+      }),
+    };
+    await expect(
+      lib.sendMessages('send message without permissions')
+    ).resolves.toBe(undefined);
+    expect(liff.sendMessages).toHaveBeenCalledTimes(1);
+    expect(alert.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "Please retry and allow the permission 'send messages to chats', so that you can interact with chatbot while clicking the buttons.",
+        ],
+      ]
+    `);
+  });
+
+  it('handle other errors', async () => {
+    global.liff = {
+      sendMessages: jest.fn().mockImplementationOnce(() => {
+        const error = new Error(`unknown error`);
+        error.code = 400;
+        throw error;
+      }),
+    };
+    await expect(
+      lib.sendMessages('send message unknown error')
+    ).rejects.toThrow();
+    expect(liff.sendMessages).toHaveBeenCalledTimes(1);
+    expect(alert.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          [Error: unknown error],
+        ],
+      ]
+    `);
+  });
+});

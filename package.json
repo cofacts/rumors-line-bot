@@ -4,7 +4,7 @@
   "description": "Line bot that checks if a message contains internet rumor. Edit",
   "main": "index.js",
   "scripts": {
-    "pretest": "docker-compose up -d && sleep 10",
+    "pretest": "./scripts/setup-docker.sh",
     "posttest": "docker-compose down",
     "test": "TZ=UTC jest",
     "start": "pm2-runtime start ecosystem.config.js --env production",
@@ -20,7 +20,8 @@
     "i18n:validate": "ttag validate i18n/zh_TW.po",
     "clean": "run-s clean:*",
     "clean:server": "rm -rf build",
-    "clean:liff": "rm -rf liff"
+    "clean:liff": "rm -rf liff",
+    "notify": "babel-node -r dotenv/config src/scripts/scanRepliesAndNotify.js"
   },
   "repository": {
     "type": "git",
@@ -47,7 +48,7 @@
     "graphql": "^15.0.0",
     "graphql-scalar-objectid": "^0.1.2",
     "graphql-tools": "^4.0.7",
-    "jsrsasign": "^8.0.13",
+    "jsrsasign": "^8.0.20",
     "koa": "^2.5.0",
     "koa-passport": "^4.1.3",
     "koa-router": "^7.4.0",
@@ -61,6 +62,7 @@
     "redis": "^2.6.5",
     "rollbar": "^2.2.9",
     "string-similarity": "^3.0.0",
+    "supertest": "^4.0.2",
     "ttag": "^1.7.22",
     "universal-analytics": "^0.4.16"
   },
@@ -73,6 +75,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-syntax-import-meta": "^7.2.0",
     "@babel/preset-env": "^7.9.0",
+    "@cofacts/line-bot-log-parser": "0.0.1",
     "@material/theme": "^3.1.0",
     "@material/typography": "^3.1.0",
     "@smui/button": "^1.0.0-beta.20",
@@ -124,7 +127,7 @@
       "/__fixtures__/"
     ],
     "setupFilesAfterEnv": [
-      "./setup-jest.js"
+      "./scripts/setup-jest.js"
     ]
   },
   "engines": {

@@ -115,4 +115,15 @@ describe('userSettings', () => {
 
     expect(result).toMatchSnapshot();
   });
+
+  it('[model] findByUserIds', async () => {
+    const result = await UserSettings.findByUserIds([
+      'userId-0',
+      'userId-1',
+      'userId-3',
+      'userId-5',
+    ]);
+    result.forEach(setting => delete setting._id);
+    expect(result).toMatchSnapshot();
+  });
 });

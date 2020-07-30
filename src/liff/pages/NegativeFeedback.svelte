@@ -4,7 +4,7 @@
   import Button, { Label } from '@smui/button';
   import Textfield from '@smui/textfield';
   import { DOWNVOTE_PREFIX } from 'src/lib/sharedUtils';
-  import { gql, assertInClient, assertSameSearchSession } from '../lib';
+  import { gql, assertInClient, assertSameSearchSession, sendMessages } from '../lib';
 
   let processing = false;
   let comment = '';
@@ -23,7 +23,7 @@
   const handleSubmit = async () => {
     processing = true;
 
-    await liff.sendMessages([
+    await sendMessages([
       {
         type: 'text', text: `${DOWNVOTE_PREFIX}${comment}`,
       }

@@ -60,41 +60,13 @@ describe('userArticleLink', () => {
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  it('[model] findOrInsertByUserIdAndArticleId()', async () => {
-    const userId = 'userId-0';
-    const articleId = 'articleId-0';
-
-    await UserArticleLink.create({ userId, articleId });
-
-    const result = await UserArticleLink.findOrInsertByUserIdAndArticleId(
-      userId,
-      articleId
-    );
-    delete result._id;
-
-    expect(result).toMatchSnapshot();
-  });
-
-  it('[model] findOrInsertByUserIdAndArticleId() (upsert)', async () => {
-    const userId = 'userId-1';
-    const articleId = 'articleId-1';
-
-    const result = await UserArticleLink.findOrInsertByUserIdAndArticleId(
-      userId,
-      articleId
-    );
-    delete result._id;
-
-    expect(result).toMatchSnapshot();
-  });
-
-  it('[model] updateTimestamps()', async () => {
+  it('[model] createOrUpdateByUserIdAndArticleId()', async () => {
     const userId = 'userId-2';
     const articleId = 'articleId-2';
 
     await UserArticleLink.create({ userId, articleId });
 
-    const updatedDate = await UserArticleLink.updateTimestamps(
+    const updatedDate = await UserArticleLink.createOrUpdateByUserIdAndArticleId(
       userId,
       articleId,
       {
@@ -106,11 +78,11 @@ describe('userArticleLink', () => {
     expect(updatedDate).toMatchSnapshot();
   });
 
-  it('[model] updateTimestamps() (upsert)', async () => {
+  it('[model] createOrUpdateByUserIdAndArticleId() (upsert)', async () => {
     const userId = 'userId-3';
     const articleId = 'articleId-3';
 
-    const updatedData = await UserArticleLink.updateTimestamps(
+    const updatedData = await UserArticleLink.createOrUpdateByUserIdAndArticleId(
       userId,
       articleId,
       {
@@ -120,5 +92,49 @@ describe('userArticleLink', () => {
 
     delete updatedData._id;
     expect(updatedData).toMatchSnapshot();
+  });
+
+  it('[model] findByArticleIds()', async () => {
+    const fixtures = [
+      {
+        userId: 'userId-2',
+        articleId: 'a1',
+        createdAt: new Date('2020-01-01T18:10:18.314Z'),
+      },
+      {
+        userId: 'userId-1',
+        articleId: 'a2',
+        createdAt: new Date('2020-01-01T19:10:18.314Z'),
+      },
+      {
+        userId: 'userId-1',
+        articleId: 'a3',
+        createdAt: new Date('2020-01-01T21:10:18.314Z'),
+      },
+      {
+        userId: 'userId-1',
+        articleId: 'a4',
+        createdAt: new Date('2020-01-01T20:10:18.314Z'),
+      },
+      {
+        userId: 'userId-1',
+        articleId: 'a5',
+        createdAt: new Date('2020-01-01T22:10:18.314Z'),
+      },
+      {
+        userId: 'userId-2',
+        articleId: 'a2',
+        createdAt: new Date('2020-01-01T23:10:18.314Z'),
+      },
+    ];
+
+    for (const fixture of fixtures) {
+      await UserArticleLink.create(fixture);
+    }
+
+    const result = await UserArticleLink.findByArticleIds(['a2', 'a1']);
+
+    result.forEach(x => delete x._id);
+    expect(result).toMatchSnapshot();
   });
 });

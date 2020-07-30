@@ -14,6 +14,8 @@ import {
 } from './handlers/fileHandler';
 import ga from 'src/lib/ga';
 
+import UserSettings from '../database/models/userSettings';
+
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
 const singleUserHandler = async (
@@ -64,6 +66,7 @@ const singleUserHandler = async (
 
   // Handle follow/unfollow event
   if (type === 'unfollow' || type === 'follow') {
+    await UserSettings.setAllowNewReplyUpdate(userId, type === 'follow');
     clearTimeout(timerId);
     return;
   }
@@ -71,7 +74,7 @@ const singleUserHandler = async (
   // Set default result
   //
   let result = {
-    context: '__INIT__',
+    context: { state: '__INIT__', data: {} },
     replies: [
       {
         type: 'text',

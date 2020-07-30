@@ -15,9 +15,9 @@
 
   $: replyCount = article ? article.articleReplies.length : 0;
   $: viewedAt = userArticleLink.lastViewedAt ?
-    userArticleLink.lastViewedAt :
-    userArticleLink.createdAt;
-  $: newArticleReplyCount = article ? article.articleReplies.map(ar => ar.createdAt > viewedAt ).length : 0;
+    new Date(userArticleLink.lastViewedAt) :
+    new Date(userArticleLink.createdAt);
+  $: newArticleReplyCount = article ? article.articleReplies.filter(ar => new Date(ar.createdAt) > viewedAt).length : 0;
 
   // String translation setup:
   // Svelte template will mess up with variable names, thus strings with variables
@@ -28,7 +28,7 @@
 
   let viewedAtStr = '';
   $: {
-    const fromNow = formatDistanceToNow(new Date(viewedAt));
+    const fromNow = formatDistanceToNow(viewedAt);
     viewedAtStr = t`Viewed ${fromNow} ago`;
   }
 

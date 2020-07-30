@@ -7,6 +7,7 @@ class UserArticleLink extends Base {
   static get DEFAULT_DATA() {
     return {
       createdAt: new Date(),
+      lastViewedAt: new Date(),
     };
   }
 
@@ -29,31 +30,13 @@ class UserArticleLink extends Base {
 
   /**
    * An atomic and upsert enabled operation.
-   * @param {string} userId
-   * @param {string} articleId
-   * @returns {Promise<UserArticleLink>}
-   */
-  static async findOrInsertByUserIdAndArticleId(userId, articleId) {
-    return this.findOneAndUpdate(
-      { userId, articleId },
-      null,
-      this.DEFAULT_DATA
-    );
-  }
-
-  /**
-   * An atomic and upsert enabled operation.
-   * @typedef Timestamps
-   * @property {?Date} lastViewedAt
-   * @property {?Date} lastRepliedAt
-   * @property {?Date} lastPositiveFeedbackRepliedAt
    *
    * @param {string} userId
    * @param {string} articleId
-   * @param {Timestamps} data
+   * @param {object} data
    * @returns {Promise<UserArticleLink>}
    */
-  static async updateTimestamps(userId, articleId, data) {
+  static async createOrUpdateByUserIdAndArticleId(userId, articleId, data) {
     const setOnInsert = Object.assign({}, this.DEFAULT_DATA);
 
     for (let key in data) {
@@ -61,6 +44,26 @@ class UserArticleLink extends Base {
     }
 
     return this.findOneAndUpdate({ userId, articleId }, data, setOnInsert);
+  }
+
+  /**
+   *
+   * @param {string} userId
+   * @param {import('mongodb').FindOneOptions} options
+   */
+  static async findByUserId(userId, options = {}) {
+    const { skip = 0, limit = 20, sort = { createdAt: -1 } } = options;
+    return this.find({ userId }, { limit, skip, sort });
+  }
+
+  /**
+   *
+   * @param {string|string[]} articleIds
+   * @param {import('mongodb').FindOneOptions} options
+   */
+  static async findByArticleIds(articleIds, options = {}) {
+    const { skip = 0, limit = 20, sort = { createdAt: -1 } } = options;
+    return this.find({ articleId: { $in: articleIds } }, { limit, skip, sort });
   }
 
   /**
@@ -82,16 +85,6 @@ class UserArticleLink extends Base {
    * @type {?Date}
    */
   lastViewedAt;
-
-  /**
-   * @type {?Date}
-   */
-  lastRepliedAt;
-
-  /**
-   * @type {?Date}
-   */
-  lastPositiveFeedbackRepliedAt;
 }
 
 export default UserArticleLink;

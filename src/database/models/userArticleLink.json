@@ -20,14 +20,6 @@
     "lastViewedAt": {
       "format": "date-time",
       "instanceOf": "Date"
-    },
-    "lastRepliedAt": {
-      "format": "date-time",
-      "instanceOf": "Date"
-    },
-    "lastPositiveFeedbackRepliedAt": {
-      "format": "date-time",
-      "instanceOf": "Date"
     }
   },
   "required": [

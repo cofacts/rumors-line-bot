@@ -1,5 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`userSettings [model] findByUserIds 1`] = `
+Array [
+  Object {
+    "allowNewReplyUpdate": false,
+    "createdAt": 1989-06-04T00:00:00.000Z,
+    "userId": "userId-0",
+  },
+  Object {
+    "allowNewReplyUpdate": true,
+    "createdAt": 1989-06-04T00:00:00.000Z,
+    "userId": "userId-1",
+  },
+  Object {
+    "allowNewReplyUpdate": false,
+    "createdAt": 1989-06-04T00:00:00.000Z,
+    "userId": "userId-3",
+  },
+  Object {
+    "allowNewReplyUpdate": true,
+    "createdAt": 1989-06-04T00:00:00.000Z,
+    "newReplyNotifyToken": "notify-token",
+    "userId": "userId-5",
+  },
+]
+`;
+
 exports[`userSettings [model] findOrInsertByUserId() 1`] = `
 Object {
   "allowNewReplyUpdate": false,

@@ -3,7 +3,7 @@
   import { t } from 'ttag';
   import Button, { Label } from '@smui/button';
 
-  import { page, assertInClient, assertSameSearchSession } from '../lib';
+  import { page, assertInClient, assertSameSearchSession, sendMessages } from '../lib';
   import { ARTICLE_SOURCE_OPTIONS, SOURCE_PREFIX } from 'src/lib/sharedUtils';
 
   let processing = false;
@@ -14,7 +14,7 @@
   const handleClick = async ({label, valid}) => {
     processing = true;
 
-    await liff.sendMessages([
+    await sendMessages([
       {
         type: 'text',
         text: `${SOURCE_PREFIX}${label}`,
