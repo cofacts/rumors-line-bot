@@ -7,6 +7,7 @@ import redis from 'src/lib/redisClient';
 
 it('scan replies and notify', async () => {
   redis.set = jest.fn();
+  redis.quit = jest.fn();
   lib.getNotificationList = jest.fn().mockImplementationOnce(() => {});
   lib.sendNotification = jest.fn();
 
