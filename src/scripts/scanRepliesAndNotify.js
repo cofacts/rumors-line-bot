@@ -1,6 +1,7 @@
 import lib from './lib';
 import redis from 'src/lib/redisClient';
 import addTime from 'date-fns/add';
+import Client from 'src/database/mongoClient';
 
 export default async function scanRepliesAndNotify() {
   const timeOffset = JSON.parse(process.env.REVIEW_REPLY_BUFFER) || {};
@@ -16,6 +17,10 @@ export default async function scanRepliesAndNotify() {
   );
   await lib.sendNotification(notificationList);
   await redis.set('lastScannedAt', nowWithOffset);
+
+  // disconnect redis and mongodb
+  await redis.quit();
+  await (await Client.getInstance()).close();
 }
 
 if (require.main === module) {
