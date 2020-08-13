@@ -1,5 +1,6 @@
 import lib from './lib';
 import redis from 'src/lib/redisClient';
+import rollbar from 'src/lib/rollbar';
 import addTime from 'date-fns/add';
 import Client from 'src/database/mongoClient';
 
@@ -24,5 +25,9 @@ export default async function scanRepliesAndNotify() {
 }
 
 if (require.main === module) {
-  scanRepliesAndNotify();
+  scanRepliesAndNotify().catch(e => {
+    console.error(e);
+    rollbar.error(e);
+    process.exit(1);
+  });
 }
