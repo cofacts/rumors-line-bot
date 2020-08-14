@@ -191,6 +191,7 @@ If you want to build using docker instead, you may need to modify Dockerfile to 
       LINE_NOTIFY_CLIENT_SECRET=<paste LINE Notify Client Secret here>
       NOTIFY_METHOD=LINE_NOTIFY
       RUMORS_LINE_BOT_URL=<line bot server url>
+      LINE_FRIEND_URL=https://line.me/R/ti/p/<paste your chatbot ID here>
       ```
 
 You can set up a setting page entry point(`LIFF_URL`/liff/index.html?p=setting) in [account manager](https://manager.line.biz/account/) -> rich menu

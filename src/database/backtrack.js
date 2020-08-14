@@ -29,8 +29,7 @@ import { parseToJson } from '@cofacts/line-bot-log-parser';
  *
  * 2. run
  * ```bash
- * npm run build:server
- * USER_ID=1 node -r dotenv/config build/database/backtrack.js
+ * USER_ID=1 node_modules/.bin/babel-node -r dotenv/config src/database/backtrack.js
  * ```
  *
  * @param {string} path a path of rumors-line-bot-logs folder
