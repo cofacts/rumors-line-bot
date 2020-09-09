@@ -11,6 +11,7 @@ import {
   POSTBACK_NO_ARTICLE_FOUND,
   createReasonButtonFooter,
   createArticleShareBubble,
+  createHighlightContents,
 } from './utils';
 import ga from 'src/lib/ga';
 
@@ -133,6 +134,13 @@ export default async function initState(params) {
             text
             id
           }
+          highlight {
+            text
+            hyperlinks {
+              title
+              summary
+            }
+          }
         }
       }
     }
@@ -191,12 +199,32 @@ export default async function initState(params) {
     }
 
     const articleOptions = edgesSortedWithSimilarity.map(
-      ({ node: { text, id }, similarity }) => {
+      ({ node: { text, id }, highlight, similarity }) => {
         const similarityPercentage = Math.round(similarity * 100);
         const similarityEmoji = ['😐', '🙂', '😀', '😃', '😄'][
           Math.floor(similarity * 4.999)
         ];
         const displayTextWhenChosen = ellipsis(text, 25, '...');
+
+        const bodyContents = [];
+        if (highlight && !highlight.text) {
+          bodyContents.push({
+            type: 'text',
+            text: t`(Words found in the hyperlink)`,
+            size: 'sm',
+            color: '#ff7b7b',
+            weight: 'bold',
+          });
+        }
+        bodyContents.push({
+          type: 'text',
+          contents: createHighlightContents(highlight, text), // 50KB for entire Flex carousel
+          maxLines: 6,
+          flex: 0,
+          gravity: 'top',
+          weight: 'regular',
+          wrap: true,
+        });
 
         return {
           type: 'bubble',
@@ -225,20 +253,10 @@ export default async function initState(params) {
           },
           body: {
             type: 'box',
-            layout: 'horizontal',
+            layout: 'vertical',
             spacing: 'none',
             margin: 'none',
-            contents: [
-              {
-                type: 'text',
-                text: ellipsis(text, 300, '...'), // 50KB for entire Flex carousel,
-                maxLines: 6,
-                flex: 0,
-                gravity: 'top',
-                weight: 'regular',
-                wrap: true,
-              },
-            ],
+            contents: bodyContents,
           },
           footer: {
             type: 'box',
