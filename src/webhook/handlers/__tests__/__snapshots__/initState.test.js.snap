@@ -35,16 +35,27 @@ Please choose the version that looks the most similar👇",
             "body": Object {
               "contents": Array [
                 Object {
+                  "contents": Array [
+                    Object {
+                      "color": "#ffb600",
+                      "text": "計程車上有裝悠遊卡感應器",
+                      "type": "span",
+                      "weight": "bold",
+                    },
+                    Object {
+                      "text": "，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入，下車時使用老人悠遊卡，跳錶車資105元，優惠32元，只扣73元，哈哈，這是屬於我們的福利，與大家分享，可以善加利用！=7折，朋友使用ok",
+                      "type": "span",
+                    },
+                  ],
                   "flex": 0,
                   "gravity": "top",
                   "maxLines": 6,
-                  "text": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入，下車時使用老人悠遊卡，跳錶車資105元，優惠32元，只扣73元，哈哈，這是屬於我們的福利，與大家分享，可以善加利用！=7折，朋友使用ok",
                   "type": "text",
                   "weight": "regular",
                   "wrap": true,
                 },
               ],
-              "layout": "horizontal",
+              "layout": "vertical",
               "margin": "none",
               "spacing": "none",
               "type": "box",
@@ -59,6 +70,7 @@ Please choose the version that looks the most similar👇",
                     "label": "Choose this one",
                     "type": "postback",
                   },
+                  "color": "#ffb600",
                   "style": "primary",
                   "type": "button",
                 },
@@ -117,6 +129,7 @@ Please choose the version that looks the most similar👇",
                     "label": "Tell us more",
                     "type": "postback",
                   },
+                  "color": "#ffb600",
                   "style": "primary",
                   "type": "button",
                 },
@@ -187,16 +200,33 @@ Please choose the version that looks the most similar👇",
             "body": Object {
               "contents": Array [
                 Object {
+                  "contents": Array [
+                    Object {
+                      "color": "#ffb600",
+                      "text": "YouTube",
+                      "type": "span",
+                      "weight": "bold",
+                    },
+                    Object {
+                      "text": "  ·  ",
+                      "type": "span",
+                    },
+                    Object {
+                      "color": "#ffb600",
+                      "text": "寻找健康人生",
+                      "type": "span",
+                      "weight": "bold",
+                    },
+                  ],
                   "flex": 0,
                   "gravity": "top",
                   "maxLines": 6,
-                  "text": "YouTube  ·  寻找健康人生",
                   "type": "text",
                   "weight": "regular",
                   "wrap": true,
                 },
               ],
-              "layout": "horizontal",
+              "layout": "vertical",
               "margin": "none",
               "spacing": "none",
               "type": "box",
@@ -211,6 +241,7 @@ Please choose the version that looks the most similar👇",
                     "label": "Choose this one",
                     "type": "postback",
                   },
+                  "color": "#ffb600",
                   "style": "primary",
                   "type": "button",
                 },
@@ -246,18 +277,35 @@ Please choose the version that looks the most similar👇",
             "body": Object {
               "contents": Array [
                 Object {
+                  "contents": Array [
+                    Object {
+                      "color": "#ffb600",
+                      "text": "YouTube",
+                      "type": "span",
+                      "weight": "bold",
+                    },
+                    Object {
+                      "text": "
+·
+",
+                      "type": "span",
+                    },
+                    Object {
+                      "color": "#ffb600",
+                      "text": "寻找健康人生",
+                      "type": "span",
+                      "weight": "bold",
+                    },
+                  ],
                   "flex": 0,
                   "gravity": "top",
                   "maxLines": 6,
-                  "text": "YouTube
-·
-寻找健康人生",
                   "type": "text",
                   "weight": "regular",
                   "wrap": true,
                 },
               ],
-              "layout": "horizontal",
+              "layout": "vertical",
               "margin": "none",
               "spacing": "none",
               "type": "box",
@@ -274,6 +322,7 @@ Please choose the version that looks the most similar👇",
                     "label": "Choose this one",
                     "type": "postback",
                   },
+                  "color": "#ffb600",
                   "style": "primary",
                   "type": "button",
                 },
@@ -634,6 +683,326 @@ Object {
     },
   ],
   "state": "__INIT__",
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should handle message matches only hyperlinks 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "YouTube · 寻找健康人生",
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "YouTube · 寻找健康人生",
+    "message": Object {
+      "id": "6270464463537",
+      "text": "YouTube · 寻找健康人生",
+      "type": "text",
+    },
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "text": "🔍 There are some messages that looks similar to \\"YouTube · ⋯⋯\\" you have sent to me.",
+      "type": "text",
+    },
+    Object {
+      "text": "Internet rumors are often mutated and shared.
+Please choose the version that looks the most similar👇",
+      "type": "text",
+    },
+    Object {
+      "altText": "Please choose the most similar message from the list.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "color": "#ff7b7b",
+                  "size": "sm",
+                  "text": "(Words found in the hyperlink)",
+                  "type": "text",
+                  "weight": "bold",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "text": "summary1 summary1 summary1 ",
+                      "type": "span",
+                    },
+                    Object {
+                      "color": "#ffb600",
+                      "text": "YouTube",
+                      "type": "span",
+                      "weight": "bold",
+                    },
+                    Object {
+                      "text": "
+·
+",
+                      "type": "span",
+                    },
+                    Object {
+                      "color": "#ffb600",
+                      "text": "寻找健康人生",
+                      "type": "span",
+                      "weight": "bold",
+                    },
+                    Object {
+                      "text": "
+summary2 summary2 summary2 ",
+                      "type": "span",
+                    },
+                    Object {
+                      "color": "#ffb600",
+                      "text": "YouTube",
+                      "type": "span",
+                      "weight": "bold",
+                    },
+                    Object {
+                      "text": "
+·
+",
+                      "type": "span",
+                    },
+                    Object {
+                      "color": "#ffb600",
+                      "text": "寻找健康人生",
+                      "type": "span",
+                      "weight": "bold",
+                    },
+                  ],
+                  "flex": 0,
+                  "gravity": "top",
+                  "maxLines": 6,
+                  "type": "text",
+                  "weight": "regular",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "margin": "none",
+              "spacing": "none",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AVvY-yizyCdS-nWhuYGB\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “https://www.youtube.co...”",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😐",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Looks 12% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "color": "#ff7b7b",
+                  "size": "sm",
+                  "text": "(Words found in the hyperlink)",
+                  "type": "text",
+                  "weight": "bold",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "text": "title1 title1 title1 ",
+                      "type": "span",
+                    },
+                    Object {
+                      "color": "#ffb600",
+                      "text": "YouTube",
+                      "type": "span",
+                      "weight": "bold",
+                    },
+                    Object {
+                      "text": "
+·
+",
+                      "type": "span",
+                    },
+                    Object {
+                      "color": "#ffb600",
+                      "text": "寻找健康人生",
+                      "type": "span",
+                      "weight": "bold",
+                    },
+                    Object {
+                      "text": "
+title2 title2 title2 ",
+                      "type": "span",
+                    },
+                    Object {
+                      "color": "#ffb600",
+                      "text": "YouTube",
+                      "type": "span",
+                      "weight": "bold",
+                    },
+                    Object {
+                      "text": "
+·
+",
+                      "type": "span",
+                    },
+                    Object {
+                      "color": "#ffb600",
+                      "text": "寻找健康人生",
+                      "type": "span",
+                      "weight": "bold",
+                    },
+                  ],
+                  "flex": 0,
+                  "gravity": "top",
+                  "maxLines": 6,
+                  "type": "text",
+                  "weight": "regular",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "margin": "none",
+              "spacing": "none",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AVvY-yizyCdS-nWhuYGA\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “http://www.chinatimes....”",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😐",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Looks 0% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "gravity": "top",
+                  "maxLines": 5,
+                  "text": "None of these messages matches mine :(",
+                  "type": "text",
+                  "weight": "regular",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "margin": "none",
+              "spacing": "none",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"__NO_ARTICLE_FOUND__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "None of these messages matches mine :(",
+                    "label": "Tell us more",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "color": "#AAAAAA",
+                  "margin": "none",
+                  "size": "sm",
+                  "text": "😶",
+                  "type": "text",
+                  "weight": "bold",
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+  "state": "CHOOSING_ARTICLE",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
