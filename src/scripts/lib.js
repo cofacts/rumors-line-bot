@@ -140,9 +140,9 @@ const getNotificationList = async (lastScannedAt, nowWithOffset) => {
   return result;
 };
 
+// When using method LINE_NOTIFY, we guide user to go to chatbot instead of directly opening liff.
+// It's because viewd_article liff will send messages to cofacts chat room.
 const sendNotification = async notificationList => {
-  // When using method LINE_NOTIFY, we guide user to go to chatbot instead of directly opening liff.
-  // It's because viewd_article liff will send messages to cofacts chat room.
   const message = t`There are new replies for the articles you have searched. Please see 'View article' on cofacts chatbot(${
     process.env.LINE_FRIEND_URL
   }) menu.`;
