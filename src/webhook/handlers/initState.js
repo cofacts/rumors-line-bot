@@ -272,6 +272,7 @@ export default async function initState(params) {
                   'CHOOSING_ARTICLE'
                 ),
                 style: 'primary',
+                color: '#ffb600',
               },
             ],
           },
@@ -330,6 +331,7 @@ export default async function initState(params) {
                 'CHOOSING_ARTICLE'
               ),
               style: 'primary',
+              color: '#ffb600',
             },
           ],
         },
