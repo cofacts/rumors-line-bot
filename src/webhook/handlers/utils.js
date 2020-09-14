@@ -417,4 +417,97 @@ export function createReasonButtonFooter(
   };
 }
 
+/**
+ * @param {{ text: string, hyperlinks: {title: string, summary: string }[]}} highlight - highlight object
+ * @param {string} oriText - Original text, used when highlightText null or undefined.
+ * @param {string} lettersLimit - Default to be 200 (maxLine: 6 * 30). In en, one line is 30 letters most; In zh-tw, one line is 16 letters most.
+ * @param {string} contentsLimit - Default to be 4000. Flex message carousel 50K limit. Flex message allows at most 10 bubbles so bubble contents should less than 5000 - 850(bubble without contents).
+ * @returns {object[]} Flex text contents
+ */
+export function createHighlightContents(
+  highlight,
+  oriText = '',
+  lettersLimit = 200,
+  contentsLimit = 4000
+) {
+  let result = [];
+  let totalLength = 4; // 4 comes from JSON.stringify([]).length;
+  let totalLetters = 0;
+
+  // return original text if highlight null or undefined, basically this won't happen
+  if (!highlight) {
+    return [
+      {
+        type: 'span',
+        text: ellipsis(oriText, lettersLimit),
+      },
+    ];
+  }
+
+  const summaries = highlight.hyperlinks?.reduce((result, hyperlink) => {
+    if (hyperlink.summary) result.push(hyperlink.summary);
+    return result;
+  }, []);
+  const titles = highlight.hyperlinks?.reduce((result, hyperlink) => {
+    if (hyperlink.title) result.push(hyperlink.title);
+    return result;
+  }, []);
+  const text =
+    highlight.text ||
+    (summaries.length ? summaries.join('\n') : undefined) ||
+    (titles.length ? titles.join('\n') : undefined);
+
+  for (let highlightPair of text.split('</HIGHLIGHT>')) {
+    const highlightContent = createHighlightContent(
+      highlightPair.split('<HIGHLIGHT>')
+    );
+    totalLength +=
+      highlightContent.defaultContentLength + highlightContent.lettersLength;
+    totalLetters += highlightContent.lettersLength;
+    if (totalLetters > lettersLimit || totalLength > contentsLimit) {
+      result.push({
+        type: 'span',
+        text: '...',
+      });
+      break;
+    }
+    result.push(...highlightContent.content);
+  }
+
+  return result;
+}
+
+/**
+ * @param {string[]} text - array[0] is normal text ,array[1] is highlight text, both may be null or undefined
+ * @returns {{ defaultContentLength: number, lettersLength: number, content: string[] }} Flex text contents
+ * */
+function createHighlightContent(text) {
+  let result = { defaultContentLength: 0, lettersLength: 0, content: [] };
+
+  if (text[0]) {
+    result.content.push({
+      type: 'span',
+      text: text[0],
+    });
+
+    // 34 comes from JSON.stringify({type: 'span',text: '',}).length
+    result.defaultContentLength += 34;
+    result.lettersLength += text[0].length;
+  }
+
+  if (text[1]) {
+    result.content.push({
+      type: 'span',
+      text: text[1],
+      color: '#ffb600',
+      weight: 'bold',
+    });
+
+    // 76 comes from JSON.stringify({type: 'span',text: '',color: '#ffb600',weight: 'bold',}).length
+    result.defaultContentLength += 76;
+    result.lettersLength += text[1].length;
+  }
+  return result;
+}
+
 export const POSTBACK_NO_ARTICLE_FOUND = '__NO_ARTICLE_FOUND__';
