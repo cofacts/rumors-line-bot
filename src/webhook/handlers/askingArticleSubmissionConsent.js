@@ -41,7 +41,6 @@ export default async function askingArticleSubmissionConsent(params) {
       },
       createSuggestOtherFactCheckerReply(),
     ];
-    state = '__INIT__';
   } else {
     visitor.event({ ec: 'Article', ea: 'Create', el: 'Yes' });
 
@@ -104,9 +103,8 @@ export default async function askingArticleSubmissionConsent(params) {
 
     // Record article ID in context for reason LIFF
     data.selectedArticleId = CreateArticle.id;
-    state = '__INIT__';
   }
 
   visitor.send();
-  return { data, state, event, userId, replies, isSkipUser };
+  return { data, event, userId, replies, isSkipUser };
 }

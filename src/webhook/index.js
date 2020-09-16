@@ -74,7 +74,7 @@ const singleUserHandler = async (
   // Set default result
   //
   let result = {
-    context: { state: '__INIT__', data: {} },
+    context: { data: {} },
     replies: [
       {
         type: 'text',
@@ -247,7 +247,7 @@ async function processText(context, type, input, otherFields, userId, req) {
     console.error(e);
     rollbar.error(e, req);
     result = {
-      context: { state: '__INIT__', data: {} },
+      context: { data: {} },
       replies: [
         {
           type: 'text',

@@ -69,7 +69,6 @@ export default async function askingReplyRequestSubmission(params) {
       },
     },
   ];
-  state = '__INIT__';
   visitor.send();
-  return { data, state, event, issuedAt, userId, replies, isSkipUser };
+  return { data, event, issuedAt, userId, replies, isSkipUser };
 }

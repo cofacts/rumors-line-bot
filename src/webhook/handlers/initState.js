@@ -18,7 +18,8 @@ import ga from 'src/lib/ga';
 const SIMILARITY_THRESHOLD = 0.95;
 
 export default async function initState(params) {
-  let { data, state, event, userId, replies, isSkipUser } = params;
+  let { data, event, userId, replies, isSkipUser } = params;
+  let state = '__INIT__';
 
   if (event.input.startsWith(REASON_PREFIX)) {
     // Check required data to update reply request
@@ -109,7 +110,7 @@ export default async function initState(params) {
     ];
     visitor.send();
 
-    return { data, state, event, userId, replies, isSkipUser };
+    return { data, event, userId, replies, isSkipUser };
   }
 
   // Track text message type send by user
@@ -385,7 +386,6 @@ export default async function initState(params) {
         },
         createSuggestOtherFactCheckerReply(),
       ];
-      state = '__INIT__';
     } else {
       replies = [
         {

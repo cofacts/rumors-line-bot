@@ -125,7 +125,5 @@ export default async function choosingReply(params) {
   visitor.event({ ec: 'Reply', ea: 'Type', el: GetReply.type, ni: true });
   visitor.send();
 
-  state = 'ASKING_REPLY_FEEDBACK';
-
-  return { data, state, event, issuedAt, userId, replies, isSkipUser };
+  return { data, event, issuedAt, userId, replies, isSkipUser };
 }
