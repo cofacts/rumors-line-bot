@@ -245,6 +245,7 @@ export default async function choosingArticle(params) {
                   'CHOOSING_REPLY'
                 ),
                 style: 'primary',
+                color: '#ffb600',
               },
             ],
           },

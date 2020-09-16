@@ -6,6 +6,7 @@ import {
   createArticleShareBubble,
   createFlexMessageText,
   createTypeWords,
+  createHighlightContents,
 } from '../utils';
 
 describe('createArticleShareBubble()', () => {
@@ -123,5 +124,118 @@ describe('createTypeWords', () => {
 
   it('should return the type words for other types', () => {
     expect(createTypeWords('some other type')).toMatchSnapshot();
+  });
+});
+
+describe('createHighlightContents', () => {
+  it('should create a highlight flex message', () => {
+    expect(
+      createHighlightContents({ text: '<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去' })
+    ).toMatchSnapshot();
+
+    expect(
+      createHighlightContents({
+        text:
+          '全世界有<HIGHLIGHT>成千上萬</HIGHLIGHT><HIGHLIGHT>蜜蜂</HIGHLIGHT>',
+        hyperlinks: [
+          {
+            summary:
+              '全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去',
+            title: '<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去',
+          },
+        ],
+      })
+    ).toMatchSnapshot();
+
+    expect(
+      createHighlightContents({
+        text:
+          '全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去',
+        hyperlinks: [
+          {
+            summary: null,
+            title: null,
+          },
+        ],
+      })
+    ).toMatchSnapshot();
+
+    expect(
+      createHighlightContents({
+        text: null,
+        hyperlinks: [
+          {
+            summary:
+              '全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去',
+            title: '<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去',
+          },
+          {
+            summary:
+              '<HIGHLIGHT>計程車</HIGHLIGHT>上有裝悠遊卡<HIGHLIGHT>感應器</HIGHLIGHT>',
+            title: '<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去',
+          },
+          {
+            summary:
+              '不影響<HIGHLIGHT>司機收入</HIGHLIGHT>，下車時使用老人悠遊卡',
+            title: '下車時使用老人悠遊卡',
+          },
+        ],
+      })
+    ).toMatchSnapshot();
+    expect(
+      createHighlightContents({
+        text: null,
+        hyperlinks: [
+          {
+            summary: null,
+            title: '<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去',
+          },
+          {
+            summary: null,
+            title:
+              '全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>',
+          },
+        ],
+      })
+    ).toMatchSnapshot();
+  });
+
+  it('should limit letters size', () => {
+    const result = createHighlightContents(
+      {
+        text:
+          '全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去',
+      },
+      '',
+      10
+    );
+    let lettersLength = 0;
+    result.forEach(s => (lettersLength += s.text.length));
+    // console.log('Letters length:' + lettersLength);
+    expect(lettersLength).toBeLessThanOrEqual(10 + 3); // +3 for '...' at the end of message
+  });
+
+  it('should limit contents size', () => {
+    const result = createHighlightContents(
+      {
+        text:
+          '全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去',
+      },
+      '',
+      100000, // don't limit letters
+      500
+    );
+    // console.log('Contents length:' + JSON.stringify(result).length);
+    expect(JSON.stringify(result).length).toBeLessThanOrEqual(500 + 3); // +3 for '...' at the end of message
+  });
+
+  it('should handle the situation without highlight', () => {
+    expect(
+      createHighlightContents(undefined, 'Original text')
+    ).toMatchSnapshot();
+  });
+
+  it('should handle the situation without input', () => {
+    expect(createHighlightContents()).toMatchSnapshot();
   });
 });

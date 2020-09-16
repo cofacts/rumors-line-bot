@@ -219,6 +219,68 @@ it('only one article found with high similarity', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
+it('should handle message matches only hyperlinks', async () => {
+  gql.__push(apiResult.hyperlinksArticles);
+
+  const input = {
+    data: {
+      sessionId: 1497994017447,
+    },
+    state: '__INIT__',
+    event: {
+      type: 'message',
+      input: 'YouTube · 寻找健康人生',
+      timestamp: 1497994016356,
+      message: {
+        type: 'text',
+        id: '6270464463537',
+        text: 'YouTube · 寻找健康人生',
+      },
+    },
+    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+    replies: undefined,
+    isSkipUser: false,
+  };
+
+  expect(await initState(input)).toMatchSnapshot();
+  expect(gql.__finished()).toBe(true);
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "MessageType",
+          "ec": "UserInput",
+          "el": "text",
+        },
+      ],
+      Array [
+        Object {
+          "ea": "ArticleSearch",
+          "ec": "UserInput",
+          "el": "ArticleFound",
+        },
+      ],
+      Array [
+        Object {
+          "ea": "Search",
+          "ec": "Article",
+          "el": "AVvY-yizyCdS-nWhuYGA",
+          "ni": true,
+        },
+      ],
+      Array [
+        Object {
+          "ea": "Search",
+          "ec": "Article",
+          "el": "AVvY-yizyCdS-nWhuYGB",
+          "ni": true,
+        },
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
+});
+
 it('should handle text not found', async () => {
   gql.__push(apiResult.notFound);
 
