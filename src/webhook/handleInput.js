@@ -64,6 +64,8 @@ export default async function handleInput(
       event.input.startsWith(DOWNVOTE_PREFIX)
     ) {
       state = 'ASKING_REPLY_FEEDBACK';
+    } else if (event.input.startsWith(REASON_PREFIX)) {
+      state = 'ASKING_REPLY_REQUEST_REASON';
     } else if (event.input.startsWith(SOURCE_PREFIX)) {
       // state should be given from input, ASKING_ARTICLE_SUBMISSION_CONSENT or ASKING_REPLY_REQUEST_REASON
     } else {
