@@ -82,7 +82,6 @@ Somewhere outside LINE",
       "type": "flex",
     },
   ],
-  "state": "__INIT__",
   "userId": undefined,
 }
 `;
@@ -193,7 +192,6 @@ A LINE group",
       "type": "flex",
     },
   ],
-  "state": "__INIT__",
   "userId": "userId",
 }
 `;

@@ -104,7 +104,6 @@ A LINE group",
       "type": "flex",
     },
   ],
-  "state": "__INIT__",
   "userId": undefined,
 }
 `;
