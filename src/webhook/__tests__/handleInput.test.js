@@ -9,11 +9,13 @@ import { ManipulationError } from '../handlers/utils';
 import handleInput from '../handleInput';
 
 import {
+  SOURCE_PREFIX,
   REASON_PREFIX,
   DOWNVOTE_PREFIX,
   UPVOTE_PREFIX,
   VIEW_ARTICLE_PREFIX,
   getArticleURL,
+  ARTICLE_SOURCE_OPTIONS,
 } from 'src/lib/sharedUtils';
 
 jest.mock('../handlers/initState');
@@ -240,38 +242,77 @@ it('processes downvote', async () => {
   expect(askingReplyFeedback).toHaveBeenCalledTimes(1);
 });
 
-it('processes first article reason submission', async () => {
-  const context = {
-    state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
-    data: { sessionId: FIXED_DATE },
-  };
-  const event = {
-    type: 'message',
-    input: `${REASON_PREFIX}My reason sending it to DB`,
-  };
+describe('processes first article submission', () => {
+  it('askes source', async () => {
+    const context = {
+      state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
+      data: { sessionId: FIXED_DATE },
+    };
+    const event = {
+      type: 'message',
+      input: `${SOURCE_PREFIX}${ARTICLE_SOURCE_OPTIONS[0].label}`,
+    };
 
-  askingArticleSubmissionConsent.mockImplementationOnce(params =>
-    Promise.resolve({
-      ...params,
-      isSkipUser: false,
-      state: '__INIT__',
-      replies: 'Foo replies',
-    })
-  );
+    askingArticleSubmissionConsent.mockImplementationOnce(params => {
+      // askingArticleSubmissionConsent doesn't return `state`, discard it
+      // eslint-disable-next-line no-unused-vars
+      const { state, ...restParams } = params;
+      return Promise.resolve({
+        ...restParams,
+        isSkipUser: false,
+        replies: 'Foo replies',
+      });
+    });
 
-  await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-              Object {
-                "context": Object {
-                  "data": Object {
-                    "sessionId": 612964800000,
-                  },
-                  "state": "__INIT__",
+    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+            Object {
+              "context": Object {
+                "data": Object {
+                  "sessionId": 612964800000,
                 },
-                "replies": "Foo replies",
-              }
+                "state": undefined,
+              },
+              "replies": "Foo replies",
+            }
           `);
 
-  expect(askingArticleSubmissionConsent).toHaveBeenCalledTimes(1);
+    expect(askingArticleSubmissionConsent).toHaveBeenCalledTimes(1);
+  });
+
+  it('askes reason', async () => {
+    const context = {
+      data: { sessionId: FIXED_DATE },
+    };
+    const event = {
+      type: 'message',
+      input: `${REASON_PREFIX}My reason sending it to DB`,
+    };
+
+    askingReplyRequestReason.mockImplementationOnce(params => {
+      // askingReplyRequestReason doesn't return `state`, discard it
+      // eslint-disable-next-line no-unused-vars
+      const { state, ...restParams } = params;
+      return Promise.resolve({
+        ...restParams,
+        isSkipUser: false,
+        replies: 'Foo replies',
+      });
+    });
+
+    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+            Object {
+              "context": Object {
+                "data": Object {
+                  "sessionId": 612964800000,
+                },
+                "state": undefined,
+              },
+              "replies": "Foo replies",
+            }
+          `);
+
+    expect(askingReplyRequestReason).toHaveBeenCalledTimes(1);
+  });
 });
 
 it('processes not replied yet reply request submission', async () => {
