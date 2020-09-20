@@ -217,7 +217,14 @@ $ node build/scripts/scanRepliesAndNotify.js
 
 If you would like to start your own LINE bot server in production environment, this section describes how you can deploy the line bot to your own Heroku account.
 
-### Storage
+### Get the server running
+
+You can deploy the line bot server to your own Heroku account by [creating a Heroku app and push to it](https://devcenter.heroku.com/articles/git#creating-a-heroku-remote).
+
+Despite the fact that we don't use `Procfile`, Heroku still does detection and installs the correct environment for us.
+
+
+### Prepare storage services
 
 #### Redis
 
@@ -225,21 +232,16 @@ We use Redis to store conversation context.
 
 Use the env var `REDIS_URL` to specify how chatbot should link to the Redis server.
 
+On Heroku, you can [provision a Heroku Redis addon](https://elements.heroku.com/addons/heroku-redis) to get redis.
+It sets the env var `REDIS_URL` for you.
+
 #### MongoDB
 
 We use MongoDB to store users' visited posts. It's the data source for related GraphQL APIs.
 
 Use the env var `MONGODB_URI` to specify your MongoDB's connection string.
 
-### Get the server running
-
-You can deploy the line bot server to your own Heroku account by [creating a Heroku app and push to it](https://devcenter.heroku.com/articles/git#creating-a-heroku-remote).
-
-Despite the fact that we don't use `Procfile`, Heroku still does detection and installs the correct environment for us.
-
-### Provision add-on "Heroku Redis"
-
-[Provision a Heroku Redis addon](https://elements.heroku.com/addons/heroku-redis) to get redis. It sets the env var `REDIS_URL` for you.
+[MongoDB Atlas Free Tier cluster](https://docs.atlas.mongodb.com/tutorial/deploy-free-tier-cluster/) to start with.
 
 ### Tesseract-ocr on heroku
 
@@ -247,18 +249,20 @@ Despite the fact that we don't use `Procfile`, Heroku still does detection and i
 
 ### Configurations
 
-You will still have to set the following config vars manually:
+Besides previously mentioned `MONGODB_URI`, `REDIS_URL` and `IMAGE_MESSAGE_ENABLED`,
+you will still have to set the following config vars manually:
 
 ```
 $ heroku config:set API_URL=https://cofacts-api.g0v.tw/graphql
 $ heroku config:set SITE_URL=https://cofacts.g0v.tw
 $ heroku config:set LINE_CHANNEL_SECRET=<Your channel secret>
 $ heroku config:set LINE_CHANNEL_TOKEN=<Your channel token>
-$ heroku config:set GOOGLE_CREDENTIALS=<Your google credential (optional)>
 $ heroku config:set LIFF_URL=<LIFF URL>
-$ heroku config:set IMAGE_MESSAGE_ENABLED=true
-$ heroku config:set MONGODB_URI=<MONGODB URI>
+$ heroku config:set FACEBOOK_APP_ID=<Facebook App ID for share dialog>
+$ heroku config:set JWT_SECRET=<arbitary secret string>
 ```
+
+Consult `.env.sample` for other optional env vars.
 
 ## Google Analytics Events table
 
