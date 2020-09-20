@@ -41,10 +41,6 @@ Other customizable env vars are:
 * `IMAGE_MESSAGE_ENABLED`: Default disabled. To enable, please see "Process image message" section below.
 * `DEBUG_LIFF`: Disables external browser check in LIFF. Useful when debugging LIFF in external browser. Don't enable this on production.
 
-### Redis server
-
-We use Redis to store conversation context / intents. Please run a Redis server on your machine, or use the Heroku Redis's `REDIS_URL` directly if you happen to deploy the bot to Heroku.
-
 ### Node Dependencies
 
 You will need `Node.JS` 12+  to proceed.
@@ -55,11 +51,20 @@ $ npm i
 
 ### Get the bot server running on your local machine
 
+Spin up peripherals like Redis and MongoDB using:
+
+```
+$ docker-compose up -d
+```
+
+Then spin up the application, including chatbot server and webpack-dev-server for LIFF, using:
 ```
 $ npm run dev
 ```
 
-and the server will be started on `localhost:5001`. (Or the `PORT` you specified in your `.env` file.)
+The server will be started on `localhost:5001` (or the `PORT` you specified in your `.env` file.)
+
+If you wish to stop the peripherals, run `docker-compose stop`.
 
 ### Get LINE messages to your local machine
 
@@ -211,6 +216,20 @@ $ node build/scripts/scanRepliesAndNotify.js
 ## Production Deployment
 
 If you would like to start your own LINE bot server in production environment, this section describes how you can deploy the line bot to your own Heroku account.
+
+### Storage
+
+#### Redis
+
+We use Redis to store conversation context.
+
+Use the env var `REDIS_URL` to specify how chatbot should link to the Redis server.
+
+#### MongoDB
+
+We use MongoDB to store users' visited posts. It's the data source for related GraphQL APIs.
+
+Use the env var `MONGODB_URI` to specify your MongoDB's connection string.
 
 ### Get the server running
 
