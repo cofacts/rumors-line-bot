@@ -315,70 +315,142 @@ describe('processes first article submission', () => {
   });
 });
 
-it('processes not replied yet reply request submission', async () => {
-  const context = {
-    state: 'ASKING_REPLY_REQUEST_REASON',
-    data: { sessionId: FIXED_DATE },
-  };
-  const event = {
-    type: 'message',
-    input: `${REASON_PREFIX}My reason adding reply request`,
-  };
+describe('processes not replied yet reply request submission', () => {
+  it('askes source', async () => {
+    const context = {
+      state: 'ASKING_REPLY_REQUEST_REASON',
+      data: { sessionId: FIXED_DATE },
+    };
+    const event = {
+      type: 'message',
+      input: `${SOURCE_PREFIX}${ARTICLE_SOURCE_OPTIONS[0].label}`,
+    };
 
-  askingReplyRequestReason.mockImplementationOnce(params =>
-    Promise.resolve({
-      ...params,
-      isSkipUser: false,
-      state: '__INIT__',
-      replies: 'Foo replies',
-    })
-  );
+    askingReplyRequestReason.mockImplementationOnce(params => {
+      // askingReplyRequestReason doesn't return `state`, discard it
+      // eslint-disable-next-line no-unused-vars
+      const { state, ...restParams } = params;
+      return Promise.resolve({
+        ...restParams,
+        isSkipUser: false,
+        replies: 'Foo replies',
+      });
+    });
 
-  await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-              Object {
-                "context": Object {
-                  "data": Object {
-                    "sessionId": 612964800000,
-                  },
-                  "state": "__INIT__",
+    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+            Object {
+              "context": Object {
+                "data": Object {
+                  "sessionId": 612964800000,
                 },
-                "replies": "Foo replies",
-              }
+                "state": undefined,
+              },
+              "replies": "Foo replies",
+            }
           `);
 
-  expect(askingReplyRequestReason).toHaveBeenCalledTimes(1);
+    expect(askingReplyRequestReason).toHaveBeenCalledTimes(1);
+  });
+
+  it('askes reason', async () => {
+    const context = {
+      state: 'ASKING_REPLY_REQUEST_REASON',
+      data: { sessionId: FIXED_DATE },
+    };
+    const event = {
+      type: 'message',
+      input: `${REASON_PREFIX}My reason adding reply request`,
+    };
+
+    askingReplyRequestReason.mockImplementationOnce(params => {
+      // askingReplyRequestReason doesn't return `state`, discard it
+      // eslint-disable-next-line no-unused-vars
+      const { state, ...restParams } = params;
+      return Promise.resolve({
+        ...restParams,
+        isSkipUser: false,
+        replies: 'Foo replies',
+      });
+    });
+
+    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+            Object {
+              "context": Object {
+                "data": Object {
+                  "sessionId": 612964800000,
+                },
+                "state": undefined,
+              },
+              "replies": "Foo replies",
+            }
+          `);
+
+    expect(askingReplyRequestReason).toHaveBeenCalledTimes(1);
+  });
 });
 
-it('handles unimplemented state using defaultState', async () => {
-  const context = {
-    state: '__INIT__',
-    data: { sessionId: FIXED_DATE },
-  };
-  const event = {
-    type: 'postback',
-    postbackHandlerState: 'NOT_IMPLEMENTED_YET',
-    input: 'foo',
-  };
+describe('defaultState', () => {
+  it('handles unimplemented state', async () => {
+    const context = {
+      state: '__INIT__',
+      data: { sessionId: FIXED_DATE },
+    };
+    const event = {
+      type: 'postback',
+      postbackHandlerState: 'NOT_IMPLEMENTED_YET',
+      input: 'foo',
+    };
 
-  await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-          Object {
-            "context": Object {
-              "data": Object {
-                "sessionId": 612964800000,
+    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+            Object {
+              "context": Object {
+                "data": Object {
+                  "sessionId": 612964800000,
+                },
+                "state": "__INIT__",
               },
-              "state": "__INIT__",
-            },
-            "replies": Array [
-              Object {
-                "text": "我們看不懂 QQ
-          大俠請重新來過。",
-                "type": "text",
-              },
-            ],
-          }
-        `);
+              "replies": Array [
+                Object {
+                  "text": "我們看不懂 QQ
+            大俠請重新來過。",
+                  "type": "text",
+                },
+              ],
+            }
+          `);
 
-  expect(initState).not.toHaveBeenCalled();
+    expect(initState).not.toHaveBeenCalled();
+  });
+
+  it('handles wrong event type', async () => {
+    const context = {
+      data: { sessionId: FIXED_DATE },
+    };
+    const event = {
+      type: 'follow',
+      input: '',
+    };
+
+    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+            Object {
+              "context": Object {
+                "data": Object {
+                  "sessionId": 612964800000,
+                },
+                "state": "__INIT__",
+              },
+              "replies": Array [
+                Object {
+                  "text": "我們看不懂 QQ
+            大俠請重新來過。",
+                  "type": "text",
+                },
+              ],
+            }
+          `);
+
+    expect(initState).not.toHaveBeenCalled();
+  });
 });
 
 it('handles ManipulationError fired in handlers', async () => {
