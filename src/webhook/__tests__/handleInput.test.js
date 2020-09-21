@@ -56,7 +56,7 @@ it('rejects undefined input', () => {
 
 it('invokes state handler specified by event.postbackHandlerState', async () => {
   const context = {
-    state: 'ASKING_REPLY_FEEDBACK',
+    state: 'CHOOSING_ARTICLE',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
@@ -65,14 +65,16 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
     input: 'reply-id',
   };
 
-  choosingReply.mockImplementationOnce(params =>
-    Promise.resolve({
-      ...params,
+  choosingReply.mockImplementationOnce(params => {
+    // choosingReply doesn't return `state`, discard it
+    // eslint-disable-next-line no-unused-vars
+    const { state, ...restParams } = params;
+    return Promise.resolve({
+      ...restParams,
       isSkipUser: false,
-      state: 'ASKING_REPLY_FEEDBACK',
       replies: 'Foo replies',
-    })
-  );
+    });
+  });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
               Object {
@@ -80,13 +82,13 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
                   "data": Object {
                     "sessionId": 612964800000,
                   },
-                  "state": "ASKING_REPLY_FEEDBACK",
+                  "state": undefined,
                 },
                 "replies": "Foo replies",
               }
           `);
 
-  expect(askingReplyFeedback).not.toHaveBeenCalled();
+  expect(choosingArticle).not.toHaveBeenCalled();
   expect(choosingReply).toHaveBeenCalledTimes(1);
 });
 
