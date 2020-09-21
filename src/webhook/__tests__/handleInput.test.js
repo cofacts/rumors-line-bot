@@ -94,7 +94,7 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
 
 it('shows article list when VIEW_ARTICLE_PREFIX is sent', async () => {
   const context = {
-    state: 'ASKING_REPLY_FEEDBACK',
+    state: 'CHOOSING_REPLY',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
@@ -124,7 +124,7 @@ it('shows article list when VIEW_ARTICLE_PREFIX is sent', async () => {
               }
           `);
 
-  expect(askingReplyFeedback).not.toHaveBeenCalled();
+  expect(choosingReply).not.toHaveBeenCalled();
   expect(choosingArticle).toHaveBeenCalledTimes(1);
 });
 
