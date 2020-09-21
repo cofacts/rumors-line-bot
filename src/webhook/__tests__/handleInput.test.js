@@ -178,14 +178,16 @@ it('processes upvote', async () => {
     input: `${UPVOTE_PREFIX}My upvote reason`,
   };
 
-  askingReplyFeedback.mockImplementationOnce(params =>
-    Promise.resolve({
-      ...params,
+  askingReplyFeedback.mockImplementationOnce(params => {
+    // askingReplyFeedback doesn't return `state`, discard it
+    // eslint-disable-next-line no-unused-vars
+    const { state, ...restParams } = params;
+    return Promise.resolve({
+      ...restParams,
       isSkipUser: false,
-      state: 'ASKING_REPLY_FEEDBACK',
       replies: 'Foo replies',
-    })
-  );
+    });
+  });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
               Object {
@@ -193,7 +195,7 @@ it('processes upvote', async () => {
                   "data": Object {
                     "sessionId": 612964800000,
                   },
-                  "state": "ASKING_REPLY_FEEDBACK",
+                  "state": undefined,
                 },
                 "replies": "Foo replies",
               }
@@ -212,14 +214,16 @@ it('processes downvote', async () => {
     input: `${DOWNVOTE_PREFIX}My downvote reason`,
   };
 
-  askingReplyFeedback.mockImplementationOnce(params =>
-    Promise.resolve({
-      ...params,
+  askingReplyFeedback.mockImplementationOnce(params => {
+    // askingReplyFeedback doesn't return `state`, discard it
+    // eslint-disable-next-line no-unused-vars
+    const { state, ...restParams } = params;
+    return Promise.resolve({
+      ...restParams,
       isSkipUser: false,
-      state: 'ASKING_REPLY_FEEDBACK',
       replies: 'Foo replies',
-    })
-  );
+    });
+  });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
               Object {
@@ -227,7 +231,7 @@ it('processes downvote', async () => {
                   "data": Object {
                     "sessionId": 612964800000,
                   },
-                  "state": "ASKING_REPLY_FEEDBACK",
+                  "state": undefined,
                 },
                 "replies": "Foo replies",
               }
