@@ -177,5 +177,5 @@ export default async function askingReplyFeedback(params) {
 
   visitor.send();
 
-  return { data, state, event, issuedAt, userId, replies, isSkipUser };
+  return { data, event, issuedAt, userId, replies, isSkipUser };
 }
