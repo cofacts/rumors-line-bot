@@ -9,11 +9,13 @@ import { ManipulationError } from '../handlers/utils';
 import handleInput from '../handleInput';
 
 import {
+  SOURCE_PREFIX,
   REASON_PREFIX,
   DOWNVOTE_PREFIX,
   UPVOTE_PREFIX,
   VIEW_ARTICLE_PREFIX,
   getArticleURL,
+  ARTICLE_SOURCE_OPTIONS,
 } from 'src/lib/sharedUtils';
 
 jest.mock('../handlers/initState');
@@ -54,7 +56,7 @@ it('rejects undefined input', () => {
 
 it('invokes state handler specified by event.postbackHandlerState', async () => {
   const context = {
-    state: 'ASKING_REPLY_FEEDBACK',
+    state: 'CHOOSING_ARTICLE',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
@@ -63,14 +65,16 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
     input: 'reply-id',
   };
 
-  choosingReply.mockImplementationOnce(params =>
-    Promise.resolve({
-      ...params,
+  choosingReply.mockImplementationOnce(params => {
+    // choosingReply doesn't return `state`, discard it
+    // eslint-disable-next-line no-unused-vars
+    const { state, ...restParams } = params;
+    return Promise.resolve({
+      ...restParams,
       isSkipUser: false,
-      state: 'ASKING_REPLY_FEEDBACK',
       replies: 'Foo replies',
-    })
-  );
+    });
+  });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
               Object {
@@ -78,19 +82,19 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
                   "data": Object {
                     "sessionId": 612964800000,
                   },
-                  "state": "ASKING_REPLY_FEEDBACK",
+                  "state": undefined,
                 },
                 "replies": "Foo replies",
               }
           `);
 
-  expect(askingReplyFeedback).not.toHaveBeenCalled();
+  expect(choosingArticle).not.toHaveBeenCalled();
   expect(choosingReply).toHaveBeenCalledTimes(1);
 });
 
 it('shows article list when VIEW_ARTICLE_PREFIX is sent', async () => {
   const context = {
-    state: 'ASKING_REPLY_FEEDBACK',
+    state: 'CHOOSING_REPLY',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
@@ -120,7 +124,7 @@ it('shows article list when VIEW_ARTICLE_PREFIX is sent', async () => {
               }
           `);
 
-  expect(askingReplyFeedback).not.toHaveBeenCalled();
+  expect(choosingReply).not.toHaveBeenCalled();
   expect(choosingArticle).toHaveBeenCalledTimes(1);
 });
 
@@ -178,14 +182,16 @@ it('processes upvote', async () => {
     input: `${UPVOTE_PREFIX}My upvote reason`,
   };
 
-  askingReplyFeedback.mockImplementationOnce(params =>
-    Promise.resolve({
-      ...params,
+  askingReplyFeedback.mockImplementationOnce(params => {
+    // askingReplyFeedback doesn't return `state`, discard it
+    // eslint-disable-next-line no-unused-vars
+    const { state, ...restParams } = params;
+    return Promise.resolve({
+      ...restParams,
       isSkipUser: false,
-      state: 'ASKING_REPLY_FEEDBACK',
       replies: 'Foo replies',
-    })
-  );
+    });
+  });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
               Object {
@@ -193,7 +199,7 @@ it('processes upvote', async () => {
                   "data": Object {
                     "sessionId": 612964800000,
                   },
-                  "state": "ASKING_REPLY_FEEDBACK",
+                  "state": undefined,
                 },
                 "replies": "Foo replies",
               }
@@ -212,14 +218,16 @@ it('processes downvote', async () => {
     input: `${DOWNVOTE_PREFIX}My downvote reason`,
   };
 
-  askingReplyFeedback.mockImplementationOnce(params =>
-    Promise.resolve({
-      ...params,
+  askingReplyFeedback.mockImplementationOnce(params => {
+    // askingReplyFeedback doesn't return `state`, discard it
+    // eslint-disable-next-line no-unused-vars
+    const { state, ...restParams } = params;
+    return Promise.resolve({
+      ...restParams,
       isSkipUser: false,
-      state: 'ASKING_REPLY_FEEDBACK',
       replies: 'Foo replies',
-    })
-  );
+    });
+  });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
               Object {
@@ -227,7 +235,7 @@ it('processes downvote', async () => {
                   "data": Object {
                     "sessionId": 612964800000,
                   },
-                  "state": "ASKING_REPLY_FEEDBACK",
+                  "state": undefined,
                 },
                 "replies": "Foo replies",
               }
@@ -236,104 +244,215 @@ it('processes downvote', async () => {
   expect(askingReplyFeedback).toHaveBeenCalledTimes(1);
 });
 
-it('processes first article reason submission', async () => {
-  const context = {
-    state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
-    data: { sessionId: FIXED_DATE },
-  };
-  const event = {
-    type: 'message',
-    input: `${REASON_PREFIX}My reason sending it to DB`,
-  };
+describe('processes first article submission', () => {
+  it('askes source', async () => {
+    const context = {
+      state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
+      data: { sessionId: FIXED_DATE },
+    };
+    const event = {
+      type: 'message',
+      input: `${SOURCE_PREFIX}${ARTICLE_SOURCE_OPTIONS[0].label}`,
+    };
 
-  askingArticleSubmissionConsent.mockImplementationOnce(params =>
-    Promise.resolve({
-      ...params,
-      isSkipUser: false,
-      state: '__INIT__',
-      replies: 'Foo replies',
-    })
-  );
+    askingArticleSubmissionConsent.mockImplementationOnce(params => {
+      // askingArticleSubmissionConsent doesn't return `state`, discard it
+      // eslint-disable-next-line no-unused-vars
+      const { state, ...restParams } = params;
+      return Promise.resolve({
+        ...restParams,
+        isSkipUser: false,
+        replies: 'Foo replies',
+      });
+    });
 
-  await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-              Object {
-                "context": Object {
-                  "data": Object {
-                    "sessionId": 612964800000,
-                  },
-                  "state": "__INIT__",
+    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+            Object {
+              "context": Object {
+                "data": Object {
+                  "sessionId": 612964800000,
                 },
-                "replies": "Foo replies",
-              }
+                "state": undefined,
+              },
+              "replies": "Foo replies",
+            }
           `);
 
-  expect(askingArticleSubmissionConsent).toHaveBeenCalledTimes(1);
-});
+    expect(askingArticleSubmissionConsent).toHaveBeenCalledTimes(1);
+  });
 
-it('processes not replied yet reply request submission', async () => {
-  const context = {
-    state: 'ASKING_REPLY_REQUEST_REASON',
-    data: { sessionId: FIXED_DATE },
-  };
-  const event = {
-    type: 'message',
-    input: `${REASON_PREFIX}My reason adding reply request`,
-  };
+  it('askes reason', async () => {
+    const context = {
+      data: { sessionId: FIXED_DATE },
+    };
+    const event = {
+      type: 'message',
+      input: `${REASON_PREFIX}My reason sending it to DB`,
+    };
 
-  askingReplyRequestReason.mockImplementationOnce(params =>
-    Promise.resolve({
-      ...params,
-      isSkipUser: false,
-      state: '__INIT__',
-      replies: 'Foo replies',
-    })
-  );
+    askingReplyRequestReason.mockImplementationOnce(params => {
+      // askingReplyRequestReason doesn't return `state`, discard it
+      // eslint-disable-next-line no-unused-vars
+      const { state, ...restParams } = params;
+      return Promise.resolve({
+        ...restParams,
+        isSkipUser: false,
+        replies: 'Foo replies',
+      });
+    });
 
-  await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-              Object {
-                "context": Object {
-                  "data": Object {
-                    "sessionId": 612964800000,
-                  },
-                  "state": "__INIT__",
+    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+            Object {
+              "context": Object {
+                "data": Object {
+                  "sessionId": 612964800000,
                 },
-                "replies": "Foo replies",
-              }
+                "state": undefined,
+              },
+              "replies": "Foo replies",
+            }
           `);
 
-  expect(askingReplyRequestReason).toHaveBeenCalledTimes(1);
+    expect(askingReplyRequestReason).toHaveBeenCalledTimes(1);
+  });
 });
 
-it('handles unimplemented state using defaultState', async () => {
-  const context = {
-    state: '__INIT__',
-    data: { sessionId: FIXED_DATE },
-  };
-  const event = {
-    type: 'postback',
-    postbackHandlerState: 'NOT_IMPLEMENTED_YET',
-    input: 'foo',
-  };
+describe('processes not replied yet reply request submission', () => {
+  it('askes source', async () => {
+    const context = {
+      state: 'ASKING_REPLY_REQUEST_REASON',
+      data: { sessionId: FIXED_DATE },
+    };
+    const event = {
+      type: 'message',
+      input: `${SOURCE_PREFIX}${ARTICLE_SOURCE_OPTIONS[0].label}`,
+    };
 
-  await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-          Object {
-            "context": Object {
-              "data": Object {
-                "sessionId": 612964800000,
-              },
-              "state": "__INIT__",
-            },
-            "replies": Array [
-              Object {
-                "text": "我們看不懂 QQ
-          大俠請重新來過。",
-                "type": "text",
-              },
-            ],
-          }
-        `);
+    askingReplyRequestReason.mockImplementationOnce(params => {
+      // askingReplyRequestReason doesn't return `state`, discard it
+      // eslint-disable-next-line no-unused-vars
+      const { state, ...restParams } = params;
+      return Promise.resolve({
+        ...restParams,
+        isSkipUser: false,
+        replies: 'Foo replies',
+      });
+    });
 
-  expect(initState).not.toHaveBeenCalled();
+    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+            Object {
+              "context": Object {
+                "data": Object {
+                  "sessionId": 612964800000,
+                },
+                "state": undefined,
+              },
+              "replies": "Foo replies",
+            }
+          `);
+
+    expect(askingReplyRequestReason).toHaveBeenCalledTimes(1);
+  });
+
+  it('askes reason', async () => {
+    const context = {
+      state: 'ASKING_REPLY_REQUEST_REASON',
+      data: { sessionId: FIXED_DATE },
+    };
+    const event = {
+      type: 'message',
+      input: `${REASON_PREFIX}My reason adding reply request`,
+    };
+
+    askingReplyRequestReason.mockImplementationOnce(params => {
+      // askingReplyRequestReason doesn't return `state`, discard it
+      // eslint-disable-next-line no-unused-vars
+      const { state, ...restParams } = params;
+      return Promise.resolve({
+        ...restParams,
+        isSkipUser: false,
+        replies: 'Foo replies',
+      });
+    });
+
+    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+            Object {
+              "context": Object {
+                "data": Object {
+                  "sessionId": 612964800000,
+                },
+                "state": undefined,
+              },
+              "replies": "Foo replies",
+            }
+          `);
+
+    expect(askingReplyRequestReason).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('defaultState', () => {
+  it('handles unimplemented state', async () => {
+    const context = {
+      state: '__INIT__',
+      data: { sessionId: FIXED_DATE },
+    };
+    const event = {
+      type: 'postback',
+      postbackHandlerState: 'NOT_IMPLEMENTED_YET',
+      input: 'foo',
+    };
+
+    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+            Object {
+              "context": Object {
+                "data": Object {
+                  "sessionId": 612964800000,
+                },
+                "state": "__INIT__",
+              },
+              "replies": Array [
+                Object {
+                  "text": "我們看不懂 QQ
+            大俠請重新來過。",
+                  "type": "text",
+                },
+              ],
+            }
+          `);
+
+    expect(initState).not.toHaveBeenCalled();
+  });
+
+  it('handles wrong event type', async () => {
+    const context = {
+      data: { sessionId: FIXED_DATE },
+    };
+    const event = {
+      type: 'follow',
+      input: '',
+    };
+
+    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+            Object {
+              "context": Object {
+                "data": Object {
+                  "sessionId": 612964800000,
+                },
+                "state": "__INIT__",
+              },
+              "replies": Array [
+                Object {
+                  "text": "我們看不懂 QQ
+            大俠請重新來過。",
+                  "type": "text",
+                },
+              ],
+            }
+          `);
+
+    expect(initState).not.toHaveBeenCalled();
+  });
 });
 
 it('handles ManipulationError fired in handlers', async () => {

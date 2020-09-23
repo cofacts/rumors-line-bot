@@ -88,7 +88,6 @@ https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
       "type": "flex",
     },
   ],
-  "state": "ASKING_REPLY_FEEDBACK",
   "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
 }
 `;
@@ -183,7 +182,6 @@ https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
       "type": "flex",
     },
   ],
-  "state": "ASKING_REPLY_FEEDBACK",
   "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
 }
 `;
