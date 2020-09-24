@@ -1,7 +1,10 @@
 import { t } from 'ttag';
 import ga from 'src/lib/ga';
 import gql from 'src/lib/gql';
-import { SOURCE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
+import {
+  SOURCE_PREFIX_FRIST_SUBMISSION,
+  getArticleURL,
+} from 'src/lib/sharedUtils';
 import {
   ManipulationError,
   createArticleShareBubble,
@@ -15,7 +18,7 @@ import UserArticleLink from '../../database/models/userArticleLink';
 export default async function askingArticleSubmissionConsent(params) {
   let { data, state, event, userId, replies, isSkipUser } = params;
 
-  if (!event.input.startsWith(SOURCE_PREFIX)) {
+  if (!event.input.startsWith(SOURCE_PREFIX_FRIST_SUBMISSION)) {
     throw new ManipulationError(
       t`Please press the latest button to submit message to database.`
     );
@@ -24,7 +27,7 @@ export default async function askingArticleSubmissionConsent(params) {
   const visitor = ga(userId, state, data.searchedText);
 
   const sourceOption = getArticleSourceOptionFromLabel(
-    event.input.slice(SOURCE_PREFIX.length)
+    event.input.slice(SOURCE_PREFIX_FRIST_SUBMISSION.length)
   );
 
   visitor.event({
@@ -58,6 +61,9 @@ export default async function askingArticleSubmissionConsent(params) {
       userId,
       CreateArticle.id
     );
+
+    // Create new session, make article submission button expire after submitting
+    data.sessionId = Date.now();
 
     const articleUrl = getArticleURL(CreateArticle.id);
     const articleCreatedMsg = t`Your submission is now recorded at ${articleUrl}`;

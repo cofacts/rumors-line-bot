@@ -2,7 +2,7 @@ import { t, msgid, ngettext } from 'ttag';
 import ga from 'src/lib/ga';
 import {
   getArticleURL,
-  SOURCE_PREFIX,
+  SOURCE_PREFIX_NOT_YET_REPLIED,
   REASON_PREFIX,
 } from 'src/lib/sharedUtils';
 import {
@@ -16,9 +16,9 @@ import gql from 'src/lib/gql';
 export default async function askingReplyRequestSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
-  if (event.input.startsWith(SOURCE_PREFIX)) {
+  if (event.input.startsWith(SOURCE_PREFIX_NOT_YET_REPLIED)) {
     const sourceOption = getArticleSourceOptionFromLabel(
-      event.input.slice(SOURCE_PREFIX.length)
+      event.input.slice(SOURCE_PREFIX_NOT_YET_REPLIED.length)
     );
 
     const visitor = ga(userId, state, data.selectedArticleText);

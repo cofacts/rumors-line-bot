@@ -11,7 +11,8 @@ import {
   REASON_PREFIX,
   DOWNVOTE_PREFIX,
   UPVOTE_PREFIX,
-  SOURCE_PREFIX,
+  SOURCE_PREFIX_NOT_YET_REPLIED,
+  SOURCE_PREFIX_FRIST_SUBMISSION,
   VIEW_ARTICLE_PREFIX,
   getArticleURL,
 } from 'src/lib/sharedUtils';
@@ -66,8 +67,10 @@ export default async function handleInput(
       state = 'ASKING_REPLY_FEEDBACK';
     } else if (event.input.startsWith(REASON_PREFIX)) {
       state = 'ASKING_REPLY_REQUEST_REASON';
-    } else if (event.input.startsWith(SOURCE_PREFIX)) {
-      // state should be given from input, ASKING_ARTICLE_SUBMISSION_CONSENT or ASKING_REPLY_REQUEST_REASON
+    } else if (event.input.startsWith(SOURCE_PREFIX_NOT_YET_REPLIED)) {
+      state = 'ASKING_REPLY_REQUEST_REASON';
+    } else if (event.input.startsWith(SOURCE_PREFIX_FRIST_SUBMISSION)) {
+      state = 'ASKING_ARTICLE_SUBMISSION_CONSENT';
     } else {
       // The user forwarded us an new message.
       // Create a new "search session" and reset state to `__INIT__`.
@@ -120,12 +123,12 @@ export default async function handleInput(
           params = await askingReplyFeedback(params);
           break;
         }
-        // SOURCE_PREFIX and state = ASKING_ARTICLE_SUBMISSION_CONSENT
+        // SOURCE_PREFIX_FRIST_SUBMISSION
         case 'ASKING_ARTICLE_SUBMISSION_CONSENT': {
           params = await askingArticleSubmissionConsent(params);
           break;
         }
-        // SOURCE_PREFIX and state = ASKING_REPLY_REQUEST_REASON
+        // SOURCE_PREFIX_NOT_YET_REPLIED, REASON_PREFIX
         case 'ASKING_REPLY_REQUEST_REASON': {
           params = await askingReplyRequestReason(params);
           break;
