@@ -8,7 +8,7 @@ msgstr ""
 
 #: src/webhook/index.js:81
 #. Set default result
-#. 
+#.
 msgid "I cannot understand messages other than text."
 msgstr "我們還不支援文字以外的訊息唷！"
 
@@ -67,11 +67,11 @@ msgstr "看他怎麼說"
 msgid "Visit ${ articleUrl } for more replies."
 msgstr "更多回應請到：${ articleUrl }"
 
-#: src/webhook/handlers/initState.js:268
+#: src/webhook/handlers/initState.js:173
 msgid "Choose this one"
 msgstr "選擇這篇"
 
-#: src/webhook/handlers/initState.js:360
+#: src/webhook/handlers/initState.js:265
 msgid ""
 "Internet rumors are often mutated and shared.\n"
 "Please choose the version that looks the most similar"
@@ -116,8 +116,8 @@ msgstr "是"
 msgid "No"
 msgstr "否"
 
-#: src/webhook/handlers/initState.js:311
-#: src/webhook/handlers/initState.js:329
+#: src/webhook/handlers/initState.js:216
+#: src/webhook/handlers/initState.js:234
 msgid "None of these messages matches mine :("
 msgstr "找不到我想查的訊息 QQ"
 
@@ -127,11 +127,11 @@ msgid "${ positive } user considers this helpful"
 msgid_plural "${ positive } users consider this helpful"
 msgstr[0] "有 ${positive} 人覺得此回應有幫助"
 
-#: src/webhook/handlers/initState.js:327
+#: src/webhook/handlers/initState.js:232
 msgid "Tell us more"
 msgstr "回報此訊息"
 
-#: src/webhook/handlers/initState.js:343
+#: src/webhook/handlers/initState.js:248
 msgid "Please choose the most similar message from the list."
 msgstr "請從下列選擇您要查的訊息。"
 
@@ -144,7 +144,7 @@ msgstr "請從下列選擇您要查看的回應。"
 msgid "Someone thinks it ${ typeWords }"
 msgstr "有人認為它${typeWords}"
 
-#: src/webhook/handlers/initState.js:245
+#: src/webhook/handlers/initState.js:150
 #, javascript-format
 msgid "Looks ${ similarityPercentage }% similar"
 msgstr "看起來 ${similarityPercentage}% 像"
@@ -155,7 +155,7 @@ msgid ""
 "a few minutes later."
 msgstr "不好意思！系統可能在忙線中，無法及時處理您傳的訊息。請稍等幾分鐘再試試看唷。"
 
-#: src/webhook/handleInput.js:143
+#: src/webhook/handleInput.js:155
 msgid "Wrong usage"
 msgstr "這不是這樣用的"
 
@@ -172,8 +172,8 @@ msgid ""
 msgstr "抱歉，chatbot 出錯了。我們已經重設您目前的搜尋狀態，以期能自錯誤狀態中復原。請從頭再傳一次您想詢問的訊息。"
 
 #: src/webhook/handlers/askingArticleSubmissionConsent.js:20
-#: src/webhook/handlers/askingReplyRequestReason.js:16
-#: src/webhook/handlers/initState.js:27
+#: src/webhook/handlers/askingReplyRequestReason.js:78
+#: src/webhook/handlers/askingReplyRequestReason.js:166
 msgid "Please press the latest button to submit message to database."
 msgstr "請用最近的按鈕來將訊息送至資料庫。"
 
@@ -182,7 +182,7 @@ msgstr "請用最近的按鈕來將訊息送至資料庫。"
 msgid "Thanks for the info."
 msgstr "感謝您的提供的資訊。"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.js:64
+#: src/webhook/handlers/askingArticleSubmissionConsent.js:63
 #, javascript-format
 msgid "Your submission is now recorded at ${ articleUrl }"
 msgstr "您回報的訊息已經被收錄至 ${ articleUrl }"
@@ -261,7 +261,7 @@ msgid "${ countOfType.NOT_ARTICLE } of them says it ⚠️️ is out of scope of
 msgstr "${ countOfType.NOT_ARTICLE } 人認為它 ⚠️️ 不在 Cofacts 的查證範圍。"
 
 #: src/webhook/handlers/choosingArticle.js:243
-#: src/webhook/handlers/initState.js:270
+#: src/webhook/handlers/initState.js:175
 #, javascript-format
 msgid "I choose “${ displayTextWhenChosen }”"
 msgstr "我要選「${displayTextWhenChosen}」"
@@ -296,39 +296,39 @@ msgid ""
 "message again"
 msgstr "出了一些問題，導致現在無法取得訊息與回應。請再傳一次您想詢問的訊息"
 
-#: src/webhook/handlers/initState.js:49
+#: src/webhook/handlers/askingReplyRequestReason.js:100
 msgid "Something went wrong when recording your reason, please try again later."
 msgstr "出了一些問題，導致我們無法記錄您提供的理由。請稍後再試。"
 
-#: src/webhook/handlers/initState.js:67
+#: src/webhook/handlers/askingReplyRequestReason.js:118
 msgid "Thanks for the info you provided."
 msgstr "感謝您所提供的資訊。"
 
-#: src/webhook/handlers/initState.js:91
+#: src/webhook/handlers/askingReplyRequestReason.js:142
 #, javascript-format
 msgid "There is ${ otherReplyRequestCount } user also waiting for clarification."
 msgid_plural "There are ${ otherReplyRequestCount } users also waiting for clarification."
 msgstr[0] "共有 ${ otherReplyRequestCount } 人跟您一樣渴望看到針對這篇訊息的回應。"
 
-#: src/webhook/handlers/initState.js:353
+#: src/webhook/handlers/initState.js:258
 #, javascript-format
 msgid ""
 "There are some messages that looks similar to \"${ inputSummary }\" you "
 "have sent to me."
 msgstr "資料庫裡有幾篇訊息，跟您傳給我的「${ inputSummary }」有些接近。"
 
-#: src/webhook/handlers/initState.js:384
+#: src/webhook/handlers/initState.js:289
 msgid "We didn't find anything about this image :("
 msgstr "找不到與此圖片相關的資訊 :("
 
-#: src/webhook/handlers/initState.js:393
+#: src/webhook/handlers/initState.js:297
 #, javascript-format
 msgid "We didn't find anything about \"${ inputSummary }\" :("
 msgstr "找不到關於「${ inputSummary }」 的資訊 :("
 
 #: src/liff/lib.js:89
 #: src/webhook/handlers/utils.js:122
-#. t: Flex message alt-text 
+#. t: Flex message alt-text
 msgid "Please proceed on your mobile phone."
 msgstr "請在您的手機上繼續操作。"
 
@@ -379,7 +379,7 @@ msgid "Share on Facebook"
 msgstr "請教臉書大神"
 
 #: src/webhook/handlers/utils.js:275
-#. t: Facebook hash tag 
+#. t: Facebook hash tag
 msgid "ReportedToCofacts"
 msgstr "Cofacts求解惑"
 
@@ -444,7 +444,7 @@ msgid "Do you have anything to add about the reply?"
 msgstr "針對這則回應，有沒有想補充的呢？"
 
 #: src/liff/pages/Reason.svelte:11
-#. t: Guidance in LIFF 
+#. t: Guidance in LIFF
 msgid ""
 "You may try:\n"
 "1. Express your thought more\n"
@@ -457,7 +457,7 @@ msgstr ""
 "3. 把全文複製貼上到 Facebook 搜尋框看看"
 
 #: src/liff/pages/Reason.svelte:17
-#. t: Guidance in LIFF 
+#. t: Guidance in LIFF
 #, javascript-format
 msgid ""
 "It would help fact-checking editors a lot if you provide more info :)\n"
@@ -475,7 +475,7 @@ msgstr ""
 "若要補充資訊，請按「取消」；覺得現在這樣送出就好，請按「確定」。"
 
 #: src/liff/pages/Reason.svelte:24
-#. t: Guidance in LIFF 
+#. t: Guidance in LIFF
 msgid ""
 "The info you provide should not be identical to the message itself.\n"
 "\n"
@@ -544,17 +544,17 @@ msgid "Cannot get token from URL"
 msgstr ""
 
 #: src/liff/lib.js:142
-#. t: In LIFF, should not happen 
+#. t: In LIFF, should not happen
 msgid "Unexpected error, no search session data is retrieved."
 msgstr ""
 
 #: src/liff/pages/Articles.svelte:83
 msgid "Viewed messages"
-msgstr "看過的訊息"
+msgstr "查過的訊息"
 
 #: src/liff/pages/Articles.svelte:84
 msgid "Fetching viewed messages"
-msgstr "載入看過的訊息"
+msgstr "載入查過的訊息"
 
 #: src/liff/components/ViewedArticle.svelte:37
 #: src/liff/components/ViewedArticle.svelte:42
@@ -600,25 +600,13 @@ msgstr "上一頁"
 msgid "Next"
 msgstr "下一頁"
 
-#: src/liff/pages/UserSetting.svelte:25
-msgid "Use LINE Notify"
-msgstr ""
-
-#: src/liff/pages/UserSetting.svelte:29
-msgid "Use push message"
-msgstr ""
-
-#: src/liff/pages/UserSetting.svelte:75
+#: src/liff/pages/UserSetting.svelte:62
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
-#: src/liff/pages/UserSetting.svelte:76
+#: src/liff/pages/UserSetting.svelte:65
 msgid "Notification"
-msgstr ""
-
-#: src/liff/pages/UserSetting.svelte:78
-msgid "Not available"
-msgstr ""
+msgstr "通知"
 
 #: src/webhook/handlers/askingReplyFeedback.js:160
 #, javascript-format
@@ -648,6 +636,28 @@ msgid ""
 "for more details."
 msgstr "您搜尋過的訊息有新的回應，可以點擊下列按鈕查看詳細資料！"
 
-#: src/webhook/handlers/initState.js:213
+#: src/webhook/handlers/initState.js:118
 msgid "(Words found in the hyperlink)"
 msgstr "（網址裡找到的字）"
+
+#: src/liff/pages/UserSetting.svelte:63
+msgid "Welcome to Cofacts!"
+msgstr "感謝您加 Cofacts 好友！"
+
+#: src/liff/pages/UserSetting.svelte:66
+msgid ""
+"Cofacts can send you latest reply of messages you have sent to Cofacts "
+"before."
+msgstr "當您查過的訊息有新回應時，Cofacts 可以通知您。"
+
+#: src/liff/pages/UserSetting.svelte:67
+msgid "Notify me of new responses"
+msgstr "有新回應時通知我"
+
+#: src/liff/pages/UserSetting.svelte:68
+msgid "No setup option for now :)"
+msgstr "目前沒有設定選項 :)"
+
+#: src/liff/pages/UserSetting.svelte:64
+msgid "You can configure Cofacts here to meet your need."
+msgstr "您可以在這裡設定 Cofacts 以符合需求。"
