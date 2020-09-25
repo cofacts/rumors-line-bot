@@ -4,6 +4,7 @@
   import { gql } from '../lib';
   import Switch from '@smui/switch';
   import Paper, {Title, Content} from '@smui/paper';
+  import FormField from '@smui/form-field';
 
   /* Expose notify method to UI */
   const notifyMethod = NOTIFY_METHOD;
@@ -59,6 +60,16 @@
     }
   }
 </script>
+<style>
+  :global(.field) {
+    display: flex;
+  }
+
+  :global(.field.field.field.field > label) {
+    padding: 0;
+    margin-right: auto;
+  }
+</style>
 
 <svelte:head>
   <title>{t`Settings`}</title>
@@ -70,16 +81,18 @@
 </Paper>
 
 {#if notifyMethod}
-  <div class="mdc-typography--subtitle1">{t`Notification`}</div>
   <p>{t`Cofacts can send you latest reply of messages you have sent to Cofacts before.`}</p>
-  <span style="width: calc(100% - 60px);">
-    {t`Notify me of new responses`}
-  </span>
-  <Switch
-    style="margin: 0 10px;"
-    on:click={(event) => handleClick(event)}
-    bind:checked={allowNewReplyUpdate}
-  />
+  <FormField class="field" align="end">
+    <span slot="label">
+      {t`Notify me of new responses`}
+    </span>
+    <Switch
+      style="margin: 0 10px;"
+      bind:checked={allowNewReplyUpdate}
+      on:change={(event) => handleClick(event)}
+      disabled={allowNewReplyUpdate === undefined}
+    />
+  </FormField>
 {:else}
   <p>{t`No setup option for now :)`}</p>
 {/if}
