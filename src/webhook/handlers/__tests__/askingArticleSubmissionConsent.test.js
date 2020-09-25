@@ -13,6 +13,7 @@ import ga from 'src/lib/ga';
 
 import UserArticleLink from '../../../database/models/userArticleLink';
 import Client from '../../../database/mongoClient';
+import { getLIFFURL } from 'src/webhook/handlers/utils';
 
 beforeAll(async () => {
   if (await UserArticleLink.collectionExists()) {
@@ -98,10 +99,12 @@ it('should redirect user to other fact-checkers for invalid options', async () =
 });
 
 it('should submit article when valid source is provided', async () => {
+  const inputSession = new Date('2020-01-01T18:10:18.314Z').getTime();
   const params = {
     data: {
       searchedText: 'Some text forwarded by the user',
       foundArticleIds: [],
+      sessionId: inputSession,
     },
     state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
     event: {
@@ -113,13 +116,14 @@ it('should submit article when valid source is provided', async () => {
     userId: 'userId',
   };
 
-  MockDate.set('2020-01-01');
+  MockDate.set('2020-01-02');
   gql.__push({ data: { CreateArticle: { id: 'new-article-id' } } });
   const result = await askingArticleSubmissionConsent(params);
   MockDate.reset();
   expect(gql.__finished()).toBe(true);
 
   expect(result).toMatchSnapshot();
+  expect(result.data.sessionId).not.toEqual(inputSession);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [

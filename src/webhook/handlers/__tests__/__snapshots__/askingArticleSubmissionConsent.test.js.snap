@@ -92,6 +92,7 @@ Object {
     "foundArticleIds": Array [],
     "searchedText": "Some text forwarded by the user",
     "selectedArticleId": "new-article-id",
+    "sessionId": 1577923200000,
   },
   "event": Object {
     "input": "1️⃣ I got the message from:
@@ -132,7 +133,7 @@ A LINE group",
                   "action": Object {
                     "label": "Provide more info",
                     "type": "uri",
-                    "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VySWQiLCJleHAiOjE1Nzc5MjMyMDB9.4tsRDmoKzX7b9gex8UyEgo2ht9hCDAQ_45CTgJ7G8Fg",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE1Nzc5MjMyMDAwMDAsInN1YiI6InVzZXJJZCIsImV4cCI6MTU3ODAwOTYwMH0.NNLTji977VFNyYJ0Mplj63tAUBrzifCmNtWp-0dHrus",
                   },
                   "color": "#ffb600",
                   "style": "primary",
