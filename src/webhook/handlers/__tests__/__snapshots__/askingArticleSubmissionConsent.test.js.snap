@@ -19,7 +19,7 @@ Object {
     "searchedText": "Some text forwarded by the user",
   },
   "event": Object {
-    "input": "ℹ️ I got the message from:
+    "input": "1️⃣ I got the message from:
 Somewhere outside LINE",
     "type": "message",
   },
@@ -94,7 +94,7 @@ Object {
     "selectedArticleId": "new-article-id",
   },
   "event": Object {
-    "input": "ℹ️ I got the message from:
+    "input": "1️⃣ I got the message from:
 A LINE group",
     "type": "message",
   },

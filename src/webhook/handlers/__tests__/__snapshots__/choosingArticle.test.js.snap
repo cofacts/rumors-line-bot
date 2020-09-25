@@ -53,7 +53,7 @@ Object {
               "action": Object {
                 "label": "🆕 Submit to database",
                 "type": "uri",
-                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYzc2ZDhhZTljY2QxYWRhNGYwNmM0ZTE1MTVkNDY0NjYiLCJleHAiOjE1Nzc5MjMyMDB9.ZxHN5etvaneWUumNx9bqdBA_6IPmBIQ5sfz7jneJNvI",
+                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYzc2ZDhhZTljY2QxYWRhNGYwNmM0ZTE1MTVkNDY0NjYiLCJleHAiOjE1Nzc5MjMyMDB9.ZxHN5etvaneWUumNx9bqdBA_6IPmBIQ5sfz7jneJNvI&article_submission=true",
               },
               "color": "#ffb600",
               "style": "primary",
