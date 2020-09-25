@@ -4,8 +4,8 @@ jest.mock('src/lib/ga');
 import MockDate from 'mockdate';
 import askingArticleSubmissionConsent from '../askingArticleSubmissionConsent';
 import {
-  REASON_PREFIX,
-  SOURCE_PREFIX,
+  SOURCE_PREFIX_FRIST_SUBMISSION,
+  SOURCE_PREFIX_NOT_YET_REPLIED,
   ARTICLE_SOURCE_OPTIONS,
 } from 'src/lib/sharedUtils';
 import gql from 'src/lib/gql';
@@ -37,7 +37,7 @@ it('should block incorrect prefix', async () => {
     state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
     event: {
       type: 'message',
-      input: REASON_PREFIX + 'foo', // Wrong prefix
+      input: SOURCE_PREFIX_NOT_YET_REPLIED + 'foo', // Wrong prefix
     },
   };
 
@@ -55,7 +55,7 @@ it('should block non-existence source option', async () => {
     state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
     event: {
       type: 'message',
-      input: SOURCE_PREFIX + 'foo', // Correct prefix with wrong value
+      input: SOURCE_PREFIX_FRIST_SUBMISSION + 'foo', // Correct prefix with wrong value
     },
   };
 
@@ -76,7 +76,7 @@ it('should redirect user to other fact-checkers for invalid options', async () =
     event: {
       type: 'message',
       input:
-        SOURCE_PREFIX +
+        SOURCE_PREFIX_FRIST_SUBMISSION +
         ARTICLE_SOURCE_OPTIONS.find(({ valid }) => !valid).label, // Correct prefix + option that should not proceed
     },
   };
@@ -107,7 +107,8 @@ it('should submit article when valid source is provided', async () => {
     event: {
       type: 'message',
       input:
-        SOURCE_PREFIX + ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label,
+        SOURCE_PREFIX_FRIST_SUBMISSION +
+        ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label,
     },
     userId: 'userId',
   };
@@ -158,7 +159,8 @@ it('should create a UserArticleLink when creating a Article', async () => {
     event: {
       type: 'message',
       input:
-        SOURCE_PREFIX + ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label,
+        SOURCE_PREFIX_FRIST_SUBMISSION +
+        ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label,
     },
     userId,
   };

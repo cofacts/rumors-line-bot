@@ -9,7 +9,8 @@ import { ManipulationError } from '../handlers/utils';
 import handleInput from '../handleInput';
 
 import {
-  SOURCE_PREFIX,
+  SOURCE_PREFIX_FRIST_SUBMISSION,
+  SOURCE_PREFIX_NOT_YET_REPLIED,
   REASON_PREFIX,
   DOWNVOTE_PREFIX,
   UPVOTE_PREFIX,
@@ -252,7 +253,9 @@ describe('processes first article submission', () => {
     };
     const event = {
       type: 'message',
-      input: `${SOURCE_PREFIX}${ARTICLE_SOURCE_OPTIONS[0].label}`,
+      input: `${SOURCE_PREFIX_FRIST_SUBMISSION}${
+        ARTICLE_SOURCE_OPTIONS[0].label
+      }`,
     };
 
     askingArticleSubmissionConsent.mockImplementationOnce(params => {
@@ -325,7 +328,9 @@ describe('processes not replied yet reply request submission', () => {
     };
     const event = {
       type: 'message',
-      input: `${SOURCE_PREFIX}${ARTICLE_SOURCE_OPTIONS[0].label}`,
+      input: `${SOURCE_PREFIX_NOT_YET_REPLIED}${
+        ARTICLE_SOURCE_OPTIONS[0].label
+      }`,
     };
 
     askingReplyRequestReason.mockImplementationOnce(params => {
