@@ -15,7 +15,7 @@ const SIMILARITY_THRESHOLD = 0.95;
 
 export default async function initState(params) {
   let { data, event, userId, replies, isSkipUser } = params;
-  let state = '__INIT__';
+  const state = '__INIT__';
 
   // Track text message type send by user
   const visitor = ga(userId, state, event.input);
@@ -86,19 +86,20 @@ export default async function initState(params) {
       edgesSortedWithSimilarity[0].similarity >= SIMILARITY_THRESHOLD;
 
     if (edgesSortedWithSimilarity.length === 1 && hasIdenticalDocs) {
-      // choose for user
-      event.input = 1;
-
       visitor.send();
+
+      // choose for user
       return {
         data,
-        state: 'CHOOSING_ARTICLE',
         event: {
           type: 'postback',
           input: edgesSortedWithSimilarity[0].node.id,
         },
         userId,
         replies,
+        // override state to 'CHOOSING_ARTICLE'
+        state: 'CHOOSING_ARTICLE',
+        // handleInput again
         isSkipUser: true,
       };
     }
@@ -272,8 +273,6 @@ export default async function initState(params) {
     } else {
       replies = prefixTextArticleFound.concat(textArticleFound);
     }
-
-    state = 'CHOOSING_ARTICLE';
   } else {
     // Track if find similar Articles in DB.
     visitor.event({
@@ -298,9 +297,8 @@ export default async function initState(params) {
         },
         createAskArticleSubmissionConsentReply(userId, data.sessionId),
       ];
-      state = 'ASKING_ARTICLE_SUBMISSION_CONSENT';
     }
   }
   visitor.send();
-  return { data, state, event, userId, replies, isSkipUser };
+  return { data, event, userId, replies, isSkipUser };
 }

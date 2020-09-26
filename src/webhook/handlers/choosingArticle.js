@@ -55,7 +55,6 @@ export default async function choosingArticle(params) {
 
     return {
       data,
-      state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
       event,
       userId,
       replies: [createAskArticleSubmissionConsentReply(userId, data.sessionId)],
@@ -114,13 +113,15 @@ export default async function choosingArticle(params) {
     // choose for user
     return {
       data,
-      state: 'CHOOSING_REPLY',
       event: {
         type: 'postback',
         input: articleReplies[0].reply.id,
       },
       userId,
       replies,
+      // override state to 'CHOOSING_REPLY'
+      state: 'CHOOSING_REPLY',
+      // handleInput again
       isSkipUser: true,
     };
   }
@@ -278,8 +279,6 @@ export default async function choosingArticle(params) {
         text: t`Visit ${articleUrl} for more replies.`,
       });
     }
-
-    state = 'CHOOSING_REPLY';
   } else {
     // No one has replied to this yet.
 
@@ -360,11 +359,9 @@ export default async function choosingArticle(params) {
         }
       }
     `({ id: selectedArticleId }, { userId });
-
-    state = 'ASKING_REPLY_REQUEST_REASON';
   }
 
   visitor.send();
 
-  return { data, state, event, userId, replies, isSkipUser };
+  return { data, event, userId, replies, isSkipUser };
 }

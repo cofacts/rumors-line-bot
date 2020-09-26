@@ -19,19 +19,13 @@ import {
 
 /**
  * Given input event and context, outputs the new context and the reply to emit.
- * Invokes handlers with regard to the current state.
  *
- * State diagram: http://bit.ly/2hnnXjZ
- *
- * @param {Object<state, data>} context The current context of the bot
+ * @param {Object<data>} context The current context of the bot
  * @param {*} event The input event
  * @param {*} userId LINE user ID that does the input
  */
-export default async function handleInput(
-  { state = '__INIT__', data = {} },
-  event,
-  userId
-) {
+export default async function handleInput({ data = {} }, event, userId) {
+  let state;
   let replies;
   let isSkipUser = false;
 
@@ -73,7 +67,7 @@ export default async function handleInput(
       state = 'ASKING_ARTICLE_SUBMISSION_CONSENT';
     } else {
       // The user forwarded us an new message.
-      // Create a new "search session" and reset state to `__INIT__`.
+      // Create a new "search session".
       //
       data = {
         // Used to determine button postbacks and GraphQL requests are from
@@ -96,7 +90,7 @@ export default async function handleInput(
     isSkipUser,
   };
 
-  // Sets state, data and replies
+  // Sets data and replies
   //
   do {
     params.isSkipUser = false;
@@ -188,10 +182,10 @@ export default async function handleInput(
     ({ isSkipUser } = params);
   } while (isSkipUser);
 
-  ({ state, data, replies } = params);
+  ({ data, replies } = params);
 
   return {
-    context: { state, data },
+    context: { data },
     replies,
   };
 }
