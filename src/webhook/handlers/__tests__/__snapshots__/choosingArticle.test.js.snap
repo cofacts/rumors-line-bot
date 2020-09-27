@@ -94,7 +94,6 @@ Object {
       "type": "flex",
     },
   ],
-  "state": "ASKING_ARTICLE_SUBMISSION_CONSENT",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -464,7 +463,6 @@ Object {
       "type": "flex",
     },
   ],
-  "state": "CHOOSING_REPLY",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -1295,7 +1293,6 @@ Object {
       "type": "text",
     },
   ],
-  "state": "CHOOSING_REPLY",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -1505,7 +1502,6 @@ Object {
       "type": "flex",
     },
   ],
-  "state": "CHOOSING_REPLY",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -1602,7 +1598,6 @@ Object {
       "type": "flex",
     },
   ],
-  "state": "ASKING_REPLY_REQUEST_REASON",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;

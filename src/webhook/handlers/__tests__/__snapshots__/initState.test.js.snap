@@ -160,7 +160,6 @@ Please choose the version that looks the most similar👇",
       "type": "flex",
     },
   ],
-  "state": "CHOOSING_ARTICLE",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -360,7 +359,6 @@ Please choose the version that looks the most similar👇",
       "type": "flex",
     },
   ],
-  "state": "CHOOSING_ARTICLE",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -455,7 +453,6 @@ Object {
       "type": "flex",
     },
   ],
-  "state": "__INIT__",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -775,7 +772,6 @@ title2 title2 title2 ",
       "type": "flex",
     },
   ],
-  "state": "CHOOSING_ARTICLE",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -881,7 +877,6 @@ Object {
       "type": "flex",
     },
   ],
-  "state": "ASKING_ARTICLE_SUBMISSION_CONSENT",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;

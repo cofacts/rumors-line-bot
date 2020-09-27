@@ -77,16 +77,15 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
   });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-              Object {
-                "context": Object {
-                  "data": Object {
-                    "sessionId": 612964800000,
-                  },
-                  "state": undefined,
-                },
-                "replies": "Foo replies",
-              }
-          `);
+          Object {
+            "context": Object {
+              "data": Object {
+                "sessionId": 612964800000,
+              },
+            },
+            "replies": "Foo replies",
+          }
+        `);
 
   expect(choosingArticle).not.toHaveBeenCalled();
   expect(choosingReply).toHaveBeenCalledTimes(1);
@@ -113,17 +112,16 @@ it('shows article list when VIEW_ARTICLE_PREFIX is sent', async () => {
   });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-              Object {
-                "context": Object {
-                  "data": Object {
-                    "searchedText": "",
-                    "sessionId": 1561982400000,
-                  },
-                  "state": "CHOOSING_REPLY",
-                },
-                "replies": "Foo replies",
-              }
-          `);
+          Object {
+            "context": Object {
+              "data": Object {
+                "searchedText": "",
+                "sessionId": 1561982400000,
+              },
+            },
+            "replies": "Foo replies",
+          }
+        `);
 
   expect(choosingReply).not.toHaveBeenCalled();
   expect(choosingArticle).toHaveBeenCalledTimes(1);
@@ -159,16 +157,15 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
   });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-              Object {
-                "context": Object {
-                  "data": Object {
-                    "sessionId": 1561982400000,
-                  },
-                  "state": "CHOOSING_REPLY",
-                },
-                "replies": "Foo replies",
-              }
-          `);
+          Object {
+            "context": Object {
+              "data": Object {
+                "sessionId": 1561982400000,
+              },
+            },
+            "replies": "Foo replies",
+          }
+        `);
 
   expect(askingReplyFeedback).not.toHaveBeenCalled();
   expect(initState).toHaveBeenCalledTimes(1);
@@ -196,16 +193,15 @@ it('processes upvote', async () => {
   });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-              Object {
-                "context": Object {
-                  "data": Object {
-                    "sessionId": 612964800000,
-                  },
-                  "state": undefined,
-                },
-                "replies": "Foo replies",
-              }
-          `);
+          Object {
+            "context": Object {
+              "data": Object {
+                "sessionId": 612964800000,
+              },
+            },
+            "replies": "Foo replies",
+          }
+        `);
 
   expect(askingReplyFeedback).toHaveBeenCalledTimes(1);
 });
@@ -231,16 +227,15 @@ it('processes downvote', async () => {
   });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-              Object {
-                "context": Object {
-                  "data": Object {
-                    "sessionId": 612964800000,
-                  },
-                  "state": undefined,
-                },
-                "replies": "Foo replies",
-              }
-          `);
+          Object {
+            "context": Object {
+              "data": Object {
+                "sessionId": 612964800000,
+              },
+            },
+            "replies": "Foo replies",
+          }
+        `);
 
   expect(askingReplyFeedback).toHaveBeenCalledTimes(1);
 });
@@ -274,7 +269,6 @@ describe('processes first article submission', () => {
                 "data": Object {
                   "sessionId": 612964800000,
                 },
-                "state": undefined,
               },
               "replies": "Foo replies",
             }
@@ -309,7 +303,6 @@ describe('processes first article submission', () => {
                 "data": Object {
                   "sessionId": 612964800000,
                 },
-                "state": undefined,
               },
               "replies": "Foo replies",
             }
@@ -348,7 +341,6 @@ describe('processes not replied yet reply request submission', () => {
                 "data": Object {
                   "sessionId": 612964800000,
                 },
-                "state": undefined,
               },
               "replies": "Foo replies",
             }
@@ -383,7 +375,6 @@ describe('processes not replied yet reply request submission', () => {
                 "data": Object {
                   "sessionId": 612964800000,
                 },
-                "state": undefined,
               },
               "replies": "Foo replies",
             }
@@ -410,7 +401,6 @@ describe('defaultState', () => {
                 "data": Object {
                   "sessionId": 612964800000,
                 },
-                "state": "__INIT__",
               },
               "replies": Array [
                 Object {
@@ -440,7 +430,6 @@ describe('defaultState', () => {
                 "data": Object {
                   "sessionId": 612964800000,
                 },
-                "state": "__INIT__",
               },
               "replies": Array [
                 Object {
@@ -471,57 +460,55 @@ it('handles ManipulationError fired in handlers', async () => {
   );
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+          Object {
+            "context": Object {
+              "data": Object {
+                "sessionId": 612964800000,
+              },
+            },
+            "replies": Array [
               Object {
-                "context": Object {
-                  "data": Object {
-                    "sessionId": 612964800000,
+                "altText": "Error: Foo error",
+                "contents": Object {
+                  "body": Object {
+                    "contents": Array [
+                      Object {
+                        "text": "Foo error",
+                        "type": "text",
+                        "wrap": true,
+                      },
+                    ],
+                    "layout": "vertical",
+                    "type": "box",
                   },
-                  "state": "CHOOSING_ARTICLE",
-                },
-                "replies": Array [
-                  Object {
-                    "altText": "Error: Foo error",
-                    "contents": Object {
-                      "body": Object {
-                        "contents": Array [
-                          Object {
-                            "text": "Foo error",
-                            "type": "text",
-                            "wrap": true,
-                          },
-                        ],
-                        "layout": "vertical",
-                        "type": "box",
+                  "header": Object {
+                    "contents": Array [
+                      Object {
+                        "color": "#ffb600",
+                        "text": "⚠️ Wrong usage",
+                        "type": "text",
+                        "weight": "bold",
                       },
-                      "header": Object {
-                        "contents": Array [
-                          Object {
-                            "color": "#ffb600",
-                            "text": "⚠️ Wrong usage",
-                            "type": "text",
-                            "weight": "bold",
-                          },
-                        ],
-                        "layout": "vertical",
-                        "type": "box",
-                      },
-                      "styles": Object {
-                        "body": Object {
-                          "separator": true,
-                        },
-                      },
-                      "type": "bubble",
+                    ],
+                    "layout": "vertical",
+                    "type": "box",
+                  },
+                  "styles": Object {
+                    "body": Object {
+                      "separator": true,
                     },
-                    "type": "flex",
                   },
-                ],
-              }
-          `);
+                  "type": "bubble",
+                },
+                "type": "flex",
+              },
+            ],
+          }
+        `);
 });
 
 it('throws on unknown error', async () => {
   const context = {
-    state: 'CHOOSING_ARTICLE',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
