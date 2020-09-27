@@ -57,7 +57,6 @@ it('rejects undefined input', () => {
 
 it('invokes state handler specified by event.postbackHandlerState', async () => {
   const context = {
-    state: 'CHOOSING_ARTICLE',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
@@ -67,7 +66,7 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
   };
 
   choosingReply.mockImplementationOnce(params => {
-    // choosingReply doesn't return `state`, discard it
+    // it doesn't return `state`, discard it
     // eslint-disable-next-line no-unused-vars
     const { state, ...restParams } = params;
     return Promise.resolve({
@@ -95,7 +94,6 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
 
 it('shows article list when VIEW_ARTICLE_PREFIX is sent', async () => {
   const context = {
-    state: 'CHOOSING_REPLY',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
@@ -103,14 +101,16 @@ it('shows article list when VIEW_ARTICLE_PREFIX is sent', async () => {
     input: `${VIEW_ARTICLE_PREFIX}${getArticleURL('article-id')}`,
   };
 
-  choosingArticle.mockImplementationOnce(params =>
-    Promise.resolve({
-      ...params,
+  choosingArticle.mockImplementationOnce(params => {
+    // it doesn't return `state`, discard it
+    // eslint-disable-next-line no-unused-vars
+    const { state, ...restParams } = params;
+    return Promise.resolve({
+      ...restParams,
       isSkipUser: false,
-      state: 'CHOOSING_REPLY',
       replies: 'Foo replies',
-    })
-  );
+    });
+  });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
               Object {
@@ -131,7 +131,6 @@ it('shows article list when VIEW_ARTICLE_PREFIX is sent', async () => {
 
 it('Resets session on free-form input, triggers fast-forward', async () => {
   const context = {
-    state: 'ASKING_REPLY_FEEDBACK',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
@@ -143,18 +142,21 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
     Promise.resolve({
       ...params,
       isSkipUser: true,
+      // isSkipUser should return a state and handleInput again
       state: 'CHOOSING_ARTICLE',
     })
   );
 
-  choosingArticle.mockImplementationOnce(params =>
-    Promise.resolve({
-      ...params,
+  choosingArticle.mockImplementationOnce(params => {
+    // it doesn't return `state`, discard it
+    // eslint-disable-next-line no-unused-vars
+    const { state, ...restParams } = params;
+    return Promise.resolve({
+      ...restParams,
       isSkipUser: false,
-      state: 'CHOOSING_REPLY',
       replies: 'Foo replies',
-    })
-  );
+    });
+  });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
               Object {
@@ -175,7 +177,6 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
 
 it('processes upvote', async () => {
   const context = {
-    state: 'ASKING_REPLY_FEEDBACK',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
@@ -184,7 +185,7 @@ it('processes upvote', async () => {
   };
 
   askingReplyFeedback.mockImplementationOnce(params => {
-    // askingReplyFeedback doesn't return `state`, discard it
+    // it doesn't return `state`, discard it
     // eslint-disable-next-line no-unused-vars
     const { state, ...restParams } = params;
     return Promise.resolve({
@@ -211,7 +212,6 @@ it('processes upvote', async () => {
 
 it('processes downvote', async () => {
   const context = {
-    state: 'ASKING_REPLY_FEEDBACK',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
@@ -220,7 +220,7 @@ it('processes downvote', async () => {
   };
 
   askingReplyFeedback.mockImplementationOnce(params => {
-    // askingReplyFeedback doesn't return `state`, discard it
+    // it doesn't return `state`, discard it
     // eslint-disable-next-line no-unused-vars
     const { state, ...restParams } = params;
     return Promise.resolve({
@@ -248,7 +248,6 @@ it('processes downvote', async () => {
 describe('processes first article submission', () => {
   it('askes source', async () => {
     const context = {
-      state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
       data: { sessionId: FIXED_DATE },
     };
     const event = {
@@ -259,7 +258,7 @@ describe('processes first article submission', () => {
     };
 
     askingArticleSubmissionConsent.mockImplementationOnce(params => {
-      // askingArticleSubmissionConsent doesn't return `state`, discard it
+      // it doesn't return `state`, discard it
       // eslint-disable-next-line no-unused-vars
       const { state, ...restParams } = params;
       return Promise.resolve({
@@ -294,7 +293,7 @@ describe('processes first article submission', () => {
     };
 
     askingReplyRequestReason.mockImplementationOnce(params => {
-      // askingReplyRequestReason doesn't return `state`, discard it
+      // it doesn't return `state`, discard it
       // eslint-disable-next-line no-unused-vars
       const { state, ...restParams } = params;
       return Promise.resolve({
@@ -323,7 +322,6 @@ describe('processes first article submission', () => {
 describe('processes not replied yet reply request submission', () => {
   it('askes source', async () => {
     const context = {
-      state: 'ASKING_REPLY_REQUEST_REASON',
       data: { sessionId: FIXED_DATE },
     };
     const event = {
@@ -334,7 +332,7 @@ describe('processes not replied yet reply request submission', () => {
     };
 
     askingReplyRequestReason.mockImplementationOnce(params => {
-      // askingReplyRequestReason doesn't return `state`, discard it
+      // it doesn't return `state`, discard it
       // eslint-disable-next-line no-unused-vars
       const { state, ...restParams } = params;
       return Promise.resolve({
@@ -361,7 +359,6 @@ describe('processes not replied yet reply request submission', () => {
 
   it('askes reason', async () => {
     const context = {
-      state: 'ASKING_REPLY_REQUEST_REASON',
       data: { sessionId: FIXED_DATE },
     };
     const event = {
@@ -370,7 +367,7 @@ describe('processes not replied yet reply request submission', () => {
     };
 
     askingReplyRequestReason.mockImplementationOnce(params => {
-      // askingReplyRequestReason doesn't return `state`, discard it
+      // it doesn't return `state`, discard it
       // eslint-disable-next-line no-unused-vars
       const { state, ...restParams } = params;
       return Promise.resolve({
@@ -399,7 +396,6 @@ describe('processes not replied yet reply request submission', () => {
 describe('defaultState', () => {
   it('handles unimplemented state', async () => {
     const context = {
-      state: '__INIT__',
       data: { sessionId: FIXED_DATE },
     };
     const event = {
@@ -462,7 +458,6 @@ describe('defaultState', () => {
 
 it('handles ManipulationError fired in handlers', async () => {
   const context = {
-    state: 'CHOOSING_ARTICLE',
     data: { sessionId: FIXED_DATE },
   };
   const event = {

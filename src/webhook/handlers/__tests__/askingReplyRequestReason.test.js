@@ -23,7 +23,6 @@ it('should block incorrect prefix', async () => {
     data: {
       selectedArticleId: 'selected-article-id',
     },
-    state: 'ASKING_REPLY_REQUEST_REASON',
     event: {
       type: 'message',
       input: SOURCE_PREFIX_FRIST_SUBMISSION + 'foo', // Wrong prefix
@@ -39,7 +38,6 @@ it('records article source', async () => {
     data: {
       selectedArticleId: 'selected-article-id',
     },
-    state: 'ASKING_REPLY_REQUEST_REASON',
     event: {
       input:
         SOURCE_PREFIX_NOT_YET_REPLIED +
@@ -78,7 +76,6 @@ it('handles reason LIFF: incorrect context', async () => {
       sessionId: 1497994017447,
       // No selectedArticleId
     },
-    state: 'ASKING_REPLY_REQUEST_REASON',
     event: {
       type: 'message',
       input: REASON_PREFIX + 'My reason',
@@ -101,7 +98,6 @@ it('handles reason LIFF: reply request update failed', async () => {
       sessionId: 1497994017447,
       selectedArticleId: 'article-id',
     },
-    state: 'ASKING_REPLY_REQUEST_REASON',
     event: {
       type: 'message',
       input: REASON_PREFIX + 'My reason',
@@ -127,7 +123,6 @@ it('handles reason LIFF: reply request update success, only 1 reply request', as
       sessionId: 1497994017447,
       selectedArticleId: 'article-id',
     },
-    state: 'ASKING_REPLY_REQUEST_REASON',
     event: {
       type: 'message',
       input: REASON_PREFIX + 'My reason',
@@ -165,7 +160,6 @@ it('handles reason LIFF: reply request update success, multiple reply requests',
       sessionId: 1497994017447,
       selectedArticleId: 'article-id',
     },
-    state: 'ASKING_REPLY_REQUEST_REASON',
     event: {
       type: 'message',
       input: REASON_PREFIX + 'My reason',

@@ -13,7 +13,6 @@ import ga from 'src/lib/ga';
 
 import UserArticleLink from '../../../database/models/userArticleLink';
 import Client from '../../../database/mongoClient';
-import { getLIFFURL } from 'src/webhook/handlers/utils';
 
 beforeAll(async () => {
   if (await UserArticleLink.collectionExists()) {
@@ -35,7 +34,6 @@ it('should block incorrect prefix', async () => {
       searchedText: 'Some text forwarded by the user',
       foundArticleIds: [],
     },
-    state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
     event: {
       type: 'message',
       input: SOURCE_PREFIX_NOT_YET_REPLIED + 'foo', // Wrong prefix
@@ -53,7 +51,6 @@ it('should block non-existence source option', async () => {
       searchedText: 'Some text forwarded by the user',
       foundArticleIds: [],
     },
-    state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
     event: {
       type: 'message',
       input: SOURCE_PREFIX_FRIST_SUBMISSION + 'foo', // Correct prefix with wrong value
@@ -73,7 +70,6 @@ it('should redirect user to other fact-checkers for invalid options', async () =
       searchedText: 'Some text forwarded by the user',
       foundArticleIds: [],
     },
-    state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
     event: {
       type: 'message',
       input:
@@ -106,7 +102,6 @@ it('should submit article when valid source is provided', async () => {
       foundArticleIds: [],
       sessionId: inputSession,
     },
-    state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
     event: {
       type: 'message',
       input:
@@ -159,7 +154,6 @@ it('should create a UserArticleLink when creating a Article', async () => {
       searchedText: 'Some text forwarded by the user',
       foundArticleIds: [],
     },
-    state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
     event: {
       type: 'message',
       input:

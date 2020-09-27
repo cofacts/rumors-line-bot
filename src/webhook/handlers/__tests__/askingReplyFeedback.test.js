@@ -20,7 +20,6 @@ const commonParamsYes = {
       '(0)(1)(/)(0)(9)(line)免費貼圖\n\n「[全螢幕貼圖]生活市集x生活小黑熊」\nhttps://line.me/S/sticker/10299\n\n「松果購物 x 狗與鹿(動態貼圖) 」\nhttps://line.me/S/sticker/10300\n\n「LINE TV X 我的男孩限免貼圖」\nhttps://line.me/S/sticker/10207',
     selectedReplyId: 'AWDZeeV0yCdS-nWhuml8',
   },
-  state: 'ASKING_REPLY_FEEDBACK',
   event: {
     type: 'text',
     input: `${UPVOTE_PREFIX}Reply is good!`,
@@ -63,7 +62,6 @@ const commonParamsNo = {
     selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
     selectedReplyId: 'AWDZeeV0yCdS-nWhuml8',
   },
-  state: 'ASKING_REPLY_FEEDBACK',
   event: {
     type: 'text',
     input: `${DOWNVOTE_PREFIX}我覺得不行`,
@@ -93,7 +91,6 @@ const commonParamsOthers = {
     selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
     selectedReplyId: 'AWDZeeV0yCdS-nWhuml8',
   },
-  state: 'ASKING_REPLY_FEEDBACK',
   event: {
     type: 'text',
     input: 'Unexpected text here!',
@@ -120,7 +117,6 @@ const commonParamsInvalid = {
     selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
     // No selectedReplyId
   },
-  state: 'ASKING_REPLY_FEEDBACK',
   event: {
     type: 'text',
     input: 'asdasdasd',
