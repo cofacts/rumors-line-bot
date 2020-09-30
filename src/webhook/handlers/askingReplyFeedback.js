@@ -133,7 +133,9 @@ export default async function askingReplyFeedback(params) {
         },
       },
     ];
-  } else if (event.input.startsWith(DOWNVOTE_PREFIX)) {
+  } else {
+    // event.input.startsWith(DOWNVOTE_PREFIX)
+
     const updatedArticleReply = await updateFeedback(
       {
         articleId: data.selectedArticleId,
