@@ -5,7 +5,6 @@ import MockDate from 'mockdate';
 import askingReplyRequestReason from '../askingReplyRequestReason';
 import {
   REASON_PREFIX,
-  SOURCE_PREFIX_FRIST_SUBMISSION,
   SOURCE_PREFIX_NOT_YET_REPLIED,
   ARTICLE_SOURCE_OPTIONS,
 } from 'src/lib/sharedUtils';
@@ -16,21 +15,6 @@ import gql from 'src/lib/gql';
 beforeEach(() => {
   ga.clearAllMocks();
   gql.__reset();
-});
-
-it('should block incorrect prefix', async () => {
-  const params = {
-    data: {
-      selectedArticleId: 'selected-article-id',
-    },
-    event: {
-      type: 'message',
-      input: SOURCE_PREFIX_FRIST_SUBMISSION + 'foo', // Wrong prefix
-    },
-  };
-  await expect(askingReplyRequestReason(params)).rejects.toMatchInlineSnapshot(
-    `[Error: Please press the latest button to submit message to database.]`
-  );
 });
 
 it('records article source', async () => {

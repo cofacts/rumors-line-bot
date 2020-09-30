@@ -5,7 +5,6 @@ import MockDate from 'mockdate';
 import askingArticleSubmissionConsent from '../askingArticleSubmissionConsent';
 import {
   SOURCE_PREFIX_FRIST_SUBMISSION,
-  SOURCE_PREFIX_NOT_YET_REPLIED,
   ARTICLE_SOURCE_OPTIONS,
 } from 'src/lib/sharedUtils';
 import gql from 'src/lib/gql';
@@ -26,23 +25,6 @@ afterAll(async () => {
 
 beforeEach(() => {
   ga.clearAllMocks();
-});
-
-it('should block incorrect prefix', async () => {
-  const params = {
-    data: {
-      searchedText: 'Some text forwarded by the user',
-      foundArticleIds: [],
-    },
-    event: {
-      type: 'message',
-      input: SOURCE_PREFIX_NOT_YET_REPLIED + 'foo', // Wrong prefix
-    },
-  };
-
-  expect(askingArticleSubmissionConsent(params)).rejects.toMatchInlineSnapshot(
-    `[Error: Please press the latest button to submit message to database.]`
-  );
 });
 
 it('should block non-existence source option', async () => {

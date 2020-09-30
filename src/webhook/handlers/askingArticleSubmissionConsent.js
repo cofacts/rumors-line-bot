@@ -6,7 +6,6 @@ import {
   getArticleURL,
 } from 'src/lib/sharedUtils';
 import {
-  ManipulationError,
   createArticleShareBubble,
   createSuggestOtherFactCheckerReply,
   getArticleSourceOptionFromLabel,
@@ -17,12 +16,6 @@ import UserArticleLink from '../../database/models/userArticleLink';
 
 export default async function askingArticleSubmissionConsent(params) {
   let { data, state, event, userId, replies, isSkipUser } = params;
-
-  if (!event.input.startsWith(SOURCE_PREFIX_FRIST_SUBMISSION)) {
-    throw new ManipulationError(
-      t`Please press the latest button to submit message to database.`
-    );
-  }
 
   const visitor = ga(userId, state, data.searchedText);
 

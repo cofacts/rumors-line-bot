@@ -85,32 +85,6 @@ it('handles "no" postback with other existing feedback comments', async () => {
   expect(gql.__finished()).toBe(true);
 });
 
-const commonParamsOthers = {
-  data: {
-    searchedText: '貼圖',
-    selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
-    selectedReplyId: 'AWDZeeV0yCdS-nWhuml8',
-  },
-  event: {
-    type: 'text',
-    input: 'Unexpected text here!',
-    timestamp: 1519019734813,
-  },
-  issuedAt: 1519019735467,
-  userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
-  replies: undefined,
-  isSkipUser: false,
-};
-
-it('handles unexpected feedbacks', async () => {
-  await expect(
-    askingReplyFeedback(commonParamsOthers)
-  ).rejects.toMatchInlineSnapshot(
-    `[Error: Please press the latest button to provide feedback to reply.]`
-  );
-  expect(ga.sendMock).toHaveBeenCalledTimes(0);
-});
-
 const commonParamsInvalid = {
   data: {
     searchedText: '貼圖',

@@ -160,10 +160,6 @@ export default async function askingReplyFeedback(params) {
         text: `💁 ${t`If you have a better reply, feel free to submit it to ${submissionUrl} .`}`,
       },
     ];
-  } else {
-    throw new ManipulationError(
-      t`Please press the latest button to provide feedback to reply.`
-    );
   }
 
   const visitor = ga(userId, state, data.selectedArticleText);

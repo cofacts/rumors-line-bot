@@ -161,9 +161,5 @@ export default async function askingReplyRequestSubmission(params) {
     visitor.send();
 
     return { data, event, userId, replies, isSkipUser };
-  } else {
-    throw new ManipulationError(
-      t`Please press the latest button to submit message to database.`
-    );
   }
 }
