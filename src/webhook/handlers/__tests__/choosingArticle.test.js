@@ -34,7 +34,6 @@ it('should select article by articleId', async () => {
       searchedText:
         '《緊急通知》\n台北馬偕醫院傳來訊息：\n資深醫生（林清風）傳來：「請大家以後千萬不要再吃生魚片了！」\n因為最近已經發現- 好多病人因為吃了生魚片，胃壁附著《海獸胃腺蟲》，大小隻不一定，有的病人甚至胃壁上滿滿都是無法夾出來，驅蟲藥也很難根治，罹患機率每個國家的人都一樣。\n尤其；鮭魚的含蟲量最高、最可怕！\n請傳給朋友，讓他們有所警惕!',
     },
-    state: 'CHOOSING_ARTICLE',
     event: {
       type: 'postback',
       input: 'article-id',
@@ -89,7 +88,6 @@ it('should select article and have OPINIONATED and NOT_ARTICLE replies', async (
       searchedText:
         '老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人',
     },
-    state: 'CHOOSING_ARTICLE',
     event: {
       type: 'postback',
       input: 'article-id',
@@ -161,7 +159,6 @@ it('should select article with no replies', async () => {
     data: {
       searchedText: '老司機車裡總備一塊香皂，知道內情的新手默默也準備了一塊',
     },
-    state: 'CHOOSING_ARTICLE',
     event: {
       type: 'postback',
       input: 'article-id',
@@ -211,7 +208,6 @@ it('should select article with just one reply', async () => {
       searchedText:
         'Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply',
     },
-    state: 'CHOOSING_ARTICLE',
     event: {
       type: 'postback',
       input: 'article-id',
@@ -249,7 +245,6 @@ it('should block non-postback interactions', async () => {
       searchedText:
         'Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply',
     },
-    state: 'CHOOSING_ARTICLE',
     event: {
       type: 'message',
       input: 'This is a message',
@@ -275,7 +270,6 @@ it('should select article and slice replies when over 10', async () => {
       searchedText:
         '老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人',
     },
-    state: 'CHOOSING_ARTICLE',
     event: {
       type: 'postback',
       input: 'article-id',
@@ -301,7 +295,6 @@ it('should ask users if they want to submit article when user say not found', as
       searchedText:
         '這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。',
     },
-    state: 'CHOOSING_ARTICLE',
     event: {
       type: 'postback',
       input: POSTBACK_NO_ARTICLE_FOUND,
@@ -341,7 +334,6 @@ it('should create a UserArticleLink when selecting a article', async () => {
     data: {
       searchedText: '《緊急通知》',
     },
-    state: 'CHOOSING_ARTICLE',
     event: {
       type: 'postback',
       input: 'article-id',

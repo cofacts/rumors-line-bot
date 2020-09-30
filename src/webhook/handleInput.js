@@ -11,26 +11,21 @@ import {
   REASON_PREFIX,
   DOWNVOTE_PREFIX,
   UPVOTE_PREFIX,
-  SOURCE_PREFIX,
+  SOURCE_PREFIX_NOT_YET_REPLIED,
+  SOURCE_PREFIX_FRIST_SUBMISSION,
   VIEW_ARTICLE_PREFIX,
   getArticleURL,
 } from 'src/lib/sharedUtils';
 
 /**
  * Given input event and context, outputs the new context and the reply to emit.
- * Invokes handlers with regard to the current state.
  *
- * State diagram: http://bit.ly/2hnnXjZ
- *
- * @param {Object<state, data>} context The current context of the bot
+ * @param {Object<data>} context The current context of the bot
  * @param {*} event The input event
  * @param {*} userId LINE user ID that does the input
  */
-export default async function handleInput(
-  { state = '__INIT__', data = {} },
-  event,
-  userId
-) {
+export default async function handleInput({ data = {} }, event, userId) {
+  let state;
   let replies;
   let isSkipUser = false;
 
@@ -66,11 +61,13 @@ export default async function handleInput(
       state = 'ASKING_REPLY_FEEDBACK';
     } else if (event.input.startsWith(REASON_PREFIX)) {
       state = 'ASKING_REPLY_REQUEST_REASON';
-    } else if (event.input.startsWith(SOURCE_PREFIX)) {
-      // state should be given from input, ASKING_ARTICLE_SUBMISSION_CONSENT or ASKING_REPLY_REQUEST_REASON
+    } else if (event.input.startsWith(SOURCE_PREFIX_NOT_YET_REPLIED)) {
+      state = 'ASKING_REPLY_REQUEST_REASON';
+    } else if (event.input.startsWith(SOURCE_PREFIX_FRIST_SUBMISSION)) {
+      state = 'ASKING_ARTICLE_SUBMISSION_CONSENT';
     } else {
       // The user forwarded us an new message.
-      // Create a new "search session" and reset state to `__INIT__`.
+      // Create a new "search session".
       //
       data = {
         // Used to determine button postbacks and GraphQL requests are from
@@ -93,7 +90,7 @@ export default async function handleInput(
     isSkipUser,
   };
 
-  // Sets state, data and replies
+  // Sets data and replies
   //
   do {
     params.isSkipUser = false;
@@ -120,12 +117,12 @@ export default async function handleInput(
           params = await askingReplyFeedback(params);
           break;
         }
-        // SOURCE_PREFIX and state = ASKING_ARTICLE_SUBMISSION_CONSENT
+        // SOURCE_PREFIX_FRIST_SUBMISSION
         case 'ASKING_ARTICLE_SUBMISSION_CONSENT': {
           params = await askingArticleSubmissionConsent(params);
           break;
         }
-        // SOURCE_PREFIX and state = ASKING_REPLY_REQUEST_REASON
+        // SOURCE_PREFIX_NOT_YET_REPLIED, REASON_PREFIX
         case 'ASKING_REPLY_REQUEST_REASON': {
           params = await askingReplyRequestReason(params);
           break;
@@ -185,10 +182,10 @@ export default async function handleInput(
     ({ isSkipUser } = params);
   } while (isSkipUser);
 
-  ({ state, data, replies } = params);
+  ({ data, replies } = params);
 
   return {
-    context: { state, data },
+    context: { data },
     replies,
   };
 }

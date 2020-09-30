@@ -9,7 +9,8 @@ import { ManipulationError } from '../handlers/utils';
 import handleInput from '../handleInput';
 
 import {
-  SOURCE_PREFIX,
+  SOURCE_PREFIX_FRIST_SUBMISSION,
+  SOURCE_PREFIX_NOT_YET_REPLIED,
   REASON_PREFIX,
   DOWNVOTE_PREFIX,
   UPVOTE_PREFIX,
@@ -56,7 +57,6 @@ it('rejects undefined input', () => {
 
 it('invokes state handler specified by event.postbackHandlerState', async () => {
   const context = {
-    state: 'CHOOSING_ARTICLE',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
@@ -66,7 +66,7 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
   };
 
   choosingReply.mockImplementationOnce(params => {
-    // choosingReply doesn't return `state`, discard it
+    // it doesn't return `state`, discard it
     // eslint-disable-next-line no-unused-vars
     const { state, ...restParams } = params;
     return Promise.resolve({
@@ -77,16 +77,15 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
   });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-              Object {
-                "context": Object {
-                  "data": Object {
-                    "sessionId": 612964800000,
-                  },
-                  "state": undefined,
-                },
-                "replies": "Foo replies",
-              }
-          `);
+          Object {
+            "context": Object {
+              "data": Object {
+                "sessionId": 612964800000,
+              },
+            },
+            "replies": "Foo replies",
+          }
+        `);
 
   expect(choosingArticle).not.toHaveBeenCalled();
   expect(choosingReply).toHaveBeenCalledTimes(1);
@@ -94,7 +93,6 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
 
 it('shows article list when VIEW_ARTICLE_PREFIX is sent', async () => {
   const context = {
-    state: 'CHOOSING_REPLY',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
@@ -102,27 +100,28 @@ it('shows article list when VIEW_ARTICLE_PREFIX is sent', async () => {
     input: `${VIEW_ARTICLE_PREFIX}${getArticleURL('article-id')}`,
   };
 
-  choosingArticle.mockImplementationOnce(params =>
-    Promise.resolve({
-      ...params,
+  choosingArticle.mockImplementationOnce(params => {
+    // it doesn't return `state`, discard it
+    // eslint-disable-next-line no-unused-vars
+    const { state, ...restParams } = params;
+    return Promise.resolve({
+      ...restParams,
       isSkipUser: false,
-      state: 'CHOOSING_REPLY',
       replies: 'Foo replies',
-    })
-  );
+    });
+  });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-              Object {
-                "context": Object {
-                  "data": Object {
-                    "searchedText": "",
-                    "sessionId": 1561982400000,
-                  },
-                  "state": "CHOOSING_REPLY",
-                },
-                "replies": "Foo replies",
-              }
-          `);
+          Object {
+            "context": Object {
+              "data": Object {
+                "searchedText": "",
+                "sessionId": 1561982400000,
+              },
+            },
+            "replies": "Foo replies",
+          }
+        `);
 
   expect(choosingReply).not.toHaveBeenCalled();
   expect(choosingArticle).toHaveBeenCalledTimes(1);
@@ -130,7 +129,6 @@ it('shows article list when VIEW_ARTICLE_PREFIX is sent', async () => {
 
 it('Resets session on free-form input, triggers fast-forward', async () => {
   const context = {
-    state: 'ASKING_REPLY_FEEDBACK',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
@@ -142,30 +140,32 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
     Promise.resolve({
       ...params,
       isSkipUser: true,
+      // isSkipUser should return a state and handleInput again
       state: 'CHOOSING_ARTICLE',
     })
   );
 
-  choosingArticle.mockImplementationOnce(params =>
-    Promise.resolve({
-      ...params,
+  choosingArticle.mockImplementationOnce(params => {
+    // it doesn't return `state`, discard it
+    // eslint-disable-next-line no-unused-vars
+    const { state, ...restParams } = params;
+    return Promise.resolve({
+      ...restParams,
       isSkipUser: false,
-      state: 'CHOOSING_REPLY',
       replies: 'Foo replies',
-    })
-  );
+    });
+  });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-              Object {
-                "context": Object {
-                  "data": Object {
-                    "sessionId": 1561982400000,
-                  },
-                  "state": "CHOOSING_REPLY",
-                },
-                "replies": "Foo replies",
-              }
-          `);
+          Object {
+            "context": Object {
+              "data": Object {
+                "sessionId": 1561982400000,
+              },
+            },
+            "replies": "Foo replies",
+          }
+        `);
 
   expect(askingReplyFeedback).not.toHaveBeenCalled();
   expect(initState).toHaveBeenCalledTimes(1);
@@ -174,7 +174,6 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
 
 it('processes upvote', async () => {
   const context = {
-    state: 'ASKING_REPLY_FEEDBACK',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
@@ -183,7 +182,7 @@ it('processes upvote', async () => {
   };
 
   askingReplyFeedback.mockImplementationOnce(params => {
-    // askingReplyFeedback doesn't return `state`, discard it
+    // it doesn't return `state`, discard it
     // eslint-disable-next-line no-unused-vars
     const { state, ...restParams } = params;
     return Promise.resolve({
@@ -194,23 +193,21 @@ it('processes upvote', async () => {
   });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-              Object {
-                "context": Object {
-                  "data": Object {
-                    "sessionId": 612964800000,
-                  },
-                  "state": undefined,
-                },
-                "replies": "Foo replies",
-              }
-          `);
+          Object {
+            "context": Object {
+              "data": Object {
+                "sessionId": 612964800000,
+              },
+            },
+            "replies": "Foo replies",
+          }
+        `);
 
   expect(askingReplyFeedback).toHaveBeenCalledTimes(1);
 });
 
 it('processes downvote', async () => {
   const context = {
-    state: 'ASKING_REPLY_FEEDBACK',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
@@ -219,7 +216,7 @@ it('processes downvote', async () => {
   };
 
   askingReplyFeedback.mockImplementationOnce(params => {
-    // askingReplyFeedback doesn't return `state`, discard it
+    // it doesn't return `state`, discard it
     // eslint-disable-next-line no-unused-vars
     const { state, ...restParams } = params;
     return Promise.resolve({
@@ -230,16 +227,15 @@ it('processes downvote', async () => {
   });
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-              Object {
-                "context": Object {
-                  "data": Object {
-                    "sessionId": 612964800000,
-                  },
-                  "state": undefined,
-                },
-                "replies": "Foo replies",
-              }
-          `);
+          Object {
+            "context": Object {
+              "data": Object {
+                "sessionId": 612964800000,
+              },
+            },
+            "replies": "Foo replies",
+          }
+        `);
 
   expect(askingReplyFeedback).toHaveBeenCalledTimes(1);
 });
@@ -247,16 +243,17 @@ it('processes downvote', async () => {
 describe('processes first article submission', () => {
   it('askes source', async () => {
     const context = {
-      state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
       data: { sessionId: FIXED_DATE },
     };
     const event = {
       type: 'message',
-      input: `${SOURCE_PREFIX}${ARTICLE_SOURCE_OPTIONS[0].label}`,
+      input: `${SOURCE_PREFIX_FRIST_SUBMISSION}${
+        ARTICLE_SOURCE_OPTIONS[0].label
+      }`,
     };
 
     askingArticleSubmissionConsent.mockImplementationOnce(params => {
-      // askingArticleSubmissionConsent doesn't return `state`, discard it
+      // it doesn't return `state`, discard it
       // eslint-disable-next-line no-unused-vars
       const { state, ...restParams } = params;
       return Promise.resolve({
@@ -272,7 +269,6 @@ describe('processes first article submission', () => {
                 "data": Object {
                   "sessionId": 612964800000,
                 },
-                "state": undefined,
               },
               "replies": "Foo replies",
             }
@@ -291,7 +287,7 @@ describe('processes first article submission', () => {
     };
 
     askingReplyRequestReason.mockImplementationOnce(params => {
-      // askingReplyRequestReason doesn't return `state`, discard it
+      // it doesn't return `state`, discard it
       // eslint-disable-next-line no-unused-vars
       const { state, ...restParams } = params;
       return Promise.resolve({
@@ -307,7 +303,6 @@ describe('processes first article submission', () => {
                 "data": Object {
                   "sessionId": 612964800000,
                 },
-                "state": undefined,
               },
               "replies": "Foo replies",
             }
@@ -320,16 +315,17 @@ describe('processes first article submission', () => {
 describe('processes not replied yet reply request submission', () => {
   it('askes source', async () => {
     const context = {
-      state: 'ASKING_REPLY_REQUEST_REASON',
       data: { sessionId: FIXED_DATE },
     };
     const event = {
       type: 'message',
-      input: `${SOURCE_PREFIX}${ARTICLE_SOURCE_OPTIONS[0].label}`,
+      input: `${SOURCE_PREFIX_NOT_YET_REPLIED}${
+        ARTICLE_SOURCE_OPTIONS[0].label
+      }`,
     };
 
     askingReplyRequestReason.mockImplementationOnce(params => {
-      // askingReplyRequestReason doesn't return `state`, discard it
+      // it doesn't return `state`, discard it
       // eslint-disable-next-line no-unused-vars
       const { state, ...restParams } = params;
       return Promise.resolve({
@@ -345,7 +341,6 @@ describe('processes not replied yet reply request submission', () => {
                 "data": Object {
                   "sessionId": 612964800000,
                 },
-                "state": undefined,
               },
               "replies": "Foo replies",
             }
@@ -356,7 +351,6 @@ describe('processes not replied yet reply request submission', () => {
 
   it('askes reason', async () => {
     const context = {
-      state: 'ASKING_REPLY_REQUEST_REASON',
       data: { sessionId: FIXED_DATE },
     };
     const event = {
@@ -365,7 +359,7 @@ describe('processes not replied yet reply request submission', () => {
     };
 
     askingReplyRequestReason.mockImplementationOnce(params => {
-      // askingReplyRequestReason doesn't return `state`, discard it
+      // it doesn't return `state`, discard it
       // eslint-disable-next-line no-unused-vars
       const { state, ...restParams } = params;
       return Promise.resolve({
@@ -381,7 +375,6 @@ describe('processes not replied yet reply request submission', () => {
                 "data": Object {
                   "sessionId": 612964800000,
                 },
-                "state": undefined,
               },
               "replies": "Foo replies",
             }
@@ -394,7 +387,6 @@ describe('processes not replied yet reply request submission', () => {
 describe('defaultState', () => {
   it('handles unimplemented state', async () => {
     const context = {
-      state: '__INIT__',
       data: { sessionId: FIXED_DATE },
     };
     const event = {
@@ -409,7 +401,6 @@ describe('defaultState', () => {
                 "data": Object {
                   "sessionId": 612964800000,
                 },
-                "state": "__INIT__",
               },
               "replies": Array [
                 Object {
@@ -439,7 +430,6 @@ describe('defaultState', () => {
                 "data": Object {
                   "sessionId": 612964800000,
                 },
-                "state": "__INIT__",
               },
               "replies": Array [
                 Object {
@@ -457,7 +447,6 @@ describe('defaultState', () => {
 
 it('handles ManipulationError fired in handlers', async () => {
   const context = {
-    state: 'CHOOSING_ARTICLE',
     data: { sessionId: FIXED_DATE },
   };
   const event = {
@@ -471,57 +460,55 @@ it('handles ManipulationError fired in handlers', async () => {
   );
 
   await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+          Object {
+            "context": Object {
+              "data": Object {
+                "sessionId": 612964800000,
+              },
+            },
+            "replies": Array [
               Object {
-                "context": Object {
-                  "data": Object {
-                    "sessionId": 612964800000,
+                "altText": "Error: Foo error",
+                "contents": Object {
+                  "body": Object {
+                    "contents": Array [
+                      Object {
+                        "text": "Foo error",
+                        "type": "text",
+                        "wrap": true,
+                      },
+                    ],
+                    "layout": "vertical",
+                    "type": "box",
                   },
-                  "state": "CHOOSING_ARTICLE",
-                },
-                "replies": Array [
-                  Object {
-                    "altText": "Error: Foo error",
-                    "contents": Object {
-                      "body": Object {
-                        "contents": Array [
-                          Object {
-                            "text": "Foo error",
-                            "type": "text",
-                            "wrap": true,
-                          },
-                        ],
-                        "layout": "vertical",
-                        "type": "box",
+                  "header": Object {
+                    "contents": Array [
+                      Object {
+                        "color": "#ffb600",
+                        "text": "⚠️ Wrong usage",
+                        "type": "text",
+                        "weight": "bold",
                       },
-                      "header": Object {
-                        "contents": Array [
-                          Object {
-                            "color": "#ffb600",
-                            "text": "⚠️ Wrong usage",
-                            "type": "text",
-                            "weight": "bold",
-                          },
-                        ],
-                        "layout": "vertical",
-                        "type": "box",
-                      },
-                      "styles": Object {
-                        "body": Object {
-                          "separator": true,
-                        },
-                      },
-                      "type": "bubble",
+                    ],
+                    "layout": "vertical",
+                    "type": "box",
+                  },
+                  "styles": Object {
+                    "body": Object {
+                      "separator": true,
                     },
-                    "type": "flex",
                   },
-                ],
-              }
-          `);
+                  "type": "bubble",
+                },
+                "type": "flex",
+              },
+            ],
+          }
+        `);
 });
 
 it('throws on unknown error', async () => {
   const context = {
-    state: 'CHOOSING_ARTICLE',
     data: { sessionId: FIXED_DATE },
   };
   const event = {

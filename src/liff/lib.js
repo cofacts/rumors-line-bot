@@ -15,6 +15,11 @@ export const isDuringLiffRedirect = !!params.get('liff.state');
 export const page = writable(params.get('p'));
 
 /**
+ * Used in source page. If it's true, send SOURCE_PREFIX_FRIST_SUBMISSION.
+ */
+export const isArticleSubmission = !!params.get('article_submission');
+
+/**
  * Original JWT token from URL param.
  */
 const urlToken = params.get('token');

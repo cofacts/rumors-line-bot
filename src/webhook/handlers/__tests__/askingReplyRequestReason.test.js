@@ -5,8 +5,7 @@ import MockDate from 'mockdate';
 import askingReplyRequestReason from '../askingReplyRequestReason';
 import {
   REASON_PREFIX,
-  SOURCE_PREFIX,
-  UPVOTE_PREFIX,
+  SOURCE_PREFIX_NOT_YET_REPLIED,
   ARTICLE_SOURCE_OPTIONS,
 } from 'src/lib/sharedUtils';
 import ga from 'src/lib/ga';
@@ -18,31 +17,15 @@ beforeEach(() => {
   gql.__reset();
 });
 
-it('should block incorrect prefix', async () => {
-  const params = {
-    data: {
-      selectedArticleId: 'selected-article-id',
-    },
-    state: 'ASKING_REPLY_REQUEST_REASON',
-    event: {
-      type: 'message',
-      input: UPVOTE_PREFIX + 'foo', // Wrong prefix
-    },
-  };
-  await expect(askingReplyRequestReason(params)).rejects.toMatchInlineSnapshot(
-    `[Error: Please press the latest button to submit message to database.]`
-  );
-});
-
 it('records article source', async () => {
   const params = {
     data: {
       selectedArticleId: 'selected-article-id',
     },
-    state: 'ASKING_REPLY_REQUEST_REASON',
     event: {
       input:
-        SOURCE_PREFIX + ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label, // From LIFF
+        SOURCE_PREFIX_NOT_YET_REPLIED +
+        ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label, // From LIFF
     },
   };
 
@@ -77,7 +60,6 @@ it('handles reason LIFF: incorrect context', async () => {
       sessionId: 1497994017447,
       // No selectedArticleId
     },
-    state: 'ASKING_REPLY_REQUEST_REASON',
     event: {
       type: 'message',
       input: REASON_PREFIX + 'My reason',
@@ -100,7 +82,6 @@ it('handles reason LIFF: reply request update failed', async () => {
       sessionId: 1497994017447,
       selectedArticleId: 'article-id',
     },
-    state: 'ASKING_REPLY_REQUEST_REASON',
     event: {
       type: 'message',
       input: REASON_PREFIX + 'My reason',
@@ -126,7 +107,6 @@ it('handles reason LIFF: reply request update success, only 1 reply request', as
       sessionId: 1497994017447,
       selectedArticleId: 'article-id',
     },
-    state: 'ASKING_REPLY_REQUEST_REASON',
     event: {
       type: 'message',
       input: REASON_PREFIX + 'My reason',
@@ -164,7 +144,6 @@ it('handles reason LIFF: reply request update success, multiple reply requests',
       sessionId: 1497994017447,
       selectedArticleId: 'article-id',
     },
-    state: 'ASKING_REPLY_REQUEST_REASON',
     event: {
       type: 'message',
       input: REASON_PREFIX + 'My reason',

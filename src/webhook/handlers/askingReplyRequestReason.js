@@ -2,7 +2,7 @@ import { t, msgid, ngettext } from 'ttag';
 import ga from 'src/lib/ga';
 import {
   getArticleURL,
-  SOURCE_PREFIX,
+  SOURCE_PREFIX_NOT_YET_REPLIED,
   REASON_PREFIX,
 } from 'src/lib/sharedUtils';
 import {
@@ -13,12 +13,12 @@ import {
 } from './utils';
 import gql from 'src/lib/gql';
 
-export default async function askingReplyRequestSubmission(params) {
+export default async function askingReplyRequestReason(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
-  if (event.input.startsWith(SOURCE_PREFIX)) {
+  if (event.input.startsWith(SOURCE_PREFIX_NOT_YET_REPLIED)) {
     const sourceOption = getArticleSourceOptionFromLabel(
-      event.input.slice(SOURCE_PREFIX.length)
+      event.input.slice(SOURCE_PREFIX_NOT_YET_REPLIED.length)
     );
 
     const visitor = ga(userId, state, data.selectedArticleText);
@@ -71,7 +71,9 @@ export default async function askingReplyRequestSubmission(params) {
     ];
     visitor.send();
     return { data, event, issuedAt, userId, replies, isSkipUser };
-  } else if (event.input.startsWith(REASON_PREFIX)) {
+  } else {
+    // event.input.startsWith(REASON_PREFIX)
+
     // Check required data to update reply request
     if (!data.selectedArticleId) {
       throw new ManipulationError(
@@ -161,9 +163,5 @@ export default async function askingReplyRequestSubmission(params) {
     visitor.send();
 
     return { data, event, userId, replies, isSkipUser };
-  } else {
-    throw new ManipulationError(
-      t`Please press the latest button to submit message to database.`
-    );
   }
 }

@@ -39,7 +39,6 @@ it('do not submit with wrong context', async () => {
     {
       userId: 'U12345678',
       userContext: {
-        state: 'INIT_STATE',
         data: {},
       },
     }
@@ -72,7 +71,6 @@ it('submits feedback on article reply', async () => {
     {
       userId: 'U12345678',
       userContext: {
-        state: 'ASKING_REPLY_FEEDBACK',
         data: { selectedArticleId: 'Foo', selectedReplyId: 'Bar' },
       },
     }

@@ -19,7 +19,6 @@ it('article found', async () => {
     data: {
       sessionId: 1497994017447,
     },
-    state: '__INIT__',
     event: {
       type: 'message',
       input:
@@ -75,7 +74,6 @@ it('long article replies still below flex message limit', async () => {
     data: {
       sessionId: 1502477506267,
     },
-    state: '__INIT__',
     event: {
       type: 'message',
       input:
@@ -108,7 +106,6 @@ it('articles found with high similarity', async () => {
     data: {
       sessionId: 1497994017447,
     },
-    state: '__INIT__',
     event: {
       type: 'message',
       input: 'YouTube · 寻找健康人生',
@@ -170,7 +167,6 @@ it('only one article found with high similarity', async () => {
     data: {
       sessionId: 1497994017447,
     },
-    state: '__INIT__',
     event: {
       type: 'message',
       input: 'YouTube · 寻找健康人生',
@@ -224,7 +220,6 @@ it('should handle message matches only hyperlinks', async () => {
     data: {
       sessionId: 1497994017447,
     },
-    state: '__INIT__',
     event: {
       type: 'message',
       input: 'YouTube · 寻找健康人生',
@@ -286,7 +281,6 @@ it('should handle text not found', async () => {
     data: {
       sessionId: 1497994017447,
     },
-    state: '__INIT__',
     event: {
       type: 'message',
       input:
@@ -337,7 +331,6 @@ it('should handle image not found', async () => {
     data: {
       sessionId: 1497994017447,
     },
-    state: '__INIT__',
     event: {
       type: 'message',
       input: 'OCR text OCR text OCR text',

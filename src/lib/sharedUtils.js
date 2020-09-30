@@ -12,7 +12,8 @@ const SITE_URL = process.env.SITE_URL || 'https://cofacts.g0v.tw';
  * prefilled text for LIFF sendMessage()
  */
 export const REASON_PREFIX = `💁 ${t`My reason is`}:\n`;
-export const SOURCE_PREFIX = `ℹ️ ${t`I got the message from`}:\n`;
+export const SOURCE_PREFIX_FRIST_SUBMISSION = `1️⃣ ${t`I got the message from`}:\n`;
+export const SOURCE_PREFIX_NOT_YET_REPLIED = `ℹ️ ${t`I got the message from`}:\n`;
 export const UPVOTE_PREFIX = `👍 ${t`I think the reply is useful and I want to add`}:\n`;
 export const DOWNVOTE_PREFIX = `💡 ${t`I think the reply is not useful and I suggest`}:\n`;
 export const VIEW_ARTICLE_PREFIX = `📃 ${t`See replies of`}:\n`;

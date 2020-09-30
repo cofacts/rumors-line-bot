@@ -164,7 +164,6 @@ enum MessagingAPIInsightStatus {
 }
 
 type UserContext {
-  state: String
   data: StateData
 }
 

@@ -160,7 +160,6 @@ Please choose the version that looks the most similar👇",
       "type": "flex",
     },
   ],
-  "state": "CHOOSING_ARTICLE",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -360,7 +359,6 @@ Please choose the version that looks the most similar👇",
       "type": "flex",
     },
   ],
-  "state": "CHOOSING_ARTICLE",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -455,7 +453,6 @@ Object {
       "type": "flex",
     },
   ],
-  "state": "__INIT__",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -775,7 +772,6 @@ title2 title2 title2 ",
       "type": "flex",
     },
   ],
-  "state": "CHOOSING_ARTICLE",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -840,7 +836,7 @@ Object {
               "action": Object {
                 "label": "🆕 Submit to database",
                 "type": "uri",
-                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE0OTc5OTQwMTc0NDcsInN1YiI6IlVjNzZkOGFlOWNjZDFhZGE0ZjA2YzRlMTUxNWQ0NjQ2NiIsImV4cCI6MTU3NzkyMzIwMH0.V4OTSDA0wDDrlc665JRyjkC0Ux3RFqUM-RN_VNKNCcs",
+                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE0OTc5OTQwMTc0NDcsInN1YiI6IlVjNzZkOGFlOWNjZDFhZGE0ZjA2YzRlMTUxNWQ0NjQ2NiIsImV4cCI6MTU3NzkyMzIwMH0.V4OTSDA0wDDrlc665JRyjkC0Ux3RFqUM-RN_VNKNCcs&article_submission=true",
               },
               "color": "#ffb600",
               "style": "primary",
@@ -881,7 +877,6 @@ Object {
       "type": "flex",
     },
   ],
-  "state": "ASKING_ARTICLE_SUBMISSION_CONSENT",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;

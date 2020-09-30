@@ -4,8 +4,7 @@ jest.mock('src/lib/ga');
 import MockDate from 'mockdate';
 import askingArticleSubmissionConsent from '../askingArticleSubmissionConsent';
 import {
-  REASON_PREFIX,
-  SOURCE_PREFIX,
+  SOURCE_PREFIX_FRIST_SUBMISSION,
   ARTICLE_SOURCE_OPTIONS,
 } from 'src/lib/sharedUtils';
 import gql from 'src/lib/gql';
@@ -28,34 +27,15 @@ beforeEach(() => {
   ga.clearAllMocks();
 });
 
-it('should block incorrect prefix', async () => {
-  const params = {
-    data: {
-      searchedText: 'Some text forwarded by the user',
-      foundArticleIds: [],
-    },
-    state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
-    event: {
-      type: 'message',
-      input: REASON_PREFIX + 'foo', // Wrong prefix
-    },
-  };
-
-  expect(askingArticleSubmissionConsent(params)).rejects.toMatchInlineSnapshot(
-    `[Error: Please press the latest button to submit message to database.]`
-  );
-});
-
 it('should block non-existence source option', async () => {
   const params = {
     data: {
       searchedText: 'Some text forwarded by the user',
       foundArticleIds: [],
     },
-    state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
     event: {
       type: 'message',
-      input: SOURCE_PREFIX + 'foo', // Correct prefix with wrong value
+      input: SOURCE_PREFIX_FRIST_SUBMISSION + 'foo', // Correct prefix with wrong value
     },
   };
 
@@ -72,11 +52,10 @@ it('should redirect user to other fact-checkers for invalid options', async () =
       searchedText: 'Some text forwarded by the user',
       foundArticleIds: [],
     },
-    state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
     event: {
       type: 'message',
       input:
-        SOURCE_PREFIX +
+        SOURCE_PREFIX_FRIST_SUBMISSION +
         ARTICLE_SOURCE_OPTIONS.find(({ valid }) => !valid).label, // Correct prefix + option that should not proceed
     },
   };
@@ -98,27 +77,30 @@ it('should redirect user to other fact-checkers for invalid options', async () =
 });
 
 it('should submit article when valid source is provided', async () => {
+  const inputSession = new Date('2020-01-01T18:10:18.314Z').getTime();
   const params = {
     data: {
       searchedText: 'Some text forwarded by the user',
       foundArticleIds: [],
+      sessionId: inputSession,
     },
-    state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
     event: {
       type: 'message',
       input:
-        SOURCE_PREFIX + ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label,
+        SOURCE_PREFIX_FRIST_SUBMISSION +
+        ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label,
     },
     userId: 'userId',
   };
 
-  MockDate.set('2020-01-01');
+  MockDate.set('2020-01-02');
   gql.__push({ data: { CreateArticle: { id: 'new-article-id' } } });
   const result = await askingArticleSubmissionConsent(params);
   MockDate.reset();
   expect(gql.__finished()).toBe(true);
 
   expect(result).toMatchSnapshot();
+  expect(result.data.sessionId).not.toEqual(inputSession);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
@@ -154,11 +136,11 @@ it('should create a UserArticleLink when creating a Article', async () => {
       searchedText: 'Some text forwarded by the user',
       foundArticleIds: [],
     },
-    state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
     event: {
       type: 'message',
       input:
-        SOURCE_PREFIX + ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label,
+        SOURCE_PREFIX_FRIST_SUBMISSION +
+        ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label,
     },
     userId,
   };
