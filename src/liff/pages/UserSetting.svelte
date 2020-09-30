@@ -3,8 +3,11 @@
   import { t } from 'ttag';
   import { gql } from '../lib';
   import Switch from '@smui/switch';
+  import Paper, {Title, Content} from '@smui/paper';
+  import FormField from '@smui/form-field';
 
-  let methodName;
+  /* Expose notify method to UI */
+  const notifyMethod = NOTIFY_METHOD;
   let allowNewReplyUpdate;
 
   onMount(async () => {
@@ -19,21 +22,6 @@
 
     allowNewReplyUpdate = data.setting.allowNewReplyUpdate;
   });
-
-  switch (NOTIFY_METHOD) {
-    case 'LINE_NOTIFY': {
-      methodName = t`Use LINE Notify`;
-      break;
-    }
-    case 'PUSH_MESSAGE': {
-      methodName = t`Use push message`;
-      break;
-    }
-    default:{
-      methodName = undefined;
-      break;
-    }
-  }
 
   const handleLineNotifyClick = async (event) => {
     if(event.target.checked)
@@ -72,22 +60,39 @@
     }
   }
 </script>
+<style>
+  :global(.field) {
+    display: flex;
+  }
+
+  :global(.field.field.field.field > label) {
+    padding: 0;
+    margin-right: auto;
+  }
+</style>
 
 <svelte:head>
   <title>{t`Settings`}</title>
 </svelte:head>
 
-<p>{t`Notification`}</p>
+<Paper color="primary" class="paper-demo">
+  <Title>{t`Welcome to Cofacts!`}</Title>
+  <Content>{t`You can configure Cofacts here to meet your need.`}</Content>
+</Paper>
 
-<!-- https://stackoverflow.com/questions/59027947/how-to-have-a-conditional-attribute-in-svelte-3 -->
-<div style="display: flex;">
-  {#if methodName}
-      <span style="width: calc(100% - 60px);">{methodName}</span>
-      <Switch
+{#if notifyMethod}
+  <p>{t`Cofacts can send you latest reply of messages you have sent to Cofacts before.`}</p>
+  <FormField class="field" align="end">
+    <span slot="label">
+      {t`Notify me of new responses`}
+    </span>
+    <Switch
       style="margin: 0 10px;"
-      on:click={(event) => handleClick(event)} 
-      bind:checked={allowNewReplyUpdate} />
-  {:else}
-    <span>{t`Not available`}</span>
-  {/if}
-</div>
+      bind:checked={allowNewReplyUpdate}
+      on:change={(event) => handleClick(event)}
+      disabled={allowNewReplyUpdate === undefined}
+    />
+  </FormField>
+{:else}
+  <p>{t`No setup option for now :)`}</p>
+{/if}

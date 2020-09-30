@@ -25,7 +25,6 @@ Object {
       "type": "text",
     },
   ],
-  "state": "ASKING_REPLY_FEEDBACK",
   "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
 }
 `;
@@ -55,7 +54,6 @@ Object {
       "type": "text",
     },
   ],
-  "state": "ASKING_REPLY_FEEDBACK",
   "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
 }
 `;
@@ -139,7 +137,6 @@ Reply is good!",
       "type": "flex",
     },
   ],
-  "state": "ASKING_REPLY_FEEDBACK",
   "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
 }
 `;
@@ -223,7 +220,6 @@ Reply is good!",
       "type": "flex",
     },
   ],
-  "state": "ASKING_REPLY_FEEDBACK",
   "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
 }
 `;

@@ -25,7 +25,6 @@ describe('should select reply by replyId', () => {
       searchedText: '貼圖',
       selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
     },
-    state: 'CHOOSING_REPLY',
     event: {
       type: 'postback',
       input: 'AWDZeeV0yCdS-nWhuml8',
@@ -79,7 +78,6 @@ it('should block non-postback interactions', async () => {
       searchedText: '貼圖',
       selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
     },
-    state: 'CHOOSING_REPLY',
     event: {
       type: 'text',
       input: '123',
@@ -104,7 +102,6 @@ it('should handle graphql error gracefully', async () => {
       searchedText: '貼圖',
       selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
     },
-    state: 'CHOOSING_REPLY',
     event: {
       type: 'postback',
       input: 'AWDZeeV0yCdS-nWhuml8',

@@ -1,16 +1,12 @@
 import stringSimilarity from 'string-similarity';
-import { t, msgid, ngettext } from 'ttag';
+import { t } from 'ttag';
 import gql from 'src/lib/gql';
-import { REASON_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
 import {
-  ManipulationError,
   createPostbackAction,
   ellipsis,
   createAskArticleSubmissionConsentReply,
   createSuggestOtherFactCheckerReply,
   POSTBACK_NO_ARTICLE_FOUND,
-  createReasonButtonFooter,
-  createArticleShareBubble,
   createHighlightContents,
 } from './utils';
 import ga from 'src/lib/ga';
@@ -18,99 +14,8 @@ import ga from 'src/lib/ga';
 const SIMILARITY_THRESHOLD = 0.95;
 
 export default async function initState(params) {
-  let { data, state, event, userId, replies, isSkipUser } = params;
-
-  if (event.input.startsWith(REASON_PREFIX)) {
-    // Check required data to update reply request
-    if (!data.selectedArticleId) {
-      throw new ManipulationError(
-        t`Please press the latest button to submit message to database.`
-      );
-    }
-
-    // Update the reply request
-    const { data: mutationData, errors } = await gql`
-      mutation UpdateReplyRequest($id: String!, $reason: String) {
-        CreateOrUpdateReplyRequest(articleId: $id, reason: $reason) {
-          text
-          replyRequestCount
-        }
-      }
-    `(
-      {
-        id: data.selectedArticleId,
-        reason: event.input.slice(REASON_PREFIX.length),
-      },
-      { userId }
-    );
-
-    if (errors) {
-      throw new ManipulationError(
-        t`Something went wrong when recording your reason, please try again later.`
-      );
-    }
-
-    const visitor = ga(
-      userId,
-      state,
-      mutationData.CreateOrUpdateReplyRequest.text
-    );
-    visitor.event({
-      ec: 'Article',
-      ea: 'ProvidingReason',
-      el: data.selectedArticleId,
-    });
-
-    const articleUrl = getArticleURL(data.selectedArticleId);
-    const otherReplyRequestCount =
-      mutationData.CreateOrUpdateReplyRequest.replyRequestCount - 1;
-    const replyRequestUpdatedMsg = t`Thanks for the info you provided.`;
-
-    replies = [
-      {
-        type: 'flex',
-        altText: replyRequestUpdatedMsg,
-        contents: {
-          type: 'carousel',
-          contents: [
-            createArticleShareBubble(articleUrl),
-            {
-              type: 'bubble',
-              body: {
-                type: 'box',
-                layout: 'vertical',
-                contents: [
-                  {
-                    type: 'text',
-                    wrap: true,
-                    text: replyRequestUpdatedMsg,
-                  },
-                  otherReplyRequestCount > 0 && {
-                    type: 'text',
-                    wrap: true,
-                    text: ngettext(
-                      msgid`There is ${otherReplyRequestCount} user also waiting for clarification.`,
-                      `There are ${otherReplyRequestCount} users also waiting for clarification.`,
-                      otherReplyRequestCount
-                    ),
-                  },
-                ].filter(m => m),
-              },
-              footer: createReasonButtonFooter(
-                articleUrl,
-                userId,
-                data.sessionId,
-                true
-              ),
-            },
-          ],
-        },
-      },
-    ];
-    visitor.send();
-
-    return { data, state, event, userId, replies, isSkipUser };
-  }
+  let { data, event, userId, replies, isSkipUser } = params;
+  const state = '__INIT__';
 
   // Track text message type send by user
   const visitor = ga(userId, state, event.input);
@@ -181,19 +86,20 @@ export default async function initState(params) {
       edgesSortedWithSimilarity[0].similarity >= SIMILARITY_THRESHOLD;
 
     if (edgesSortedWithSimilarity.length === 1 && hasIdenticalDocs) {
-      // choose for user
-      event.input = 1;
-
       visitor.send();
+
+      // choose for user
       return {
         data,
-        state: 'CHOOSING_ARTICLE',
         event: {
           type: 'postback',
           input: edgesSortedWithSimilarity[0].node.id,
         },
         userId,
         replies,
+        // override state to 'CHOOSING_ARTICLE'
+        state: 'CHOOSING_ARTICLE',
+        // handleInput again
         isSkipUser: true,
       };
     }
@@ -367,8 +273,6 @@ export default async function initState(params) {
     } else {
       replies = prefixTextArticleFound.concat(textArticleFound);
     }
-
-    state = 'CHOOSING_ARTICLE';
   } else {
     // Track if find similar Articles in DB.
     visitor.event({
@@ -385,7 +289,6 @@ export default async function initState(params) {
         },
         createSuggestOtherFactCheckerReply(),
       ];
-      state = '__INIT__';
     } else {
       replies = [
         {
@@ -394,9 +297,8 @@ export default async function initState(params) {
         },
         createAskArticleSubmissionConsentReply(userId, data.sessionId),
       ];
-      state = 'ASKING_ARTICLE_SUBMISSION_CONSENT';
     }
   }
   visitor.send();
-  return { data, state, event, userId, replies, isSkipUser };
+  return { data, event, userId, replies, isSkipUser };
 }

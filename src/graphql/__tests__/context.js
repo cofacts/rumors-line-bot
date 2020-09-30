@@ -4,7 +4,10 @@ it('context rejects anonymous users', async () => {
   const result = await gql`
     {
       context {
-        state
+        data {
+          sessionId
+          searchedText
+        }
       }
     }
   `();
@@ -24,7 +27,6 @@ it('Returns user context', async () => {
   const result = await gql`
     {
       context {
-        state
         data {
           sessionId
           searchedText
@@ -36,7 +38,6 @@ it('Returns user context', async () => {
     {
       userId: 'U12345678',
       userContext: {
-        state: 'CHOOSING_ARTICLE',
         data: {
           sessionId: 1586013070089,
           searchedText: 'Foo',
@@ -52,7 +53,6 @@ it('Returns user context', async () => {
             "searchedText": "Foo",
             "sessionId": "1586013070089",
           },
-          "state": "CHOOSING_ARTICLE",
         },
       },
     }

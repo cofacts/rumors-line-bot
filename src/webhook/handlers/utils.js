@@ -197,7 +197,9 @@ export function createAskArticleSubmissionConsentReply(userId, sessionId) {
             action: {
               type: 'uri',
               label: btnText,
-              uri: getLIFFURL('source', userId, sessionId),
+              uri:
+                getLIFFURL('source', userId, sessionId) +
+                `&article_submission=true`,
             },
           },
         ],

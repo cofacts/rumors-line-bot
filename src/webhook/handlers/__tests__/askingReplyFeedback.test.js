@@ -20,7 +20,6 @@ const commonParamsYes = {
       '(0)(1)(/)(0)(9)(line)免費貼圖\n\n「[全螢幕貼圖]生活市集x生活小黑熊」\nhttps://line.me/S/sticker/10299\n\n「松果購物 x 狗與鹿(動態貼圖) 」\nhttps://line.me/S/sticker/10300\n\n「LINE TV X 我的男孩限免貼圖」\nhttps://line.me/S/sticker/10207',
     selectedReplyId: 'AWDZeeV0yCdS-nWhuml8',
   },
-  state: 'ASKING_REPLY_FEEDBACK',
   event: {
     type: 'text',
     input: `${UPVOTE_PREFIX}Reply is good!`,
@@ -63,7 +62,6 @@ const commonParamsNo = {
     selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
     selectedReplyId: 'AWDZeeV0yCdS-nWhuml8',
   },
-  state: 'ASKING_REPLY_FEEDBACK',
   event: {
     type: 'text',
     input: `${DOWNVOTE_PREFIX}我覺得不行`,
@@ -87,40 +85,12 @@ it('handles "no" postback with other existing feedback comments', async () => {
   expect(gql.__finished()).toBe(true);
 });
 
-const commonParamsOthers = {
-  data: {
-    searchedText: '貼圖',
-    selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
-    selectedReplyId: 'AWDZeeV0yCdS-nWhuml8',
-  },
-  state: 'ASKING_REPLY_FEEDBACK',
-  event: {
-    type: 'text',
-    input: 'Unexpected text here!',
-    timestamp: 1519019734813,
-  },
-  issuedAt: 1519019735467,
-  userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
-  replies: undefined,
-  isSkipUser: false,
-};
-
-it('handles unexpected feedbacks', async () => {
-  await expect(
-    askingReplyFeedback(commonParamsOthers)
-  ).rejects.toMatchInlineSnapshot(
-    `[Error: Please press the latest button to provide feedback to reply.]`
-  );
-  expect(ga.sendMock).toHaveBeenCalledTimes(0);
-});
-
 const commonParamsInvalid = {
   data: {
     searchedText: '貼圖',
     selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
     // No selectedReplyId
   },
-  state: 'ASKING_REPLY_FEEDBACK',
   event: {
     type: 'text',
     input: 'asdasdasd',

@@ -133,7 +133,9 @@ export default async function askingReplyFeedback(params) {
         },
       },
     ];
-  } else if (event.input.startsWith(DOWNVOTE_PREFIX)) {
+  } else {
+    // event.input.startsWith(DOWNVOTE_PREFIX)
+
     const updatedArticleReply = await updateFeedback(
       {
         articleId: data.selectedArticleId,
@@ -160,10 +162,6 @@ export default async function askingReplyFeedback(params) {
         text: `💁 ${t`If you have a better reply, feel free to submit it to ${submissionUrl} .`}`,
       },
     ];
-  } else {
-    throw new ManipulationError(
-      t`Please press the latest button to provide feedback to reply.`
-    );
   }
 
   const visitor = ga(userId, state, data.selectedArticleText);
@@ -177,5 +175,5 @@ export default async function askingReplyFeedback(params) {
 
   visitor.send();
 
-  return { data, state, event, issuedAt, userId, replies, isSkipUser };
+  return { data, event, issuedAt, userId, replies, isSkipUser };
 }

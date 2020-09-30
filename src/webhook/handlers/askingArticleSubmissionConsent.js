@@ -1,9 +1,11 @@
 import { t } from 'ttag';
 import ga from 'src/lib/ga';
 import gql from 'src/lib/gql';
-import { SOURCE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
 import {
-  ManipulationError,
+  SOURCE_PREFIX_FRIST_SUBMISSION,
+  getArticleURL,
+} from 'src/lib/sharedUtils';
+import {
   createArticleShareBubble,
   createSuggestOtherFactCheckerReply,
   getArticleSourceOptionFromLabel,
@@ -15,16 +17,10 @@ import UserArticleLink from '../../database/models/userArticleLink';
 export default async function askingArticleSubmissionConsent(params) {
   let { data, state, event, userId, replies, isSkipUser } = params;
 
-  if (!event.input.startsWith(SOURCE_PREFIX)) {
-    throw new ManipulationError(
-      t`Please press the latest button to submit message to database.`
-    );
-  }
-
   const visitor = ga(userId, state, data.searchedText);
 
   const sourceOption = getArticleSourceOptionFromLabel(
-    event.input.slice(SOURCE_PREFIX.length)
+    event.input.slice(SOURCE_PREFIX_FRIST_SUBMISSION.length)
   );
 
   visitor.event({
@@ -41,7 +37,6 @@ export default async function askingArticleSubmissionConsent(params) {
       },
       createSuggestOtherFactCheckerReply(),
     ];
-    state = '__INIT__';
   } else {
     visitor.event({ ec: 'Article', ea: 'Create', el: 'Yes' });
 
@@ -59,6 +54,9 @@ export default async function askingArticleSubmissionConsent(params) {
       userId,
       CreateArticle.id
     );
+
+    // Create new session, make article submission button expire after submitting
+    data.sessionId = Date.now();
 
     const articleUrl = getArticleURL(CreateArticle.id);
     const articleCreatedMsg = t`Your submission is now recorded at ${articleUrl}`;
@@ -104,9 +102,8 @@ export default async function askingArticleSubmissionConsent(params) {
 
     // Record article ID in context for reason LIFF
     data.selectedArticleId = CreateArticle.id;
-    state = '__INIT__';
   }
 
   visitor.send();
-  return { data, state, event, userId, replies, isSkipUser };
+  return { data, event, userId, replies, isSkipUser };
 }

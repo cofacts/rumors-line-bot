@@ -7,8 +7,6 @@ import * as apiResult from '../__fixtures__/initState';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
 
-import { REASON_PREFIX } from 'src/lib/sharedUtils';
-
 beforeEach(() => {
   ga.clearAllMocks();
   gql.__reset();
@@ -21,7 +19,6 @@ it('article found', async () => {
     data: {
       sessionId: 1497994017447,
     },
-    state: '__INIT__',
     event: {
       type: 'message',
       input:
@@ -77,7 +74,6 @@ it('long article replies still below flex message limit', async () => {
     data: {
       sessionId: 1502477506267,
     },
-    state: '__INIT__',
     event: {
       type: 'message',
       input:
@@ -110,7 +106,6 @@ it('articles found with high similarity', async () => {
     data: {
       sessionId: 1497994017447,
     },
-    state: '__INIT__',
     event: {
       type: 'message',
       input: 'YouTube · 寻找健康人生',
@@ -172,7 +167,6 @@ it('only one article found with high similarity', async () => {
     data: {
       sessionId: 1497994017447,
     },
-    state: '__INIT__',
     event: {
       type: 'message',
       input: 'YouTube · 寻找健康人生',
@@ -226,7 +220,6 @@ it('should handle message matches only hyperlinks', async () => {
     data: {
       sessionId: 1497994017447,
     },
-    state: '__INIT__',
     event: {
       type: 'message',
       input: 'YouTube · 寻找健康人生',
@@ -288,7 +281,6 @@ it('should handle text not found', async () => {
     data: {
       sessionId: 1497994017447,
     },
-    state: '__INIT__',
     event: {
       type: 'message',
       input:
@@ -339,7 +331,6 @@ it('should handle image not found', async () => {
     data: {
       sessionId: 1497994017447,
     },
-    state: '__INIT__',
     event: {
       type: 'message',
       input: 'OCR text OCR text OCR text',
@@ -370,131 +361,6 @@ it('should handle image not found', async () => {
           "ea": "ArticleSearch",
           "ec": "UserInput",
           "el": "ArticleNotFound",
-        },
-      ],
-    ]
-  `);
-  expect(ga.sendMock).toHaveBeenCalledTimes(1);
-});
-
-it('handles reason LIFF: incorrect context', async () => {
-  const input = {
-    data: {
-      sessionId: 1497994017447,
-      // No selectedArticleId
-    },
-    state: '__INIT__',
-    event: {
-      type: 'message',
-      input: REASON_PREFIX + 'My reason',
-      timestamp: 1497994016356,
-    },
-    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    replies: undefined,
-    isSkipUser: false,
-  };
-
-  await expect(initState(input)).rejects.toMatchInlineSnapshot(
-    `[Error: Please press the latest button to submit message to database.]`
-  );
-  expect(ga.sendMock).toHaveBeenCalledTimes(0);
-});
-
-it('handles reason LIFF: reply request update failed', async () => {
-  const input = {
-    data: {
-      sessionId: 1497994017447,
-      selectedArticleId: 'article-id',
-    },
-    state: '__INIT__',
-    event: {
-      type: 'message',
-      input: REASON_PREFIX + 'My reason',
-      timestamp: 1497994016356,
-    },
-    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    replies: undefined,
-    isSkipUser: false,
-  };
-
-  gql.__push(apiResult.apiError);
-
-  await expect(initState(input)).rejects.toMatchInlineSnapshot(
-    `[Error: Something went wrong when recording your reason, please try again later.]`
-  );
-  expect(gql.__finished()).toBe(true);
-  expect(ga.sendMock).toHaveBeenCalledTimes(0);
-});
-
-it('handles reason LIFF: reply request update success, only 1 reply request', async () => {
-  const input = {
-    data: {
-      sessionId: 1497994017447,
-      selectedArticleId: 'article-id',
-    },
-    state: '__INIT__',
-    event: {
-      type: 'message',
-      input: REASON_PREFIX + 'My reason',
-      timestamp: 1497994016356,
-    },
-    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    replies: undefined,
-    isSkipUser: false,
-  };
-
-  gql.__push(apiResult.updateReplyRequestSuccess);
-
-  MockDate.set('2020-01-01');
-  expect(await initState(input)).toMatchSnapshot();
-  MockDate.reset();
-
-  expect(gql.__finished()).toBe(true);
-  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
-    Array [
-      Array [
-        Object {
-          "ea": "ProvidingReason",
-          "ec": "Article",
-          "el": "article-id",
-        },
-      ],
-    ]
-  `);
-  expect(ga.sendMock).toHaveBeenCalledTimes(1);
-});
-
-it('handles reason LIFF: reply request update success, multiple reply requests', async () => {
-  const input = {
-    data: {
-      sessionId: 1497994017447,
-      selectedArticleId: 'article-id',
-    },
-    state: '__INIT__',
-    event: {
-      type: 'message',
-      input: REASON_PREFIX + 'My reason',
-      timestamp: 1497994016356,
-    },
-    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    replies: undefined,
-    isSkipUser: false,
-  };
-
-  gql.__push(apiResult.updateReplyRequestSuccess2);
-
-  MockDate.set('2020-01-01');
-  expect(await initState(input)).toMatchSnapshot();
-  MockDate.reset();
-
-  expect(gql.__finished()).toBe(true);
-  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
-    Array [
-      Array [
-        Object {
-          "ea": "ProvidingReason",
-          "ec": "Article",
-          "el": "article-id",
         },
       ],
     ]
