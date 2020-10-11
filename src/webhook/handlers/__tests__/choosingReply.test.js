@@ -6,6 +6,7 @@ import choosingReply from '../choosingReply';
 import * as apiResult from '../__fixtures__/choosingReply';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
+import UserSettings from 'src/database/models/userSettings';
 
 beforeEach(() => {
   MockDate.set('2020-01-01');
@@ -63,6 +64,17 @@ describe('should select reply by replyId', () => {
       ]
     `);
     expect(ga.sendMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('should ask user to turn on notification settings if they did not turn it on', async () => {
+    gql.__push(apiResult.oneReply);
+    process.env.NOTIFY_METHOD == 'LINE_NOTIFY';
+    await UserSettings.setAllowNewReplyUpdate(params.userId, false);
+
+    expect((await choosingReply(params)).replies).toMatchSnapshot();
+
+    await (await UserSettings.client).deleteOne({ _id: params.userId });
+    delete process.env.NOTIFY_METHOD;
   });
 
   it('should handle the case with multiple replies', async () => {
