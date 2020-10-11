@@ -617,14 +617,14 @@ msgstr "若您認為自己能回應得更好，歡迎到 ${ submissionUrl } 提�
 msgid ""
 "Please retry and allow the permission 'send messages to chats', so that you "
 "can interact with chatbot while clicking the buttons."
-msgstr "請重試一次，並允許‘傳訊息至聊天室’權限，您按下按鈕的時候才能和機器人互動。"
+msgstr "請重試一次，並允許「傳訊息至聊天室」權限，您按下按鈕的時候才能和「Cofacts 真的假的」機器人互動。"
 
 #: src/scripts/lib.js:146
 #, javascript-format
 msgid ""
 "There are new replies for the articles you have searched. Please see 'View "
 "article' on cofacts chatbot(${ process.env.LINE_FRIEND_URL }) menu."
-msgstr "您搜尋過的訊息有新的回應，可以到 cofacts 機器人(${ process.env.LINE_FRIEND_URL })選單，點選‘查看文章’按鈕！"
+msgstr "您搜尋過的訊息有新的回應，請到 Cofacts 機器人 (${ process.env.LINE_FRIEND_URL }) 選單，點選右下角的「看過的訊息」查看ㄌㄛ。"
 
 #: src/scripts/lib.js:179
 msgid "View new replies"
@@ -634,7 +634,7 @@ msgstr "查看新回應"
 msgid ""
 "There are new replies for the articles you have searched. Click the button "
 "for more details."
-msgstr "您搜尋過的訊息有新的回應，可以點擊下列按鈕查看詳細資料！"
+msgstr "有人針對您之前曾看過的訊息，寫了新的查證回應唷！"
 
 #: src/webhook/handlers/initState.js:118
 msgid "(Words found in the hyperlink)"
