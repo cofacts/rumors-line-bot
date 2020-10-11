@@ -153,8 +153,10 @@ export default async function askingReplyRequestReason(params) {
       },
     ];
 
+    // Ask user to turn on notification if the user did not turn it on
+    //
     const userSettings = await UserSettings.findOrInsertByUserId(userId);
-    if (!userSettings.allowNewReplyUpdate) {
+    if (process.env.NOTIFY_METHOD && !userSettings.allowNewReplyUpdate) {
       carouselContents.unshift({
         type: 'bubble',
         body: {
@@ -180,9 +182,10 @@ export default async function askingReplyRequestReason(params) {
                 label: t`Go to settings`,
                 uri: `${
                   process.env.LIFF_URL
-                }/liff/index.html?p=settings&utm_source=rumors-line-bot&utm_medium=reply-request`,
+                }/liff/index.html?p=setting&utm_source=rumors-line-bot&utm_medium=reply-request`,
               },
               style: 'primary',
+              color: '#00B172',
             },
           ],
         },
