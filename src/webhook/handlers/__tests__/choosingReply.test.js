@@ -73,7 +73,8 @@ describe('should select reply by replyId', () => {
 
     expect((await choosingReply(params)).replies).toMatchSnapshot();
 
-    await (await UserSettings.client).deleteOne({ _id: params.userId });
+    // Reset
+    await UserSettings.setAllowNewReplyUpdate(params.userId, true);
     delete process.env.NOTIFY_METHOD;
   });
 
