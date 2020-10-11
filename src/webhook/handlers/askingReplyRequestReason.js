@@ -12,6 +12,7 @@ import {
   createReasonButtonFooter,
 } from './utils';
 import gql from 'src/lib/gql';
+import UserSettings from 'src/database/models/userSettings';
 
 export default async function askingReplyRequestReason(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -119,47 +120,86 @@ export default async function askingReplyRequestReason(params) {
       mutationData.CreateOrUpdateReplyRequest.replyRequestCount - 1;
     const replyRequestUpdatedMsg = t`Thanks for the info you provided.`;
 
+    const carouselContents = [
+      createArticleShareBubble(articleUrl),
+      {
+        type: 'bubble',
+        body: {
+          type: 'box',
+          layout: 'vertical',
+          contents: [
+            {
+              type: 'text',
+              wrap: true,
+              text: replyRequestUpdatedMsg,
+            },
+            otherReplyRequestCount > 0 && {
+              type: 'text',
+              wrap: true,
+              text: ngettext(
+                msgid`There is ${otherReplyRequestCount} user also waiting for clarification.`,
+                `There are ${otherReplyRequestCount} users also waiting for clarification.`,
+                otherReplyRequestCount
+              ),
+            },
+          ].filter(m => m),
+        },
+        footer: createReasonButtonFooter(
+          articleUrl,
+          userId,
+          data.sessionId,
+          true
+        ),
+      },
+    ];
+
+    const userSettings = await UserSettings.findOrInsertByUserId(userId);
+    if (!userSettings.allowNewReplyUpdate) {
+      carouselContents.unshift({
+        type: 'bubble',
+        body: {
+          type: 'box',
+          layout: 'vertical',
+          contents: [
+            {
+              type: 'text',
+              wrap: true,
+              text: t`You can turn on notification if you want Cofacts to notify you when someone replies this message.`,
+            },
+          ],
+        },
+        footer: {
+          type: 'box',
+          layout: 'vertical',
+          spacing: 'sm',
+          contents: [
+            {
+              type: 'button',
+              action: {
+                type: 'uri',
+                label: t`Go to settings`,
+                uri: `${
+                  process.env.LIFF_URL
+                }/liff/index.html?p=settings&utm_source=rumors-line-bot&utm_medium=reply-request`,
+              },
+              style: 'primary',
+            },
+          ],
+        },
+      });
+    }
+
     replies = [
       {
         type: 'flex',
         altText: replyRequestUpdatedMsg,
         contents: {
           type: 'carousel',
-          contents: [
-            createArticleShareBubble(articleUrl),
-            {
-              type: 'bubble',
-              body: {
-                type: 'box',
-                layout: 'vertical',
-                contents: [
-                  {
-                    type: 'text',
-                    wrap: true,
-                    text: replyRequestUpdatedMsg,
-                  },
-                  otherReplyRequestCount > 0 && {
-                    type: 'text',
-                    wrap: true,
-                    text: ngettext(
-                      msgid`There is ${otherReplyRequestCount} user also waiting for clarification.`,
-                      `There are ${otherReplyRequestCount} users also waiting for clarification.`,
-                      otherReplyRequestCount
-                    ),
-                  },
-                ].filter(m => m),
-              },
-              footer: createReasonButtonFooter(
-                articleUrl,
-                userId,
-                data.sessionId,
-                true
-              ),
-            },
-          ],
+          contents: carouselContents,
         },
       },
     ];
+
     visitor.send();
 
     return { data, event, userId, replies, isSkipUser };
