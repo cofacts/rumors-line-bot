@@ -294,6 +294,7 @@ export function createNotificationSettingsBubble() {
     header: {
       type: 'box',
       layout: 'vertical',
+      paddingBottom: 'none',
       contents: [
         {
           type: 'text',
