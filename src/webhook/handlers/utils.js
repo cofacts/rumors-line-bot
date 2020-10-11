@@ -286,6 +286,56 @@ export function createArticleShareBubble(articleUrl) {
 }
 
 /**
+ * @returns {object} Bubble object that asks user to turn on notification
+ */
+export function createNotificationSettingsBubble() {
+  return {
+    type: 'bubble',
+    header: {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          type: 'text',
+          wrap: true,
+          text: `🔔  ${t`Receive updates`}`,
+        },
+      ],
+    },
+    body: {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          type: 'text',
+          wrap: true,
+          text: t`You can turn on notification if you want Cofacts to notify you when someone replies this message.`,
+        },
+      ],
+    },
+    footer: {
+      type: 'box',
+      layout: 'vertical',
+      spacing: 'sm',
+      contents: [
+        {
+          type: 'button',
+          action: {
+            type: 'uri',
+            label: t`Go to settings`,
+            uri: `${
+              process.env.LIFF_URL
+            }/liff/index.html?p=setting&utm_source=rumors-line-bot&utm_medium=reply-request`,
+          },
+          style: 'primary',
+          color: '#00B172',
+        },
+      ],
+    },
+  };
+}
+
+/**
  * Exception for unexpected input, thrown in handlers.
  * This will be catched and the instructions will be used as a reply to the user.
  */

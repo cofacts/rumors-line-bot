@@ -10,6 +10,7 @@ import {
   createArticleShareBubble,
   getArticleSourceOptionFromLabel,
   createReasonButtonFooter,
+  createNotificationSettingsBubble,
 } from './utils';
 import gql from 'src/lib/gql';
 import UserSettings from 'src/database/models/userSettings';
@@ -38,6 +39,9 @@ export default async function askingReplyRequestReason(params) {
 
     const articleUrl = getArticleURL(data.selectedArticleId);
     const sourceRecordedMsg = t`Thanks for the info.`;
+    const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
+      userId
+    );
 
     replies = [
       {
@@ -65,8 +69,13 @@ export default async function askingReplyRequestReason(params) {
                 data.sessionId
               ),
             },
+            // Ask user to turn on notification if the user did not turn it on
+            //
+            process.env.NOTIFY_METHOD &&
+              !allowNewReplyUpdate &&
+              createNotificationSettingsBubble(),
             createArticleShareBubble(articleUrl),
-          ],
+          ].filter(m => m),
         },
       },
     ];
@@ -119,78 +128,9 @@ export default async function askingReplyRequestReason(params) {
     const otherReplyRequestCount =
       mutationData.CreateOrUpdateReplyRequest.replyRequestCount - 1;
     const replyRequestUpdatedMsg = t`Thanks for the info you provided.`;
-
-    const carouselContents = [
-      createArticleShareBubble(articleUrl),
-      {
-        type: 'bubble',
-        body: {
-          type: 'box',
-          layout: 'vertical',
-          contents: [
-            {
-              type: 'text',
-              wrap: true,
-              text: replyRequestUpdatedMsg,
-            },
-            otherReplyRequestCount > 0 && {
-              type: 'text',
-              wrap: true,
-              text: ngettext(
-                msgid`There is ${otherReplyRequestCount} user also waiting for clarification.`,
-                `There are ${otherReplyRequestCount} users also waiting for clarification.`,
-                otherReplyRequestCount
-              ),
-            },
-          ].filter(m => m),
-        },
-        footer: createReasonButtonFooter(
-          articleUrl,
-          userId,
-          data.sessionId,
-          true
-        ),
-      },
-    ];
-
-    // Ask user to turn on notification if the user did not turn it on
-    //
-    const userSettings = await UserSettings.findOrInsertByUserId(userId);
-    if (process.env.NOTIFY_METHOD && !userSettings.allowNewReplyUpdate) {
-      carouselContents.unshift({
-        type: 'bubble',
-        body: {
-          type: 'box',
-          layout: 'vertical',
-          contents: [
-            {
-              type: 'text',
-              wrap: true,
-              text: t`You can turn on notification if you want Cofacts to notify you when someone replies this message.`,
-            },
-          ],
-        },
-        footer: {
-          type: 'box',
-          layout: 'vertical',
-          spacing: 'sm',
-          contents: [
-            {
-              type: 'button',
-              action: {
-                type: 'uri',
-                label: t`Go to settings`,
-                uri: `${
-                  process.env.LIFF_URL
-                }/liff/index.html?p=setting&utm_source=rumors-line-bot&utm_medium=reply-request`,
-              },
-              style: 'primary',
-              color: '#00B172',
-            },
-          ],
-        },
-      });
-    }
+    const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
+      userId
+    );
 
     replies = [
       {
@@ -198,7 +138,43 @@ export default async function askingReplyRequestReason(params) {
         altText: replyRequestUpdatedMsg,
         contents: {
           type: 'carousel',
-          contents: carouselContents,
+          contents: [
+            // Ask user to turn on notification if the user did not turn it on
+            //
+            process.env.NOTIFY_METHOD &&
+              !allowNewReplyUpdate &&
+              createNotificationSettingsBubble(),
+            createArticleShareBubble(articleUrl),
+            {
+              type: 'bubble',
+              body: {
+                type: 'box',
+                layout: 'vertical',
+                contents: [
+                  {
+                    type: 'text',
+                    wrap: true,
+                    text: replyRequestUpdatedMsg,
+                  },
+                  otherReplyRequestCount > 0 && {
+                    type: 'text',
+                    wrap: true,
+                    text: ngettext(
+                      msgid`There is ${otherReplyRequestCount} user also waiting for clarification.`,
+                      `There are ${otherReplyRequestCount} users also waiting for clarification.`,
+                      otherReplyRequestCount
+                    ),
+                  },
+                ].filter(m => m),
+              },
+              footer: createReasonButtonFooter(
+                articleUrl,
+                userId,
+                data.sessionId,
+                true
+              ),
+            },
+          ].filter(m => m),
         },
       },
     ];

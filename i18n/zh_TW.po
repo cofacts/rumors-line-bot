@@ -171,12 +171,12 @@ msgid ""
 "the error will go away. Would you please send us the message from the start?"
 msgstr "抱歉，chatbot 出錯了。我們已經重設您目前的搜尋狀態，以期能自錯誤狀態中復原。請從頭再傳一次您想詢問的訊息。"
 
-#: src/webhook/handlers/askingReplyRequestReason.js:81
+#: src/webhook/handlers/askingReplyRequestReason.js:82
 msgid "Please press the latest button to submit message to database."
 msgstr "請用最近的按鈕來將訊息送至資料庫。"
 
 #: src/webhook/handlers/askingArticleSubmissionConsent.js:36
-#: src/webhook/handlers/askingReplyRequestReason.js:40
+#: src/webhook/handlers/askingReplyRequestReason.js:41
 msgid "Thanks for the info."
 msgstr "感謝您的提供的資訊。"
 
@@ -220,7 +220,7 @@ msgid "Share to friends"
 msgstr "分享給朋友"
 
 #: src/webhook/handlers/askingReplyFeedback.js:127
-#: src/webhook/handlers/utils.js:402
+#: src/webhook/handlers/utils.js:452
 msgid "See reported message"
 msgstr "查看回報的訊息"
 
@@ -263,7 +263,7 @@ msgstr "我要選「${displayTextWhenChosen}」"
 #: src/liff/pages/Reason.svelte:80
 #: src/liff/pages/Source.svelte:33
 #: src/webhook/handlers/choosingArticle.js:292
-#: src/webhook/handlers/utils.js:412
+#: src/webhook/handlers/utils.js:462
 msgid "Provide more info"
 msgstr "提供更多資訊"
 
@@ -278,27 +278,21 @@ msgstr "抱歉這篇訊息還沒有人回應過唷！請闢謠編輯查證，"
 msgid "provide more information using “${ btnText }” button. "
 msgstr "使用「${btnText}」按鈕來提供更多資訊。"
 
-#: src/webhook/handlers/choosingArticle.js:306
-msgid ""
-"Although you won't receive answers rightaway, you can help the people who "
-"receive the same message in the future."
-msgstr "雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。"
-
 #: src/webhook/handlers/choosingReply.js:39
 msgid ""
 "We have problem retrieving message and reply data, please forward the "
 "message again"
 msgstr "出了一些問題，導致現在無法取得訊息與回應。請再傳一次您想詢問的訊息"
 
-#: src/webhook/handlers/askingReplyRequestReason.js:103
+#: src/webhook/handlers/askingReplyRequestReason.js:104
 msgid "Something went wrong when recording your reason, please try again later."
 msgstr "出了一些問題，導致我們無法記錄您提供的理由。請稍後再試。"
 
-#: src/webhook/handlers/askingReplyRequestReason.js:121
+#: src/webhook/handlers/askingReplyRequestReason.js:122
 msgid "Thanks for the info you provided."
 msgstr "感謝您所提供的資訊。"
 
-#: src/webhook/handlers/askingReplyRequestReason.js:139
+#: src/webhook/handlers/askingReplyRequestReason.js:140
 #, javascript-format
 msgid "There is ${ otherReplyRequestCount } user also waiting for clarification."
 msgid_plural "There are ${ otherReplyRequestCount } users also waiting for clarification."
@@ -377,19 +371,19 @@ msgstr "請教臉書大神"
 msgid "ReportedToCofacts"
 msgstr "Cofacts求解惑"
 
-#: src/webhook/handlers/utils.js:314
+#: src/webhook/handlers/utils.js:364
 msgid ""
 "Please tell us where you have received the message using the options we "
 "provided."
 msgstr "請用提供的選項，告訴我們您是在哪裡看到這則訊息的。"
 
-#: src/webhook/handlers/utils.js:335
+#: src/webhook/handlers/utils.js:385
 msgid ""
 "We suggest forwarding the message to the following fact-checkers instead. "
 "They have 💁 1-on-1 Q&A service to respond to your questions."
 msgstr "好的，建議您把訊息轉傳給下面的專業事實查核機構，而且有 💁 專人為您解答喔！"
 
-#: src/webhook/handlers/utils.js:412
+#: src/webhook/handlers/utils.js:462
 msgid "Rewrite my reason"
 msgstr "重填送出理由"
 
@@ -655,12 +649,16 @@ msgstr "目前沒有設定選項 :)"
 msgid "You can configure Cofacts here to meet your need."
 msgstr "您可以在這裡設定 Cofacts 以符合需求。"
 
-#: src/webhook/handlers/askingReplyRequestReason.js:167
+#: src/webhook/handlers/utils.js:312
 msgid ""
 "You can turn on notification if you want Cofacts to notify you when someone "
 "replies this message."
-msgstr "若您希望 Cofacts 在有人回答這篇的時候通知您，請開啟推播設定唷！"
+msgstr "若希望我在有人回應這則訊息時通知你，請開啟通知功能唷！"
 
-#: src/webhook/handlers/askingReplyRequestReason.js:180
+#: src/webhook/handlers/utils.js:325
 msgid "Go to settings"
-msgstr "前往設定頁面"
+msgstr "前往設定"
+
+#: src/webhook/handlers/utils.js:301
+msgid "Receive updates"
+msgstr "開啟小鈴鐺"

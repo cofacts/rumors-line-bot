@@ -10,9 +10,10 @@ import {
   createSuggestOtherFactCheckerReply,
   getArticleSourceOptionFromLabel,
   createReasonButtonFooter,
+  createNotificationSettingsBubble,
 } from './utils';
-
-import UserArticleLink from '../../database/models/userArticleLink';
+import UserSettings from 'src/database/models/userSettings';
+import UserArticleLink from 'src/database/models/userArticleLink';
 
 export default async function askingArticleSubmissionConsent(params) {
   let { data, state, event, userId, replies, isSkipUser } = params;
@@ -60,6 +61,9 @@ export default async function askingArticleSubmissionConsent(params) {
 
     const articleUrl = getArticleURL(CreateArticle.id);
     const articleCreatedMsg = t`Your submission is now recorded at ${articleUrl}`;
+    const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
+      userId
+    );
 
     // Track the source of the new message.
     visitor.event({
@@ -94,8 +98,13 @@ export default async function askingArticleSubmissionConsent(params) {
                 data.sessionId
               ),
             },
+            // Ask user to turn on notification if the user did not turn it on
+            //
+            process.env.NOTIFY_METHOD &&
+              !allowNewReplyUpdate &&
+              createNotificationSettingsBubble(),
             createArticleShareBubble(articleUrl),
-          ],
+          ].filter(m => m),
         },
       },
     ];
