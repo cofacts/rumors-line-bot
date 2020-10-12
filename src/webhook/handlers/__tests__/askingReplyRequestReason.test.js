@@ -2,6 +2,7 @@ jest.mock('src/lib/ga');
 jest.mock('src/lib/gql');
 
 import MockDate from 'mockdate';
+import Client from 'src/database/mongoClient';
 import askingReplyRequestReason from '../askingReplyRequestReason';
 import {
   REASON_PREFIX,
@@ -15,6 +16,10 @@ import gql from 'src/lib/gql';
 beforeEach(() => {
   ga.clearAllMocks();
   gql.__reset();
+});
+
+afterAll(async () => {
+  await (await Client.getInstance()).close();
 });
 
 it('records article source', async () => {
