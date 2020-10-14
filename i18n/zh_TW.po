@@ -611,7 +611,7 @@ msgid ""
 "article' on cofacts chatbot(${ process.env.LINE_FRIEND_URL }) menu."
 msgstr ""
 "您搜尋過的訊息有新的回應，請到 Cofacts 機器人 (${ process.env.LINE_FRIEND_URL }) "
-"選單，點選右下角的「看過的訊息」查看ㄌㄛ。"
+"選單，點選右下角的「看過的訊息」查看。"
 
 #: src/scripts/lib.js:179
 msgid "View new replies"
