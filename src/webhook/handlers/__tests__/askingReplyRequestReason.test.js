@@ -198,6 +198,7 @@ it('should ask user to turn on notification settings if they did not turn it on'
     userId,
   };
 
+  // This snapshot should contain `receive updates` bubble in carousel
   MockDate.set('2020-01-01');
   expect(
     (await askingReplyRequestReason(sourceInput)).replies[0].contents.contents
@@ -219,6 +220,8 @@ it('should ask user to turn on notification settings if they did not turn it on'
     isSkipUser: false,
   };
   gql.__push(apiResult.updateReplyRequestSuccess);
+
+  // This snapshot should also contain `receive updates` bubble in carousel
   MockDate.set('2020-01-01');
   expect(
     (await askingReplyRequestReason(reasonInput)).replies[0].contents.contents
