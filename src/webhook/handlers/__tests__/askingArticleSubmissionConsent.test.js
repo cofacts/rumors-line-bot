@@ -155,7 +155,7 @@ it('should create a UserArticleLink when creating a Article', async () => {
   expect(userArticleLinks.map(e => ({ ...e, _id: '_id' }))).toMatchSnapshot();
 });
 
-it('should ask user to turn on notification settings if they did not turn it on after creating a UserArticleLink when creating a Article', async () => {
+it('should ask user to turn on notification settings if they did not turn it on after creating an Article', async () => {
   const userId = 'user-id-0';
   const params = {
     data: {
@@ -172,7 +172,7 @@ it('should ask user to turn on notification settings if they did not turn it on 
   };
 
   gql.__push({ data: { CreateArticle: { id: 'new-article-id' } } });
-  process.env.NOTIFY_METHOD == 'LINE_NOTIFY';
+  process.env.NOTIFY_METHOD = 'LINE_NOTIFY';
   await UserSettings.setAllowNewReplyUpdate(userId, false);
 
   MockDate.set('2020-01-01');

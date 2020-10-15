@@ -183,7 +183,7 @@ it('handles reason LIFF: reply request update success, multiple reply requests',
 
 it('should ask user to turn on notification settings if they did not turn it on', async () => {
   const userId = 'mockUser';
-  process.env.NOTIFY_METHOD == 'LINE_NOTIFY';
+  process.env.NOTIFY_METHOD = 'LINE_NOTIFY';
   await UserSettings.setAllowNewReplyUpdate(userId, false);
 
   const sourceInput = {
@@ -227,4 +227,8 @@ it('should ask user to turn on notification settings if they did not turn it on'
     (await askingReplyRequestReason(reasonInput)).replies[0].contents.contents
   ).toMatchSnapshot();
   MockDate.reset();
+
+  // Cleanup
+  delete process.env.NOTIFY_METHOD;
+  await UserSettings.setAllowNewReplyUpdate(userId, true);
 });
