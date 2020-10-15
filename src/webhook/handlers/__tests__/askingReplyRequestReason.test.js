@@ -9,6 +9,7 @@ import {
   SOURCE_PREFIX_NOT_YET_REPLIED,
   ARTICLE_SOURCE_OPTIONS,
 } from 'src/lib/sharedUtils';
+import UserSettings from 'src/database/models/userSettings';
 import ga from 'src/lib/ga';
 import * as apiResult from '../__fixtures__/askingReplyRequestReason';
 import gql from 'src/lib/gql';
@@ -178,4 +179,49 @@ it('handles reason LIFF: reply request update success, multiple reply requests',
     ]
   `);
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
+});
+
+it('should ask user to turn on notification settings if they did not turn it on', async () => {
+  const userId = 'mockUser';
+  process.env.NOTIFY_METHOD == 'LINE_NOTIFY';
+  await UserSettings.setAllowNewReplyUpdate(userId, false);
+
+  const sourceInput = {
+    data: {
+      selectedArticleId: 'selected-article-id',
+    },
+    event: {
+      input:
+        SOURCE_PREFIX_NOT_YET_REPLIED +
+        ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label, // From LIFF
+    },
+    userId,
+  };
+
+  MockDate.set('2020-01-01');
+  expect(
+    (await askingReplyRequestReason(sourceInput)).replies[0].contents.contents
+  ).toMatchSnapshot();
+  MockDate.reset();
+
+  const reasonInput = {
+    data: {
+      sessionId: 1497994017447,
+      selectedArticleId: 'article-id',
+    },
+    event: {
+      type: 'message',
+      input: REASON_PREFIX + 'My reason',
+      timestamp: 1497994016356,
+    },
+    userId,
+    replies: undefined,
+    isSkipUser: false,
+  };
+  gql.__push(apiResult.updateReplyRequestSuccess);
+  MockDate.set('2020-01-01');
+  expect(
+    (await askingReplyRequestReason(reasonInput)).replies[0].contents.contents
+  ).toMatchSnapshot();
+  MockDate.reset();
 });
