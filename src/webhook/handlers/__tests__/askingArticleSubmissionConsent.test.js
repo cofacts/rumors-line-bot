@@ -10,8 +10,9 @@ import {
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
 
-import UserArticleLink from '../../../database/models/userArticleLink';
-import Client from '../../../database/mongoClient';
+import UserSettings from 'src/database/models/userSettings';
+import UserArticleLink from 'src/database/models/userArticleLink';
+import Client from 'src/database/mongoClient';
 
 beforeAll(async () => {
   if (await UserArticleLink.collectionExists()) {
@@ -152,4 +153,34 @@ it('should create a UserArticleLink when creating a Article', async () => {
 
   const userArticleLinks = await UserArticleLink.findByUserId(userId);
   expect(userArticleLinks.map(e => ({ ...e, _id: '_id' }))).toMatchSnapshot();
+});
+
+it('should ask user to turn on notification settings if they did not turn it on after creating a UserArticleLink when creating a Article', async () => {
+  const userId = 'user-id-0';
+  const params = {
+    data: {
+      searchedText: 'Some text forwarded by the user',
+      foundArticleIds: [],
+    },
+    event: {
+      type: 'message',
+      input:
+        SOURCE_PREFIX_FRIST_SUBMISSION +
+        ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label,
+    },
+    userId,
+  };
+
+  gql.__push({ data: { CreateArticle: { id: 'new-article-id' } } });
+  process.env.NOTIFY_METHOD == 'LINE_NOTIFY';
+  await UserSettings.setAllowNewReplyUpdate(userId, false);
+
+  MockDate.set('2020-01-01');
+  const results = await askingArticleSubmissionConsent(params);
+  MockDate.reset();
+
+  expect(results.replies[0].contents.contents).toMatchSnapshot();
+
+  delete process.env.NOTIFY_METHOD;
+  await UserSettings.setAllowNewReplyUpdate(userId, true);
 });
