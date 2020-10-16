@@ -1,5 +1,126 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`should select reply by replyId should ask user to turn on notification settings if they did not turn it on 1`] = `
+Array [
+  Object {
+    "text": "💡 Someone on the internet replies to the message:",
+    "type": "text",
+  },
+  Object {
+    "text": "這是商業活動廣告01 這是商業活動廣告02 這是商業活動廣告03 這是商業活動廣告04 這是商業活動廣告05 這是商業活動廣告06 這是商業活動廣告07 這是商業活動廣告08 這是商業活動廣告09 這是商業活動廣告10 這是商業活動廣告11 這是商業活動廣告12 這是商業活動廣告13 這是商業活動廣告14 這是商業活動廣告15 這是商業活動廣告16 這是商業活動廣告17 這是商業活動廣告18 這是商業活動廣告19 這是商業活動廣告20",
+    "type": "text",
+  },
+  Object {
+    "text": "􀂅 ⚠️️ This reply has no references and it may be biased ⚠️️  􀂅",
+    "type": "text",
+  },
+  Object {
+    "text": "⬆️ Therefore, the author think the message invalid request.
+
+💁 These messages are provided by some nice volunteers. Please refer to their references and make judgements on your own.
+
+⁉️ If you have different thoughts, you may have your say here:
+https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
+    "type": "text",
+  },
+  Object {
+    "altText": "Is the reply helpful?
+📱 Please proceed on your mobile phone.",
+    "contents": Object {
+      "contents": Array [
+        Object {
+          "body": Object {
+            "contents": Array [
+              Object {
+                "text": "Is the reply helpful?",
+                "type": "text",
+                "wrap": true,
+              },
+            ],
+            "layout": "vertical",
+            "paddingAll": "xl",
+            "type": "box",
+          },
+          "footer": Object {
+            "contents": Array [
+              Object {
+                "action": Object {
+                  "label": "Yes",
+                  "type": "uri",
+                  "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=feedback/yes&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
+                },
+                "color": "#ffb600",
+                "style": "primary",
+                "type": "button",
+              },
+              Object {
+                "action": Object {
+                  "label": "No",
+                  "type": "uri",
+                  "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=feedback/no&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
+                },
+                "color": "#ffb600",
+                "style": "primary",
+                "type": "button",
+              },
+            ],
+            "layout": "horizontal",
+            "spacing": "sm",
+            "type": "box",
+          },
+          "type": "bubble",
+        },
+        Object {
+          "body": Object {
+            "contents": Array [
+              Object {
+                "text": "You can turn on notification if you want Cofacts to notify you when someone replies this message.",
+                "type": "text",
+                "wrap": true,
+              },
+            ],
+            "layout": "vertical",
+            "type": "box",
+          },
+          "footer": Object {
+            "contents": Array [
+              Object {
+                "action": Object {
+                  "label": "Go to settings",
+                  "type": "uri",
+                  "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=setting&utm_source=rumors-line-bot&utm_medium=reply-request",
+                },
+                "color": "#00B172",
+                "style": "primary",
+                "type": "button",
+              },
+            ],
+            "layout": "vertical",
+            "spacing": "sm",
+            "type": "box",
+          },
+          "header": Object {
+            "contents": Array [
+              Object {
+                "text": "🔔  Receive updates",
+                "type": "text",
+                "wrap": true,
+              },
+            ],
+            "layout": "vertical",
+            "paddingBottom": "none",
+            "type": "box",
+          },
+          "type": "bubble",
+        },
+      ],
+      "type": "carousel",
+    },
+    "type": "flex",
+  },
+]
+`;
+
 exports[`should select reply by replyId should handle the case with just one reply 1`] = `
 Object {
   "data": Object {
@@ -43,47 +164,51 @@ https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
       "altText": "Is the reply helpful?
 📱 Please proceed on your mobile phone.",
       "contents": Object {
-        "body": Object {
-          "contents": Array [
-            Object {
-              "text": "Is the reply helpful?",
-              "type": "text",
-              "wrap": true,
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "Is the reply helpful?",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "paddingAll": "xl",
+              "type": "box",
             },
-          ],
-          "layout": "vertical",
-          "paddingAll": "lg",
-          "spacing": "md",
-          "type": "box",
-        },
-        "footer": Object {
-          "contents": Array [
-            Object {
-              "action": Object {
-                "label": "Yes",
-                "type": "uri",
-                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=feedback/yes&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
-              },
-              "color": "#ffb600",
-              "style": "primary",
-              "type": "button",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "Yes",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=feedback/yes&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "No",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=feedback/no&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "spacing": "sm",
+              "type": "box",
             },
-            Object {
-              "action": Object {
-                "label": "No",
-                "type": "uri",
-                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=feedback/no&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
-              },
-              "color": "#ffb600",
-              "style": "primary",
-              "type": "button",
-            },
-          ],
-          "layout": "horizontal",
-          "spacing": "sm",
-          "type": "box",
-        },
-        "type": "bubble",
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
       },
       "type": "flex",
     },
@@ -137,47 +262,51 @@ https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz",
       "altText": "Is the reply helpful?
 📱 Please proceed on your mobile phone.",
       "contents": Object {
-        "body": Object {
-          "contents": Array [
-            Object {
-              "text": "Is the reply helpful?",
-              "type": "text",
-              "wrap": true,
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "Is the reply helpful?",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "paddingAll": "xl",
+              "type": "box",
             },
-          ],
-          "layout": "vertical",
-          "paddingAll": "lg",
-          "spacing": "md",
-          "type": "box",
-        },
-        "footer": Object {
-          "contents": Array [
-            Object {
-              "action": Object {
-                "label": "Yes",
-                "type": "uri",
-                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=feedback/yes&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
-              },
-              "color": "#ffb600",
-              "style": "primary",
-              "type": "button",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "Yes",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=feedback/yes&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "No",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=feedback/no&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "spacing": "sm",
+              "type": "box",
             },
-            Object {
-              "action": Object {
-                "label": "No",
-                "type": "uri",
-                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=feedback/no&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
-              },
-              "color": "#ffb600",
-              "style": "primary",
-              "type": "button",
-            },
-          ],
-          "layout": "horizontal",
-          "spacing": "sm",
-          "type": "box",
-        },
-        "type": "bubble",
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
       },
       "type": "flex",
     },

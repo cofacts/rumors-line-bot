@@ -301,10 +301,6 @@ export default async function choosingArticle(params) {
         color: '#ffb600',
         weight: 'bold',
       },
-      {
-        type: 'span',
-        text: t`Although you won't receive answers rightaway, you can help the people who receive the same message in the future.`,
-      },
     ];
 
     replies = [

@@ -1,5 +1,135 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`should ask user to turn on notification settings if they did not turn it on after creating an Article 1`] = `
+Array [
+  Object {
+    "body": Object {
+      "contents": Array [
+        Object {
+          "text": "Your submission is now recorded at https://cofacts.hacktabl.org/article/new-article-id",
+          "type": "text",
+          "wrap": true,
+        },
+      ],
+      "layout": "vertical",
+      "type": "box",
+    },
+    "footer": Object {
+      "contents": Array [
+        Object {
+          "action": Object {
+            "label": "See reported message",
+            "type": "uri",
+            "uri": "https://cofacts.hacktabl.org/article/new-article-id",
+          },
+          "color": "#ffb600",
+          "style": "primary",
+          "type": "button",
+        },
+        Object {
+          "action": Object {
+            "label": "Provide more info",
+            "type": "uri",
+            "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE1Nzc4MzY4MDAwMDAsInN1YiI6InVzZXItaWQtMCIsImV4cCI6MTU3NzkyMzIwMH0.8BerlnWZ5tp5Voipq2feE3W1sWxadJ9whgrIitn1h5U",
+          },
+          "color": "#ffb600",
+          "style": "primary",
+          "type": "button",
+        },
+      ],
+      "layout": "vertical",
+      "spacing": "sm",
+      "type": "box",
+    },
+    "type": "bubble",
+  },
+  Object {
+    "body": Object {
+      "contents": Array [
+        Object {
+          "text": "You can turn on notification if you want Cofacts to notify you when someone replies this message.",
+          "type": "text",
+          "wrap": true,
+        },
+      ],
+      "layout": "vertical",
+      "type": "box",
+    },
+    "footer": Object {
+      "contents": Array [
+        Object {
+          "action": Object {
+            "label": "Go to settings",
+            "type": "uri",
+            "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=setting&utm_source=rumors-line-bot&utm_medium=reply-request",
+          },
+          "color": "#00B172",
+          "style": "primary",
+          "type": "button",
+        },
+      ],
+      "layout": "vertical",
+      "spacing": "sm",
+      "type": "box",
+    },
+    "header": Object {
+      "contents": Array [
+        Object {
+          "text": "🔔  Receive updates",
+          "type": "text",
+          "wrap": true,
+        },
+      ],
+      "layout": "vertical",
+      "paddingBottom": "none",
+      "type": "box",
+    },
+    "type": "bubble",
+  },
+  Object {
+    "body": Object {
+      "contents": Array [
+        Object {
+          "text": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
+          "type": "text",
+          "wrap": true,
+        },
+      ],
+      "layout": "vertical",
+      "type": "box",
+    },
+    "footer": Object {
+      "contents": Array [
+        Object {
+          "action": Object {
+            "label": "Share on LINE",
+            "type": "uri",
+            "uri": "line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Fnew-article-id",
+          },
+          "color": "#ffb600",
+          "style": "primary",
+          "type": "button",
+        },
+        Object {
+          "action": Object {
+            "label": "Share on Facebook",
+            "type": "uri",
+            "uri": "https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Fnew-article-id",
+          },
+          "color": "#ffb600",
+          "style": "primary",
+          "type": "button",
+        },
+      ],
+      "layout": "vertical",
+      "spacing": "sm",
+      "type": "box",
+    },
+    "type": "bubble",
+  },
+]
+`;
+
 exports[`should create a UserArticleLink when creating a Article 1`] = `
 Array [
   Object {
