@@ -1558,10 +1558,6 @@ Object {
                   "type": "span",
                   "weight": "bold",
                 },
-                Object {
-                  "text": "Although you won't receive answers rightaway, you can help the people who receive the same message in the future.",
-                  "type": "span",
-                },
               ],
               "type": "text",
               "wrap": true,

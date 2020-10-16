@@ -10,8 +10,10 @@ import {
   createArticleShareBubble,
   getArticleSourceOptionFromLabel,
   createReasonButtonFooter,
+  createNotificationSettingsBubble,
 } from './utils';
 import gql from 'src/lib/gql';
+import UserSettings from 'src/database/models/userSettings';
 
 export default async function askingReplyRequestReason(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -37,6 +39,9 @@ export default async function askingReplyRequestReason(params) {
 
     const articleUrl = getArticleURL(data.selectedArticleId);
     const sourceRecordedMsg = t`Thanks for the info.`;
+    const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
+      userId
+    );
 
     replies = [
       {
@@ -64,8 +69,13 @@ export default async function askingReplyRequestReason(params) {
                 data.sessionId
               ),
             },
+            // Ask user to turn on notification if the user did not turn it on
+            //
+            process.env.NOTIFY_METHOD &&
+              !allowNewReplyUpdate &&
+              createNotificationSettingsBubble(),
             createArticleShareBubble(articleUrl),
-          ],
+          ].filter(m => m),
         },
       },
     ];
@@ -118,6 +128,9 @@ export default async function askingReplyRequestReason(params) {
     const otherReplyRequestCount =
       mutationData.CreateOrUpdateReplyRequest.replyRequestCount - 1;
     const replyRequestUpdatedMsg = t`Thanks for the info you provided.`;
+    const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
+      userId
+    );
 
     replies = [
       {
@@ -126,6 +139,11 @@ export default async function askingReplyRequestReason(params) {
         contents: {
           type: 'carousel',
           contents: [
+            // Ask user to turn on notification if the user did not turn it on
+            //
+            process.env.NOTIFY_METHOD &&
+              !allowNewReplyUpdate &&
+              createNotificationSettingsBubble(),
             createArticleShareBubble(articleUrl),
             {
               type: 'bubble',
@@ -156,10 +174,11 @@ export default async function askingReplyRequestReason(params) {
                 true
               ),
             },
-          ],
+          ].filter(m => m),
         },
       },
     ];
+
     visitor.send();
 
     return { data, event, userId, replies, isSkipUser };

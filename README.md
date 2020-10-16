@@ -321,6 +321,7 @@ Sent event format: `Event category` / `Event action` / `Event label`
 
 10. User opens settings list
   - Page view for page `/setting` is sent
+  - If opened after sending reply requests: `utm_source=rumors-line-bot&utm_medium=reply-request`
 
 11. Other LIFF operations
   - `LIFF` / `page_redirect` / `App` is sent on LIFF redirect, with value being redirect count.
