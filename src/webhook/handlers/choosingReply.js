@@ -11,10 +11,11 @@ import ga from 'src/lib/ga';
 import UserSettings from 'src/database/models/userSettings';
 
 /**
- * @param {*} userId LINE user ID that does the input
+ * @param {string} userId LINE user ID that does the input
+ * @param {string} sessionId
  * @returns {object} Flex message object
  */
-async function createAskReplyFeedbackMessage(userId) {
+async function createAskReplyFeedbackMessage(userId, sessionId) {
   const helpfulTitle = t`Is the reply helpful?`;
   const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
     userId
@@ -52,7 +53,7 @@ async function createAskReplyFeedbackMessage(userId) {
                 action: {
                   type: 'uri',
                   label: t`Yes`,
-                  uri: getLIFFURL('feedback/yes', userId, data.sessionId),
+                  uri: getLIFFURL('feedback/yes', userId, sessionId),
                 },
               },
               {
@@ -62,7 +63,7 @@ async function createAskReplyFeedbackMessage(userId) {
                 action: {
                   type: 'uri',
                   label: t`No`,
-                  uri: getLIFFURL('feedback/no', userId, data.sessionId),
+                  uri: getLIFFURL('feedback/no', userId, sessionId),
                 },
               },
             ],
@@ -113,7 +114,7 @@ export default async function choosingReply(params) {
     GetReply,
     GetArticle,
     data.selectedArticleId
-  ).concat(await createAskReplyFeedbackMessage(userId));
+  ).concat(await createAskReplyFeedbackMessage(userId, data.sessionId));
 
   const visitor = ga(userId, state, data.selectedArticleText);
   // Track when user select a reply.
