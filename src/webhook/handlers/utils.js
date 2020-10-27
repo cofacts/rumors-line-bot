@@ -1,7 +1,7 @@
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
 import { sign } from 'src/lib/jwt';
-import { ARTICLE_SOURCE_OPTIONS } from 'src/lib/sharedUtils';
+import { ARTICLE_SOURCE_OPTIONS, getArticleURL } from 'src/lib/sharedUtils';
 
 const splitter = new GraphemeSplitter();
 
@@ -561,6 +561,42 @@ function createHighlightContent(text) {
     result.lettersLength += text[1].length;
   }
   return result;
+}
+
+/**
+ * @param {*} GetReply
+ * @param {*} GetArticle
+ * @param {string} selectedArticleId
+ * @returns {object[]} message object array
+ */
+export function createReplyMessages(GetReply, GetArticle, selectedArticleId) {
+  const articleUrl = getArticleURL(selectedArticleId);
+  const typeStr = createTypeWords(GetReply.type).toLocaleLowerCase();
+
+  return [
+    {
+      type: 'text',
+      text: `💡 ${t`Someone on the internet replies to the message:`}`,
+    },
+    {
+      type: 'text',
+      text: ellipsis(GetReply.text, 2000),
+    },
+    {
+      type: 'text',
+      text: ellipsis(createReferenceWords(GetReply), 2000),
+    },
+    {
+      type: 'text',
+      text:
+        `⬆️ ${t`Therefore, the author think the message ${typeStr}.`}\n\n` +
+        `💁 ${t`These messages are provided by some nice volunteers. Please refer to their references and make judgements on your own.`}\n` +
+        (GetArticle.replyCount > 1
+          ? `🗣️ ${t`There are different replies for the message. Read them all here before making judgements:`}\n${articleUrl}\n`
+          : '') +
+        `\n⁉️ ${t`If you have different thoughts, you may have your say here:`}\n${articleUrl}`,
+    },
+  ];
 }
 
 export const POSTBACK_NO_ARTICLE_FOUND = '__NO_ARTICLE_FOUND__';
