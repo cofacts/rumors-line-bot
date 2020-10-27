@@ -6,7 +6,7 @@ msgstr ""
 "mime-version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/webhook/index.js:81
+#: src/webhook/index.js:78
 #. Set default result
 #. 
 msgid "I cannot understand messages other than text."
@@ -79,40 +79,40 @@ msgstr ""
 "不實訊息常常會被人修改重發。\n"
 "請選擇比較接近的版本"
 
-#: src/webhook/handlers/choosingReply.js:57
+#: src/webhook/handlers/utils.js:579
 msgid "Someone on the internet replies to the message:"
 msgstr "網路上有人這樣回應這則訊息："
 
-#: src/webhook/handlers/choosingReply.js:70
+#: src/webhook/handlers/utils.js:592
 #, javascript-format
 msgid "Therefore, the author think the message ${ typeStr }."
 msgstr "綜合以上，回應者認為它${typeStr}。"
 
-#: src/webhook/handlers/choosingReply.js:71
+#: src/webhook/handlers/utils.js:593
 msgid ""
 "These messages are provided by some nice volunteers. Please refer to their "
 "references and make judgements on your own."
 msgstr "以上資訊由好心人提供。請斟酌出處與理由思考判斷。"
 
-#: src/webhook/handlers/choosingReply.js:73
+#: src/webhook/handlers/utils.js:595
 msgid ""
 "There are different replies for the message. Read them all here before "
 "making judgements:"
 msgstr "這則訊息有很多不同回應，建議到這裡一次讀完再下判斷："
 
-#: src/webhook/handlers/choosingReply.js:75
+#: src/webhook/handlers/utils.js:597
 msgid "If you have different thoughts, you may have your say here:"
 msgstr "如果你對這則訊息有不同看法，歡迎到下面這裡寫入新的回應："
 
-#: src/webhook/handlers/choosingReply.js:49
+#: src/webhook/handlers/choosingReply.js:18
 msgid "Is the reply helpful?"
 msgstr "請問上面回應是否有幫助？"
 
-#: src/webhook/handlers/choosingReply.js:108
+#: src/webhook/handlers/choosingReply.js:54
 msgid "Yes"
 msgstr "是"
 
-#: src/webhook/handlers/choosingReply.js:118
+#: src/webhook/handlers/choosingReply.js:64
 msgid "No"
 msgstr "否"
 
@@ -149,23 +149,23 @@ msgstr "有人認為它${typeWords}"
 msgid "Looks ${ similarityPercentage }% similar"
 msgstr "看起來 ${similarityPercentage}% 像"
 
-#: src/webhook/index.js:36
+#: src/webhook/index.js:40
 msgid ""
 "Line bot is busy, or we cannot handle this message. Maybe you can try again "
 "a few minutes later."
 msgstr "不好意思！系統可能在忙線中，無法及時處理您傳的訊息。請稍等幾分鐘再試試看唷。"
 
-#: src/webhook/handleInput.js:152
+#: src/webhook/handleInput.js:159
 msgid "Wrong usage"
 msgstr "這不是這樣用的"
 
-#: src/webhook/index.js:112
+#: src/webhook/index.js:123
 msgid ""
 "You are currently searching for another message, buttons from previous "
 "search sessions do not work now."
 msgstr "您已經在搜尋新的訊息了，過去查過的訊息的按鈕已經失效囉。"
 
-#: src/webhook/index.js:254
+#: src/webhook/index.js:265
 msgid ""
 "Oops, something is not working. We have cleared your search data, hopefully "
 "the error will go away. Would you please send us the message from the start?"
@@ -230,7 +230,7 @@ msgid "We've received feedback from you and ${ _otherFeedbackCount } other users
 msgstr "感謝您與其他 ${_otherFeedbackCount} 人的評價。"
 
 #: src/webhook/handlers/choosingArticle.js:44
-#: src/webhook/handlers/choosingReply.js:20
+#: src/webhook/handlers/choosingReply.js:85
 msgid "Please choose from provided options."
 msgstr "請從上面的選項中做選擇。"
 
@@ -278,7 +278,7 @@ msgstr "抱歉這篇訊息還沒有人回應過唷！請闢謠編輯查證，"
 msgid "provide more information using “${ btnText }” button. "
 msgstr "使用「${btnText}」按鈕來提供更多資訊。"
 
-#: src/webhook/handlers/choosingReply.js:41
+#: src/webhook/handlers/choosingReply.js:106
 msgid ""
 "We have problem retrieving message and reply data, please forward the "
 "message again"
@@ -666,3 +666,119 @@ msgstr "開啟小鈴鐺"
 #: src/liff/pages/UserSetting.svelte:69
 msgid "Fetching settings"
 msgstr "載入設定中"
+
+#: src/webhook/handlers/tutorial.js:13
+msgid "tutorial"
+msgstr "教學"
+
+#: src/webhook/handlers/tutorial.js:15
+#. From flex message button
+msgid "Simulates forwarding a message"
+msgstr "模擬傳訊息進 Cofacts"
+
+#: src/webhook/handlers/tutorial.js:17
+#. From quick reply, Note: it should be less than 20 charactors
+msgid "Cool, I got it!"
+msgstr "酷，我懂了！"
+
+#: src/webhook/handlers/tutorial.js:18
+msgid "What happened?"
+msgstr "發生什麼事？"
+
+#: src/webhook/handlers/tutorial.js:19
+msgid "Why permission"
+msgstr "為什麼要設這個"
+
+#: src/webhook/handlers/tutorial.js:20
+msgid "Done!"
+msgstr "我設好了！"
+
+#: src/webhook/handlers/tutorial.js:21
+msgid "Later"
+msgstr "之後再設吧"
+
+#: src/webhook/handlers/tutorial.js:87
+msgid ""
+"This is a chatbot that looks up suspicious forwarded messages for you. Here "
+"is how to use me:"
+msgstr "我是幫你查轉傳訊息的機器人。用法像這樣"
+
+#: src/webhook/handlers/tutorial.js:120
+msgid "Wanna try it out? Just forward a message to me!"
+msgstr "是不是躍躍欲試呢？試試把訊息傳進來吧！"
+
+#: src/webhook/handlers/tutorial.js:184
+msgid ""
+"This is the end of the tutorial. Next time when you receive a suspicious "
+"message, don't hesitate to forward it to me! 🤗"
+msgstr ""
+
+#: src/webhook/handlers/tutorial.js:242
+msgid "Setup permission"
+msgstr "權限設定"
+
+#: src/webhook/handlers/tutorial.js:295
+msgid "You are smart"
+msgstr "你很聰明"
+
+#: src/webhook/handlers/tutorial.js:296
+msgid ""
+"OK. When we ask for feedback from you, the permission dialog will pop-up "
+"again."
+msgstr ""
+
+#: src/webhook/handlers/tutorial.js:298
+msgid ""
+"To wrap up, please finish your permission settings so that I can provide a "
+"smoother experience."
+msgstr ""
+
+#: src/webhook/handlers/tutorial.js:299
+msgid ""
+"When I provide hoax-busting replies to you, I would like to ask you for any "
+"feedback on the crowd-sourced reply.\n"
+"In order to achieve that, I need to ask for your permission to \"send your "
+"message to our chatroom\".\n"
+"The permission will be used to send only this one message of yours back to "
+"this particular chatroom.\n"
+"You can still use Cofacts without granting me this permission. When we ask "
+"for feedback from you, the permission dialog will pop-up again."
+msgstr ""
+
+#: src/webhook/handlers/tutorial.js:106
+msgid "When receiving a message from elsewhere"
+msgstr "在他處收到訊息"
+
+#: src/webhook/handlers/tutorial.js:107
+msgid "Long press and share"
+msgstr "長按後分享"
+
+#: src/webhook/handlers/tutorial.js:108
+msgid "Select Cofacts to share"
+msgstr "指名 Cofacts"
+
+#: src/webhook/handlers/tutorial.js:109
+msgid "Cofacts replies with a crowd-sourced fact-check or chatbot replies"
+msgstr "Cofacts 回傳網撰寫的的查證或回應"
+
+#: src/webhook/handlers/tutorial.js:303
+msgid ""
+"What you see above is a simulation of what you may see after you forward a "
+"message to Cofacts."
+msgstr "上面在模擬你傳訊息給我時，會得到的回應。"
+
+#: src/webhook/handlers/tutorial.js:304
+msgid "Cofacts has a database of hoax messages and replies."
+msgstr "Cofacts 有一個謠言與回應的資料庫。"
+
+#: src/webhook/handlers/tutorial.js:305
+msgid ""
+"When you send a message to me, I look up the message in our database and "
+"return the results I found."
+msgstr "當你傳訊息給我的時候，我會搜尋資料庫然後回傳找到的結果。"
+
+#: src/webhook/handlers/tutorial.js:306
+msgid ""
+"If I can't find anything, I will ask you about sending your message to that "
+"database."
+msgstr "如果我找不到的話，會徵求你的同意，看看要不要把這個訊息送進資料庫唷。"

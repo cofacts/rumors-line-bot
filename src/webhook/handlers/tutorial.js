@@ -103,10 +103,10 @@ export function createGreetingMessage() {
  * @returns {object} Flex message object
  */
 export function createTutorialMessage(data) {
-  const textStep1 = t`1. When receiving a message from elsewhere`;
-  const textStep2 = t`2. Long press and share`;
-  const textStep3 = t`3. Select Cofacts to share`;
-  const textStep4 = t`4. Cofacts replies with a crowd-sourced fact-check or chatbot replies`;
+  const textStep1 = `1. ${t`When receiving a message from elsewhere`}`;
+  const textStep2 = `2. ${t`Long press and share`}`;
+  const textStep3 = `3. ${t`Select Cofacts to share`}`;
+  const textStep4 = `4. ${t`Cofacts replies with a crowd-sourced fact-check or chatbot replies`}`;
 
   const imageUrlStep1 =
     'https://uc21ad9bcd486191781c986dfe14.previews.dropboxusercontent.com/p/thumb/AA9R7LsrgHTMDIkz74TvAzOgT5gEcNeCPHWJ_OpIZOYJSBCqzCPMOliCKMe7IRVY_Us_ahRTRgC_d10NkokagS4yRtGo3cGHQfxtEPxRz0Fvo7pxLbEQW3BoM7reJTH0DTbrdku8uTrV3FYz7Evofe55rdRnKGpMPscd9A6YzFeSNvTV31ZwjRvw51utfQG9cwazNCENDVFLeQGl7NANpre3LTKKykTrOuY5t2-VLwYgq6e7fXQGYCGKNuBXWnEljJpPRcD--uDHjsbVtHQFEKt8ap3-lsjoy8AfpmMW619o-pO90Qj3HuRfV8M-_z-JbQS-8cN8Fe0zK-gxMHhRGY_roWKG85vHBePxd7WJDwa--Q/p.png?size=800x600&size_mode=3';
@@ -300,10 +300,10 @@ export default async function tutorial(params) {
   In order to achieve that, I need to ask for your permission to "send your message to our chatroom".
   The permission will be used to send only this one message of yours back to this particular chatroom.
   You can still use Cofacts without granting me this permission. When we ask for feedback from you, the permission dialog will pop-up again.`;
-  const explanChatbotFlow = t`⬆️ What you see above is a simulation of what you may see after you forward a message to Cofacts.
-  📚 Cofacts has a database of hoax messages and replies.
-  📲 When you send a message to me, I look up the message in our database and return the results I found.
-  🆕 If I can't find anything, I will ask you about sending your message to that database.`;
+  const explanChatbotFlow = `⬆️ ${t`What you see above is a simulation of what you may see after you forward a message to Cofacts.`}
+  📚 ${t`Cofacts has a database of hoax messages and replies.`}
+  📲 ${t`When you send a message to me, I look up the message in our database and return the results I found.`}
+  🆕 ${t`If I can't find anything, I will ask you about sending your message to that database.`}`;
 
   if (event.input === RICH_MENU_TRIGGER) {
     replies = [];
