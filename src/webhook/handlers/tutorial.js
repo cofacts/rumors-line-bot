@@ -178,8 +178,210 @@ export function createTutorialMessage(data) {
 }
 
 /**
- * @returns {object} Flex message object, copied from `choosingReply.js`
+ * @returns {object} Flex message object
  */
-export function createMockReplyMessages() {
-  return [];
+function createEndingMessage() {
+  const text = t`This is the end of the tutorial. Next time when you receive a suspicious message, don't hesitate to forward it to me! 🤗`;
+  const imageUrl =
+    'https://uc4e58e1c257cac3657ad4ca0a69.previews.dropboxusercontent.com/p/thumb/AA_IcLRYeJqCzpdE1ZynRVM_LOWI3vkKHByHswDrgZS9BmYfzPao--HbC5krsws4BroUuhF9jQyuXs12XWmO5SuBgPbygVSHWNQM1wrEM_Sa9M-Q6kGD_t_xaXRbNoF2MbBsJfQBSAwJ9XuJsAs2zt8XLURjLX2Kz54W0v6NUuEeHdfetQFlStTzvicxVc_ROqMAYbzXvaE92j1SGHtxJaPZYxDdr5hZhwttLAkXccCgMy052jxgct0DTnSqzO0-cVk6DXRY755iHN_loO_cVlegYQDKmySTfpFMfZp8S8aSoLKsnk2Gqur4f_PabPrWFoMA289DZZ7wRSzdbN8DRlO9cTHo9FoQY-SdcOrpWBq4u6was6uvbXaHeZbrY4ZWmvm8JbrJqQWwb-txBVL1RUzN/p.png?size=800x600&size_mode=3';
+
+  return {
+    type: 'flex',
+    altText: ellipsis(text, 300) + '\n' + FLEX_MESSAGE_ALT_TEXT,
+    contents: {
+      type: 'carousel',
+      contents: [createImageTextBubble(imageUrl, text)],
+    },
+  };
+}
+
+/**
+ * @param {object} data
+ * @returns {object[]} message objects
+ */
+function createMockReplyMessages(data) {
+  const GetReply = {
+    type: 'RUMOR',
+    reference:
+      'http://www.mygopen.com/2017/06/blog-post_26.html\n神奇的地瓜葉？搭配鮮奶遠離三高？謠言讓醫生說：有痛風或是腎臟不好的人要小心！',
+    text:
+      '基本上地瓜葉其實單吃就有效果，牛奶、豆漿可加可不加，民眾不用迷信。 三高或是糖尿病的患者還是要搭配醫生的治療，不能單靠吃地瓜葉就想將身體調養好，民眾千萬要注意。\n另外地瓜葉內還有鉀和鈉，對於有痛風或是腎臟不好的民眾反而會造成負擔，因此並不建議食用。',
+  };
+  const GetArticle = { replyCount: 1 };
+  data.selectedArticleId = '2sn80q5l5mzi0';
+
+  const replies = createReplyMessages(
+    GetReply,
+    GetArticle,
+    data.selectedArticleId
+  );
+  // put quickreply into last message
+  replies[replies.length - 1]['quickReply'] = {
+    items: [
+      createQuickReplyPostbackItem(
+        PROVIDE_PERMISSION_SETUP,
+        data.sessionId,
+        'TUTORIAL'
+      ),
+      createQuickReplyPostbackItem(
+        EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP,
+        data.sessionId,
+        'TUTORIAL'
+      ),
+    ],
+  };
+  return replies;
+}
+
+/**
+ * @param {object} data
+ * @param {string} message
+ * @returns {object} Flex message object
+ */
+function createPermissionSetupDialog(data, message) {
+  const buttonLabel = t`Setup permission`;
+  const buttonUri = `${process.env.LIFF_URL}/liff/index.html?p=permission`;
+
+  return {
+    type: 'flex',
+    altText: ellipsis(message, 300) + '\n' + FLEX_MESSAGE_ALT_TEXT,
+    contents: {
+      type: 'bubble',
+      direction: 'ltr',
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        spacing: 'none',
+        margin: 'none',
+        contents: [
+          {
+            type: 'text',
+            contents: [
+              {
+                type: 'span',
+                text: message,
+              },
+            ],
+            flex: 0,
+            gravity: 'top',
+            weight: 'regular',
+            wrap: true,
+          },
+        ],
+      },
+      footer: {
+        type: 'box',
+        layout: 'horizontal',
+        contents: [
+          {
+            type: 'button',
+            action: {
+              type: 'uri',
+              label: buttonLabel,
+              uri: buttonUri,
+            },
+            style: 'primary',
+            color: '#ffb600',
+          },
+        ],
+      },
+    },
+  };
+}
+
+export default async function tutorial(params) {
+  let { data, event, issuedAt, replies, userId, isSkipUser } = params;
+
+  const replyProvidePermissionSetup = `${t`You are smart`} 😊`;
+  const replySetupLater = t`OK. When we ask for feedback from you, the permission dialog will pop-up again.`;
+
+  const askForPermissionSetup = t`To wrap up, please finish your permission settings so that I can provide a smoother experience.`;
+  const explanPersmissionSetup = t`When I provide hoax-busting replies to you, I would like to ask you for any feedback on the crowd-sourced reply.
+  In order to achieve that, I need to ask for your permission to "send your message to our chatroom".
+  The permission will be used to send only this one message of yours back to this particular chatroom.
+  You can still use Cofacts without granting me this permission. When we ask for feedback from you, the permission dialog will pop-up again.`;
+  const explanChatbotFlow = t`⬆️ What you see above is a simulation of what you may see after you forward a message to Cofacts.
+  📚 Cofacts has a database of hoax messages and replies.
+  📲 When you send a message to me, I look up the message in our database and return the results I found.
+  🆕 If I can't find anything, I will ask you about sending your message to that database.`;
+
+  if (event.input === RICH_MENU_TRIGGER) {
+    replies = [];
+    replies.push(await createTutorialMessage(data));
+  } else if (event.input === SIMULATE_FORWARDING_MESSAGE) {
+    replies = await createMockReplyMessages(data);
+  } else if (event.input === PROVIDE_PERMISSION_SETUP) {
+    replies = [
+      {
+        type: 'text',
+        text: replyProvidePermissionSetup,
+      },
+    ];
+
+    replies.push(
+      await createPermissionSetupDialog(data, askForPermissionSetup)
+    );
+    // put quickreply into last message
+    replies[replies.length - 1]['quickReply'] = {
+      items: [
+        createQuickReplyPostbackItem(SETUP_DONE, data.sessionId, 'TUTORIAL'),
+        createQuickReplyPostbackItem(SETUP_LATER, data.sessionId, 'TUTORIAL'),
+        createQuickReplyPostbackItem(
+          PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION,
+          data.sessionId,
+          'TUTORIAL'
+        ),
+      ],
+    };
+  } else if (event.input === EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP) {
+    replies = [
+      {
+        type: 'text',
+        text: explanChatbotFlow,
+      },
+    ];
+
+    replies.push(
+      await createPermissionSetupDialog(data, askForPermissionSetup)
+    );
+    // put quickreply into last message
+    replies[replies.length - 1]['quickReply'] = {
+      items: [
+        createQuickReplyPostbackItem(SETUP_DONE, data.sessionId, 'TUTORIAL'),
+        createQuickReplyPostbackItem(SETUP_LATER, data.sessionId, 'TUTORIAL'),
+        createQuickReplyPostbackItem(
+          PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION,
+          data.sessionId,
+          'TUTORIAL'
+        ),
+      ],
+    };
+  } else if (event.input === PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION) {
+    replies = [];
+    replies.push(
+      await createPermissionSetupDialog(data, explanPersmissionSetup)
+    );
+    // put quickreply into last message
+    replies[replies.length - 1]['quickReply'] = {
+      items: [
+        createQuickReplyPostbackItem(SETUP_DONE, data.sessionId, 'TUTORIAL'),
+        createQuickReplyPostbackItem(SETUP_LATER, data.sessionId, 'TUTORIAL'),
+      ],
+    };
+  } else if (event.input === SETUP_DONE) {
+    replies = [];
+    replies.push(createEndingMessage());
+  } else if (event.input === SETUP_LATER) {
+    replies = [
+      {
+        type: 'text',
+        text: replySetupLater,
+      },
+    ];
+    replies.push(createEndingMessage());
+  } else {
+    throw new Error('input undefined');
+  }
+
+  return { data, event, issuedAt, userId, replies, isSkipUser };
 }
