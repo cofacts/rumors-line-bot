@@ -12,7 +12,7 @@ import UserSettings from 'src/database/models/userSettings';
 
 /**
  * @param {string} userId LINE user ID that does the input
- * @param {string} sessionId
+ * @param {string} sessionId Search session ID
  * @returns {object} Flex message object
  */
 async function createAskReplyFeedbackMessage(userId, sessionId) {

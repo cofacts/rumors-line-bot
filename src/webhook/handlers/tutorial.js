@@ -68,9 +68,9 @@ function createImageTextBubble(imageUrl, text) {
 }
 
 /**
- * @param {string} label
- * @param {string} sessionId
- * @param {string} postbackState
+ * @param {string} label Act as quickReply's label and postback's input and displayText
+ * @param {string} sessionId Search session ID
+ * @param {string} postbackState Used by `handleInput` to determine which handler to call
  * @returns {object} quickReply items object
  */
 function createQuickReplyPostbackItem(label, sessionId, postbackState) {
@@ -99,10 +99,10 @@ export function createGreetingMessage() {
 }
 
 /**
- * @param {object} data
+ * @param {string} sessionId Search session ID
  * @returns {object} Flex message object
  */
-export function createTutorialMessage(data) {
+export function createTutorialMessage(sessionId) {
   const textStep1 = `1. ${t`When receiving a message from elsewhere`}`;
   const textStep2 = `2. ${t`Long press and share`}`;
   const textStep3 = `3. ${t`Select Cofacts to share`}`;
@@ -163,7 +163,7 @@ export function createTutorialMessage(data) {
                   buttonLabel,
                   SIMULATE_FORWARDING_MESSAGE,
                   displayText,
-                  data.sessionId,
+                  sessionId,
                   'TUTORIAL'
                 ),
                 style: 'primary',
@@ -196,36 +196,32 @@ function createEndingMessage() {
 }
 
 /**
- * @param {object} data
+ * @param {string} sessionId Search session ID
  * @returns {object[]} message objects
  */
-function createMockReplyMessages(data) {
-  const GetReply = {
+function createMockReplyMessages(sessionId) {
+  const reply = {
     type: 'RUMOR',
     reference:
       'http://www.mygopen.com/2017/06/blog-post_26.html\n神奇的地瓜葉？搭配鮮奶遠離三高？謠言讓醫生說：有痛風或是腎臟不好的人要小心！',
     text:
       '基本上地瓜葉其實單吃就有效果，牛奶、豆漿可加可不加，民眾不用迷信。 三高或是糖尿病的患者還是要搭配醫生的治療，不能單靠吃地瓜葉就想將身體調養好，民眾千萬要注意。\n另外地瓜葉內還有鉀和鈉，對於有痛風或是腎臟不好的民眾反而會造成負擔，因此並不建議食用。',
   };
-  const GetArticle = { replyCount: 1 };
-  data.selectedArticleId = '2sn80q5l5mzi0';
+  const article = { replyCount: 1 };
+  const selectedArticleId = '2sn80q5l5mzi0';
 
-  const replies = createReplyMessages(
-    GetReply,
-    GetArticle,
-    data.selectedArticleId
-  );
+  const replies = createReplyMessages(reply, article, selectedArticleId);
   // put quickreply into last message
   replies[replies.length - 1]['quickReply'] = {
     items: [
       createQuickReplyPostbackItem(
         PROVIDE_PERMISSION_SETUP,
-        data.sessionId,
+        sessionId,
         'TUTORIAL'
       ),
       createQuickReplyPostbackItem(
         EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP,
-        data.sessionId,
+        sessionId,
         'TUTORIAL'
       ),
     ],
@@ -234,11 +230,10 @@ function createMockReplyMessages(data) {
 }
 
 /**
- * @param {object} data
  * @param {string} message
  * @returns {object} Flex message object
  */
-function createPermissionSetupDialog(data, message) {
+function createPermissionSetupDialog(message) {
   const buttonLabel = t`Setup permission`;
   const buttonUri = `${process.env.LIFF_URL}/liff/index.html?p=setting`;
 
@@ -318,9 +313,7 @@ export default async function tutorial(params) {
       },
     ];
 
-    replies.push(
-      await createPermissionSetupDialog(data, askForPermissionSetup)
-    );
+    replies.push(await createPermissionSetupDialog(askForPermissionSetup));
     // put quickreply into last message
     replies[replies.length - 1]['quickReply'] = {
       items: [
@@ -341,9 +334,7 @@ export default async function tutorial(params) {
       },
     ];
 
-    replies.push(
-      await createPermissionSetupDialog(data, askForPermissionSetup)
-    );
+    replies.push(await createPermissionSetupDialog(askForPermissionSetup));
     // put quickreply into last message
     replies[replies.length - 1]['quickReply'] = {
       items: [
@@ -358,9 +349,7 @@ export default async function tutorial(params) {
     };
   } else if (event.input === PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION) {
     replies = [];
-    replies.push(
-      await createPermissionSetupDialog(data, explanPersmissionSetup)
-    );
+    replies.push(await createPermissionSetupDialog(explanPersmissionSetup));
     // put quickreply into last message
     replies[replies.length - 1]['quickReply'] = {
       items: [
