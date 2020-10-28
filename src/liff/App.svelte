@@ -7,7 +7,6 @@
   import UserSetting from './pages/UserSetting.svelte';
   import PositiveFeedback from './pages/PositiveFeedback.svelte';
   import NegativeFeedback from './pages/NegativeFeedback.svelte';
-  import Permission from './pages/Permission.svelte';
 
   const routes = {
     articles: Articles,
@@ -16,7 +15,6 @@
     'feedback/yes': PositiveFeedback,
     'feedback/no': NegativeFeedback,
     setting: UserSetting,
-    permission: Permission,
   };
 
   // Send pageview with correct path on each page change.
