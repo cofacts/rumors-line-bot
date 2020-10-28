@@ -208,6 +208,34 @@ exports[`createReferenceWords() should create reference for opinions 1`] = `"dif
 
 exports[`createReferenceWords() should create reference for rumors 1`] = `"references：This is a reference"`;
 
+exports[`createReplyMessages() should return reply messages 1`] = `
+Array [
+  Object {
+    "text": "💡 Someone on the internet replies to the message:",
+    "type": "text",
+  },
+  Object {
+    "text": "基本上地瓜葉其實單吃就有效果，牛奶、豆漿可加可不加，民眾不用迷信。 三高或是糖尿病的患者還是要搭配醫生的治療，不能單靠吃地瓜葉就想將身體調養好，民眾千萬要注意。
+另外地瓜葉內還有鉀和鈉，對於有痛風或是腎臟不好的民眾反而會造成負擔，因此並不建議食用。",
+    "type": "text",
+  },
+  Object {
+    "text": "references：http://www.mygopen.com/2017/06/blog-post_26.html
+神奇的地瓜葉？搭配鮮奶遠離三高？謠言讓醫生說：有痛風或是腎臟不好的人要小心！",
+    "type": "text",
+  },
+  Object {
+    "text": "⬆️ Therefore, the author think the message contains misinformation.
+
+💁 These messages are provided by some nice volunteers. Please refer to their references and make judgements on your own.
+
+⁉️ If you have different thoughts, you may have your say here:
+https://cofacts.hacktabl.org/article/2sn80q5l5mzi0",
+    "type": "text",
+  },
+]
+`;
+
 exports[`createTypeWords should return the type words for NOT_ARTICLE 1`] = `"Invalid request"`;
 
 exports[`createTypeWords should return the type words for NOT_RUMOR 1`] = `"Contains true information"`;

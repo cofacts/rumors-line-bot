@@ -7,6 +7,7 @@ import askingArticleSubmissionConsent from '../handlers/askingArticleSubmissionC
 import askingReplyRequestReason from '../handlers/askingReplyRequestReason';
 import { ManipulationError } from '../handlers/utils';
 import handleInput from '../handleInput';
+import tutorial, { RICH_MENU_TRIGGER } from '../handlers/tutorial';
 
 import {
   SOURCE_PREFIX_FRIST_SUBMISSION,
@@ -25,6 +26,7 @@ jest.mock('../handlers/choosingReply');
 jest.mock('../handlers/askingReplyFeedback');
 jest.mock('../handlers/askingArticleSubmissionConsent');
 jest.mock('../handlers/askingReplyRequestReason');
+jest.mock('../handlers/tutorial');
 
 // Original session ID in context
 const FIXED_DATE = 612964800000;
@@ -39,6 +41,7 @@ beforeEach(() => {
   askingReplyFeedback.mockClear();
   askingArticleSubmissionConsent.mockClear();
   askingReplyRequestReason.mockClear();
+  tutorial.mockClear();
   MockDate.set(NOW);
 });
 
@@ -524,4 +527,75 @@ it('throws on unknown error', async () => {
   await expect(handleInput(context, event)).rejects.toMatchInlineSnapshot(
     `[Error: Unknown error]`
   );
+});
+
+describe('tutorial', () => {
+  it('handles tutorial trigger from rich menu', async () => {
+    const context = {
+      data: { sessionId: FIXED_DATE },
+    };
+    const event = {
+      type: 'message',
+      input: RICH_MENU_TRIGGER,
+    };
+
+    tutorial.mockImplementationOnce(params => {
+      // it doesn't return `state`, discard it
+      // eslint-disable-next-line no-unused-vars
+      const { state, ...restParams } = params;
+      return Promise.resolve({
+        ...restParams,
+        isSkipUser: false,
+        replies: 'Foo replies',
+      });
+    });
+
+    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+            Object {
+              "context": Object {
+                "data": Object {
+                  "sessionId": 612964800000,
+                },
+              },
+              "replies": "Foo replies",
+            }
+          `);
+
+    expect(tutorial).toHaveBeenCalledTimes(1);
+  });
+
+  it('handles TUTORIAL postbackHandlerState', async () => {
+    const context = {
+      data: { sessionId: FIXED_DATE },
+    };
+    const event = {
+      type: 'postback',
+      postbackHandlerState: 'TUTORIAL',
+      input: 'foo',
+    };
+
+    tutorial.mockImplementationOnce(params => {
+      // it doesn't return `state`, discard it
+      // eslint-disable-next-line no-unused-vars
+      const { state, ...restParams } = params;
+      return Promise.resolve({
+        ...restParams,
+        isSkipUser: false,
+        replies: 'Foo replies',
+      });
+    });
+
+    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+            Object {
+              "context": Object {
+                "data": Object {
+                  "sessionId": 612964800000,
+                },
+              },
+              "replies": "Foo replies",
+            }
+          `);
+
+    expect(tutorial).toHaveBeenCalledTimes(1);
+  });
 });

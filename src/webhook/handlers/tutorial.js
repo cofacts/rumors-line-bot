@@ -12,13 +12,13 @@ import {
 // From rich menu
 export const RICH_MENU_TRIGGER = `📖 ${t`tutorial`}`;
 // From flex message button
-const SIMULATE_FORWARDING_MESSAGE = t`Simulates forwarding a message`;
+export const SIMULATE_FORWARDING_MESSAGE = t`Simulates forwarding a message`;
 // From quick reply, Note: it should be less than 20 charactors
-const PROVIDE_PERMISSION_SETUP = `💡 ${t`Cool, I got it!`}`;
-const EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP = `🤔 ${t`What happened?`}`;
-const PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION = `❓ ${t`Why`}`;
-const SETUP_DONE = `👌 ${t`Done!`}`;
-const SETUP_LATER = `⏱️ ${t`Later`}`;
+export const PROVIDE_PERMISSION_SETUP = `💡 ${t`Cool, I got it!`}`;
+export const EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP = `🤔 ${t`What happened?`}`;
+export const PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION = `❓ ${t`Why`}`;
+export const SETUP_DONE = `👌 ${t`Done!`}`;
+export const SETUP_LATER = `⏱️ ${t`Later`}`;
 
 /**
  * @param {string} imageUrl

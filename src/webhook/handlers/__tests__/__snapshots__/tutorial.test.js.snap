@@ -1,0 +1,974 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createGreetingMessage() 1`] = `
+Object {
+  "altText": "This is a chatbot that looks up suspicious forwarded messages for you. Here is how to use me:
+📱 Please proceed on your mobile phone.",
+  "contents": Object {
+    "contents": Array [
+      Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "aspectMode": "cover",
+              "aspectRatio": "1:1",
+              "gravity": "top",
+              "size": "full",
+              "type": "image",
+              "url": "https://uc4e58e1c257cac3657ad4ca0a69.previews.dropboxusercontent.com/p/thumb/AA_IcLRYeJqCzpdE1ZynRVM_LOWI3vkKHByHswDrgZS9BmYfzPao--HbC5krsws4BroUuhF9jQyuXs12XWmO5SuBgPbygVSHWNQM1wrEM_Sa9M-Q6kGD_t_xaXRbNoF2MbBsJfQBSAwJ9XuJsAs2zt8XLURjLX2Kz54W0v6NUuEeHdfetQFlStTzvicxVc_ROqMAYbzXvaE92j1SGHtxJaPZYxDdr5hZhwttLAkXccCgMy052jxgct0DTnSqzO0-cVk6DXRY755iHN_loO_cVlegYQDKmySTfpFMfZp8S8aSoLKsnk2Gqur4f_PabPrWFoMA289DZZ7wRSzdbN8DRlO9cTHo9FoQY-SdcOrpWBq4u6was6uvbXaHeZbrY4ZWmvm8JbrJqQWwb-txBVL1RUzN/p.png?size=800x600&size_mode=3",
+            },
+            Object {
+              "contents": Array [
+                Object {
+                  "size": "lg",
+                  "text": "This is a chatbot that looks up suspicious forwarded messages for you. Here is how to use me:",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "flex": 1,
+              "justifyContent": "center",
+              "layout": "vertical",
+              "offsetBottom": "0px",
+              "offsetEnd": "0px",
+              "offsetStart": "0px",
+              "paddingAll": "20px",
+              "paddingTop": "18px",
+              "position": "relative",
+              "type": "box",
+            },
+          ],
+          "layout": "vertical",
+          "paddingAll": "0px",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+    ],
+    "type": "carousel",
+  },
+  "type": "flex",
+}
+`;
+
+exports[`createTutorialMessage() 1`] = `
+Object {
+  "altText": "1. When receiving a message from elsewhere
+2. Long press and share
+3. Select Cofacts to share
+4. Cofacts replies with a crowd-sourced fact-check or chatbot replies
+📱 Please proceed on your mobile phone.",
+  "contents": Object {
+    "contents": Array [
+      Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "aspectMode": "cover",
+              "aspectRatio": "1:1",
+              "gravity": "top",
+              "size": "full",
+              "type": "image",
+              "url": "https://uc21ad9bcd486191781c986dfe14.previews.dropboxusercontent.com/p/thumb/AA9R7LsrgHTMDIkz74TvAzOgT5gEcNeCPHWJ_OpIZOYJSBCqzCPMOliCKMe7IRVY_Us_ahRTRgC_d10NkokagS4yRtGo3cGHQfxtEPxRz0Fvo7pxLbEQW3BoM7reJTH0DTbrdku8uTrV3FYz7Evofe55rdRnKGpMPscd9A6YzFeSNvTV31ZwjRvw51utfQG9cwazNCENDVFLeQGl7NANpre3LTKKykTrOuY5t2-VLwYgq6e7fXQGYCGKNuBXWnEljJpPRcD--uDHjsbVtHQFEKt8ap3-lsjoy8AfpmMW619o-pO90Qj3HuRfV8M-_z-JbQS-8cN8Fe0zK-gxMHhRGY_roWKG85vHBePxd7WJDwa--Q/p.png?size=800x600&size_mode=3",
+            },
+            Object {
+              "contents": Array [
+                Object {
+                  "size": "lg",
+                  "text": "1. When receiving a message from elsewhere",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "flex": 1,
+              "justifyContent": "center",
+              "layout": "vertical",
+              "offsetBottom": "0px",
+              "offsetEnd": "0px",
+              "offsetStart": "0px",
+              "paddingAll": "20px",
+              "paddingTop": "18px",
+              "position": "relative",
+              "type": "box",
+            },
+          ],
+          "layout": "vertical",
+          "paddingAll": "0px",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "aspectMode": "cover",
+              "aspectRatio": "1:1",
+              "gravity": "top",
+              "size": "full",
+              "type": "image",
+              "url": "https://ucf95938168eff92e5e3b5612ba9.previews.dropboxusercontent.com/p/thumb/AA-ZFGzO7USbYJssPQFGRX8p_wBS2O-nm5QeR7W-caj0U35PH1q5_kLu3AmEQmHYU45eKSr2cL_EpeiJEO3uQAyQlBzAV7Ksr3V2ixldcPKUqj4qO2FZG7AvgGMP9LS_J1WILp6aisWMbwx62kjsiWLCfc5UzwBMvCcJvabDiilTiJUl9MgK1TgamilPRkfXjHq5veFWx3UPARo8Q_P-Lqt-CICuJ7lQuDSEA0_4P_oLLRcB6GdrFpYI-WdcX0O-elEDC1SAUwIpy8-Y4EAFdIXlE4vG8HxK7AJ21ncEMCns0fNzPZk86HRu8K5-K2E07wBDoy1neGd8CyYfRDwiHAZV7kkjlYVbqvUNitQ7Lthr_g/p.png?size=800x600&size_mode=3",
+            },
+            Object {
+              "contents": Array [
+                Object {
+                  "size": "lg",
+                  "text": "2. Long press and share",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "flex": 1,
+              "justifyContent": "center",
+              "layout": "vertical",
+              "offsetBottom": "0px",
+              "offsetEnd": "0px",
+              "offsetStart": "0px",
+              "paddingAll": "20px",
+              "paddingTop": "18px",
+              "position": "relative",
+              "type": "box",
+            },
+          ],
+          "layout": "vertical",
+          "paddingAll": "0px",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "aspectMode": "cover",
+              "aspectRatio": "1:1",
+              "gravity": "top",
+              "size": "full",
+              "type": "image",
+              "url": "https://uc194c21cd7e578699198d7865d7.previews.dropboxusercontent.com/p/thumb/AA8xLEPWjBoyqtqCbs9vbNJ8bElzY--EsNdbE4bXC9bt7pVuRBUHCAQNvoQ2N02_d7UD_00iQ3Wg64a6YVZLmGKETOpixWMbtCh0EV9uSuhRwttKjqpjINFV8sRCDEllaVEMMh4FmIPxXY4TABM3rPNzjPW_4lOQUR_BFG7zkCgGOI2W63CoiiahO-C13f1oaklNrMvfoTQCW8SX8l3aWiBU6gT6os1SiUVyxF5dR-DES67vyt-swvGYkjQhc9HjHWCnw6mNG9nGJDPKkr6TG_9n9Viab5_9qTb0GIP0_SWuWzjSB9hYWB_h90mpajj2J_S2zW6Ni74HkE6cDk2GHOMzrw1B7_8wF085rk8g0Q0Evg/p.png?size=800x600&size_mode=3",
+            },
+            Object {
+              "contents": Array [
+                Object {
+                  "size": "lg",
+                  "text": "3. Select Cofacts to share",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "flex": 1,
+              "justifyContent": "center",
+              "layout": "vertical",
+              "offsetBottom": "0px",
+              "offsetEnd": "0px",
+              "offsetStart": "0px",
+              "paddingAll": "20px",
+              "paddingTop": "18px",
+              "position": "relative",
+              "type": "box",
+            },
+          ],
+          "layout": "vertical",
+          "paddingAll": "0px",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "aspectMode": "cover",
+              "aspectRatio": "1:1",
+              "gravity": "top",
+              "size": "full",
+              "type": "image",
+              "url": "https://uc6f6b4fb030579a10543b701de5.previews.dropboxusercontent.com/p/thumb/AA9Nmy3XzfaoadjGk_aV4MxTMiyVG3ksHentuo7wlFZA6K2yXxwT6cKRMLlViEkIguAwQEaL5mFy6noBwULm3guYEQHpbgb7gb4zOjlJlFsGuBMa5NXSKx3KKLxjTgv9ZvljTdmjWcMSrHMOgbpxQnnzNGcHz24CpvTUyh1wY5gtctOb_i00-IZ6YAEllO065EhyfeN89aT_QtorvyjvkT6jOroUs82Dt_1JmgWbE5pe49lM_EhstyGG8OHsWtvjOOEte7yn7r7X3PtTCG7dWjoU5gN8XmMDmkezz-u0UnpceThFmdOksPnTCCPKtz8YMF9tEfvke2lQNpEY0Fx1tYMjH-KY5dskR99g46UKG9Wwdg/p.png?size=800x600&size_mode=3",
+            },
+            Object {
+              "contents": Array [
+                Object {
+                  "size": "lg",
+                  "text": "4. Cofacts replies with a crowd-sourced fact-check or chatbot replies",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "flex": 1,
+              "justifyContent": "center",
+              "layout": "vertical",
+              "offsetBottom": "0px",
+              "offsetEnd": "0px",
+              "offsetStart": "0px",
+              "paddingAll": "20px",
+              "paddingTop": "18px",
+              "position": "relative",
+              "type": "box",
+            },
+          ],
+          "layout": "vertical",
+          "paddingAll": "0px",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "size": "lg",
+              "text": "Wanna try it out? Just forward a message to me!",
+              "type": "text",
+              "weight": "bold",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "data": "{\\"input\\":\\"Simulates forwarding a message\\",\\"sessionId\\":1497994017447,\\"state\\":\\"TUTORIAL\\"}",
+                "displayText": "只要每天早上一杯地瓜葉牛奶。不僅有效降低三高，甚至連痛風也沒了；此外，地瓜葉牛奶的作法也很簡單，只要先將地瓜葉川燙過後，再加入鮮奶打成汁即可。",
+                "label": "Simulates forwarding a message",
+                "type": "postback",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "horizontal",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+    ],
+    "type": "carousel",
+  },
+  "type": "flex",
+}
+`;
+
+exports[`should handle EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP 1`] = `
+Object {
+  "data": Object {
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "🤔 What happened?",
+    "timestamp": 1519019734813,
+    "type": "text",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1519019735467,
+  "replies": Array [
+    Object {
+      "text": "⬆️ What you see above is a simulation of what you may see after you forward a message to Cofacts.
+
+📚 Cofacts has a database of hoax messages and replies.
+
+📲 When you send a message to me, I look up the message in our database and return the results I found.
+
+🆕 If I can't find anything, I will ask you about sending your message to that database.",
+      "type": "text",
+    },
+    Object {
+      "altText": "To wrap up, please finish your permission settings so that I can provide a smoother experience.
+📱 Please proceed on your mobile phone.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "contents": Array [
+                Object {
+                  "text": "To wrap up, please finish your permission settings so that I can provide a smoother experience.",
+                  "type": "span",
+                },
+              ],
+              "flex": 0,
+              "gravity": "top",
+              "type": "text",
+              "weight": "regular",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "margin": "none",
+          "spacing": "none",
+          "type": "box",
+        },
+        "direction": "ltr",
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "Setup permission",
+                "type": "uri",
+                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=setting",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "horizontal",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "quickReply": Object {
+        "items": Array [
+          Object {
+            "action": Object {
+              "data": "{\\"input\\":\\"👌 Done!\\",\\"sessionId\\":1497994017447,\\"state\\":\\"TUTORIAL\\"}",
+              "displayText": "👌 Done!",
+              "label": "👌 Done!",
+              "type": "postback",
+            },
+            "type": "action",
+          },
+          Object {
+            "action": Object {
+              "data": "{\\"input\\":\\"⏱️ Later\\",\\"sessionId\\":1497994017447,\\"state\\":\\"TUTORIAL\\"}",
+              "displayText": "⏱️ Later",
+              "label": "⏱️ Later",
+              "type": "postback",
+            },
+            "type": "action",
+          },
+          Object {
+            "action": Object {
+              "data": "{\\"input\\":\\"❓ Why\\",\\"sessionId\\":1497994017447,\\"state\\":\\"TUTORIAL\\"}",
+              "displayText": "❓ Why",
+              "label": "❓ Why",
+              "type": "postback",
+            },
+            "type": "action",
+          },
+        ],
+      },
+      "type": "flex",
+    },
+  ],
+  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+}
+`;
+
+exports[`should handle PROVIDE_PERMISSION_SETUP 1`] = `
+Object {
+  "data": Object {
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "💡 Cool, I got it!",
+    "timestamp": 1519019734813,
+    "type": "text",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1519019735467,
+  "replies": Array [
+    Object {
+      "text": "You are smart 😊",
+      "type": "text",
+    },
+    Object {
+      "altText": "To wrap up, please finish your permission settings so that I can provide a smoother experience.
+📱 Please proceed on your mobile phone.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "contents": Array [
+                Object {
+                  "text": "To wrap up, please finish your permission settings so that I can provide a smoother experience.",
+                  "type": "span",
+                },
+              ],
+              "flex": 0,
+              "gravity": "top",
+              "type": "text",
+              "weight": "regular",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "margin": "none",
+          "spacing": "none",
+          "type": "box",
+        },
+        "direction": "ltr",
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "Setup permission",
+                "type": "uri",
+                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=setting",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "horizontal",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "quickReply": Object {
+        "items": Array [
+          Object {
+            "action": Object {
+              "data": "{\\"input\\":\\"👌 Done!\\",\\"sessionId\\":1497994017447,\\"state\\":\\"TUTORIAL\\"}",
+              "displayText": "👌 Done!",
+              "label": "👌 Done!",
+              "type": "postback",
+            },
+            "type": "action",
+          },
+          Object {
+            "action": Object {
+              "data": "{\\"input\\":\\"⏱️ Later\\",\\"sessionId\\":1497994017447,\\"state\\":\\"TUTORIAL\\"}",
+              "displayText": "⏱️ Later",
+              "label": "⏱️ Later",
+              "type": "postback",
+            },
+            "type": "action",
+          },
+          Object {
+            "action": Object {
+              "data": "{\\"input\\":\\"❓ Why\\",\\"sessionId\\":1497994017447,\\"state\\":\\"TUTORIAL\\"}",
+              "displayText": "❓ Why",
+              "label": "❓ Why",
+              "type": "postback",
+            },
+            "type": "action",
+          },
+        ],
+      },
+      "type": "flex",
+    },
+  ],
+  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+}
+`;
+
+exports[`should handle PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION 1`] = `
+Object {
+  "data": Object {
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "❓ Why",
+    "timestamp": 1519019734813,
+    "type": "text",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1519019735467,
+  "replies": Array [
+    Object {
+      "altText": "When I provide hoax-busting replies to you, I would like to ask you for any feedback on the crowd-sourced reply.
+In order to achieve that, I need to ask for your permission to \\"send your message to our chatroom\\".
+The permission will be used to send only this one message of yours back to this parti⋯⋯
+📱 Please proceed on your mobile phone.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "contents": Array [
+                Object {
+                  "text": "When I provide hoax-busting replies to you, I would like to ask you for any feedback on the crowd-sourced reply.
+In order to achieve that, I need to ask for your permission to \\"send your message to our chatroom\\".
+The permission will be used to send only this one message of yours back to this particular chatroom.
+You can still use Cofacts without granting me this permission. When we ask for feedback from you, the permission dialog will pop-up again.",
+                  "type": "span",
+                },
+              ],
+              "flex": 0,
+              "gravity": "top",
+              "type": "text",
+              "weight": "regular",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "margin": "none",
+          "spacing": "none",
+          "type": "box",
+        },
+        "direction": "ltr",
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "Setup permission",
+                "type": "uri",
+                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=setting",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "horizontal",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "quickReply": Object {
+        "items": Array [
+          Object {
+            "action": Object {
+              "data": "{\\"input\\":\\"👌 Done!\\",\\"sessionId\\":1497994017447,\\"state\\":\\"TUTORIAL\\"}",
+              "displayText": "👌 Done!",
+              "label": "👌 Done!",
+              "type": "postback",
+            },
+            "type": "action",
+          },
+          Object {
+            "action": Object {
+              "data": "{\\"input\\":\\"⏱️ Later\\",\\"sessionId\\":1497994017447,\\"state\\":\\"TUTORIAL\\"}",
+              "displayText": "⏱️ Later",
+              "label": "⏱️ Later",
+              "type": "postback",
+            },
+            "type": "action",
+          },
+        ],
+      },
+      "type": "flex",
+    },
+  ],
+  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+}
+`;
+
+exports[`should handle RICH_MENU_TRIGGER 1`] = `
+Object {
+  "data": Object {
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "📖 tutorial",
+    "timestamp": 1519019734813,
+    "type": "text",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1519019735467,
+  "replies": Array [
+    Object {
+      "altText": "1. When receiving a message from elsewhere
+2. Long press and share
+3. Select Cofacts to share
+4. Cofacts replies with a crowd-sourced fact-check or chatbot replies
+📱 Please proceed on your mobile phone.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "aspectMode": "cover",
+                  "aspectRatio": "1:1",
+                  "gravity": "top",
+                  "size": "full",
+                  "type": "image",
+                  "url": "https://uc21ad9bcd486191781c986dfe14.previews.dropboxusercontent.com/p/thumb/AA9R7LsrgHTMDIkz74TvAzOgT5gEcNeCPHWJ_OpIZOYJSBCqzCPMOliCKMe7IRVY_Us_ahRTRgC_d10NkokagS4yRtGo3cGHQfxtEPxRz0Fvo7pxLbEQW3BoM7reJTH0DTbrdku8uTrV3FYz7Evofe55rdRnKGpMPscd9A6YzFeSNvTV31ZwjRvw51utfQG9cwazNCENDVFLeQGl7NANpre3LTKKykTrOuY5t2-VLwYgq6e7fXQGYCGKNuBXWnEljJpPRcD--uDHjsbVtHQFEKt8ap3-lsjoy8AfpmMW619o-pO90Qj3HuRfV8M-_z-JbQS-8cN8Fe0zK-gxMHhRGY_roWKG85vHBePxd7WJDwa--Q/p.png?size=800x600&size_mode=3",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "lg",
+                      "text": "1. When receiving a message from elsewhere",
+                      "type": "text",
+                      "weight": "bold",
+                      "wrap": true,
+                    },
+                  ],
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "layout": "vertical",
+                  "offsetBottom": "0px",
+                  "offsetEnd": "0px",
+                  "offsetStart": "0px",
+                  "paddingAll": "20px",
+                  "paddingTop": "18px",
+                  "position": "relative",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "paddingAll": "0px",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "aspectMode": "cover",
+                  "aspectRatio": "1:1",
+                  "gravity": "top",
+                  "size": "full",
+                  "type": "image",
+                  "url": "https://ucf95938168eff92e5e3b5612ba9.previews.dropboxusercontent.com/p/thumb/AA-ZFGzO7USbYJssPQFGRX8p_wBS2O-nm5QeR7W-caj0U35PH1q5_kLu3AmEQmHYU45eKSr2cL_EpeiJEO3uQAyQlBzAV7Ksr3V2ixldcPKUqj4qO2FZG7AvgGMP9LS_J1WILp6aisWMbwx62kjsiWLCfc5UzwBMvCcJvabDiilTiJUl9MgK1TgamilPRkfXjHq5veFWx3UPARo8Q_P-Lqt-CICuJ7lQuDSEA0_4P_oLLRcB6GdrFpYI-WdcX0O-elEDC1SAUwIpy8-Y4EAFdIXlE4vG8HxK7AJ21ncEMCns0fNzPZk86HRu8K5-K2E07wBDoy1neGd8CyYfRDwiHAZV7kkjlYVbqvUNitQ7Lthr_g/p.png?size=800x600&size_mode=3",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "lg",
+                      "text": "2. Long press and share",
+                      "type": "text",
+                      "weight": "bold",
+                      "wrap": true,
+                    },
+                  ],
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "layout": "vertical",
+                  "offsetBottom": "0px",
+                  "offsetEnd": "0px",
+                  "offsetStart": "0px",
+                  "paddingAll": "20px",
+                  "paddingTop": "18px",
+                  "position": "relative",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "paddingAll": "0px",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "aspectMode": "cover",
+                  "aspectRatio": "1:1",
+                  "gravity": "top",
+                  "size": "full",
+                  "type": "image",
+                  "url": "https://uc194c21cd7e578699198d7865d7.previews.dropboxusercontent.com/p/thumb/AA8xLEPWjBoyqtqCbs9vbNJ8bElzY--EsNdbE4bXC9bt7pVuRBUHCAQNvoQ2N02_d7UD_00iQ3Wg64a6YVZLmGKETOpixWMbtCh0EV9uSuhRwttKjqpjINFV8sRCDEllaVEMMh4FmIPxXY4TABM3rPNzjPW_4lOQUR_BFG7zkCgGOI2W63CoiiahO-C13f1oaklNrMvfoTQCW8SX8l3aWiBU6gT6os1SiUVyxF5dR-DES67vyt-swvGYkjQhc9HjHWCnw6mNG9nGJDPKkr6TG_9n9Viab5_9qTb0GIP0_SWuWzjSB9hYWB_h90mpajj2J_S2zW6Ni74HkE6cDk2GHOMzrw1B7_8wF085rk8g0Q0Evg/p.png?size=800x600&size_mode=3",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "lg",
+                      "text": "3. Select Cofacts to share",
+                      "type": "text",
+                      "weight": "bold",
+                      "wrap": true,
+                    },
+                  ],
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "layout": "vertical",
+                  "offsetBottom": "0px",
+                  "offsetEnd": "0px",
+                  "offsetStart": "0px",
+                  "paddingAll": "20px",
+                  "paddingTop": "18px",
+                  "position": "relative",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "paddingAll": "0px",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "aspectMode": "cover",
+                  "aspectRatio": "1:1",
+                  "gravity": "top",
+                  "size": "full",
+                  "type": "image",
+                  "url": "https://uc6f6b4fb030579a10543b701de5.previews.dropboxusercontent.com/p/thumb/AA9Nmy3XzfaoadjGk_aV4MxTMiyVG3ksHentuo7wlFZA6K2yXxwT6cKRMLlViEkIguAwQEaL5mFy6noBwULm3guYEQHpbgb7gb4zOjlJlFsGuBMa5NXSKx3KKLxjTgv9ZvljTdmjWcMSrHMOgbpxQnnzNGcHz24CpvTUyh1wY5gtctOb_i00-IZ6YAEllO065EhyfeN89aT_QtorvyjvkT6jOroUs82Dt_1JmgWbE5pe49lM_EhstyGG8OHsWtvjOOEte7yn7r7X3PtTCG7dWjoU5gN8XmMDmkezz-u0UnpceThFmdOksPnTCCPKtz8YMF9tEfvke2lQNpEY0Fx1tYMjH-KY5dskR99g46UKG9Wwdg/p.png?size=800x600&size_mode=3",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "lg",
+                      "text": "4. Cofacts replies with a crowd-sourced fact-check or chatbot replies",
+                      "type": "text",
+                      "weight": "bold",
+                      "wrap": true,
+                    },
+                  ],
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "layout": "vertical",
+                  "offsetBottom": "0px",
+                  "offsetEnd": "0px",
+                  "offsetStart": "0px",
+                  "paddingAll": "20px",
+                  "paddingTop": "18px",
+                  "position": "relative",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "paddingAll": "0px",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "size": "lg",
+                  "text": "Wanna try it out? Just forward a message to me!",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"Simulates forwarding a message\\",\\"sessionId\\":{\\"sessionId\\":1497994017447},\\"state\\":\\"TUTORIAL\\"}",
+                    "displayText": "只要每天早上一杯地瓜葉牛奶。不僅有效降低三高，甚至連痛風也沒了；此外，地瓜葉牛奶的作法也很簡單，只要先將地瓜葉川燙過後，再加入鮮奶打成汁即可。",
+                    "label": "Simulates forwarding a message",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+}
+`;
+
+exports[`should handle SETUP_DONE 1`] = `
+Object {
+  "data": Object {
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "👌 Done!",
+    "timestamp": 1519019734813,
+    "type": "text",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1519019735467,
+  "replies": Array [
+    Object {
+      "altText": "This is the end of the tutorial. Next time when you receive a suspicious message, don't hesitate to forward it to me! 🤗
+📱 Please proceed on your mobile phone.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "aspectMode": "cover",
+                  "aspectRatio": "1:1",
+                  "gravity": "top",
+                  "size": "full",
+                  "type": "image",
+                  "url": "https://uc4e58e1c257cac3657ad4ca0a69.previews.dropboxusercontent.com/p/thumb/AA_IcLRYeJqCzpdE1ZynRVM_LOWI3vkKHByHswDrgZS9BmYfzPao--HbC5krsws4BroUuhF9jQyuXs12XWmO5SuBgPbygVSHWNQM1wrEM_Sa9M-Q6kGD_t_xaXRbNoF2MbBsJfQBSAwJ9XuJsAs2zt8XLURjLX2Kz54W0v6NUuEeHdfetQFlStTzvicxVc_ROqMAYbzXvaE92j1SGHtxJaPZYxDdr5hZhwttLAkXccCgMy052jxgct0DTnSqzO0-cVk6DXRY755iHN_loO_cVlegYQDKmySTfpFMfZp8S8aSoLKsnk2Gqur4f_PabPrWFoMA289DZZ7wRSzdbN8DRlO9cTHo9FoQY-SdcOrpWBq4u6was6uvbXaHeZbrY4ZWmvm8JbrJqQWwb-txBVL1RUzN/p.png?size=800x600&size_mode=3",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "lg",
+                      "text": "This is the end of the tutorial. Next time when you receive a suspicious message, don't hesitate to forward it to me! 🤗",
+                      "type": "text",
+                      "weight": "bold",
+                      "wrap": true,
+                    },
+                  ],
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "layout": "vertical",
+                  "offsetBottom": "0px",
+                  "offsetEnd": "0px",
+                  "offsetStart": "0px",
+                  "paddingAll": "20px",
+                  "paddingTop": "18px",
+                  "position": "relative",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "paddingAll": "0px",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+}
+`;
+
+exports[`should handle SETUP_LATER 1`] = `
+Object {
+  "data": Object {
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "⏱️ Later",
+    "timestamp": 1519019734813,
+    "type": "text",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1519019735467,
+  "replies": Array [
+    Object {
+      "text": "OK. When we ask for feedback from you, the permission dialog will pop-up again.",
+      "type": "text",
+    },
+    Object {
+      "altText": "This is the end of the tutorial. Next time when you receive a suspicious message, don't hesitate to forward it to me! 🤗
+📱 Please proceed on your mobile phone.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "aspectMode": "cover",
+                  "aspectRatio": "1:1",
+                  "gravity": "top",
+                  "size": "full",
+                  "type": "image",
+                  "url": "https://uc4e58e1c257cac3657ad4ca0a69.previews.dropboxusercontent.com/p/thumb/AA_IcLRYeJqCzpdE1ZynRVM_LOWI3vkKHByHswDrgZS9BmYfzPao--HbC5krsws4BroUuhF9jQyuXs12XWmO5SuBgPbygVSHWNQM1wrEM_Sa9M-Q6kGD_t_xaXRbNoF2MbBsJfQBSAwJ9XuJsAs2zt8XLURjLX2Kz54W0v6NUuEeHdfetQFlStTzvicxVc_ROqMAYbzXvaE92j1SGHtxJaPZYxDdr5hZhwttLAkXccCgMy052jxgct0DTnSqzO0-cVk6DXRY755iHN_loO_cVlegYQDKmySTfpFMfZp8S8aSoLKsnk2Gqur4f_PabPrWFoMA289DZZ7wRSzdbN8DRlO9cTHo9FoQY-SdcOrpWBq4u6was6uvbXaHeZbrY4ZWmvm8JbrJqQWwb-txBVL1RUzN/p.png?size=800x600&size_mode=3",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "lg",
+                      "text": "This is the end of the tutorial. Next time when you receive a suspicious message, don't hesitate to forward it to me! 🤗",
+                      "type": "text",
+                      "weight": "bold",
+                      "wrap": true,
+                    },
+                  ],
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "layout": "vertical",
+                  "offsetBottom": "0px",
+                  "offsetEnd": "0px",
+                  "offsetStart": "0px",
+                  "paddingAll": "20px",
+                  "paddingTop": "18px",
+                  "position": "relative",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "paddingAll": "0px",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+}
+`;
+
+exports[`should handle SIMULATE_FORWARDING_MESSAGE 1`] = `
+Object {
+  "data": Object {
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "Simulates forwarding a message",
+    "timestamp": 1519019734813,
+    "type": "text",
+  },
+  "isSkipUser": false,
+  "issuedAt": 1519019735467,
+  "replies": Array [
+    Object {
+      "text": "💡 Someone on the internet replies to the message:",
+      "type": "text",
+    },
+    Object {
+      "text": "基本上地瓜葉其實單吃就有效果，牛奶、豆漿可加可不加，民眾不用迷信。 三高或是糖尿病的患者還是要搭配醫生的治療，不能單靠吃地瓜葉就想將身體調養好，民眾千萬要注意。
+另外地瓜葉內還有鉀和鈉，對於有痛風或是腎臟不好的民眾反而會造成負擔，因此並不建議食用。",
+      "type": "text",
+    },
+    Object {
+      "text": "references：http://www.mygopen.com/2017/06/blog-post_26.html
+神奇的地瓜葉？搭配鮮奶遠離三高？謠言讓醫生說：有痛風或是腎臟不好的人要小心！",
+      "type": "text",
+    },
+    Object {
+      "quickReply": Object {
+        "items": Array [
+          Object {
+            "action": Object {
+              "data": "{\\"input\\":\\"💡 Cool, I got it!\\",\\"sessionId\\":{\\"sessionId\\":1497994017447},\\"state\\":\\"TUTORIAL\\"}",
+              "displayText": "💡 Cool, I got it!",
+              "label": "💡 Cool, I got it!",
+              "type": "postback",
+            },
+            "type": "action",
+          },
+          Object {
+            "action": Object {
+              "data": "{\\"input\\":\\"🤔 What happened?\\",\\"sessionId\\":{\\"sessionId\\":1497994017447},\\"state\\":\\"TUTORIAL\\"}",
+              "displayText": "🤔 What happened?",
+              "label": "🤔 What happened?",
+              "type": "postback",
+            },
+            "type": "action",
+          },
+        ],
+      },
+      "text": "⬆️ Therefore, the author think the message contains misinformation.
+
+💁 These messages are provided by some nice volunteers. Please refer to their references and make judgements on your own.
+
+⁉️ If you have different thoughts, you may have your say here:
+https://cofacts.hacktabl.org/article/2sn80q5l5mzi0",
+      "type": "text",
+    },
+  ],
+  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
+}
+`;
