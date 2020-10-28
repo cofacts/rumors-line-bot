@@ -240,7 +240,7 @@ function createMockReplyMessages(data) {
  */
 function createPermissionSetupDialog(data, message) {
   const buttonLabel = t`Setup permission`;
-  const buttonUri = `${process.env.LIFF_URL}/liff/index.html?p=permission`;
+  const buttonUri = `${process.env.LIFF_URL}/liff/index.html?p=setting`;
 
   return {
     type: 'flex',
