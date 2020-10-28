@@ -303,9 +303,9 @@ export default async function tutorial(params) {
 
   if (event.input === RICH_MENU_TRIGGER) {
     replies = [];
-    replies.push(await createTutorialMessage(data));
+    replies.push(await createTutorialMessage(data.sessionId));
   } else if (event.input === SIMULATE_FORWARDING_MESSAGE) {
-    replies = await createMockReplyMessages(data);
+    replies = await createMockReplyMessages(data.sessionId);
   } else if (event.input === PROVIDE_PERMISSION_SETUP) {
     replies = [
       {

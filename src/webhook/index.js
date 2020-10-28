@@ -85,7 +85,7 @@ const singleUserHandler = async (
     const data = { sessionId: Date.now() };
     result = {
       context: { data: data },
-      replies: [createGreetingMessage(), createTutorialMessage(data)],
+      replies: [createGreetingMessage(), createTutorialMessage(data.sessionId)],
     };
     await UserSettings.setAllowNewReplyUpdate(userId, true);
   } else if (type === 'unfollow') {
