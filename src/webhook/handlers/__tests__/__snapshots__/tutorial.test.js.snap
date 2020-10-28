@@ -747,7 +747,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"Simulates forwarding a message\\",\\"sessionId\\":{\\"sessionId\\":1497994017447},\\"state\\":\\"TUTORIAL\\"}",
+                    "data": "{\\"input\\":\\"Simulates forwarding a message\\",\\"sessionId\\":1497994017447,\\"state\\":\\"TUTORIAL\\"}",
                     "displayText": "只要每天早上一杯地瓜葉牛奶。不僅有效降低三高，甚至連痛風也沒了；此外，地瓜葉牛奶的作法也很簡單，只要先將地瓜葉川燙過後，再加入鮮奶打成汁即可。",
                     "label": "Simulates forwarding a message",
                     "type": "postback",
@@ -942,7 +942,7 @@ Object {
         "items": Array [
           Object {
             "action": Object {
-              "data": "{\\"input\\":\\"💡 Cool, I got it!\\",\\"sessionId\\":{\\"sessionId\\":1497994017447},\\"state\\":\\"TUTORIAL\\"}",
+              "data": "{\\"input\\":\\"💡 Cool, I got it!\\",\\"sessionId\\":1497994017447,\\"state\\":\\"TUTORIAL\\"}",
               "displayText": "💡 Cool, I got it!",
               "label": "💡 Cool, I got it!",
               "type": "postback",
@@ -951,7 +951,7 @@ Object {
           },
           Object {
             "action": Object {
-              "data": "{\\"input\\":\\"🤔 What happened?\\",\\"sessionId\\":{\\"sessionId\\":1497994017447},\\"state\\":\\"TUTORIAL\\"}",
+              "data": "{\\"input\\":\\"🤔 What happened?\\",\\"sessionId\\":1497994017447,\\"state\\":\\"TUTORIAL\\"}",
               "displayText": "🤔 What happened?",
               "label": "🤔 What happened?",
               "type": "postback",
