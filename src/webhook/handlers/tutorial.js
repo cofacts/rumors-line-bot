@@ -16,7 +16,7 @@ const SIMULATE_FORWARDING_MESSAGE = t`Simulates forwarding a message`;
 // From quick reply, Note: it should be less than 20 charactors
 const PROVIDE_PERMISSION_SETUP = `💡 ${t`Cool, I got it!`}`;
 const EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP = `🤔 ${t`What happened?`}`;
-const PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION = `❓ ${t`Why permission`}`;
+const PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION = `❓ ${t`Why`}`;
 const SETUP_DONE = `👌 ${t`Done!`}`;
 const SETUP_LATER = `⏱️ ${t`Later`}`;
 
@@ -295,10 +295,11 @@ export default async function tutorial(params) {
   In order to achieve that, I need to ask for your permission to "send your message to our chatroom".
   The permission will be used to send only this one message of yours back to this particular chatroom.
   You can still use Cofacts without granting me this permission. When we ask for feedback from you, the permission dialog will pop-up again.`;
-  const explanChatbotFlow = `⬆️ ${t`What you see above is a simulation of what you may see after you forward a message to Cofacts.`}
-  📚 ${t`Cofacts has a database of hoax messages and replies.`}
-  📲 ${t`When you send a message to me, I look up the message in our database and return the results I found.`}
-  🆕 ${t`If I can't find anything, I will ask you about sending your message to that database.`}`;
+  const explanChatbotFlow =
+    `⬆️ ${t`What you see above is a simulation of what you may see after you forward a message to Cofacts.`}\n\n` +
+    `📚 ${t`Cofacts has a database of hoax messages and replies.`}\n\n` +
+    `📲 ${t`When you send a message to me, I look up the message in our database and return the results I found.`}\n\n` +
+    `🆕 ${t`If I can't find anything, I will ask you about sending your message to that database.`}`;
 
   if (event.input === RICH_MENU_TRIGGER) {
     replies = [];

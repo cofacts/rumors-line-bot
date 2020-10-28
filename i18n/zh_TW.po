@@ -104,15 +104,15 @@ msgstr "這則訊息有很多不同回應，建議到這裡一次讀完再下判
 msgid "If you have different thoughts, you may have your say here:"
 msgstr "如果你對這則訊息有不同看法，歡迎到下面這裡寫入新的回應："
 
-#: src/webhook/handlers/choosingReply.js:18
+#: src/webhook/handlers/choosingReply.js:19
 msgid "Is the reply helpful?"
 msgstr "請問上面回應是否有幫助？"
 
-#: src/webhook/handlers/choosingReply.js:54
+#: src/webhook/handlers/choosingReply.js:55
 msgid "Yes"
 msgstr "是"
 
-#: src/webhook/handlers/choosingReply.js:64
+#: src/webhook/handlers/choosingReply.js:65
 msgid "No"
 msgstr "否"
 
@@ -230,7 +230,7 @@ msgid "We've received feedback from you and ${ _otherFeedbackCount } other users
 msgstr "感謝您與其他 ${_otherFeedbackCount} 人的評價。"
 
 #: src/webhook/handlers/choosingArticle.js:44
-#: src/webhook/handlers/choosingReply.js:85
+#: src/webhook/handlers/choosingReply.js:86
 msgid "Please choose from provided options."
 msgstr "請從上面的選項中做選擇。"
 
@@ -278,7 +278,7 @@ msgstr "抱歉這篇訊息還沒有人回應過唷！請闢謠編輯查證，"
 msgid "provide more information using “${ btnText }” button. "
 msgstr "使用「${btnText}」按鈕來提供更多資訊。"
 
-#: src/webhook/handlers/choosingReply.js:106
+#: src/webhook/handlers/choosingReply.js:107
 msgid ""
 "We have problem retrieving message and reply data, please forward the "
 "message again"
@@ -686,7 +686,7 @@ msgid "What happened?"
 msgstr "發生什麼事？"
 
 #: src/webhook/handlers/tutorial.js:19
-msgid "Why permission"
+msgid "Why"
 msgstr "為什麼要設這個"
 
 #: src/webhook/handlers/tutorial.js:20
@@ -713,27 +713,27 @@ msgid ""
 "message, don't hesitate to forward it to me! 🤗"
 msgstr ""
 
-#: src/webhook/handlers/tutorial.js:242
+#: src/webhook/handlers/tutorial.js:237
 msgid "Setup permission"
 msgstr "權限設定"
 
-#: src/webhook/handlers/tutorial.js:295
+#: src/webhook/handlers/tutorial.js:290
 msgid "You are smart"
 msgstr "你很聰明"
 
-#: src/webhook/handlers/tutorial.js:296
+#: src/webhook/handlers/tutorial.js:291
 msgid ""
 "OK. When we ask for feedback from you, the permission dialog will pop-up "
 "again."
 msgstr ""
 
-#: src/webhook/handlers/tutorial.js:298
+#: src/webhook/handlers/tutorial.js:293
 msgid ""
 "To wrap up, please finish your permission settings so that I can provide a "
 "smoother experience."
 msgstr ""
 
-#: src/webhook/handlers/tutorial.js:299
+#: src/webhook/handlers/tutorial.js:294
 msgid ""
 "When I provide hoax-busting replies to you, I would like to ask you for any "
 "feedback on the crowd-sourced reply.\n"
@@ -761,23 +761,23 @@ msgstr "指名 Cofacts"
 msgid "Cofacts replies with a crowd-sourced fact-check or chatbot replies"
 msgstr "Cofacts 回傳網撰寫的的查證或回應"
 
-#: src/webhook/handlers/tutorial.js:303
+#: src/webhook/handlers/tutorial.js:299
 msgid ""
 "What you see above is a simulation of what you may see after you forward a "
 "message to Cofacts."
 msgstr "上面在模擬你傳訊息給我時，會得到的回應。"
 
-#: src/webhook/handlers/tutorial.js:304
+#: src/webhook/handlers/tutorial.js:300
 msgid "Cofacts has a database of hoax messages and replies."
 msgstr "Cofacts 有一個謠言與回應的資料庫。"
 
-#: src/webhook/handlers/tutorial.js:305
+#: src/webhook/handlers/tutorial.js:301
 msgid ""
 "When you send a message to me, I look up the message in our database and "
 "return the results I found."
 msgstr "當你傳訊息給我的時候，我會搜尋資料庫然後回傳找到的結果。"
 
-#: src/webhook/handlers/tutorial.js:306
+#: src/webhook/handlers/tutorial.js:302
 msgid ""
 "If I can't find anything, I will ask you about sending your message to that "
 "database."
