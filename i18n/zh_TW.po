@@ -8,7 +8,7 @@ msgstr ""
 
 #: src/webhook/index.js:81
 #. Set default result
-#.
+#. 
 msgid "I cannot understand messages other than text."
 msgstr "我們還不支援文字以外的訊息唷！"
 
@@ -79,40 +79,40 @@ msgstr ""
 "不實訊息常常會被人修改重發。\n"
 "請選擇比較接近的版本"
 
-#: src/webhook/handlers/choosingReply.js:52
+#: src/webhook/handlers/choosingReply.js:57
 msgid "Someone on the internet replies to the message:"
 msgstr "網路上有人這樣回應這則訊息："
 
-#: src/webhook/handlers/choosingReply.js:65
+#: src/webhook/handlers/choosingReply.js:70
 #, javascript-format
 msgid "Therefore, the author think the message ${ typeStr }."
 msgstr "綜合以上，回應者認為它${typeStr}。"
 
-#: src/webhook/handlers/choosingReply.js:66
+#: src/webhook/handlers/choosingReply.js:71
 msgid ""
 "These messages are provided by some nice volunteers. Please refer to their "
 "references and make judgements on your own."
 msgstr "以上資訊由好心人提供。請斟酌出處與理由思考判斷。"
 
-#: src/webhook/handlers/choosingReply.js:68
+#: src/webhook/handlers/choosingReply.js:73
 msgid ""
 "There are different replies for the message. Read them all here before "
 "making judgements:"
 msgstr "這則訊息有很多不同回應，建議到這裡一次讀完再下判斷："
 
-#: src/webhook/handlers/choosingReply.js:70
+#: src/webhook/handlers/choosingReply.js:75
 msgid "If you have different thoughts, you may have your say here:"
 msgstr "如果你對這則訊息有不同看法，歡迎到下面這裡寫入新的回應："
 
-#: src/webhook/handlers/choosingReply.js:47
+#: src/webhook/handlers/choosingReply.js:49
 msgid "Is the reply helpful?"
 msgstr "請問上面回應是否有幫助？"
 
-#: src/webhook/handlers/choosingReply.js:101
+#: src/webhook/handlers/choosingReply.js:108
 msgid "Yes"
 msgstr "是"
 
-#: src/webhook/handlers/choosingReply.js:111
+#: src/webhook/handlers/choosingReply.js:118
 msgid "No"
 msgstr "否"
 
@@ -171,16 +171,16 @@ msgid ""
 "the error will go away. Would you please send us the message from the start?"
 msgstr "抱歉，chatbot 出錯了。我們已經重設您目前的搜尋狀態，以期能自錯誤狀態中復原。請從頭再傳一次您想詢問的訊息。"
 
-#: src/webhook/handlers/askingReplyRequestReason.js:82
+#: src/webhook/handlers/askingReplyRequestReason.js:90
 msgid "Please press the latest button to submit message to database."
 msgstr "請用最近的按鈕來將訊息送至資料庫。"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.js:36
+#: src/webhook/handlers/askingArticleSubmissionConsent.js:37
 #: src/webhook/handlers/askingReplyRequestReason.js:41
 msgid "Thanks for the info."
 msgstr "感謝您的提供的資訊。"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.js:62
+#: src/webhook/handlers/askingArticleSubmissionConsent.js:63
 #, javascript-format
 msgid "Your submission is now recorded at ${ articleUrl }"
 msgstr "您回報的訊息已經被收錄至 ${ articleUrl }"
@@ -220,7 +220,7 @@ msgid "Share to friends"
 msgstr "分享給朋友"
 
 #: src/webhook/handlers/askingReplyFeedback.js:127
-#: src/webhook/handlers/utils.js:452
+#: src/webhook/handlers/utils.js:453
 msgid "See reported message"
 msgstr "查看回報的訊息"
 
@@ -230,7 +230,7 @@ msgid "We've received feedback from you and ${ _otherFeedbackCount } other users
 msgstr "感謝您與其他 ${_otherFeedbackCount} 人的評價。"
 
 #: src/webhook/handlers/choosingArticle.js:44
-#: src/webhook/handlers/choosingReply.js:18
+#: src/webhook/handlers/choosingReply.js:20
 msgid "Please choose from provided options."
 msgstr "請從上面的選項中做選擇。"
 
@@ -263,7 +263,7 @@ msgstr "我要選「${displayTextWhenChosen}」"
 #: src/liff/pages/Reason.svelte:80
 #: src/liff/pages/Source.svelte:33
 #: src/webhook/handlers/choosingArticle.js:292
-#: src/webhook/handlers/utils.js:462
+#: src/webhook/handlers/utils.js:463
 msgid "Provide more info"
 msgstr "提供更多資訊"
 
@@ -278,21 +278,21 @@ msgstr "抱歉這篇訊息還沒有人回應過唷！請闢謠編輯查證，"
 msgid "provide more information using “${ btnText }” button. "
 msgstr "使用「${btnText}」按鈕來提供更多資訊。"
 
-#: src/webhook/handlers/choosingReply.js:39
+#: src/webhook/handlers/choosingReply.js:41
 msgid ""
 "We have problem retrieving message and reply data, please forward the "
 "message again"
 msgstr "出了一些問題，導致現在無法取得訊息與回應。請再傳一次您想詢問的訊息"
 
-#: src/webhook/handlers/askingReplyRequestReason.js:104
+#: src/webhook/handlers/askingReplyRequestReason.js:112
 msgid "Something went wrong when recording your reason, please try again later."
 msgstr "出了一些問題，導致我們無法記錄您提供的理由。請稍後再試。"
 
-#: src/webhook/handlers/askingReplyRequestReason.js:122
+#: src/webhook/handlers/askingReplyRequestReason.js:130
 msgid "Thanks for the info you provided."
 msgstr "感謝您所提供的資訊。"
 
-#: src/webhook/handlers/askingReplyRequestReason.js:140
+#: src/webhook/handlers/askingReplyRequestReason.js:162
 #, javascript-format
 msgid "There is ${ otherReplyRequestCount } user also waiting for clarification."
 msgid_plural "There are ${ otherReplyRequestCount } users also waiting for clarification."
@@ -316,7 +316,7 @@ msgstr "找不到關於「${ inputSummary }」 的資訊 :("
 
 #: src/liff/lib.js:94
 #: src/webhook/handlers/utils.js:122
-#. t: Flex message alt-text
+#. t: Flex message alt-text 
 msgid "Please proceed on your mobile phone."
 msgstr "請在您的手機上繼續操作。"
 
@@ -367,23 +367,23 @@ msgid "Share on Facebook"
 msgstr "請教臉書大神"
 
 #: src/webhook/handlers/utils.js:277
-#. t: Facebook hash tag
+#. t: Facebook hash tag 
 msgid "ReportedToCofacts"
 msgstr "Cofacts求解惑"
 
-#: src/webhook/handlers/utils.js:364
+#: src/webhook/handlers/utils.js:365
 msgid ""
 "Please tell us where you have received the message using the options we "
 "provided."
 msgstr "請用提供的選項，告訴我們您是在哪裡看到這則訊息的。"
 
-#: src/webhook/handlers/utils.js:385
+#: src/webhook/handlers/utils.js:386
 msgid ""
 "We suggest forwarding the message to the following fact-checkers instead. "
 "They have 💁 1-on-1 Q&A service to respond to your questions."
 msgstr "好的，建議您把訊息轉傳給下面的專業事實查核機構，而且有 💁 專人為您解答喔！"
 
-#: src/webhook/handlers/utils.js:462
+#: src/webhook/handlers/utils.js:463
 msgid "Rewrite my reason"
 msgstr "重填送出理由"
 
@@ -432,7 +432,7 @@ msgid "Do you have anything to add about the reply?"
 msgstr "針對這則回應，有沒有想補充的呢？"
 
 #: src/liff/pages/Reason.svelte:11
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 msgid ""
 "You may try:\n"
 "1. Express your thought more\n"
@@ -445,7 +445,7 @@ msgstr ""
 "3. 把全文複製貼上到 Facebook 搜尋框看看"
 
 #: src/liff/pages/Reason.svelte:17
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 #, javascript-format
 msgid ""
 "It would help fact-checking editors a lot if you provide more info :)\n"
@@ -463,7 +463,7 @@ msgstr ""
 "若要補充資訊，請按「取消」；覺得現在這樣送出就好，請按「確定」。"
 
 #: src/liff/pages/Reason.svelte:24
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 msgid ""
 "The info you provide should not be identical to the message itself.\n"
 "\n"
@@ -533,7 +533,7 @@ msgid "Cannot get token from URL"
 msgstr ""
 
 #: src/liff/lib.js:147
-#. t: In LIFF, should not happen
+#. t: In LIFF, should not happen 
 msgid "Unexpected error, no search session data is retrieved."
 msgstr ""
 
@@ -589,7 +589,7 @@ msgstr "上一頁"
 msgid "Next"
 msgstr "下一頁"
 
-#: src/liff/pages/UserSetting.svelte:63
+#: src/liff/pages/UserSetting.svelte:66
 msgid "Settings"
 msgstr "設定"
 
@@ -627,38 +627,42 @@ msgstr "有人針對您之前曾看過的訊息，寫了新的查證回應唷！
 msgid "(Words found in the hyperlink)"
 msgstr "（網址裡找到的字）"
 
-#: src/liff/pages/UserSetting.svelte:64
+#: src/liff/pages/UserSetting.svelte:67
 msgid "Welcome to Cofacts!"
 msgstr "感謝您加 Cofacts 好友！"
 
-#: src/liff/pages/UserSetting.svelte:66
+#: src/liff/pages/UserSetting.svelte:70
 msgid ""
 "Cofacts can send you latest reply of messages you have sent to Cofacts "
 "before."
 msgstr "當您查過的訊息有新回應時，Cofacts 可以通知您。"
 
-#: src/liff/pages/UserSetting.svelte:67
+#: src/liff/pages/UserSetting.svelte:71
 msgid "Notify me of new responses"
 msgstr "有新回應時通知我"
 
-#: src/liff/pages/UserSetting.svelte:69
+#: src/liff/pages/UserSetting.svelte:73
 msgid "No setup option for now :)"
 msgstr "目前沒有設定選項 :)"
 
-#: src/liff/pages/UserSetting.svelte:65
+#: src/liff/pages/UserSetting.svelte:68
 msgid "You can configure Cofacts here to meet your need."
 msgstr "您可以在這裡設定 Cofacts 以符合需求。"
 
-#: src/webhook/handlers/utils.js:312
+#: src/webhook/handlers/utils.js:313
 msgid ""
 "You can turn on notification if you want Cofacts to notify you when someone "
 "replies this message."
 msgstr "若希望我在有人回應這則訊息時通知你，請開啟通知功能唷！"
 
-#: src/webhook/handlers/utils.js:325
+#: src/webhook/handlers/utils.js:326
 msgid "Go to settings"
 msgstr "前往設定"
 
-#: src/webhook/handlers/utils.js:301
+#: src/webhook/handlers/utils.js:302
 msgid "Receive updates"
 msgstr "開啟小鈴鐺"
+
+#: src/liff/pages/UserSetting.svelte:69
+msgid "Fetching settings"
+msgstr "載入設定中"

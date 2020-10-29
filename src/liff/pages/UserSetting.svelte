@@ -9,8 +9,10 @@
   /* Expose notify method to UI */
   const notifyMethod = NOTIFY_METHOD;
   let allowNewReplyUpdate;
+  let isLoadingData = false; // If is in process of loadData()
 
   onMount(async () => {
+    isLoadingData = true;
     const { data } = await gql`
     {
       setting {
@@ -21,6 +23,7 @@
   `();
 
     allowNewReplyUpdate = data.setting.allowNewReplyUpdate;
+    isLoadingData = false;
   });
 
   const handleLineNotifyClick = async (event) => {
@@ -81,18 +84,22 @@
 </Paper>
 
 {#if notifyMethod}
-  <p>{t`Cofacts can send you latest reply of messages you have sent to Cofacts before.`}</p>
-  <FormField class="field" align="end">
-    <span slot="label">
-      {t`Notify me of new responses`}
-    </span>
-    <Switch
-      style="margin: 0 10px;"
-      bind:checked={allowNewReplyUpdate}
-      on:change={(event) => handleClick(event)}
-      disabled={allowNewReplyUpdate === undefined}
-    />
-  </FormField>
+  {#if isLoadingData}
+    <p>{t`Fetching settings`}...</p>
+  {:else}
+    <p>{t`Cofacts can send you latest reply of messages you have sent to Cofacts before.`}</p>
+    <FormField class="field" align="end">
+      <span slot="label">
+        {t`Notify me of new responses`}
+      </span>
+      <Switch
+        style="margin: 0 10px;"
+        bind:checked={allowNewReplyUpdate}
+        on:change={(event) => handleClick(event)}
+        disabled={allowNewReplyUpdate === undefined}
+      />
+    </FormField>
+  {/if}
 {:else}
   <p>{t`No setup option for now :)`}</p>
 {/if}
