@@ -187,7 +187,7 @@ export function createTutorialMessage(sessionId) {
  * @returns {object} Flex message object
  */
 function createEndingMessage() {
-  const text = t`This is the end of the tutorial. Next time when you receive a suspicious message, don't hesitate to forward it to me! 🤗`;
+  const text = `${t`This is the end of the tutorial. Next time when you receive a suspicious message, don't hesitate to forward it to me!`} 🤗`;
   const imageUrl = `${
     process.env.RUMORS_LINE_BOT_URL
   }/static/img/endoftutorial.png`;
