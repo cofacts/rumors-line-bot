@@ -1,11 +1,5 @@
 import tutorial, {
-  RICH_MENU_TRIGGER,
-  SIMULATE_FORWARDING_MESSAGE,
-  PROVIDE_PERMISSION_SETUP,
-  EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP,
-  PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION,
-  SETUP_DONE,
-  SETUP_LATER,
+  TUTORIAL_STEPS,
   createGreetingMessage,
   createTutorialMessage,
 } from '../tutorial';
@@ -36,49 +30,51 @@ it('rejects undefined input', () => {
 });
 
 it('should handle RICH_MENU_TRIGGER', async () => {
-  param.event.input = RICH_MENU_TRIGGER;
+  param.event.input = TUTORIAL_STEPS['RICH_MENU_TRIGGER'];
 
   const result = await tutorial(param);
   expect(result).toMatchSnapshot();
 });
 
 it('should handle SIMULATE_FORWARDING_MESSAGE', async () => {
-  param.event.input = SIMULATE_FORWARDING_MESSAGE;
+  param.event.input = TUTORIAL_STEPS['SIMULATE_FORWARDING_MESSAGE'];
 
   const result = await tutorial(param);
   expect(result).toMatchSnapshot();
 });
 
 it('should handle PROVIDE_PERMISSION_SETUP', async () => {
-  param.event.input = PROVIDE_PERMISSION_SETUP;
+  param.event.input = TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP'];
 
   const result = await tutorial(param);
   expect(result).toMatchSnapshot();
 });
 
 it('should handle EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP', async () => {
-  param.event.input = EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP;
+  param.event.input =
+    TUTORIAL_STEPS['EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP'];
 
   const result = await tutorial(param);
   expect(result).toMatchSnapshot();
 });
 
 it('should handle PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION', async () => {
-  param.event.input = PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION;
+  param.event.input =
+    TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION'];
 
   const result = await tutorial(param);
   expect(result).toMatchSnapshot();
 });
 
 it('should handle SETUP_DONE', async () => {
-  param.event.input = SETUP_DONE;
+  param.event.input = TUTORIAL_STEPS['SETUP_DONE'];
 
   const result = await tutorial(param);
   expect(result).toMatchSnapshot();
 });
 
 it('should handle SETUP_LATER', async () => {
-  param.event.input = SETUP_LATER;
+  param.event.input = TUTORIAL_STEPS['SETUP_LATER'];
 
   const result = await tutorial(param);
   expect(result).toMatchSnapshot();

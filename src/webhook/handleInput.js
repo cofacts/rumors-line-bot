@@ -16,7 +16,7 @@ import {
   VIEW_ARTICLE_PREFIX,
   getArticleURL,
 } from 'src/lib/sharedUtils';
-import tutorial, { RICH_MENU_TRIGGER } from './handlers/tutorial';
+import tutorial, { TUTORIAL_STEPS } from './handlers/tutorial';
 
 /**
  * Given input event and context, outputs the new context and the reply to emit.
@@ -66,7 +66,7 @@ export default async function handleInput({ data = {} }, event, userId) {
       state = 'ASKING_REPLY_REQUEST_REASON';
     } else if (event.input.startsWith(SOURCE_PREFIX_FRIST_SUBMISSION)) {
       state = 'ASKING_ARTICLE_SUBMISSION_CONSENT';
-    } else if (event.input === RICH_MENU_TRIGGER) {
+    } else if (event.input === TUTORIAL_STEPS['RICH_MENU_TRIGGER']) {
       state = 'TUTORIAL';
     } else {
       // The user forwarded us an new message.

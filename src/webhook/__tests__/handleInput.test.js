@@ -7,7 +7,7 @@ import askingArticleSubmissionConsent from '../handlers/askingArticleSubmissionC
 import askingReplyRequestReason from '../handlers/askingReplyRequestReason';
 import { ManipulationError } from '../handlers/utils';
 import handleInput from '../handleInput';
-import tutorial, { RICH_MENU_TRIGGER } from '../handlers/tutorial';
+import tutorial, { TUTORIAL_STEPS } from '../handlers/tutorial';
 
 import {
   SOURCE_PREFIX_FRIST_SUBMISSION,
@@ -536,7 +536,7 @@ describe('tutorial', () => {
     };
     const event = {
       type: 'message',
-      input: RICH_MENU_TRIGGER,
+      input: TUTORIAL_STEPS['RICH_MENU_TRIGGER'],
     };
 
     tutorial.mockImplementationOnce(params => {

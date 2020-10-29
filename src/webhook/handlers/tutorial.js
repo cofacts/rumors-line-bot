@@ -9,16 +9,18 @@ import {
 /**
  * Fixed inputs that indicate which reply should `tutorial` function return
  */
-// From rich menu
-export const RICH_MENU_TRIGGER = `📖 ${t`tutorial`}`;
-// From flex message button
-export const SIMULATE_FORWARDING_MESSAGE = t`Simulates forwarding a message`;
-// From quick reply, Note: it should be less than 20 charactors
-export const PROVIDE_PERMISSION_SETUP = `💡 ${t`Cool, I got it!`}`;
-export const EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP = `🤔 ${t`What happened?`}`;
-export const PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION = `❓ ${t`Why`}`;
-export const SETUP_DONE = `👌 ${t`Done!`}`;
-export const SETUP_LATER = `⏱️ ${t`Later`}`;
+export const TUTORIAL_STEPS = {
+  // From rich menu
+  RICH_MENU_TRIGGER: `📖 ${t`tutorial`}`,
+  // From flex message button
+  SIMULATE_FORWARDING_MESSAGE: t`Simulates forwarding a message`,
+  // From quick reply, Note: it should be less than 20 charactors
+  PROVIDE_PERMISSION_SETUP: `💡 ${t`Cool, I got it!`}`,
+  EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP: `🤔 ${t`What happened?`}`,
+  PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION: `❓ ${t`Why`}`,
+  SETUP_DONE: `👌 ${t`Done!`}`,
+  SETUP_LATER: `⏱️ ${t`Later`}`,
+};
 
 /**
  * @param {string} imageUrl
@@ -121,7 +123,7 @@ export function createTutorialMessage(sessionId) {
   }/static/img/tutorial4.png`;
 
   const askForForwardingMessage = t`Wanna try it out? Just forward a message to me!`;
-  const buttonLabel = SIMULATE_FORWARDING_MESSAGE;
+  const buttonLabel = TUTORIAL_STEPS['SIMULATE_FORWARDING_MESSAGE'];
   const displayText =
     '只要每天早上一杯地瓜葉牛奶。不僅有效降低三高，甚至連痛風也沒了；此外，地瓜葉牛奶的作法也很簡單，只要先將地瓜葉川燙過後，再加入鮮奶打成汁即可。';
 
@@ -164,7 +166,7 @@ export function createTutorialMessage(sessionId) {
                 type: 'button',
                 action: createPostbackAction(
                   buttonLabel,
-                  SIMULATE_FORWARDING_MESSAGE,
+                  TUTORIAL_STEPS['SIMULATE_FORWARDING_MESSAGE'],
                   displayText,
                   sessionId,
                   'TUTORIAL'
@@ -219,12 +221,12 @@ function createMockReplyMessages(sessionId) {
   replies[replies.length - 1]['quickReply'] = {
     items: [
       createQuickReplyPostbackItem(
-        PROVIDE_PERMISSION_SETUP,
+        TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP'],
         sessionId,
         'TUTORIAL'
       ),
       createQuickReplyPostbackItem(
-        EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP,
+        TUTORIAL_STEPS['EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP'],
         sessionId,
         'TUTORIAL'
       ),
@@ -305,12 +307,12 @@ export default async function tutorial(params) {
     `📲 ${t`When you send a message to me, I look up the message in our database and return the results I found.`}\n\n` +
     `🆕 ${t`If I can't find anything, I will ask you about sending your message to that database.`}`;
 
-  if (event.input === RICH_MENU_TRIGGER) {
+  if (event.input === TUTORIAL_STEPS['RICH_MENU_TRIGGER']) {
     replies = [];
     replies.push(await createTutorialMessage(data.sessionId));
-  } else if (event.input === SIMULATE_FORWARDING_MESSAGE) {
+  } else if (event.input === TUTORIAL_STEPS['SIMULATE_FORWARDING_MESSAGE']) {
     replies = await createMockReplyMessages(data.sessionId);
-  } else if (event.input === PROVIDE_PERMISSION_SETUP) {
+  } else if (event.input === TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP']) {
     replies = [
       {
         type: 'text',
@@ -322,16 +324,27 @@ export default async function tutorial(params) {
     // put quickreply into last message
     replies[replies.length - 1]['quickReply'] = {
       items: [
-        createQuickReplyPostbackItem(SETUP_DONE, data.sessionId, 'TUTORIAL'),
-        createQuickReplyPostbackItem(SETUP_LATER, data.sessionId, 'TUTORIAL'),
         createQuickReplyPostbackItem(
-          PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION,
+          TUTORIAL_STEPS['SETUP_DONE'],
+          data.sessionId,
+          'TUTORIAL'
+        ),
+        createQuickReplyPostbackItem(
+          TUTORIAL_STEPS['SETUP_LATER'],
+          data.sessionId,
+          'TUTORIAL'
+        ),
+        createQuickReplyPostbackItem(
+          TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION'],
           data.sessionId,
           'TUTORIAL'
         ),
       ],
     };
-  } else if (event.input === EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP) {
+  } else if (
+    event.input ===
+    TUTORIAL_STEPS['EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP']
+  ) {
     replies = [
       {
         type: 'text',
@@ -343,29 +356,47 @@ export default async function tutorial(params) {
     // put quickreply into last message
     replies[replies.length - 1]['quickReply'] = {
       items: [
-        createQuickReplyPostbackItem(SETUP_DONE, data.sessionId, 'TUTORIAL'),
-        createQuickReplyPostbackItem(SETUP_LATER, data.sessionId, 'TUTORIAL'),
         createQuickReplyPostbackItem(
-          PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION,
+          TUTORIAL_STEPS['SETUP_DONE'],
+          data.sessionId,
+          'TUTORIAL'
+        ),
+        createQuickReplyPostbackItem(
+          TUTORIAL_STEPS['SETUP_LATER'],
+          data.sessionId,
+          'TUTORIAL'
+        ),
+        createQuickReplyPostbackItem(
+          TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION'],
           data.sessionId,
           'TUTORIAL'
         ),
       ],
     };
-  } else if (event.input === PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION) {
+  } else if (
+    event.input === TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION']
+  ) {
     replies = [];
     replies.push(await createPermissionSetupDialog(explanPersmissionSetup));
     // put quickreply into last message
     replies[replies.length - 1]['quickReply'] = {
       items: [
-        createQuickReplyPostbackItem(SETUP_DONE, data.sessionId, 'TUTORIAL'),
-        createQuickReplyPostbackItem(SETUP_LATER, data.sessionId, 'TUTORIAL'),
+        createQuickReplyPostbackItem(
+          TUTORIAL_STEPS['SETUP_DONE'],
+          data.sessionId,
+          'TUTORIAL'
+        ),
+        createQuickReplyPostbackItem(
+          TUTORIAL_STEPS['SETUP_LATER'],
+          data.sessionId,
+          'TUTORIAL'
+        ),
       ],
     };
-  } else if (event.input === SETUP_DONE) {
+  } else if (event.input === TUTORIAL_STEPS['SETUP_DONE']) {
     replies = [];
     replies.push(createEndingMessage());
-  } else if (event.input === SETUP_LATER) {
+  } else if (event.input === TUTORIAL_STEPS['SETUP_LATER']) {
     replies = [
       {
         type: 'text',
