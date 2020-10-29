@@ -1,8 +1,11 @@
+jest.mock('src/lib/ga');
+
 import tutorial, {
   TUTORIAL_STEPS,
   createGreetingMessage,
   createTutorialMessage,
 } from '../tutorial';
+import ga from 'src/lib/ga';
 
 const param = {
   data: {
@@ -21,6 +24,7 @@ const param = {
 
 beforeEach(() => {
   param.event.input = undefined;
+  ga.clearAllMocks();
 });
 
 it('rejects undefined input', () => {
@@ -34,6 +38,16 @@ it('should handle RICH_MENU_TRIGGER', async () => {
 
   const result = await tutorial(param);
   expect(result).toMatchSnapshot();
+  expect(ga.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "Uaddc74df8a3a176b901d9d648b0fc4fe",
+        "TUTORIAL",
+        "RICH_MENU_TRIGGER",
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
 it('should handle SIMULATE_FORWARDING_MESSAGE', async () => {
@@ -41,6 +55,16 @@ it('should handle SIMULATE_FORWARDING_MESSAGE', async () => {
 
   const result = await tutorial(param);
   expect(result).toMatchSnapshot();
+  expect(ga.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "Uaddc74df8a3a176b901d9d648b0fc4fe",
+        "TUTORIAL",
+        "SIMULATE_FORWARDING_MESSAGE",
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
 it('should handle PROVIDE_PERMISSION_SETUP', async () => {
@@ -48,6 +72,16 @@ it('should handle PROVIDE_PERMISSION_SETUP', async () => {
 
   const result = await tutorial(param);
   expect(result).toMatchSnapshot();
+  expect(ga.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "Uaddc74df8a3a176b901d9d648b0fc4fe",
+        "TUTORIAL",
+        "PROVIDE_PERMISSION_SETUP",
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
 it('should handle EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP', async () => {
@@ -56,6 +90,16 @@ it('should handle EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP', async () =>
 
   const result = await tutorial(param);
   expect(result).toMatchSnapshot();
+  expect(ga.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "Uaddc74df8a3a176b901d9d648b0fc4fe",
+        "TUTORIAL",
+        "EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP",
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
 it('should handle PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION', async () => {
@@ -64,6 +108,16 @@ it('should handle PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION', async () => {
 
   const result = await tutorial(param);
   expect(result).toMatchSnapshot();
+  expect(ga.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "Uaddc74df8a3a176b901d9d648b0fc4fe",
+        "TUTORIAL",
+        "PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION",
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
 it('should handle SETUP_DONE', async () => {
@@ -71,6 +125,16 @@ it('should handle SETUP_DONE', async () => {
 
   const result = await tutorial(param);
   expect(result).toMatchSnapshot();
+  expect(ga.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "Uaddc74df8a3a176b901d9d648b0fc4fe",
+        "TUTORIAL",
+        "SETUP_DONE",
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
 it('should handle SETUP_LATER', async () => {
@@ -78,14 +142,24 @@ it('should handle SETUP_LATER', async () => {
 
   const result = await tutorial(param);
   expect(result).toMatchSnapshot();
+  expect(ga.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "Uaddc74df8a3a176b901d9d648b0fc4fe",
+        "TUTORIAL",
+        "SETUP_LATER",
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
-it('createGreetingMessage()', async () => {
+it('createGreetingMessage()', () => {
   const result = createGreetingMessage();
   expect(result).toMatchSnapshot();
 });
 
-it('createTutorialMessage()', async () => {
+it('createTutorialMessage()', () => {
   const result = createTutorialMessage(param.data.sessionId);
   expect(result).toMatchSnapshot();
 });

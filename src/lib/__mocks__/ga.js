@@ -1,17 +1,17 @@
 const eventMock = jest.fn();
 const sendMock = jest.fn();
+const ga = jest.fn();
 
-function ga() {
-  return {
-    event: eventMock,
-    send: sendMock,
-    screenview: () => {},
-  };
-}
+ga.mockImplementation(() => ({
+  event: eventMock,
+  send: sendMock,
+  screenview: () => {},
+}));
 
 ga.clearAllMocks = () => {
   eventMock.mockClear();
   sendMock.mockClear();
+  ga.mockClear();
 };
 
 ga.eventMock = eventMock;
