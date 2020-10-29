@@ -38,7 +38,7 @@ function initGDrive() {
 
 export async function downloadFile(messageId) {
   //get line message file
-  const LINE_API_URL = `https://api.line.me/v2/bot/message/${messageId}/content`;
+  const LINE_API_URL = `https://api-data.line.me/v2/bot/message/${messageId}/content`;
   const options = {
     headers: {
       Authorization: `Bearer ${process.env.LINE_CHANNEL_TOKEN}`,
