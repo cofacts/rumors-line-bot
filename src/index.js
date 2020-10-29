@@ -45,9 +45,22 @@ if (process.env.NODE_ENV === 'production') {
       maxage: 31536000 * 1000, // https://stackoverflow.com/a/7071880/1582110
     })
   );
+  app.use(
+    serve({
+      rootDir: path.join(__dirname, '../static'),
+      rootPath: '/static',
+      maxage: 31536000 * 1000, // https://stackoverflow.com/a/7071880/1582110
+    })
+  );
 } else {
   app.use(
     require('koa-proxies')('/liff', {
+      target: `http://localhost:${process.env.LIFF_DEV_PORT}`,
+      logs: true,
+    })
+  );
+  app.use(
+    require('koa-proxies')('/static', {
       target: `http://localhost:${process.env.LIFF_DEV_PORT}`,
       logs: true,
     })
