@@ -5,6 +5,7 @@ import {
   createReplyMessages,
   FLEX_MESSAGE_ALT_TEXT,
 } from './utils';
+import ga from 'src/lib/ga';
 
 /**
  * Fixed inputs that indicate which reply should `tutorial` function return
@@ -407,6 +408,12 @@ export default async function tutorial(params) {
   } else {
     throw new Error('input undefined');
   }
+
+  ga(
+    userId,
+    'TUTORIAL',
+    Object.keys(TUTORIAL_STEPS).find(key => TUTORIAL_STEPS[key] === event.input)
+  ).send();
 
   return { data, event, issuedAt, userId, replies, isSkipUser };
 }

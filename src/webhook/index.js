@@ -87,6 +87,9 @@ const singleUserHandler = async (
       context: { data: data },
       replies: [createGreetingMessage(), createTutorialMessage(data.sessionId)],
     };
+
+    ga(userId, 'TUTORIAL', 'ON_BOARDING').send();
+
     await UserSettings.setAllowNewReplyUpdate(userId, true);
   } else if (type === 'unfollow') {
     await UserSettings.setAllowNewReplyUpdate(userId, false);
