@@ -88,7 +88,13 @@ const singleUserHandler = async (
       replies: [createGreetingMessage(), createTutorialMessage(data.sessionId)],
     };
 
-    ga(userId, 'TUTORIAL', 'ON_BOARDING').send();
+    const visitor = ga(userId, 'TUTORIAL');
+    visitor.event({
+      ec: 'Tutorial',
+      ea: 'Step',
+      el: 'ON_BOARDING',
+    });
+    visitor.send();
 
     await UserSettings.setAllowNewReplyUpdate(userId, true);
   } else if (type === 'unfollow') {

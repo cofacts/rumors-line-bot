@@ -242,7 +242,9 @@ function createMockReplyMessages(sessionId) {
  */
 function createPermissionSetupDialog(message) {
   const buttonLabel = t`Setup permission`;
-  const buttonUri = `${process.env.LIFF_URL}/liff/index.html?p=setting`;
+  const buttonUri = `${
+    process.env.LIFF_URL
+  }/liff/index.html?p=setting&utm_source=rumors-line-bot&utm_medium=tutorial`;
 
   return {
     type: 'flex',
@@ -409,11 +411,15 @@ export default async function tutorial(params) {
     throw new Error('input undefined');
   }
 
-  ga(
-    userId,
-    'TUTORIAL',
-    Object.keys(TUTORIAL_STEPS).find(key => TUTORIAL_STEPS[key] === event.input)
-  ).send();
+  const visitor = ga(userId, 'TUTORIAL');
+  visitor.event({
+    ec: 'Tutorial',
+    ea: 'Step',
+    el: Object.keys(TUTORIAL_STEPS).find(
+      key => TUTORIAL_STEPS[key] === event.input
+    ),
+  });
+  visitor.send();
 
   return { data, event, issuedAt, userId, replies, isSkipUser };
 }
