@@ -2,6 +2,7 @@ jest.mock('src/webhook/checkSignatureAndParse');
 jest.mock('src/webhook/lineClient');
 jest.mock('src/lib/redisClient');
 jest.mock('src/webhook/handlers/tutorial');
+jest.mock('src/lib/ga');
 
 import Koa from 'koa';
 import request from 'supertest';
@@ -16,6 +17,7 @@ import {
   createGreetingMessage,
   createTutorialMessage,
 } from 'src/webhook/handlers/tutorial';
+import ga from 'src/lib/ga';
 
 const sleep = async ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -25,6 +27,7 @@ describe('Webhook router', () => {
     lineClient.mockClear();
     createGreetingMessage.mockClear();
     createTutorialMessage.mockClear();
+    ga.clearAllMocks();
   });
 
   beforeAll(async () => {
@@ -78,6 +81,26 @@ describe('Webhook router', () => {
 
     expect(createGreetingMessage).toHaveBeenCalledTimes(1);
     expect(createTutorialMessage).toHaveBeenCalledTimes(1);
+    expect(ga.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "U4af4980629",
+          "TUTORIAL",
+        ],
+      ]
+    `);
+    expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          Object {
+            "ea": "Step",
+            "ec": "Tutorial",
+            "el": "ON_BOARDING",
+          },
+        ],
+      ]
+    `);
+    expect(ga.sendMock).toHaveBeenCalledTimes(1);
 
     return new Promise((resolve, reject) => {
       server.close(error => {

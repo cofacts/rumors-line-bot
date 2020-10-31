@@ -43,7 +43,17 @@ it('should handle RICH_MENU', async () => {
       Array [
         "Uaddc74df8a3a176b901d9d648b0fc4fe",
         "TUTORIAL",
-        "RICH_MENU_TRIGGER",
+      ],
+    ]
+  `);
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "Step",
+          "ec": "Tutorial",
+          "el": "RICH_MENU",
+        },
       ],
     ]
   `);
@@ -60,7 +70,17 @@ it('should handle SIMULATE_FORWARDING_MESSAGE', async () => {
       Array [
         "Uaddc74df8a3a176b901d9d648b0fc4fe",
         "TUTORIAL",
-        "SIMULATE_FORWARDING_MESSAGE",
+      ],
+    ]
+  `);
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "Step",
+          "ec": "Tutorial",
+          "el": "SIMULATE_FORWARDING_MESSAGE",
+        },
       ],
     ]
   `);
@@ -77,7 +97,17 @@ it('should handle PROVIDE_PERMISSION_SETUP', async () => {
       Array [
         "Uaddc74df8a3a176b901d9d648b0fc4fe",
         "TUTORIAL",
-        "PROVIDE_PERMISSION_SETUP",
+      ],
+    ]
+  `);
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "Step",
+          "ec": "Tutorial",
+          "el": "PROVIDE_PERMISSION_SETUP",
+        },
       ],
     ]
   `);
@@ -95,7 +125,17 @@ it('should handle EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP', async () =>
       Array [
         "Uaddc74df8a3a176b901d9d648b0fc4fe",
         "TUTORIAL",
-        "EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP",
+      ],
+    ]
+  `);
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "Step",
+          "ec": "Tutorial",
+          "el": "EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP",
+        },
       ],
     ]
   `);
@@ -113,7 +153,17 @@ it('should handle PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION', async () => {
       Array [
         "Uaddc74df8a3a176b901d9d648b0fc4fe",
         "TUTORIAL",
-        "PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION",
+      ],
+    ]
+  `);
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "Step",
+          "ec": "Tutorial",
+          "el": "PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION",
+        },
       ],
     ]
   `);
@@ -130,7 +180,17 @@ it('should handle SETUP_DONE', async () => {
       Array [
         "Uaddc74df8a3a176b901d9d648b0fc4fe",
         "TUTORIAL",
-        "SETUP_DONE",
+      ],
+    ]
+  `);
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "Step",
+          "ec": "Tutorial",
+          "el": "SETUP_DONE",
+        },
       ],
     ]
   `);
@@ -147,7 +207,17 @@ it('should handle SETUP_LATER', async () => {
       Array [
         "Uaddc74df8a3a176b901d9d648b0fc4fe",
         "TUTORIAL",
-        "SETUP_LATER",
+      ],
+    ]
+  `);
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "Step",
+          "ec": "Tutorial",
+          "el": "SETUP_LATER",
+        },
       ],
     ]
   `);
