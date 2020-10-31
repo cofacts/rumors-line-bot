@@ -536,7 +536,7 @@ describe('tutorial', () => {
     };
     const event = {
       type: 'message',
-      input: TUTORIAL_STEPS['RICH_MENU_TRIGGER'],
+      input: TUTORIAL_STEPS['RICH_MENU'],
     };
 
     tutorial.mockImplementationOnce(params => {

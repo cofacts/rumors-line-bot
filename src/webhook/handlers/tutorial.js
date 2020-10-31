@@ -12,7 +12,7 @@ import ga from 'src/lib/ga';
  */
 export const TUTORIAL_STEPS = {
   // From rich menu
-  RICH_MENU_TRIGGER: `📖 ${t`tutorial`}`,
+  RICH_MENU: `📖 ${t`tutorial`}`,
   // From flex message button
   SIMULATE_FORWARDING_MESSAGE: t`Simulates forwarding a message`,
   // From quick reply, Note: it should be less than 20 charactors
@@ -308,7 +308,7 @@ export default async function tutorial(params) {
     `📲 ${t`When you send a message to me, I look up the message in our database and return the results I found.`}\n\n` +
     `🆕 ${t`If I can't find anything, I will ask you about sending your message to that database.`}`;
 
-  if (event.input === TUTORIAL_STEPS['RICH_MENU_TRIGGER']) {
+  if (event.input === TUTORIAL_STEPS['RICH_MENU']) {
     replies = [];
     replies.push(await createTutorialMessage(data.sessionId));
   } else if (event.input === TUTORIAL_STEPS['SIMULATE_FORWARDING_MESSAGE']) {

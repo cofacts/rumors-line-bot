@@ -66,7 +66,7 @@ export default async function handleInput({ data = {} }, event, userId) {
       state = 'ASKING_REPLY_REQUEST_REASON';
     } else if (event.input.startsWith(SOURCE_PREFIX_FRIST_SUBMISSION)) {
       state = 'ASKING_ARTICLE_SUBMISSION_CONSENT';
-    } else if (event.input === TUTORIAL_STEPS['RICH_MENU_TRIGGER']) {
+    } else if (event.input === TUTORIAL_STEPS['RICH_MENU']) {
       state = 'TUTORIAL';
     } else {
       // The user forwarded us an new message.

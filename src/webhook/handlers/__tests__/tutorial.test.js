@@ -33,8 +33,8 @@ it('rejects undefined input', () => {
   );
 });
 
-it('should handle RICH_MENU_TRIGGER', async () => {
-  param.event.input = TUTORIAL_STEPS['RICH_MENU_TRIGGER'];
+it('should handle RICH_MENU', async () => {
+  param.event.input = TUTORIAL_STEPS['RICH_MENU'];
 
   const result = await tutorial(param);
   expect(result).toMatchSnapshot();
