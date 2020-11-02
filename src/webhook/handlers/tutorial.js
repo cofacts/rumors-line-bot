@@ -293,7 +293,7 @@ function createPermissionSetupDialog(message) {
   };
 }
 
-export default async function tutorial(params) {
+export default function tutorial(params) {
   let { data, event, issuedAt, replies, userId, isSkipUser } = params;
 
   const replyProvidePermissionSetup = `${t`You are smart`} 😊`;
@@ -311,39 +311,38 @@ export default async function tutorial(params) {
     `🆕 ${t`If I can't find anything, I will ask you about sending your message to that database.`}`;
 
   if (event.input === TUTORIAL_STEPS['RICH_MENU']) {
-    replies = [];
-    replies.push(await createTutorialMessage(data.sessionId));
+    replies = [createTutorialMessage(data.sessionId)];
   } else if (event.input === TUTORIAL_STEPS['SIMULATE_FORWARDING_MESSAGE']) {
-    replies = await createMockReplyMessages(data.sessionId);
+    replies = createMockReplyMessages(data.sessionId);
   } else if (event.input === TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP']) {
     replies = [
       {
         type: 'text',
         text: replyProvidePermissionSetup,
       },
+      {
+        ...createPermissionSetupDialog(askForPermissionSetup),
+        quickReply: {
+          items: [
+            createQuickReplyPostbackItem(
+              TUTORIAL_STEPS['SETUP_DONE'],
+              data.sessionId,
+              'TUTORIAL'
+            ),
+            createQuickReplyPostbackItem(
+              TUTORIAL_STEPS['SETUP_LATER'],
+              data.sessionId,
+              'TUTORIAL'
+            ),
+            createQuickReplyPostbackItem(
+              TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION'],
+              data.sessionId,
+              'TUTORIAL'
+            ),
+          ],
+        },
+      },
     ];
-
-    replies.push(await createPermissionSetupDialog(askForPermissionSetup));
-    // put quickreply into last message
-    replies[replies.length - 1]['quickReply'] = {
-      items: [
-        createQuickReplyPostbackItem(
-          TUTORIAL_STEPS['SETUP_DONE'],
-          data.sessionId,
-          'TUTORIAL'
-        ),
-        createQuickReplyPostbackItem(
-          TUTORIAL_STEPS['SETUP_LATER'],
-          data.sessionId,
-          'TUTORIAL'
-        ),
-        createQuickReplyPostbackItem(
-          TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION'],
-          data.sessionId,
-          'TUTORIAL'
-        ),
-      ],
-    };
   } else if (
     event.input ===
     TUTORIAL_STEPS['EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP']
@@ -353,60 +352,61 @@ export default async function tutorial(params) {
         type: 'text',
         text: explanChatbotFlow,
       },
+      {
+        ...createPermissionSetupDialog(askForPermissionSetup),
+        quickReply: {
+          items: [
+            createQuickReplyPostbackItem(
+              TUTORIAL_STEPS['SETUP_DONE'],
+              data.sessionId,
+              'TUTORIAL'
+            ),
+            createQuickReplyPostbackItem(
+              TUTORIAL_STEPS['SETUP_LATER'],
+              data.sessionId,
+              'TUTORIAL'
+            ),
+            createQuickReplyPostbackItem(
+              TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION'],
+              data.sessionId,
+              'TUTORIAL'
+            ),
+          ],
+        },
+      },
     ];
-
-    replies.push(await createPermissionSetupDialog(askForPermissionSetup));
-    // put quickreply into last message
-    replies[replies.length - 1]['quickReply'] = {
-      items: [
-        createQuickReplyPostbackItem(
-          TUTORIAL_STEPS['SETUP_DONE'],
-          data.sessionId,
-          'TUTORIAL'
-        ),
-        createQuickReplyPostbackItem(
-          TUTORIAL_STEPS['SETUP_LATER'],
-          data.sessionId,
-          'TUTORIAL'
-        ),
-        createQuickReplyPostbackItem(
-          TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION'],
-          data.sessionId,
-          'TUTORIAL'
-        ),
-      ],
-    };
   } else if (
     event.input === TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION']
   ) {
-    replies = [];
-    replies.push(await createPermissionSetupDialog(explanPersmissionSetup));
-    // put quickreply into last message
-    replies[replies.length - 1]['quickReply'] = {
-      items: [
-        createQuickReplyPostbackItem(
-          TUTORIAL_STEPS['SETUP_DONE'],
-          data.sessionId,
-          'TUTORIAL'
-        ),
-        createQuickReplyPostbackItem(
-          TUTORIAL_STEPS['SETUP_LATER'],
-          data.sessionId,
-          'TUTORIAL'
-        ),
-      ],
-    };
+    replies = [
+      {
+        ...createPermissionSetupDialog(explanPersmissionSetup),
+        quickReply: {
+          items: [
+            createQuickReplyPostbackItem(
+              TUTORIAL_STEPS['SETUP_DONE'],
+              data.sessionId,
+              'TUTORIAL'
+            ),
+            createQuickReplyPostbackItem(
+              TUTORIAL_STEPS['SETUP_LATER'],
+              data.sessionId,
+              'TUTORIAL'
+            ),
+          ],
+        },
+      },
+    ];
   } else if (event.input === TUTORIAL_STEPS['SETUP_DONE']) {
-    replies = [];
-    replies.push(createEndingMessage());
+    replies = [createEndingMessage()];
   } else if (event.input === TUTORIAL_STEPS['SETUP_LATER']) {
     replies = [
       {
         type: 'text',
         text: replySetupLater,
       },
+      createEndingMessage(),
     ];
-    replies.push(createEndingMessage());
   } else {
     throw new Error('input undefined');
   }

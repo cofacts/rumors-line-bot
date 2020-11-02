@@ -28,15 +28,13 @@ beforeEach(() => {
 });
 
 it('rejects undefined input', () => {
-  expect(tutorial(param)).rejects.toMatchInlineSnapshot(
-    `[Error: input undefined]`
-  );
+  expect(() => tutorial(param)).toThrowError('input undefined');
 });
 
-it('should handle RICH_MENU', async () => {
+it('should handle RICH_MENU', () => {
   param.event.input = TUTORIAL_STEPS['RICH_MENU'];
 
-  const result = await tutorial(param);
+  const result = tutorial(param);
   expect(result).toMatchSnapshot();
   expect(ga.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -60,10 +58,10 @@ it('should handle RICH_MENU', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
-it('should handle SIMULATE_FORWARDING_MESSAGE', async () => {
+it('should handle SIMULATE_FORWARDING_MESSAGE', () => {
   param.event.input = TUTORIAL_STEPS['SIMULATE_FORWARDING_MESSAGE'];
 
-  const result = await tutorial(param);
+  const result = tutorial(param);
   expect(result).toMatchSnapshot();
   expect(ga.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -87,10 +85,10 @@ it('should handle SIMULATE_FORWARDING_MESSAGE', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
-it('should handle PROVIDE_PERMISSION_SETUP', async () => {
+it('should handle PROVIDE_PERMISSION_SETUP', () => {
   param.event.input = TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP'];
 
-  const result = await tutorial(param);
+  const result = tutorial(param);
   expect(result).toMatchSnapshot();
   expect(ga.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -114,11 +112,11 @@ it('should handle PROVIDE_PERMISSION_SETUP', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
-it('should handle EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP', async () => {
+it('should handle EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP', () => {
   param.event.input =
     TUTORIAL_STEPS['EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP'];
 
-  const result = await tutorial(param);
+  const result = tutorial(param);
   expect(result).toMatchSnapshot();
   expect(ga.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -142,11 +140,11 @@ it('should handle EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP', async () =>
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
-it('should handle PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION', async () => {
+it('should handle PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION', () => {
   param.event.input =
     TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION'];
 
-  const result = await tutorial(param);
+  const result = tutorial(param);
   expect(result).toMatchSnapshot();
   expect(ga.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -170,10 +168,10 @@ it('should handle PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
-it('should handle SETUP_DONE', async () => {
+it('should handle SETUP_DONE', () => {
   param.event.input = TUTORIAL_STEPS['SETUP_DONE'];
 
-  const result = await tutorial(param);
+  const result = tutorial(param);
   expect(result).toMatchSnapshot();
   expect(ga.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -197,10 +195,10 @@ it('should handle SETUP_DONE', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
-it('should handle SETUP_LATER', async () => {
+it('should handle SETUP_LATER', () => {
   param.event.input = TUTORIAL_STEPS['SETUP_LATER'];
 
-  const result = await tutorial(param);
+  const result = tutorial(param);
   expect(result).toMatchSnapshot();
   expect(ga.mock.calls).toMatchInlineSnapshot(`
     Array [

@@ -114,7 +114,7 @@ export default async function handleInput({ data = {} }, event, userId) {
           break;
         }
         case 'TUTORIAL': {
-          params = await tutorial(params);
+          params = tutorial(params);
           break;
         }
 

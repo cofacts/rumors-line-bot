@@ -543,11 +543,11 @@ describe('tutorial', () => {
       // it doesn't return `state`, discard it
       // eslint-disable-next-line no-unused-vars
       const { state, ...restParams } = params;
-      return Promise.resolve({
+      return {
         ...restParams,
         isSkipUser: false,
         replies: 'Foo replies',
-      });
+      };
     });
 
     await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
@@ -578,11 +578,11 @@ describe('tutorial', () => {
       // it doesn't return `state`, discard it
       // eslint-disable-next-line no-unused-vars
       const { state, ...restParams } = params;
-      return Promise.resolve({
+      return {
         ...restParams,
         isSkipUser: false,
         replies: 'Foo replies',
-      });
+      };
     });
 
     await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
