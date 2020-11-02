@@ -301,7 +301,7 @@ export default async function tutorial(params) {
 
   const askForPermissionSetup = t`To wrap up, please finish your permission settings so that I can provide a smoother experience.`;
   const explanPersmissionSetup = t`When I provide hoax-busting replies to you, I would like to ask you for any feedback on the crowd-sourced reply.
-  In order to achieve that, I need to ask for your permission to "send your message to our chatroom".
+  In order to achieve that, I need to ask for your permission to "Send messages to chats".
   The permission will be used to send only this one message of yours back to this particular chatroom.
   You can still use Cofacts without granting me this permission. When we ask for feedback from you, the permission dialog will pop-up again.`;
   const explanChatbotFlow =
