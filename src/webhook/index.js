@@ -15,6 +15,10 @@ import {
 import ga from 'src/lib/ga';
 
 import UserSettings from '../database/models/userSettings';
+import {
+  createGreetingMessage,
+  createTutorialMessage,
+} from './handlers/tutorial';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
@@ -64,13 +68,6 @@ const singleUserHandler = async (
     return;
   }
 
-  // Handle follow/unfollow event
-  if (type === 'unfollow' || type === 'follow') {
-    await UserSettings.setAllowNewReplyUpdate(userId, type === 'follow');
-    clearTimeout(timerId);
-    return;
-  }
-
   // Set default result
   //
   let result = {
@@ -82,6 +79,29 @@ const singleUserHandler = async (
       },
     ],
   };
+
+  // Handle follow/unfollow event
+  if (type === 'follow') {
+    const data = { sessionId: Date.now() };
+    result = {
+      context: { data: data },
+      replies: [createGreetingMessage(), createTutorialMessage(data.sessionId)],
+    };
+
+    const visitor = ga(userId, 'TUTORIAL');
+    visitor.event({
+      ec: 'Tutorial',
+      ea: 'Step',
+      el: 'ON_BOARDING',
+    });
+    visitor.send();
+
+    await UserSettings.setAllowNewReplyUpdate(userId, true);
+  } else if (type === 'unfollow') {
+    await UserSettings.setAllowNewReplyUpdate(userId, false);
+    clearTimeout(timerId);
+    return;
+  }
 
   // React to certain type of events
   //

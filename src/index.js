@@ -54,6 +54,14 @@ if (process.env.NODE_ENV === 'production') {
   );
 }
 
+app.use(
+  serve({
+    rootDir: path.join(__dirname, '../static'),
+    rootPath: '/static',
+    maxage: 31536000 * 1000, // https://stackoverflow.com/a/7071880/1582110
+  })
+);
+
 app.use(router.routes());
 app.use(graphqlMiddleware);
 app.use(router.allowedMethods());

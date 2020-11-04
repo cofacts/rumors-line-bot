@@ -1,6 +1,8 @@
 jest.mock('src/webhook/checkSignatureAndParse');
 jest.mock('src/webhook/lineClient');
 jest.mock('src/lib/redisClient');
+jest.mock('src/webhook/handlers/tutorial');
+jest.mock('src/lib/ga');
 
 import Koa from 'koa';
 import request from 'supertest';
@@ -11,6 +13,11 @@ import UserSettings from '../../database/models/userSettings';
 import Client from '../../database/mongoClient';
 import lineClient from 'src/webhook/lineClient';
 import redis from 'src/lib/redisClient';
+import {
+  createGreetingMessage,
+  createTutorialMessage,
+} from 'src/webhook/handlers/tutorial';
+import ga from 'src/lib/ga';
 
 const sleep = async ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -18,6 +25,9 @@ describe('Webhook router', () => {
   beforeEach(() => {
     redis.set.mockClear();
     lineClient.mockClear();
+    createGreetingMessage.mockClear();
+    createTutorialMessage.mockClear();
+    ga.clearAllMocks();
   });
 
   beforeAll(async () => {
@@ -69,6 +79,29 @@ describe('Webhook router', () => {
       (await UserSettings.find({ userId })).map(e => ({ ...e, _id: '_id' }))
     ).toMatchSnapshot();
 
+    expect(createGreetingMessage).toHaveBeenCalledTimes(1);
+    expect(createTutorialMessage).toHaveBeenCalledTimes(1);
+    expect(ga.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "U4af4980629",
+          "TUTORIAL",
+        ],
+      ]
+    `);
+    expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          Object {
+            "ea": "Step",
+            "ec": "Tutorial",
+            "el": "ON_BOARDING",
+          },
+        ],
+      ]
+    `);
+    expect(ga.sendMock).toHaveBeenCalledTimes(1);
+
     return new Promise((resolve, reject) => {
       server.close(error => {
         if (error) return reject(error);
@@ -116,6 +149,9 @@ describe('Webhook router', () => {
         (await UserSettings.find({ userId })).map(e => ({ ...e, _id: '_id' }))
       ).toMatchSnapshot();
     }
+
+    // unfollow event won't send reply message
+    expect(lineClient).toHaveBeenCalledTimes(2);
 
     return new Promise((resolve, reject) => {
       server.close(error => {

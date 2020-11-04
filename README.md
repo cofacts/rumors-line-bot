@@ -322,6 +322,15 @@ Sent event format: `Event category` / `Event action` / `Event label`
 10. User opens settings list
   - Page view for page `/setting` is sent
   - If opened after sending reply requests: `utm_source=rumors-line-bot&utm_medium=reply-request`
+  - If opened in tutorial: `&utm_source=rumors-line-bot&utm_medium=tutorial`
 
 11. Other LIFF operations
   - `LIFF` / `page_redirect` / `App` is sent on LIFF redirect, with value being redirect count.
+
+12. Tutorial
+  - If it's triggered by follow event
+    - `Tutorial` / `Step` / `ON_BOARDING`
+  - If it's triggered by rich menu
+    - `Tutorial` / `Step` / `RICH_MENU`
+  - Others
+    - `Tutorial` / `Step` / `<TUTORIAL_STEPS>`
