@@ -728,7 +728,7 @@ msgstr "你很聰明"
 msgid ""
 "OK. When we ask for feedback from you, the permission dialog will pop-up "
 "again."
-msgstr "好的，如果之後 真的假的 機器人需要請求你的幫忙，再來問你喔！"
+msgstr "好的，如果之後 Cofacts 真的假的需要你的許可時，會再來問你喔！"
 
 #: src/webhook/handlers/tutorial.js:300
 msgid ""
@@ -747,25 +747,25 @@ msgid ""
 "You can still use Cofacts without granting me this permission. When we ask "
 "for feedback from you, the permission dialog will pop-up again."
 msgstr ""
-"當我把查到的闢謠回給你的時候，我會需要跟你對話確認才不會誤會你的意思，所以請幫我選擇許可「傳送訊息至聊天室」。\n"
-"一樣只會在 真的假的 的好友帳號裡面，讓你可以查新的謠言。\n\n"
-"如果不同意的話，還是可以使用其他功能喔！如果我們需要你幫忙，這個「請求同意」的對話會再次出現。"
+"當我把查到的闢謠回給你的時候，我會需要跟你對話確認，才不會誤會你的意思，所以請幫我選擇許可「傳送訊息至聊天室」。\n"
+"「傳送訊息至聊天室」這個權限，只會用來把對話傳回到我跟你的這個聊天視窗中，而不會傳到其他聊天室。\n\n"
+"如果不同意的話，還是可以使用其他功能喔！如果我們需要你幫忙，這個請求許可的視窗會再次出現。"
 
 #: src/webhook/handlers/tutorial.js:108
 msgid "When receiving a message from elsewhere"
-msgstr "在他處收到訊息"
+msgstr "當你收到可疑訊息時"
 
 #: src/webhook/handlers/tutorial.js:109
 msgid "Long press and share"
-msgstr "長按後分享"
+msgstr "就長按訊息，點擊分享"
 
 #: src/webhook/handlers/tutorial.js:110
 msgid "Select Cofacts to share"
-msgstr "指名 Cofacts"
+msgstr "找到「Cofacts 真的假的」點選分享"
 
 #: src/webhook/handlers/tutorial.js:111
 msgid "Cofacts replies with a crowd-sourced fact-check or chatbot replies"
-msgstr "Cofacts 回傳網撰寫的的查證或回應"
+msgstr "就會收到網友所寫的查證或回應"
 
 #: src/webhook/handlers/tutorial.js:306
 msgid ""
