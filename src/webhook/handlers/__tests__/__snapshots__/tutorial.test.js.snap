@@ -15,7 +15,7 @@ Object {
               "gravity": "top",
               "size": "full",
               "type": "image",
-              "url": "/static/img/greeting.png",
+              "url": "https://testlinebot.cofacts/static/img/greeting.png?cachebust=",
             },
             Object {
               "contents": Array [
@@ -70,7 +70,7 @@ Object {
               "gravity": "top",
               "size": "full",
               "type": "image",
-              "url": "/static/img/tutorial1.png",
+              "url": "https://testlinebot.cofacts/static/img/tutorial1.png?cachebust=",
             },
             Object {
               "contents": Array [
@@ -109,7 +109,7 @@ Object {
               "gravity": "top",
               "size": "full",
               "type": "image",
-              "url": "/static/img/tutorial2.png",
+              "url": "https://testlinebot.cofacts/static/img/tutorial2.png?cachebust=",
             },
             Object {
               "contents": Array [
@@ -148,7 +148,7 @@ Object {
               "gravity": "top",
               "size": "full",
               "type": "image",
-              "url": "/static/img/tutorial3.png",
+              "url": "https://testlinebot.cofacts/static/img/tutorial3.png?cachebust=",
             },
             Object {
               "contents": Array [
@@ -187,7 +187,7 @@ Object {
               "gravity": "top",
               "size": "full",
               "type": "image",
-              "url": "/static/img/tutorial4.png",
+              "url": "https://testlinebot.cofacts/static/img/tutorial4.png?cachebust=",
             },
             Object {
               "contents": Array [
@@ -582,7 +582,7 @@ Object {
                   "gravity": "top",
                   "size": "full",
                   "type": "image",
-                  "url": "/static/img/tutorial1.png",
+                  "url": "https://testlinebot.cofacts/static/img/tutorial1.png?cachebust=",
                 },
                 Object {
                   "contents": Array [
@@ -621,7 +621,7 @@ Object {
                   "gravity": "top",
                   "size": "full",
                   "type": "image",
-                  "url": "/static/img/tutorial2.png",
+                  "url": "https://testlinebot.cofacts/static/img/tutorial2.png?cachebust=",
                 },
                 Object {
                   "contents": Array [
@@ -660,7 +660,7 @@ Object {
                   "gravity": "top",
                   "size": "full",
                   "type": "image",
-                  "url": "/static/img/tutorial3.png",
+                  "url": "https://testlinebot.cofacts/static/img/tutorial3.png?cachebust=",
                 },
                 Object {
                   "contents": Array [
@@ -699,7 +699,7 @@ Object {
                   "gravity": "top",
                   "size": "full",
                   "type": "image",
-                  "url": "/static/img/tutorial4.png",
+                  "url": "https://testlinebot.cofacts/static/img/tutorial4.png?cachebust=",
                 },
                 Object {
                   "contents": Array [
@@ -799,7 +799,7 @@ Object {
                   "gravity": "top",
                   "size": "full",
                   "type": "image",
-                  "url": "/static/img/endoftutorial.png",
+                  "url": "https://testlinebot.cofacts/static/img/endoftutorial.png?cachebust=",
                 },
                 Object {
                   "contents": Array [
@@ -870,7 +870,7 @@ Object {
                   "gravity": "top",
                   "size": "full",
                   "type": "image",
-                  "url": "/static/img/endoftutorial.png",
+                  "url": "https://testlinebot.cofacts/static/img/endoftutorial.png?cachebust=",
                 },
                 Object {
                   "contents": Array [
