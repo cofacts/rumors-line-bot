@@ -311,8 +311,9 @@ export default function tutorial(params) {
     `📚 ${t`Cofacts has a database of hoax messages and replies.`}\n\n` +
     `📲 ${t`When you send a message to me, I look up the message in our database and return the results I found.`}\n\n` +
     `🆕 ${t`If I can't find anything, I will ask you about sending your message to that database.`}`;
-
-  if (event.input === TUTORIAL_STEPS['RICH_MENU']) {
+  if (!process.env.RUMORS_LINE_BOT_URL) {
+    throw new Error('RUMORS_LINE_BOT_URL undefined');
+  } else if (event.input === TUTORIAL_STEPS['RICH_MENU']) {
     replies = [createTutorialMessage(data.sessionId)];
   } else if (event.input === TUTORIAL_STEPS['SIMULATE_FORWARDING_MESSAGE']) {
     replies = createMockReplyMessages(data.sessionId);
