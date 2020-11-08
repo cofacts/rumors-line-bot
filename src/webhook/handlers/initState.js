@@ -10,6 +10,7 @@ import {
   createHighlightContents,
 } from './utils';
 import ga from 'src/lib/ga';
+import detectDialogflowIntent from 'src/lib/detectDialogflowIntent';
 
 const SIMILARITY_THRESHOLD = 0.95;
 
@@ -23,6 +24,32 @@ export default async function initState(params) {
 
   // Store user input into context
   data.searchedText = event.input;
+
+  // send input to dialogflow before doing search
+  // uses dialogflowResponse as reply only when there's a intent matched and
+  // input.length <= 10 or input.length > 10 but intentDetectionConfidence == 1
+  const dialogflowResponse = await detectDialogflowIntent(data.searchedText);
+  if (
+    dialogflowResponse &&
+    dialogflowResponse.queryResult &&
+    dialogflowResponse.queryResult.intent &&
+    (event.input.length <= 10 ||
+      dialogflowResponse.queryResult.intentDetectionConfidence == 1)
+  ) {
+    replies = [
+      {
+        type: 'text',
+        text: dialogflowResponse.queryResult.fulfillmentText,
+      },
+    ];
+    visitor.event({
+      ec: 'UserInput',
+      ea: 'ChatWithBot',
+      el: dialogflowResponse.queryResult.intent.displayName,
+    });
+    visitor.send();
+    return { data, event, userId, replies, isSkipUser };
+  }
 
   // Search for articles
   const {
