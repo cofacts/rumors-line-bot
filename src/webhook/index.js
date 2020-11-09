@@ -82,21 +82,29 @@ const singleUserHandler = async (
 
   // Handle follow/unfollow event
   if (type === 'follow') {
-    const data = { sessionId: Date.now() };
-    result = {
-      context: { data: data },
-      replies: [createGreetingMessage(), createTutorialMessage(data.sessionId)],
-    };
-
-    const visitor = ga(userId, 'TUTORIAL');
-    visitor.event({
-      ec: 'Tutorial',
-      ea: 'Step',
-      el: 'ON_BOARDING',
-    });
-    visitor.send();
-
     await UserSettings.setAllowNewReplyUpdate(userId, true);
+
+    if (process.env.RUMORS_LINE_BOT_URL) {
+      const data = { sessionId: Date.now() };
+      result = {
+        context: { data: data },
+        replies: [
+          createGreetingMessage(),
+          createTutorialMessage(data.sessionId),
+        ],
+      };
+
+      const visitor = ga(userId, 'TUTORIAL');
+      visitor.event({
+        ec: 'Tutorial',
+        ea: 'Step',
+        el: 'ON_BOARDING',
+      });
+      visitor.send();
+    } else {
+      clearTimeout(timerId);
+      return;
+    }
   } else if (type === 'unfollow') {
     await UserSettings.setAllowNewReplyUpdate(userId, false);
     clearTimeout(timerId);

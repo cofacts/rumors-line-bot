@@ -40,6 +40,7 @@ Other customizable env vars are:
 * `GA_ID`: Google analytics universal analytics tracking ID, for tracking events
 * `IMAGE_MESSAGE_ENABLED`: Default disabled. To enable, please see "Process image message" section below.
 * `DEBUG_LIFF`: Disables external browser check in LIFF. Useful when debugging LIFF in external browser. Don't enable this on production.
+* `RUMORS_LINE_BOT_URL`: Server public url which is used to generate tutorial image urls and auth callback url of LINE Notify.
 
 ### Node Dependencies
 
