@@ -8,6 +8,11 @@ import {
 import ga from 'src/lib/ga';
 
 /**
+ * When updating tutorial images(static/img/), change TUTORIAL_IMAGE_VERSION for cache busting
+ */
+const TUTORIAL_IMAGE_VERSION = '20201105';
+
+/**
  * Fixed inputs that indicate which reply should `tutorial` function return
  */
 export const TUTORIAL_STEPS = {
@@ -90,7 +95,7 @@ export function createGreetingMessage() {
   const text = t`This is a chatbot that looks up suspicious forwarded messages for you. Here is how to use me:`;
   const imageUrl = `${
     process.env.RUMORS_LINE_BOT_URL
-  }/static/img/greeting.png?cachebust=${process.env.VERSION}`;
+  }/static/img/greeting.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
 
   return {
     type: 'flex',
@@ -114,16 +119,16 @@ export function createTutorialMessage(sessionId) {
 
   const imageUrlStep1 = `${
     process.env.RUMORS_LINE_BOT_URL
-  }/static/img/tutorial1.png?cachebust=${process.env.VERSION}`;
+  }/static/img/tutorial1.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
   const imageUrlStep2 = `${
     process.env.RUMORS_LINE_BOT_URL
-  }/static/img/tutorial2.png?cachebust=${process.env.VERSION}`;
+  }/static/img/tutorial2.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
   const imageUrlStep3 = `${
     process.env.RUMORS_LINE_BOT_URL
-  }/static/img/tutorial3.png?cachebust=${process.env.VERSION}`;
+  }/static/img/tutorial3.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
   const imageUrlStep4 = `${
     process.env.RUMORS_LINE_BOT_URL
-  }/static/img/tutorial4.png?cachebust=${process.env.VERSION}`;
+  }/static/img/tutorial4.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
 
   const askForForwardingMessage = t`Wanna try it out? Just forward a message to me!`;
   const buttonLabel = TUTORIAL_STEPS['SIMULATE_FORWARDING_MESSAGE'];
@@ -192,7 +197,7 @@ function createEndingMessage() {
   const text = `${t`This is the end of the tutorial. Next time when you receive a suspicious message, don't hesitate to forward it to me!`} 🤗`;
   const imageUrl = `${
     process.env.RUMORS_LINE_BOT_URL
-  }/static/img/endoftutorial.png?cachebust=${process.env.VERSION}`;
+  }/static/img/endoftutorial.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
 
   return {
     type: 'flex',
