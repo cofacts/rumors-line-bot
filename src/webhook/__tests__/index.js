@@ -38,9 +38,14 @@ describe('Webhook router', () => {
     }
   });
 
+  beforeEach(async () => {
+    process.env.RUMORS_LINE_BOT_URL = 'https://testlinebot.cofacts';
+  });
+
   afterAll(async () => {
     await (await Client.getInstance()).close();
     MockDate.reset();
+    delete process.env.RUMORS_LINE_BOT_URL;
   });
 
   it('singleUserHandler() should handle follow event', async () => {
@@ -101,6 +106,56 @@ describe('Webhook router', () => {
       ]
     `);
     expect(ga.sendMock).toHaveBeenCalledTimes(1);
+
+    return new Promise((resolve, reject) => {
+      server.close(error => {
+        if (error) return reject(error);
+        resolve();
+      });
+    });
+  });
+
+  it('singleUserHandler() should handle follow event with RUMORS_LINE_BOT_URL not set', async () => {
+    delete process.env.RUMORS_LINE_BOT_URL;
+    const userId = 'U4af4980629';
+    const app = new Koa();
+    app.use(webhookRouter.routes(), webhookRouter.allowedMethods());
+
+    const eventObject = {
+      events: [
+        {
+          replyToken: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
+          type: 'follow',
+          mode: 'active',
+          timestamp: 1462629479859,
+          source: {
+            type: 'user',
+            userId,
+          },
+        },
+      ],
+    };
+
+    const server = app.listen();
+
+    await request(server)
+      .post('/')
+      .send(eventObject)
+      .expect(200);
+
+    /**
+     * The HTTP response isn't guaranteed the event handling to be complete
+     */
+    await sleep(500);
+
+    expect(
+      (await UserSettings.find({ userId })).map(e => ({ ...e, _id: '_id' }))
+    ).toMatchSnapshot();
+
+    expect(createGreetingMessage).not.toHaveBeenCalled();
+    expect(createTutorialMessage).not.toHaveBeenCalled();
+    expect(ga.sendMock).not.toHaveBeenCalled();
+    expect(lineClient).not.toHaveBeenCalled();
 
     return new Promise((resolve, reject) => {
       server.close(error => {

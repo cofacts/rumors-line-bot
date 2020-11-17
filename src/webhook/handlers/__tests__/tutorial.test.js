@@ -25,6 +25,16 @@ const param = {
 beforeEach(() => {
   param.event.input = undefined;
   ga.clearAllMocks();
+  process.env.RUMORS_LINE_BOT_URL = 'https://testlinebot.cofacts';
+});
+
+afterEach(() => {
+  delete process.env.RUMORS_LINE_BOT_URL;
+});
+
+it('rejects RUMORS_LINE_BOT_URL undefined', () => {
+  delete process.env.RUMORS_LINE_BOT_URL;
+  expect(() => tutorial(param)).toThrowError('RUMORS_LINE_BOT_URL undefined');
 });
 
 it('rejects undefined input', () => {

@@ -11,6 +11,17 @@ Array [
 ]
 `;
 
+exports[`Webhook router singleUserHandler() should handle follow event with RUMORS_LINE_BOT_URL not set 1`] = `
+Array [
+  Object {
+    "_id": "_id",
+    "allowNewReplyUpdate": true,
+    "createdAt": 1989-06-04T00:00:00.000Z,
+    "userId": "U4af4980629",
+  },
+]
+`;
+
 exports[`Webhook router singleUserHandler() should handle follow then unfollow then follow event 1`] = `
 Array [
   Object {
