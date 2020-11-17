@@ -363,6 +363,165 @@ Please choose the version that looks the most similar👇",
 }
 `;
 
+exports[`input matches dialogflow intent search article when input length > 10 and intentDetectionConfidence != 1 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "零一二三四五六七八九十",
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "零一二三四五六七八九十",
+    "message": Object {
+      "id": "6270464463537",
+      "text": "零一二三四五六七八九十",
+      "type": "text",
+    },
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "text": "We didn't find anything about \\"零一二三四五六七八九十\\" :(",
+      "type": "text",
+    },
+    Object {
+      "altText": "🥇 Be the first to report the message
+📱 Please proceed on your mobile phone.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "contents": Array [
+                Object {
+                  "text": "Currently we don't have this message in our database. If you think it is probably a rumor, ",
+                  "type": "span",
+                },
+                Object {
+                  "color": "#ffb600",
+                  "text": "press “🆕 Submit to database” to make this message public on Cofacts database ",
+                  "type": "span",
+                  "weight": "bold",
+                },
+                Object {
+                  "text": "for nice volunteers to fact-check. Although you won't receive answers rightaway, you can help the people who receive the same message in the future.",
+                  "type": "span",
+                },
+              ],
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "paddingAll": "lg",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "label": "🆕 Submit to database",
+                "type": "uri",
+                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE0OTc5OTQwMTc0NDcsInN1YiI6IlVjNzZkOGFlOWNjZDFhZGE0ZjA2YzRlMTUxNWQ0NjQ2NiIsImV4cCI6MTU3NzkyMzIwMH0.V4OTSDA0wDDrlc665JRyjkC0Ux3RFqUM-RN_VNKNCcs&article_submission=true",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "header": Object {
+          "contents": Array [
+            Object {
+              "flex": 0,
+              "gravity": "center",
+              "text": "🥇",
+              "type": "text",
+            },
+            Object {
+              "color": "#ffb600",
+              "text": "Be the first to report the message",
+              "type": "text",
+              "weight": "bold",
+              "wrap": true,
+            },
+          ],
+          "layout": "horizontal",
+          "paddingAll": "lg",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
+          },
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`input matches dialogflow intent uses dialogflow response when input length < 10 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "你好",
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "你好",
+    "message": Object {
+      "id": "6270464463537",
+      "text": "你好",
+      "type": "text",
+    },
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "text": "歡迎光臨",
+      "type": "text",
+    },
+  ],
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`input matches dialogflow intent uses dialogflow response when input length > 10 and intentDetectionConfidence = 1 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "零一二三四五六七八九十",
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "零一二三四五六七八九十",
+    "message": Object {
+      "id": "6270464463537",
+      "text": "零一二三四五六七八九十",
+      "type": "text",
+    },
+    "timestamp": 1497994016356,
+    "type": "message",
+  },
+  "isSkipUser": false,
+  "replies": Array [
+    Object {
+      "text": "歡迎光臨",
+      "type": "text",
+    },
+  ],
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
 exports[`only one article found with high similarity 1`] = `
 Object {
   "data": Object {
