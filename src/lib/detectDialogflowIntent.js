@@ -5,6 +5,7 @@ import crypto from 'crypto';
 const projectId = process.env.DAILOGFLOW_PROJECT_ID;
 const credentials = {
   client_email: process.env.DAILOGFLOW_CLIENT_EMAIL,
+  // https://stackoverflow.com/questions/39492587/escaping-issue-with-firebase-privatekey-as-a-heroku-config-variable/41044630#41044630
   private_key: (process.env.DAILOGFLOW_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
 };
 
@@ -40,7 +41,8 @@ export default async function(input) {
       session: sessionPath,
       queryInput: {
         text: {
-          text: input,
+          // Maximum detect intent text input length 256 characters
+          text: input.slice(0, 256),
           languageCode: process.env.DAILOGFLOW_LANGUAGE || 'null',
         },
       },
