@@ -20,7 +20,6 @@ export default async function(input) {
   }
   // https://cloud.google.com/dialogflow/es/docs/api-overview#sessions
   const sessionId = crypto.randomBytes(16);
-  let intentResponse;
   try {
     // The path to identify the agent that owns the created intent.
     // https://cloud.google.com/dialogflow/es/docs/agents-versions#test_your_agent_in_an_environment
@@ -48,9 +47,8 @@ export default async function(input) {
     };
 
     const responses = await sessionClient.detectIntent(request);
-    intentResponse = responses[0];
+    return responses[0];
   } catch (error) {
     console.error(error);
   }
-  return intentResponse;
 }
