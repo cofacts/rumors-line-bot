@@ -20,7 +20,7 @@ export default async function(input) {
     return;
   }
   // https://cloud.google.com/dialogflow/es/docs/api-overview#sessions
-  const sessionId = crypto.randomBytes(16);
+  const sessionId = crypto.randomBytes(16).toString('hex');
   try {
     // The path to identify the agent that owns the created intent.
     // https://cloud.google.com/dialogflow/es/docs/agents-versions#test_your_agent_in_an_environment
