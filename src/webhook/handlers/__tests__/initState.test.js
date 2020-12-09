@@ -1,15 +1,18 @@
 jest.mock('src/lib/gql');
 jest.mock('src/lib/ga');
+jest.mock('src/lib/detectDialogflowIntent');
 
 import MockDate from 'mockdate';
 import initState from '../initState';
 import * as apiResult from '../__fixtures__/initState';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
+import detectDialogflowIntent from 'src/lib/detectDialogflowIntent';
 
 beforeEach(() => {
   ga.clearAllMocks();
   gql.__reset();
+  detectDialogflowIntent.mockClear();
 });
 
 it('article found', async () => {
@@ -366,4 +369,169 @@ it('should handle image not found', async () => {
     ]
   `);
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
+});
+
+describe('input matches dialogflow intent', () => {
+  it('uses dialogflow response when input length < 10', async () => {
+    gql.__push(apiResult.notFound);
+    detectDialogflowIntent.mockImplementationOnce(() => ({
+      queryResult: {
+        fulfillmentText: '歡迎光臨',
+        intent: {
+          displayName: 'Welcome',
+        },
+      },
+    }));
+    const input = {
+      data: {
+        sessionId: 1497994017447,
+      },
+      event: {
+        type: 'message',
+        input: '你好',
+        timestamp: 1497994016356,
+        message: {
+          type: 'text',
+          id: '6270464463537',
+          text: '你好',
+        },
+      },
+      userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+      replies: undefined,
+      isSkipUser: false,
+    };
+    expect(await initState(input)).toMatchSnapshot();
+    expect(gql.__finished()).toBe(false);
+    expect(detectDialogflowIntent).toHaveBeenCalledTimes(1);
+
+    expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          Object {
+            "ea": "MessageType",
+            "ec": "UserInput",
+            "el": "text",
+          },
+        ],
+        Array [
+          Object {
+            "ea": "ChatWithBot",
+            "ec": "UserInput",
+            "el": "Welcome",
+          },
+        ],
+      ]
+    `);
+    expect(ga.sendMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('uses dialogflow response when input length > 10 and intentDetectionConfidence = 1', async () => {
+    gql.__push(apiResult.notFound);
+    detectDialogflowIntent.mockImplementationOnce(() => ({
+      queryResult: {
+        fulfillmentText: '歡迎光臨',
+        intent: {
+          displayName: 'Welcome',
+        },
+        intentDetectionConfidence: 1.0,
+      },
+    }));
+    const input = {
+      data: {
+        sessionId: 1497994017447,
+      },
+      event: {
+        type: 'message',
+        input: '零一二三四五六七八九十',
+        timestamp: 1497994016356,
+        message: {
+          type: 'text',
+          id: '6270464463537',
+          text: '零一二三四五六七八九十',
+        },
+      },
+      userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+      replies: undefined,
+      isSkipUser: false,
+    };
+    expect(await initState(input)).toMatchSnapshot();
+    expect(gql.__finished()).toBe(false);
+    expect(detectDialogflowIntent).toHaveBeenCalledTimes(1);
+
+    expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          Object {
+            "ea": "MessageType",
+            "ec": "UserInput",
+            "el": "text",
+          },
+        ],
+        Array [
+          Object {
+            "ea": "ChatWithBot",
+            "ec": "UserInput",
+            "el": "Welcome",
+          },
+        ],
+      ]
+    `);
+    expect(ga.sendMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('search article when input length > 10 and intentDetectionConfidence != 1', async () => {
+    gql.__push(apiResult.notFound);
+    detectDialogflowIntent.mockImplementationOnce(() => ({
+      queryResult: {
+        fulfillmentText: '歡迎光臨',
+        intent: {
+          displayName: 'Welcome',
+        },
+        intentDetectionConfidence: 0.87,
+      },
+    }));
+    const input = {
+      data: {
+        sessionId: 1497994017447,
+      },
+      event: {
+        type: 'message',
+        input: '零一二三四五六七八九十',
+        timestamp: 1497994016356,
+        message: {
+          type: 'text',
+          id: '6270464463537',
+          text: '零一二三四五六七八九十',
+        },
+      },
+      userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+      replies: undefined,
+      isSkipUser: false,
+    };
+    MockDate.set('2020-01-01');
+    expect(await initState(input)).toMatchSnapshot();
+    MockDate.reset();
+    expect(gql.__finished()).toBe(true);
+    expect(detectDialogflowIntent).toHaveBeenCalledTimes(1);
+
+    expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          Object {
+            "ea": "MessageType",
+            "ec": "UserInput",
+            "el": "text",
+          },
+        ],
+        Array [
+          Object {
+            "ea": "ArticleSearch",
+            "ec": "UserInput",
+            "el": "ArticleNotFound",
+          },
+        ],
+      ]
+    `);
+    expect(ga.sendMock).toHaveBeenCalledTimes(1);
+  });
 });

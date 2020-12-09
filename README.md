@@ -180,7 +180,7 @@ On Heroku, please set `LOCALE` to one of `en_US`, `zh_TW` or any other language 
 
 If you want to build using docker instead, you may need to modify Dockerfile to include the desired `LOCALE`.
 
-#### Notification setup
+### Notification setup
 - Prerequisites :
   1. [LIFF setup](https://github.com/cofacts/rumors-line-bot#liff-setup)
   2. Connect MongoDB
@@ -211,6 +211,26 @@ $ npm run notify
 ```
 $ node build/scripts/scanRepliesAndNotify.js
 ```
+
+### Dialogflow
+
+We use dialogflow to detect if user is chatting with bot.
+If userinput matches one of dialogflow intents, we can directly return predefined responses in that intent.
+
+To use Dialogflow, 
+1. You should [create a project](https://cloud.google.com/dialogflow/es/docs/quick/setup#project) and take note of the project ID then [enable api](https://cloud.google.com/dialogflow/es/docs/quick/setup#api).
+2. [Build an agent](https://cloud.google.com/dialogflow/es/docs/quick/build-agent).
+3. You will get a JSON file after [seting up authentication](https://cloud.google.com/dialogflow/es/docs/quick/setup#auth), copy `client_email` and `private_key` in the file.
+4. sets in `.env` file
+    ```
+    DAILOGFLOW_CLIENT_EMAIL=<paste client_email get from step3 here>
+    DAILOGFLOW_PRIVATE_KEY=<paste private_key get from step3 here>
+    DAILOGFLOW_PROJECT_ID=<paste project_id get from step1 here>
+    ```
+
+    Optional env variables:
+    - `DAILOGFLOW_LANGUAGE` : Empty to agent's default language, or you can specify a [language](https://cloud.google.com/dialogflow/es/docs/reference/language).
+    - `DAILOGFLOW_ENV` : Default to draft agent, or you can create different [versions](https://cloud.google.com/dialogflow/es/docs/agents-versions).
 
 ---
 
@@ -284,6 +304,8 @@ Sent event format: `Event category` / `Event action` / `Event label`
     - `UserInput` / `ArticleSearch` / `ArticleFoundButNoHit`
   - When user provides source (includes invalid source)
     - `UserInput` / `ProvidingSource` / `<source value>`
+  - Matches one of Dialogflow intents
+    - `UserInput` / `ChatWithBot` / `<intent name>`
 
 2. User chooses a found article
   - `Article` / `Selected` / `<selected article id>`

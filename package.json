@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/cofacts/rumors-line-bot#readme",
   "dependencies": {
+    "@google-cloud/dialogflow": "^3.3.0",
     "@line/bot-sdk": "^6.8.4",
     "ajv": "^6.12.2",
     "apollo-server-koa": "^2.11.0",
