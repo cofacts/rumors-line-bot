@@ -32,6 +32,7 @@ export default (query, ...substitutions) => (variables, search) => {
     headers: {
       'Content-Type': 'application/json',
       'x-app-secret': process.env.APP_SECRET,
+      'x-accept-license': process.env.LICENSE_URL,
     },
     credentials: 'include',
     body: JSON.stringify(queryAndVariable),

@@ -24,7 +24,8 @@ Please follow all the steps in [LINE official tutorial](https://developers.line.
 
 Create `.env` file from `.env.sample` template, at least fill in:
 ```
-API_URL=https://cofacts-api.g0v.tw/graphql
+API_URL=https://dev-api.cofacts.org/graphql
+LICENSE_URL=<paste the license URL specified in https://dev-api.cofacts.org>
 LINE_CHANNEL_SECRET=<paste Messaging API's channel secret here>
 LINE_CHANNEL_TOKEN=<paste Messaging API's channel access token here>
 LINE_LOGIN_CHANNEL_ID=<paste LINE Login channel ID here>
@@ -217,7 +218,7 @@ $ node build/scripts/scanRepliesAndNotify.js
 We use dialogflow to detect if user is chatting with bot.
 If userinput matches one of dialogflow intents, we can directly return predefined responses in that intent.
 
-To use Dialogflow, 
+To use Dialogflow,
 1. You should [create a project](https://cloud.google.com/dialogflow/es/docs/quick/setup#project) and take note of the project ID then [enable api](https://cloud.google.com/dialogflow/es/docs/quick/setup#api).
 2. [Build an agent](https://cloud.google.com/dialogflow/es/docs/quick/build-agent).
 3. You will get a JSON file after [seting up authentication](https://cloud.google.com/dialogflow/es/docs/quick/setup#auth), copy `client_email` and `private_key` in the file.
