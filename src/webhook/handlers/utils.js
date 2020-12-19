@@ -590,7 +590,9 @@ export function createReplyMessages(reply, article, selectedArticleId) {
       type: 'text',
       text:
         `⬆️ ${t`Therefore, the author think the message ${typeStr}.`}\n\n` +
-        `💁 ${t`These messages are provided by some nice volunteers. Please refer to their references and make judgements on your own.`}\n` +
+        `💁 ${t`This content is provided by Cofact crowd-sourced fact-checking community under CC BY-SA 4.0 license.` +
+          '\n' +
+          t`Please refer to their references and make judgements on your own.`}\n` +
         (article.replyCount > 1
           ? `🗣️ ${t`There are different replies for the message. Read them all here before making judgements:`}\n${articleUrl}\n`
           : '') +
