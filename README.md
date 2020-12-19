@@ -45,7 +45,7 @@ Other customizable env vars are:
 
 ### Node Dependencies
 
-You will need `Node.JS` 12+  to proceed.
+You will need `Node.JS` 12+ to proceed.
 
 ```
 $ npm i
