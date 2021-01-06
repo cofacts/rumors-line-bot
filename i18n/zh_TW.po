@@ -88,13 +88,13 @@ msgstr "網路上有人這樣回應這則訊息："
 msgid "Therefore, the author think the message ${ typeStr }."
 msgstr "綜合以上，回應者認為它${typeStr}。"
 
-#: src/webhook/handlers/utils.js:597
+#: src/webhook/handlers/utils.js:595
 msgid ""
 "There are different replies for the message. Read them all here before "
 "making judgements:"
 msgstr "這則訊息有很多不同回應，建議到這裡一次讀完再下判斷："
 
-#: src/webhook/handlers/utils.js:599
+#: src/webhook/handlers/utils.js:597
 msgid "If you have different thoughts, you may have your say here:"
 msgstr "如果你對這則訊息有不同看法，歡迎到下面這裡寫入新的回應："
 
@@ -786,10 +786,8 @@ msgstr "如果我找不到的話，會徵求你的同意，看看要不要把這
 
 #: src/webhook/handlers/utils.js:593
 msgid ""
-"This content is provided by Cofact crowd-sourced fact-checking community "
-"under CC BY-SA 4.0 license."
-msgstr "此內容由 Cofacts 群眾查核社群提供，以創用 CC 姓名標示-相同方式分享 4.0 國際 授權條款釋出。"
-
-#: src/webhook/handlers/utils.js:595
-msgid "Please refer to their references and make judgements on your own."
-msgstr "請斟酌出處與理由，自行思考判斷。"
+"This content is provided by Cofact message reporting chatbot and "
+"crowd-sourced fact-checking community under CC BY-SA 4.0 license. Please "
+"refer to their references and make judgements on your own."
+msgstr "此內容由「Cofacts 真的假的」訊息回報機器人與查核協作社群提供，以創用 CC 姓名標示-相同方式分享 4.0 國際 授權條款釋出。"
+"請斟酌出處與理由，自行思考判斷。"
