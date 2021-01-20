@@ -6,6 +6,7 @@ import redis from 'src/lib/redisClient';
 import lineClient from './lineClient';
 import checkSignatureAndParse from './checkSignatureAndParse';
 import handleInput from './handleInput';
+import groupHandler from './handlers/groupHandler';
 import {
   downloadFile,
   uploadImageFile,
@@ -253,11 +254,6 @@ const singleUserHandler = async (
   await redis.set(userId, result.context);
 };
 
-// eslint-disable-next-line
-const groupHandler = async (req, type, replyToken, userId, otherFields) => {
-  // TODO
-};
-
 async function processText(context, type, input, otherFields, userId, req) {
   let result;
   try {
@@ -318,21 +314,23 @@ router.post('/', ctx => {
   // Don't wait for anything before returning 200.
 
   ctx.request.body.events.forEach(
-    async ({ type, replyToken, source, ...otherFields }) => {
+    async ({ type, replyToken, ...otherFields }) => {
       // set 28s timeout
       const timeout = 28000;
-      let { userId } = source;
-      if (source.type === 'user') {
+      if (otherFields.source.type === 'user') {
         singleUserHandler(
           ctx.request,
           type,
           replyToken,
           timeout,
-          userId,
+          otherFields.source.userId,
           otherFields
         );
-      } else if (source.type === 'group') {
-        groupHandler(ctx.request, type, replyToken, userId, otherFields);
+      } else if (
+        otherFields.source.type === 'group' ||
+        otherFields.source.type === 'room'
+      ) {
+        groupHandler(ctx.request, type, replyToken, otherFields.source.groupId | otherFields.source.roomId, otherFields);
       }
     }
   );
