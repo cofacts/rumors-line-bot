@@ -643,4 +643,17 @@ function commonReplyMessages(reply, typeStr, articleReplyCount, articleUrl) {
   ];
 }
 
+/**
+ * @param {string} timestamp Line message event timestamp
+ * @returns {boolean}
+ */
+export function isEventExpired(timestamp, milliseconds = 30 * 1000) {
+  var timeElapsed = Date.now() - new Date(timestamp).getTime();
+  // console.log('timeElapsed' + timeElapsed);
+  if (timeElapsed > milliseconds) {
+    return true;
+  }
+  return false;
+}
+
 export const POSTBACK_NO_ARTICLE_FOUND = '__NO_ARTICLE_FOUND__';
