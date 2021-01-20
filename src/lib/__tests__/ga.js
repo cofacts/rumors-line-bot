@@ -24,6 +24,14 @@ it('returns visitor', () => {
       "rumors-line-bot",
     ]
   `);
+  expect(ua().set.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "cd1",
+        "user",
+      ],
+    ]
+  `);
 });
 
 it('sets title when title is given', () => {
