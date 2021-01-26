@@ -51,7 +51,7 @@ const singleUserHandler = async (
         ...otherFields,
       })}\n`
     );
-    lineClient('/message/reply', {
+    lineClient.post('/message/reply', {
       replyToken,
       messages: messageBotIsBusy,
     });
@@ -132,7 +132,7 @@ const singleUserHandler = async (
       //
       if (data.sessionId !== context.data.sessionId) {
         console.log('Previous button pressed.');
-        lineClient('/message/reply', {
+        lineClient.post('/message/reply', {
           replyToken,
           messages: [
             {
@@ -182,7 +182,7 @@ const singleUserHandler = async (
       const imageProcessingCount = await redis.incr('imageProcessingCount');
       if (imageProcessingCount > (process.env.MAX_IMAGE_PROCESS_NUMBER || 3)) {
         console.log('[LOG] request abort, too many images are processing now.');
-        lineClient('/message/reply', {
+        lineClient.post('/message/reply', {
           replyToken,
           messages: messageBotIsBusy,
         });
@@ -245,7 +245,7 @@ const singleUserHandler = async (
   // Send replies. Does not need to wait for lineClient's callbacks.
   // lineClient's callback does error handling by itself.
   //
-  lineClient('/message/reply', {
+  lineClient.post('/message/reply', {
     replyToken,
     messages: result.replies,
   });
