@@ -6,9 +6,9 @@ msgstr ""
 "mime-version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/webhook/index.js:78
+#: src/webhook/index.js:80
 #. Set default result
-#.
+#. 
 msgid "I cannot understand messages other than text."
 msgstr "我們還不支援文字以外的訊息唷！"
 
@@ -79,22 +79,22 @@ msgstr ""
 "不實訊息常常會被人修改重發。\n"
 "請選擇比較接近的版本"
 
-#: src/webhook/handlers/utils.js:579
+#: src/webhook/handlers/utils.js:592
 msgid "Someone on the internet replies to the message:"
 msgstr "網路上有人這樣回應這則訊息："
 
-#: src/webhook/handlers/utils.js:592
+#: src/webhook/handlers/utils.js:636
 #, javascript-format
 msgid "Therefore, the author think the message ${ typeStr }."
 msgstr "綜合以上，回應者認為它${typeStr}。"
 
-#: src/webhook/handlers/utils.js:595
+#: src/webhook/handlers/utils.js:639
 msgid ""
 "There are different replies for the message. Read them all here before "
 "making judgements:"
 msgstr "這則訊息有很多不同回應，建議到這裡一次讀完再下判斷："
 
-#: src/webhook/handlers/utils.js:597
+#: src/webhook/handlers/utils.js:641
 msgid "If you have different thoughts, you may have your say here:"
 msgstr "如果你對這則訊息有不同看法，歡迎到下面這裡寫入新的回應："
 
@@ -143,7 +143,7 @@ msgstr "有人認為它${typeWords}"
 msgid "Looks ${ similarityPercentage }% similar"
 msgstr "看起來 ${similarityPercentage}% 像"
 
-#: src/webhook/index.js:40
+#: src/webhook/index.js:42
 msgid ""
 "Line bot is busy, or we cannot handle this message. Maybe you can try again "
 "a few minutes later."
@@ -153,13 +153,13 @@ msgstr "不好意思！系統可能在忙線中，無法及時處理您傳的訊
 msgid "Wrong usage"
 msgstr "這不是這樣用的"
 
-#: src/webhook/index.js:140
+#: src/webhook/index.js:142
 msgid ""
 "You are currently searching for another message, buttons from previous "
 "search sessions do not work now."
 msgstr "您已經在搜尋新的訊息了，過去查過的訊息的按鈕已經失效囉。"
 
-#: src/webhook/index.js:282
+#: src/webhook/index.js:279
 msgid ""
 "Oops, something is not working. We have cleared your search data, hopefully "
 "the error will go away. Would you please send us the message from the start?"
@@ -214,7 +214,7 @@ msgid "Share to friends"
 msgstr "分享給朋友"
 
 #: src/webhook/handlers/askingReplyFeedback.js:127
-#: src/webhook/handlers/utils.js:453
+#: src/webhook/handlers/utils.js:466
 msgid "See reported message"
 msgstr "查看回報的訊息"
 
@@ -257,7 +257,7 @@ msgstr "我要選「${displayTextWhenChosen}」"
 #: src/liff/pages/Reason.svelte:80
 #: src/liff/pages/Source.svelte:33
 #: src/webhook/handlers/choosingArticle.js:292
-#: src/webhook/handlers/utils.js:463
+#: src/webhook/handlers/utils.js:476
 msgid "Provide more info"
 msgstr "提供更多資訊"
 
@@ -310,7 +310,7 @@ msgstr "找不到關於「${ inputSummary }」 的資訊 :("
 
 #: src/liff/lib.js:94
 #: src/webhook/handlers/utils.js:122
-#. t: Flex message alt-text
+#. t: Flex message alt-text 
 msgid "Please proceed on your mobile phone."
 msgstr "請在您的手機上繼續操作。"
 
@@ -361,23 +361,23 @@ msgid "Share on Facebook"
 msgstr "請教臉書大神"
 
 #: src/webhook/handlers/utils.js:277
-#. t: Facebook hash tag
+#. t: Facebook hash tag 
 msgid "ReportedToCofacts"
 msgstr "Cofacts求解惑"
 
-#: src/webhook/handlers/utils.js:365
+#: src/webhook/handlers/utils.js:378
 msgid ""
 "Please tell us where you have received the message using the options we "
 "provided."
 msgstr "請用提供的選項，告訴我們您是在哪裡看到這則訊息的。"
 
-#: src/webhook/handlers/utils.js:386
+#: src/webhook/handlers/utils.js:399
 msgid ""
 "We suggest forwarding the message to the following fact-checkers instead. "
 "They have 💁 1-on-1 Q&A service to respond to your questions."
 msgstr "好的，建議您把訊息轉傳給下面的專業事實查核機構，而且有 💁 專人為您解答喔！"
 
-#: src/webhook/handlers/utils.js:463
+#: src/webhook/handlers/utils.js:476
 msgid "Rewrite my reason"
 msgstr "重填送出理由"
 
@@ -426,7 +426,7 @@ msgid "Do you have anything to add about the reply?"
 msgstr "針對這則回應，有沒有想補充的呢？"
 
 #: src/liff/pages/Reason.svelte:11
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 msgid ""
 "You may try:\n"
 "1. Express your thought more\n"
@@ -439,7 +439,7 @@ msgstr ""
 "3. 把全文複製貼上到 Facebook 搜尋框看看"
 
 #: src/liff/pages/Reason.svelte:17
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 #, javascript-format
 msgid ""
 "It would help fact-checking editors a lot if you provide more info :)\n"
@@ -457,7 +457,7 @@ msgstr ""
 "若要補充資訊，請按「取消」；覺得現在這樣送出就好，請按「確定」。"
 
 #: src/liff/pages/Reason.svelte:24
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 msgid ""
 "The info you provide should not be identical to the message itself.\n"
 "\n"
@@ -527,7 +527,7 @@ msgid "Cannot get token from URL"
 msgstr ""
 
 #: src/liff/lib.js:147
-#. t: In LIFF, should not happen
+#. t: In LIFF, should not happen 
 msgid "Unexpected error, no search session data is retrieved."
 msgstr ""
 
@@ -784,10 +784,24 @@ msgid ""
 "database."
 msgstr "如果我找不到的話，會徵求你的同意，看看要不要把這個訊息送進資料庫唷。"
 
-#: src/webhook/handlers/utils.js:593
+#: src/webhook/handlers/utils.js:637
 msgid ""
 "This content is provided by Cofact message reporting chatbot and "
 "crowd-sourced fact-checking community under CC BY-SA 4.0 license. Please "
 "refer to their references and make judgements on your own."
-msgstr "此內容由「Cofacts 真的假的」訊息回報機器人與查核協作社群提供，以創用 CC 姓名標示-相同方式分享 4.0 國際 授權條款釋出。"
-"請斟酌出處與理由，自行思考判斷。"
+msgstr ""
+"此內容由「Cofacts 真的假的」訊息回報機器人與查核協作社群提供，以創用 CC 姓名標示-相同方式分享 4.0 國際 "
+"授權條款釋出。請斟酌出處與理由，自行思考判斷。"
+
+#: src/webhook/handlers/utils.js:617
+msgid "I found that there are some disagreement to the message:"
+msgstr "剛剛這則訊息，我查過似乎發現有點問題。有另外一種說法是："
+
+#: src/webhook/handlers/groupMessage.js:29
+msgid "Hi i am cofacts chat bot"
+msgstr ""
+
+#: src/webhook/handlers/utils.js:617
+#, javascript-format
+msgid "Thank you for sharing “${ inputSummary }”"
+msgstr "感謝您的分享 “${ inputSummary }”"
