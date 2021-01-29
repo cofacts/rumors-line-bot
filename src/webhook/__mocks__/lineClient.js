@@ -1,2 +1,5 @@
-const lineClient = jest.fn();
+const lineClient = {
+  post: jest.fn(),
+  get: jest.fn(),
+};
 export default lineClient;

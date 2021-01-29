@@ -24,7 +24,7 @@ const sleep = async ms => new Promise(resolve => setTimeout(resolve, ms));
 describe('Webhook router', () => {
   beforeEach(() => {
     redis.set.mockClear();
-    lineClient.mockClear();
+    lineClient.post.mockClear();
     createGreetingMessage.mockClear();
     createTutorialMessage.mockClear();
     ga.clearAllMocks();
@@ -155,7 +155,7 @@ describe('Webhook router', () => {
     expect(createGreetingMessage).not.toHaveBeenCalled();
     expect(createTutorialMessage).not.toHaveBeenCalled();
     expect(ga.sendMock).not.toHaveBeenCalled();
-    expect(lineClient).not.toHaveBeenCalled();
+    expect(lineClient.post).not.toHaveBeenCalled();
 
     return new Promise((resolve, reject) => {
       server.close(error => {
@@ -206,7 +206,7 @@ describe('Webhook router', () => {
     }
 
     // unfollow event won't send reply message
-    expect(lineClient).toHaveBeenCalledTimes(2);
+    expect(lineClient.post).toHaveBeenCalledTimes(2);
 
     return new Promise((resolve, reject) => {
       server.close(error => {
@@ -256,7 +256,7 @@ describe('Webhook router', () => {
     await sleep(500);
 
     // snapshot reply messages
-    expect(lineClient.mock.calls).toMatchSnapshot();
+    expect(lineClient.post.mock.calls).toMatchSnapshot();
     // snapshot user context
     expect(redis.set.mock.calls).toMatchSnapshot();
 
