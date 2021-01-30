@@ -16,7 +16,11 @@ export default class {
    * @param {Bull.Queue} expiredJobQueue
    * @returns {object}
    */
-  constructor(jobQueue, expiredJobQueue, concurrency = 1) {
+  constructor(
+    jobQueue,
+    expiredJobQueue,
+    concurrency = process.env.JOBQUEUE_CONCURRENCY || 3
+  ) {
     this.expiredJobQueue = expiredJobQueue;
     this.jobQueue = jobQueue;
 

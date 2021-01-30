@@ -309,17 +309,13 @@ const router = Router();
 
 const groupEventQueue = new Bull('groupEventQueue', {
   redis: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
-  limiter: { max: 600, duration: 10 * 1000 },
+  // limiter: { max: 600, duration: 10 * 1000 },
 });
 const expiredGroupEventQueue = new Bull('expiredGroupEventQueue', {
   redis: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
-  limiter: { max: 600, duration: 10 * 1000 },
+  // limiter: { max: 600, duration: 10 * 1000 },
 });
-const groupHandler = new GroupHandler(
-  groupEventQueue,
-  expiredGroupEventQueue,
-  3
-);
+const groupHandler = new GroupHandler(groupEventQueue, expiredGroupEventQueue);
 // Routes that is after protection of checkSignature
 //
 router.use('/', checkSignatureAndParse);
