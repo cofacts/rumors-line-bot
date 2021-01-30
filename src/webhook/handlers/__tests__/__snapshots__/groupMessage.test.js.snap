@@ -52,22 +52,6 @@ Object {
 }
 `;
 
-exports[`groupMessage rejects undefined input 1`] = `[Error: input undefined]`;
-
-exports[`groupMessage should handle invalid article 1`] = `
-Object {
-  "event": Object {
-    "groupId": "C904bb9fc2f4904b2facf8204b3f08c79",
-    "input": "以後吃蘋果一定要削皮。",
-    "source": Object {
-      "type": "group",
-    },
-  },
-  "groupId": undefined,
-  "replies": undefined,
-}
-`;
-
 exports[`groupMessage should handle valid article and reply 1`] = `
 Object {
   "event": Object {
@@ -106,31 +90,41 @@ https://cofacts.hacktabl.org/article/3nbzf064ks60d",
 }
 `;
 
-exports[`groupMessage should not process input length less then 11 1`] = `
+exports[`groupMessage should handle valid article and reply 4`] = `
 Object {
   "event": Object {
     "groupId": "C904bb9fc2f4904b2facf8204b3f08c79",
-    "input": "0123456789",
+    "input": "你知道黑啤愛吃什麼嗎？ 黑啤愛吃蠶寶寶！",
     "source": Object {
       "type": "group",
     },
   },
   "groupId": undefined,
-  "replies": undefined,
-}
-`;
+  "replies": Array [
+    Object {
+      "text": "Thank you for sharing “你知道黑啤愛吃什麼嗎⋯⋯”😊 
+I found that there are some disagreement to the message:",
+      "type": "text",
+    },
+    Object {
+      "text": "這是謠言！這是謠言！這是謠言！這是謠言！",
+      "type": "text",
+    },
+    Object {
+      "text": "references：https://taiwanbar.cc/",
+      "type": "text",
+    },
+    Object {
+      "text": "⬆️ Therefore, the author think the message contains misinformation.
 
-exports[`groupMessage should not reply and send ga if article not found 1`] = `
-Object {
-  "event": Object {
-    "groupId": "C904bb9fc2f4904b2facf8204b3f08c79",
-    "input": "article_not_found",
-    "source": Object {
-      "type": "group",
+💁 This content is provided by Cofact message reporting chatbot and crowd-sourced fact-checking community under CC BY-SA 4.0 license. Please refer to their references and make judgements on your own.
+
+
+⁉️ If you have different thoughts, you may have your say here:
+https://cofacts.hacktabl.org/article/3nbzf064ks60d",
+      "type": "text",
     },
-  },
-  "groupId": undefined,
-  "replies": undefined,
+  ],
 }
 `;
 

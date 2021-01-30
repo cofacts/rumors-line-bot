@@ -7,7 +7,13 @@ const validArticleAndOneReply = {
             text:
               'WHO 最新研究顯示 Covid-19 其實源自黑暗料理界，即日起正名為「黑料病毒」',
             id: '3nbzf064ks60d',
-            articleCategories: [{ category: { title: 'COVID-19 疫情🆕' } }],
+            articleCategories: [
+              {
+                category: { id: 'covid19' },
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 0,
+              },
+            ],
             replyCount: 1,
             articleReplies: [
               {
@@ -27,29 +33,77 @@ const validArticleAndOneReply = {
   },
 };
 
-//{"edges":[{"node":{"text":"以後吃蘋果一定要削皮。","id":"2zn1215x6e70v","articleCategories":[{"category":{"title":"有意義但不包含在以上標籤 🚧"}}],"replyCount":1,"articleReplies":[{"reply":{"type":"RUMOR","text":"謠言說進口蘋果會上蠟，所以一定要削皮，但其實不用太擔心。蘋果自己本身就會產生蠟，為了增加保存期限，農家也會將蘋果上蠟。\n蘋果本身就會產生天然蠟來保護果肉，並不讓水分流失，這天然蠟還非常營養，富含花青素、槲皮素等等，能夠抵抗發炎、過敏等反應，而且不是只有蘋果會產生果蠟，還有許多水果，像是甘蔗、檸檬或是李子，也都會產生果蠟。","reference":"https://today.line.me/tw/v2/article/m1jBJn"},"positiveFeedbackCount":0,"negativeFeedbackCount":0}]}}]}
-const invalidArticle = {
+const validArticleWithTwoCategories = {
   data: {
     ListArticles: {
       edges: [
         {
           node: {
+            text: '你知道黑啤愛吃什麼嗎？ 黑啤愛吃蠶寶寶！',
+            id: '3nbzf064ks60d',
+            articleCategories: [
+              {
+                category: { id: 'covid19' },
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 1,
+              },
+              {
+                category: { id: 'lT3h7XEBrIRcahlYugqq' }, //'保健秘訣、食品安全'
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 0,
+              },
+            ],
+            replyCount: 1,
+            articleReplies: [
+              {
+                reply: {
+                  type: 'RUMOR',
+                  text: '這是謠言！這是謠言！這是謠言！這是謠言！',
+                  reference: 'https://taiwanbar.cc/',
+                },
+                positiveFeedbackCount: 1,
+                negativeFeedbackCount: 0,
+              },
+            ],
+          },
+        },
+        {
+          node: {
+            text: '請問黑啤愛吃什麼？黑啤愛吃蠶寶寶',
+            id: '3nbzf064ks60d',
+            articleCategories: [
+              {
+                category: { id: 'covid19' },
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 1,
+              },
+            ],
+            replyCount: 1,
+            articleReplies: [
+              {
+                reply: {
+                  type: 'RUMOR',
+                  text: '這是謠言！這是謠言！這是謠言！這是謠言！',
+                  reference: 'https://taiwanbar.cc/',
+                },
+                positiveFeedbackCount: 1,
+                negativeFeedbackCount: 0,
+              },
+            ],
+          },
+        },
+        {
+          node: {
             text: '以後吃蘋果一定要削皮。',
             id: '2zn1215x6e70v',
             articleCategories: [
-              { category: { title: '有意義但不包含在以上標籤 🚧' } },
-              { category: { title: '只有網址其他資訊不足 🚧' } },
-              { category: { title: '無意義 🚧' } },
-              { category: { title: '連署、集氣、協尋、捐贈' } },
-              { category: { title: '政治、政黨' } },
-              { category: { title: '商業廣告' } },
-              { category: { title: '優惠措施、新法規、政策宣導' } },
-              { category: { title: '環保、生態' } },
-              { category: { title: '中國影響力' } },
-              { category: { title: '電力、能源' } },
-              { category: { title: '性別議題' } },
-              { category: { title: '愛滋病🆕' } },
-              { category: { title: '跨國互動🆕' } },
+              {
+                category: {
+                  id: 'intl',
+                  positiveFeedbackCount: 0,
+                  negativeFeedbackCount: 0,
+                },
+              }, //'跨國互動🆕'
             ],
             replyCount: 1,
             articleReplies: [
@@ -61,6 +115,174 @@ const invalidArticle = {
                   reference: 'https://today.line.me/tw/v2/article/m1jBJn',
                 },
                 positiveFeedbackCount: 100,
+                negativeFeedbackCount: 0,
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
+};
+
+const invalidCategoryFeedback = {
+  data: {
+    ListArticles: {
+      edges: [
+        {
+          node: {
+            text: '你知道嗎？其實黑啤愛吃蠶寶寶哦！',
+            id: '3nbzf064ks60d',
+            articleCategories: [
+              {
+                category: { id: 'covid19' },
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 1,
+              },
+            ],
+            replyCount: 1,
+            articleReplies: [
+              {
+                reply: {
+                  type: 'RUMOR',
+                  text: '這是謠言！這是謠言！這是謠言！這是謠言！',
+                  reference: 'https://taiwanbar.cc/',
+                },
+                positiveFeedbackCount: 1,
+                negativeFeedbackCount: 0,
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
+};
+
+//{"edges":[{"node":{"text":"以後吃蘋果一定要削皮。","id":"2zn1215x6e70v","articleCategories":[{"category":{"title":"有意義但不包含在以上標籤 🚧"}}],"replyCount":1,"articleReplies":[{"reply":{"type":"RUMOR","text":"謠言說進口蘋果會上蠟，所以一定要削皮，但其實不用太擔心。蘋果自己本身就會產生蠟，為了增加保存期限，農家也會將蘋果上蠟。\n蘋果本身就會產生天然蠟來保護果肉，並不讓水分流失，這天然蠟還非常營養，富含花青素、槲皮素等等，能夠抵抗發炎、過敏等反應，而且不是只有蘋果會產生果蠟，還有許多水果，像是甘蔗、檸檬或是李子，也都會產生果蠟。","reference":"https://today.line.me/tw/v2/article/m1jBJn"},"positiveFeedbackCount":0,"negativeFeedbackCount":0}]}}]}
+const invalidArticleCategory = {
+  data: {
+    ListArticles: {
+      edges: [
+        {
+          node: {
+            text: '以後吃蘋果一定要削皮。',
+            id: '2zn1215x6e70v',
+            articleCategories: [
+              {
+                category: { id: 'nT2n7nEBrIRcahlY6QqF' },
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 0,
+              }, //'有意義但不包含在以上標籤 🚧'
+              {
+                category: { id: 'oD2o7nEBrIRcahlYFgpm' },
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 0,
+              }, //'只有網址其他資訊不足 🚧'
+              {
+                category: { id: 'nj2n7nEBrIRcahlY-gpc' },
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 0,
+              }, //'無意義 🚧'
+              {
+                category: { id: 'oj2o7nEBrIRcahlYRAox' },
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 0,
+              }, //'連署、集氣、協尋、捐贈'
+              {
+                category: { id: 'oT2o7nEBrIRcahlYKQoM' },
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 0,
+              }, //'政治、政黨'
+              {
+                category: { id: 'nz2o7nEBrIRcahlYBgqQ' },
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 0,
+              }, //'商業廣告'
+              {
+                category: { id: 'mj2n7nEBrIRcahlYdArf' },
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 0,
+              }, //'優惠措施、新法規、政策宣導'
+              {
+                category: { id: 'mT2n7nEBrIRcahlYTArI' },
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 0,
+              }, //'環保、生態'
+              {
+                category: { id: 'kj287XEBrIRcahlYvQoS' },
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 0,
+              }, //'中國影響力'
+              {
+                category: { id: 'mD2n7nEBrIRcahlYLAr7' },
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 0,
+              }, //'電力、能源'
+              {
+                category: { id: 'lD3h7XEBrIRcahlYeQqS' },
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 0,
+              }, //'性別議題'
+              {
+                category: {
+                  id: 'aids',
+                  positiveFeedbackCount: 0,
+                  negativeFeedbackCount: 0,
+                },
+              }, //'愛滋病🆕'
+              {
+                category: {
+                  id: 'intl',
+                  positiveFeedbackCount: 0,
+                  negativeFeedbackCount: 0,
+                },
+              }, //'跨國互動🆕'
+            ],
+            replyCount: 1,
+            articleReplies: [
+              {
+                reply: {
+                  type: 'RUMOR',
+                  text:
+                    '謠言說進口蘋果會上蠟，所以一定要削皮，但其實不用太擔心。蘋果自己本身就會產生蠟，為了增加保存期限，農家也會將蘋果上蠟。\n蘋果本身就會產生天然蠟來保護果肉，並不讓水分流失，這天然蠟還非常營養，富含花青素、槲皮素等等，能夠抵抗發炎、過敏等反應，而且不是只有蘋果會產生果蠟，還有許多水果，像是甘蔗、檸檬或是李子，也都會產生果蠟。',
+                  reference: 'https://today.line.me/tw/v2/article/m1jBJn',
+                },
+                positiveFeedbackCount: 100,
+                negativeFeedbackCount: 0,
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
+};
+
+const invalidArticleReply = {
+  data: {
+    ListArticles: {
+      edges: [
+        {
+          node: {
+            text: '我不會說我知道黑啤愛吃蠶寶寶哦！',
+            id: '3nbzf064ks60d',
+            articleCategories: [
+              {
+                category: { id: 'lT3h7XEBrIRcahlYugqq' }, //'保健秘訣、食品安全'
+                positiveFeedbackCount: 0,
+                negativeFeedbackCount: 0,
+              },
+            ],
+            replyCount: 1,
+            articleReplies: [
+              {
+                reply: {
+                  type: 'NOT_RUMOR',
+                  text: '沒錯！正確答案',
+                  reference: '我自己',
+                },
+                positiveFeedbackCount: 1,
                 negativeFeedbackCount: 0,
               },
             ],
@@ -630,7 +852,14 @@ const invalidMultipleReplies3 = {
   ],
 };
 
-export const apiResult = { validArticleAndOneReply, invalidArticle, notFound };
+export const apiResult = {
+  validArticleAndOneReply,
+  validArticleWithTwoCategories,
+  invalidCategoryFeedback,
+  invalidArticleCategory,
+  invalidArticleReply,
+  notFound,
+};
 export const article = {
   invalidReplyType,
   invalidReplyFeedbackCount,
