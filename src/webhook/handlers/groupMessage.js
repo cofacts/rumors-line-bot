@@ -64,8 +64,10 @@ export default async function processText(event, groupId) {
             id
             articleCategories(status: NORMAL) {
               category {
-                title
+                id
               }
+              positiveFeedbackCount
+              negativeFeedbackCount
             }
             replyCount
             articleReplies(status: NORMAL) {
@@ -99,12 +101,12 @@ export default async function processText(event, groupId) {
       });
     });
 
-    const validCategory = [
-      '疾病、醫藥🆕',
-      'COVID-19 疫情🆕',
-      '科技、資安、隱私',
-      '保健秘訣、食品安全',
-      '免費訊息詐騙',
+    const validCategories = [
+      'medical', //'疾病、醫藥🆕',
+      'covid19', //'COVID-19 疫情🆕',
+      'mz2n7nEBrIRcahlYnQpz', //'科技、資安、隱私',
+      'lT3h7XEBrIRcahlYugqq', //'保健秘訣、食品安全',
+      'nD2n7nEBrIRcahlYwQoW', //'免費訊息詐騙',
     ];
     const edgesSortedWithSimilarity = ListArticles.edges
       .map(edge => {
@@ -122,7 +124,9 @@ export default async function processText(event, groupId) {
       edgesSortedWithSimilarity[0].similarity >= SIMILARITY_THRESHOLD;
     const hasValidCategory = edgesSortedWithSimilarity[0].node.articleCategories.reduce(
       (acc, articleCategory) =>
-        (acc |= validCategory.includes(articleCategory.category.title)),
+        (acc |= validCategories.includes(articleCategory.category.id)) &&
+        articleCategory.positiveFeedbackCount >=
+          articleCategory.negativeFeedbackCount,
       false
     );
 
