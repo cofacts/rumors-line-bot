@@ -358,3 +358,9 @@ Sent event format: `Event category` / `Event action` / `Event label`
     - `Tutorial` / `Step` / `RICH_MENU`
   - Others
     - `Tutorial` / `Step` / `<TUTORIAL_STEPS>`
+
+## Legal
+
+`LICENSE` defines the license agreement for the source code in this repository.
+
+`LEGAL.md` is the user agreement for Cofacts website users.
