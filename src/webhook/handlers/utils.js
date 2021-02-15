@@ -650,10 +650,7 @@ function commonReplyMessages(reply, typeStr, articleReplyCount, articleUrl) {
 export function isEventExpired(timestamp, milliseconds = 30 * 1000) {
   var timeElapsed = Date.now() - new Date(timestamp).getTime();
   // console.log('timeElapsed' + timeElapsed);
-  if (timeElapsed > milliseconds) {
-    return true;
-  }
-  return false;
+  return timeElapsed > milliseconds;
 }
 
 export const POSTBACK_NO_ARTICLE_FOUND = '__NO_ARTICLE_FOUND__';
