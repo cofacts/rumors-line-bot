@@ -94,7 +94,7 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
   expect(choosingReply).toHaveBeenCalledTimes(1);
 });
 
-it('shows article list when VIEW_ARTICLE_PREFIX is sent', async () => {
+it('shows reply list when VIEW_ARTICLE_PREFIX is sent', async () => {
   const context = {
     data: { sessionId: FIXED_DATE },
   };
@@ -128,6 +128,62 @@ it('shows article list when VIEW_ARTICLE_PREFIX is sent', async () => {
 
   expect(choosingReply).not.toHaveBeenCalled();
   expect(choosingArticle).toHaveBeenCalledTimes(1);
+});
+
+it('shows reply list when article URL is sent', async () => {
+  const context = {
+    data: { sessionId: FIXED_DATE },
+  };
+  const event = {
+    type: 'message',
+    input: getArticleURL('article-id') + '  \n  ' /* simulate manual input */,
+  };
+
+  choosingArticle.mockImplementationOnce(params => {
+    // it doesn't return `state`, discard it
+    // eslint-disable-next-line no-unused-vars
+    const { state, ...restParams } = params;
+    return Promise.resolve({
+      ...restParams,
+      isSkipUser: false,
+      replies: 'Foo replies',
+    });
+  });
+
+  await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+          Object {
+            "context": Object {
+              "data": Object {
+                "searchedText": "",
+                "sessionId": 1561982400000,
+              },
+            },
+            "replies": "Foo replies",
+          }
+        `);
+
+  expect(choosingReply).not.toHaveBeenCalled();
+  expect(choosingArticle).toHaveBeenCalledTimes(1);
+  expect(choosingArticle.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "data": Object {
+            "searchedText": "",
+            "sessionId": 1561982400000,
+          },
+          "event": Object {
+            "input": "article-id",
+            "type": "postback",
+          },
+          "isSkipUser": false,
+          "replies": undefined,
+          "state": "CHOOSING_ARTICLE",
+          "userId": undefined,
+        },
+      ],
+    ]
+  `);
 });
 
 it('Resets session on free-form input, triggers fast-forward', async () => {

@@ -38,10 +38,17 @@ export default async function handleInput({ data = {} }, event, userId) {
     // Jump to the correct state to handle the postback input
     state = event.postbackHandlerState;
   } else if (event.type === 'message') {
-    if (event.input.startsWith(VIEW_ARTICLE_PREFIX)) {
-      const articleId = event.input
+    // Trim input because these may come from other chatbot
+    //
+    const trimmedInput = event.input.trim();
+    const articleUrlPrefix = getArticleURL('');
+    if (
+      trimmedInput.startsWith(VIEW_ARTICLE_PREFIX) ||
+      trimmedInput.startsWith(articleUrlPrefix)
+    ) {
+      const articleId = trimmedInput
         .replace(VIEW_ARTICLE_PREFIX, '')
-        .replace(getArticleURL(''), '');
+        .replace(articleUrlPrefix, '');
 
       // Start new session, reroute to CHOOSING_ARTILCE and simulate "choose article" postback event
       //
