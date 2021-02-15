@@ -67,16 +67,14 @@ export default class {
           messages: result.replies,
         });
 
-        // skip logging `req`
         // eslint-disable-next-line no-unused-vars
-        const { req, ...event } = job.data;
         console.log('--------------------');
         // LOGGING:
         // 60 chars per line, each prepended with ||LOG||
         //
         console.log('\n||LOG||<----------');
         JSON.stringify({
-          INPUT: { event },
+          INPUT: job.data,
           OUTPUT: result.replies,
         })
           .split(/(.{60})/)
@@ -103,7 +101,7 @@ export default class {
       // console.log('Fail jobQueue ' + e);
       if (!(e instanceof TimeoutError)) {
         console.error(e);
-        rollbar.error(e, job.data.req);
+        rollbar.error(e, job.data);
       }
     }
 

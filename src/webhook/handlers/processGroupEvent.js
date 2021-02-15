@@ -5,7 +5,6 @@ import lineClient from 'src/webhook/lineClient';
 import groupMessage from './groupMessage';
 
 export default async function processGroupEvent({
-  req,
   type,
   replyToken,
   groupId,
@@ -62,7 +61,7 @@ export default async function processGroupEvent({
       result = await groupMessage({ type, input, ...otherFields }, groupId);
     } catch (e) {
       console.error(e);
-      rollbar.error(e, req);
+      rollbar.error(e, { type, input, ...otherFields });
     }
   }
   // else if (type === 'message' && otherFields.message.type === 'image') {

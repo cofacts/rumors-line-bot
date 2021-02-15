@@ -341,7 +341,6 @@ router.post('/', ctx => {
         otherFields.source.type === 'room'
       ) {
         groupHandler.addJob({
-          req: ctx.request,
           type,
           replyToken,
           groupId: otherFields.source.groupId || otherFields.source.roomId,
