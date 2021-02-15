@@ -36,7 +36,6 @@ describe('processGroupEvent', () => {
   it('should handle join event', async () => {
     const { type, replyToken, ...otherFields } = messageEvent.joinGroup;
     const param = {
-      req: {},
       replyToken,
       type,
       groupId: otherFields.source.groupId,
@@ -84,7 +83,6 @@ describe('processGroupEvent', () => {
   it('should handle leave event', async () => {
     const { type, replyToken, ...otherFields } = messageEvent.leaveGroup;
     const param = {
-      req: {},
       replyToken,
       type,
       groupId: otherFields.source.groupId,
@@ -125,7 +123,6 @@ describe('processGroupEvent', () => {
   it('should handle text message event', async () => {
     const { type, replyToken, ...otherFields } = messageEvent.textMessage;
     const param = {
-      req: {},
       replyToken,
       type,
       groupId: otherFields.source.groupId,
@@ -165,7 +162,6 @@ describe('processGroupEvent', () => {
       ...otherFields
     } = messageEvent.expiredTextMessage;
     const param = {
-      req: {},
       replyToken,
       type,
       groupId: otherFields.source.groupId,
@@ -203,7 +199,6 @@ describe('processGroupEvent', () => {
   it('should handle groupMessage error', async () => {
     const { type, replyToken, ...otherFields } = messageEvent.textMessage;
     const param = {
-      req: {},
       replyToken,
       type,
       groupId: otherFields.source.groupId,

@@ -51,7 +51,6 @@ afterAll(async () => {
 it('should not reply if result.replies undefined', done => {
   const { type, replyToken, ...otherFields } = jobData.joinGroup;
   const param = {
-    req: {},
     replyToken,
     type,
     groupId: otherFields.source.groupId,
@@ -99,7 +98,6 @@ it('should reply', done => {
   const jobId = 'testId';
   const { type, replyToken, ...otherFields } = jobData.textMessage;
   const param = {
-    req: {},
     replyToken,
     type,
     groupId: otherFields.source.groupId,
@@ -155,7 +153,6 @@ it('should jobQueue failed with TimeoutError and should not add job to expiredQu
   const jobId = 'testId';
   const { type, replyToken, ...otherFields } = jobData.textMessage;
   const param = {
-    req: {},
     replyToken,
     type,
     groupId: otherFields.source.groupId,
@@ -208,7 +205,6 @@ it('should jobQueue failed with TimeoutError and add job to expiredQueue', done 
   const jobId = 'testId';
   const { type, replyToken, ...otherFields } = jobData.expiredTextMessage;
   const param = {
-    req: {},
     replyToken,
     type,
     groupId: otherFields.source.groupId,
@@ -277,7 +273,6 @@ it('should pause expired job queue when there are events comming in', done => {
   // event timestamp affects job queue
   const { type, replyToken, ...otherFields } = jobData.expiredTextMessage;
   const param = {
-    req: {},
     replyToken,
     type,
     groupId: otherFields.source.groupId,
@@ -303,7 +298,6 @@ it('should pause expired job queue when there are events comming in', done => {
     if (expiredActiveCount++ === 1) {
       const { type, replyToken, ...otherFields } = jobData.textMessage;
       const param = {
-        req: {},
         replyToken,
         type,
         groupId: otherFields.source.groupId,
