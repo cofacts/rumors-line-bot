@@ -94,6 +94,10 @@ export default async function choosingArticle(params) {
     id: selectedArticleId,
   });
 
+  if (!GetArticle) {
+    throw new ManipulationError(t`Provided message is not found.`);
+  }
+
   // Store it so that other handlers can use
   data.selectedArticleText = GetArticle.text;
 
