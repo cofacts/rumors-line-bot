@@ -42,7 +42,8 @@
     "@google-cloud/dialogflow": "^3.3.0",
     "@line/bot-sdk": "^6.8.4",
     "ajv": "^6.12.2",
-    "apollo-server-koa": "^2.11.0",
+    "apollo-server-koa": "^2.21.0",
+    "bull": "^3.20.0",
     "date-fns": "^2.14.0",
     "googleapis": "^36.0.0",
     "grapheme-splitter": "^1.0.4",
@@ -56,7 +57,7 @@
     "koa-session2": "^2.2.10",
     "koa-static-server": "^1.5.0",
     "mongodb": "^3.5.6",
-    "node-fetch": "^2.0.0",
+    "node-fetch": "^2.6.1",
     "passport-oauth2": "^1.5.0",
     "pm2": "^3.5.0",
     "raw-body": "^2.3.2",
@@ -68,7 +69,7 @@
     "universal-analytics": "^0.4.16"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
+    "@babel/cli": "^7.12.16",
     "@babel/core": "^7.9.0",
     "@babel/node": "^7.8.7",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
@@ -115,7 +116,7 @@
     "svelte": "^3.20.1",
     "svelte-loader": "^2.13.6",
     "terser-webpack-plugin": "^2.3.5",
-    "ttag-cli": "^1.8.2",
+    "ttag-cli": "^1.9.1",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0"

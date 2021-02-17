@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`processGroupEvent should handle groupMessage error 1`] = `
+Object {
+  "replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA",
+  "result": Object {
+    "context": Object {
+      "data": Object {},
+    },
+    "replies": undefined,
+  },
+}
+`;
+
+exports[`processGroupEvent should handle join event 1`] = `
+Object {
+  "replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA",
+  "result": Object {
+    "context": Object {
+      "data": Object {},
+    },
+    "replies": undefined,
+  },
+}
+`;
+
+exports[`processGroupEvent should handle leave event 1`] = `
+Object {
+  "replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA",
+  "result": Object {
+    "context": Object {
+      "data": Object {},
+    },
+    "replies": undefined,
+  },
+}
+`;
+
+exports[`processGroupEvent should handle text message event 1`] = `
+Object {
+  "replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA",
+  "result": Object {
+    "groupMessageResult": "groupMessage result",
+  },
+}
+`;

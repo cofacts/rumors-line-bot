@@ -352,6 +352,19 @@ export class ManipulationError extends Error {
 }
 
 /**
+ * Exception for processsing requests timeout
+ */
+export class TimeoutError extends Error {
+  /**
+   *
+   * @param {string} instruction
+   */
+  constructor(instruction) {
+    super(instruction);
+  }
+}
+
+/**
  * @param {string} articleSourceOptionLabel - Label in ARTICLE_SOURCE_OPTIONS
  * @returns {object} selected item in ARTICLE_SOURCE_OPTIONS
  */
@@ -578,6 +591,37 @@ export function createReplyMessages(reply, article, selectedArticleId) {
       type: 'text',
       text: `💡 ${t`Someone on the internet replies to the message:`}`,
     },
+    ...commonReplyMessages(reply, typeStr, article.replyCount, articleUrl),
+  ];
+}
+
+/**
+ * @param {object} reply `Reply` type from rumors-api
+ * @param {object} article `Article` type from rumors-api
+ * @param {string} selectedArticleId
+ * @returns {object[]} message object array
+ */
+export function createGroupReplyMessages(
+  input,
+  reply,
+  articleReplyCount,
+  selectedArticleId
+) {
+  const articleUrl = getArticleURL(selectedArticleId);
+  const typeStr = createTypeWords(reply.type).toLocaleLowerCase();
+  // same as initState.js
+  const inputSummary = ellipsis(input, 12);
+  return [
+    {
+      type: 'text',
+      text: `${t`Thank you for sharing “${inputSummary}”`}😊 \n${t`I found that there are some disagreement to the message:`}`,
+    },
+    ...commonReplyMessages(reply, typeStr, articleReplyCount, articleUrl),
+  ];
+}
+
+function commonReplyMessages(reply, typeStr, articleReplyCount, articleUrl) {
+  return [
     {
       type: 'text',
       text: ellipsis(reply.text, 2000),
@@ -591,12 +635,22 @@ export function createReplyMessages(reply, article, selectedArticleId) {
       text:
         `⬆️ ${t`Therefore, the author think the message ${typeStr}.`}\n\n` +
         `💁 ${t`This content is provided by Cofact message reporting chatbot and crowd-sourced fact-checking community under CC BY-SA 4.0 license. Please refer to their references and make judgements on your own.`}\n\n` +
-        (article.replyCount > 1
+        (articleReplyCount > 1
           ? `🗣️ ${t`There are different replies for the message. Read them all here before making judgements:`}\n${articleUrl}\n`
           : '') +
         `\n⁉️ ${t`If you have different thoughts, you may have your say here:`}\n${articleUrl}`,
     },
   ];
+}
+
+/**
+ * @param {string} timestamp Line message event timestamp
+ * @returns {boolean}
+ */
+export function isEventExpired(timestamp, milliseconds = 30 * 1000) {
+  var timeElapsed = Date.now() - new Date(timestamp).getTime();
+  // console.log('timeElapsed' + timeElapsed);
+  return timeElapsed > milliseconds;
 }
 
 export const POSTBACK_NO_ARTICLE_FOUND = '__NO_ARTICLE_FOUND__';

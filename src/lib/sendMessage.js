@@ -16,7 +16,7 @@ const notify = async (token, message) => {
  * @param {object[]} messages - Array of line message objects, max size:5
  */
 const multicast = async (userIds, messages) => {
-  lineClient('/message/multicast', {
+  lineClient.post('/message/multicast', {
     to: userIds,
     messages: messages,
   });
@@ -28,7 +28,7 @@ const multicast = async (userIds, messages) => {
  * @param {object[]} messages - Array of line message objects, max size:5
  */
 const push = async (userId, messages) => {
-  lineClient('/message/push', {
+  lineClient.post('/message/push', {
     to: userId,
     messages: messages,
   });

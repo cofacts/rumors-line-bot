@@ -1,0 +1,195 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`groupMessage processes introduction message Hi Cofacts 1`] = `
+Object {
+  "event": Object {
+    "groupId": "C904bb9fc2f4904b2facf8204b3f08c79",
+    "input": "Hi Cofacts",
+    "source": Object {
+      "type": "group",
+    },
+  },
+  "groupId": undefined,
+  "replies": Array [
+    Object {
+      "text": "Hi i am cofacts chat bot😊 ",
+      "type": "text",
+    },
+  ],
+}
+`;
+
+exports[`groupMessage processes introduction message Hi Cofacts 2`] = `
+Object {
+  "event": Object {
+    "groupId": "C904bb9fc2f4904b2facf8204b3f08c79",
+    "input": "hi confacts",
+    "source": Object {
+      "type": "group",
+    },
+  },
+  "groupId": undefined,
+  "replies": Array [
+    Object {
+      "text": "Hi i am cofacts chat bot😊 ",
+      "type": "text",
+    },
+  ],
+}
+`;
+
+exports[`groupMessage processes introduction message Hi Cofacts 3`] = `
+Object {
+  "event": Object {
+    "groupId": "C904bb9fc2f4904b2facf8204b3f08c79",
+    "input": "cofacts",
+    "source": Object {
+      "type": "group",
+    },
+  },
+  "groupId": undefined,
+  "replies": undefined,
+}
+`;
+
+exports[`groupMessage should handle valid article with one category 1`] = `
+Object {
+  "event": Object {
+    "groupId": "C904bb9fc2f4904b2facf8204b3f08c79",
+    "input": "WHO 最新研究顯示 Covid-19 其實源自黑暗料理界，即日起正名為「黑料病毒」",
+    "source": Object {
+      "type": "group",
+    },
+  },
+  "groupId": undefined,
+  "replies": Array [
+    Object {
+      "text": "Thank you for sharing “WHO 最新研究顯示⋯⋯”😊 
+I found that there are some disagreement to the message:",
+      "type": "text",
+    },
+    Object {
+      "text": "It\`s rumor. It\`s rumor. It\`s rumor.",
+      "type": "text",
+    },
+    Object {
+      "text": "references：www.who.int",
+      "type": "text",
+    },
+    Object {
+      "text": "⬆️ Therefore, the author think the message contains misinformation.
+
+💁 This content is provided by Cofact message reporting chatbot and crowd-sourced fact-checking community under CC BY-SA 4.0 license. Please refer to their references and make judgements on your own.
+
+
+⁉️ If you have different thoughts, you may have your say here:
+https://cofacts.hacktabl.org/article/3nbzf064ks60d",
+      "type": "text",
+    },
+  ],
+}
+`;
+
+exports[`groupMessage should handle valid article with two categories 1`] = `
+Object {
+  "event": Object {
+    "groupId": "C904bb9fc2f4904b2facf8204b3f08c79",
+    "input": "你知道黑啤愛吃什麼嗎？ 黑啤愛吃蠶寶寶！",
+    "source": Object {
+      "type": "group",
+    },
+  },
+  "groupId": undefined,
+  "replies": Array [
+    Object {
+      "text": "Thank you for sharing “你知道黑啤愛吃什麼嗎⋯⋯”😊 
+I found that there are some disagreement to the message:",
+      "type": "text",
+    },
+    Object {
+      "text": "這是謠言！這是謠言！這是謠言！這是謠言！",
+      "type": "text",
+    },
+    Object {
+      "text": "references：https://taiwanbar.cc/",
+      "type": "text",
+    },
+    Object {
+      "text": "⬆️ Therefore, the author think the message contains misinformation.
+
+💁 This content is provided by Cofact message reporting chatbot and crowd-sourced fact-checking community under CC BY-SA 4.0 license. Please refer to their references and make judgements on your own.
+
+
+⁉️ If you have different thoughts, you may have your say here:
+https://cofacts.hacktabl.org/article/3nbzf064ks60d",
+      "type": "text",
+    },
+  ],
+}
+`;
+
+exports[`processes articleReplies which article is valid multipleReplies1 should return Rumor reply1 or Rumor reply3 1`] = `
+Object {
+  "negativeFeedbackCount": 0,
+  "positiveFeedbackCount": 2,
+  "reply": Object {
+    "text": "Rumor reply1 has second highest positiveFeedbackCount and equals to reply3",
+    "type": "RUMOR",
+  },
+}
+`;
+
+exports[`processes articleReplies which article is valid multipleReplies2 should return reply has second highest positiveFeedbackCount 1`] = `
+Object {
+  "negativeFeedbackCount": 2,
+  "positiveFeedbackCount": 3,
+  "reply": Object {
+    "text": "Rumor reply3 has second highest positiveFeedbackCount",
+    "type": "RUMOR",
+  },
+}
+`;
+
+exports[`processes articleReplies which article is valid threeReplies1 should return reply has more positiveFeedbackCount 1`] = `
+Object {
+  "negativeFeedbackCount": 0,
+  "positiveFeedbackCount": 2,
+  "reply": Object {
+    "text": "Rumor reply1 has more positiveFeedbackCount",
+    "type": "RUMOR",
+  },
+}
+`;
+
+exports[`processes articleReplies which article is valid threeReplies2 should return reply has second highest positiveFeedbackCount 1`] = `
+Object {
+  "negativeFeedbackCount": 0,
+  "positiveFeedbackCount": 2,
+  "reply": Object {
+    "text": "Rumor reply1 has second highest positiveFeedbackCount",
+    "type": "RUMOR",
+  },
+}
+`;
+
+exports[`processes articleReplies which article is valid twoReplies1 RUMOR positiveFeedbackCount > Non-RUMOR 1`] = `
+Object {
+  "negativeFeedbackCount": 0,
+  "positiveFeedbackCount": 2,
+  "reply": Object {
+    "text": "Rumor reply",
+    "type": "RUMOR",
+  },
+}
+`;
+
+exports[`processes articleReplies which article is valid twoReplies2 equal positiveFeedbackCount, but both type are RUMOR 1`] = `
+Object {
+  "negativeFeedbackCount": 0,
+  "positiveFeedbackCount": 2,
+  "reply": Object {
+    "text": "Rumor reply1",
+    "type": "RUMOR",
+  },
+}
+`;

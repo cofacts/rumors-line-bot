@@ -6,6 +6,7 @@ import redis from 'src/lib/redisClient';
 import lineClient from './lineClient';
 import checkSignatureAndParse from './checkSignatureAndParse';
 import handleInput from './handleInput';
+import GroupHandler from './handlers/groupHandler';
 import {
   downloadFile,
   uploadImageFile,
@@ -19,6 +20,7 @@ import {
   createGreetingMessage,
   createTutorialMessage,
 } from './handlers/tutorial';
+import Bull from 'bull';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
@@ -49,7 +51,7 @@ const singleUserHandler = async (
         ...otherFields,
       })}\n`
     );
-    lineClient('/message/reply', {
+    lineClient.post('/message/reply', {
       replyToken,
       messages: messageBotIsBusy,
     });
@@ -130,7 +132,7 @@ const singleUserHandler = async (
       //
       if (data.sessionId !== context.data.sessionId) {
         console.log('Previous button pressed.');
-        lineClient('/message/reply', {
+        lineClient.post('/message/reply', {
           replyToken,
           messages: [
             {
@@ -180,7 +182,7 @@ const singleUserHandler = async (
       const imageProcessingCount = await redis.incr('imageProcessingCount');
       if (imageProcessingCount > (process.env.MAX_IMAGE_PROCESS_NUMBER || 3)) {
         console.log('[LOG] request abort, too many images are processing now.');
-        lineClient('/message/reply', {
+        lineClient.post('/message/reply', {
           replyToken,
           messages: messageBotIsBusy,
         });
@@ -243,7 +245,7 @@ const singleUserHandler = async (
   // Send replies. Does not need to wait for lineClient's callbacks.
   // lineClient's callback does error handling by itself.
   //
-  lineClient('/message/reply', {
+  lineClient.post('/message/reply', {
     replyToken,
     messages: result.replies,
   });
@@ -251,11 +253,6 @@ const singleUserHandler = async (
   // Set context
   //
   await redis.set(userId, result.context);
-};
-
-// eslint-disable-next-line
-const groupHandler = async (req, type, replyToken, userId, otherFields) => {
-  // TODO
 };
 
 async function processText(context, type, input, otherFields, userId, req) {
@@ -310,6 +307,15 @@ redis.set('imageProcessingCount', 0);
 
 const router = Router();
 
+export const groupEventQueue = new Bull('groupEventQueue', {
+  redis: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
+  // limiter: { max: 600, duration: 10 * 1000 },
+});
+export const expiredGroupEventQueue = new Bull('expiredGroupEventQueue', {
+  redis: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
+  // limiter: { max: 600, duration: 10 * 1000 },
+});
+const groupHandler = new GroupHandler(groupEventQueue, expiredGroupEventQueue);
 // Routes that is after protection of checkSignature
 //
 router.use('/', checkSignatureAndParse);
@@ -318,21 +324,28 @@ router.post('/', ctx => {
   // Don't wait for anything before returning 200.
 
   ctx.request.body.events.forEach(
-    async ({ type, replyToken, source, ...otherFields }) => {
+    async ({ type, replyToken, ...otherFields }) => {
       // set 28s timeout
       const timeout = 28000;
-      let { userId } = source;
-      if (source.type === 'user') {
+      if (otherFields.source.type === 'user') {
         singleUserHandler(
           ctx.request,
           type,
           replyToken,
           timeout,
-          userId,
+          otherFields.source.userId,
           otherFields
         );
-      } else if (source.type === 'group') {
-        groupHandler(ctx.request, type, replyToken, userId, otherFields);
+      } else if (
+        otherFields.source.type === 'group' ||
+        otherFields.source.type === 'room'
+      ) {
+        groupHandler.addJob({
+          type,
+          replyToken,
+          groupId: otherFields.source.groupId || otherFields.source.roomId,
+          otherFields,
+        });
       }
     }
   );
