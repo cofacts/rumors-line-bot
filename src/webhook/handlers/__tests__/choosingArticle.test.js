@@ -80,6 +80,27 @@ it('should select article by articleId', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
+it('throws ManipulationError when articleId is not valid', async () => {
+  gql.__push({ data: { GetArticle: null } });
+
+  // Simulate Article URL input
+  const params = {
+    data: {},
+    event: {
+      type: 'postback',
+      input: 'article-id',
+    },
+    issuedAt: 1505314295017,
+    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+    isSkipUser: false,
+  };
+
+  await expect(choosingArticle(params)).rejects.toMatchInlineSnapshot(
+    `[Error: Provided message is not found.]`
+  );
+  expect(gql.__finished()).toBe(true);
+});
+
 it('should select article and have OPINIONATED and NOT_ARTICLE replies', async () => {
   gql.__push(apiResult.multipleReplies);
 
