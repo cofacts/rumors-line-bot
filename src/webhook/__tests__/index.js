@@ -8,7 +8,7 @@ import Koa from 'koa';
 import request from 'supertest';
 import MockDate from 'mockdate';
 
-import webhookRouter from '../';
+import webhookRouter, { groupEventQueue, expiredGroupEventQueue } from '../';
 import UserSettings from '../../database/models/userSettings';
 import Client from '../../database/mongoClient';
 import lineClient from 'src/webhook/lineClient';
@@ -46,6 +46,8 @@ describe('Webhook router', () => {
     await (await Client.getInstance()).close();
     MockDate.reset();
     delete process.env.RUMORS_LINE_BOT_URL;
+    await groupEventQueue.close();
+    await expiredGroupEventQueue.close();
   });
 
   it('singleUserHandler() should handle follow event', async () => {

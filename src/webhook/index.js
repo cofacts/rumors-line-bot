@@ -307,11 +307,11 @@ redis.set('imageProcessingCount', 0);
 
 const router = Router();
 
-const groupEventQueue = new Bull('groupEventQueue', {
+export const groupEventQueue = new Bull('groupEventQueue', {
   redis: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
   // limiter: { max: 600, duration: 10 * 1000 },
 });
-const expiredGroupEventQueue = new Bull('expiredGroupEventQueue', {
+export const expiredGroupEventQueue = new Bull('expiredGroupEventQueue', {
   redis: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
   // limiter: { max: 600, duration: 10 * 1000 },
 });
