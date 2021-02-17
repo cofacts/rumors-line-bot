@@ -223,7 +223,6 @@ it('should jobQueue failed with TimeoutError and add job to expiredQueue', done 
     expect(e).toMatchInlineSnapshot(`[Error: Event expired]`);
   });
 
-  // in real case this will not happen
   expiredJobQueue.on('failed', async (job, e) => {
     // console.log('expiredJobQueue.failed');
     expect(job.id).toBe(jobId);
