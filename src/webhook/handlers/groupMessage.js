@@ -63,9 +63,7 @@ export default async function processText(event, groupId) {
             text
             id
             articleCategories(status: NORMAL) {
-              category {
-                id
-              }
+              categoryId
               positiveFeedbackCount
               negativeFeedbackCount
             }
@@ -124,9 +122,11 @@ export default async function processText(event, groupId) {
       edgesSortedWithSimilarity[0].similarity >= SIMILARITY_THRESHOLD;
     const hasValidCategory = edgesSortedWithSimilarity[0].node.articleCategories.reduce(
       (acc, articleCategory) =>
-        (acc |= validCategories.includes(articleCategory.category.id)) &&
-        articleCategory.positiveFeedbackCount >=
-          articleCategory.negativeFeedbackCount,
+        (acc =
+          acc ||
+          (validCategories.includes(articleCategory.categoryId) &&
+            articleCategory.positiveFeedbackCount >=
+              articleCategory.negativeFeedbackCount)),
       false
     );
 
