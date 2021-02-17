@@ -61,10 +61,10 @@ describe('groupMessage', () => {
     expect(ga.sendMock).toHaveBeenCalledTimes(0);
   });
 
-  it('should handle valid article and reply', async () => {
+  it('should handle valid article with one category', async () => {
     event.input =
       'WHO 最新研究顯示 Covid-19 其實源自黑暗料理界，即日起正名為「黑料病毒」';
-    gql.__push(apiResult.validArticleAndOneReply);
+    gql.__push(apiResult.validArticleWithOneCategory);
     const result = await groupMessage(event);
     expect(result.replies).not.toBeUndefined();
     expect(result).toMatchSnapshot();
@@ -101,7 +101,7 @@ describe('groupMessage', () => {
     expect(ga.sendMock).toHaveBeenCalledTimes(1);
   });
 
-  it('should handle valid article and reply', async () => {
+  it('should handle valid article with two categories', async () => {
     event.input = '你知道黑啤愛吃什麼嗎？ 黑啤愛吃蠶寶寶！';
     gql.__push(apiResult.validArticleWithTwoCategories);
     const result = await groupMessage(event);

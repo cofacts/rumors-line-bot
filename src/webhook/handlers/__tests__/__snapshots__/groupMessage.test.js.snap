@@ -52,7 +52,7 @@ Object {
 }
 `;
 
-exports[`groupMessage should handle valid article and reply 1`] = `
+exports[`groupMessage should handle valid article with one category 1`] = `
 Object {
   "event": Object {
     "groupId": "C904bb9fc2f4904b2facf8204b3f08c79",
@@ -90,7 +90,7 @@ https://cofacts.hacktabl.org/article/3nbzf064ks60d",
 }
 `;
 
-exports[`groupMessage should handle valid article and reply 4`] = `
+exports[`groupMessage should handle valid article with two categories 1`] = `
 Object {
   "event": Object {
     "groupId": "C904bb9fc2f4904b2facf8204b3f08c79",

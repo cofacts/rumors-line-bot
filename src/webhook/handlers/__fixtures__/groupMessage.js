@@ -1,4 +1,4 @@
-const validArticleAndOneReply = {
+const validArticleWithOneCategory = {
   data: {
     ListArticles: {
       edges: [
@@ -816,7 +816,7 @@ const invalidMultipleReplies3 = {
 };
 
 export const apiResult = {
-  validArticleAndOneReply,
+  validArticleWithOneCategory,
   validArticleWithTwoCategories,
   invalidCategoryFeedback,
   invalidArticleCategory,
