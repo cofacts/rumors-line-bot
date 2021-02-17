@@ -9,7 +9,7 @@ const validArticleAndOneReply = {
             id: '3nbzf064ks60d',
             articleCategories: [
               {
-                category: { id: 'covid19' },
+                categoryId: 'covid19',
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 0,
               },
@@ -43,12 +43,12 @@ const validArticleWithTwoCategories = {
             id: '3nbzf064ks60d',
             articleCategories: [
               {
-                category: { id: 'covid19' },
+                categoryId: 'covid19',
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 1,
               },
               {
-                category: { id: 'lT3h7XEBrIRcahlYugqq' }, //'保健秘訣、食品安全'
+                categoryId: 'lT3h7XEBrIRcahlYugqq', //'保健秘訣、食品安全'
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 0,
               },
@@ -73,7 +73,7 @@ const validArticleWithTwoCategories = {
             id: '3nbzf064ks60d',
             articleCategories: [
               {
-                category: { id: 'covid19' },
+                categoryId: 'covid19',
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 1,
               },
@@ -135,7 +135,7 @@ const invalidCategoryFeedback = {
             id: '3nbzf064ks60d',
             articleCategories: [
               {
-                category: { id: 'covid19' },
+                categoryId: 'covid19',
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 1,
               },
@@ -170,57 +170,57 @@ const invalidArticleCategory = {
             id: '2zn1215x6e70v',
             articleCategories: [
               {
-                category: { id: 'nT2n7nEBrIRcahlY6QqF' },
+                categoryId: 'nT2n7nEBrIRcahlY6QqF',
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 0,
               }, //'有意義但不包含在以上標籤 🚧'
               {
-                category: { id: 'oD2o7nEBrIRcahlYFgpm' },
+                categoryId: 'oD2o7nEBrIRcahlYFgpm',
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 0,
               }, //'只有網址其他資訊不足 🚧'
               {
-                category: { id: 'nj2n7nEBrIRcahlY-gpc' },
+                categoryId: 'nj2n7nEBrIRcahlY-gpc',
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 0,
               }, //'無意義 🚧'
               {
-                category: { id: 'oj2o7nEBrIRcahlYRAox' },
+                categoryId: 'oj2o7nEBrIRcahlYRAox',
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 0,
               }, //'連署、集氣、協尋、捐贈'
               {
-                category: { id: 'oT2o7nEBrIRcahlYKQoM' },
+                categoryId: 'oT2o7nEBrIRcahlYKQoM',
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 0,
               }, //'政治、政黨'
               {
-                category: { id: 'nz2o7nEBrIRcahlYBgqQ' },
+                categoryId: 'nz2o7nEBrIRcahlYBgqQ',
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 0,
               }, //'商業廣告'
               {
-                category: { id: 'mj2n7nEBrIRcahlYdArf' },
+                categoryId: 'mj2n7nEBrIRcahlYdArf',
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 0,
               }, //'優惠措施、新法規、政策宣導'
               {
-                category: { id: 'mT2n7nEBrIRcahlYTArI' },
+                categoryId: 'mT2n7nEBrIRcahlYTArI',
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 0,
               }, //'環保、生態'
               {
-                category: { id: 'kj287XEBrIRcahlYvQoS' },
+                categoryId: 'kj287XEBrIRcahlYvQoS',
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 0,
               }, //'中國影響力'
               {
-                category: { id: 'mD2n7nEBrIRcahlYLAr7' },
+                categoryId: 'mD2n7nEBrIRcahlYLAr7',
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 0,
               }, //'電力、能源'
               {
-                category: { id: 'lD3h7XEBrIRcahlYeQqS' },
+                categoryId: 'lD3h7XEBrIRcahlYeQqS',
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 0,
               }, //'性別議題'
@@ -269,7 +269,7 @@ const invalidArticleReply = {
             id: '3nbzf064ks60d',
             articleCategories: [
               {
-                category: { id: 'lT3h7XEBrIRcahlYugqq' }, //'保健秘訣、食品安全'
+                categoryId: 'lT3h7XEBrIRcahlYugqq', //'保健秘訣、食品安全'
                 positiveFeedbackCount: 0,
                 negativeFeedbackCount: 0,
               },
