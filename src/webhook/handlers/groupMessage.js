@@ -73,7 +73,6 @@ export default async function processText(event, groupId) {
               positiveFeedbackCount
               negativeFeedbackCount
             }
-            replyCount
             articleReplies(status: NORMAL) {
               reply {
                 type
@@ -136,7 +135,7 @@ export default async function processText(event, groupId) {
         replies = createGroupReplyMessages(
           event.input,
           articleReply.reply,
-          node.replyCount,
+          node.articleReplies.length,
           node.id
         );
       }
@@ -162,11 +161,11 @@ export default async function processText(event, groupId) {
  * 3. candidate's positiveFeedbackCount > non-rumors' positiveFeedbackCount
  *
  * @param {object} articleReplies `Article.articleReplies` from rumors-api
- * @param {number} replyCount `Article.replyCount` from rumors-api
  * @returns {object} A article reply which type is rumor
  */
-export function getValidArticleReply({ articleReplies, replyCount }) {
+export function getValidArticleReply({ articleReplies }) {
   let rumorCount = 0;
+  const replyCount = articleReplies.length;
   const postiveArticleReplies = articleReplies
     .reduce((result, ar) => {
       if (ar.positiveFeedbackCount > ar.negativeFeedbackCount) {
