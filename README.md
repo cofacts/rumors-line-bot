@@ -201,7 +201,7 @@ If you want to build using docker instead, you may need to modify Dockerfile to 
       LINE_FRIEND_URL=https://line.me/R/ti/p/<paste your chatbot ID here>
       ```
 
-You can set up a setting page entry point(`LIFF_URL`/liff/index.html?p=setting) in [account manager](https://manager.line.biz/account/) -> rich menu
+You can set up a setting page entry point(`LIFF_URL`?p=setting) in [account manager](https://manager.line.biz/account/) -> rich menu
 
 #### Notification cronjob
 - To run on local machine
