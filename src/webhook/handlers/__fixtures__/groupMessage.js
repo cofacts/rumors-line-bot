@@ -14,7 +14,6 @@ const validArticleAndOneReply = {
                 negativeFeedbackCount: 0,
               },
             ],
-            replyCount: 1,
             articleReplies: [
               {
                 reply: {
@@ -53,7 +52,6 @@ const validArticleWithTwoCategories = {
                 negativeFeedbackCount: 0,
               },
             ],
-            replyCount: 1,
             articleReplies: [
               {
                 reply: {
@@ -78,7 +76,6 @@ const validArticleWithTwoCategories = {
                 negativeFeedbackCount: 1,
               },
             ],
-            replyCount: 1,
             articleReplies: [
               {
                 reply: {
@@ -105,7 +102,6 @@ const validArticleWithTwoCategories = {
                 },
               }, //'跨國互動🆕'
             ],
-            replyCount: 1,
             articleReplies: [
               {
                 reply: {
@@ -140,7 +136,6 @@ const invalidCategoryFeedback = {
                 negativeFeedbackCount: 1,
               },
             ],
-            replyCount: 1,
             articleReplies: [
               {
                 reply: {
@@ -159,7 +154,7 @@ const invalidCategoryFeedback = {
   },
 };
 
-//{"edges":[{"node":{"text":"以後吃蘋果一定要削皮。","id":"2zn1215x6e70v","articleCategories":[{"category":{"title":"有意義但不包含在以上標籤 🚧"}}],"replyCount":1,"articleReplies":[{"reply":{"type":"RUMOR","text":"謠言說進口蘋果會上蠟，所以一定要削皮，但其實不用太擔心。蘋果自己本身就會產生蠟，為了增加保存期限，農家也會將蘋果上蠟。\n蘋果本身就會產生天然蠟來保護果肉，並不讓水分流失，這天然蠟還非常營養，富含花青素、槲皮素等等，能夠抵抗發炎、過敏等反應，而且不是只有蘋果會產生果蠟，還有許多水果，像是甘蔗、檸檬或是李子，也都會產生果蠟。","reference":"https://today.line.me/tw/v2/article/m1jBJn"},"positiveFeedbackCount":0,"negativeFeedbackCount":0}]}}]}
+//{"edges":[{"node":{"text":"以後吃蘋果一定要削皮。","id":"2zn1215x6e70v","articleCategories":[{"category":{"title":"有意義但不包含在以上標籤 🚧"}}],"articleReplies":[{"reply":{"type":"RUMOR","text":"謠言說進口蘋果會上蠟，所以一定要削皮，但其實不用太擔心。蘋果自己本身就會產生蠟，為了增加保存期限，農家也會將蘋果上蠟。\n蘋果本身就會產生天然蠟來保護果肉，並不讓水分流失，這天然蠟還非常營養，富含花青素、槲皮素等等，能夠抵抗發炎、過敏等反應，而且不是只有蘋果會產生果蠟，還有許多水果，像是甘蔗、檸檬或是李子，也都會產生果蠟。","reference":"https://today.line.me/tw/v2/article/m1jBJn"},"positiveFeedbackCount":0,"negativeFeedbackCount":0}]}}]}
 const invalidArticleCategory = {
   data: {
     ListArticles: {
@@ -239,7 +234,6 @@ const invalidArticleCategory = {
                 },
               }, //'跨國互動🆕'
             ],
-            replyCount: 1,
             articleReplies: [
               {
                 reply: {
@@ -274,7 +268,6 @@ const invalidArticleReply = {
                 negativeFeedbackCount: 0,
               },
             ],
-            replyCount: 1,
             articleReplies: [
               {
                 reply: {
@@ -307,8 +300,6 @@ const notFound = {
  * Non-RUMOR reply type
  */
 const invalidReplyType = {
-  id: '3nbzf064ks60d',
-  replyCount: 1,
   articleReplies: [
     {
       reply: {
@@ -325,8 +316,6 @@ const invalidReplyType = {
  * negativeFeedbackCount > positiveFeedbackCount
  */
 const invalidReplyFeedbackCount = {
-  id: '3nbzf064ks60d',
-  replyCount: 1,
   articleReplies: [
     {
       reply: {
@@ -340,8 +329,6 @@ const invalidReplyFeedbackCount = {
 };
 
 const twoReplies1 = {
-  id: '3nbzf064ks60d',
-  replyCount: 2,
   articleReplies: [
     {
       reply: {
@@ -366,8 +353,6 @@ const twoReplies1 = {
  * equal positiveFeedbackCount, but both type are RUMOR
  */
 const twoReplies2 = {
-  id: '3nbzf064ks60d',
-  replyCount: 2,
   articleReplies: [
     {
       reply: {
@@ -392,8 +377,6 @@ const twoReplies2 = {
  * Rumor reply1 has more positiveFeedbackCount
  */
 const threeReplies1 = {
-  id: '3nbzf064ks60d',
-  replyCount: 3,
   articleReplies: [
     {
       reply: {
@@ -427,8 +410,6 @@ const threeReplies1 = {
  * Rumor reply1 has second highest positiveFeedbackCount
  */
 const threeReplies2 = {
-  id: '3nbzf064ks60d',
-  replyCount: 3,
   articleReplies: [
     {
       reply: {
@@ -459,8 +440,6 @@ const threeReplies2 = {
 };
 
 const multipleReplies1 = {
-  id: '3nbzf064ks60d',
-  replyCount: 6,
   articleReplies: [
     {
       reply: {
@@ -517,8 +496,6 @@ const multipleReplies1 = {
 };
 
 const multipleReplies2 = {
-  id: '3nbzf064ks60d',
-  replyCount: 6,
   articleReplies: [
     {
       reply: {
@@ -576,8 +553,6 @@ const multipleReplies2 = {
  * Non-RUMOR type has heightest `positiveFeedbackCount`
  */
 const invalidTwoReplies1 = {
-  id: '3nbzf064ks60d',
-  replyCount: 2,
   articleReplies: [
     {
       reply: {
@@ -602,8 +577,6 @@ const invalidTwoReplies1 = {
  * RUMOR positiveFeedbackCount equals to Non-RUMOR(OPINIONATED)
  */
 const invalidTwoReplies2 = {
-  id: '3nbzf064ks60d',
-  replyCount: 2,
   articleReplies: [
     {
       reply: {
@@ -628,8 +601,6 @@ const invalidTwoReplies2 = {
  * Non-RUMOR type has heightest `positiveFeedbackCount`
  */
 const invalidThreeReplies1 = {
-  id: '3nbzf064ks60d',
-  replyCount: 3,
   articleReplies: [
     {
       reply: {
@@ -662,8 +633,6 @@ const invalidThreeReplies1 = {
  * RUMOR positiveFeedbackCount equals to Non-RUMOR(OPINIONATED)
  */
 const invalidThreeReplies2 = {
-  id: '3nbzf064ks60d',
-  replyCount: 3,
   articleReplies: [
     {
       reply: {
@@ -696,8 +665,6 @@ const invalidThreeReplies2 = {
  * rumorCount <= 2/3 replyCount
  */
 const invalidMultipleReplies1 = {
-  id: '3nbzf064ks60d',
-  replyCount: 4,
   articleReplies: [
     {
       reply: {
@@ -738,8 +705,6 @@ const invalidMultipleReplies1 = {
  * rumorCount <= 2/3 replyCount
  */
 const invalidMultipleReplies2 = {
-  id: '3nbzf064ks60d',
-  replyCount: 6,
   articleReplies: [
     {
       reply: {
@@ -797,8 +762,6 @@ const invalidMultipleReplies2 = {
  * Non-RUMOR reply has second positiveFeedbackCount
  */
 const invalidMultipleReplies3 = {
-  id: '3nbzf064ks60d',
-  replyCount: 6,
   articleReplies: [
     {
       reply: {

@@ -226,77 +226,73 @@ describe('groupMessage', () => {
 describe('processes articleReplies which article is valid', () => {
   it('invalid reply type', () => {
     expect(
-      getValidArticleReply(articleFixtures.invalidReplyType, event)
+      getValidArticleReply(articleFixtures.invalidReplyType)
     ).toBeUndefined();
   });
 
   it('invalid reply feedback count', () => {
     expect(
-      getValidArticleReply(articleFixtures.invalidReplyFeedbackCount, event)
+      getValidArticleReply(articleFixtures.invalidReplyFeedbackCount)
     ).toBeUndefined();
   });
 
   it('invalidTwoReplies1', () => {
     expect(
-      getValidArticleReply(articleFixtures.invalidTwoReplies1, event)
+      getValidArticleReply(articleFixtures.invalidTwoReplies1)
     ).toBeUndefined();
   });
 
   it('invalidTwoReplies2', () => {
     expect(
-      getValidArticleReply(articleFixtures.invalidTwoReplies2, event)
+      getValidArticleReply(articleFixtures.invalidTwoReplies2)
     ).toBeUndefined();
   });
 
   it('invalidThreeReplies1', () => {
     expect(
-      getValidArticleReply(articleFixtures.invalidThreeReplies1, event)
+      getValidArticleReply(articleFixtures.invalidThreeReplies1)
     ).toBeUndefined();
   });
 
   it('invalidThreeReplies2', () => {
     expect(
-      getValidArticleReply(articleFixtures.invalidThreeReplies2, event)
+      getValidArticleReply(articleFixtures.invalidThreeReplies2)
     ).toBeUndefined();
   });
 
   it('invalidMultipleReplies1', () => {
     expect(
-      getValidArticleReply(articleFixtures.invalidMultipleReplies1, event)
+      getValidArticleReply(articleFixtures.invalidMultipleReplies1)
     ).toBeUndefined();
   });
   it('invalidMultipleReplies2', () => {
     expect(
-      getValidArticleReply(articleFixtures.invalidMultipleReplies2, event)
+      getValidArticleReply(articleFixtures.invalidMultipleReplies2)
     ).toBeUndefined();
   });
   it('invalidMultipleReplies3', () => {
     expect(
-      getValidArticleReply(articleFixtures.invalidMultipleReplies3, event)
+      getValidArticleReply(articleFixtures.invalidMultipleReplies3)
     ).toBeUndefined();
   });
 
   it('twoReplies1 RUMOR positiveFeedbackCount > Non-RUMOR', () => {
-    expect(
-      getValidArticleReply(articleFixtures.twoReplies1, event)
-    ).toMatchSnapshot();
+    expect(getValidArticleReply(articleFixtures.twoReplies1)).toMatchSnapshot();
   });
 
   it('twoReplies2 equal positiveFeedbackCount, but both type are RUMOR', () => {
-    expect(
-      getValidArticleReply(articleFixtures.twoReplies2, event)
-    ).toMatchSnapshot();
+    expect(getValidArticleReply(articleFixtures.twoReplies2)).toMatchSnapshot();
   });
 
   it('threeReplies1 should return reply has more positiveFeedbackCount', () => {
     expect(
-      getValidArticleReply(articleFixtures.threeReplies1, event)
+      getValidArticleReply(articleFixtures.threeReplies1)
     ).toMatchSnapshot();
   });
 
   it('threeReplies2 should return reply has second highest positiveFeedbackCount', () => {
     expect(
-      getValidArticleReply(articleFixtures.threeReplies2, event)
+      getValidArticleReply(articleFixtures.threeReplies2)
     ).toMatchSnapshot();
   });
 
