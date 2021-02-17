@@ -6,6 +6,14 @@ import { createGroupReplyMessages } from './utils';
 import ga from 'src/lib/ga';
 
 const SIMILARITY_THRESHOLD = 0.95;
+const INTRO_KEYWORDS = ['hi cofacts', 'hi confacts'];
+const VALID_CATEGORIES = [
+  'medical', //'疾病、醫藥🆕',
+  'covid19', //'COVID-19 疫情🆕',
+  'mz2n7nEBrIRcahlYnQpz', //'科技、資安、隱私',
+  'lT3h7XEBrIRcahlYugqq', //'保健秘訣、食品安全',
+  'nD2n7nEBrIRcahlYwQoW', //'免費訊息詐騙',
+];
 
 export default async function processText(event, groupId) {
   let replies;
@@ -15,10 +23,9 @@ export default async function processText(event, groupId) {
 
   // Track text message type send by user
   const visitor = ga(groupId, '__INIT__', event.input, event.source.type);
-  // visitor.debug(true);
-  const introKeywords = ['hi cofacts', 'hi confacts'];
+
   const inputSimilarityWithIntro = Math.max(
-    ...introKeywords.map(keyword => {
+    ...INTRO_KEYWORDS.map(keyword => {
       return stringSimilarity.compareTwoStrings(
         event.input.toLowerCase(),
         keyword
@@ -26,7 +33,6 @@ export default async function processText(event, groupId) {
     })
   );
 
-  // console.log('stringSimilarity : ' + inputSimilarityWithIntro);
   if (inputSimilarityWithIntro > 0.9) {
     replies = [
       {
@@ -99,13 +105,6 @@ export default async function processText(event, groupId) {
       });
     });
 
-    const validCategories = [
-      'medical', //'疾病、醫藥🆕',
-      'covid19', //'COVID-19 疫情🆕',
-      'mz2n7nEBrIRcahlYnQpz', //'科技、資安、隱私',
-      'lT3h7XEBrIRcahlYugqq', //'保健秘訣、食品安全',
-      'nD2n7nEBrIRcahlYwQoW', //'免費訊息詐騙',
-    ];
     const edgesSortedWithSimilarity = ListArticles.edges
       .map(edge => {
         edge.similarity = stringSimilarity.compareTwoStrings(
@@ -124,7 +123,7 @@ export default async function processText(event, groupId) {
       (acc, articleCategory) =>
         (acc =
           acc ||
-          (validCategories.includes(articleCategory.categoryId) &&
+          (VALID_CATEGORIES.includes(articleCategory.categoryId) &&
             articleCategory.positiveFeedbackCount >=
               articleCategory.negativeFeedbackCount)),
       false
