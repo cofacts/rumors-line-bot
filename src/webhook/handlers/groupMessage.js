@@ -82,6 +82,7 @@ export default async function processText(event, groupId) {
             }
             articleReplies(status: NORMAL) {
               reply {
+                id
                 type
                 text
                 reference
@@ -135,16 +136,30 @@ export default async function processText(event, groupId) {
       false
     );
 
-    if (hasIdenticalDocs && hasValidCategory) {
+    if (hasIdenticalDocs) {
       const node = edgesSortedWithSimilarity[0].node;
-      const articleReply = getValidArticleReply(node);
-      if (articleReply) {
-        replies = createGroupReplyMessages(
-          event.input,
-          articleReply.reply,
-          node.articleReplies.length,
-          node.id
-        );
+      visitor.event({
+        ec: 'Article',
+        ea: 'Selected',
+        el: node.id,
+      });
+
+      if (hasValidCategory) {
+        const articleReply = getValidArticleReply(node);
+        if (articleReply) {
+          visitor.event({
+            ec: 'Reply',
+            ea: 'Selected',
+            el: articleReply.reply.id,
+          });
+
+          replies = createGroupReplyMessages(
+            event.input,
+            articleReply.reply,
+            node.articleReplies.length,
+            node.id
+          );
+        }
       }
     }
 
@@ -168,7 +183,7 @@ export default async function processText(event, groupId) {
  * 3. candidate's positiveFeedbackCount > non-rumors' positiveFeedbackCount
  *
  * @param {object} articleReplies `Article.articleReplies` from rumors-api
- * @returns {object} A article reply which type is rumor
+ * @returns {object} A reply which type is rumor
  */
 export function getValidArticleReply({ articleReplies }) {
   let rumorCount = 0;
