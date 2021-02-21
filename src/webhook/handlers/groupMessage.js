@@ -4,9 +4,11 @@ import { t } from 'ttag';
 import gql from 'src/lib/gql';
 import { createGroupReplyMessages } from './utils';
 import ga from 'src/lib/ga';
+import lineClient from 'src/webhook/lineClient';
 
 const SIMILARITY_THRESHOLD = 0.95;
 const INTRO_KEYWORDS = ['hi cofacts', 'hi confacts'];
+const LEAVE_KEYWORD = 'bye bye cofacts';
 const VALID_CATEGORIES = [
   'medical', //'疾病、醫藥🆕',
   'covid19', //'COVID-19 疫情🆕',
@@ -46,6 +48,11 @@ export default async function processText(event, groupId) {
       el: '',
     });
     visitor.send();
+    return { event, groupId, replies };
+  }
+
+  if (event.input.toLowerCase() === LEAVE_KEYWORD) {
+    await lineClient.post(`/${event.source.type}/${groupId}/leave`);
     return { event, groupId, replies };
   }
 
