@@ -38,7 +38,7 @@ Other customizable env vars are:
 * `PORT`: Which port the line bot server will listen at.
 * `GOOGLE_DRIVE_IMAGE_FOLDER`: Google drive folder id is needed when you want to test uploading image.
 * `GOOGLE_CREDENTIALS`: will be populated by `authGoogleDrive.js`. See "Upload image/video" section below.
-* `GA_ID`: Google analytics universal analytics tracking ID, for tracking events
+* `GA_ID`: Google analytics tracking ID, for tracking events. You should also add custom dimensions and metrics, see "Google Analytics Custom dimensions and metrics" section below.
 * `IMAGE_MESSAGE_ENABLED`: Default disabled. To enable, please see "Process image message" section below.
 * `DEBUG_LIFF`: Disables external browser check in LIFF. Useful when debugging LIFF in external browser. Don't enable this on production.
 * `RUMORS_LINE_BOT_URL`: Server public url which is used to generate tutorial image urls and auth callback url of LINE Notify.
@@ -233,6 +233,10 @@ To use Dialogflow,
     - `DAILOGFLOW_LANGUAGE` : Empty to agent's default language, or you can specify a [language](https://cloud.google.com/dialogflow/es/docs/reference/language).
     - `DAILOGFLOW_ENV` : Default to draft agent, or you can create different [versions](https://cloud.google.com/dialogflow/es/docs/agents-versions).
 
+### Google Analytics Custom dimensions and metrics
+
+[Create](https://support.google.com/analytics/answer/2709829) a custom (user scope) dimemsion for `Message Source`, and a custom (hit scope) metrix for `Group Members Count`. Both of them default index is 1. If the indexes GA created are not 1, find `cd1` and `cm1` in the code and change them to `cd$theIndexGACreated` and `cm$theIndexGACreated` respectively.
+
 ---
 
 ## Production Deployment
@@ -244,7 +248,6 @@ If you would like to start your own LINE bot server in production environment, t
 You can deploy the line bot server to your own Heroku account by [creating a Heroku app and push to it](https://devcenter.heroku.com/articles/git#creating-a-heroku-remote).
 
 Despite the fact that we don't use `Procfile`, Heroku still does detection and installs the correct environment for us.
-
 
 ### Prepare storage services
 
@@ -289,6 +292,12 @@ Consult `.env.sample` for other optional env vars.
 ## Google Analytics Events table
 
 Sent event format: `Event category` / `Event action` / `Event label`
+
+We use dimemsion `Message Source` (Custom Dimemsion1) to classify different event sources
+- `user` for 1 on 1 messages
+- `room` | `group` for group messages
+
+### 1 on 1 messages
 
 1. User sends a message to us
   - `UserInput` / `MessageType` / `<text | image | video | ...>`
@@ -352,12 +361,41 @@ Sent event format: `Event category` / `Event action` / `Event label`
   - `LIFF` / `page_redirect` / `App` is sent on LIFF redirect, with value being redirect count.
 
 12. Tutorial
-  - If it's triggered by follow event
+  - If it's triggered by follow event (Add friend evnet)
     - `Tutorial` / `Step` / `ON_BOARDING`
   - If it's triggered by rich menu
     - `Tutorial` / `Step` / `RICH_MENU`
   - Others
     - `Tutorial` / `Step` / `<TUTORIAL_STEPS>`
+
+### Group messages
+
+1. When chatbot joined/leaved a group or a room
+  - Join
+    - `Group` / `Join` / `1` (`Event category` / `Event action` / `Event value`)
+    - And `Group Members Count` (Custom Metric1) to record group members count when chatbot joined.
+  - Leave
+    - `Group` / `Leave` / `-1` (`Event category` / `Event action` / `Event value`)
+  > Note:
+  > a. We set ga event value 1 as join, -1 as leave.
+  >  To know total groups count chatbot currently joined, you can directly see the total event value (Details see [Implicit Count](https://support.google.com/analytics/answer/1033068?hl=en)).
+  >
+  >  b. To know a group is currently joined or leaved, you should find the last `Join` or `Leave` action of the `Client Id`.
+  >
+  >  c. Also, you should find the last `Join` action of the `Client Id` to get a more accurate `Group Members Count`.
+  > `Group Members Count` is only recorded when chatbot joined group, to know the exact count, you should directly get it from [line messaging-api](https://developers.line.biz/en/reference/messaging-api/#get-members-group-count).
+
+2. User sends a message to us
+  - If we found a articles in database that matches the message:
+    - `UserInput` / `ArticleSearch` / `ArticleFound`
+    - `Article` / `Search` / `<article id>` for each article found
+  - If the article is identical
+    - `Article` / `Selected` / `<selected article id>`
+  - If the article has a valid category and the reply is valid (Details see [#238](https://github.com/cofacts/rumors-line-bot/pull/238))
+    - `Reply` / `Selected` / `<selected reply id>`
+
+3. User trigger chatbot to introduce itself:
+  - `UserInput` / `Intro` /
 
 ## Legal
 
