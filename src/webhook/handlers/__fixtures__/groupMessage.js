@@ -17,6 +17,7 @@ const validArticleWithOneCategory = {
             articleReplies: [
               {
                 reply: {
+                  id: 'fake-reply-id',
                   type: 'RUMOR',
                   text: 'It`s rumor. It`s rumor. It`s rumor.',
                   reference: 'www.who.int',
@@ -55,6 +56,7 @@ const validArticleWithTwoCategories = {
             articleReplies: [
               {
                 reply: {
+                  id: 'fake-reply-id1',
                   type: 'RUMOR',
                   text: '這是謠言！這是謠言！這是謠言！這是謠言！',
                   reference: 'https://taiwanbar.cc/',
@@ -68,7 +70,7 @@ const validArticleWithTwoCategories = {
         {
           node: {
             text: '請問黑啤愛吃什麼？黑啤愛吃蠶寶寶',
-            id: '3nbzf064ks60d',
+            id: '8nbzf064ks87g',
             articleCategories: [
               {
                 categoryId: 'covid19',
@@ -79,6 +81,7 @@ const validArticleWithTwoCategories = {
             articleReplies: [
               {
                 reply: {
+                  id: 'fake-reply-id2',
                   type: 'RUMOR',
                   text: '這是謠言！這是謠言！這是謠言！這是謠言！',
                   reference: 'https://taiwanbar.cc/',
@@ -105,6 +108,7 @@ const validArticleWithTwoCategories = {
             articleReplies: [
               {
                 reply: {
+                  id: 'fake-reply-id3',
                   type: 'RUMOR',
                   text:
                     '謠言說進口蘋果會上蠟，所以一定要削皮，但其實不用太擔心。蘋果自己本身就會產生蠟，為了增加保存期限，農家也會將蘋果上蠟。\n蘋果本身就會產生天然蠟來保護果肉，並不讓水分流失，這天然蠟還非常營養，富含花青素、槲皮素等等，能夠抵抗發炎、過敏等反應，而且不是只有蘋果會產生果蠟，還有許多水果，像是甘蔗、檸檬或是李子，也都會產生果蠟。',
@@ -139,6 +143,7 @@ const invalidCategoryFeedback = {
             articleReplies: [
               {
                 reply: {
+                  id: 'fake-reply-id',
                   type: 'RUMOR',
                   text: '這是謠言！這是謠言！這是謠言！這是謠言！',
                   reference: 'https://taiwanbar.cc/',
@@ -237,6 +242,7 @@ const invalidArticleCategory = {
             articleReplies: [
               {
                 reply: {
+                  id: 'fake-reply-id',
                   type: 'RUMOR',
                   text:
                     '謠言說進口蘋果會上蠟，所以一定要削皮，但其實不用太擔心。蘋果自己本身就會產生蠟，為了增加保存期限，農家也會將蘋果上蠟。\n蘋果本身就會產生天然蠟來保護果肉，並不讓水分流失，這天然蠟還非常營養，富含花青素、槲皮素等等，能夠抵抗發炎、過敏等反應，而且不是只有蘋果會產生果蠟，還有許多水果，像是甘蔗、檸檬或是李子，也都會產生果蠟。',
@@ -271,6 +277,7 @@ const invalidArticleReply = {
             articleReplies: [
               {
                 reply: {
+                  id: 'fake-reply-id',
                   type: 'NOT_RUMOR',
                   text: '沒錯！正確答案',
                   reference: '我自己',

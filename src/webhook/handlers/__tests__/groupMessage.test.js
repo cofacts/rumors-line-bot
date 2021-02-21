@@ -1,5 +1,6 @@
 jest.mock('src/lib/ga');
 jest.mock('src/lib/gql');
+jest.mock('src/webhook/lineClient');
 
 import ga from 'src/lib/ga';
 import gql from 'src/lib/gql';
@@ -10,6 +11,7 @@ import {
   apiResult,
   article as articleFixtures,
 } from '../__fixtures__/groupMessage';
+import lineClient from 'src/webhook/lineClient';
 
 const event = {
   groupId: 'C904bb9fc2f4904b2facf8204b3f08c79',
@@ -20,6 +22,7 @@ beforeEach(() => {
   event.input = undefined;
   ga.clearAllMocks();
   gql.__reset();
+  lineClient.post.mockClear();
 });
 
 describe('groupMessage', () => {
@@ -47,10 +50,20 @@ describe('groupMessage', () => {
     result = await groupMessage(event);
     expect(result.replies).not.toBeUndefined();
     expect(result).toMatchSnapshot();
+    expect(gql.__finished()).toBe(false);
 
     // don't really care about this result :p
     event.input = 'cofacts';
     expect(await groupMessage(event)).toMatchSnapshot();
+  });
+
+  it('processes leave command bye bye cofacts', async () => {
+    gql.__push(apiResult.notFound);
+    event.input = 'bye bye cofacts';
+    let result = await groupMessage(event);
+    expect(gql.__finished()).toBe(false);
+    expect(result.replies).toBeUndefined();
+    expect(lineClient.post).toHaveBeenCalledTimes(1);
   });
 
   it('should not reply and send ga if article not found', async () => {
@@ -96,6 +109,20 @@ describe('groupMessage', () => {
             "ni": true,
           },
         ],
+        Array [
+          Object {
+            "ea": "Selected",
+            "ec": "Article",
+            "el": "3nbzf064ks60d",
+          },
+        ],
+        Array [
+          Object {
+            "ea": "Selected",
+            "ec": "Reply",
+            "el": "fake-reply-id",
+          },
+        ],
       ]
     `);
     expect(ga.sendMock).toHaveBeenCalledTimes(1);
@@ -108,6 +135,55 @@ describe('groupMessage', () => {
     expect(result.replies).not.toBeUndefined();
     expect(result).toMatchSnapshot();
     expect(gql.__finished()).toBe(true);
+    expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          Object {
+            "ea": "ArticleSearch",
+            "ec": "UserInput",
+            "el": "ArticleFound",
+          },
+        ],
+        Array [
+          Object {
+            "ea": "Search",
+            "ec": "Article",
+            "el": "3nbzf064ks60d",
+            "ni": true,
+          },
+        ],
+        Array [
+          Object {
+            "ea": "Search",
+            "ec": "Article",
+            "el": "8nbzf064ks87g",
+            "ni": true,
+          },
+        ],
+        Array [
+          Object {
+            "ea": "Search",
+            "ec": "Article",
+            "el": "2zn1215x6e70v",
+            "ni": true,
+          },
+        ],
+        Array [
+          Object {
+            "ea": "Selected",
+            "ec": "Article",
+            "el": "3nbzf064ks60d",
+          },
+        ],
+        Array [
+          Object {
+            "ea": "Selected",
+            "ec": "Reply",
+            "el": "fake-reply-id1",
+          },
+        ],
+      ]
+    `);
     expect(ga.sendMock).toHaveBeenCalledTimes(1);
   });
 
@@ -141,6 +217,13 @@ describe('groupMessage', () => {
             "ec": "Article",
             "el": "3nbzf064ks60d",
             "ni": true,
+          },
+        ],
+        Array [
+          Object {
+            "ea": "Selected",
+            "ec": "Article",
+            "el": "3nbzf064ks60d",
           },
         ],
       ]
@@ -180,6 +263,50 @@ describe('groupMessage', () => {
             "ni": true,
           },
         ],
+        Array [
+          Object {
+            "ea": "Selected",
+            "ec": "Article",
+            "el": "2zn1215x6e70v",
+          },
+        ],
+      ]
+    `);
+    expect(ga.sendMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('should handle input is not identical to article ', async () => {
+    event.input = '我知道黑啤愛吃蠶寶寶哦！';
+    gql.__push(apiResult.invalidArticleReply);
+    expect((await groupMessage(event)).replies).toBeUndefined();
+    expect(gql.__finished()).toBe(true);
+    expect(ga.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          undefined,
+          "__INIT__",
+          "我知道黑啤愛吃蠶寶寶哦！",
+          "group",
+        ],
+      ]
+    `);
+    expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          Object {
+            "ea": "ArticleSearch",
+            "ec": "UserInput",
+            "el": "ArticleFound",
+          },
+        ],
+        Array [
+          Object {
+            "ea": "Search",
+            "ec": "Article",
+            "el": "3nbzf064ks60d",
+            "ni": true,
+          },
+        ],
       ]
     `);
     expect(ga.sendMock).toHaveBeenCalledTimes(1);
@@ -215,6 +342,13 @@ describe('groupMessage', () => {
             "ec": "Article",
             "el": "3nbzf064ks60d",
             "ni": true,
+          },
+        ],
+        Array [
+          Object {
+            "ea": "Selected",
+            "ec": "Article",
+            "el": "3nbzf064ks60d",
           },
         ],
       ]
