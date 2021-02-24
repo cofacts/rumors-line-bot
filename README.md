@@ -361,7 +361,7 @@ We use dimemsion `Message Source` (Custom Dimemsion1) to classify different even
   - `LIFF` / `page_redirect` / `App` is sent on LIFF redirect, with value being redirect count.
 
 12. Tutorial
-  - If it's triggered by follow event (Add friend evnet)
+  - If it's triggered by follow event (a.k.a add-friend event)
     - `Tutorial` / `Step` / `ON_BOARDING`
   - If it's triggered by rich menu
     - `Tutorial` / `Step` / `RICH_MENU`
@@ -377,12 +377,11 @@ We use dimemsion `Message Source` (Custom Dimemsion1) to classify different even
   - Leave
     - `Group` / `Leave` / `-1` (`Event category` / `Event action` / `Event value`)
   > Note:
-  > a. We set ga event value 1 as join, -1 as leave.
-  >  To know total groups count chatbot currently joined, you can directly see the total event value (Details see [Implicit Count](https://support.google.com/analytics/answer/1033068?hl=en)).
   >
-  >  b. To know a group is currently joined or leaved, you should find the last `Join` or `Leave` action of the `Client Id`.
-  >
-  >  c. Also, you should find the last `Join` action of the `Client Id` to get a more accurate `Group Members Count`.
+  > 1. We set ga event value 1 as join, -1 as leave.
+  >    To know total groups count chatbot currently joined, you can directly see the total event value (Details see [Implicit Count](https://support.google.com/analytics/answer/1033068?hl=en)).
+  > 2. To know a group is currently joined or leaved, you should find the last `Join` or `Leave` action of the `Client Id`.
+  > 3. Also, you should find the last `Join` action of the `Client Id` to get a more accurate `Group Members Count`.
   > `Group Members Count` is only recorded when chatbot joined group, to know the exact count, you should directly get it from [line messaging-api](https://developers.line.biz/en/reference/messaging-api/#get-members-group-count).
 
 2. User sends a message to us
