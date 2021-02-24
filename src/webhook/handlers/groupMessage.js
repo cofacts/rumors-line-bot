@@ -4,9 +4,11 @@ import { t } from 'ttag';
 import gql from 'src/lib/gql';
 import { createGroupReplyMessages } from './utils';
 import ga from 'src/lib/ga';
+import lineClient from 'src/webhook/lineClient';
 
 const SIMILARITY_THRESHOLD = 0.95;
 const INTRO_KEYWORDS = ['hi cofacts', 'hi confacts'];
+const LEAVE_KEYWORD = 'bye bye cofacts';
 const VALID_CATEGORIES = [
   'medical', //'疾病、醫藥🆕',
   'covid19', //'COVID-19 疫情🆕',
@@ -49,6 +51,11 @@ export default async function processText(event, groupId) {
     return { event, groupId, replies };
   }
 
+  if (event.input.toLowerCase() === LEAVE_KEYWORD) {
+    await lineClient.post(`/${event.source.type}/${groupId}/leave`);
+    return { event, groupId, replies };
+  }
+
   // skip
   if (event.input.length <= 10) {
     return { event, groupId, replies: undefined };
@@ -75,6 +82,7 @@ export default async function processText(event, groupId) {
             }
             articleReplies(status: NORMAL) {
               reply {
+                id
                 type
                 text
                 reference
@@ -128,16 +136,30 @@ export default async function processText(event, groupId) {
       false
     );
 
-    if (hasIdenticalDocs && hasValidCategory) {
+    if (hasIdenticalDocs) {
       const node = edgesSortedWithSimilarity[0].node;
-      const articleReply = getValidArticleReply(node);
-      if (articleReply) {
-        replies = createGroupReplyMessages(
-          event.input,
-          articleReply.reply,
-          node.articleReplies.length,
-          node.id
-        );
+      visitor.event({
+        ec: 'Article',
+        ea: 'Selected',
+        el: node.id,
+      });
+
+      if (hasValidCategory) {
+        const articleReply = getValidArticleReply(node);
+        if (articleReply) {
+          visitor.event({
+            ec: 'Reply',
+            ea: 'Selected',
+            el: articleReply.reply.id,
+          });
+
+          replies = createGroupReplyMessages(
+            event.input,
+            articleReply.reply,
+            node.articleReplies.length,
+            node.id
+          );
+        }
       }
     }
 
@@ -161,7 +183,7 @@ export default async function processText(event, groupId) {
  * 3. candidate's positiveFeedbackCount > non-rumors' positiveFeedbackCount
  *
  * @param {object} articleReplies `Article.articleReplies` from rumors-api
- * @returns {object} A article reply which type is rumor
+ * @returns {object} A reply which type is rumor
  */
 export function getValidArticleReply({ articleReplies }) {
   let rumorCount = 0;

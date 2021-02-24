@@ -25,22 +25,17 @@ export default async function processGroupEvent({
   if (type === 'join') {
     // https://developers.line.biz/en/reference/messaging-api/#get-members-group-count
     // Note: leave group cannot get the number
-    const { count: numberOfGroupMembers } = await lineClient.get(
-      `/group/${groupId}/members/count`
-    );
-    console.log(
-      'Joined group, numberOfGroupMembers: ' +
-        JSON.stringify(numberOfGroupMembers)
+    const { count: groupMembersCount } = await lineClient.get(
+      `/${otherFields.source.type}/${groupId}/members/count`
     );
 
     const visitor = ga(groupId, 'N/A', '', otherFields.source.type);
-
+    visitor.set('cm1', groupMembersCount);
     visitor.event({
       ec: 'Group',
       ea: 'Join',
       ev: 1,
     });
-    visitor.set('cd2', numberOfGroupMembers);
     visitor.send();
   } else if (type === 'leave') {
     const visitor = ga(groupId, 'N/A', '', otherFields.source.type);

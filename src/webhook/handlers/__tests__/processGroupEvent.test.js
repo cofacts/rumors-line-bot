@@ -70,7 +70,7 @@ describe('processGroupEvent', () => {
     expect(ga.setMock.mock.calls).toMatchInlineSnapshot(`
       Array [
         Array [
-          "cd2",
+          "cm1",
           55987,
         ],
       ]

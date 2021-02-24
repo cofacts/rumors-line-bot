@@ -49,15 +49,9 @@ afterAll(async () => {
 });
 
 it('should not reply if result.replies undefined', done => {
-  const { type, replyToken, ...otherFields } = jobData.joinGroup;
-  const param = {
-    replyToken,
-    type,
-    groupId: otherFields.source.groupId,
-    otherFields: { ...otherFields },
-  };
+  const param = jobData.joinGroup;
   processGroupEvent.mockImplementationOnce(() => ({
-    replyToken,
+    replyToken: param.replyToken,
     result: {
       replies: undefined,
     },
@@ -96,15 +90,9 @@ it('should not reply if result.replies undefined', done => {
 
 it('should reply', done => {
   const jobId = 'testId';
-  const { type, replyToken, ...otherFields } = jobData.textMessage;
-  const param = {
-    replyToken,
-    type,
-    groupId: otherFields.source.groupId,
-    otherFields: { ...otherFields },
-  };
+  const param = jobData.textMessage;
   processGroupEvent.mockImplementationOnce(() => ({
-    replyToken,
+    replyToken: param.replyToken,
     result: {
       replies: { dd: 'a' },
     },
@@ -151,13 +139,7 @@ it('should reply', done => {
 
 it('should jobQueue failed with TimeoutError and should not add job to expiredQueue', done => {
   const jobId = 'testId';
-  const { type, replyToken, ...otherFields } = jobData.textMessage;
-  const param = {
-    replyToken,
-    type,
-    groupId: otherFields.source.groupId,
-    otherFields: { ...otherFields },
-  };
+  const param = jobData.textMessage;
   processGroupEvent.mockImplementationOnce(() =>
     Promise.reject(new TimeoutError('mock processGroupEvent timeout error'))
   );
@@ -203,13 +185,7 @@ it('should jobQueue failed with TimeoutError and should not add job to expiredQu
 
 it('should jobQueue failed with TimeoutError and add job to expiredQueue', done => {
   const jobId = 'testId';
-  const { type, replyToken, ...otherFields } = jobData.expiredTextMessage;
-  const param = {
-    replyToken,
-    type,
-    groupId: otherFields.source.groupId,
-    otherFields: { ...otherFields },
-  };
+  const param = jobData.expiredTextMessage;
   processGroupEvent.mockImplementationOnce(() =>
     Promise.reject(new TimeoutError('mock processGroupEvent timeout error'))
   );
@@ -223,7 +199,6 @@ it('should jobQueue failed with TimeoutError and add job to expiredQueue', done 
     expect(e).toMatchInlineSnapshot(`[Error: Event expired]`);
   });
 
-  // in real case this will not happen
   expiredJobQueue.on('failed', async (job, e) => {
     // console.log('expiredJobQueue.failed');
     expect(job.id).toBe(jobId);
@@ -264,133 +239,131 @@ it('should jobQueue failed with TimeoutError and add job to expiredQueue', done 
   });
 });
 
-it('should pause expired job queue when there are events comming in', done => {
-  let failedCount = 0;
-  let drainedCount = 0;
-  let successCount = 0;
-  let expiredQueuePausedTimes = 0;
-  let expiredActiveCount = 0;
-  // event timestamp affects job queue
-  const { type, replyToken, ...otherFields } = jobData.expiredTextMessage;
-  const param = {
-    replyToken,
-    type,
-    groupId: otherFields.source.groupId,
-    otherFields: { ...otherFields },
-  };
-
+it('should pause expiredJobQueue when there are events comming in', done => {
+  const param = jobData.textMessage;
   processGroupEvent.mockImplementation(async () => {
     await sleep(100);
-    // console.log('processGroupEvent failed with timeout');
+    return Promise.resolve({
+      replyToken: param.replyToken,
+      result: {
+        replies: { text: 'it`s rumor.' },
+      },
+    });
+  });
+
+  const fakeProcessor = jest.fn().mockImplementation(async () => {
+    await sleep(100);
     return Promise.reject(
       new TimeoutError('mock processGroupEvent timeout error')
     );
   });
+
+  // set concurrency 0, because the defined concurrency for each process function stacks up for the Queue.
+  // details see https://github.com/OptimalBits/bull/blob/master/REFERENCE.md#queueprocess
+  expiredJobQueue.process('fakeProcessor', 0, fakeProcessor);
+  expiredJobQueue.add('fakeProcessor', {}, { jobId: 'testExpiredId1' });
+  expiredJobQueue.add('fakeProcessor', {}, { jobId: 'testExpiredId2' });
+  expiredJobQueue.add('fakeProcessor', {}, { jobId: 'testExpiredId3' });
+  expiredJobQueue.add('fakeProcessor', {}, { jobId: 'testExpiredId4' });
+
   const gh = new GroupHandler(jobQueue, expiredJobQueue, 1);
-  gh.addJob(param, { jobId: 'testExpiredId1' });
-  gh.addJob(param, { jobId: 'testExpiredId2' });
-  gh.addJob(param, { jobId: 'testExpiredId3' });
-  gh.addJob(param, { jobId: 'testExpiredId4' });
-
-  // add a job while expiredJobQueue active
-  expiredJobQueue.on('active', () => {
-    // console.log('expiredJobQueue active ' + expiredActiveCount);
-    if (expiredActiveCount++ === 1) {
-      const { type, replyToken, ...otherFields } = jobData.textMessage;
-      const param = {
-        replyToken,
-        type,
-        groupId: otherFields.source.groupId,
-        otherFields: { ...otherFields },
-      };
-      gh.addJob(param, { jobId: 'successJobId' });
-
-      // To make sure this event will success(completed),
-      // mockImplementation to resolve a valid result.
-      //
-      // Note: this may make some expired job success(completed),
-      // but in real case it will not happen. And because we do
-      // nothing on expired job `completed`, make some expired job
-      // success won't affect the test result.
-      processGroupEvent.mockImplementation(async () => {
-        await sleep(100);
-        // console.log('processGroupEvent success');
-        return Promise.resolve({
-          replyToken,
-          result: {
-            replies: { text: 'it`s rumor.' },
-          },
-        });
-      });
-    }
+  // event timestamp affects job queue
+  gh.addJob(param, { jobId: 'successJobId' });
+  jobQueue.on('active', async () => {
+    // delay for expiredJobQueue to become paused
+    await sleep(100);
+    expect(await expiredJobQueue.getJobCounts()).toMatchInlineSnapshot(`
+      Object {
+        "active": 1,
+        "completed": 0,
+        "delayed": 0,
+        "failed": 0,
+        "paused": 3,
+        "waiting": 0,
+      }
+    `);
+    done();
   });
+});
 
-  jobQueue.on('completed', async () => {
-    // console.log('jobQueue.completed');
-    successCount++;
-    // mockImplementation back to reject by timeout
-    processGroupEvent.mockImplementation(async () => {
+it('should activate expiredJobQueue after jobQueue drained', done => {
+  const expiredJobData = jobData.expiredTextMessage;
+  const activeJobData = jobData.textMessage;
+
+  processGroupEvent
+    .mockImplementationOnce(async () => {
       await sleep(100);
-      // console.log('processGroupEvent failed with timeout');
+      return Promise.resolve({
+        replyToken: activeJobData.replyToken,
+        result: {
+          replies: { text: 'it`s rumor.' },
+        },
+      });
+    })
+    .mockImplementationOnce(async () => {
+      await sleep(100);
       return Promise.reject(
         new TimeoutError('mock processGroupEvent timeout error')
       );
     });
-  });
-  jobQueue.on('failed', async () => {
-    // console.log('jobQueue.failed done');
-    failedCount++;
-  });
-  expiredJobQueue.on('paused', async () => {
-    expiredQueuePausedTimes++;
+
+  expiredJobQueue.pause();
+  expiredJobQueue.add(expiredJobData, { jobId: 'testExpiredId1' });
+
+  const gh = new GroupHandler(jobQueue, expiredJobQueue, 1);
+  gh.addJob(activeJobData, { jobId: 'successJobId' });
+
+  jobQueue.on('active', async () => {
+    expect(await expiredJobQueue.getJobCounts()).toMatchInlineSnapshot(`
+      Object {
+        "active": 0,
+        "completed": 0,
+        "delayed": 0,
+        "failed": 0,
+        "paused": 1,
+        "waiting": 0,
+      }
+    `);
   });
 
   jobQueue.on('drained', async () => {
-    // console.log('jobQueue drained');
-    drainedCount++;
+    // delay for expiredJobQueue to become active
+    await sleep(100);
+    expect(await expiredJobQueue.getJobCounts()).toMatchInlineSnapshot(`
+      Object {
+        "active": 1,
+        "completed": 0,
+        "delayed": 0,
+        "failed": 0,
+        "paused": 0,
+        "waiting": 0,
+      }
+    `);
   });
 
   expiredJobQueue.on('drained', async () => {
-    // console.log('expiredJobQueue drained');
-    if ((await isQueueIdle(jobQueue)) && (await isQueueIdle(expiredJobQueue))) {
-      // console.log('test done');
-
-      // one by jobQueue, four by expiredJobQueue
-      expect(processGroupEvent).toHaveBeenCalledTimes(5);
-
-      // jobQueue
-      //
-      // console.log('success: ' + successCount + ', failed: ' + failedCount);
-
-      // should have one job(`successJobId`) success
-      expect(successCount).toBe(1);
-      expect(lineClient.post).toHaveBeenCalledTimes(successCount);
-      // jobQueue should drained twice
-      // first time is by `testExpiredId`s, second time is by `successJobId`
-      expect(drainedCount).toBe(2);
-      expect(await jobQueue.getJobCounts()).toMatchInlineSnapshot(`
-        Object {
-          "active": 0,
-          "completed": 1,
-          "delayed": 0,
-          "failed": 4,
-          "paused": 0,
-          "waiting": 0,
-        }
-      `);
-
-      // expiredJobQueue
-      //
-      // it should have four job failed with timeout and process by expiredJobQueue
-      const expiredJobCount = await getJobCounts(expiredJobQueue);
-      expect(failedCount).toBe(expiredJobCount);
-      expect(expiredJobCount).toBe(4);
-      // expiredQueue should pause two times:
-      // first time by testExpiredId1, second time by testId
-      expect(expiredQueuePausedTimes).toBe(2);
-
-      done();
-    }
+    expect(processGroupEvent).toHaveBeenCalledTimes(2);
+    expect(await jobQueue.getJobCounts()).toMatchInlineSnapshot(`
+      Object {
+        "active": 0,
+        "completed": 1,
+        "delayed": 0,
+        "failed": 0,
+        "paused": 0,
+        "waiting": 0,
+      }
+    `);
+    expect(await expiredJobQueue.getJobCounts()).toMatchInlineSnapshot(`
+      Object {
+        "active": 0,
+        "completed": 0,
+        "delayed": 0,
+        "failed": 1,
+        "paused": 0,
+        "waiting": 0,
+      }
+    `);
+    done();
   });
 });
 
@@ -438,17 +411,6 @@ const isQueueIdle = async q => {
   ])).reduce((acc, v) => {
     return (acc = v === 0 && acc);
   }, true);
-};
-
-/**
- *
- * @param {Bull.Queue} q
- * @return {number}
- */
-const getJobCounts = async q => {
-  const jobCount = await q.getJobCounts();
-  // console.log(JSON.stringify(jobCount));
-  return Object.values(jobCount).reduce((acc, v) => acc + v, 0);
 };
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
