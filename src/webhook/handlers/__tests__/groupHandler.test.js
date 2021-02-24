@@ -271,7 +271,7 @@ it('should pause expiredJobQueue when there are events comming in', done => {
   gh.addJob(param, { jobId: 'successJobId' });
   jobQueue.on('active', async () => {
     // delay for expiredJobQueue to become paused
-    await sleep(100);
+    await sleep(50);
     expect(await expiredJobQueue.getJobCounts()).toMatchInlineSnapshot(`
       Object {
         "active": 1,
@@ -282,6 +282,11 @@ it('should pause expiredJobQueue when there are events comming in', done => {
         "waiting": 0,
       }
     `);
+
+    // After jobQueue drained, expiredJobQueue will continue processing remain jobs, to avoid test warning:
+    // "This usually means that there are asynchronous operations that weren't stopped in your tests. Consider running Jest with `--detectOpenHandles` to troubleshoot this issue."
+    // It's better to wait for all expiredJobQueue jobs done.
+    await sleep(350);
     done();
   });
 });
