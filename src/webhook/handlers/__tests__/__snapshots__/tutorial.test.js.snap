@@ -312,7 +312,7 @@ Object {
               "action": Object {
                 "label": "Setup permission",
                 "type": "uri",
-                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=setting&utm_source=rumors-line-bot&utm_medium=tutorial",
+                "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=setting&utm_source=rumors-line-bot&utm_medium=tutorial",
               },
               "color": "#ffb600",
               "style": "primary",
@@ -411,7 +411,7 @@ Object {
               "action": Object {
                 "label": "Setup permission",
                 "type": "uri",
-                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=setting&utm_source=rumors-line-bot&utm_medium=tutorial",
+                "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=setting&utm_source=rumors-line-bot&utm_medium=tutorial",
               },
               "color": "#ffb600",
               "style": "primary",
@@ -511,7 +511,7 @@ You can still use Cofacts without granting me this permission. When we ask for f
               "action": Object {
                 "label": "Setup permission",
                 "type": "uri",
-                "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=setting&utm_source=rumors-line-bot&utm_medium=tutorial",
+                "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=setting&utm_source=rumors-line-bot&utm_medium=tutorial",
               },
               "color": "#ffb600",
               "style": "primary",

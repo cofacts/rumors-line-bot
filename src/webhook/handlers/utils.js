@@ -112,10 +112,7 @@ export function getLIFFURL(page, userId, sessionId) {
     exp: Math.round(Date.now() / 1000) + LIFF_EXP_SEC,
   });
 
-  // /liff/index.html is required due to weird & undocumented redirect behavior of LIFF SDK v2
-  // https://www.facebook.com/groups/linebot/permalink/2380490388948200/?comment_id=2380868955577010
-  //
-  return `${process.env.LIFF_URL}/liff/index.html?p=${page}&token=${jwt}`;
+  return `${process.env.LIFF_URL}?p=${page}&token=${jwt}`;
 }
 
 export const FLEX_MESSAGE_ALT_TEXT = `📱 ${
@@ -326,7 +323,7 @@ export function createNotificationSettingsBubble() {
             label: t`Go to settings`,
             uri: `${
               process.env.LIFF_URL
-            }/liff/index.html?p=setting&utm_source=rumors-line-bot&utm_medium=reply-request`,
+            }?p=setting&utm_source=rumors-line-bot&utm_medium=reply-request`,
           },
           style: 'primary',
           color: '#00B172',

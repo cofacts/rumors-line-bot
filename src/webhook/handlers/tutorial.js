@@ -251,7 +251,7 @@ function createPermissionSetupDialog(message) {
   const buttonLabel = t`Setup permission`;
   const buttonUri = `${
     process.env.LIFF_URL
-  }/liff/index.html?p=setting&utm_source=rumors-line-bot&utm_medium=tutorial`;
+  }?p=setting&utm_source=rumors-line-bot&utm_medium=tutorial`;
 
   return {
     type: 'flex',

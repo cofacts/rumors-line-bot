@@ -180,7 +180,7 @@ function createNotifyFlexMessage() {
   const message = t`There are new replies for the articles you have searched. Click the button for more details.`;
   const url = `${
     process.env.LIFF_URL
-  }/liff/index.html?p=articles&utm_source=rumors-line-bot&utm_medium=push`;
+  }?p=articles&utm_source=rumors-line-bot&utm_medium=push`;
 
   return {
     type: 'flex',

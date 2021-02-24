@@ -30,7 +30,7 @@ Array [
           "action": Object {
             "label": "Provide more info",
             "type": "uri",
-            "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE1Nzc4MzY4MDAwMDAsInN1YiI6InVzZXItaWQtMCIsImV4cCI6MTU3NzkyMzIwMH0.8BerlnWZ5tp5Voipq2feE3W1sWxadJ9whgrIitn1h5U",
+            "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE1Nzc4MzY4MDAwMDAsInN1YiI6InVzZXItaWQtMCIsImV4cCI6MTU3NzkyMzIwMH0.8BerlnWZ5tp5Voipq2feE3W1sWxadJ9whgrIitn1h5U",
           },
           "color": "#ffb600",
           "style": "primary",
@@ -61,7 +61,7 @@ Array [
           "action": Object {
             "label": "Go to settings",
             "type": "uri",
-            "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=setting&utm_source=rumors-line-bot&utm_medium=reply-request",
+            "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=setting&utm_source=rumors-line-bot&utm_medium=reply-request",
           },
           "color": "#00B172",
           "style": "primary",
@@ -263,7 +263,7 @@ A LINE group",
                   "action": Object {
                     "label": "Provide more info",
                     "type": "uri",
-                    "uri": "https://liff.line.me/1563196602-X6mLdDkW/liff/index.html?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE1Nzc5MjMyMDAwMDAsInN1YiI6InVzZXJJZCIsImV4cCI6MTU3ODAwOTYwMH0.NNLTji977VFNyYJ0Mplj63tAUBrzifCmNtWp-0dHrus",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE1Nzc5MjMyMDAwMDAsInN1YiI6InVzZXJJZCIsImV4cCI6MTU3ODAwOTYwMH0.NNLTji977VFNyYJ0Mplj63tAUBrzifCmNtWp-0dHrus",
                   },
                   "color": "#ffb600",
                   "style": "primary",
