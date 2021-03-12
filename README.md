@@ -279,7 +279,7 @@ you will still have to set the following config vars manually:
 
 ```
 $ heroku config:set API_URL=https://cofacts-api.g0v.tw/graphql
-$ heroku config:set SITE_URL=https://cofacts.g0v.tw
+$ heroku config:set SITE_URLS=https://cofacts.g0v.tw
 $ heroku config:set LINE_CHANNEL_SECRET=<Your channel secret>
 $ heroku config:set LINE_CHANNEL_TOKEN=<Your channel token>
 $ heroku config:set LIFF_URL=<LIFF URL>

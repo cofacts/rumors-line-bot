@@ -6,7 +6,9 @@ import { t } from 'ttag';
 import dateFnsFormat from 'date-fns/format';
 import dateFnsFormatDistanceToNow from 'date-fns/formatDistanceToNow';
 
-const SITE_URL = process.env.SITE_URL || 'https://cofacts.g0v.tw';
+const SITE_URLS = (process.env.SITE_URLS || 'https://cofacts.g0v.tw').split(
+  ','
+);
 
 /**
  * prefilled text for LIFF sendMessage()
@@ -23,7 +25,28 @@ export const VIEW_ARTICLE_PREFIX = `📃 ${t`See replies of`}:\n`;
  * @returns {string} The article's full URL
  */
 export function getArticleURL(articleId) {
-  return `${SITE_URL}/article/${articleId}`;
+  return `${SITE_URLS[0]}/article/${articleId}`;
+}
+
+/**
+ * Extracts Article ID from message with just article URL, or prefix + article URL.
+ *
+ * @param {string} message
+ * @returns {string} Extracts article ID from message, or empty string if the given string is not article URL.
+ */
+export function extractArticleId(message) {
+  if (message.startsWith(VIEW_ARTICLE_PREFIX)) {
+    message = message.replace(VIEW_ARTICLE_PREFIX, '');
+  }
+
+  for (const siteUrl of SITE_URLS) {
+    const articleUrlPrefix = `${siteUrl}/article/`;
+    if (message.startsWith(articleUrlPrefix)) {
+      return message.replace(articleUrlPrefix, '');
+    }
+  }
+
+  return '';
 }
 
 /**

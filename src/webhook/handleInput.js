@@ -13,8 +13,7 @@ import {
   UPVOTE_PREFIX,
   SOURCE_PREFIX_NOT_YET_REPLIED,
   SOURCE_PREFIX_FRIST_SUBMISSION,
-  VIEW_ARTICLE_PREFIX,
-  getArticleURL,
+  extractArticleId,
 } from 'src/lib/sharedUtils';
 import tutorial, { TUTORIAL_STEPS } from './handlers/tutorial';
 
@@ -41,15 +40,8 @@ export default async function handleInput({ data = {} }, event, userId) {
     // Trim input because these may come from other chatbot
     //
     const trimmedInput = event.input.trim();
-    const articleUrlPrefix = getArticleURL('');
-    if (
-      trimmedInput.startsWith(VIEW_ARTICLE_PREFIX) ||
-      trimmedInput.startsWith(articleUrlPrefix)
-    ) {
-      const articleId = trimmedInput
-        .replace(VIEW_ARTICLE_PREFIX, '')
-        .replace(articleUrlPrefix, '');
-
+    const articleId = extractArticleId(trimmedInput);
+    if (articleId) {
       // Start new session, reroute to CHOOSING_ARTILCE and simulate "choose article" postback event
       //
       state = 'CHOOSING_ARTICLE';
