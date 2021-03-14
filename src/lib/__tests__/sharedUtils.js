@@ -1,10 +1,10 @@
-describe('Test SITE_URL', () => {
+describe('getArticleURL and extractArticleId', () => {
   const OLD_ENV = process.env;
 
   beforeEach(() => {
     jest.resetModules();
     process.env = { ...OLD_ENV };
-    delete process.env.SITE_URL;
+    delete process.env.SITE_URLS;
   });
 
   afterEach(() => {
@@ -19,11 +19,38 @@ describe('Test SITE_URL', () => {
   });
 
   it('use SITE_URL from env variables', () => {
-    process.env.SITE_URL = 'https://cofacts.hacktabl.org';
+    process.env.SITE_URLS = 'https://cofacts.hacktabl.org';
     const utils = require('../sharedUtils');
     expect(utils.getArticleURL('AWDZYXxAyCdS-nWhumlz')).toMatchInlineSnapshot(
       `"https://cofacts.hacktabl.org/article/AWDZYXxAyCdS-nWhumlz"`
     );
+  });
+
+  it('returns empty string when no aritcle ID can be extracted', () => {
+    const utils = require('../sharedUtils');
+    const invalidMessages = [
+      'not valid',
+      utils.VIEW_ARTICLE_PREFIX + 'not valid',
+      'https://cofacts.g0v.tw/reply/not-article-url',
+    ];
+
+    for (const message of invalidMessages) {
+      expect(utils.extractArticleId(message)).toBe('');
+    }
+  });
+
+  it('extracts article successfully', () => {
+    process.env.SITE_URLS = 'http://host1,https://host2';
+    const utils = require('../sharedUtils');
+
+    const messagesWithArticleId = [
+      utils.VIEW_ARTICLE_PREFIX + 'http://host1/article/expected-id',
+      'https://host2/article/expected-id',
+    ];
+
+    for (const message of messagesWithArticleId) {
+      expect(utils.extractArticleId(message)).toBe('expected-id');
+    }
   });
 });
 
