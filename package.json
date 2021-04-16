@@ -21,7 +21,8 @@
     "clean": "run-s clean:*",
     "clean:server": "rm -rf build",
     "clean:liff": "rm -rf liff",
-    "notify": "babel-node -r dotenv/config src/scripts/scanRepliesAndNotify.js"
+    "notify": "babel-node -r dotenv/config src/scripts/scanRepliesAndNotify.js",
+    "cofactsapi": "babel-node -r dotenv/config src/scripts/introspectCofactsApi.js"
   },
   "repository": {
     "type": "git",

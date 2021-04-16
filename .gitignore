@@ -54,3 +54,6 @@ client_secret.json
 
 # Used by mongodb docker
 data/
+
+# Generated file
+src/graphql/cofacts-api.graphql
