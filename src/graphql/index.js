@@ -1,11 +1,13 @@
 import fs from 'fs';
 import path from 'path';
-import { ApolloServer, makeExecutableSchema } from 'apollo-server-koa';
+import { ApolloServer } from 'apollo-server-koa';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+
 import redis from 'src/lib/redisClient';
 import { verifyIDToken } from './lineClient';
 import { verify, read } from 'src/lib/jwt';
 
-export const schema = makeExecutableSchema({
+export const linebotSchema = makeExecutableSchema({
   typeDefs: fs.readFileSync(path.join(__dirname, `./typeDefs.graphql`), {
     encoding: 'utf-8',
   }),
@@ -94,7 +96,7 @@ export async function getContext({ ctx: { req } }) {
 }
 
 const server = new ApolloServer({
-  schema,
+  schema: linebotSchema,
   context: getContext,
 });
 

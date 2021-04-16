@@ -1,5 +1,5 @@
 import { AuthenticationError } from 'apollo-server-koa';
-import { SchemaDirectiveVisitor } from 'graphql-tools';
+import { SchemaDirectiveVisitor } from '@graphql-tools/utils';
 
 /**
  * When field with @auth is accessed, make sure the user is logged in.
