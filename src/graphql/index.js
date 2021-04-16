@@ -1,40 +1,11 @@
-import fs from 'fs';
-import path from 'path';
 import { ApolloServer } from 'apollo-server-koa';
-import { makeExecutableSchema } from '@graphql-tools/schema';
+import { stitchSchemas } from '@graphql-tools/stitch';
 
+import linebotSchema from './linebotSchema';
+import cofactsSchema from './cofactsSchema';
 import redis from 'src/lib/redisClient';
 import { verifyIDToken } from './lineClient';
 import { verify, read } from 'src/lib/jwt';
-
-export const linebotSchema = makeExecutableSchema({
-  typeDefs: fs.readFileSync(path.join(__dirname, `./typeDefs.graphql`), {
-    encoding: 'utf-8',
-  }),
-  resolvers: fs
-    .readdirSync(path.join(__dirname, 'resolvers'))
-    .reduce((resolvers, fileName) => {
-      resolvers[
-        fileName.replace(/\.js$/, '')
-      ] = require(`./resolvers/${fileName}`).default;
-      return resolvers;
-    }, {}),
-  schemaDirectives: fs
-    .readdirSync(path.join(__dirname, 'directives'))
-    .reduce((directives, fileName) => {
-      directives[
-        fileName.replace(/\.js$/, '')
-      ] = require(`./directives/${fileName}`).default;
-      return directives;
-    }, {}),
-  resolverValidationOptions: {
-    // MongoDBDocument, Connection and ConnectionEdge are for consistent interface.
-    // We don't query fields with these type, thus no __resolveType is needed.
-    //
-    // Ref: https://github.com/apollographql/apollo-server/issues/1075#issuecomment-440768737
-    requireResolversForResolveType: false,
-  },
-});
 
 // Empty context for non-auth public APIs
 const EMPTY_CONTEXT = {
@@ -95,8 +66,12 @@ export async function getContext({ ctx: { req } }) {
   return EMPTY_CONTEXT;
 }
 
+export const schema = stitchSchemas({
+  subschemas: [linebotSchema, cofactsSchema],
+});
+
 const server = new ApolloServer({
-  schema: linebotSchema,
+  schema,
   context: getContext,
 });
 
