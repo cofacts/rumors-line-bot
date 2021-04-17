@@ -5,6 +5,9 @@ import rollbar from 'src/lib/rollbar';
 /**
  * Reference: https://developers.line.biz/en/reference/social-api/#response-5
  *
+ * TODO: use signature to perform offline test instead, remove the need to call endpoint
+ * https://developers.line.biz/en/docs/line-login/integrate-line-login/#decode-and-validate-id-token
+ *
  * @param {string} idToken
  * @return {object} Response from API
  */
