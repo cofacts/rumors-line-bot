@@ -4,7 +4,7 @@ import { introspectSchema } from '@graphql-tools/wrap';
 import { printSchema } from 'graphql/utilities';
 import executor from '../graphql/cofactsSchemaExecutor';
 
-const OUTPUT = path.join(__dirname, `../graphql/cofacts-api.graphql`);
+const OUTPUT = path.join(__dirname, `../../data/cofacts-api.graphql`);
 
 introspectSchema(executor)
   .then(schema => {
