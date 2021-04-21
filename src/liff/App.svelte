@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { page } from './lib';
+  import Article from './pages/Article.svelte';
   import Articles from './pages/Articles.svelte';
   import Source from './pages/Source.svelte';
   import Reason from './pages/Reason.svelte';
@@ -9,6 +10,7 @@
   import NegativeFeedback from './pages/NegativeFeedback.svelte';
 
   const routes = {
+    article: Article,
     articles: Articles,
     source: Source,
     reason: Reason,
