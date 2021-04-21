@@ -9,6 +9,16 @@
   let articleData;
   let articleReplies = [];
 
+  const articleReplyFields = `
+    ownVote
+    positiveFeedbackCount
+    negativeFeedbackCount
+    reply {
+      id
+      text
+    }
+  `
+
   const loadData = async () => {
     const {
       data: { GetArticle },
@@ -16,24 +26,39 @@
       query GetArticleInLIFF($id: String) {
         GetArticle(id: $id) {
           text
-          articleReplies {
-            reply {
-              id
-              text
-            }
+          articleReplies(status: NORMAL) {
+            ${articleReplyFields}
           }
         }
       }
     `({id: articleId});
 
     articleData = GetArticle;
-
     articleReplies = GetArticle.articleReplies.filter(({reply}) => replyId ? reply.id === replyId : true);
   }
 
   onMount(async () => {
     await loadData();
-  })
+  });
+
+  const handleVote = async (replyId, vote) => {
+    const resp = await gql`
+      mutation VoteUpInArticleLIFF($articleId: String!, $replyId: String!, $vote: CofactsAPIFeedbackVote!) {
+        CreateOrUpdateArticleReplyFeedback(
+          articleId: $articleId
+          replyId: $replyId
+          vote: $vote
+        ) {
+          ${articleReplyFields}
+        }
+      }
+    `({articleId, replyId, vote});
+
+    const newArticleReply = resp.data.CreateOrUpdateArticleReplyFeedback;
+    articleReplies = articleReplies.map(articleReply =>
+      articleReply.reply.id === replyId ? newArticleReply : articleReply
+    )
+  }
 </script>
 
 <svelte:head>
@@ -50,7 +75,15 @@
   <ul>
     {#each articleReplies as articleReply (articleReply.reply.id)}
       <li>
-        {articleReply.reply.text}
+        <article>
+          {articleReply.reply.text}
+        </article>
+        <button type="button" on:click={() => handleVote(articleReply.reply.id, 'UPVOTE')}>
+          Upvote ({articleReply.positiveFeedbackCount})
+        </button>
+        <button type="button" on:click={() => handleVote(articleReply.reply.id, 'DOWNVOTE')}>
+          Downvote ({articleReply.negativeFeedbackCount})
+        </button>
       </li>
     {/each}
   </ul>
