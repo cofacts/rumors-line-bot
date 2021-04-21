@@ -67,7 +67,19 @@ export async function getContext({ ctx: { req } }) {
 }
 
 export const schema = stitchSchemas({
-  subschemas: [linebotSchema, cofactsSchema],
+  subschemas: [
+    linebotSchema,
+    {
+      schema: cofactsSchema,
+      merge: {
+        CofactsAPIArticle: {
+          fieldName: 'GetArticle',
+          selectionSet: '{ id }',
+          args: articleObj => ({ id: articleObj.id }),
+        },
+      },
+    },
+  ],
 });
 
 const server = new ApolloServer({
