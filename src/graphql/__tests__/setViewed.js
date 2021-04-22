@@ -1,11 +1,11 @@
-jest.mock("../lineClient");
+jest.mock('../lineClient');
 
-import Client from "src/database/mongoClient";
-import UserArticleLink from "src/database/models/userArticleLink";
-import MockDate from "mockdate";
-import { gql } from "../testUtils";
+import Client from 'src/database/mongoClient';
+import UserArticleLink from 'src/database/models/userArticleLink';
+import MockDate from 'mockdate';
+import { gql } from '../testUtils';
 
-it("context rejects anonymous users", async () => {
+it('context rejects anonymous users', async () => {
   const result = await gql`
     mutation($articleId: String!) {
       setViewed(articleId: $articleId) {
@@ -13,7 +13,7 @@ it("context rejects anonymous users", async () => {
       }
     }
   `({
-    articleId: "foo"
+    articleId: 'foo',
   });
   expect(result).toMatchInlineSnapshot(`
     Object {
@@ -27,7 +27,7 @@ it("context rejects anonymous users", async () => {
   `);
 });
 
-describe("finds", () => {
+describe('finds', () => {
   beforeAll(async () => {
     MockDate.set(612921600000);
     if (await UserArticleLink.collectionExists()) {
@@ -40,7 +40,7 @@ describe("finds", () => {
     await (await Client.getInstance()).close();
   });
 
-  it("creates user article link with current date", () =>
+  it('creates user article link with current date', () =>
     expect(
       gql`
         mutation($articleId: String!) {
@@ -49,7 +49,7 @@ describe("finds", () => {
             lastViewedAt
           }
         }
-      `({ articleId: "foo" }, { userId: "user1" })
+      `({ articleId: 'foo' }, { userId: 'user1' })
     ).resolves.toMatchInlineSnapshot(`
       Object {
         "data": Object {
