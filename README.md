@@ -365,6 +365,8 @@ We use dimemsion `Message Source` (Custom Dimemsion1) to classify different even
 
 11. Other LIFF operations
   - `LIFF` / `page_redirect` / `App` is sent on LIFF redirect, with value being redirect count.
+  - `LIFF` / `ViewArticle` / `<articleId>` when article page with `articleId` is opened
+  - `LIFF` / `ViewReply` / `<replyId>` for each displayed reply in article page
 
 12. Tutorial
   - If it's triggered by follow event (a.k.a add-friend event)

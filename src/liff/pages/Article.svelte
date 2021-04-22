@@ -35,10 +35,31 @@
 
     articleData = GetArticle;
     articleReplies = GetArticle.articleReplies.filter(({reply}) => replyId ? reply.id === replyId : true);
+
+    // Send event to Google Analytics
+    gtag('event', 'ViewArticle', {
+      event_category: 'LIFF',
+      event_label: articleId,
+    });
+    articleReplies.forEach(({reply}) => {
+      gtag('event', 'ViewReply', {
+        event_category: 'LIFF',
+        event_label: reply.id,
+      });
+    })
   }
 
-  onMount(async () => {
-    await loadData();
+  const setViewed = async () => {
+    await gql`
+      mutation SetViewedInLIFF($id: String!) {
+        setViewed(articleId: $id) { lastViewedAt }
+      }
+    `({id: articleId});
+  }
+
+  onMount(() => {
+    loadData();
+    setViewed();
   });
 
   const handleVote = async (replyId, vote) => {
