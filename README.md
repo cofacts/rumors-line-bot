@@ -111,6 +111,12 @@ A tip to develop LIFF in browser is:
 `liff.init()` would still work in desktop browser, so that the app renders, enabling us to debug web layouts on desktop.
 `liff.sendMessages()` would not work, though.
 
+#### GraphQL API for LIFF
+
+The LINE bot server starts a GraphQL server that stiches Cofacts GraphQL API and API specific to the LINE chatbot.
+
+Whenever Cofacts API updates, use `npm run cofactsapi` to fetch the latest Cofacts API schema.
+
 #### How LIFF is deployed on production
 
 On production, LIFF files are compiled to `/liff` directory and served as static files by the chatbot server.

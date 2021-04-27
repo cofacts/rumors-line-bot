@@ -11,7 +11,7 @@
     "dev": "run-p dev:*",
     "dev:server": "pm2-dev ecosystem.dev.config.js",
     "dev:liff": "webpack-dev-server",
-    "postinstall": "run-p build:*",
+    "postinstall": "run-p build:* cofactsapi",
     "build:server": "babel src -d build --ignore \"src/liff/**\",\"**/__tests__/**\",\"**/__mocks__/**\" --copy-files --no-copy-ignored",
     "build:liff": "NODE_ENV=production webpack",
     "lint:fix": "eslint --fix .",
@@ -21,7 +21,8 @@
     "clean": "run-s clean:*",
     "clean:server": "rm -rf build",
     "clean:liff": "rm -rf liff",
-    "notify": "babel-node -r dotenv/config src/scripts/scanRepliesAndNotify.js"
+    "notify": "babel-node -r dotenv/config src/scripts/scanRepliesAndNotify.js",
+    "cofactsapi": "babel-node -r dotenv/config src/scripts/introspectCofactsApi.js"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,10 @@
   "homepage": "https://github.com/cofacts/rumors-line-bot#readme",
   "dependencies": {
     "@google-cloud/dialogflow": "^3.3.0",
+    "@graphql-tools/schema": "^7.1.3",
+    "@graphql-tools/stitch": "^7.5.1",
+    "@graphql-tools/utils": "^7.7.3",
+    "@graphql-tools/wrap": "^7.0.5",
     "@line/bot-sdk": "^6.8.4",
     "ajv": "^6.12.2",
     "apollo-server-koa": "^2.21.0",
@@ -49,7 +54,6 @@
     "grapheme-splitter": "^1.0.4",
     "graphql": "^15.0.0",
     "graphql-scalar-objectid": "^0.1.2",
-    "graphql-tools": "^4.0.7",
     "jsrsasign": "^8.0.20",
     "koa": "^2.5.0",
     "koa-passport": "^4.1.3",

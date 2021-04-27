@@ -191,6 +191,9 @@ type UserArticleLink implements MongoDBDocument {
   lastViewedAt: Date
   lastRepliedAt: Date
   lastPositiveFeedbackRepliedAt: Date
+
+  # Linked to Cofacts API
+  article: CofactsAPIArticle
 }
 
 input UserArticleLinksOrderBy {
@@ -247,4 +250,9 @@ type UserArticleLinkConnection implements Connection {
 type UserArticleLinkConnectionEdge implements ConnectionEdge {
   node: UserArticleLink!
   cursor: Cursor!
+}
+
+# Cofacts API article stub, for unidirectional merge with Cofacts API
+type CofactsAPIArticle {
+  id: ID!
 }
