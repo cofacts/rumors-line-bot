@@ -23,10 +23,12 @@ type Mutation {
   Add feedback to article-reply in context.
   Returns feedback count after vote.
   """
-  voteReply(vote: FeedbackVote!): Int @auth
+  voteReply(vote: FeedbackVote!): Int @auth @deprecated(reason: "Use CreateOrUpdateArticleReplyFeedback instead")
 
-  # TODO: Implement after database is established
-  setViewed(articleId: String!): Boolean @auth
+  """
+  Establish article-user link between the current user and the specified article.
+  """
+  setViewed(articleId: String!): UserArticleLink @auth(check: ["userId"])
 
   """
   Add feedback to article-reply in context.
