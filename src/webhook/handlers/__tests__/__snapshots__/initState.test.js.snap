@@ -382,9 +382,9 @@ Object {
   "isSkipUser": false,
   "replies": Array [
     Object {
-      "text": "It's good that you don't trust that message just yet.
+      "text": "It's good that you don't trust that message just yet. 👍
 
-However, I currently don't recognize \\"零一二三四五六七八九十\\". May I have your help?",
+                  However, I currently don't recognize \\"零一二三四五六七八九十\\". May I have your help?",
       "type": "text",
     },
     Object {
@@ -956,9 +956,9 @@ Object {
   "isSkipUser": false,
   "replies": Array [
     Object {
-      "text": "It's good that you don't trust that message just yet.
+      "text": "It's good that you don't trust that message just yet. 👍
 
-However, I currently don't recognize \\"YouTube · ⋯⋯\\". May I have your help?",
+                  However, I currently don't recognize \\"YouTube · ⋯⋯\\". May I have your help?",
       "type": "text",
     },
     Object {
