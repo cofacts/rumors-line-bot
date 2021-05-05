@@ -16,6 +16,11 @@ Object {
   "isSkipUser": false,
   "replies": Array [
     Object {
+      "text": "I see. Don't trust the message just yet!
+May I have your help?",
+      "type": "text",
+    },
+    Object {
       "altText": "🥇 Be the first to report the message
 📱 Please proceed on your mobile phone.",
       "contents": Object {
@@ -1549,12 +1554,12 @@ Object {
             Object {
               "contents": Array [
                 Object {
-                  "text": "Unfortunately no one has replied to this message yet. To help Cofacts editors checking the message, please ",
+                  "text": "I would suggest don't trust this message just yet. To help Cofacts editors checking the message, please ",
                   "type": "span",
                 },
                 Object {
                   "color": "#ffb600",
-                  "text": "provide more information using “ℹ️ Provide more info” button. ",
+                  "text": "provide more information using the button below. ",
                   "type": "span",
                   "weight": "bold",
                 },
