@@ -57,7 +57,14 @@ export default async function choosingArticle(params) {
       data,
       event,
       userId,
-      replies: [createAskArticleSubmissionConsentReply(userId, data.sessionId)],
+      replies: [
+        {
+          type: 'text',
+          text: t`I see. Don't trust the message just yet!
+            May I have your help?`,
+        },
+        createAskArticleSubmissionConsentReply(userId, data.sessionId),
+      ],
       isSkipUser,
     };
   }
@@ -297,11 +304,11 @@ export default async function choosingArticle(params) {
     const spans = [
       {
         type: 'span',
-        text: t`Unfortunately no one has replied to this message yet. To help Cofacts editors checking the message, please `,
+        text: t`I would suggest don't trust this message just yet. To help Cofacts editors checking the message, please `,
       },
       {
         type: 'span',
-        text: t`provide more information using “${btnText}” button. `,
+        text: t`provide more information using the button below. `,
         color: '#ffb600',
         weight: 'bold',
       },
