@@ -4,7 +4,9 @@ import { introspectSchema } from '@graphql-tools/wrap';
 import { printSchema } from 'graphql/utilities';
 import executor from '../graphql/cofactsSchemaExecutor';
 
-const OUTPUT = path.join(__dirname, `../../data/cofacts-api.graphql`);
+const PATH_PREFIX = '../../data';
+fs.mkdirSync(path.join(__dirname, PATH_PREFIX));
+const OUTPUT = path.join(__dirname, `${PATH_PREFIX}/cofacts-api.graphql`);
 
 introspectSchema(executor)
   .then(schema => {
