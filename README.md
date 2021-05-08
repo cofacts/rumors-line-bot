@@ -131,7 +131,7 @@ thus swapping LIFF URL env variable without rebuilding the LIFF binaries will ca
 
 [Install tesseract-ocr binary](https://github.com/tesseract-ocr/tesseract/wiki) and set `IMAGE_MESSAGE_ENABLED` to `true`. If you are going to deploy linebot on heroku, you should [use buildpack](https://github.com/cofacts/rumors-line-bot#tesseract-ocr-on-heroku).
 
-Note : Linebot will temporarily save both image and tesseract output file in `tmp_image_process` folder every time image message sends in. If you develop through `npm run dev`, you should set `autorestart` and `watch` in ecosystem.dev.config.js to false.
+Note : Linebot will temporarily save both image and tesseract output file in `tmp_image_process` folder every time image message sends in.
 
 ### Upload image/video
 

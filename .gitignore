@@ -54,3 +54,6 @@ client_secret.json
 
 # Used by mongodb docker & GraphQL
 data/
+
+# Tesseract OCR folder
+tmp_image_process
