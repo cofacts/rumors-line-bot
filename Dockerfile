@@ -11,7 +11,7 @@ RUN npm install
 #
 COPY . .
 
-RUN npm run build
+RUN NODE_ENV=production npm run build
 RUN npm prune --production
 
 #########################################
@@ -22,7 +22,8 @@ WORKDIR /srv/www
 EXPOSE 5001
 ENTRYPOINT NODE_ENV=production npm start
 
+COPY package.json package-lock.json ecosystem.config.js ./
 COPY --from=builder /srv/www/node_modules ./node_modules
 COPY --from=builder /srv/www/build ./build
 COPY --from=builder /srv/www/data ./data
-COPY package.json package-lock.json ecosystem.config.js ./
+COPY --from=builder /srv/www/liff ./liff

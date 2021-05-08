@@ -8,3 +8,4 @@
 !ecosystem.config.js
 !webpack.config.js
 !i18n/*
+!.env
