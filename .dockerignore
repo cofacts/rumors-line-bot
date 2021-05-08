@@ -4,3 +4,7 @@
 !package.json
 !package-lock.json
 !main.js
+!babel.config.js
+!ecosystem.config.js
+!webpack.config.js
+!i18n/*
