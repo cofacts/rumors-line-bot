@@ -25,7 +25,6 @@ it('invokes fetch and returns result', async () => {
           "credentials": "include",
           "headers": Object {
             "Content-Type": "application/json",
-            "x-accept-license": "https://github.com/cofacts/opendata#terms",
             "x-app-secret": "CHANGE_ME",
           },
           "method": "POST",
