@@ -42,6 +42,8 @@ config/local-*
 
 # Used by dotenv library to load environment variables.
 .env
+.env.*
+!.env.sample
 
 # Used by googleapis for authorization.
 # Should only be used in local machines.
