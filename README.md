@@ -25,7 +25,6 @@ Please follow all the steps in [LINE official tutorial](https://developers.line.
 Create `.env` file from `.env.sample` template, at least fill in:
 ```
 API_URL=https://dev-api.cofacts.org/graphql
-LICENSE_URL=<paste the license URL specified in https://dev-api.cofacts.org>
 LINE_CHANNEL_SECRET=<paste Messaging API's channel secret here>
 LINE_CHANNEL_TOKEN=<paste Messaging API's channel access token here>
 LINE_LOGIN_CHANNEL_ID=<paste LINE Login channel ID here>
