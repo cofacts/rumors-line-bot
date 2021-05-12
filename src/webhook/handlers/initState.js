@@ -320,7 +320,9 @@ export default async function initState(params) {
       replies = [
         {
           type: 'text',
-          text: t`We didn't find anything about "${inputSummary}" :(`,
+          text: t`It's good that you don't trust that message just yet. 👍
+
+                  However, I currently don't recognize "${inputSummary}". May I have your help?`,
         },
         createAskArticleSubmissionConsentReply(userId, data.sessionId),
       ];
