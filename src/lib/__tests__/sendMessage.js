@@ -6,7 +6,7 @@ import rollbar from 'src/lib/rollbar';
 import sendMessage from '../sendMessage';
 
 beforeEach(() => {
-  fetch.mockClear();
+  fetch.mockReset();
   rollbar.error.mockClear();
 });
 
@@ -29,8 +29,12 @@ it('send message using LINE Notify', () => {
   `);
 });
 
-it('send message using multicast api', () => {
-  sendMessage.multicast(
+it('send message using multicast api', async () => {
+  fetch.mockImplementation(() =>
+    Promise.resolve({ json: () => Promise.resolve({ status: 200 }) })
+  );
+
+  await sendMessage.multicast(
     ['userId1', 'userId2', 'userId3'],
     [{ type: 'text', text: 'message' }]
   );
@@ -47,6 +51,30 @@ it('send message using multicast api', () => {
           "method": "POST",
         },
       ],
+    ]
+  `);
+
+  // Test batching
+  fetch.mockClear();
+  await sendMessage.multicast(
+    Array.from(Array(501)).map((_, id) => `user${id}`),
+    [{ type: 'text', text: 'message' }]
+  );
+
+  expect(fetch.mock.calls).toHaveLength(2);
+
+  // The snapshot of the "second batch", which should only contain user500
+  expect(fetch.mock.calls[1]).toMatchInlineSnapshot(`
+    Array [
+      "https://api.line.me/v2/bot/message/multicast",
+      Object {
+        "body": "{\\"to\\":[\\"user500\\"],\\"messages\\":[{\\"type\\":\\"text\\",\\"text\\":\\"message\\"}]}",
+        "headers": Object {
+          "Authorization": "Bearer ",
+          "Content-Type": "application/json",
+        },
+        "method": "POST",
+      },
     ]
   `);
 });
