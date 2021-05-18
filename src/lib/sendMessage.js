@@ -15,24 +15,22 @@ const notify = async (token, message) => {
  * @param {string[]} userIds
  * @param {object[]} messages - Array of line message objects, max size:5
  */
-const multicast = async (userIds, messages) => {
+const multicast = (userIds, messages) =>
   lineClient.post('/message/multicast', {
     to: userIds,
     messages: messages,
   });
-};
 
 /**
  * https://developers.line.biz/en/reference/messaging-api/#send-push-message
  * @param {string} userId
  * @param {object[]} messages - Array of line message objects, max size:5
  */
-const push = async (userId, messages) => {
+const push = (userId, messages) =>
   lineClient.post('/message/push', {
     to: userId,
     messages: messages,
   });
-};
 
 export default {
   notify,
