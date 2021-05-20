@@ -135,8 +135,12 @@ const getNotificationList = async (lastScannedAt, nowWithOffset) => {
         result[uid].push(data.articleId);
       });
     }
+    console.log(
+      '[notify] Scanning articles, notification list user count: ',
+      Object.keys(result).length
+    );
   }
-  console.log('[notify] notificationList :' + JSON.stringify(result));
+  // console.log('[notify] notificationList :' + JSON.stringify(result));
   return result;
 };
 
