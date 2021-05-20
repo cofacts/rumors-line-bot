@@ -39,6 +39,11 @@ const multicast = async (userIds, messages) => {
     userIds,
     500 /* Multicast can send to 500 ppl in max each time */
   )) {
+    console.log(
+      '[sendMessage][multicast] Sending message to',
+      userIdBatch.length,
+      'people'
+    );
     await lineClient.post('/message/multicast', {
       to: userIdBatch,
       messages: messages,
