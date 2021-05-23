@@ -9,3 +9,4 @@
 !webpack.config.js
 !i18n/*
 !.env
+!static
