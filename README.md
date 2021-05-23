@@ -246,17 +246,32 @@ To use Dialogflow,
 
 ## Production Deployment
 
+You have two deployment options:
+
+### Option 1. Build docker image & deploy using docker-compose
+
+Prepare `.env` file (which should be identical to your deployment environment) and run `docker build .` to generate docker image.
+
+`.env` will be copied over to the builder image to generate LIFF static file with the env.
+When building image, you can just include the "Build-time variables" (denoted in `.env.sample`) in `.env` to ensure that no server credentials are leaked in the built client code.
+
+Since built docker images will encode public URLs into statically built files, these build-time variables when we run the image as a container. Therefore, each separate deployment environment will require a separate build of the image.
+
+Please see [rumors-deploy](https://github.com/cofacts/rumors-deploy/) for sample `docker-coompose.yml` that runs such image.
+
+### Option 2. Deploy to Heroku
+
 If you would like to start your own LINE bot server in production environment, this section describes how you can deploy the line bot to your own Heroku account.
 
-### Get the server running
+#### Get the server running
 
 You can deploy the line bot server to your own Heroku account by [creating a Heroku app and push to it](https://devcenter.heroku.com/articles/git#creating-a-heroku-remote).
 
 Despite the fact that we don't use `Procfile`, Heroku still does detection and installs the correct environment for us.
 
-### Prepare storage services
+#### Prepare storage services
 
-#### Redis
+##### Redis
 
 We use Redis to store conversation context.
 
@@ -265,7 +280,7 @@ Use the env var `REDIS_URL` to specify how chatbot should link to the Redis serv
 On Heroku, you can [provision a Heroku Redis addon](https://elements.heroku.com/addons/heroku-redis) to get redis.
 It sets the env var `REDIS_URL` for you.
 
-#### MongoDB
+##### MongoDB
 
 We use MongoDB to store users' visited posts. It's the data source for related GraphQL APIs.
 
@@ -273,11 +288,11 @@ Use the env var `MONGODB_URI` to specify your MongoDB's connection string.
 
 [MongoDB Atlas Free Tier cluster](https://docs.atlas.mongodb.com/tutorial/deploy-free-tier-cluster/) to start with.
 
-### Tesseract-ocr on heroku
+#### Tesseract-ocr on heroku
 
 [Install heroku tesseract buildpack](https://github.com/cofacts/heroku-buildpack-tesseract) and set var `IMAGE_MESSAGE_ENABLED` to `true`.
 
-### Configurations
+#### Configurations
 
 Besides previously mentioned `MONGODB_URI`, `REDIS_URL` and `IMAGE_MESSAGE_ENABLED`,
 you will still have to set the following config vars manually:
