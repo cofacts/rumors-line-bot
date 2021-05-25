@@ -257,7 +257,9 @@ When building image, you can just include the "Build-time variables" (denoted in
 
 Since built docker images will encode public URLs into statically built files, these build-time variables when we run the image as a container. Therefore, each separate deployment environment will require a separate build of the image.
 
-Please see [rumors-deploy](https://github.com/cofacts/rumors-deploy/) for sample `docker-coompose.yml` that runs such image.
+You can test the built image locally using the `docker-compose.yml`; just uncomment the line bot section and provide the built image name.
+
+For production, please see [rumors-deploy](https://github.com/cofacts/rumors-deploy/) for sample `docker-coompose.yml` that runs such image.
 
 ### Option 2. Deploy to Heroku
 
