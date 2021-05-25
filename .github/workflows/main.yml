@@ -18,7 +18,13 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Check Out Repo
+      - name: Generate .env file
+        run: 'echo "$ENV_FILE" > .env'
+        shell: bash
+        env:
+          ENV_FILE: ${{secrets.ENV_FILE}}
+
+      - name: Checkout repo
         uses: actions/checkout@v2
 
       - name: Login to Docker Hub
