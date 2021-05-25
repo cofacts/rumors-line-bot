@@ -18,3 +18,16 @@ services:
     ports:
       - "6379:6379"
     command: redis-server
+
+
+  # Uncomment if you want to test your docker image locally
+  #
+  # rumors-line-bot:
+  #   image: <your image hash>
+  #   depends_on:
+  #     - mongo-container
+  #     - redis
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - "5001:5001"
