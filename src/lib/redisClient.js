@@ -5,7 +5,7 @@ const client = redis.createClient(
   process.env.REDIS_URL || 'redis://127.0.0.1:6379'
 );
 
-const DEFAULT_EXPIRE = 86400;
+const DEFAULT_EXPIRE = 86400 * 30; /* 30 days by default */
 /**
  *
  * @param {string} key
