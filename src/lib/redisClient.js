@@ -5,12 +5,21 @@ const client = redis.createClient(
   process.env.REDIS_URL || 'redis://127.0.0.1:6379'
 );
 
-function set(key, value) {
+const DEFAULT_EXPIRE = 86400;
+/**
+ *
+ * @param {string} key
+ * @param {*} value
+ * @param {number} expire - Default to 1 day. Set to 0 to persist.
+ */
+function set(key, value, expire = DEFAULT_EXPIRE) {
   if (typeof key !== 'string') {
     throw new Error('key of `set(key, value)` must be a string.');
   }
   return new Promise((resolve, reject) => {
-    client.set(key, JSON.stringify(value), (err, reply) => {
+    const expArgs = expire ? ['EX', expire] : [];
+
+    client.set([key, JSON.stringify(value), ...expArgs], (err, reply) => {
       if (err) {
         reject(err);
       } else {

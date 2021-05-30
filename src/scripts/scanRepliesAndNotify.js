@@ -17,7 +17,7 @@ export default async function scanRepliesAndNotify() {
     nowWithOffset
   );
   await lib.sendNotification(notificationList);
-  await redis.set('lastScannedAt', nowWithOffset);
+  await redis.set('lastScannedAt', nowWithOffset, 0); // Make lastScannedAt persistent
 
   // disconnect redis and mongodb
   await redis.quit();
