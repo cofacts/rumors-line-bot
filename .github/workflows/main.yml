@@ -25,13 +25,13 @@ jobs:
         run: 'curl $ENV_URL -o .env'
         env:
           ENV_URL: ${{secrets.STAGING_ENV_URL}}
-        if: ${{ startsWith(github.ref, 'refs/tags/release') }}
+        if: ${{ !startsWith(github.ref, 'refs/tags/release') }}
 
       - name: Generate production .env file
         run: 'curl $ENV_URL -o .env'
         env:
           ENV_URL: ${{secrets.PRODUCTION_ENV_URL}}
-        if: ${{ !startsWith(github.ref, 'refs/tags/release') }}
+        if: ${{ startsWith(github.ref, 'refs/tags/release') }}
 
       - name: Checkout repo
         uses: actions/checkout@v2
