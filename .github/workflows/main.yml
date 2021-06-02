@@ -18,22 +18,22 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    env:
+      IS_RELEASE: ${{ startsWith(github.ref, 'refs/tags/release') }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Generate staging .env file
         run: 'curl $ENV_URL -o .env'
         env:
-          DEPLOY_TAG: dev-tw
           ENV_URL: ${{ secrets.STAGING_ENV_URL }}
-        if: ${{ !startsWith(github.ref, 'refs/tags/release') }}
+        if: ${{ !env.IS_RELEASE }}
 
       - name: Generate production .env file
         run: 'curl $ENV_URL -o .env'
         env:
-          DEPLOY_TAG: latest-tw
           ENV_URL: ${{ secrets.PRODUCTION_ENV_URL }}
-        if: ${{ startsWith(github.ref, 'refs/tags/release') }}
+        if: ${{ env.IS_RELEASE }}
 
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -55,7 +55,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: cofacts/rumors-line-bot:${{ env.DEPLOY_TAG }}
+          tags: cofacts/rumors-line-bot:${{ env.IS_RELEASE && 'latest-tw' || 'dev-tw' }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
