@@ -4,7 +4,10 @@ name: Build and push to docker
 on:
   # Triggers the workflow on push or pull request events but only for the dev branch
   push:
-    branches: [ dev ]
+    tags:
+      - release/*
+    branches:
+      - dev
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -18,11 +21,17 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Generate .env file
-        run: 'echo "$ENV_FILE" > .env'
-        shell: bash
+      - name: Generate staging .env file
+        run: 'curl $ENV_URL -o .env'
         env:
-          ENV_FILE: ${{secrets.ENV_FILE}}
+          ENV_URL: ${{secrets.STAGING_ENV_URL}}
+        if: ${{ startsWith(github.ref, 'refs/tags/release') }}
+
+      - name: Generate production .env file
+        run: 'curl $ENV_URL -o .env'
+        env:
+          ENV_URL: ${{secrets.PRODUCTION_ENV_URL}}
+        if: ${{ !startsWith(github.ref, 'refs/tags/release') }}
 
       - name: Checkout repo
         uses: actions/checkout@v2
