@@ -14,8 +14,8 @@ jobs:
       mongo:
         image: mongo:3.6
         env:
-          - MONGO_INITDB_ROOT_USERNAME=root
-          - MONGO_INITDB_ROOT_PASSWORD=root-test-password
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: root-test-password
         ports:
           - 27017:27017
       redis:
