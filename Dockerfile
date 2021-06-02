@@ -1,4 +1,4 @@
-FROM node:12-alpine AS builder
+FROM node:16-alpine AS builder
 WORKDIR /srv/www
 
 # make node_modules cached.
@@ -16,7 +16,7 @@ RUN npm prune --production
 
 #########################################
 
-FROM node:12-alpine
+FROM node:16-alpine
 
 WORKDIR /srv/www
 EXPOSE 5001
