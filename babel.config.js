@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 // Project-wide config
 //
 module.exports = {

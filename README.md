@@ -25,7 +25,6 @@ Please follow all the steps in [LINE official tutorial](https://developers.line.
 Create `.env` file from `.env.sample` template, at least fill in:
 ```
 API_URL=https://dev-api.cofacts.org/graphql
-LICENSE_URL=<paste the license URL specified in https://dev-api.cofacts.org>
 LINE_CHANNEL_SECRET=<paste Messaging API's channel secret here>
 LINE_CHANNEL_TOKEN=<paste Messaging API's channel access token here>
 LINE_LOGIN_CHANNEL_ID=<paste LINE Login channel ID here>
@@ -131,7 +130,7 @@ thus swapping LIFF URL env variable without rebuilding the LIFF binaries will ca
 
 [Install tesseract-ocr binary](https://github.com/tesseract-ocr/tesseract/wiki) and set `IMAGE_MESSAGE_ENABLED` to `true`. If you are going to deploy linebot on heroku, you should [use buildpack](https://github.com/cofacts/rumors-line-bot#tesseract-ocr-on-heroku).
 
-Note : Linebot will temporarily save both image and tesseract output file in `tmp_image_process` folder every time image message sends in. If you develop through `npm run dev`, you should set `autorestart` and `watch` in ecosystem.dev.config.js to false.
+Note : Linebot will temporarily save both image and tesseract output file in `tmp_image_process` folder every time image message sends in.
 
 ### Upload image/video
 
@@ -247,17 +246,34 @@ To use Dialogflow,
 
 ## Production Deployment
 
+You have two deployment options:
+
+### Option 1. Build docker image & deploy using docker-compose
+
+Prepare `.env` file (which should be identical to your deployment environment) and run `docker build .` to generate docker image.
+
+`.env` will be copied over to the builder image to generate LIFF static file with the env.
+When building image, you can just include the "Build-time variables" (denoted in `.env.sample`) in `.env` to ensure that no server credentials are leaked in the built client code.
+
+Since built docker images will encode public URLs into statically built files, these build-time variables when we run the image as a container. Therefore, each separate deployment environment will require a separate build of the image.
+
+You can test the built image locally using the `docker-compose.yml`; just uncomment the line bot section and provide the built image name.
+
+For production, please see [rumors-deploy](https://github.com/cofacts/rumors-deploy/) for sample `docker-coompose.yml` that runs such image.
+
+### Option 2. Deploy to Heroku
+
 If you would like to start your own LINE bot server in production environment, this section describes how you can deploy the line bot to your own Heroku account.
 
-### Get the server running
+#### Get the server running
 
 You can deploy the line bot server to your own Heroku account by [creating a Heroku app and push to it](https://devcenter.heroku.com/articles/git#creating-a-heroku-remote).
 
 Despite the fact that we don't use `Procfile`, Heroku still does detection and installs the correct environment for us.
 
-### Prepare storage services
+#### Prepare storage services
 
-#### Redis
+##### Redis
 
 We use Redis to store conversation context.
 
@@ -266,7 +282,7 @@ Use the env var `REDIS_URL` to specify how chatbot should link to the Redis serv
 On Heroku, you can [provision a Heroku Redis addon](https://elements.heroku.com/addons/heroku-redis) to get redis.
 It sets the env var `REDIS_URL` for you.
 
-#### MongoDB
+##### MongoDB
 
 We use MongoDB to store users' visited posts. It's the data source for related GraphQL APIs.
 
@@ -274,11 +290,11 @@ Use the env var `MONGODB_URI` to specify your MongoDB's connection string.
 
 [MongoDB Atlas Free Tier cluster](https://docs.atlas.mongodb.com/tutorial/deploy-free-tier-cluster/) to start with.
 
-### Tesseract-ocr on heroku
+#### Tesseract-ocr on heroku
 
 [Install heroku tesseract buildpack](https://github.com/cofacts/heroku-buildpack-tesseract) and set var `IMAGE_MESSAGE_ENABLED` to `true`.
 
-### Configurations
+#### Configurations
 
 Besides previously mentioned `MONGODB_URI`, `REDIS_URL` and `IMAGE_MESSAGE_ENABLED`,
 you will still have to set the following config vars manually:
