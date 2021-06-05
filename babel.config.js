@@ -1,5 +1,8 @@
 require('dotenv').config();
 
+const locale = process.env.LOCALE || 'en_US';
+console.log('[babel.config.js] building locale: ', locale);
+
 // Project-wide config
 //
 module.exports = {
@@ -14,10 +17,7 @@ module.exports = {
     ],
   ],
   plugins: [
-    [
-      'ttag',
-      { resolve: { translations: `i18n/${process.env.LOCALE || 'en_US'}.po` } },
-    ],
+    ['ttag', { resolve: { translations: `i18n/${locale}.po` } }],
     ['module-resolver', { root: ['./'] }],
     '@babel/plugin-proposal-class-properties',
   ],
