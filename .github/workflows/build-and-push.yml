@@ -38,6 +38,8 @@ jobs:
           ENV_URL: ${{ secrets.PRODUCTION_ENV_URL }}
         if: ${{ env.RELEASE_TAG == 'latest' }}
 
+      - run: head -n 10 .env
+
       - name: Checkout repo
         uses: actions/checkout@v2
 
