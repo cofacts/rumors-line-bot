@@ -41,8 +41,6 @@ jobs:
           ENV_URL: ${{ secrets.PRODUCTION_ENV_URL }}
         if: ${{ env.RELEASE_TAG == 'latest' }}
 
-      - run: head -n 10 .env
-
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:

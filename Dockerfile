@@ -11,6 +11,23 @@ RUN npm install
 #
 COPY . .
 
-RUN head -n 10 .env
+RUN NODE_ENV=production npm run build
+RUN npm prune --production
 
-RUN NODE_ENV=production npm run build:server
+#########################################
+
+FROM node:16-alpine
+
+WORKDIR /srv/www
+EXPOSE 5001
+ENTRYPOINT NODE_ENV=production npm start
+
+RUN apk --no-cache add tesseract-ocr tesseract-ocr-data-chi_tra
+
+COPY package.json package-lock.json ecosystem.config.js ./
+COPY i18n i18n
+COPY static static
+COPY --from=builder /srv/www/node_modules ./node_modules
+COPY --from=builder /srv/www/build ./build
+COPY --from=builder /srv/www/data ./data
+COPY --from=builder /srv/www/liff ./liff
