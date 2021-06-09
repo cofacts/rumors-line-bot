@@ -1,7 +1,8 @@
 # rumors-line-bot
 Line bot that checks if a message contains internet rumor.
 
-[![Build Status](https://travis-ci.org/cofacts/rumors-line-bot.svg?branch=dev)](https://travis-ci.org/cofacts/rumors-line-bot) [![Coverage Status](https://coveralls.io/repos/github/cofacts/rumors-line-bot/badge.svg?branch=dev)](https://coveralls.io/github/cofacts/rumors-line-bot?branch=dev)
+[![CI test](https://github.com/cofacts/rumors-line-bot/actions/workflows/ci.yml/badge.svg)](https://github.com/cofacts/rumors-line-bot/actions/workflows/ci.yml)
+ [![Coverage Status](https://coveralls.io/repos/github/cofacts/rumors-line-bot/badge.svg?branch=master)](https://coveralls.io/github/cofacts/rumors-line-bot?branch=master)
 
 ## State diagram & Documents
 
