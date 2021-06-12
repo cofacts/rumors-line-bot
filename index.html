@@ -1,168 +1,55 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>傳訊息給 Cofacts</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      display: flex;
-      flex-flow: column;
-      padding: 16px;
-      margin: 0;
-      min-height: 100vh;
-    }
-    .form {
-      flex: 1;
-      display: flex;
-      flex-flow: column;
-    }
-    .disabled {
-      pointer-events: none;
-      opacity: 0.5;
-    }
-    .reason {
-      margin: 8px 0;
-      border: 1px solid;
-      width: 100%;
-      flex: 1;
-    }
-    #prompt {
-      margin: 0 0 8px;
-    }
-    #reason-label {
-      color: firebrick;
-      font-weight: bold;
-    }
-    .submit {
-      height: 44px;
-      width: 100%;
-      border: 1px solid;
-      background: yellow;
-    }
-    #errors {
-      color: tomato;
-      border: 1px currentColor solid;
-      padding: 4px;
-      margin: 0 0 8px;
-    }
-    #errors:empty {
-      display: none;
-    }
-  </style>
-</head>
-<body>
-  <aside id="errors"></aside>
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><title>Storybook</title><meta name="viewport" content="width=device-width,initial-scale=1"/><style>html, body {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
 
-  <form class="form" id="form">
-    <p id="prompt"></p>
-    <label for="reason" id="reason-label"></label>
-    <textarea class="reason" name="reason" placeholder="請在這裡輸入文字"></textarea>
-    <div class="buttons">
-      <button class="submit" type="submit" id="submit-button">確定送出</button>
-    </div>
-  </form>
-  <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
-  <script>
-    (function(){
-      // Initialize
-      const searchParams = (new URL(location.href)).searchParams;
-      const text = searchParams.get('text');
-      const state = searchParams.get('state');
-      const prefix = searchParams.get('prefix');
-      const issuedAt = searchParams.get('issuedAt');
+  * {
+    box-sizing: border-box;
+  }</style><script>/* globals window */
+  /* eslint-disable no-underscore-dangle */
+  try {
+    if (window.top !== window) {
+      window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.top.__REACT_DEVTOOLS_GLOBAL_HOOK__;
+    }
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('unable to connect to top frame for connecting dev tools');
+  }
 
-      // Insert prompt
-      const $prompt = document.querySelector('#prompt');
-      const $reasonLabel = document.querySelector('#reason-label');
-      const $textarea = document.querySelector('.reason');
-      switch(state){
-        case 'ASKING_ARTICLE_SUBMISSION_REASON':
-          $prompt.innerText = `您即將把「${text}」送入公開資料庫建檔。為了協助查證，請告訴闢謠編輯：`;
-          $reasonLabel.innerText = '為何您覺得這是謠言？';
-          $textarea.placeholder = '例：我用 OO 關鍵字查詢 Facebook，發現⋯⋯ / 我在 XX 官網上找到不一樣的說法如下⋯⋯'
-          break;
-        case 'ASKING_REPLY_REQUEST_REASON':
-          $prompt.innerText = `有人跟你一樣對「${text}」有疑問。為了協助查證，請告訴闢謠編輯：`;
-          $reasonLabel.innerText = '為何您覺得這是謠言？';
-          $textarea.placeholder = '例：我用 OO 關鍵字查詢 Facebook，發現⋯⋯ / 我在 XX 官網上找到不一樣的說法如下⋯⋯'
-          break;
-        case 'ASKING_REPLY_FEEDBACK':
-          $prompt.innerText = `很遺憾您覺得「${text} 」這則回應沒有幫助。`;
-          $reasonLabel.innerText = '請問您覺得怎麼改才會更有幫助呢？'
-          break;
-        default:
-          $prompt.innerText = '請提供理由：';
-          break;
-      }
-
-      const SUFFICIENT_REASON_LENGTH = 40;
-      const $submitButton = document.querySelector('#submit-button');
-      $textarea.addEventListener('input', e => {
-        e.preventDefault();
-        const text = e.target.value;
-        if (text.length < SUFFICIENT_REASON_LENGTH) {
-          $submitButton.style.backgroundColor = '';
-        } else {
-          $submitButton.style.backgroundColor = 'greenyellow';
-        }
+  window.onerror = function onerror(message, source, line, column, err) {
+    if (window.CONFIG_TYPE !== 'DEVELOPMENT') return;
+    // eslint-disable-next-line no-var, vars-on-top
+    var xhr = new window.XMLHttpRequest();
+    xhr.open('POST', '/runtime-error');
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.send(
+      JSON.stringify({
+        /* eslint-disable object-shorthand */
+        message: message,
+        source: source,
+        line: line,
+        column: column,
+        error: err && { message: err.message, name: err.name, stack: err.stack },
+        origin: 'manager',
+        /* eslint-enable object-shorthand */
       })
-
-      const $form = document.querySelector('#form');
-      const lengthenHint = `
-你可以試著：
-A. 闡述更多想法
-B. 去 google 查查看
-C. 把全文複製貼上到 Facebook 搜尋框看看`
-      $form.addEventListener('submit', e => {
-        e.preventDefault();
-        const reason = e.target.reason.value;
-
-        if(state === 'ASKING_ARTICLE_SUBMISSION_REASON' ||
-           state === 'ASKING_REPLY_REQUEST_REASON') {
-          if(reason.length < SUFFICIENT_REASON_LENGTH) {
-            if(!confirm(`
-提供給編輯的資訊可以再豐富一些，會讓編輯回覆越快唷！
-
-${lengthenHint}
-
-若要補充資訊，請按「取消」；覺得現在這樣送出就好，請按「確定」
-            `)) {
-              return;
-            }
-          } else if (reason === text) {
-            alert(`
-您提供的資訊不應該與訊息原文相同。
-
-${lengthenHint}
-`);
-            return;
-          }
-        }
-
-        liff.sendMessages([
-          { type: 'text', text: `${searchParams.get('prefix')}${reason}` },
-        ]).then(() => {
-          liff.closeWindow();
-        }).catch(handleError);
-      });
-
-      liff.init(({context: {userId}}) => {
-        fetch(`https://rumor-line-bot.ngrok.io/context/${userId}`).then(resp => resp.json()).then(data => {
-          if(!data || data.state !== state || data.issuedAt.toString() !== issuedAt ) {
-            alert('因為您傳了新的訊息進來，所以這顆舊按鈕已經不會動囉！');
-            liff.closeWindow();
-          }
-        }).catch(alert)
-      }, handleError);
-
-      function handleError(err) {
-        document.querySelector('#errors').textContent = err.toString();
-      }
-    }());
-  </script>
-</body>
-</html>
+    );
+  };</script><style>#root[hidden],
+      #docs-root[hidden] {
+        display: none !important;
+      }</style></head><body><div id="root"></div><div id="docs-root"></div><script>window['CONFIG_TYPE'] = "PRODUCTION";
+            
+        
+            
+              window['LOGLEVEL'] = "info";
+            
+        
+            
+        
+            
+        
+            
+              window['DOCS_MODE'] = false;</script><script src="runtime~main.eeb77cd15993079e3096.manager.bundle.js"></script><script src="vendors~main.e72efa2382b4d8a94a94.manager.bundle.js"></script><script src="main.547585749807c8aa49f7.manager.bundle.js"></script></body></html>
