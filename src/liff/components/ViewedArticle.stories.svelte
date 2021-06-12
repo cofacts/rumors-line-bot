@@ -36,7 +36,7 @@
 />
 
 <Story
-  name="Article with one old reply"
+  name="Article with two old replies"
   args={{
     article: {
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -50,7 +50,7 @@
 />
 
 <Story
-  name="Article with one new reply"
+  name="Article with 1 new and 1 old reply"
   args={{
     article: {
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
