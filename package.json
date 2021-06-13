@@ -102,6 +102,7 @@
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
+    "clsx": "^1.1.1",
     "compression-webpack-plugin": "^6.1.1",
     "core-js": "^3.6.4",
     "css-loader": "^5.2.6",
