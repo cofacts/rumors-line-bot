@@ -6,7 +6,7 @@ import executor from './cofactsSchemaExecutor';
 
 const cofactsSchema = wrapSchema({
   schema: buildSchema(
-    fs.readFileSync(path.join(__dirname, `../../data/cofacts-api.graphql`), {
+    fs.readFileSync(path.join(__dirname, `./cofacts-api.graphql`), {
       encoding: 'utf-8',
     })
   ),

@@ -12,7 +12,7 @@
     "dev:server": "pm2-dev ecosystem.dev.config.js",
     "dev:liff": "webpack-dev-server",
     "heroku-postbuild": "npm run build",
-    "build": "run-p build:* cofactsapi",
+    "build": "run-p build:*",
     "build:server": "babel src -d build --ignore \"src/liff/**\",\"**/__tests__/**\",\"**/__mocks__/**\" --copy-files --no-copy-ignored",
     "build:liff": "NODE_ENV=production webpack",
     "lint:fix": "eslint --fix .",
