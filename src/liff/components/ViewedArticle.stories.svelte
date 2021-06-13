@@ -18,7 +18,7 @@
 />
 
 <Template let:args>
-  <ViewedArticle {...args} on:click={args.onClicl} />
+  <ViewedArticle {...args} on:click={args.onClick} />
 </Template>
 
 <Story
