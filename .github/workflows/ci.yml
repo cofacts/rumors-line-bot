@@ -42,5 +42,7 @@ jobs:
       - run: npm run i18n:validate
       - run: npm run cofactsapi
       - run: npm run test --ignore-scripts -- --coverage
-      # - name: Update coveralls
-      #   run: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+      - name: Update coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
