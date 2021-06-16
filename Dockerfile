@@ -29,5 +29,4 @@ COPY i18n i18n
 COPY static static
 COPY --from=builder /srv/www/node_modules ./node_modules
 COPY --from=builder /srv/www/build ./build
-COPY --from=builder /srv/www/data ./data
 COPY --from=builder /srv/www/liff ./liff
