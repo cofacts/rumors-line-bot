@@ -1,6 +1,10 @@
 <script>
   import { Meta, Template, Story } from "@storybook/addon-svelte-csf";
   import CollapseIcon from "./icons/CollapseIcon.svelte";
+  import ThumbsUpIcon from "./icons/ThumbsUpIcon.svelte";
+  import ThumbsDownIcon from "./icons/ThumbsDownIcon.svelte";
+  import ThumbsUpOutlineIcon from "./icons/ThumbsUpOutlineIcon.svelte";
+  import ThumbsDownOutlineIcon from "./icons/ThumbsDownOutlineIcon.svelte";
 </script>
 
 <Meta
@@ -20,7 +24,11 @@
   name="Icons"
   args={{
     components: [
-      CollapseIcon
+      CollapseIcon,
+      ThumbsUpIcon,
+      ThumbsUpOutlineIcon,
+      ThumbsDownIcon,
+      ThumbsDownOutlineIcon,
     ],
     color: 'var(--primary800)',
   }}
