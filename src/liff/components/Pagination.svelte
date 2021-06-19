@@ -1,6 +1,6 @@
 <script>
   import { t } from 'ttag';
-  import Button, { Label } from '@smui/button';
+  import Button from './Button';
   import { createEventDispatcher } from 'svelte';
 
   /**
@@ -25,6 +25,7 @@
   .container {
     margin: 8px 0;
     display: flex;
+    color: var(--secondary500);
   }
 </style>
 
@@ -34,21 +35,17 @@
       <Button
         on:click={() => dispatch('prev') }
         disabled={disabled}
-        variant="raised"
-        color="secondary"
       >
-        <Label>{t`Prev`}</Label>
+        {t`Prev`}
       </Button>
     {/if}
     {#if pageInfo && pageInfo.lastCursor !== edges[edges.length-1].cursor}
       <Button
         on:click={() => dispatch('next') }
         disabled={disabled}
-        variant="raised"
-        color="secondary"
         style="margin-left: auto;"
       >
-        <Label>{t`Next`}</Label>
+        {t`Next`}
       </Button>
     {/if}
   </div>
