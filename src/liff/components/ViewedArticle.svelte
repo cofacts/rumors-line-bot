@@ -1,6 +1,5 @@
 <script>
   import { t, ngettext, msgid } from 'ttag';
-  import Card, { PrimaryAction, Content } from '@smui/card';
   import { formatDistanceToNow } from 'src/lib/sharedUtils';
 
   /**
@@ -35,6 +34,13 @@
 </script>
 
 <style>
+  article {
+    margin: 0 0 12px;
+    padding: 16px;
+    background: #fff;
+    cursor: pointer;
+  }
+
   header {
     display: flex;
     justify-content: space-between;
@@ -61,30 +67,26 @@
   }
 </style>
 
-<Card style="margin-bottom: 8px;">
-  <PrimaryAction on:click>
-    <Content>
-      <header>
-        <span class={newArticleReplyCount ? 'unread' : ''}>
-          {#if !article}
-            {t`Loading`}...
-          {:else if article.articleReplies.length === 0}
-            {t`No replies yet`}
-          {:else if newArticleReplyCount > 0}
-            {unreadStr}
-          {:else}
-            {repliesStr}
-          {/if}
-        </span>
-        <span>{viewedAtStr}</span>
-      </header>
-      <main>
-        {#if !article}
-          {t`Loading`}...
-        {:else}
-          {article.text}
-        {/if}
-      </main>
-    </Content>
-  </PrimaryAction>
-</Card>
+<article on:click>
+  <header>
+    <span class={newArticleReplyCount ? 'unread' : ''}>
+      {#if !article}
+        {t`Loading`}...
+      {:else if article.articleReplies.length === 0}
+        {t`No replies yet`}
+      {:else if newArticleReplyCount > 0}
+        {unreadStr}
+      {:else}
+        {repliesStr}
+      {/if}
+    </span>
+    <span>{viewedAtStr}</span>
+  </header>
+  <main>
+    {#if !article}
+      {t`Loading`}...
+    {:else}
+      {article.text}
+    {/if}
+  </main>
+</article>
