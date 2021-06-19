@@ -1,5 +1,5 @@
 <script>
-  import Icon from './Icon';
+  import Icon from './Icon.svelte';
 </script>
 
 <Icon viewBoxDimensions={[24, 24]} {...$$restProps}>
