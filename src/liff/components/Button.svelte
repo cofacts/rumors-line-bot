@@ -16,6 +16,8 @@
     align-items: center;
     gap: 8px;
     border-radius: 32px;
+    transition: background-color .2s;
+    cursor: pointer;
   }
 
   .outlined {
