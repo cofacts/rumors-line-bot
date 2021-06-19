@@ -3,6 +3,9 @@
 
   // outlined | 'contained'
   export let variant = 'outlined';
+
+  let className = '';
+  export { className as class };
 </script>
 
 <style>
@@ -40,6 +43,11 @@
   }
 </style>
 
-<button class={clsx('btn', variant)} {...$$restProps} on:click>
+<button
+  class={clsx('btn', className, variant)}
+  type="button"
+  {...$$restProps}
+  on:click
+>
   <slot />
 </button>
