@@ -15,6 +15,13 @@
 <Meta
   title="Button"
   component={Button}
+
+  argTypes={{
+    variant: {
+      options: ['outlined', 'contained'],
+      control: {type: 'radio'}
+    }
+  }}
 />
 
 <Template let:args>
@@ -23,8 +30,11 @@
   </Button>
 </Template>
 
-<Story
-  name="Empty button"
+<Story name="Button"
+  args={{
+    disabled: false,
+    style: "color: var(--primary600)"
+  }}
 />
 
 <Story name="Variants">
@@ -35,10 +45,3 @@
     <Button variant="outlined">variant = outlined</Button>
   </div>
 </Story>
-
-<Story name="Passed props"
-  args={{
-    disabled: true,
-    style: "color: var(--primary600)"
-  }}
-/>
