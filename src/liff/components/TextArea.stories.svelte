@@ -1,6 +1,5 @@
 <script>
   import { Meta, Template, Story } from "@storybook/addon-svelte-csf";
-  import { action } from "@storybook/addon-actions";
   import TextArea from "./TextArea.svelte";
 </script>
 
