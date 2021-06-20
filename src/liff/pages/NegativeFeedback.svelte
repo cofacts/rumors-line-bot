@@ -1,8 +1,8 @@
 <script>
   import { onMount } from 'svelte';
   import { t } from 'ttag';
-  import Button, { Label } from '@smui/button';
-  import Textfield from '@smui/textfield';
+  import Button from '../components/Button.svelte';
+  import TextArea from '../components/TextArea.svelte';
   import { DOWNVOTE_PREFIX } from 'src/lib/sharedUtils';
   import { gql, assertInClient, assertSameSearchSession, sendMessages } from '../lib';
 
@@ -38,21 +38,34 @@
   <title>{t`Report not useful`}</title>
 </svelte:head>
 
-<p>{t`Your feedback has been recorded. We are sorry that the reply is not useful to you.`}</p>
+<style>
+  main {
+    padding: 16px;
+    display: flex;
+    flex-flow: column;
+    gap: 8px;
+  }
 
-<Textfield
-  fullwidth
-  textarea
-  bind:value={comment}
-  label={t`How can we make it useful to you?`}
-  input$rows={8}
-/>
+  main :global(.input) {
+    border: 2px solid var(--secondary300);
+  }
+</style>
 
-<Button
-  style="display: block; width: 100%; margin: 8px 0;"
-  variant="raised"
-  on:click={handleSubmit}
-  disabled={processing}
->
-  <Label>{t`Submit`}</Label>
-</Button>
+<main>
+  <p>{t`Your feedback has been recorded. We are sorry that the reply is not useful to you.`}</p>
+  <strong>{t`How can we make it useful to you?`}</strong>
+
+  <TextArea
+    class="input"
+    bind:value={comment}
+    rows={8}
+    placeholder={t`I think the reply is not useful and I suggest`}
+  />
+
+  <Button
+    on:click={handleSubmit}
+    disabled={processing}
+  >
+    {t`Submit`}
+  </Button>
+</main>
