@@ -62,6 +62,10 @@
   }
 </script>
 <style>
+  header, i {
+    padding: 0 16px;
+  }
+
   .control {
     display: flex;
     justify-content: space-between;
@@ -71,6 +75,11 @@
   .card {
     background: #fff;
     padding: 16px;
+  }
+
+  .caption {
+    margin-bottom: 0;
+    color: var(--secondary300);
   }
 </style>
 
@@ -85,7 +94,7 @@
 
 {#if notifyMethod}
   {#if isLoadingData}
-    <p>{t`Fetching settings`}...</p>
+    <i>{t`Fetching settings`}...</i>
   {:else}
     <div class="card">
       <div class="control">
@@ -97,7 +106,7 @@
           disabled={allowNewReplyUpdate === undefined}
         />
       </div>
-      <p style="margin-bottom: 0">
+      <p class="caption">
         {t`Cofacts can send you latest reply of messages you have sent to Cofacts before.`}
       </p>
     </div>
