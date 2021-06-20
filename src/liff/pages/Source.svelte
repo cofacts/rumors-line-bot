@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { t } from 'ttag';
-  import Button from '../components/Button';
+  import Button from '../components/Button.svelte';
 
   import { page, assertInClient, assertSameSearchSession, sendMessages, isArticleSubmission } from '../lib';
   import { ARTICLE_SOURCE_OPTIONS, SOURCE_PREFIX_NOT_YET_REPLIED, SOURCE_PREFIX_FRIST_SUBMISSION } from 'src/lib/sharedUtils';

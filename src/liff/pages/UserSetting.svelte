@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { t } from 'ttag';
   import { gql } from '../lib';
-  import Switch from '../components/Switch';
+  import Switch from '../components/Switch.svelte';
 
   /* Expose notify method to UI */
   const notifyMethod = NOTIFY_METHOD;

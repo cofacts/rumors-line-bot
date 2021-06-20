@@ -1,6 +1,6 @@
 <script>
   import { t } from 'ttag';
-  import Button from './Button';
+  import Button from './Button.svelte';
   import { createEventDispatcher } from 'svelte';
 
   /**
