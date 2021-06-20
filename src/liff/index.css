@@ -47,5 +47,4 @@ html {
 body {
   box-sizing: border-box;
   background: var(--secondary50);
-  padding: 16px;
 }
