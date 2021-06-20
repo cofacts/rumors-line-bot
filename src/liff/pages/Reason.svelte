@@ -30,8 +30,8 @@ ${LENGHEN_HINT}`
   let reason = '';
 
   onMount(async () => {
-    // assertInClient();
-    // await assertSameSearchSession();
+    assertInClient();
+    await assertSameSearchSession();
 
     // Load searchedText from API
     const {data, errors} = await gql`
