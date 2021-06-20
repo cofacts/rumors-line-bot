@@ -1,9 +1,8 @@
 <script>
   import { onMount } from 'svelte';
   import { t } from 'ttag';
-  import Button, { Label } from '@smui/button';
-  import Textfield from '@smui/textfield';
-  import HelperText from '@smui/textfield/helper-text/index';
+  import TextArea from '../components/TextArea.svelte';
+  import Button from '../components/Button.svelte';
   import { REASON_PREFIX } from 'src/lib/sharedUtils';
   import { gql, assertInClient, assertSameSearchSession, sendMessages } from '../lib';
 
@@ -31,8 +30,8 @@ ${LENGHEN_HINT}`
   let reason = '';
 
   onMount(async () => {
-    assertInClient();
-    await assertSameSearchSession();
+    // assertInClient();
+    // await assertSameSearchSession();
 
     // Load searchedText from API
     const {data, errors} = await gql`
@@ -82,27 +81,36 @@ ${LENGHEN_HINT}`
   <title>{t`Provide more info`} (2/2)</title>
 </svelte:head>
 
-<p>{t`To help with fact-checking, please tell the editors:`}</p>
+<style>
+  main {
+    padding: 16px;
+    display: flex;
+    flex-flow: column;
+    gap: 8px;
+  }
 
-<Textfield
-  fullwidth
-  textarea
-  bind:value={reason}
-  label={t`Why do you think this is a hoax?`}
-  input$rows={8}
-  input$aria-controls="helper-text"
-  input$aria-describedby="helper-text"
-/>
-<HelperText id="helper-text">
-  {t`Ex: I googled using (some keyword) and found that... / I found different opinion on (some website) saying that...`}
-</HelperText>
+  main :global(.input) {
+    border: 2px solid var(--secondary300);
+  }
+</style>
 
-<Button
-  style="display: block; width: 100%; margin: 8px 0;"
-  variant="raised"
-  color={ reason.length >= SUFFICIENT_REASON_LENGTH ? 'primary' : 'secondary'}
-  on:click={handleSubmit}
-  disabled={processing || searchedText === null}
->
-  <Label>{searchedText === null ? t`Loading` : t`Submit`}</Label>
-</Button>
+<main>
+  <p>{t`To help with fact-checking, please tell the editors:`}</p>
+
+  <strong>{t`Why do you think this is a hoax?`}</strong>
+  <TextArea
+    class="input"
+    bind:value={reason}
+    rows={8}
+    placeholder={t`Ex: I googled using (some keyword) and found that... / I found different opinion on (some website) saying that...`}
+  />
+
+  <Button
+    style="display: block; width: 100%; margin: 8px 0;"
+    color={ reason.length >= SUFFICIENT_REASON_LENGTH ? 'primary' : 'secondary'}
+    on:click={handleSubmit}
+    disabled={processing || searchedText === null}
+  >
+    {searchedText === null ? t`Loading` : t`Submit`}
+  </Button>
+</main>
