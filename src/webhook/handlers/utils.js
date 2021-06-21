@@ -520,6 +520,17 @@ export function createHighlightContents(
     (summaries.length ? summaries.join('\n') : undefined) ||
     (titles.length ? titles.join('\n') : undefined);
 
+  // fix issue 220 (api bug)
+  // return original text if highlight isn't null but text and hyperlinks are null
+  if (!text) {
+    return [
+      {
+        type: 'span',
+        text: ellipsis(oriText, lettersLimit),
+      },
+    ];
+  }
+
   for (let highlightPair of text.split('</HIGHLIGHT>')) {
     const highlightContent = createHighlightContent(
       highlightPair.split('<HIGHLIGHT>')
