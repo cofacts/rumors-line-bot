@@ -19,6 +19,15 @@ exports[`createFlexMessageText should create a text for flex message 1`] = `"計
 
 exports[`createFlexMessageText should handle the situation without input 1`] = `""`;
 
+exports[`createHighlightContents should handle line-bot#220 issue 1`] = `
+Array [
+  Object {
+    "text": "Original text",
+    "type": "span",
+  },
+]
+`;
+
 exports[`createHighlightContents should create a highlight flex message 1`] = `
 Array [
   Object {

@@ -239,6 +239,18 @@ describe('createHighlightContents', () => {
   it('should handle the situation without input', () => {
     expect(createHighlightContents()).toMatchSnapshot();
   });
+
+  it('should handle line-bot#220 issue', () => {
+    expect(
+      createHighlightContents(
+        {
+          text: null,
+          hyperlinks: [],
+        },
+        'Original text'
+      )
+    ).toMatchSnapshot();
+  });
 });
 
 describe('createReplyMessages()', () => {
