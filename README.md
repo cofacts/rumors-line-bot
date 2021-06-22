@@ -117,6 +117,15 @@ The LINE bot server starts a GraphQL server that stiches Cofacts GraphQL API and
 
 Whenever Cofacts API updates, use `npm run cofactsapi` to fetch the latest Cofacts API schema.
 
+#### LIFF components storybook
+
+During development, use the following command to start a storybook on your local machine:
+```
+npm run storybook # Then visit http://localhost:6006
+```
+
+You can also visit https://cofacts.github.io/rumors-line-bot for pre-built storybook on `master` branch.
+
 #### How LIFF is deployed on production
 
 On production, LIFF files are compiled to `/liff` directory and served as static files by the chatbot server.

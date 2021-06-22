@@ -1,0 +1,31 @@
+name: Build storybook and deploy to gh-pages
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - run: 'npm i'
+
+      - name: Generate staging .env file
+        run: 'curl $ENV_URL -o .env'
+        env:
+          ENV_URL: ${{ secrets.STAGING_ENV_URL }}
+
+      - run: 'npm run build-storybook'
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./storybook-static

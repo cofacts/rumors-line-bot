@@ -2,3 +2,5 @@ build/*
 coverage/*
 src/__fixtures__/*
 liff/*
+storybook-static
+!.storybook
