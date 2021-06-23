@@ -38,10 +38,10 @@
 />
 
 <Story name="Variants">
-  <Button variant="contained">variant = primary</Button>
+  <Button variant="contained">variant = contained</Button>
   <Button variant="outlined">variant = outlined</Button>
   <div class="colorBg">
-    <Button variant="contained">variant = primary</Button>
+    <Button variant="contained">variant = contained</Button>
     <Button variant="outlined">variant = outlined</Button>
   </div>
 </Story>
