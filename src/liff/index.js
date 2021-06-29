@@ -1,6 +1,6 @@
 import 'core-js';
 import 'normalize.css';
-import './index.scss';
+import './index.css';
 import { isDuringLiffRedirect } from './lib';
 import App from './App.svelte';
 

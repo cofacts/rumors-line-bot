@@ -1,0 +1,51 @@
+html {
+  /* =============== */
+  /* Cofacts palette */
+  /* =============== */
+
+  --primary50: #fff890;
+  --primary100: #fff000;
+  --primary200: #ffe200;
+  --primary300: #ffd300;
+  --primary400: #ffc500;
+  --primary500: #ffb600;
+  --primary600: #ffa300;
+  --primary700: #ff9200;
+  --primary800: #ff7f00;
+  --primary900: #ff6d00;
+
+  --secondary50: #f5f5f5;
+  --secondary100: #d6d6d6;
+  --secondary200: #adadad;
+  --secondary300: #858585;
+  --secondary400: #5c5c5c;
+  --secondary500: #333;
+  --secondary600: #2e2e2e;
+  --secondary700: #292929;
+  --secondary800: #242424;
+  --secondary900: #1f1f1f;
+
+  --orange1: #ff8a00;
+  --orange2: #ffb600;
+  --yellow: #ffea29;
+  --green1: #00b172;
+  --green2: #00d88b;
+  --green3: #4ff695;
+  --blue1: #2079f0;
+  --blue2: #2daef6;
+  --blue3: #5fd8ff;
+  --red1: #fb5959;
+  --red2: #ff7b7b;
+  --purple: #966dee;
+
+  font-family: 'Noto Sans TC', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--secondary500);
+}
+
+body {
+  box-sizing: border-box;
+  background: var(--secondary50);
+  padding: 16px;
+}

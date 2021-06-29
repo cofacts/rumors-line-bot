@@ -1,5 +1,5 @@
 import 'normalize.css';
-import '../src/liff/index.scss';
+import '../src/liff/index.css';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
