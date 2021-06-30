@@ -60,8 +60,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: cofacts/rumors-line-bot:${{ env.RELEASE_TAG }}-tw
-          build-args:
-            - LOCALE=${{ env.LOCALE }}
+          build-args: |
+            "LOCALE=${{ env.LOCALE }}"
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
