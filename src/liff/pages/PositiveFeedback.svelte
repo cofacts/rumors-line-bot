@@ -1,8 +1,9 @@
 <script>
   import { onMount } from 'svelte';
   import { t } from 'ttag';
-  import Button, { Label } from '@smui/button';
-  import Textfield from '@smui/textfield';
+  import TextArea from '../components/TextArea.svelte';
+  import Button from '../components/Button.svelte';
+
   import { UPVOTE_PREFIX } from 'src/lib/sharedUtils';
   import { gql, assertInClient, assertSameSearchSession, sendMessages } from '../lib';
 
@@ -38,21 +39,35 @@
   <title>{t`Report reply useful`}</title>
 </svelte:head>
 
-<p>{t`We have recorded your feedback. It's glad to see the reply is helpful.`}</p>
+<style>
+  main {
+    padding: 16px;
+    display: flex;
+    flex-flow: column;
+    gap: 8px;
+  }
 
-<Textfield
-  fullwidth
-  textarea
-  bind:value={comment}
-  label={t`Do you have anything to add about the reply?`}
-  input$rows={8}
-/>
+  main :global(.input) {
+    border: 2px solid var(--secondary300);
+  }
+</style>
 
-<Button
-  style="display: block; width: 100%; margin: 8px 0;"
-  variant="raised"
-  on:click={handleSubmit}
-  disabled={processing}
->
-  <Label>{t`Submit`}</Label>
-</Button>
+<main>
+  <p>{t`We have recorded your feedback. It's glad to see the reply is helpful.`}</p>
+
+  <strong>{t`Do you have anything to add about the reply?`}</strong>
+
+  <TextArea
+    class="input"
+    bind:value={comment}
+    rows={8}
+    placeholder={t`I think the reply is useful and I want to add`}
+  />
+
+  <Button
+    on:click={handleSubmit}
+    disabled={processing}
+  >
+    {t`Submit`}
+  </Button>
+</main>

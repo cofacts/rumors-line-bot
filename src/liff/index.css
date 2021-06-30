@@ -39,13 +39,15 @@ html {
   --purple: #966dee;
 
   font-family: 'Noto Sans TC', Roboto, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.45;
   color: var(--secondary500);
 }
 
-body {
+* {
   box-sizing: border-box;
+}
+
+body {
   background: var(--secondary50);
-  padding: 16px;
 }

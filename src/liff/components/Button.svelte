@@ -10,6 +10,8 @@
 
 <style>
   .btn {
+    font-size: 18px;
+    line-height: inherit;
     appearance: none;
     padding: 8px 12px;
     display: flex;
