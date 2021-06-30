@@ -29,19 +29,19 @@ describe('verifyIDToken', () => {
     const token = `eyJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIifQ.oB-hPP-iM8gpHyhhTnltlh9Ph8WdapCcPRZ2zJ_AwBs`;
     const result = await verifyIDToken(token);
     expect(fetch.mock.calls).toMatchInlineSnapshot(`
-          Array [
-            Array [
-              "https://api.line.me/oauth2/v2.1/verify",
-              Object {
-                "body": "id_token=eyJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIifQ.oB-hPP-iM8gpHyhhTnltlh9Ph8WdapCcPRZ2zJ_AwBs&client_id=",
-                "headers": Object {
-                  "Content-Type": "application/x-www-form-urlencoded",
-                },
-                "method": "POST",
-              },
-            ],
-          ]
-      `);
+      Array [
+        Array [
+          "https://api.line.me/oauth2/v2.1/verify",
+          Object {
+            "body": "id_token=eyJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIifQ.oB-hPP-iM8gpHyhhTnltlh9Ph8WdapCcPRZ2zJ_AwBs&client_id=",
+            "headers": Object {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            "method": "POST",
+          },
+        ],
+      ]
+    `);
 
     expect(result).toMatchInlineSnapshot(`
           Object {

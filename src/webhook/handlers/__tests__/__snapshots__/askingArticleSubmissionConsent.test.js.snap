@@ -6,7 +6,7 @@ Array [
     "body": Object {
       "contents": Array [
         Object {
-          "text": "Your submission is now recorded at https://cofacts.hacktabl.org/article/new-article-id",
+          "text": "Your submission is now recorded at https://dev.cofacts.tw/article/new-article-id",
           "type": "text",
           "wrap": true,
         },
@@ -20,7 +20,7 @@ Array [
           "action": Object {
             "label": "See reported message",
             "type": "uri",
-            "uri": "https://cofacts.hacktabl.org/article/new-article-id",
+            "uri": "https://dev.cofacts.tw/article/new-article-id",
           },
           "color": "#ffb600",
           "style": "primary",
@@ -104,7 +104,7 @@ Array [
           "action": Object {
             "label": "Share on LINE",
             "type": "uri",
-            "uri": "line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Fnew-article-id",
+            "uri": "line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fdev.cofacts.tw%2Farticle%2Fnew-article-id",
           },
           "color": "#ffb600",
           "style": "primary",
@@ -114,7 +114,7 @@ Array [
           "action": Object {
             "label": "Share on Facebook",
             "type": "uri",
-            "uri": "https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Fnew-article-id",
+            "uri": "https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fdev.cofacts.tw%2Farticle%2Fnew-article-id",
           },
           "color": "#ffb600",
           "style": "primary",
@@ -232,14 +232,14 @@ A LINE group",
   "isSkipUser": undefined,
   "replies": Array [
     Object {
-      "altText": "Your submission is now recorded at https://cofacts.hacktabl.org/article/new-article-id",
+      "altText": "Your submission is now recorded at https://dev.cofacts.tw/article/new-article-id",
       "contents": Object {
         "contents": Array [
           Object {
             "body": Object {
               "contents": Array [
                 Object {
-                  "text": "Your submission is now recorded at https://cofacts.hacktabl.org/article/new-article-id",
+                  "text": "Your submission is now recorded at https://dev.cofacts.tw/article/new-article-id",
                   "type": "text",
                   "wrap": true,
                 },
@@ -253,7 +253,7 @@ A LINE group",
                   "action": Object {
                     "label": "See reported message",
                     "type": "uri",
-                    "uri": "https://cofacts.hacktabl.org/article/new-article-id",
+                    "uri": "https://dev.cofacts.tw/article/new-article-id",
                   },
                   "color": "#ffb600",
                   "style": "primary",
@@ -294,7 +294,7 @@ A LINE group",
                   "action": Object {
                     "label": "Share on LINE",
                     "type": "uri",
-                    "uri": "line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Fnew-article-id",
+                    "uri": "line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fdev.cofacts.tw%2Farticle%2Fnew-article-id",
                   },
                   "color": "#ffb600",
                   "style": "primary",
@@ -304,7 +304,7 @@ A LINE group",
                   "action": Object {
                     "label": "Share on Facebook",
                     "type": "uri",
-                    "uri": "https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fcofacts.hacktabl.org%2Farticle%2Fnew-article-id",
+                    "uri": "https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fdev.cofacts.tw%2Farticle%2Fnew-article-id",
                   },
                   "color": "#ffb600",
                   "style": "primary",

@@ -19,7 +19,7 @@ it('invokes fetch and returns result', async () => {
   expect(fetch.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
-        "https://cofacts-api.hacktabl.org/graphql",
+        "https://dev-api.cofacts.tw/graphql",
         Object {
           "body": "{\\"query\\":\\"(bar: String){foo}\\",\\"variables\\":{\\"bar\\":\\"bar\\"}}",
           "credentials": "include",
@@ -89,7 +89,7 @@ it('handles runtime error', async () => {
         "GraphQL error",
         Object {
           "body": "{\\"query\\":\\"\\\\n    {\\\\n      foo\\\\n    }\\\\n  \\"}",
-          "url": "https://cofacts-api.hacktabl.org/graphql",
+          "url": "https://dev-api.cofacts.tw/graphql",
         },
         Object {
           "resp": Object {
