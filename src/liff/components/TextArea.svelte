@@ -19,4 +19,8 @@
   }
 </style>
 
-<textarea {...$$restProps} />
+<script>
+  export let value;
+</script>
+
+<textarea bind:value {...$$restProps} />
