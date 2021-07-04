@@ -10,12 +10,13 @@ class AppVariable extends Base {
    * @returns {Promise<any>} - variable value
    */
   static async get(varName) {
-    try {
-      return JSON.parse((await this.find({ _id: varName }))[0].value);
-    } catch (e) {
-      // Resolves to undefined if not set at all
+    const result = await this.find({ _id: varName });
+    if (result.length === 0) {
+      // Resolves to undefined if varName is not set previously
       return;
     }
+
+    return JSON.parse(result[0].value);
   }
 
   /**
