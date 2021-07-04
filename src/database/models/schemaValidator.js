@@ -5,6 +5,7 @@ const ajv = new Ajv();
 const SCHEMAS = {
   userArticleLink: require('./userArticleLink.json'),
   userSettings: require('./userSettings.json'),
+  appVariable: require('./appVariable.json'),
 };
 
 const ClassTable = {
@@ -31,4 +32,5 @@ export function compile(schemaName) {
 export const validators = {
   userArticleLink: compile('userArticleLink'),
   userSettings: compile('userSettings'),
+  appVariable: compile('appVariable'),
 };
