@@ -1,17 +1,33 @@
-jest.mock('src/lib/redisClient');
 jest.mock('./lib');
-
+import Client from 'src/database/mongoClient';
+import MockDate from 'mockdate';
 import scanRepliesAndNotify from '../scanRepliesAndNotify';
+import AppVariable from 'src/database/models/appVariable';
 import lib from '../lib';
-import redis from 'src/lib/redisClient';
+
+beforeEach(async () => {
+  if (await AppVariable.collectionExists()) {
+    await (await AppVariable.client).drop();
+  }
+});
+
+afterAll(async () => {
+  await (await Client.getInstance()).close();
+});
 
 it('scan replies and notify', async () => {
-  redis.set = jest.fn();
-  redis.quit = jest.fn();
   lib.getNotificationList = jest.fn().mockImplementationOnce(() => {});
   lib.sendNotification = jest.fn();
+  MockDate.set(612921600000);
 
   await scanRepliesAndNotify();
+
   expect(lib.getNotificationList).toHaveBeenCalledTimes(1);
   expect(lib.sendNotification).toHaveBeenCalledTimes(1);
+
+  // Time should be 12 hours before MockDate
+  // 12 hour is the default REVIEW_REPLY_BUFFER
+  expect(await AppVariable.get('lastScannedAt')).toMatchInlineSnapshot(
+    `"1989-06-03T12:00:00.000Z"`
+  );
 });

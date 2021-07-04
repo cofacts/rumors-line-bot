@@ -1,5 +1,5 @@
 import lib from './lib';
-import redis from 'src/lib/redisClient';
+import AppVariable from 'src/database/models/appVariable';
 import rollbar from 'src/lib/rollbar';
 import addTime from 'date-fns/add';
 import Client from 'src/database/mongoClient';
@@ -7,7 +7,7 @@ import Client from 'src/database/mongoClient';
 export default async function scanRepliesAndNotify() {
   const timeOffset = JSON.parse(process.env.REVIEW_REPLY_BUFFER) || {};
   const lastScannedAt =
-    (await redis.get('lastScannedAt')) ||
+    (await AppVariable.get('lastScannedAt')) ||
     addTime(new Date(), { days: -90 }).toISOString();
 
   console.log('[notify] lastScannedAt:' + lastScannedAt);
@@ -17,17 +17,18 @@ export default async function scanRepliesAndNotify() {
     nowWithOffset
   );
   await lib.sendNotification(notificationList);
-  await redis.set('lastScannedAt', nowWithOffset);
-
-  // disconnect redis and mongodb
-  await redis.quit();
-  await (await Client.getInstance()).close();
+  await AppVariable.set('lastScannedAt', nowWithOffset);
 }
 
 if (require.main === module) {
-  scanRepliesAndNotify().catch(e => {
-    console.error(e);
-    rollbar.error(e);
-    process.exit(1);
-  });
+  scanRepliesAndNotify()
+    .catch(e => {
+      console.error(e);
+      rollbar.error(e);
+      process.exit(1);
+    })
+    .then(async () => {
+      // disconnect mongodb
+      await (await Client.getInstance()).close();
+    });
 }
