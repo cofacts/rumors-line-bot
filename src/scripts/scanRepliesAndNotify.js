@@ -20,6 +20,7 @@ export default async function scanRepliesAndNotify() {
   await AppVariable.set('lastScannedAt', nowWithOffset);
 }
 
+/* istanbul ignore if */
 if (require.main === module) {
   scanRepliesAndNotify()
     .catch(e => {
