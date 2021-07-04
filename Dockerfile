@@ -11,6 +11,7 @@ RUN npm install
 #
 COPY . .
 
+ARG LOCALE=en_US
 RUN NODE_ENV=production npm run build
 RUN npm prune --production
 

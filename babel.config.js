@@ -1,7 +1,4 @@
-require('dotenv').config();
-
 const locale = process.env.LOCALE || 'en_US';
-console.log('[babel.config.js] building locale: ', locale);
 
 // Project-wide config
 //
