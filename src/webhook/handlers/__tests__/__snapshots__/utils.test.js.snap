@@ -19,15 +19,6 @@ exports[`createFlexMessageText should create a text for flex message 1`] = `"計
 
 exports[`createFlexMessageText should handle the situation without input 1`] = `""`;
 
-exports[`createHighlightContents should handle line-bot#220 issue 1`] = `
-Array [
-  Object {
-    "text": "Original text",
-    "type": "span",
-  },
-]
-`;
-
 exports[`createHighlightContents should create a highlight flex message 1`] = `
 Array [
   Object {
@@ -186,6 +177,15 @@ Array [
 ]
 `;
 
+exports[`createHighlightContents should handle line-bot#220 issue 1`] = `
+Array [
+  Object {
+    "text": "Original text",
+    "type": "span",
+  },
+]
+`;
+
 exports[`createHighlightContents should handle the situation without highlight 1`] = `
 Array [
   Object {
@@ -240,7 +240,7 @@ Array [
 
 
 ⁉️ If you have different thoughts, you may have your say here:
-https://cofacts.hacktabl.org/article/2sn80q5l5mzi0",
+https://dev.cofacts.tw/article/2sn80q5l5mzi0",
     "type": "text",
   },
 ]

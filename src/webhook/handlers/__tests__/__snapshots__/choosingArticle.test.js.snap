@@ -1294,7 +1294,7 @@ Object {
       "type": "flex",
     },
     Object {
-      "text": "Visit https://cofacts.hacktabl.org/article/article-id for more replies.",
+      "text": "Visit https://dev.cofacts.tw/article/article-id for more replies.",
       "type": "text",
     },
   ],
