@@ -126,6 +126,21 @@ const singleUserHandler = async (
     if (type === 'postback') {
       const data = JSON.parse(otherFields.postback.data);
 
+      // Handle the case when user context in redis is expired
+      if (!context.data) {
+        lineClient.post('/message/reply', {
+          replyToken,
+          messages: [
+            {
+              type: 'text',
+              text: '🚧 ' + t`Sorry, the button is expired.`,
+            },
+          ],
+        });
+        clearTimeout(timerId);
+        return;
+      }
+
       // When the postback is expired,
       // i.e. If other new messages have been sent before pressing buttons,
       // Don't do anything, just ignore silently.
