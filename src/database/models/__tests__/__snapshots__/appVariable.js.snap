@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`appVariable [model] sets valid value to DB 1`] = `
+Object {
+  "_id": "foo",
+  "value": "123456",
+}
+`;

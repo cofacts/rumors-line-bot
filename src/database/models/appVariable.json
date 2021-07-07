@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "cofacts/schemas/appVariable",
+  "$comment": "design document https://g0v.hackmd.io/eIeU2g86Tfu5VnLazNfUvQ",
+  "description": "A representation of an AppVariable",
+  "title": "AppVariable",
+  "type": "object",
+
+  "properties": {
+    "_id": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    }
+  },
+  "required": [ "value" ]
+}
