@@ -26,7 +26,7 @@
 
   const handleComment = async (e) => {
     processing = true;
-    const comment = (e.detail || '').trim()
+    const comment = (e.detail || '').trim();
 
     await sendMessages([
       {
