@@ -79,33 +79,36 @@ msgstr ""
 "不實訊息常常會被人修改重發。\n"
 "請選擇比較接近的版本"
 
-#: src/webhook/handlers/utils.js:589
+#: src/webhook/handlers/utils.js:600
 msgid "Someone on the internet replies to the message:"
 msgstr "網路上有人這樣回應這則訊息："
 
-#: src/webhook/handlers/utils.js:633
+#: src/webhook/handlers/utils.js:644
 #, javascript-format
 msgid "Therefore, the author think the message ${ typeStr }."
 msgstr "綜合以上，回應者認為它${typeStr}。"
 
-#: src/webhook/handlers/utils.js:636
+#: src/webhook/handlers/utils.js:647
 msgid ""
 "There are different replies for the message. Read them all here before "
 "making judgements:"
 msgstr "這則訊息有很多不同回應，建議到這裡一次讀完再下判斷："
 
-#: src/webhook/handlers/utils.js:638
+#: src/webhook/handlers/utils.js:649
 msgid "If you have different thoughts, you may have your say here:"
 msgstr "如果你對這則訊息有不同看法，歡迎到下面這裡寫入新的回應："
 
+#: src/liff/components/FeedbackForm.svelte:23
 #: src/webhook/handlers/choosingReply.js:19
 msgid "Is the reply helpful?"
 msgstr "請問上面回應是否有幫助？"
 
+#: src/liff/components/FeedbackForm.svelte:27
 #: src/webhook/handlers/choosingReply.js:55
 msgid "Yes"
 msgstr "是"
 
+#: src/liff/components/FeedbackForm.svelte:30
 #: src/webhook/handlers/choosingReply.js:65
 msgid "No"
 msgstr "否"
@@ -153,13 +156,13 @@ msgstr "不好意思！系統可能在忙線中，無法及時處理您傳的訊
 msgid "Wrong usage"
 msgstr "這不是這樣用的"
 
-#: src/webhook/index.js:142
+#: src/webhook/index.js:157
 msgid ""
 "You are currently searching for another message, buttons from previous "
 "search sessions do not work now."
 msgstr "您已經在搜尋新的訊息了，過去查過的訊息的按鈕已經失效囉。"
 
-#: src/webhook/index.js:279
+#: src/webhook/index.js:294
 msgid ""
 "Oops, something is not working. We have cleared your search data, hopefully "
 "the error will go away. Would you please send us the message from the start?"
@@ -254,7 +257,7 @@ msgstr "${ countOfType.NOT_ARTICLE } 人認為它 ⚠️️ 不在 Cofacts 的�
 msgid "I choose “${ displayTextWhenChosen }”"
 msgstr "我要選「${displayTextWhenChosen}」"
 
-#: src/liff/pages/Reason.svelte:80
+#: src/liff/pages/Reason.svelte:79
 #: src/liff/pages/Source.svelte:33
 #: src/webhook/handlers/choosingArticle.js:303
 #: src/webhook/handlers/utils.js:473
@@ -370,6 +373,7 @@ msgid "This button was for previous search and is now expired."
 msgstr "您已經傳了新訊息進來，這個舊按鈕已經失效囉。"
 
 #: src/liff/lib.js:119
+#: src/webhook/index.js:136
 msgid "Sorry, the button is expired."
 msgstr "不好意思，這是有點久以前的訊息，現在按鈕已經失效囉。"
 
@@ -377,39 +381,16 @@ msgstr "不好意思，這是有點久以前的訊息，現在按鈕已經失效
 msgid "Sorry, the function is not applicable on desktop."
 msgstr "不好意思，在桌面環境無法使用這個功能。"
 
-#: src/liff/pages/NegativeFeedback.svelte:36
-msgid "Report not useful"
-msgstr "表示回應沒幫助"
-
-#: src/liff/pages/NegativeFeedback.svelte:37
-msgid ""
-"Your feedback has been recorded. We are sorry that the reply is not useful "
-"to you."
-msgstr "已經記下您的評價。很遺憾這則回應對您沒有幫助。"
-
-#: src/liff/pages/NegativeFeedback.svelte:38
-msgid "How can we make it useful to you?"
-msgstr "請問您覺得怎麼改才會更有幫助呢？"
-
-#: src/liff/pages/NegativeFeedback.svelte:41
-#: src/liff/pages/PositiveFeedback.svelte:41
-#: src/liff/pages/Reason.svelte:87
+#: src/liff/components/FeedbackForm.svelte:38
+#: src/liff/pages/Reason.svelte:86
 msgid "Submit"
 msgstr "送出"
 
-#: src/liff/pages/PositiveFeedback.svelte:36
-msgid "Report reply useful"
-msgstr "表示回應有幫助"
-
-#: src/liff/pages/PositiveFeedback.svelte:37
-msgid "We have recorded your feedback. It's glad to see the reply is helpful."
-msgstr "已經記下您的評價。很開心這則回應有幫助到您。"
-
-#: src/liff/pages/PositiveFeedback.svelte:38
+#: src/liff/components/FeedbackForm.svelte:32
 msgid "Do you have anything to add about the reply?"
 msgstr "針對這則回應，有沒有想補充的呢？"
 
-#: src/liff/pages/Reason.svelte:11
+#: src/liff/pages/Reason.svelte:10
 #. t: Guidance in LIFF
 msgid ""
 "You may try:\n"
@@ -422,7 +403,7 @@ msgstr ""
 "2. 去 google 查查看\n"
 "3. 把全文複製貼上到 Facebook 搜尋框看看"
 
-#: src/liff/pages/Reason.svelte:17
+#: src/liff/pages/Reason.svelte:16
 #. t: Guidance in LIFF
 #, javascript-format
 msgid ""
@@ -440,7 +421,7 @@ msgstr ""
 "\n"
 "若要補充資訊，請按「取消」；覺得現在這樣送出就好，請按「確定」。"
 
-#: src/liff/pages/Reason.svelte:24
+#: src/liff/pages/Reason.svelte:23
 #. t: Guidance in LIFF
 msgid ""
 "The info you provide should not be identical to the message itself.\n"
@@ -451,15 +432,15 @@ msgstr ""
 "\n"
 "${ LENGHEN_HINT }"
 
-#: src/liff/pages/Reason.svelte:81
+#: src/liff/pages/Reason.svelte:80
 msgid "To help with fact-checking, please tell the editors:"
 msgstr "為了協助查證，請告訴闢謠編輯："
 
-#: src/liff/pages/Reason.svelte:82
+#: src/liff/pages/Reason.svelte:81
 msgid "Why do you think this is a hoax?"
 msgstr "為何您覺得這是謠言？"
 
-#: src/liff/pages/Reason.svelte:84
+#: src/liff/pages/Reason.svelte:83
 msgid ""
 "Ex: I googled using (some keyword) and found that... / I found different "
 "opinion on (some website) saying that..."
@@ -523,17 +504,17 @@ msgstr "查過的訊息"
 msgid "Fetching viewed messages"
 msgstr "載入查過的訊息"
 
-#: src/liff/components/ViewedArticle.svelte:37
-#: src/liff/components/ViewedArticle.svelte:42
-#: src/liff/pages/Reason.svelte:87
+#: src/liff/components/ViewedArticle.svelte:36
+#: src/liff/components/ViewedArticle.svelte:41
+#: src/liff/pages/Reason.svelte:86
 msgid "Loading"
 msgstr "載入中"
 
-#: src/liff/components/ViewedArticle.svelte:38
+#: src/liff/components/ViewedArticle.svelte:37
 msgid "No replies yet"
 msgstr "尚無回應"
 
-#: src/liff/components/ViewedArticle.svelte:27
+#: src/liff/components/ViewedArticle.svelte:26
 msgid "${ replyCount } reply"
 msgid_plural "${ replyCount } replies"
 msgstr[0] "${ replyCount } 則回應"
@@ -542,12 +523,12 @@ msgstr[0] "${ replyCount } 則回應"
 msgid "See replies of"
 msgstr "查看這篇的回應"
 
-#: src/liff/components/ViewedArticle.svelte:32
+#: src/liff/components/ViewedArticle.svelte:31
 #, javascript-format
 msgid "Viewed ${ fromNow } ago"
 msgstr "${fromNow}前看過"
 
-#: src/liff/components/ViewedArticle.svelte:26
+#: src/liff/components/ViewedArticle.svelte:25
 #, javascript-format
 msgid "${ newArticleReplyCount } new reply"
 msgid_plural "${ newArticleReplyCount } new replies"
@@ -567,7 +548,7 @@ msgstr "上一頁"
 msgid "Next"
 msgstr "下一頁"
 
-#: src/liff/pages/UserSetting.svelte:66
+#: src/liff/pages/UserSetting.svelte:64
 msgid "Settings"
 msgstr "設定"
 
@@ -582,7 +563,7 @@ msgid ""
 "can interact with chatbot while clicking the buttons."
 msgstr "請重試一次，並允許「傳訊息至聊天室」權限，您按下按鈕的時候才能和「Cofacts 真的假的」機器人互動。"
 
-#: src/scripts/lib.js:146
+#: src/scripts/lib.js:150
 #, javascript-format
 msgid ""
 "There are new replies for the articles you have searched. Please see 'View "
@@ -591,11 +572,11 @@ msgstr ""
 "您搜尋過的訊息有新的回應，請到 Cofacts 機器人 (${ process.env.LINE_FRIEND_URL }) "
 "選單，點選右下角的「看過的訊息」查看。"
 
-#: src/scripts/lib.js:179
+#: src/scripts/lib.js:183
 msgid "View new replies"
 msgstr "查看新回應"
 
-#: src/scripts/lib.js:180
+#: src/scripts/lib.js:184
 msgid ""
 "There are new replies for the articles you have searched. Click the button "
 "for more details."
@@ -605,7 +586,7 @@ msgstr "有人針對您之前曾看過的訊息，寫了新的查證回應唷！
 msgid "(Words found in the hyperlink)"
 msgstr "（網址裡找到的字）"
 
-#: src/liff/pages/UserSetting.svelte:67
+#: src/liff/pages/UserSetting.svelte:65
 msgid "Welcome to Cofacts!"
 msgstr "感謝您加 Cofacts 好友！"
 
@@ -615,15 +596,15 @@ msgid ""
 "before."
 msgstr "當您查過的訊息有新回應時，Cofacts 可以通知您。"
 
-#: src/liff/pages/UserSetting.svelte:71
+#: src/liff/pages/UserSetting.svelte:68
 msgid "Notify me of new responses"
 msgstr "有新回應時通知我"
 
-#: src/liff/pages/UserSetting.svelte:73
+#: src/liff/pages/UserSetting.svelte:71
 msgid "No setup option for now :)"
 msgstr "目前沒有設定選項 :)"
 
-#: src/liff/pages/UserSetting.svelte:68
+#: src/liff/pages/UserSetting.svelte:66
 msgid "You can configure Cofacts here to meet your need."
 msgstr "您可以在這裡設定 Cofacts 以符合需求。"
 
@@ -641,7 +622,7 @@ msgstr "前往設定"
 msgid "Receive updates"
 msgstr "開啟小鈴鐺"
 
-#: src/liff/pages/UserSetting.svelte:69
+#: src/liff/pages/UserSetting.svelte:67
 msgid "Fetching settings"
 msgstr "載入設定中"
 
@@ -768,7 +749,7 @@ msgid ""
 "database."
 msgstr "如果我找不到的話，會徵求你的同意，看看要不要把這個訊息送進資料庫唷。"
 
-#: src/webhook/handlers/utils.js:634
+#: src/webhook/handlers/utils.js:645
 msgid ""
 "This content is provided by Cofact message reporting chatbot and "
 "crowd-sourced fact-checking community under CC BY-SA 4.0 license. Please "
@@ -777,7 +758,7 @@ msgstr ""
 "此內容由「Cofacts 真的假的」訊息回報機器人與查核協作社群提供，以創用 CC 姓名標示-相同方式分享 4.0 國際 "
 "授權條款釋出。請斟酌出處與理由，自行思考判斷。"
 
-#: src/webhook/handlers/utils.js:614
+#: src/webhook/handlers/utils.js:625
 msgid "I found that there are some disagreement to the message:"
 msgstr "剛剛這則訊息，我查過似乎發現有點問題。有另外一種說法是："
 
@@ -785,7 +766,7 @@ msgstr "剛剛這則訊息，我查過似乎發現有點問題。有另外一種
 msgid "Hi i am cofacts chat bot"
 msgstr "Hi 我是「Cofacts 真的假的」訊息查證機器人～"
 
-#: src/webhook/handlers/utils.js:614
+#: src/webhook/handlers/utils.js:625
 #, javascript-format
 msgid "Thank you for sharing “${ inputSummary }”"
 msgstr "感謝您的分享 “${ inputSummary }”"
@@ -823,3 +804,43 @@ msgstr ""
 "對訊息保持懷疑很好唷！ 👍\n"
 "\n"
 "不過我目前還不認得「${ inputSummary }」。可以請你幫我一個忙嗎？"
+
+#: src/liff/components/FeedbackForm.svelte:22
+msgid "Please help Cofacts editors"
+msgstr "幫幫 Cofacts 闢謠志工"
+
+#: src/liff/components/FeedbackForm.svelte:31
+msgid "It's glad to see the reply is helpful."
+msgstr "很開心這則 Cofacts 回應有幫助到您。"
+
+#: src/liff/components/FeedbackForm.svelte:39
+msgid "Please provide your comment above"
+msgstr "請在上面輸入寶貴建議"
+
+#: src/liff/components/FeedbackForm.svelte:40
+msgid "Close"
+msgstr "關閉"
+
+#: src/liff/pages/NegativeFeedback.svelte:41
+msgid "Report not helpful"
+msgstr "表示回應沒幫助"
+
+#: src/liff/pages/PositiveFeedback.svelte:42
+msgid "Report reply helpful"
+msgstr "表示回應有幫助"
+
+#: src/liff/components/FeedbackForm.svelte:34
+msgid "We are sorry that the reply is not helpful to you."
+msgstr "很遺憾這則 Cofacts 回應對您沒有幫助。"
+
+#: src/liff/components/FeedbackForm.svelte:35
+msgid "How can we make it helpful to you?"
+msgstr "請問您覺得怎麼改才會更有幫助呢？"
+
+#: src/liff/components/FeedbackForm.svelte:33
+msgid "I think the reply is helpful and I want to add..."
+msgstr "這個回應有幫助到我，我想補充⋯⋯"
+
+#: src/liff/components/FeedbackForm.svelte:36
+msgid "I think the reply is not helpful and I suggest..."
+msgstr "這個回應不太有幫助，我建議⋯⋯"
