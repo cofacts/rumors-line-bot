@@ -21,16 +21,32 @@
     border-radius: 32px;
     transition: background-color .2s;
     cursor: pointer;
+    color: inherit;
   }
 
   .outlined {
     background: transparent;
     border: 2px solid currentColor;
     padding: 6px 10px; /* shrink padding for border */
+
+    position: relative;
   }
 
-  .outlined:hover {
-    background: rgba(255, 255, 255, 0.8);
+  .outlined::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: currentColor;
+    border-radius: 32px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .outlined:hover::before {
+    opacity: 0.2;
   }
 
   .contained {
