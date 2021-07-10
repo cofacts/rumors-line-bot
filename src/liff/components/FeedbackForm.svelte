@@ -25,9 +25,13 @@
     padding: 16px;
     display: flex;
     flex-flow: column;
-    gap: 8px;
+    gap: 4px;
     color: #fff;
     font-size: 16px;
+  }
+
+  p {
+    margin: 0;
   }
 
   section.notVotedYet {
@@ -47,6 +51,20 @@
     gap: 8px;
   }
 
+  .buttons > :global(*) {
+    flex: 1;
+  }
+
+  .form {
+    display: contents;
+  }
+
+  .form :global(textarea) {
+    margin-top: 12px;
+    min-height: 120px;
+    flex: 1; /* extend to container size */
+  }
+
   .emphasize {
     font-weight: 700;
   }
@@ -64,7 +82,7 @@
   <p class:emphasize={score === null}>
     {t`Is this reply useful?`}
   </p>
-  <div class="buttons">
+  <div class="buttons" style={`margin: 8px 0 ${ score === null ? 4 : 16 }px`}>
     <Button
       variant={score === -1 ? 'outlined' : 'contained'}
       {disabled}
@@ -92,7 +110,7 @@
   </div>
 
   {#if score !== null}
-    <form on:submit|preventDefault={handleCommentSubmit}>
+    <form class="form" on:submit|preventDefault={handleCommentSubmit}>
       {#if score === 1}
         <p>{t`It's glad to see the reply is helpful.`}</p>
         <p class="emphasize">
@@ -112,9 +130,11 @@
           placeholder={t`I think the reply is not useful and I suggest`}
         />
       {/if}
-      <Button type="submit" {disabled}>
-        {t`Submit`}
-      </Button>
+      <div class="buttons" style="margin-top: 16px">
+        <Button type="submit" {disabled}>
+          {t`Submit`}
+        </Button>
+      </div>
     </form>
   {/if}
 </section>
