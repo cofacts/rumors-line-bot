@@ -25,7 +25,7 @@
     }
   }
 
-  const handleComment = async () => {
+  const handleComment = async (e) => {
     processing = true;
     const comment = (e.detail || '').trim();
 
