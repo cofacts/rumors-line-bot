@@ -95,7 +95,7 @@
     <p>{t`Please help Cofacts editors`}</p>
   {/if}
   <p class:emphasize={score === null}>
-    {t`Is this reply useful?`}
+    {t`Is the reply helpful?`}
   </p>
   <div class="buttons" style={`margin: 8px 0 ${ score === null ? 4 : 16 }px`}>
     <Button
