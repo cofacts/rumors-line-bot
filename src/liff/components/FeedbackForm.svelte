@@ -57,7 +57,19 @@
   }
 
   .form {
-    display: contents;
+    display: flex;
+    flex-flow: column;
+    position: relative; /* for .bg-icon */
+    gap: 4px;
+  }
+
+  .form :global(.bg-icon) {
+    position: absolute;
+    width: 76px;
+    height: 76px;
+    top: -12px;
+    right: -12px;
+    opacity: 0.16;
   }
 
   .form :global(textarea) {
@@ -115,6 +127,7 @@
   {#if score !== null}
     <form class="form" on:submit|preventDefault={handleCommentSubmit}>
       {#if score === 1}
+        <ThumbsUpIcon class="bg-icon" />
         <p>{t`It's glad to see the reply is helpful.`}</p>
         <p class="emphasize">
           {t`Do you have anything to add about the reply?`}
@@ -124,6 +137,7 @@
           placeholder={t`I think the reply is useful and I want to add`}
         />
       {:else if score === -1}
+        <ThumbsDownIcon class="bg-icon" />
         <p>{t`We are sorry that the reply is not useful to you.`}</p>
         <p class="emphasize">
           {t`How can we make it useful to you?`}
