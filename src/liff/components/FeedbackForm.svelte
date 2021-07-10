@@ -12,10 +12,10 @@
   /** Vote status. Values: null | 1 | -1 */
   export let score = null;
   export let disabled = false;
+  export let comment = '';
 
   const dispatch = createEventDispatcher();
-  const handleCommentSubmit = event => {
-    const comment = event.target.elements.comment.value;
+  const handleCommentSubmit = () => {
     dispatch('comment', comment);
   }
 </script>
@@ -137,6 +137,7 @@
         <TextArea
           name="comment"
           placeholder={t`I think the reply is useful and I want to add`}
+          bind:value={comment}
         />
       {:else if score === -1}
         <ThumbsDownIcon class="bg-icon" />
@@ -147,11 +148,18 @@
         <TextArea
           name="comment"
           placeholder={t`I think the reply is not useful and I suggest`}
+          bind:value={comment}
         />
       {/if}
       <div class="buttons" style="margin-top: 16px;">
-        <Button type="submit" {disabled}>
-          {t`Submit`}
+        <Button type="submit" disabled={disabled || (score === -1 && comment.length === 0)}>
+          {#if comment.length > 0}
+            {t`Submit`}
+          {:else if score === -1}
+            {t`Please provide your comment above`}
+          {:else}
+            {t`Close`}
+          {/if}
         </Button>
       </div>
     </form>
