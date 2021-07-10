@@ -56,14 +56,16 @@
     flex: 1;
   }
 
-  .form {
+  form {
     display: flex;
     flex-flow: column;
     position: relative; /* for .bg-icon */
+    flex: 1; /* extend to container size */
     gap: 4px;
+    margin: 0; /* reset browser native style */
   }
 
-  .form :global(.bg-icon) {
+  form :global(.bg-icon) {
     position: absolute;
     width: 76px;
     height: 76px;
@@ -72,9 +74,9 @@
     opacity: 0.16;
   }
 
-  .form :global(textarea) {
+  form :global(textarea) {
     margin-top: 12px;
-    min-height: 120px;
+    min-height: 80px;
     flex: 1; /* extend to container size */
   }
 
@@ -125,7 +127,7 @@
   </div>
 
   {#if score !== null}
-    <form class="form" on:submit|preventDefault={handleCommentSubmit}>
+    <form on:submit|preventDefault={handleCommentSubmit}>
       {#if score === 1}
         <ThumbsUpIcon class="bg-icon" />
         <p>{t`It's glad to see the reply is helpful.`}</p>
