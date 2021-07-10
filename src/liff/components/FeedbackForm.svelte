@@ -136,18 +136,18 @@
         </p>
         <TextArea
           name="comment"
-          placeholder={t`I think the reply is useful and I want to add`}
+          placeholder={t`I think the reply is helpful and I want to add...`}
           bind:value={comment}
         />
       {:else if score === -1}
         <ThumbsDownIcon class="bg-icon" />
-        <p>{t`We are sorry that the reply is not useful to you.`}</p>
+        <p>{t`We are sorry that the reply is not helpful to you.`}</p>
         <p class="emphasize">
-          {t`How can we make it useful to you?`}
+          {t`How can we make it helpful to you?`}
         </p>
         <TextArea
           name="comment"
-          placeholder={t`I think the reply is not useful and I suggest`}
+          placeholder={t`I think the reply is not helpful and I suggest...`}
           bind:value={comment}
         />
       {/if}

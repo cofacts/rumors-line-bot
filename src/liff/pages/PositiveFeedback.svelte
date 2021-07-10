@@ -41,7 +41,7 @@
 </script>
 
 <svelte:head>
-  <title>{t`Report reply useful`}</title>
+  <title>{t`Report reply helpful`}</title>
 </svelte:head>
 
 <style>

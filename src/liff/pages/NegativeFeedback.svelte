@@ -40,7 +40,7 @@
 </script>
 
 <svelte:head>
-  <title>{t`Report not useful`}</title>
+  <title>{t`Report not helpful`}</title>
 </svelte:head>
 
 <style>
