@@ -28,22 +28,23 @@
     gap: 4px;
     color: #fff;
     font-size: 16px;
+    background: var(--bg);
+  }
+
+  section.notVotedYet {
+    --bg: var(--primary500);
+  }
+
+  section.upvoted {
+    --bg: var(--green1);
+  }
+
+  section.downvoted {
+    --bg: var(--red1);
   }
 
   p {
     margin: 0;
-  }
-
-  section.notVotedYet {
-    background: var(--primary500);
-  }
-
-  section.upvoted {
-    background: var(--green1);
-  }
-
-  section.downvoted {
-    background: var(--red1);
   }
 
   .buttons {
@@ -85,6 +86,7 @@
   <div class="buttons" style={`margin: 8px 0 ${ score === null ? 4 : 16 }px`}>
     <Button
       variant={score === -1 ? 'outlined' : 'contained'}
+      style={`color: ${score === -1 ? '#fff' : 'var(--bg)'};`}
       {disabled}
       on:click={() => dispatch('vote', 1)}
     >
@@ -97,6 +99,7 @@
     </Button>
     <Button
       variant={score === 1 ? 'outlined' : 'contained'}
+      style={`color: ${score === 1 ? '#fff' : 'var(--bg)'};`}
       {disabled}
       on:click={() => dispatch('vote', -1)}
     >
@@ -130,7 +133,7 @@
           placeholder={t`I think the reply is not useful and I suggest`}
         />
       {/if}
-      <div class="buttons" style="margin-top: 16px">
+      <div class="buttons" style="margin-top: 16px;">
         <Button type="submit" {disabled}>
           {t`Submit`}
         </Button>
