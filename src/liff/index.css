@@ -50,4 +50,7 @@ html {
 
 body {
   background: var(--secondary50);
+  display: flex;
+  flex-flow: column;
+  min-height: 100%;
 }

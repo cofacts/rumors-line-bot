@@ -1,14 +1,12 @@
 <script>
   import { onMount } from 'svelte';
   import { t } from 'ttag';
-  import TextArea from '../components/TextArea.svelte';
-  import Button from '../components/Button.svelte';
+  import FeedbackForm from '../components/FeedbackForm.svelte' ;
 
   import { UPVOTE_PREFIX } from 'src/lib/sharedUtils';
-  import { gql, assertInClient, assertSameSearchSession, sendMessages } from '../lib';
+  import { gql, assertInClient, assertSameSearchSession, sendMessages, page } from '../lib';
 
   let processing = false;
-  let comment = '';
 
   // Submitting feedback without comment first
   onMount(async () => {
@@ -21,8 +19,15 @@
     `();
   });
 
-  const handleSubmit = async () => {
+  const handleVote = (e) => {
+    if(e.detail === -1) {
+      page.set('feedback/no')
+    }
+  }
+
+  const handleComment = async (e) => {
     processing = true;
+    const comment = (e.detail || '').trim();
 
     await sendMessages([
       {
@@ -36,38 +41,18 @@
 </script>
 
 <svelte:head>
-  <title>{t`Report reply useful`}</title>
+  <title>{t`Report reply helpful`}</title>
 </svelte:head>
 
 <style>
-  main {
-    padding: 16px;
-    display: flex;
-    flex-flow: column;
-    gap: 8px;
-  }
-
-  main :global(.input) {
-    border: 2px solid var(--secondary300);
+  :global(.positive-form) {
+    flex: 1;
   }
 </style>
 
-<main>
-  <p>{t`We have recorded your feedback. It's glad to see the reply is helpful.`}</p>
-
-  <strong>{t`Do you have anything to add about the reply?`}</strong>
-
-  <TextArea
-    class="input"
-    bind:value={comment}
-    rows={8}
-    placeholder={t`I think the reply is useful and I want to add`}
-  />
-
-  <Button
-    on:click={handleSubmit}
-    disabled={processing}
-  >
-    {t`Submit`}
-  </Button>
-</main>
+<FeedbackForm
+  class="positive-form"
+  score={1}
+  on:vote={handleVote}
+  on:comment={handleComment}
+/>

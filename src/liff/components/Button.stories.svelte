@@ -45,3 +45,10 @@
     <Button variant="outlined">variant = outlined</Button>
   </div>
 </Story>
+
+<Story name="Font colors">
+  <div class="colorBg">
+    <Button variant="contained" style="color: rebeccapurple;">rebeccapurple</Button>
+    <Button variant="outlined" style="color: rebeccapurple;">rebeccapurple</Button>
+  </div>
+</Story>
