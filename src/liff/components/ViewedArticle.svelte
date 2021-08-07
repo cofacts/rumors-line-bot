@@ -28,7 +28,7 @@
   let viewedAtStr = '';
   $: {
     const dateString = format(viewedAt);
-    viewedAtStr = t`Viewed ${dateString}`;
+    viewedAtStr = t`Viewed on ${dateString}`;
   }
 
 </script>

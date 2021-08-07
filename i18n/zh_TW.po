@@ -842,7 +842,7 @@ msgstr "這個回應不太有幫助，我建議⋯⋯"
 
 #: src/liff/components/ViewedArticle.svelte:31
 #, javascript-format
-msgid "Viewed ${ dateString }"
+msgid "Viewed on ${ dateString }"
 msgstr "在${ dateString }看過"
 
 #: src/lib/sharedUtils.js:109
