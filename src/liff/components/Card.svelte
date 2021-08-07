@@ -4,17 +4,14 @@
 
 <style>
   .card {
-    background: var(--background, #fff);
-    color: var(--color, var(--secondary500));
+    display: grid;
+    grid-auto-flow: row;
+    row-gap: var(--gap, 16px);
 
     padding: 16px;
 
-    /* For iOS devices < 14.7, which does not support flexbox gap... */
-    display: grid;
-    grid-auto-flow: row;
-
-    /* Introduces "--gap" variable */
-    row-gap: var(--gap, 16px);
+    background: var(--background, #fff);
+    color: var(--color, var(--secondary500));
   }
 </style>
 

@@ -22,10 +22,11 @@
 
 <style>
   section {
+    display: grid;
+    grid-auto-flow: row;
+    row-gap: 4px;
     padding: 16px;
-    display: flex;
-    flex-flow: column;
-    gap: 4px;
+
     color: #fff;
     font-size: 16px;
     background: var(--bg);
@@ -48,20 +49,18 @@
   }
 
   .buttons {
-    display: flex;
-    gap: 8px;
-  }
-
-  .buttons > :global(*) {
-    flex: 1;
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 8px;
   }
 
   form {
-    display: flex;
-    flex-flow: column;
+    display: grid;
+    grid-auto-flow: row;
+    row-gap: 4px;
+
     position: relative; /* for .bg-icon */
     flex: 1; /* extend to container size */
-    gap: 4px;
     margin: 0; /* reset browser native style */
   }
 
