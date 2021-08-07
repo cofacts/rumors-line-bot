@@ -22,9 +22,8 @@
 
 <style>
   section {
-    display: grid;
-    grid-auto-flow: row;
-    row-gap: 4px;
+    display: flex;
+    flex-flow: column;
     padding: 16px;
 
     color: #fff;
@@ -55,9 +54,8 @@
   }
 
   form {
-    display: grid;
-    grid-auto-flow: row;
-    row-gap: 4px;
+    display: flex;
+    flex-flow: column;
 
     position: relative; /* for .bg-icon */
     flex: 1; /* extend to container size */
@@ -74,7 +72,7 @@
   }
 
   form :global(textarea) {
-    margin-top: 12px;
+    margin: 16px 0 20px;
     min-height: 80px;
     flex: 1; /* extend to container size */
   }
@@ -91,12 +89,12 @@
   {...$$restProps}
 >
   {#if score === null}
-    <p>{t`Please help Cofacts editors`}</p>
+    <p style="margin-bottom: 4px;">{t`Please help Cofacts editors`}</p>
   {/if}
   <p class:emphasize={score === null}>
     {t`Is the reply helpful?`}
   </p>
-  <div class="buttons" style={`margin: 8px 0 ${ score === null ? 4 : 16 }px`}>
+  <div class="buttons" style={`margin: 12px 0 ${ score === null ? 0 : 20 }px`}>
     <Button
       variant={score === -1 ? 'outlined' : 'contained'}
       style={`color: ${score === -1 ? '#fff' : 'var(--bg)'};`}
@@ -130,7 +128,7 @@
       {#if score === 1}
         <ThumbsUpIcon class="bg-icon" />
         <p>{t`It's glad to see the reply is helpful.`}</p>
-        <p class="emphasize">
+        <p class="emphasize" style="margin-top: 4px;">
           {t`Do you have anything to add about the reply?`}
         </p>
         <TextArea
@@ -141,7 +139,7 @@
       {:else if score === -1}
         <ThumbsDownIcon class="bg-icon" />
         <p>{t`We are sorry that the reply is not helpful to you.`}</p>
-        <p class="emphasize">
+        <p class="emphasize" style="margin-top: 4px;">
           {t`How can we make it helpful to you?`}
         </p>
         <TextArea
@@ -150,7 +148,7 @@
           bind:value={comment}
         />
       {/if}
-      <div class="buttons" style="margin-top: 16px;">
+      <div class="buttons">
         <Button type="submit" disabled={disabled || (score === -1 && comment.length === 0)}>
           {#if comment.length > 0}
             {t`Submit`}
