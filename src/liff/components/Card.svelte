@@ -1,5 +1,9 @@
 <script>
+  import clsx from 'clsx';
+
   export let style;
+  let className = '';
+  export { className as class };
 </script>
 
 <style>
@@ -15,6 +19,6 @@
   }
 </style>
 
-<div class="card" {style}>
+<div class={clsx('card', className)} {style}>
   <slot />
 </div>
