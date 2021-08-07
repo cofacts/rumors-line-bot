@@ -843,9 +843,9 @@ msgstr "這個回應不太有幫助，我建議⋯⋯"
 #: src/liff/components/ViewedArticle.svelte:31
 #, javascript-format
 msgid "Viewed ${ dateString }"
-msgstr "在 ${ dateString } 看過"
+msgstr "在${ dateString }看過"
 
 #: src/lib/sharedUtils.js:109
 #, javascript-format
 msgid "${ dateStr } ago"
-msgstr "${ dateStr } 前"
+msgstr "${ dateStr }前"
