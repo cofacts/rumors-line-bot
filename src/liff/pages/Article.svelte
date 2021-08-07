@@ -1,6 +1,8 @@
 <script>
   import { onMount } from 'svelte';
+  import { t } from 'ttag';
   import { gql } from '../lib';
+  import ArticleCard from '../components/ArticleCard.svelte';
 
   const params = new URLSearchParams(location.search);
   const articleId = params.get('articleId');
@@ -8,6 +10,7 @@
 
   let articleData;
   let articleReplies = [];
+  let createdAt;
 
   const articleReplyFields = `
     ownVote
@@ -28,6 +31,7 @@
           text
           replyRequestCount
           requestedForReply
+          createdAt
 
           articleReplies(status: NORMAL) {
             ${articleReplyFields}
@@ -40,6 +44,7 @@
 
     articleReplies = list.filter(({reply}) => replyId ? reply.id === replyId : true);
     articleData = rest;
+    createdAt = new Date(articleData.createdAt);
 
     // Send event to Google Analytics
     gtag('event', 'ViewArticle', {
@@ -104,17 +109,34 @@
   }
 </script>
 
+<style>
+  h1 {
+    font-weight: 700;
+    font-size: 1em;
+    color: var(--secondary300);
+    margin: 24px 16px 8px;
+  }
+
+  h1:first-of-type {
+    margin-top: 8px;
+  }
+</style>
+
 <svelte:head>
-  <title>Cofacts 網友協作回應</title>
+  <title>{t`IM check`} | {t`Cofacts chatbot`}</title>
 </svelte:head>
 
 {#if !articleData }
-  <p>載入中...</p>
+  <p style="align-self: center; margin: auto 0;">{t`Loading IM data...`}</p>
 {:else}
-  <details>
-    <summary>網友回報可疑訊息</summary>
-    {articleData.text}
-  </details>
+  <h1>
+    {t`Suspicious messages`}
+  </h1>
+  <ArticleCard
+    text={articleData.text}
+    replyRequestCount={articleData.replyRequestCount}
+    createdAt={createdAt}
+  />
 
   {#if articleReplies.length === 0}
     <p>有 {articleData.replyRequestCount} 人回報說看到此訊息。</p>
