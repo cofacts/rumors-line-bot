@@ -1,7 +1,7 @@
 <script>
   import { t, msgid, ngettext } from 'ttag';
   import { format } from 'src/lib/sharedUtils';
-  import Card from './Card';
+  import Card from './Card.svelte';
   const MAX_TEXT_HEIGHT = 100; // px
 
   export let createdAt;
