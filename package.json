@@ -120,7 +120,7 @@
     "svelte": "^3.38.2",
     "svelte-loader": "github:sveltejs/svelte-loader",
     "terser-webpack-plugin": "^2.3.5",
-    "ttag-cli": "^1.9.1",
+    "ttag-cli": "^1.9.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0"
