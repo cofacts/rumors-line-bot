@@ -31,14 +31,11 @@
 
 <style>
   .measurerContainer {
-    position: relative;
     height: 0;
+    padding: 0 16px;
     overflow: hidden;
   }
   .measurer {
-    position: absolute;
-    left: 16px;
-    right: 16px;
     white-space: pre-line;
   }
   aside {
