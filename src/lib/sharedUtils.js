@@ -91,10 +91,23 @@ let locale = require(`date-fns/locale/${(process.env.LOCALE || 'en_US').replace(
 /* istanbul ignore next */
 locale = locale.default ? locale.default : locale;
 
-export function format(date, format = 'Pp', config = {}) {
+function formatAbsolute(date, format = 'PP', config = {}) {
   return dateFnsFormat(date, format, { ...config, locale });
 }
 
 export function formatDistanceToNow(date, config = {}) {
   return dateFnsFormatDistanceToNow(date, { ...config, locale });
+}
+
+const THRESHOLD = 86400 * 2 * 1000; // 2 days in milliseconds
+
+export function format(date) {
+  const now = new Date();
+
+  if (now - date < THRESHOLD) {
+    const dateStr = formatDistanceToNow(date);
+    return t`${dateStr} ago`;
+  }
+
+  return formatAbsolute(date);
 }

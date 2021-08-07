@@ -1,6 +1,6 @@
 <script>
   import { t, ngettext, msgid } from 'ttag';
-  import { formatDistanceToNow } from 'src/lib/sharedUtils';
+  import { format } from 'src/lib/sharedUtils';
 
   /**
    * The userArticleLink from GraphQL
@@ -27,8 +27,8 @@
 
   let viewedAtStr = '';
   $: {
-    const fromNow = formatDistanceToNow(viewedAt);
-    viewedAtStr = t`Viewed ${fromNow} ago`;
+    const dateString = format(viewedAt);
+    viewedAtStr = t`Viewed ${dateString}`;
   }
 
 </script>
