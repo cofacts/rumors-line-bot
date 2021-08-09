@@ -107,9 +107,18 @@
     isRequestingReply = false;
     articleData = {...articleData, ...resp.data.CreateOrUpdateReplyRequest};
   }
+
+  $: replySectionTitle = articleReplies.length === 1
+    ? t`Cofacts reply`
+    : `There are ${articleReplies.length} Cofacts replies for this message`
 </script>
 
 <style>
+  .loading {
+    align-self: center;
+    margin: auto 0;
+  }
+
   h1 {
     font-weight: 700;
     font-size: 1em;
@@ -127,7 +136,7 @@
 </svelte:head>
 
 {#if !articleData }
-  <p style="align-self: center; margin: auto 0;">{t`Loading IM data...`}</p>
+  <p class="loading">{t`Loading IM data...`}</p>
 {:else}
   <h1>
     {t`Suspicious messages`}
@@ -148,6 +157,7 @@
       {/if}
     </button>
   {:else}
+    <h1>{replySectionTitle}</h1>
     <ul>
       {#each articleReplies as articleReply (articleReply.reply.id)}
         <li>
