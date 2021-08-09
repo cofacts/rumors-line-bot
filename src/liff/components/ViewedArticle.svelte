@@ -8,30 +8,22 @@
    */
   export let userArticleLink;
 
-  /**
-   * The article from Cofacts API. null when still loading.
-   */
-  export let article = null;
-
-  $: replyCount = article ? article.articleReplies.length : 0;
-  $: viewedAt = userArticleLink.lastViewedAt ?
+  const replyCount = userArticleLink.article?.articleReplies.length || 0;
+  const viewedAt = userArticleLink.lastViewedAt ?
     new Date(userArticleLink.lastViewedAt) :
     new Date(userArticleLink.createdAt);
-  $: newArticleReplyCount = article ? article.articleReplies.filter(ar => new Date(ar.createdAt) > viewedAt).length : 0;
+  const newArticleReplyCount = userArticleLink.article?.articleReplies.filter(
+    ar => new Date(ar.createdAt) > viewedAt
+  ).length || 0;
 
-  // String translation setup:
-  // Svelte template will mess up with variable names, thus strings with variables
-  // must be translated within <script> tag
-  //
-  $: unreadStr = ngettext(msgid`${newArticleReplyCount} new reply`, `${newArticleReplyCount} new replies`, newArticleReplyCount);
-  $: repliesStr = ngettext(msgid`${replyCount} reply`, `${replyCount} replies`, replyCount);
+  const unreadStr = ngettext(msgid`${newArticleReplyCount} new reply`, `${newArticleReplyCount} new replies`, newArticleReplyCount);
+  const repliesStr = ngettext(msgid`${replyCount} reply`, `${replyCount} replies`, replyCount);
 
   let viewedAtStr = '';
   $: {
     const dateString = format(viewedAt);
     viewedAtStr = t`Viewed on ${dateString}`;
   }
-
 </script>
 
 <style>
@@ -63,9 +55,7 @@
 <Card class="ViewedArticle-root" on:click>
   <header>
     <span class={newArticleReplyCount ? 'unread' : ''}>
-      {#if !article}
-        {t`Loading`}...
-      {:else if article.articleReplies.length === 0}
+      {#if replyCount === 0}
         {t`No replies yet`}
       {:else if newArticleReplyCount > 0}
         {unreadStr}
@@ -76,10 +66,6 @@
     <span>{viewedAtStr}</span>
   </header>
   <main>
-    {#if !article}
-      {t`Loading`}...
-    {:else}
-      {article.text}
-    {/if}
+    {userArticleLink.article?.text || ''}
   </main>
 </Card>

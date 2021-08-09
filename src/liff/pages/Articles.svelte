@@ -2,13 +2,12 @@
   import { onMount } from 'svelte';
   import { t, ngettext, msgid } from 'ttag';
   import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
-  import { gql, assertInClient, getArticlesFromCofacts, sendMessages } from '../lib';
+  import { gql, assertInClient, sendMessages } from '../lib';
   import ViewedArticle from '../components/ViewedArticle.svelte';
   import Pagination from '../components/Pagination.svelte';
 
   let linksData = null;
   let isLoadingData = false; // If is in process of loadData()
-  let articleMap = {};
 
   let selectArticle = async articleId => {
     await Promise.all([
@@ -38,7 +37,7 @@
     isLoadingData = true;
     const {
       data: {userArticleLinks},
-      errors: linksErrors,
+      errors,
     } = await gql`
       query ListUserArticleLinks($before: Cursor, $after: Cursor) {
         userArticleLinks(before: $before, after: $after) {
@@ -53,25 +52,25 @@
               articleId
               createdAt
               lastViewedAt
+              article {
+                id
+                text
+                articleReplies (status: NORMAL) {
+                  createdAt
+                }
+              }
             }
           }
         }
       }
     `({before, after});
 
-    if(linksErrors) {
-      alert(linksErrors[0].message);
+    if(errors) {
+      alert(errors[0].message);
       return;
     }
 
     linksData = userArticleLinks;
-
-    const articlesFromCofacts = await getArticlesFromCofacts(userArticleLinks.edges.map(({node: {articleId}}) => articleId));
-    articlesFromCofacts.forEach(article => {
-      if(!article) return;
-      articleMap[article.id] = article;
-    });
-
     isLoadingData = false;
   }
 
@@ -110,7 +109,6 @@
     {#each linksData.edges as linkEdge (linkEdge.cursor)}
       <ViewedArticle
         userArticleLink={linkEdge.node}
-        article={articleMap[linkEdge.node.articleId]}
         on:click={() => selectArticle(linkEdge.node.articleId)}
       />
     {/each}
