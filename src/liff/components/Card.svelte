@@ -19,6 +19,6 @@
   }
 </style>
 
-<div class={clsx('card', className)} {style}>
+<div class={clsx('card', className)} {style} on:click>
   <slot />
 </div>
