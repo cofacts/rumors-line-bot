@@ -1,6 +1,7 @@
 <script>
   import { t, ngettext, msgid } from 'ttag';
   import { format } from 'src/lib/sharedUtils';
+  import Card from './Card.svelte';
 
   /**
    * The userArticleLink from GraphQL
@@ -34,40 +35,32 @@
 </script>
 
 <style>
-  article {
-    margin: 0 0 12px;
-    padding: 16px;
-    background: #fff;
+  :global(.ViewedArticle-root) {
     cursor: pointer;
+    --gap: 8px;
   }
 
   header {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
-    line-height: 20px;
-    color: #ADADAD;
-    letter-spacing: 0.25px;
+    color: var(--secondary200);
   }
   .unread {
     color: #fff;
-    background: #FFB600;
+    background: var(--primary500);
     padding: 0 4px;
     border-radius: 4px;
     font-weight: bold;
   }
   main {
     overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-
-    font-size: 12px;
-    line-height: 20px;
-    letter-spacing: 0.25px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
   }
 </style>
 
-<article on:click>
+<Card class="ViewedArticle-root" on:click>
   <header>
     <span class={newArticleReplyCount ? 'unread' : ''}>
       {#if !article}
@@ -89,4 +82,4 @@
       {article.text}
     {/if}
   </main>
-</article>
+</Card>

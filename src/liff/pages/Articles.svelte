@@ -81,10 +81,20 @@
   })
 </script>
 <style>
-  .total {
-    font-size: 12px;
-    line-height: 20px;
-    color: #ADADAD;
+  .loading {
+    margin: auto 0;
+    align-self: center;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: 1em;
+    color: var(--secondary300);
+    margin: 8px 16px;
+  }
+  .articles {
+    display: grid;
+    grid-auto-flow: row;
+    row-gap: 12px;
   }
 </style>
 
@@ -93,16 +103,18 @@
 </svelte:head>
 
 {#if linksData === null}
-  <p>{t`Fetching viewed messages`}...</p>
+  <p class="loading">{t`Fetching viewed messages`}...</p>
 {:else}
-  <p class="total">{totalCountStr}</p>
-  {#each linksData.edges as linkEdge (linkEdge.cursor)}
-    <ViewedArticle
-      userArticleLink={linkEdge.node}
-      article={articleMap[linkEdge.node.articleId]}
-      on:click={() => selectArticle(linkEdge.node.articleId)}
-    />
-  {/each}
+  <h1>{totalCountStr}</h1>
+  <div class="articles">
+    {#each linksData.edges as linkEdge (linkEdge.cursor)}
+      <ViewedArticle
+        userArticleLink={linkEdge.node}
+        article={articleMap[linkEdge.node.articleId]}
+        on:click={() => selectArticle(linkEdge.node.articleId)}
+      />
+    {/each}
+  </div>
   <Pagination
     disabled={isLoadingData}
     pageInfo={linksData.pageInfo}
