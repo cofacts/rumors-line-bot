@@ -1,7 +1,6 @@
 <script>
   import { Meta, Story } from "@storybook/addon-svelte-csf";
   import Header from "./Header.svelte";
-  import { argsToStyle } from "./storiesUtils"
 </script>
 
 <Meta

@@ -141,7 +141,7 @@
       {/if}
     </button>
   {:else}
-    <ListHeader>{replySectionTitle}</ListHeader>
+    <Header>{replySectionTitle}</Header>
     <ul>
       {#each articleReplies as articleReply (articleReply.reply.id)}
         <li>
