@@ -3,8 +3,11 @@
   import { t, ngettext, msgid } from 'ttag';
   import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
   import { gql, assertInClient, getArticlesFromCofacts, sendMessages } from '../lib';
+  import FullpagePrompt from '../components/FullpagePrompt.svelte';
   import ViewedArticle from '../components/ViewedArticle.svelte';
   import Pagination from '../components/Pagination.svelte';
+  import Header from '../components/Header.svelte';
+  import Spacer from '../components/Spacer.svelte';
 
   let linksData = null;
   let isLoadingData = false; // If is in process of loadData()
@@ -80,41 +83,25 @@
     await loadData();
   })
 </script>
-<style>
-  .loading {
-    margin: auto 0;
-    align-self: center;
-  }
-  h1 {
-    font-weight: 700;
-    font-size: 1em;
-    color: var(--secondary300);
-    margin: 8px 16px;
-  }
-  .articles {
-    display: grid;
-    grid-auto-flow: row;
-    row-gap: 12px;
-  }
-</style>
 
 <svelte:head>
   <title>{t`Viewed messages`}</title>
 </svelte:head>
 
 {#if linksData === null}
-  <p class="loading">{t`Fetching viewed messages`}...</p>
+  <FullpagePrompt>{t`Fetching viewed messages`}...</FullpagePrompt>
 {:else}
-  <h1>{totalCountStr}</h1>
-  <div class="articles">
-    {#each linksData.edges as linkEdge (linkEdge.cursor)}
-      <ViewedArticle
-        userArticleLink={linkEdge.node}
-        article={articleMap[linkEdge.node.articleId]}
-        on:click={() => selectArticle(linkEdge.node.articleId)}
-      />
-    {/each}
-  </div>
+  <Header>{totalCountStr}</Header>
+  {#each linksData.edges as linkEdge, idx (linkEdge.cursor)}
+    {#if idx > 0}
+      <Spacer />
+    {/if}
+    <ViewedArticle
+      userArticleLink={linkEdge.node}
+      article={articleMap[linkEdge.node.articleId]}
+      on:click={() => selectArticle(linkEdge.node.articleId)}
+    />
+  {/each}
   <Pagination
     disabled={isLoadingData}
     pageInfo={linksData.pageInfo}
