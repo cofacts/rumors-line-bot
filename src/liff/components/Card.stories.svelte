@@ -1,14 +1,7 @@
 <script>
   import { Meta, Story } from "@storybook/addon-svelte-csf";
   import Card from "./Card.svelte";
-
-  function argsToStyle(args) {
-    return Object.entries(args)
-      .map(([key, value]) => value && `${key}: ${value};`)
-      .filter(s => s)
-      .join('')
-  }
-
+  import { argsToStyle } from "./storiesUtils"
 </script>
 
 <Meta
