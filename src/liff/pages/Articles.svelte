@@ -3,8 +3,11 @@
   import { t, ngettext, msgid } from 'ttag';
   import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
   import { gql, assertInClient, getArticlesFromCofacts, sendMessages } from '../lib';
+  import FullpagePrompt from '../components/FullpagePrompt.svelte';
   import ViewedArticle from '../components/ViewedArticle.svelte';
   import Pagination from '../components/Pagination.svelte';
+  import Header from '../components/Header.svelte';
+  import Spacer from '../components/Spacer.svelte';
 
   let linksData = null;
   let isLoadingData = false; // If is in process of loadData()
@@ -80,23 +83,19 @@
     await loadData();
   })
 </script>
-<style>
-  .total {
-    font-size: 12px;
-    line-height: 20px;
-    color: #ADADAD;
-  }
-</style>
 
 <svelte:head>
   <title>{t`Viewed messages`}</title>
 </svelte:head>
 
 {#if linksData === null}
-  <p>{t`Fetching viewed messages`}...</p>
+  <FullpagePrompt>{t`Fetching viewed messages`}...</FullpagePrompt>
 {:else}
-  <p class="total">{totalCountStr}</p>
-  {#each linksData.edges as linkEdge (linkEdge.cursor)}
+  <Header>{totalCountStr}</Header>
+  {#each linksData.edges as linkEdge, idx (linkEdge.cursor)}
+    {#if idx > 0}
+      <Spacer />
+    {/if}
     <ViewedArticle
       userArticleLink={linkEdge.node}
       article={articleMap[linkEdge.node.articleId]}

@@ -2,6 +2,8 @@
   import { onMount } from 'svelte';
   import { t } from 'ttag';
   import { gql } from '../lib';
+  import FullpagePrompt from '../components/FullpagePrompt.svelte';
+  import Header from '../components/Header.svelte';
   import ArticleCard from '../components/ArticleCard.svelte';
 
   const params = new URLSearchParams(location.search);
@@ -113,34 +115,16 @@
     : `There are ${articleReplies.length} Cofacts replies for this message`
 </script>
 
-<style>
-  .loading {
-    align-self: center;
-    margin: auto 0;
-  }
-
-  h1 {
-    font-weight: 700;
-    font-size: 1em;
-    color: var(--secondary300);
-    margin: 24px 16px 8px;
-  }
-
-  h1:first-of-type {
-    margin-top: 8px;
-  }
-</style>
-
 <svelte:head>
   <title>{t`IM check`} | {t`Cofacts chatbot`}</title>
 </svelte:head>
 
 {#if !articleData }
-  <p class="loading">{t`Loading IM data...`}</p>
+  <FullpagePrompt>{t`Loading IM data...`}</FullpagePrompt>
 {:else}
-  <h1>
+  <Header>
     {t`Suspicious messages`}
-  </h1>
+  </Header>
   <ArticleCard
     text={articleData.text}
     replyRequestCount={articleData.replyRequestCount}
@@ -157,7 +141,7 @@
       {/if}
     </button>
   {:else}
-    <h1>{replySectionTitle}</h1>
+    <Header>{replySectionTitle}</Header>
     <ul>
       {#each articleReplies as articleReply (articleReply.reply.id)}
         <li>

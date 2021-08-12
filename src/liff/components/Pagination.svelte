@@ -23,7 +23,7 @@
 
 <style>
   .container {
-    margin: 8px 0;
+    margin: 16px;
     display: flex;
     color: var(--secondary500);
   }
