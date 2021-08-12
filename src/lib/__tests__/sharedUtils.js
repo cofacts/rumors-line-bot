@@ -69,12 +69,17 @@ describe('date-fns', () => {
 
   it('use the default LOCALE', () => {
     const { format, formatDistanceToNow } = require('../sharedUtils');
-    expect(format(new Date(612921600000))).toMatchInlineSnapshot(
-      `"06/04/1989, 12:00 AM"`
-    );
     expect(
       formatDistanceToNow(new Date(Date.now() - 86400000))
     ).toMatchInlineSnapshot(`"1 day"`);
+
+    // Automatically switch between absolute date and relative date
+    expect(format(new Date(Date.now() - 86400000))).toMatchInlineSnapshot(
+      `"1 day ago"`
+    );
+    expect(format(new Date(612921600000))).toMatchInlineSnapshot(
+      `"Jun 4, 1989"`
+    );
   });
 
   it('use other locale', () => {
@@ -82,7 +87,7 @@ describe('date-fns', () => {
 
     const { format, formatDistanceToNow } = require('../sharedUtils');
     expect(format(new Date(612921600000))).toMatchInlineSnapshot(
-      `"89-06-04 上午 12:00"`
+      `"1989-06-04"`
     );
     expect(
       formatDistanceToNow(new Date(Date.now() - 86400000))

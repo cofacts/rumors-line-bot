@@ -523,11 +523,6 @@ msgstr[0] "${ replyCount } 則回應"
 msgid "See replies of"
 msgstr "查看這篇的回應"
 
-#: src/liff/components/ViewedArticle.svelte:31
-#, javascript-format
-msgid "Viewed ${ fromNow } ago"
-msgstr "${fromNow}前看過"
-
 #: src/liff/components/ViewedArticle.svelte:25
 #, javascript-format
 msgid "${ newArticleReplyCount } new reply"
@@ -844,3 +839,13 @@ msgstr "這個回應有幫助到我，我想補充⋯⋯"
 #: src/liff/components/FeedbackForm.svelte:36
 msgid "I think the reply is not helpful and I suggest..."
 msgstr "這個回應不太有幫助，我建議⋯⋯"
+
+#: src/liff/components/ViewedArticle.svelte:31
+#, javascript-format
+msgid "Viewed on ${ dateString }"
+msgstr "在${ dateString }看過"
+
+#: src/lib/sharedUtils.js:109
+#, javascript-format
+msgid "${ dateStr } ago"
+msgstr "${ dateStr }前"

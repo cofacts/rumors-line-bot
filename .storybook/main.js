@@ -21,26 +21,6 @@ module.exports = {
     // Ref: https://stackoverflow.com/a/65772747/1582110
     config.resolve.modules.push(path.resolve(__dirname, '../'));
 
-    config.module.rules.push({
-      test: /\.scss$/,
-      use: [
-        'style-loader',
-        'css-loader',
-        {
-          loader: 'sass-loader',
-          options: {
-            sassOptions: {
-              // Process svelte-material-ui SCSS files in node_modules as well
-              includePaths: [
-                path.resolve(__dirname, '../node_modules'),
-                path.resolve(__dirname, '../src/liff'),
-              ],
-            },
-          },
-        },
-      ],
-    });
-
     return config;
   },
 };
