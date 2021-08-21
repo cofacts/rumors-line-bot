@@ -16,10 +16,10 @@
   argTypes={{width: {type: 'number'}, height: {type: 'number'}}}
 />
 
-<Template let:args={{components, color, width, height}}>
+<Template let:args={{components, color, width, height, strokeWidth}}>
   {#each components as iconComp}
     <figure style={`color: ${color}`}>
-      <svelte:component this={iconComp} {width} {height} />
+      <svelte:component this={iconComp} {width} {height} {strokeWidth} />
       <figcaption>{iconComp.name}</figcaption>
     </figure>
   {/each}
@@ -48,7 +48,8 @@
       RumorIcon,
       OpinionatedIcon,
       NotArticleIcon,
-    ]
+    ],
+    strokeWidth: 0,
   }}
 />
 
