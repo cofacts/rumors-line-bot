@@ -5,10 +5,15 @@
   import ThumbsDownIcon from "./icons/ThumbsDownIcon.svelte";
   import ThumbsUpOutlineIcon from "./icons/ThumbsUpOutlineIcon.svelte";
   import ThumbsDownOutlineIcon from "./icons/ThumbsDownOutlineIcon.svelte";
+  import NotRumorIcon from "./icons/NotRumorIcon.svelte";
+  import NotArticleIcon from "./icons/NotArticleIcon.svelte";
+  import RumorIcon from "./icons/RumorIcon.svelte";
+  import OpinionatedIcon from "./icons/OpinionatedIcon.svelte";
 </script>
 
 <Meta
   title="Icons"
+  argTypes={{width: {type: 'number'}, height: {type: 'number'}}}
 />
 
 <Template let:args={{components, color, width, height}}>
@@ -32,7 +37,19 @@
     ],
     color: 'var(--primary800)',
   }}
-  argTypes={{width: {type: 'number'}, height: {type: 'number'}}}
+  
+/>
+
+<Story
+  name="Reply types"
+  args={{
+    components: [
+      NotRumorIcon,
+      RumorIcon,
+      OpinionatedIcon,
+      NotArticleIcon,
+    ]
+  }}
 />
 
 <style>
