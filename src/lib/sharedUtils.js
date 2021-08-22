@@ -111,3 +111,17 @@ export function format(date) {
 
   return formatAbsolute(date);
 }
+
+export function createTypeWords(type) {
+  switch (type) {
+    case 'RUMOR':
+      return t`Contains misinformation`;
+    case 'NOT_RUMOR':
+      return t`Contains true information`;
+    case 'OPINIONATED':
+      return t`Contains personal perspective`;
+    case 'NOT_ARTICLE':
+      return t`Invalid request`;
+  }
+  return 'Undefined';
+}

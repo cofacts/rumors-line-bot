@@ -246,16 +246,6 @@ https://dev.cofacts.tw/article/2sn80q5l5mzi0",
 ]
 `;
 
-exports[`createTypeWords should return the type words for NOT_ARTICLE 1`] = `"Invalid request"`;
-
-exports[`createTypeWords should return the type words for NOT_RUMOR 1`] = `"Contains true information"`;
-
-exports[`createTypeWords should return the type words for OPINIONATED 1`] = `"Contains personal perspective"`;
-
-exports[`createTypeWords should return the type words for RUMOR 1`] = `"Contains misinformation"`;
-
-exports[`createTypeWords should return the type words for other types 1`] = `"Undefined"`;
-
 exports[`ellipsis() should ellipsis when text is too long 1`] = `"123⋯⋯"`;
 
 exports[`ellipsis() should properly cut emojis 1`] = `"🏳️‍🌈🏳️‍🌈🏳️‍🌈⋯⋯"`;
