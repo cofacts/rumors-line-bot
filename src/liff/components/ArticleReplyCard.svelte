@@ -1,4 +1,6 @@
 <script>
+  import { t } from 'ttag';
+  import { createTypeWords, format } from 'src/lib/sharedUtils';
   import Card from './Card.svelte';
   import NotArticleIcon from './icons/NotArticleIcon.svelte';
   import NotRumorIcon from './icons/NotRumorIcon.svelte';
@@ -16,6 +18,11 @@
       case 'RUMOR': return RumorIcon;
     }
   })();
+
+  const replyTypeWord = createTypeWords(articleReply.replyType).toLowerCase();
+  const title = t`${articleReply.user.name} mark this message ${replyTypeWord}`;
+  const repliedAtWord = format(articleReply.createdAt);
+  const repliedAt = t`replied ${ repliedAtWord }`;
 
 </script>
 
@@ -35,6 +42,10 @@
     width: 16px;
     height: 16px;
   }
+
+  article {
+    white-space: pre-line;
+  }
 </style>
 
 <Card>
@@ -46,9 +57,25 @@
       <figcaption>{articleReply.user.level}</figcaption>
     </figure>
     {/if}
-    
-  
+    <div>
+      <span class="title">{title}</span>
+      <time>{repliedAt}</time>
+    </div>
   </header>
-
-
+  <main>
+    <article>
+      {articleReply.reply.text}
+    </article>
+    <hr />
+    {#if articleReply.reply.reference}
+      <h3>
+        {articleReply.replyType === 'OPINIONATED' ? t`Opinion Sources` : t`References`}
+      </h3>
+      <article>
+        {articleReply.reply.reference}
+      </article>
+    {:else}
+      ⚠️️ {t`There is no reference for this reply. Its truthfulness may be doubtful.`}
+    {/if}
+  </main>
 </Card>

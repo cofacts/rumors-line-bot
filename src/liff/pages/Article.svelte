@@ -5,6 +5,8 @@
   import FullpagePrompt from '../components/FullpagePrompt.svelte';
   import Header from '../components/Header.svelte';
   import ArticleCard from '../components/ArticleCard.svelte';
+  import ArticleReplyCard from '../components/ArticleReplyCard.svelte';
+  import { ArticleReplyCard_articleReply } from '../components/fragments';
 
   const params = new URLSearchParams(location.search);
   const articleId = params.get('articleId');
@@ -13,16 +15,6 @@
   let articleData;
   let articleReplies = [];
   let createdAt;
-
-  const articleReplyFields = `
-    ownVote
-    positiveFeedbackCount
-    negativeFeedbackCount
-    reply {
-      id
-      text
-    }
-  `
 
   const loadData = async () => {
     const {
@@ -36,10 +28,11 @@
           createdAt
 
           articleReplies(status: NORMAL) {
-            ${articleReplyFields}
+            ...ArticleReplyCard_articleReply
           }
         }
       }
+      ${ArticleReplyCard_articleReply}
     `({id: articleId});
 
     const {articleReplies: list, ...rest} = GetArticle;
@@ -144,7 +137,8 @@
     <Header>{replySectionTitle}</Header>
     <ul>
       {#each articleReplies as articleReply (articleReply.reply.id)}
-        <li>
+        <ArticleReplyCard articleReply={articleReply} />
+        <!-- <li>
           <article>
             {articleReply.reply.text}
           </article>
@@ -154,7 +148,7 @@
           <button type="button" on:click={() => handleVote(articleReply.reply.id, 'DOWNVOTE')}>
             Downvote ({articleReply.negativeFeedbackCount})
           </button>
-        </li>
+        </li> -->
       {/each}
     </ul>
   {/if}
