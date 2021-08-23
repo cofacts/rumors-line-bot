@@ -12,7 +12,7 @@ export const ArticleReplyCard_articleReply = /* GraphQL */ `
       avatarUrl
       level
     }
-    postitiveFeedbackCount
+    positiveFeedbackCount
     negativeFeedbackCount
     ownVote
     createdAt

@@ -6,6 +6,7 @@
   import Header from '../components/Header.svelte';
   import ArticleCard from '../components/ArticleCard.svelte';
   import ArticleReplyCard from '../components/ArticleReplyCard.svelte';
+  import Spacer from '../components/Spacer.svelte';
   import { ArticleReplyCard_articleReply } from '../components/fragments';
 
   const params = new URLSearchParams(location.search);
@@ -135,21 +136,22 @@
     </button>
   {:else}
     <Header>{replySectionTitle}</Header>
-    <ul>
-      {#each articleReplies as articleReply (articleReply.reply.id)}
-        <ArticleReplyCard articleReply={articleReply} />
-        <!-- <li>
-          <article>
-            {articleReply.reply.text}
-          </article>
-          <button type="button" on:click={() => handleVote(articleReply.reply.id, 'UPVOTE')}>
-            Upvote ({articleReply.positiveFeedbackCount})
-          </button>
-          <button type="button" on:click={() => handleVote(articleReply.reply.id, 'DOWNVOTE')}>
-            Downvote ({articleReply.negativeFeedbackCount})
-          </button>
-        </li> -->
-      {/each}
-    </ul>
+    {#each articleReplies as articleReply, idx (articleReply.reply.id)}
+      {#if idx > 0}
+        <Spacer />
+      {/if}
+      <ArticleReplyCard articleReply={articleReply} />
+      <!-- <li>
+        <article>
+          {articleReply.reply.text}
+        </article>
+        <button type="button" on:click={() => handleVote(articleReply.reply.id, 'UPVOTE')}>
+          Upvote ({articleReply.positiveFeedbackCount})
+        </button>
+        <button type="button" on:click={() => handleVote(articleReply.reply.id, 'DOWNVOTE')}>
+          Downvote ({articleReply.negativeFeedbackCount})
+        </button>
+      </li> -->
+    {/each}
   {/if}
 {/if}

@@ -21,7 +21,7 @@
 
   const replyTypeWord = createTypeWords(articleReply.replyType).toLowerCase();
   const title = t`${articleReply.user.name} mark this message ${replyTypeWord}`;
-  const repliedAtWord = format(articleReply.createdAt);
+  const repliedAtWord = format(new Date(articleReply.createdAt));
   const repliedAt = t`replied ${ repliedAtWord }`;
 
 </script>
