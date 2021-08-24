@@ -28,19 +28,42 @@
 
 <style>
   header {
-
+    display: flex;
+    align-items: center;
   }
 
+  .avatar {
+    flex-shrink: 0;
+    position: relative;
+    margin: 0;
+    height: 44px;
+    margin-right: 12px;
+  }
   .avatar > img {
     width: 32px;
     height: 32px;
+    border-radius: 16px;
   }
   .avatar > figcaption {
-
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border: 1px solid #fff;
+    background: var(--secondary500);
+    color: #fff;
+    white-space: nowrap;
+    border-radius: 8px;
+    font-size: 10px;
+    line-height: 14px;
+    padding: 0 5px;
   }
   .avatar :global(.replyTypeIcon) {
     width: 16px;
     height: 16px;
+    position: absolute;
+    top: -3px;
+    right: -5px;
   }
 
   .title {
@@ -79,11 +102,11 @@
 <Card>
   <header>
     {#if articleReply.user.avatarUrl }
-    <figure class="avatar">
-      <ReplyTypeIcon class="replyTypeIcon" width={16} height={16} strokeWidth={2}/>
-      <img src={articleReply.user.avatarUrl} alt={articleReply.user.name} />
-      <figcaption>{articleReply.user.level}</figcaption>
-    </figure>
+      <figure class="avatar">
+        <ReplyTypeIcon class="replyTypeIcon" width={16} height={16} strokeWidth={4}/>
+        <img src={articleReply.user.avatarUrl} alt={articleReply.user.name} />
+        <figcaption>Lv{articleReply.user.level}</figcaption>
+      </figure>
     {/if}
     <div>
       <div
