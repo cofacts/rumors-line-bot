@@ -22,7 +22,7 @@
   const replyTypeWord = createTypeWords(articleReply.replyType).toLowerCase();
   const title = t`${articleReply.user.name} mark this message ${replyTypeWord}`;
   const repliedAtWord = format(new Date(articleReply.createdAt));
-  const repliedAt = t`replied ${ repliedAtWord }`;
+  const repliedAt = t`Replied ${ repliedAtWord }`;
 
 </script>
 
@@ -36,15 +36,43 @@
     height: 32px;
   }
   .avatar > figcaption {
-    
+
   }
   .avatar :global(.replyTypeIcon) {
     width: 16px;
     height: 16px;
   }
 
+  .title {
+    font-weight: 700;
+  }
+  .title.opinionated {
+    color: var(--blue1);
+  }
+  .title.notArticle {
+    color: var(--secondary900);
+  }
+  .title.rumor {
+    color: var(--red1);
+  }
+  .title.notRumor {
+    color: var(--green1);
+  }
+  time {
+    color: var(--secondary200);
+  }
   article {
     white-space: pre-line;
+  }
+  hr {
+    border: 0;
+    margin: 0;
+    border-top: 1px dashed var(--secondary100);
+  }
+  h3 {
+    color: var(--secondary200);
+    font-size: 16px;
+    margin: 0;
   }
 </style>
 
@@ -58,24 +86,30 @@
     </figure>
     {/if}
     <div>
-      <span class="title">{title}</span>
+      <div
+        class="title"
+        class:opinionated={articleReply.replyType === 'OPINIONATED'}
+        class:notArticle={articleReply.replyType === 'NOT_ARTICLE'}
+        class:notRumor={articleReply.replyType === 'NOT_RUMOR'}
+        class:rumor={articleReply.replyType === 'RUMOR'}
+      >
+        {title}
+      </div>
       <time>{repliedAt}</time>
     </div>
   </header>
-  <main>
+  <article>
+    {articleReply.reply.text}
+  </article>
+  <hr />
+  {#if articleReply.reply.reference}
+    <h3>
+      {articleReply.replyType === 'OPINIONATED' ? t`Opinion Sources` : t`References`}
+    </h3>
     <article>
-      {articleReply.reply.text}
+      {articleReply.reply.reference}
     </article>
-    <hr />
-    {#if articleReply.reply.reference}
-      <h3>
-        {articleReply.replyType === 'OPINIONATED' ? t`Opinion Sources` : t`References`}
-      </h3>
-      <article>
-        {articleReply.reply.reference}
-      </article>
-    {:else}
-      ⚠️️ {t`There is no reference for this reply. Its truthfulness may be doubtful.`}
-    {/if}
-  </main>
+  {:else}
+    ⚠️️ {t`There is no reference for this reply. Its truthfulness may be doubtful.`}
+  {/if}
 </Card>
