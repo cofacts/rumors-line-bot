@@ -1,20 +1,27 @@
-export const ArticleReplyCard_articleReply = /* GraphQL */ `
-  fragment ArticleReplyCard_articleReply on CofactsAPIArticleReply {
-    articleId
+export const ArticleReplyHeader_articleReply = /* GraphQL */ `
+  fragment ArticleReplyHeader_articleReply on CofactsAPIArticleReply {
     replyType
-    reply {
-      id
-      text
-      reference
-    }
     user {
       name
       avatarUrl
       level
     }
+    createdAt
+  }
+`;
+
+export const ArticleReplyCard_articleReply = /* GraphQL */ `
+  fragment ArticleReplyCard_articleReply on CofactsAPIArticleReply {
+    ...ArticleReplyHeader_articleReply
+    articleId
+    reply {
+      id
+      text
+      reference
+    }
     positiveFeedbackCount
     negativeFeedbackCount
     ownVote
-    createdAt
   }
+  ${ArticleReplyHeader_articleReply}
 `;

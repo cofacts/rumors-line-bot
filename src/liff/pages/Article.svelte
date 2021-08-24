@@ -7,6 +7,7 @@
   import ArticleCard from '../components/ArticleCard.svelte';
   import ArticleReplyCard from '../components/ArticleReplyCard.svelte';
   import Spacer from '../components/Spacer.svelte';
+  import Terms from '../components/Terms.svelte';
   import { ArticleReplyCard_articleReply } from '../components/fragments';
 
   const params = new URLSearchParams(location.search);
@@ -106,7 +107,7 @@
 
   $: replySectionTitle = articleReplies.length === 1
     ? t`Cofacts reply`
-    : `There are ${articleReplies.length} Cofacts replies for this message`
+    : t`There are ${articleReplies.length} Cofacts replies for this message`
 </script>
 
 <svelte:head>
@@ -154,4 +155,5 @@
       </li> -->
     {/each}
   {/if}
+  <Terms />
 {/if}
