@@ -5,7 +5,6 @@ import {
   ellipsis,
   createArticleShareBubble,
   createFlexMessageText,
-  createTypeWords,
   createHighlightContents,
   createReplyMessages,
 } from '../utils';
@@ -103,28 +102,6 @@ describe('createFlexMessageText', () => {
 
   it('should handle the situation without input', () => {
     expect(createFlexMessageText()).toMatchSnapshot();
-  });
-});
-
-describe('createTypeWords', () => {
-  it('should return the type words for RUMOR', () => {
-    expect(createTypeWords('RUMOR')).toMatchSnapshot();
-  });
-
-  it('should return the type words for NOT_RUMOR', () => {
-    expect(createTypeWords('NOT_RUMOR')).toMatchSnapshot();
-  });
-
-  it('should return the type words for OPINIONATED', () => {
-    expect(createTypeWords('OPINIONATED')).toMatchSnapshot();
-  });
-
-  it('should return the type words for NOT_ARTICLE', () => {
-    expect(createTypeWords('NOT_ARTICLE')).toMatchSnapshot();
-  });
-
-  it('should return the type words for other types', () => {
-    expect(createTypeWords('some other type')).toMatchSnapshot();
   });
 });
 

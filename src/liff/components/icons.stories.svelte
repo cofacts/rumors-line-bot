@@ -5,16 +5,21 @@
   import ThumbsDownIcon from "./icons/ThumbsDownIcon.svelte";
   import ThumbsUpOutlineIcon from "./icons/ThumbsUpOutlineIcon.svelte";
   import ThumbsDownOutlineIcon from "./icons/ThumbsDownOutlineIcon.svelte";
+  import NotRumorIcon from "./icons/NotRumorIcon.svelte";
+  import NotArticleIcon from "./icons/NotArticleIcon.svelte";
+  import RumorIcon from "./icons/RumorIcon.svelte";
+  import OpinionatedIcon from "./icons/OpinionatedIcon.svelte";
 </script>
 
 <Meta
   title="Icons"
+  argTypes={{width: {type: 'number'}, height: {type: 'number'}}}
 />
 
-<Template let:args={{components, color, width, height}}>
+<Template let:args={{components, color, width, height, strokeWidth}}>
   {#each components as iconComp}
     <figure style={`color: ${color}`}>
-      <svelte:component this={iconComp} {width} {height} />
+      <svelte:component this={iconComp} {width} {height} {strokeWidth} />
       <figcaption>{iconComp.name}</figcaption>
     </figure>
   {/each}
@@ -32,7 +37,20 @@
     ],
     color: 'var(--primary800)',
   }}
-  argTypes={{width: {type: 'number'}, height: {type: 'number'}}}
+  
+/>
+
+<Story
+  name="Reply types"
+  args={{
+    components: [
+      NotRumorIcon,
+      RumorIcon,
+      OpinionatedIcon,
+      NotArticleIcon,
+    ],
+    strokeWidth: 0,
+  }}
 />
 
 <style>

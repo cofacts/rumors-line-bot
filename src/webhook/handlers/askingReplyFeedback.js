@@ -5,13 +5,9 @@ import {
   getArticleURL,
   UPVOTE_PREFIX,
   DOWNVOTE_PREFIX,
-} from 'src/lib/sharedUtils';
-import {
   createTypeWords,
-  ellipsis,
-  ManipulationError,
-  FLEX_MESSAGE_ALT_TEXT,
-} from './utils';
+} from 'src/lib/sharedUtils';
+import { ellipsis, ManipulationError, FLEX_MESSAGE_ALT_TEXT } from './utils';
 
 /**
  * @param {{vote: FeedbackVote, articleId: String, replyId: String, comment: String}} variables

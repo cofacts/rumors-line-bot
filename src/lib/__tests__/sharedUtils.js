@@ -94,3 +94,37 @@ describe('date-fns', () => {
     ).toMatchInlineSnapshot(`"1 天"`);
   });
 });
+
+describe('createTypeWords', () => {
+  const { createTypeWords } = require('../sharedUtils');
+
+  it('should return the type words for RUMOR', () => {
+    expect(createTypeWords('RUMOR')).toMatchInlineSnapshot(
+      `"Contains misinformation"`
+    );
+  });
+
+  it('should return the type words for NOT_RUMOR', () => {
+    expect(createTypeWords('NOT_RUMOR')).toMatchInlineSnapshot(
+      `"Contains true information"`
+    );
+  });
+
+  it('should return the type words for OPINIONATED', () => {
+    expect(createTypeWords('OPINIONATED')).toMatchInlineSnapshot(
+      `"Contains personal perspective"`
+    );
+  });
+
+  it('should return the type words for NOT_ARTICLE', () => {
+    expect(createTypeWords('NOT_ARTICLE')).toMatchInlineSnapshot(
+      `"Invalid request"`
+    );
+  });
+
+  it('should return the type words for other types', () => {
+    expect(createTypeWords('some other type')).toMatchInlineSnapshot(
+      `"Undefined"`
+    );
+  });
+});

@@ -1,10 +1,9 @@
 import { t } from 'ttag';
 import gql from 'src/lib/gql';
-import { getArticleURL } from 'src/lib/sharedUtils';
+import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
 import {
   createPostbackAction,
   createFeedbackWords,
-  createTypeWords,
   ellipsis,
   ManipulationError,
   createAskArticleSubmissionConsentReply,

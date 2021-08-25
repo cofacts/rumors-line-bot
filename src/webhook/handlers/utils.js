@@ -1,7 +1,11 @@
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
 import { sign } from 'src/lib/jwt';
-import { ARTICLE_SOURCE_OPTIONS, getArticleURL } from 'src/lib/sharedUtils';
+import {
+  ARTICLE_SOURCE_OPTIONS,
+  getArticleURL,
+  createTypeWords,
+} from 'src/lib/sharedUtils';
 
 const splitter = new GraphemeSplitter();
 
@@ -68,20 +72,6 @@ export function createFlexMessageText(text = '') {
   // Actually the upper limit is 2000, but 100 should be enough
   // because we only show the first line
   return ellipsis(text, 100, '');
-}
-
-export function createTypeWords(type) {
-  switch (type) {
-    case 'RUMOR':
-      return t`Contains misinformation`;
-    case 'NOT_RUMOR':
-      return t`Contains true information`;
-    case 'OPINIONATED':
-      return t`Contains personal perspective`;
-    case 'NOT_ARTICLE':
-      return t`Invalid request`;
-  }
-  return 'Undefined';
 }
 
 /**
