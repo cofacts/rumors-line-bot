@@ -16,6 +16,8 @@
 
     background: var(--background, #fff);
     color: var(--color, var(--secondary500));
+
+    overflow-wrap: anywhere;
   }
 </style>
 
