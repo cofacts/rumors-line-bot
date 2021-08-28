@@ -851,12 +851,12 @@ msgstr "${ dateStr }前"
 
 #: src/liff/pages/Article.svelte:110
 msgid "Cofacts reply"
-msgstr "網友查核回應"
+msgstr "查核回應"
 
 #: src/liff/pages/Article.svelte:111
 #, javascript-format
 msgid "There are ${ articleReplies.length } Cofacts replies for this message"
-msgstr "此訊息有 ${ articleReplies.length } 份查證回應"
+msgstr "此訊息有 ${ articleReplies.length } 則查證回應"
 
 #: src/liff/pages/Article.svelte:113
 msgid "IM check"
