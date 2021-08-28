@@ -14,7 +14,7 @@
   }}
 />
 
-<Story name="Demo" let:args>
+<Story name="Basic Card" let:args>
   <Card style={argsToStyle(args)}>
     <div>Content 1</div>
     <div>Content 2</div>
