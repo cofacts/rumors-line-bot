@@ -1,5 +1,6 @@
 <script>
   import { t } from 'ttag';
+  import { linkify } from '../lib';
   import Card from './Card.svelte';
   import ArticleReplyHeader from './ArticleReplyHeader.svelte';
 
@@ -38,7 +39,7 @@
       {articleReply.replyType === 'OPINIONATED' ? t`Opinion Sources` : t`References`}
     </h3>
     <article>
-      {articleReply.reply.reference}
+      {@html linkify(articleReply.reply.reference, 'target="_blank"')}
     </article>
   {:else}
     <p class="noReference">

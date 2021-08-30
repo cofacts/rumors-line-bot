@@ -542,3 +542,45 @@ describe('sendMessages', () => {
     `);
   });
 });
+
+describe('linkify', () => {
+  let linkify;
+  beforeAll(() => {
+    global.location = { search: '' };
+    linkify = require('../lib').linkify;
+  });
+
+  afterAll(() => {
+    delete global.location;
+  });
+
+  it('handles empty string', () => {
+    expect(linkify('')).toEqual('');
+  });
+
+  it('handles strings without URL and escapes HTML', () => {
+    expect(
+      linkify(`Foo & bar
+      <script>evil script</script>`)
+    ).toMatchInlineSnapshot(`
+      "Foo &amp; bar
+            &lt;script&gt;evil script&lt;/script&gt;"
+    `);
+  });
+
+  it('converts URLs in string into HTML tags', () => {
+    expect(
+      linkify(`Reference1
+        https://reference1.com?encoded=%E4%B8%AD%E6%96%87
+
+        Reference2
+        https://reference2.com/aaa?id=aaa&bbb=bbb+ccc&c="foo"`)
+    ).toMatchInlineSnapshot(`
+      "Reference1
+              <a href=\\"https://reference1.com?encoded=%E4%B8%AD%E6%96%87\\" >https://reference1.com?encoded=中文</a>
+
+              Reference2
+              <a href=\\"https://reference2.com/aaa?id=aaa&bbb=bbb+ccc&c=%22foo%22\\" >https://reference2.com/aaa?id=aaa&amp;bbb=bbb+ccc&amp;c=\\"foo\\"</a>"
+    `);
+  });
+});
