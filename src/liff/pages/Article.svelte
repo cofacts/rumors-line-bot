@@ -5,6 +5,10 @@
   import FullpagePrompt from '../components/FullpagePrompt.svelte';
   import Header from '../components/Header.svelte';
   import ArticleCard from '../components/ArticleCard.svelte';
+  import ArticleReplyCard from '../components/ArticleReplyCard.svelte';
+  import Spacer from '../components/Spacer.svelte';
+  import Terms from '../components/Terms.svelte';
+  import { ArticleReplyCard_articleReply } from '../components/fragments';
 
   const params = new URLSearchParams(location.search);
   const articleId = params.get('articleId');
@@ -13,16 +17,6 @@
   let articleData;
   let articleReplies = [];
   let createdAt;
-
-  const articleReplyFields = `
-    ownVote
-    positiveFeedbackCount
-    negativeFeedbackCount
-    reply {
-      id
-      text
-    }
-  `
 
   const loadData = async () => {
     const {
@@ -36,10 +30,11 @@
           createdAt
 
           articleReplies(status: NORMAL) {
-            ${articleReplyFields}
+            ...ArticleReplyCard_articleReply
           }
         }
       }
+      ${ArticleReplyCard_articleReply}
     `({id: articleId});
 
     const {articleReplies: list, ...rest} = GetArticle;
@@ -74,24 +69,25 @@
     setViewed();
   });
 
-  const handleVote = async (replyId, vote) => {
-    const resp = await gql`
-      mutation VoteInArticleLIFF($articleId: String!, $replyId: String!, $vote: CofactsAPIFeedbackVote!) {
-        CreateOrUpdateArticleReplyFeedback(
-          articleId: $articleId
-          replyId: $replyId
-          vote: $vote
-        ) {
-          ${articleReplyFields}
-        }
-      }
-    `({articleId, replyId, vote});
+  // const handleVote = async (replyId, vote) => {
+  //   const resp = await gql`
+  //     mutation VoteInArticleLIFF($articleId: String!, $replyId: String!, $vote: CofactsAPIFeedbackVote!) {
+  //       CreateOrUpdateArticleReplyFeedback(
+  //         articleId: $articleId
+  //         replyId: $replyId
+  //         vote: $vote
+  //       ) {
+  //           ...ArticleReplyCard_articleReply
+  //         }
+  //     }
+  //     ${ArticleReplyCard_articleReply}
+  //   `({articleId, replyId, vote});
 
-    const newArticleReply = resp.data.CreateOrUpdateArticleReplyFeedback;
-    articleReplies = articleReplies.map(articleReply =>
-      articleReply.reply.id === replyId ? newArticleReply : articleReply
-    )
-  }
+  //   const newArticleReply = resp.data.CreateOrUpdateArticleReplyFeedback;
+  //   articleReplies = articleReplies.map(articleReply =>
+  //     articleReply.reply.id === replyId ? newArticleReply : articleReply
+  //   )
+  // }
 
   let isRequestingReply = false;
   const handleRequestReply = async () => {
@@ -112,7 +108,7 @@
 
   $: replySectionTitle = articleReplies.length === 1
     ? t`Cofacts reply`
-    : `There are ${articleReplies.length} Cofacts replies for this message`
+    : t`There are ${articleReplies.length} Cofacts replies for this message`
 </script>
 
 <svelte:head>
@@ -142,20 +138,23 @@
     </button>
   {:else}
     <Header>{replySectionTitle}</Header>
-    <ul>
-      {#each articleReplies as articleReply (articleReply.reply.id)}
-        <li>
-          <article>
-            {articleReply.reply.text}
-          </article>
-          <button type="button" on:click={() => handleVote(articleReply.reply.id, 'UPVOTE')}>
-            Upvote ({articleReply.positiveFeedbackCount})
-          </button>
-          <button type="button" on:click={() => handleVote(articleReply.reply.id, 'DOWNVOTE')}>
-            Downvote ({articleReply.negativeFeedbackCount})
-          </button>
-        </li>
-      {/each}
-    </ul>
+    {#each articleReplies as articleReply, idx (articleReply.reply.id)}
+      {#if idx > 0}
+        <Spacer />
+      {/if}
+      <ArticleReplyCard articleReply={articleReply} />
+      <!-- <li>
+        <article>
+          {articleReply.reply.text}
+        </article>
+        <button type="button" on:click={() => handleVote(articleReply.reply.id, 'UPVOTE')}>
+          Upvote ({articleReply.positiveFeedbackCount})
+        </button>
+        <button type="button" on:click={() => handleVote(articleReply.reply.id, 'DOWNVOTE')}>
+          Downvote ({articleReply.negativeFeedbackCount})
+        </button>
+      </li> -->
+    {/each}
   {/if}
+  <Terms />
 {/if}

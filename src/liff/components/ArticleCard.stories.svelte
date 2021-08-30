@@ -4,7 +4,7 @@
 </script>
 
 <Meta
-  title="ArticleCard"
+  title="Card/ArticleCard"
   component={ArticleCard}
   args={{
     replyRequestCount: 1,
