@@ -202,11 +202,13 @@ msgstr ""
 msgid "Don't forget to forward the messages above to others and share with them!"
 msgstr "別忘了把上面的回應轉傳回您的聊天室，給其他人也看看！"
 
+#: src/liff/components/FeedbackSummary.svelte:14
 #: src/webhook/handlers/askingReplyFeedback.js:81
 #, javascript-format
 msgid "We've received feedback from you and ${ otherFeedbackCount } other users!"
 msgstr "感謝您與其他 ${otherFeedbackCount} 人的評價。"
 
+#: src/liff/components/FeedbackSummary.svelte:15
 #: src/webhook/handlers/askingReplyFeedback.js:82
 #: src/webhook/handlers/askingReplyFeedback.js:154
 msgid "Thanks. You're the first one who gave feedback on this reply!"
@@ -849,28 +851,28 @@ msgstr "在${ dateString }看過"
 msgid "${ dateStr } ago"
 msgstr "${ dateStr }前"
 
-#: src/liff/pages/Article.svelte:110
+#: src/liff/pages/Article.svelte:90
 msgid "Cofacts reply"
 msgstr "查核回應"
 
-#: src/liff/pages/Article.svelte:111
+#: src/liff/pages/Article.svelte:91
 #, javascript-format
 msgid "There are ${ articleReplies.length } Cofacts replies for this message"
 msgstr "此訊息有 ${ articleReplies.length } 則查證回應"
 
-#: src/liff/pages/Article.svelte:113
+#: src/liff/pages/Article.svelte:93
 msgid "IM check"
 msgstr "可疑訊息查證"
 
-#: src/liff/pages/Article.svelte:114
+#: src/liff/pages/Article.svelte:94
 msgid "Cofacts chatbot"
 msgstr "真的假的聊天機器人"
 
-#: src/liff/pages/Article.svelte:115
+#: src/liff/pages/Article.svelte:95
 msgid "Loading IM data..."
 msgstr "載入可疑訊息"
 
-#: src/liff/pages/Article.svelte:116
+#: src/liff/pages/Article.svelte:96
 msgid "Suspicious messages"
 msgstr "網友回報可疑訊息"
 
@@ -892,15 +894,15 @@ msgstr "收合全文"
 msgid "Show More"
 msgstr "閱讀全文"
 
-#: src/liff/components/ArticleReplyCard.svelte:11
+#: src/liff/components/ArticleReplyCard.svelte:81
 msgid "Opinion Sources"
 msgstr "不同意見出處"
 
-#: src/liff/components/ArticleReplyCard.svelte:11
+#: src/liff/components/ArticleReplyCard.svelte:81
 msgid "References"
 msgstr "資料佐證"
 
-#: src/liff/components/ArticleReplyCard.svelte:13
+#: src/liff/components/ArticleReplyCard.svelte:83
 msgid "There is no reference for this reply. Its truthfulness may be doubtful."
 msgstr "這則回應沒有出處，請自行斟酌其真實性。"
 
@@ -926,3 +928,7 @@ msgid ""
 msgstr ""
 "此資訊由${ authorLink }提供，以 ${ licenseLink } "
 "釋出，於後續重製或散布時，原社群顯名及每一則查證的出處連結皆必須被完整引用。"
+
+#: src/liff/components/FeedbackSummary.svelte:21
+msgid "Edit feedback"
+msgstr "修改評價"
