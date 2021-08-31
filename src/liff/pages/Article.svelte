@@ -69,26 +69,6 @@
     setViewed();
   });
 
-  // const handleVote = async (replyId, vote) => {
-  //   const resp = await gql`
-  //     mutation VoteInArticleLIFF($articleId: String!, $replyId: String!, $vote: CofactsAPIFeedbackVote!) {
-  //       CreateOrUpdateArticleReplyFeedback(
-  //         articleId: $articleId
-  //         replyId: $replyId
-  //         vote: $vote
-  //       ) {
-  //           ...ArticleReplyCard_articleReply
-  //         }
-  //     }
-  //     ${ArticleReplyCard_articleReply}
-  //   `({articleId, replyId, vote});
-
-  //   const newArticleReply = resp.data.CreateOrUpdateArticleReplyFeedback;
-  //   articleReplies = articleReplies.map(articleReply =>
-  //     articleReply.reply.id === replyId ? newArticleReply : articleReply
-  //   )
-  // }
-
   let isRequestingReply = false;
   const handleRequestReply = async () => {
     isRequestingReply = true;
@@ -143,17 +123,6 @@
         <Spacer />
       {/if}
       <ArticleReplyCard articleReply={articleReply} />
-      <!-- <li>
-        <article>
-          {articleReply.reply.text}
-        </article>
-        <button type="button" on:click={() => handleVote(articleReply.reply.id, 'UPVOTE')}>
-          Upvote ({articleReply.positiveFeedbackCount})
-        </button>
-        <button type="button" on:click={() => handleVote(articleReply.reply.id, 'DOWNVOTE')}>
-          Downvote ({articleReply.negativeFeedbackCount})
-        </button>
-      </li> -->
     {/each}
   {/if}
   <Terms />

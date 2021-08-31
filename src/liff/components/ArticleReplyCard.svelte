@@ -1,11 +1,80 @@
 <script>
   import { t } from 'ttag';
-  import { linkify } from '../lib';
+  import { linkify, gql } from '../lib';
   import Card from './Card.svelte';
   import ArticleReplyHeader from './ArticleReplyHeader.svelte';
+  import FeedbackForm from './FeedbackForm.svelte';
+  import FeedbackSummary from './FeedbackSummary.svelte';
+  import { ArticleReplyCard_articleReply } from '../components/fragments';
 
   /** fragments.ArticleReplyCard_articleReply */
-  export let articleReply;
+  let articleReplyFromProps;
+  export { articleReplyFromProps as articleReply };
+
+  // Initialize articleReply from props
+  let articleReply = articleReplyFromProps;
+  // 'UPVOTE' | 'DOWNVOTE' | null
+  let ownVote = articleReply.ownVote || null;
+
+  // Show feedback form if the user never casted a vote
+  let showFeedbackForm = ownVote === null;
+  let isSubmittingComment = false;
+
+  /**
+   * @param vote {CofactsAPIFeedbackVote}
+   * @param comment {string | null}
+   * @returns {Promise<ArticleReplyCard_articleReply>}
+   */
+  const submitVote = async (vote, comment = null) => {
+    const resp = await gql`
+      mutation VoteInArticleLIFF(
+        $articleId: String!
+        $replyId: String!
+        $vote: CofactsAPIFeedbackVote!
+        $comment: String
+      ) {
+        CreateOrUpdateArticleReplyFeedback(
+          articleId: $articleId
+          replyId: $replyId
+          vote: $vote
+          comment: $comment
+        ) {
+            ...ArticleReplyCard_articleReply
+          }
+      }
+      ${ArticleReplyCard_articleReply}
+    `({
+      articleId: articleReply.articleId,
+      replyId: articleReply.reply.id,
+      vote,
+      comment,
+    });
+
+    return resp.data.CreateOrUpdateArticleReplyFeedback;
+  };
+
+  const handleVote = async e => {
+    // Optimistic update for ownVote
+    ownVote = e.detail;
+
+    // Use the new articleReply to replace articleReply passed from parent
+    articleReply = await submitVote(ownVote);
+  }
+
+  const handleComment = async e => {
+    isSubmittingComment = true;
+
+    const comment = (e.detail || '').trim();
+    // Use the new articleReply to replace articleReply passed from parent
+    articleReply = await submitVote(ownVote, comment);
+    isSubmittingComment = false;
+    showFeedbackForm = false;
+  }
+
+  const handleEdit = () => {
+    showFeedbackForm = true;
+    // TODO: load own comment and populate, etc
+  }
 </script>
 
 <style>
@@ -47,3 +116,17 @@
     </p>
   {/if}
 </Card>
+{#if showFeedbackForm}
+  <FeedbackForm
+    vote={ownVote}
+    disabled={isSubmittingComment}
+    on:vote={handleVote}
+    on:comment={handleComment}
+  />
+{:else}
+  <FeedbackSummary
+    ownVote={ownVote}
+    feedbackCount={articleReply.feedbackCount}
+    on:edit={handleEdit}
+  />
+{/if}

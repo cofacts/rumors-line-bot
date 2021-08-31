@@ -19,6 +19,7 @@ export const ArticleReplyCard_articleReply = /* GraphQL */ `
       text
       reference
     }
+    feedbackCount
     positiveFeedbackCount
     negativeFeedbackCount
     ownVote
