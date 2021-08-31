@@ -29,9 +29,6 @@
 <Meta
   title="Card/ArticleReplyCard"
   component={ArticleReplyCard}
-  args={{
-    replyRequestCount: 1,
-  }}
 />
 
 <Template let:args>
