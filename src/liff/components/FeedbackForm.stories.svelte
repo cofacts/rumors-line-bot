@@ -9,8 +9,8 @@
   argTypes={{
     onVote: {action: 'onVote'},
     onComment: {action: 'onComment'},
-    score: {
-      options: [null, 1, -1],
+    vote: {
+      options: [null, 'UPVOTE', 'DOWNVOTE'],
       control: {type: 'radio'}
     }
   }}
@@ -28,10 +28,10 @@
 
 <Story
   name="Upvoted"
-  args={{ score: 1 }}
+  args={{ vote: 'UPVOTE' }}
 />
 
 <Story
   name="Downvoted"
-  args={{ score: -1 }}
+  args={{ vote: 'DOWNVOTE' }}
 />
