@@ -4,7 +4,7 @@
   import Card from './Card.svelte';
   import Button from './Button.svelte';
 
-  export let ownVote; // 1 | -1
+  export let ownVote; // 'UPVOTE' | 'DOWNVOTE'
   export let feedbackCount = 1;
 
   /* # of feedbacks from others */
@@ -30,7 +30,7 @@
 
 <Card
   class="feedbackSummary"
-  style={`--background: var(${ownVote === 1 ? '--green2' : '--red2'})`}
+  style={`--background: var(${ownVote === 'UPVOTE' ? '--green2' : '--red2'})`}
 >
   {summaryText}
   <div class="buttons">

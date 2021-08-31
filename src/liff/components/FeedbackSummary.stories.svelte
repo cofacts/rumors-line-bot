@@ -10,7 +10,7 @@
     onEdit: {action: 'onEdit'},
     feedbackCount: 1,
     ownVote: {
-      options: [1, -1],
+      options: ['UPVOTE', 'DOWNVOTE'],
       control: {type: 'radio'}
     }
   }}
@@ -25,10 +25,10 @@
 
 <Story
   name="Upvoted"
-  args={{ ownVote: 1 }}
+  args={{ ownVote: 'UPVOTE' }}
 />
 
 <Story
   name="Downvoted"
-  args={{ ownVote: -1 }}
+  args={{ ownVote: 'DOWNVOTE' }}
 />
