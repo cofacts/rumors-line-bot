@@ -238,3 +238,32 @@ export const sendMessages = async messages => {
     }
   }
 };
+
+/** Sanitize HTML tags */
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+const urlRegExp = /(https?:\/\/\S+)/;
+
+/**
+ *
+ * @param {string} str
+ * @param {string} propStr
+ * @returns {string} HTML string that wraps `str`'s URL with <a> tag with additional props in propStr
+ */
+export function linkify(str, propStr = '') {
+  const tokenized = str.split(urlRegExp).map(s => {
+    if (!s.match(urlRegExp)) return escapeHtml(s);
+
+    // Perform URI encode only when necessary (containing " will break HTML string)
+    const sanitizedUrl = s.includes('"') ? encodeURI(s) : s;
+    return `<a href="${sanitizedUrl}" ${propStr}>${escapeHtml(
+      decodeURIComponent(s)
+    )}</a>`;
+  });
+  return tokenized.join('');
+}
