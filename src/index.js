@@ -42,6 +42,13 @@ if (process.env.NODE_ENV === 'production') {
     serve({
       rootDir: path.join(__dirname, '../liff'),
       rootPath: '/liff',
+
+      // Set cache header for assets, but always fetch index.html
+      setHeaders(res, path) {
+        if (!path.match(/index\.html(?:\.gz)?$/)) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000');
+        }
+      },
     })
   );
 } else {
