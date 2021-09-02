@@ -19,7 +19,7 @@
   });
 
   const handleVote = (e) => {
-    if(e.detail === 1) {
+    if(e.detail === 'UPVOTE') {
       page.set('feedback/yes')
     }
   }
@@ -51,7 +51,7 @@
 
 <FeedbackForm
   class="negative-form"
-  score={-1}
+  vote="DOWNVOTE"
   on:vote={handleVote}
   on:comment={handleComment}
 />

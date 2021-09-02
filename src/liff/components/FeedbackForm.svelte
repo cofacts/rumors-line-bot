@@ -9,8 +9,8 @@
   import ThumbsDownIcon from './icons/ThumbsDownIcon.svelte';
   import ThumbsDownOutlineIcon from './icons/ThumbsDownOutlineIcon.svelte';
 
-  /** Vote status. Values: null | 1 | -1 */
-  export let score = null;
+  /** CofactsAPIFeedbackVote | null ;  'UPVOTE' | 'DOWNVOTE' | null */
+  export let vote = null;
   export let disabled = false;
   export let comment = '';
 
@@ -83,25 +83,25 @@
 </style>
 
 <section
-  class:notVotedYet={score === null}
-  class:upvoted={score === 1}
-  class:downvoted={score === -1}
+  class:notVotedYet={vote === null}
+  class:upvoted={vote === 'UPVOTE'}
+  class:downvoted={vote === 'DOWNVOTE'}
   {...$$restProps}
 >
-  {#if score === null}
+  {#if vote === null}
     <p style="margin-bottom: 4px;">{t`Please help Cofacts editors`}</p>
   {/if}
-  <p class:emphasize={score === null}>
+  <p class:emphasize={vote === null}>
     {t`Is the reply helpful?`}
   </p>
-  <div class="buttons" style={`margin: 12px 0 ${ score === null ? 0 : 20 }px`}>
+  <div class="buttons" style={`margin: 12px 0 ${ vote === null ? 0 : 20 }px`}>
     <Button
-      variant={score === -1 ? 'outlined' : 'contained'}
-      style={`color: ${score === -1 ? '#fff' : 'var(--bg)'};`}
+      variant={vote === 'DOWNVOTE' ? 'outlined' : 'contained'}
+      style={`color: ${vote === 'DOWNVOTE' ? '#fff' : 'var(--bg)'};`}
       {disabled}
-      on:click={() => dispatch('vote', 1)}
+      on:click={() => dispatch('vote', 'UPVOTE')}
     >
-      {#if score === 1}
+      {#if vote === 'UPVOTE'}
         <ThumbsUpIcon />
       {:else}
         <ThumbsUpOutlineIcon />
@@ -109,12 +109,12 @@
       {t`Yes`}
     </Button>
     <Button
-      variant={score === 1 ? 'outlined' : 'contained'}
-      style={`color: ${score === 1 ? '#fff' : 'var(--bg)'};`}
+      variant={vote === 'UPVOTE' ? 'outlined' : 'contained'}
+      style={`color: ${vote === 'UPVOTE' ? '#fff' : 'var(--bg)'};`}
       {disabled}
-      on:click={() => dispatch('vote', -1)}
+      on:click={() => dispatch('vote', 'DOWNVOTE')}
     >
-      {#if score === -1}
+      {#if vote === 'DOWNVOTE'}
         <ThumbsDownIcon />
       {:else}
         <ThumbsDownOutlineIcon />
@@ -123,9 +123,9 @@
     </Button>
   </div>
 
-  {#if score !== null}
+  {#if vote !== null}
     <form on:submit|preventDefault={handleCommentSubmit}>
-      {#if score === 1}
+      {#if vote === 'UPVOTE'}
         <ThumbsUpIcon class="bg-icon" />
         <p>{t`It's glad to see the reply is helpful.`}</p>
         <p class="emphasize" style="margin-top: 4px;">
@@ -136,7 +136,7 @@
           placeholder={t`I think the reply is helpful and I want to add...`}
           bind:value={comment}
         />
-      {:else if score === -1}
+      {:else if vote === 'DOWNVOTE'}
         <ThumbsDownIcon class="bg-icon" />
         <p>{t`We are sorry that the reply is not helpful to you.`}</p>
         <p class="emphasize" style="margin-top: 4px;">
@@ -149,10 +149,10 @@
         />
       {/if}
       <div class="buttons">
-        <Button type="submit" disabled={disabled || (score === -1 && comment.length === 0)}>
+        <Button type="submit" disabled={disabled || (vote === 'DOWNVOTE' && comment.length === 0)}>
           {#if comment.length > 0}
             {t`Submit`}
-          {:else if score === -1}
+          {:else if vote === 'DOWNVOTE'}
             {t`Please provide your comment above`}
           {:else}
             {t`Close`}
