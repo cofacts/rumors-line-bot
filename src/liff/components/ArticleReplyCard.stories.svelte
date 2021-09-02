@@ -29,9 +29,6 @@
 <Meta
   title="Card/ArticleReplyCard"
   component={ArticleReplyCard}
-  args={{
-    replyRequestCount: 1,
-  }}
 />
 
 <Template let:args>
@@ -53,10 +50,11 @@
 />
 
 <Story
-  name="No reference"
+  name="No reference, with ownVote"
   args={{articleReply: {
     ...mockedArticleReply,
     replyType: 'NOT_ARTICLE',
+    ownVote: 'UPVOTE',
     reply: {
       ...mockedArticleReply.reply,
       reference: null,
