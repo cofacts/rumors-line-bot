@@ -9,6 +9,7 @@
   import NotArticleIcon from "./icons/NotArticleIcon.svelte";
   import RumorIcon from "./icons/RumorIcon.svelte";
   import OpinionatedIcon from "./icons/OpinionatedIcon.svelte";
+  import SingleColorLogo from "./icons/SingleColorLogo.svelte";
 </script>
 
 <Meta
@@ -34,10 +35,10 @@
       ThumbsUpOutlineIcon,
       ThumbsDownIcon,
       ThumbsDownOutlineIcon,
+      SingleColorLogo,
     ],
     color: 'var(--primary800)',
   }}
-  
 />
 
 <Story

@@ -3,6 +3,7 @@
   import { t } from 'ttag';
   import { gql } from '../lib';
   import { gaTitle } from 'src/lib/sharedUtils';
+  import SingleColorLogo from '../components/icons/SingleColorLogo.svelte';
   import FullpagePrompt from '../components/FullpagePrompt.svelte';
   import Header from '../components/Header.svelte';
   import ArticleCard from '../components/ArticleCard.svelte';
@@ -119,7 +120,10 @@
       {/if}
     </button>
   {:else}
-    <Header>{replySectionTitle}</Header>
+    <Header style="position: relative; overflow: hidden;">
+      {replySectionTitle}
+      <SingleColorLogo style="position: absolute; right: -4px; bottom: -9px; color: var(--secondary100); z-index: -1;"/>
+    </Header>
     {#each articleReplies as articleReply, idx (articleReply.reply.id)}
       {#if idx > 0}
         <Spacer />
