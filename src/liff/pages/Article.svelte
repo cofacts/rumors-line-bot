@@ -89,8 +89,8 @@
   }
 
   $: replySectionTitle = articleReplies.length === 1
-    ? t`Cofacts reply`
-    : t`There are ${articleReplies.length} Cofacts replies for this message`
+    ? t`Cofacts volunteer's reply to the message above`
+    : t`Cofacts volunteers have published ${articleReplies.length} replies to the message above`
 </script>
 
 <svelte:head>

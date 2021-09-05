@@ -148,7 +148,7 @@ export default async function choosingArticle(params) {
 
     const summary =
       '👨‍👩‍👧‍👦  ' +
-      t`Volunteer editors has publised several replies to this message.` +
+      t`Volunteer editors have published several replies to this message.` +
       '\n\n' +
       [
         countOfType.RUMOR > 0

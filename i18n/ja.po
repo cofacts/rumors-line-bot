@@ -51,7 +51,7 @@ msgid "This reply has no ${ prompt } and it may be biased"
 msgstr "このリプライは${prompt}がありませんので、信頼性を見直す必要があります。"
 
 #: src/webhook/handlers/choosingArticle.js:141
-msgid "Volunteer editors has publised several replies to this message."
+msgid "Volunteer editors have published several replies to this message."
 msgstr "Cofacts のボランティアがこの情報に多くのリプライをしました！"
 
 #: src/webhook/handlers/choosingArticle.js:263

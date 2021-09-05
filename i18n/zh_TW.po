@@ -51,8 +51,8 @@ msgid "This reply has no ${ prompt } and it may be biased"
 msgstr "此回應沒有${prompt}，請自行斟酌回應之可信度。"
 
 #: src/webhook/handlers/choosingArticle.js:151
-msgid "Volunteer editors has publised several replies to this message."
-msgstr "Cofacts 志工對這則訊息發表了多則看法唷！"
+msgid "Volunteer editors have published several replies to this message."
+msgstr "真的假的編輯志工對這則訊息發表了多則看法唷！"
 
 #: src/webhook/handlers/choosingArticle.js:273
 msgid "Let's pick one"
@@ -804,11 +804,11 @@ msgstr ""
 
 #: src/liff/components/FeedbackForm.svelte:22
 msgid "Please help Cofacts editors"
-msgstr "幫幫 Cofacts 闢謠志工"
+msgstr "幫幫 Cofacts 真的假的闢謠志工"
 
 #: src/liff/components/FeedbackForm.svelte:31
 msgid "It's glad to see the reply is helpful."
-msgstr "很開心這則 Cofacts 回應有幫助到您。"
+msgstr "很開心這則回應有幫助到您。"
 
 #: src/liff/components/FeedbackForm.svelte:39
 msgid "Please provide your comment above"
@@ -828,7 +828,7 @@ msgstr "表示回應有幫助"
 
 #: src/liff/components/FeedbackForm.svelte:34
 msgid "We are sorry that the reply is not helpful to you."
-msgstr "很遺憾這則 Cofacts 回應對您沒有幫助。"
+msgstr "很遺憾這則回應對您沒有幫助。"
 
 #: src/liff/components/FeedbackForm.svelte:35
 msgid "How can we make it helpful to you?"
@@ -852,17 +852,17 @@ msgid "${ dateStr } ago"
 msgstr "${ dateStr }前"
 
 #: src/liff/pages/Article.svelte:90
-msgid "Cofacts reply"
-msgstr "查核回應"
+msgid "Cofacts volunteer's reply to the message above"
+msgstr "真的假的編輯志工針對以上訊息的回應"
 
 #: src/liff/pages/Article.svelte:91
 #, javascript-format
-msgid "There are ${ articleReplies.length } Cofacts replies for this message"
-msgstr "此訊息有 ${ articleReplies.length } 則查證回應"
+msgid "Cofacts volunteers have published ${ articleReplies.length } replies to the message above"
+msgstr "真的假的編輯志工對以上訊息發表了 ${ articleReplies.length } 則回應"
 
 #: src/liff/pages/Article.svelte:93
 msgid "IM check"
-msgstr "可疑訊息查證"
+msgstr "網傳訊息查證"
 
 #: src/liff/pages/Article.svelte:94
 msgid "Cofacts chatbot"
@@ -874,7 +874,7 @@ msgstr "載入可疑訊息"
 
 #: src/liff/pages/Article.svelte:96
 msgid "Suspicious messages"
-msgstr "網友回報可疑訊息"
+msgstr "網傳可疑訊息"
 
 #: src/liff/components/ArticleCard.svelte:11
 #, javascript-format
