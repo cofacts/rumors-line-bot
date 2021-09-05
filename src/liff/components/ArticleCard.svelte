@@ -6,6 +6,7 @@
 
   export let createdAt;
   const createdAtStr = createdAt ? format(createdAt) : '';
+  const firstReportedStr = t`First reported on ${createdAtStr}`;
 
   export let replyRequestCount;
   const reportCountText = ngettext(
@@ -65,7 +66,7 @@
   </div>
 </div>
 <Card style="--gap: 8px">
-  <aside>{t`First reported on ${createdAtStr}`}｜{reportCountText}</aside>
+  <aside>{firstReportedStr}｜{reportCountText}</aside>
   <article
     class:truncated={isTooLong && !isExpanded}
   >{text}</article>
