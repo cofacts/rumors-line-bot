@@ -5,6 +5,7 @@
 import { t } from 'ttag';
 import dateFnsFormat from 'date-fns/format';
 import dateFnsFormatDistanceToNow from 'date-fns/formatDistanceToNow';
+import GraphemeSplitter from 'grapheme-splitter';
 
 const SITE_URLS = (process.env.SITE_URLS || 'https://cofacts.g0v.tw').split(
   ','
@@ -124,4 +125,22 @@ export function createTypeWords(type) {
       return t`Invalid request`;
   }
   return 'Undefined';
+}
+
+const splitter = new GraphemeSplitter();
+
+// When document title is too long, event will be dropped.
+// See: https://github.com/cofacts/rumors-line-bot/issues/97
+//
+const DOCUMENT_TITLE_LENGTH = 800;
+
+/**
+ * @param {string} title
+ * @returns {string} valid title for Google Analytics
+ */
+export function gaTitle(title) {
+  return splitter
+    .splitGraphemes(title)
+    .slice(0, DOCUMENT_TITLE_LENGTH)
+    .join('');
 }
