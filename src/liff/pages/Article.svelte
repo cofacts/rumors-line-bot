@@ -3,6 +3,7 @@
   import { t } from 'ttag';
   import { gql } from '../lib';
   import { gaTitle } from 'src/lib/sharedUtils';
+  import AppBar from '../components/AppBar.svelte';
   import SingleColorLogo from '../components/icons/SingleColorLogo.svelte';
   import FullpagePrompt from '../components/FullpagePrompt.svelte';
   import Header from '../components/Header.svelte';
@@ -101,6 +102,7 @@
 {#if !articleData }
   <FullpagePrompt>{t`Loading IM data...`}</FullpagePrompt>
 {:else}
+  <AppBar {articleId} />
   <Header>
     {t`Suspicious messages`}
   </Header>
@@ -126,7 +128,7 @@
     </Header>
     {#each articleReplies as articleReply, idx (articleReply.reply.id)}
       {#if idx > 0}
-        <Spacer />
+        <Spacer style="--dot-size: 8px" />
       {/if}
       <ArticleReplyCard articleReply={articleReply} />
     {/each}

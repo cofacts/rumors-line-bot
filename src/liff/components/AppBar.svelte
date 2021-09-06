@@ -15,7 +15,7 @@
   header {
     display: flex;
     align-items: center;
-    height: 44px;
+    height: 56px;
     padding: 0 16px;
     background: #fff;
     border-bottom: 2px solid var(--secondary50);
