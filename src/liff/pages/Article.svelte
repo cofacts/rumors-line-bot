@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { t } from 'ttag';
   import { gql } from '../lib';
+  import { gaTitle } from 'src/lib/sharedUtils';
   import FullpagePrompt from '../components/FullpagePrompt.svelte';
   import Header from '../components/Header.svelte';
   import ArticleCard from '../components/ArticleCard.svelte';
@@ -44,6 +45,7 @@
     createdAt = new Date(articleData.createdAt);
 
     // Send event to Google Analytics
+    gtag('set', { page_title: gaTitle(articleData.text) });
     gtag('event', 'ViewArticle', {
       event_category: 'LIFF',
       event_label: articleId,
