@@ -9,10 +9,6 @@
     margin: 0;
     padding: 24px 16px 8px;
   }
-
-  h1:first-of-type {
-    padding-top: 8px;
-  }
 </style>
 <h1 {style}>
   <slot />
