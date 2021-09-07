@@ -11,9 +11,11 @@
   import ArticleReplyCard from '../components/ArticleReplyCard.svelte';
   import Spacer from '../components/Spacer.svelte';
   import Terms from '../components/Terms.svelte';
+  import Button from '../components/Button.svelte';
   import { ArticleReplyCard_articleReply } from '../components/fragments';
   import { getArticleURL } from 'src/lib/sharedUtils';
   import improveBanner from '../assets/improve-reply-banner.png';
+  import multipleRepliesBanner from '../assets/multiple-replies.png';
 
   const params = new URLSearchParams(location.search);
   const articleId = params.get('articleId');
@@ -22,6 +24,9 @@
 
   let articleData;
   let articleReplies = [];
+  // These article replies are collapsed by default. Used when replyId is specified from URL.
+  let collapsedArticleReplies = [];
+  let expanded = false; // Collapse above article replies by default
   let createdAt;
 
   const loadData = async () => {
@@ -45,7 +50,8 @@
 
     const {articleReplies: list, ...rest} = GetArticle;
 
-    articleReplies = list.filter(({reply}) => replyId ? reply.id === replyId : true);
+    articleReplies = !replyId ? list : list.filter(({reply}) => reply.id === replyId);
+    collapsedArticleReplies = !replyId ? [] : list.filter(({reply}) => reply.id !== replyId);
     articleData = rest;
     createdAt = new Date(articleData.createdAt);
 
@@ -103,6 +109,20 @@
     margin-top: 24px;
     width: 100%;
   }
+
+  .multiple-replies-banner {
+    margin-top: 24px;
+    padding: 24px 16px;
+    background: var(--primary50);
+    display: grid;
+    grid-auto-flow: row;
+    row-gap: 16px;
+  }
+
+  .multiple-replies-banner > img {
+    width: 72.8%;
+    margin: 0 auto;
+  }
 </style>
 
 <svelte:head>
@@ -142,9 +162,34 @@
       {/if}
       <ArticleReplyCard articleReply={articleReply} />
     {/each}
-    <a class="improve-banner" href={articleUrl} target="_blank">
-      <img src={improveBanner} alt="Help improve replies" />
-    </a>
+
+    {#if collapsedArticleReplies.length > 0 }
+      {#if expanded}
+        <Header>
+          {t`Other replies`}
+        </Header>
+        {#each collapsedArticleReplies as articleReply, idx (articleReply.reply.id)}
+          {#if idx > 0}
+            <Spacer style="--dot-size: 8px" />
+          {/if}
+          <ArticleReplyCard articleReply={articleReply} />
+        {/each}
+      {:else}
+        <footer class="multiple-replies-banner">
+          <img src={multipleRepliesBanner} alt="Multiple replies available" />
+          {t`There are different replies for the message. We suggest read them all here before you make judgements.`}
+          <Button variant="outlined" on:click={() => { expanded = true; }}>
+            {t`Read other replies`}
+          </Button>
+        </footer>
+      {/if}
+    {/if}
+
+    {#if collapsedArticleReplies.length === 0 || expanded}
+      <a class="improve-banner" href={articleUrl} target="_blank">
+        <img src={improveBanner} alt="Help improve replies" />
+      </a>
+    {/if}
   {/if}
   <Terms />
 {/if}
