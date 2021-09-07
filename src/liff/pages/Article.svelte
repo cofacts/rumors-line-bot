@@ -12,10 +12,13 @@
   import Spacer from '../components/Spacer.svelte';
   import Terms from '../components/Terms.svelte';
   import { ArticleReplyCard_articleReply } from '../components/fragments';
+  import { getArticleURL } from 'src/lib/sharedUtils';
+  import improveBanner from '../assets/improve-reply-banner.png';
 
   const params = new URLSearchParams(location.search);
   const articleId = params.get('articleId');
   const replyId = params.get('replyId');
+  const articleUrl = getArticleURL(articleId);
 
   let articleData;
   let articleReplies = [];
@@ -95,6 +98,13 @@
     : t`Cofacts volunteers have published ${articleReplies.length} replies to the message above`
 </script>
 
+<style>
+  .improve-banner > img {
+    margin-top: 24px;
+    width: 100%;
+  }
+</style>
+
 <svelte:head>
   <title>{t`IM check`} | {t`Cofacts chatbot`}</title>
 </svelte:head>
@@ -132,6 +142,9 @@
       {/if}
       <ArticleReplyCard articleReply={articleReply} />
     {/each}
+    <a class="improve-banner" href={articleUrl} target="_blank">
+      <img src={improveBanner} alt="Help improve replies" />
+    </a>
   {/if}
   <Terms />
 {/if}
