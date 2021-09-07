@@ -12,6 +12,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const svgToMiniDataURI = require('mini-svg-data-uri');
 
 const path = require('path');
 
@@ -87,6 +88,29 @@ module.exports = {
            * */
           prod ? MiniCssExtractPlugin.loader : 'style-loader',
           'css-loader',
+        ],
+      },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 4096,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 4096,
+              generator: content => svgToMiniDataURI(content.toString()),
+            },
+          },
         ],
       },
     ],
