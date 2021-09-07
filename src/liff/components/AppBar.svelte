@@ -7,7 +7,7 @@
 
   const articleUrl = getArticleURL(articleId);
   const openLink = liff.isInClient() ?
-    `https://line.me/R/oaMessage/@cofacts?${encodeURIComponents(`${VIEW_ARTICLE_PREFIX}${articleUrl}`)}` :
+    `https://line.me/R/oaMessage/@cofacts?${encodeURIComponent(`${VIEW_ARTICLE_PREFIX}${articleUrl}`)}` :
     getArticleURL(articleId);
 </script>
 
