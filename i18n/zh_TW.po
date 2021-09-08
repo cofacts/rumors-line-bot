@@ -52,7 +52,7 @@ msgstr "此回應沒有${prompt}，請自行斟酌回應之可信度。"
 
 #: src/webhook/handlers/choosingArticle.js:151
 msgid "Volunteer editors have published several replies to this message."
-msgstr "真的假的編輯志工對這則訊息發表了多則看法唷！"
+msgstr "真的假的查證志工對這則訊息發表了多則看法唷！"
 
 #: src/webhook/handlers/choosingArticle.js:273
 msgid "Let's pick one"
@@ -416,7 +416,7 @@ msgid ""
 "To provide more info, please press \"Cancel\"; otherwise, press \"OK\" to "
 "submit the current info directly."
 msgstr ""
-"提供給編輯的資訊可以再豐富一些，會讓編輯回覆越快唷！\n"
+"提供給查證志工的資訊可以再豐富一些，會讓志工更容易查真假唷！\n"
 "\n"
 "\n"
 "${ LENGHEN_HINT }\n"
@@ -436,7 +436,7 @@ msgstr ""
 
 #: src/liff/pages/Reason.svelte:80
 msgid "To help with fact-checking, please tell the editors:"
-msgstr "為了協助查證，請告訴闢謠編輯："
+msgstr "為了協助查證，請告訴闢謠志工："
 
 #: src/liff/pages/Reason.svelte:81
 msgid "Why do you think this is a hoax?"
@@ -784,7 +784,7 @@ msgstr ""
 msgid ""
 "I would suggest don't trust this message just yet. To help Cofacts editors "
 "checking the message, please "
-msgstr "先不要相信這個訊息唷，它可能是假的。如果要請闢謠編輯志工查證，請"
+msgstr "先不要相信這個訊息唷，它可能是假的。如果要請闢謠志工查證，請"
 
 #: src/webhook/handlers/choosingArticle.js:310
 msgid "provide more information using the button below. "
@@ -853,14 +853,14 @@ msgstr "${ dateStr }前"
 
 #: src/liff/pages/Article.svelte:102
 msgid "Cofacts volunteer's reply to the message above"
-msgstr "真的假的編輯志工針對以上訊息的回應"
+msgstr "真的假的查證志工針對以上訊息的回應"
 
 #: src/liff/pages/Article.svelte:103
 #, javascript-format
 msgid ""
 "Cofacts volunteers have published ${ articleReplies.length } replies to the "
 "message above"
-msgstr "真的假的編輯志工對以上訊息發表了 ${ articleReplies.length } 則回應"
+msgstr "真的假的查證志工對以上訊息發表了 ${ articleReplies.length } 則回應"
 
 #: src/liff/pages/Article.svelte:105
 msgid "IM check"
