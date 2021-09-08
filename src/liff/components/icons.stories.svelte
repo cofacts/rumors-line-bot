@@ -5,10 +5,12 @@
   import ThumbsDownIcon from "./icons/ThumbsDownIcon.svelte";
   import ThumbsUpOutlineIcon from "./icons/ThumbsUpOutlineIcon.svelte";
   import ThumbsDownOutlineIcon from "./icons/ThumbsDownOutlineIcon.svelte";
+  import NewWindowIcon from "./icons/NewWindowIcon.svelte";
   import NotRumorIcon from "./icons/NotRumorIcon.svelte";
   import NotArticleIcon from "./icons/NotArticleIcon.svelte";
   import RumorIcon from "./icons/RumorIcon.svelte";
   import OpinionatedIcon from "./icons/OpinionatedIcon.svelte";
+  import SingleColorLogo from "./icons/SingleColorLogo.svelte";
 </script>
 
 <Meta
@@ -34,10 +36,11 @@
       ThumbsUpOutlineIcon,
       ThumbsDownIcon,
       ThumbsDownOutlineIcon,
+      NewWindowIcon,
+      SingleColorLogo,
     ],
     color: 'var(--primary800)',
   }}
-  
 />
 
 <Story

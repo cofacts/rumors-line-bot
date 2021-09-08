@@ -21,19 +21,19 @@ msgid "${ negative } user consider this not useful"
 msgid_plural "${ negative } users consider this not useful"
 msgstr[0] "有 ${negative} 人覺得此回應沒幫助"
 
-#: src/lib/sharedUtils.js:118
+#: src/lib/sharedUtils.js:119
 msgid "Contains misinformation"
 msgstr "含有不實訊息"
 
-#: src/lib/sharedUtils.js:120
+#: src/lib/sharedUtils.js:121
 msgid "Contains true information"
 msgstr "含有真實訊息"
 
-#: src/lib/sharedUtils.js:122
+#: src/lib/sharedUtils.js:123
 msgid "Contains personal perspective"
 msgstr "含有個人意見"
 
-#: src/lib/sharedUtils.js:124
+#: src/lib/sharedUtils.js:125
 msgid "Invalid request"
 msgstr "不在查證範圍"
 
@@ -452,40 +452,40 @@ msgstr "例：我用 OO 關鍵字查詢 Facebook，發現⋯⋯ / 我在 XX 官�
 msgid "How did you get the message?"
 msgstr "請問您是在哪裡看到這則訊息的？"
 
-#: src/lib/sharedUtils.js:16
+#: src/lib/sharedUtils.js:17
 msgid "My reason is"
 msgstr "我的理由是"
 
-#: src/lib/sharedUtils.js:17
 #: src/lib/sharedUtils.js:18
+#: src/lib/sharedUtils.js:19
 msgid "I got the message from"
 msgstr "訊息來源是"
 
-#: src/lib/sharedUtils.js:19
+#: src/lib/sharedUtils.js:20
 msgid "I think the reply is useful and I want to add"
 msgstr "這個回應很有用，我想補充"
 
-#: src/lib/sharedUtils.js:20
+#: src/lib/sharedUtils.js:21
 msgid "I think the reply is not useful and I suggest"
 msgstr "這個回應不太有用，我建議"
 
-#: src/lib/sharedUtils.js:59
+#: src/lib/sharedUtils.js:60
 msgid "A LINE group"
 msgstr "LINE 群組裡看到的"
 
-#: src/lib/sharedUtils.js:64
+#: src/lib/sharedUtils.js:65
 msgid "A LINE official account"
 msgstr "LINE 官方帳號傳的"
 
-#: src/lib/sharedUtils.js:69
+#: src/lib/sharedUtils.js:70
 msgid "Someone sent me on LINE in private"
 msgstr "有人私下用 LINE 傳給我的"
 
-#: src/lib/sharedUtils.js:74
+#: src/lib/sharedUtils.js:75
 msgid "Somewhere outside LINE"
 msgstr "我在 LINE 外頭看到的"
 
-#: src/lib/sharedUtils.js:79
+#: src/lib/sharedUtils.js:80
 msgid "I typed it out myself"
 msgstr "我自己寫的"
 
@@ -522,7 +522,7 @@ msgid "${ replyCount } reply"
 msgid_plural "${ replyCount } replies"
 msgstr[0] "${ replyCount } 則回應"
 
-#: src/lib/sharedUtils.js:21
+#: src/lib/sharedUtils.js:22
 msgid "See replies of"
 msgstr "查看這篇的回應"
 
@@ -846,51 +846,53 @@ msgstr "這個回應不太有幫助，我建議⋯⋯"
 msgid "Viewed on ${ dateString }"
 msgstr "在${ dateString }看過"
 
-#: src/lib/sharedUtils.js:109
+#: src/lib/sharedUtils.js:110
 #, javascript-format
 msgid "${ dateStr } ago"
 msgstr "${ dateStr }前"
 
-#: src/liff/pages/Article.svelte:90
+#: src/liff/pages/Article.svelte:102
 msgid "Cofacts volunteer's reply to the message above"
 msgstr "真的假的編輯志工針對以上訊息的回應"
 
-#: src/liff/pages/Article.svelte:91
+#: src/liff/pages/Article.svelte:103
 #, javascript-format
-msgid "Cofacts volunteers have published ${ articleReplies.length } replies to the message above"
+msgid ""
+"Cofacts volunteers have published ${ articleReplies.length } replies to the "
+"message above"
 msgstr "真的假的編輯志工對以上訊息發表了 ${ articleReplies.length } 則回應"
 
-#: src/liff/pages/Article.svelte:93
+#: src/liff/pages/Article.svelte:105
 msgid "IM check"
 msgstr "網傳訊息查證"
 
-#: src/liff/pages/Article.svelte:94
+#: src/liff/pages/Article.svelte:106
 msgid "Cofacts chatbot"
 msgstr "真的假的聊天機器人"
 
-#: src/liff/pages/Article.svelte:95
+#: src/liff/pages/Article.svelte:107
 msgid "Loading IM data..."
 msgstr "載入可疑訊息"
 
-#: src/liff/pages/Article.svelte:96
+#: src/liff/pages/Article.svelte:108
 msgid "Suspicious messages"
 msgstr "網傳可疑訊息"
 
-#: src/liff/components/ArticleCard.svelte:11
-#, javascript-format
+#: src/liff/components/ArticleCard.svelte:12
 msgid "${ replyRequestCount } person reported"
 msgid_plural "${ replyRequestCount } people reported"
 msgstr[0] "${ replyRequestCount } 人回報"
 
-#: src/liff/components/ArticleCard.svelte:32
+#: src/liff/components/ArticleCard.svelte:9
+#, javascript-format
 msgid "First reported on ${ createdAtStr }"
 msgstr "首次回報於 ${ createdAtStr }"
 
-#: src/liff/components/ArticleCard.svelte:35
+#: src/liff/components/ArticleCard.svelte:36
 msgid "Show Less"
 msgstr "收合全文"
 
-#: src/liff/components/ArticleCard.svelte:35
+#: src/liff/components/ArticleCard.svelte:36
 msgid "Show More"
 msgstr "閱讀全文"
 
@@ -932,3 +934,21 @@ msgstr ""
 #: src/liff/components/FeedbackSummary.svelte:21
 msgid "Edit feedback"
 msgstr "修改評價"
+
+#: src/liff/pages/Article.svelte:116
+msgid "Other replies"
+msgstr "其他查核回應"
+
+#: src/liff/pages/Article.svelte:119
+msgid ""
+"There are different replies for the message. We suggest read them all here "
+"before you make judgements."
+msgstr "這則訊息有很多不同的查核回應，建議全部讀完再下判斷唷。"
+
+#: src/liff/pages/Article.svelte:120
+msgid "Read other replies"
+msgstr "查看其他查核回應"
+
+#: src/liff/components/AppBar.svelte:16
+msgid "Open in Cofacts"
+msgstr "在「真的假的」開啟"

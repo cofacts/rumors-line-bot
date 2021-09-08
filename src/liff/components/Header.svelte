@@ -6,11 +6,8 @@
     font-weight: 700;
     font-size: 1em;
     color: var(--secondary300);
-    margin: 24px 16px 8px;
-  }
-
-  h1:first-of-type {
-    margin-top: 8px;
+    margin: 0;
+    padding: 24px 16px 8px;
   }
 </style>
 <h1 {style}>
