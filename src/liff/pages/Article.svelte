@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { t } from 'ttag';
   import { gql } from '../lib';
-  import { gaTitle } from 'src/lib/sharedUtils';
+  import { gaTitle, getArticleURL } from 'src/lib/sharedUtils';
   import AppBar from '../components/AppBar.svelte';
   import SingleColorLogo from '../components/icons/SingleColorLogo.svelte';
   import FullpagePrompt from '../components/FullpagePrompt.svelte';
@@ -13,7 +13,6 @@
   import Terms from '../components/Terms.svelte';
   import Button from '../components/Button.svelte';
   import { ArticleReplyCard_articleReply } from '../components/fragments';
-  import { getArticleURL } from 'src/lib/sharedUtils';
   import improveBanner from '../assets/improve-reply-banner.png';
   import multipleRepliesBanner from '../assets/multiple-replies.png';
 
