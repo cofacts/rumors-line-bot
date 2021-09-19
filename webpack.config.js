@@ -41,7 +41,8 @@ const babelLoaderConfig = {
 
 module.exports = {
   entry: {
-    bundle: ['./src/liff/index.js'],
+    index: './src/liff/index.js',
+    redirect: './src/liff/redirect.js',
   },
   resolve: {
     alias: {
@@ -123,9 +124,18 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: './src/liff/index.html',
+      chunks: ['index'],
       // custom constants passed to index.html via htmlWebpackPlugin.options
       ROLLBAR_ENV: process.env.ROLLBAR_ENV,
       ROLLBAR_CLIENT_TOKEN: process.env.ROLLBAR_CLIENT_TOKEN,
+      GA_ID: process.env.GA_ID,
+    }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: './src/liff/redirect.html',
+      filename: 'redirect.html',
+      chunks: ['redirect'],
+      // custom constants passed to index.html via htmlWebpackPlugin.options
       GA_ID: process.env.GA_ID,
     }),
     new CompressionPlugin(),

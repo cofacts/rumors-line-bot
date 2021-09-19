@@ -1,0 +1,32 @@
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/static/favicon.png" type="image/png" />
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
+    <title>前往 Cofacts 真的假的</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= htmlWebpackPlugin.options.GA_ID %>"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '<%= htmlWebpackPlugin.options.GA_ID %>', { send_page_view: false });
+    </script>
+  </head>
+  <body>
+    <div id="loading">
+      <!-- Removed by redirect.js -->
+      <style>
+        #loading {
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      </style>
+      Loading...
+    </div>
+  </body>
+</html>
