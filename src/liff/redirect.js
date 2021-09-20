@@ -1,4 +1,5 @@
 import 'normalize.css';
 import './index.css';
+import Redirect from './Redirect.svelte';
 
-console.log('Redirect: hello world');
+new Redirect({ target: document.body });
