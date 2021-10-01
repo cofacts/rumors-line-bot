@@ -851,30 +851,30 @@ msgstr "在${ dateString }看過"
 msgid "${ dateStr } ago"
 msgstr "${ dateStr }前"
 
-#: src/liff/pages/Article.svelte:102
+#: src/liff/pages/Article.svelte:103
 msgid "Cofacts volunteer's reply to the message above"
 msgstr "真的假的查證志工針對以上訊息的回應"
 
-#: src/liff/pages/Article.svelte:103
+#: src/liff/pages/Article.svelte:104
 #, javascript-format
 msgid ""
 "Cofacts volunteers have published ${ articleReplies.length } replies to the "
 "message above"
 msgstr "真的假的查證志工對以上訊息發表了 ${ articleReplies.length } 則回應"
 
-#: src/liff/pages/Article.svelte:105
+#: src/liff/pages/Article.svelte:110
 msgid "IM check"
 msgstr "網傳訊息查證"
 
-#: src/liff/pages/Article.svelte:106
+#: src/liff/pages/Article.svelte:111
 msgid "Cofacts chatbot"
 msgstr "真的假的聊天機器人"
 
-#: src/liff/pages/Article.svelte:107
+#: src/liff/pages/Article.svelte:112
 msgid "Loading IM data..."
 msgstr "載入可疑訊息"
 
-#: src/liff/pages/Article.svelte:108
+#: src/liff/pages/Article.svelte:115
 msgid "Suspicious messages"
 msgstr "網傳可疑訊息"
 
@@ -935,20 +935,45 @@ msgstr ""
 msgid "Edit feedback"
 msgstr "修改評價"
 
-#: src/liff/pages/Article.svelte:116
+#: src/liff/pages/Article.svelte:123
 msgid "Other replies"
 msgstr "其他查核回應"
 
-#: src/liff/pages/Article.svelte:119
+#: src/liff/pages/Article.svelte:126
 msgid ""
 "There are different replies for the message. We suggest read them all here "
 "before you make judgements."
 msgstr "這則訊息有很多不同的查核回應，建議全部讀完再下判斷唷。"
 
-#: src/liff/pages/Article.svelte:120
+#: src/liff/pages/Article.svelte:127
 msgid "Read other replies"
 msgstr "查看其他查核回應"
 
-#: src/liff/components/AppBar.svelte:16
+#: src/liff/pages/Article.svelte:114
 msgid "Open in Cofacts"
 msgstr "在「真的假的」開啟"
+
+#: src/liff/Redirect.svelte:20
+msgid "Proceed"
+msgstr "繼續前往"
+
+#: src/liff/Redirect.svelte:22
+msgid "Let's check the message, together!"
+msgstr "一起來查真假吧！"
+
+#: src/liff/Redirect.svelte:23
+msgid ""
+"You are going to proceed to Cofacts to read the reply for you written by "
+"fact-check volunteers."
+msgstr "您即將前往 Cofacts 真的假的，閱讀闢謠志工為您撰寫的回應。"
+
+#: src/liff/Redirect.svelte:24
+msgid ""
+"If the reply and the reference is helpful to you, please provide positive "
+"feedback. If existing replies can be improved, please login the website and "
+"provide new fact-check replies."
+msgstr "如果回應與出處對您有幫助，請您不吝給予好評；若有更好的寫法，也請登入動手查核、直接寫新回應。"
+
+#: src/liff/Redirect.svelte:25
+msgid "Proceed to read the reply"
+msgstr "前往閱讀查核回應"

@@ -54,13 +54,13 @@
 </AppBar>
 
 <main>
-  <img src={multipleRepliesBanner} alt="Multiple replies available" />
+  <img src={multipleRepliesBanner} alt="Let's check message together" />
   <h1>{t`Let's check the message, together!`}</h1>
   <p>
-    {t`You are going to proceed to Cofacts to read the reply written by fact-check volunteers.`}
+    {t`You are going to proceed to Cofacts to read the reply for you written by fact-check volunteers.`}
   </p>
   <p>
-    {t`If the reply and the reference is helpful to you, feel free to provide positive feedback to encourage the volunteers!`}
+    {t`If the reply and the reference is helpful to you, please provide positive feedback. If existing replies can be improved, please login the website and provide new fact-check replies.`}
   </p>
   <Button on:click={handleClick} variant="outlined" class="redirectButton">
     {t`Proceed to read the reply`}
