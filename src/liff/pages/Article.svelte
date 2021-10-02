@@ -15,7 +15,7 @@
   import { ArticleReplyCard_articleReply } from '../components/fragments';
   import improveBanner from '../assets/improve-reply-banner.png';
   import multipleRepliesBanner from '../assets/multiple-replies.png';
-  import NewWindowIcon from './icons/NewWindowIcon.svelte';
+  import NewWindowIcon from '../components/icons/NewWindowIcon.svelte';
 
   const params = new URLSearchParams(location.search);
   const articleId = params.get('articleId');

@@ -2,7 +2,7 @@
   import { t } from 'ttag';
   import Button from './components/Button.svelte';
   import AppBar from './components/AppBar.svelte';
-  import multipleRepliesBanner from '../assets/multiple-replies.png';
+  import multipleRepliesBanner from './assets/multiple-replies.png';
 
   const currentParams = new URLSearchParams(location.search);
   const articleId = currentParams.get('articleId');
@@ -23,11 +23,15 @@
 
   main {
     display: grid;
-    grid-auto-flow: column;
-    align-items: center;
+    grid-auto-flow: row;
+    justify-items: center;
 
     row-gap: 24px;
     padding: 24px;
+  }
+
+  .main-img {
+    max-width: 100%;
   }
 
   h1 {
@@ -35,15 +39,18 @@
     font-weight: 700;
     letter-spacing: 0.75px;
     text-align: center;
+    margin: 0;
   }
 
   p {
     font-size: 16px;
     letter-spacing: 0.25px;
+    margin: 0;
   }
 
-  :global(.redirectButton) {
+  :global(.redirectButton.redirectButton) {
     color: var(--blue1);
+    min-width: 240px;
   }
 </style>
 
@@ -54,7 +61,7 @@
 </AppBar>
 
 <main>
-  <img src={multipleRepliesBanner} alt="Let's check message together" />
+  <img class="main-img" src={multipleRepliesBanner} alt="Let's check message together" />
   <h1>{t`Let's check the message, together!`}</h1>
   <p>
     {t`You are going to proceed to Cofacts to read the reply for you written by fact-check volunteers.`}
