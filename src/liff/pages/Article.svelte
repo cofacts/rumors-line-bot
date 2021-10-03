@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { t } from 'ttag';
   import { gql } from '../lib';
-  import { gaTitle, getArticleURL } from 'src/lib/sharedUtils';
+  import { gaTitle, getArticleURL, VIEW_ARTICLE_PREFIX } from 'src/lib/sharedUtils';
   import AppBar from '../components/AppBar.svelte';
   import SingleColorLogo from '../components/icons/SingleColorLogo.svelte';
   import FullpagePrompt from '../components/FullpagePrompt.svelte';
@@ -15,6 +15,7 @@
   import { ArticleReplyCard_articleReply } from '../components/fragments';
   import improveBanner from '../assets/improve-reply-banner.png';
   import multipleRepliesBanner from '../assets/multiple-replies.png';
+  import NewWindowIcon from '../components/icons/NewWindowIcon.svelte';
 
   const params = new URLSearchParams(location.search);
   const articleId = params.get('articleId');
@@ -101,9 +102,27 @@
   $: replySectionTitle = articleReplies.length === 1
     ? t`Cofacts volunteer's reply to the message above`
     : t`Cofacts volunteers have published ${articleReplies.length} replies to the message above`
+
+  const appbarHref = liff.isInClient() ?
+    `https://line.me/R/oaMessage/@cofacts?${encodeURIComponent(`${VIEW_ARTICLE_PREFIX}${articleUrl}`)}` :
+    getArticleURL(articleId);
 </script>
 
 <style>
+  .appbar-link {
+    color: var(--secondary300);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.25px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .appbar-link > :global(svg) {
+    margin-left: 8px;
+  }
+
   .improve-banner > img {
     margin-top: 24px;
     width: 100%;
@@ -131,7 +150,14 @@
 {#if !articleData }
   <FullpagePrompt>{t`Loading IM data...`}</FullpagePrompt>
 {:else}
-  <AppBar {articleId} />
+  <AppBar>
+    {#if articleId }
+      <a class="appbar-link" href={appbarHref}>
+        {t`Open in Cofacts`}
+        <NewWindowIcon />
+      </a>
+    {/if}
+  </AppBar>
   <Header>
     {t`Suspicious messages`}
   </Header>

@@ -45,7 +45,7 @@ if (process.env.NODE_ENV === 'production') {
 
       // Set cache header for assets, but always fetch index.html
       setHeaders(res, path) {
-        if (!path.match(/index\.html(?:\.gz)?$/)) {
+        if (!path.match(/\.html(?:\.gz)?$/)) {
           res.setHeader('Cache-Control', 'public, max-age=31536000');
         }
       },
