@@ -19,6 +19,7 @@
 <style>
   .appbar-link {
     color: var(--blue1);
+    text-decoration: none;
   }
 
   main {
@@ -51,6 +52,8 @@
   :global(.redirectButton.redirectButton) {
     color: var(--blue1);
     min-width: 240px;
+    width: 100%;
+    max-width: 500px;
   }
 </style>
 
