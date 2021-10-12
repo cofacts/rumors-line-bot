@@ -5,12 +5,15 @@
   import multipleRepliesBanner from './assets/multiple-replies.png';
 
   const currentParams = new URLSearchParams(location.search);
-  const articleId = currentParams.get('articleId');
-  const replyId = currentParams.get('replyId');
-  const newParamsObj = { p: 'article' };
-  if(articleId) newParamsObj.articleId = articleId;
-  if(replyId) newParamsObj.replyId = replyId;
-  const LIFF_URL = `https://liff.line.me/${LIFF_ID}?${new URLSearchParams(newParamsObj).toString()}`;
+
+  const newParams = new URLSearchParams(
+    Array.from(currentParams).filter(([key]) =>
+      key === 'articleId' ||
+      key === 'replyId' ||
+      key.startsWith('utm_')
+    )
+  );
+  const LIFF_URL = `https://liff.line.me/${LIFF_ID}?${newParams.toString()}`;
 
   const handleClick = () => {
     location.href = LIFF_URL;
