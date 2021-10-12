@@ -7,6 +7,7 @@
   import SingleColorLogo from '../components/icons/SingleColorLogo.svelte';
   import FullpagePrompt from '../components/FullpagePrompt.svelte';
   import Header from '../components/Header.svelte';
+  import Card from '../components/Card.svelte';
   import ArticleCard from '../components/ArticleCard.svelte';
   import ArticleReplyCard from '../components/ArticleReplyCard.svelte';
   import Spacer from '../components/Spacer.svelte';
@@ -22,6 +23,7 @@
   const replyId = params.get('replyId');
   const articleUrl = getArticleURL(articleId);
 
+  let errorStr = null;
   let articleData;
   let articleReplies = [];
   // These article replies are collapsed by default. Used when replyId is specified from URL.
@@ -47,6 +49,11 @@
       }
       ${ArticleReplyCard_articleReply}
     `({id: articleId});
+
+    if (!GetArticle) {
+      errorStr = t`This message does not exist.`;
+      return;
+    }
 
     const {articleReplies: list, ...rest} = GetArticle;
 
@@ -99,7 +106,7 @@
     articleData = {...articleData, ...resp.data.CreateOrUpdateReplyRequest};
   }
 
-  $: replySectionTitle = articleReplies.length === 1
+  $: replySectionTitle = articleReplies.length <= 1
     ? t`Cofacts volunteer's reply to the message above`
     : t`Cofacts volunteers have published ${articleReplies.length} replies to the message above`
 
@@ -147,7 +154,9 @@
   <title>{t`IM check`} | {t`Cofacts chatbot`}</title>
 </svelte:head>
 
-{#if !articleData }
+{#if errorStr }
+  <FullpagePrompt>{errorStr}</FullpagePrompt>
+{:else if !articleData }
   <FullpagePrompt>{t`Loading IM data...`}</FullpagePrompt>
 {:else}
   <AppBar>
@@ -167,7 +176,8 @@
     createdAt={createdAt}
   />
 
-  {#if articleReplies.length === 0}
+  {#if articleReplies.length + collapsedArticleReplies.length === 0}
+    <!-- No any existing replies -->
     <p>有 {articleData.replyRequestCount} 人回報說看到此訊息。</p>
     <button type="button" on:click={handleRequestReply} disabled={isRequestingReply || articleData.requestedForReply}>
       {#if articleData.requestedForReply}
@@ -177,19 +187,28 @@
       {/if}
     </button>
   {:else}
+    <!-- There is existing replies -->
     <Header style="position: relative; overflow: hidden;">
       {replySectionTitle}
       <SingleColorLogo style="position: absolute; right: -4px; bottom: -9px; color: var(--secondary100); z-index: -1;"/>
     </Header>
-    {#each articleReplies as articleReply, idx (articleReply.reply.id)}
-      {#if idx > 0}
-        <Spacer style="--dot-size: 8px" />
-      {/if}
-      <ArticleReplyCard articleReply={articleReply} />
-    {/each}
+
+    {#if articleReplies.length === 0}
+      <Card>
+        {t`The reply does not exist. Maybe it has been deleted by its author.`}
+      </Card>
+    {:else}
+      {#each articleReplies as articleReply, idx (articleReply.reply.id)}
+        {#if idx > 0}
+          <Spacer style="--dot-size: 8px" />
+        {/if}
+        <ArticleReplyCard articleReply={articleReply} />
+      {/each}
+    {/if}
 
     {#if collapsedArticleReplies.length > 0 }
-      {#if expanded}
+      <!-- automatically expand if no articleReplies, which happens when replyId is not valid -->
+      {#if expanded || articleReplies.length === 0}
         <Header>
           {t`Other replies`}
         </Header>
