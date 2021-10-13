@@ -7,10 +7,12 @@
   const currentParams = new URLSearchParams(location.search);
 
   const newParams = new URLSearchParams(
-    Array.from(currentParams).filter(([key]) =>
-      key === 'articleId' ||
-      key === 'replyId' ||
-      key.startsWith('utm_')
+    [['p', 'article']].concat(
+      Array.from(currentParams).filter(([key]) =>
+        key === 'articleId' ||
+        key === 'replyId' ||
+        key.startsWith('utm_')
+      )
     )
   );
   const LIFF_URL = `https://liff.line.me/${LIFF_ID}?${newParams.toString()}`;
