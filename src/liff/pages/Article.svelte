@@ -111,8 +111,8 @@
     : t`Cofacts volunteers have published ${articleReplies.length} replies to the message above`
 
   const appbarHref = liff.isInClient() ?
-    `https://line.me/R/oaMessage/@cofacts?${encodeURIComponent(`${VIEW_ARTICLE_PREFIX}${articleUrl}`)}` :
-    getArticleURL(articleId);
+    `https://line.me/R/oaMessage/@cofacts/?${encodeURIComponent(`${VIEW_ARTICLE_PREFIX}${articleUrl}`)}` :
+    articleUrl;
 </script>
 
 <style>
