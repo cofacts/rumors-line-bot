@@ -851,30 +851,30 @@ msgstr "在${ dateString }看過"
 msgid "${ dateStr } ago"
 msgstr "${ dateStr }前"
 
-#: src/liff/pages/Article.svelte:103
+#: src/liff/pages/Article.svelte:110
 msgid "Cofacts volunteer's reply to the message above"
 msgstr "真的假的查證志工針對以上訊息的回應"
 
-#: src/liff/pages/Article.svelte:104
+#: src/liff/pages/Article.svelte:111
 #, javascript-format
 msgid ""
 "Cofacts volunteers have published ${ articleReplies.length } replies to the "
 "message above"
 msgstr "真的假的查證志工對以上訊息發表了 ${ articleReplies.length } 則回應"
 
-#: src/liff/pages/Article.svelte:110
+#: src/liff/pages/Article.svelte:117
 msgid "IM check"
 msgstr "網傳訊息查證"
 
-#: src/liff/pages/Article.svelte:111
+#: src/liff/pages/Article.svelte:118
 msgid "Cofacts chatbot"
 msgstr "真的假的聊天機器人"
 
-#: src/liff/pages/Article.svelte:112
+#: src/liff/pages/Article.svelte:120
 msgid "Loading IM data..."
 msgstr "載入可疑訊息"
 
-#: src/liff/pages/Article.svelte:115
+#: src/liff/pages/Article.svelte:123
 msgid "Suspicious messages"
 msgstr "網傳可疑訊息"
 
@@ -935,45 +935,53 @@ msgstr ""
 msgid "Edit feedback"
 msgstr "修改評價"
 
-#: src/liff/pages/Article.svelte:123
+#: src/liff/pages/Article.svelte:132
 msgid "Other replies"
 msgstr "其他查核回應"
 
-#: src/liff/pages/Article.svelte:126
+#: src/liff/pages/Article.svelte:135
 msgid ""
 "There are different replies for the message. We suggest read them all here "
 "before you make judgements."
 msgstr "這則訊息有很多不同的查核回應，建議全部讀完再下判斷唷。"
 
-#: src/liff/pages/Article.svelte:127
+#: src/liff/pages/Article.svelte:136
 msgid "Read other replies"
 msgstr "查看其他查核回應"
 
-#: src/liff/pages/Article.svelte:114
+#: src/liff/pages/Article.svelte:122
 msgid "Open in Cofacts"
 msgstr "在「真的假的」開啟"
 
-#: src/liff/Redirect.svelte:20
+#: src/liff/Redirect.svelte:23
 msgid "Proceed"
 msgstr "繼續前往"
 
-#: src/liff/Redirect.svelte:22
+#: src/liff/Redirect.svelte:25
 msgid "Let's check the message, together!"
 msgstr "一起來查真假吧！"
 
-#: src/liff/Redirect.svelte:23
+#: src/liff/Redirect.svelte:26
 msgid ""
 "You are going to proceed to Cofacts to read the reply for you written by "
 "fact-check volunteers."
 msgstr "您即將前往 Cofacts 真的假的，閱讀闢謠志工為您撰寫的回應。"
 
-#: src/liff/Redirect.svelte:24
+#: src/liff/Redirect.svelte:27
 msgid ""
 "If the reply and the reference is helpful to you, please provide positive "
 "feedback. If existing replies can be improved, please login the website and "
 "provide new fact-check replies."
 msgstr "如果回應與出處對您有幫助，請您不吝給予好評；若有更好的寫法，也請登入動手查核、直接寫新回應。"
 
-#: src/liff/Redirect.svelte:25
+#: src/liff/Redirect.svelte:28
 msgid "Proceed to read the reply"
 msgstr "前往閱讀查核回應"
+
+#: src/liff/pages/Article.svelte:54
+msgid "This message does not exist."
+msgstr "此訊息不存在。"
+
+#: src/liff/pages/Article.svelte:130
+msgid "The reply does not exist. Maybe it has been deleted by its author."
+msgstr "此回應不存在。或許已經被作者刪掉囉。"
