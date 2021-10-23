@@ -4,6 +4,7 @@ msgstr ""
 "Plural-Forms: nplurals = 1; plural = 0;\n"
 "Language: ko\n"
 "mime-version: 1.0\n"
+"Last-Translator: RU\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/webhook/index.js:78
