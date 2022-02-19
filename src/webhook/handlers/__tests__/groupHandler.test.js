@@ -34,8 +34,8 @@ beforeEach(async () => {
 afterEach(async () => {
   // Clean all job channel
   // https://github.com/OptimalBits/bull/issues/709
-  emptyQueue(jobQueue);
-  emptyQueue(expiredJobQueue);
+  await emptyQueue(jobQueue);
+  await emptyQueue(expiredJobQueue);
   await jobQueue.close();
   await expiredJobQueue.close();
 });

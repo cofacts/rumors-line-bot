@@ -13,15 +13,15 @@ export default {
 
   async lastCompletedAt(queue) {
     // Latest job = 1st job
-    const lastCompletedJobs = await queue.getCompleted(0, 0);
-    if (!lastCompletedJobs || !lastCompletedJobs[0]) return null;
-    return new Date(lastCompletedJobs[0].timestamp);
+    const lastJobs = await queue.getCompleted(0, 0);
+    if (!lastJobs || !lastJobs[0]) return null;
+    return new Date(lastJobs[0].timestamp);
   },
 
   async lastWaitingAt(queue) {
     // Latest job = 1st job
-    const lastCompletedJobs = await queue.getWaiting(0, 0);
-    if (!lastCompletedJobs || !lastCompletedJobs[0]) return null;
-    return new Date(lastCompletedJobs.timestamp);
+    const lastJobs = await queue.getWaiting(0, 0);
+    if (!lastJobs || !lastJobs[0]) return null;
+    return new Date(lastJobs[0].timestamp);
   },
 };
