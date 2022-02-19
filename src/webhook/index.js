@@ -6,6 +6,7 @@ import redis from 'src/lib/redisClient';
 import lineClient from './lineClient';
 import checkSignatureAndParse from './checkSignatureAndParse';
 import handleInput from './handleInput';
+import { groupEventQueue, expiredGroupEventQueue } from 'src/lib/queues';
 import GroupHandler from './handlers/groupHandler';
 import {
   downloadFile,
@@ -20,7 +21,6 @@ import {
   createGreetingMessage,
   createTutorialMessage,
 } from './handlers/tutorial';
-import Bull from 'bull';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
@@ -322,14 +322,6 @@ redis.set('imageProcessingCount', 0);
 
 const router = Router();
 
-export const groupEventQueue = new Bull('groupEventQueue', {
-  redis: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
-  // limiter: { max: 600, duration: 10 * 1000 },
-});
-export const expiredGroupEventQueue = new Bull('expiredGroupEventQueue', {
-  redis: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
-  // limiter: { max: 600, duration: 10 * 1000 },
-});
 const groupHandler = new GroupHandler(groupEventQueue, expiredGroupEventQueue);
 // Routes that is after protection of checkSignature
 //

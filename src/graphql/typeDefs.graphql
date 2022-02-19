@@ -1,7 +1,10 @@
 directive @auth(check: [String]) on FIELD_DEFINITION
 
 type Query {
-  insights: MessagingAPIInsight
+  insights: MessagingAPIInsight!
+
+  # Open monitor metrics of the job queue
+  queue: [QueueInfo!]!
 
   # Current user's chatbot context
   context: UserContext @auth
@@ -163,6 +166,30 @@ enum MessagingAPIInsightStatus {
   READY
   UNREADY
   OUT_OF_SERVICE
+}
+
+type QueueInfo {
+  queueName: String!
+
+  # https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queuegetjobcounts
+  jobCounts: QueueJobCountInfo!
+
+  # https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queueispaused
+  isPaused: Boolean!
+
+  # Timestamp of the last job in "completed" state. Null if no job in completed state yet.
+  lastCompletedAt: Date
+
+  # Timestamp of the last job in "waiting" state. Null if no job in waiting state yet.
+  lastWaitingAt: Date
+}
+
+type QueueJobCountInfo {
+  waiting: Int!
+  active: Int!
+  completed: Int!
+  failed: Int!
+  delayed: Int!
 }
 
 type UserContext {
