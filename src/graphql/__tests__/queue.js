@@ -1,3 +1,15 @@
+jest.mock('src/lib/queues', () => {
+  const Bull = require('bull');
+  return {
+    groupEventQueue: new Bull('test_queue_groupEventQueue', {
+      redis: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
+    }),
+    expiredGroupEventQueue: new Bull('test_queue_expiredGroupEventQueue', {
+      redis: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
+    }),
+  };
+});
+
 import { groupEventQueue, expiredGroupEventQueue } from 'src/lib/queues';
 import { gql } from '../testUtils';
 import MockDate from 'mockdate';
@@ -47,7 +59,7 @@ it('returns info for empty queues', async () => {
             },
             "lastCompletedAt": null,
             "lastWaitingAt": null,
-            "queueName": "groupEventQueue",
+            "queueName": "test_queue_groupEventQueue",
           },
           Object {
             "isPaused": false,
@@ -60,7 +72,7 @@ it('returns info for empty queues', async () => {
             },
             "lastCompletedAt": null,
             "lastWaitingAt": null,
-            "queueName": "expiredGroupEventQueue",
+            "queueName": "test_queue_expiredGroupEventQueue",
           },
         ],
       },
@@ -96,14 +108,14 @@ it('returns waiting job info', async () => {
               "waiting": 1,
             },
             "lastWaitingAt": 1989-06-04T00:00:00.000Z,
-            "queueName": "groupEventQueue",
+            "queueName": "test_queue_groupEventQueue",
           },
           Object {
             "jobCounts": Object {
               "waiting": 1,
             },
             "lastWaitingAt": 1989-06-04T00:00:00.000Z,
-            "queueName": "expiredGroupEventQueue",
+            "queueName": "test_queue_expiredGroupEventQueue",
           },
         ],
       },
