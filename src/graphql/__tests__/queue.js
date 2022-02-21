@@ -7,6 +7,8 @@ beforeEach(async () => {
   await expiredGroupEventQueue.removeJobs('*');
 });
 afterAll(async () => {
+  await groupEventQueue.removeJobs('*');
+  await expiredGroupEventQueue.removeJobs('*');
   await groupEventQueue.close();
   await expiredGroupEventQueue.close();
 });
