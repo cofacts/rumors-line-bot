@@ -4,6 +4,7 @@ jest.mock('../lineClient');
 import { getContext } from '../';
 import { sign } from 'src/lib/jwt';
 import redis from 'src/lib/redisClient';
+import { groupEventQueue, expiredGroupEventQueue } from 'src/lib/queues';
 import { verifyIDToken } from '../lineClient';
 
 beforeEach(() => {
@@ -234,4 +235,12 @@ describe('getContext', () => {
       }
     `);
   });
+});
+
+// As graphql/index actually loads all resolvers, the queue instances are created
+// and should be closed after this test.
+//
+afterAll(async () => {
+  await groupEventQueue.close();
+  await expiredGroupEventQueue.close();
 });

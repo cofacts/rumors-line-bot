@@ -40,7 +40,7 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run i18n:validate
-      - run: npm run test --ignore-scripts -- --coverage --detectOpenHandles
+      - run: npm run test --ignore-scripts -- --coverage
       - name: Update coveralls
         uses: coverallsapp/github-action@master
         with:
