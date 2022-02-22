@@ -1,5 +1,7 @@
 // ./index.js contains imports to redisClient, which should be mocked in unit tests.
 jest.mock('src/lib/redisClient');
+// Avoid loading src/lib/queue, which really connects to redis
+jest.mock('src/lib/queues', () => ({}));
 
 import { graphql } from 'graphql';
 import { schema } from './';

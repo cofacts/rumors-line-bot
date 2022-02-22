@@ -1,10 +1,11 @@
 jest.mock('src/lib/redisClient');
 jest.mock('../lineClient');
+// Avoid loading src/lib/queue, which really connects to redis
+jest.mock('src/lib/queues', () => ({}));
 
 import { getContext } from '../';
 import { sign } from 'src/lib/jwt';
 import redis from 'src/lib/redisClient';
-import { groupEventQueue, expiredGroupEventQueue } from 'src/lib/queues';
 import { verifyIDToken } from '../lineClient';
 
 beforeEach(() => {
@@ -235,12 +236,4 @@ describe('getContext', () => {
       }
     `);
   });
-});
-
-// As graphql/index actually loads all resolvers, the queue instances are created
-// and should be closed after this test.
-//
-afterAll(async () => {
-  await groupEventQueue.close();
-  await expiredGroupEventQueue.close();
 });
