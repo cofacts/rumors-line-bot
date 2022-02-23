@@ -7,6 +7,10 @@ import lineClient from 'src/webhook/lineClient';
 import processGroupEvent from './processGroupEvent';
 import rollbar from 'src/lib/rollbar';
 
+const DEFAULT_JOBQUEUE_CONCURRENCY = isNaN(+process.env.JOBQUEUE_CONCURRENCY)
+  ? 3
+  : +process.env.JOBQUEUE_CONCURRENCY;
+
 export default class {
   /**
    *  expired queue start only when there's no jobs in jobQueue
@@ -19,7 +23,7 @@ export default class {
   constructor(
     jobQueue,
     expiredJobQueue,
-    concurrency = process.env.JOBQUEUE_CONCURRENCY || 3
+    concurrency = DEFAULT_JOBQUEUE_CONCURRENCY
   ) {
     this.expiredJobQueue = expiredJobQueue;
     this.jobQueue = jobQueue;

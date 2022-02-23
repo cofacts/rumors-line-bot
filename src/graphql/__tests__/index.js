@@ -1,5 +1,7 @@
 jest.mock('src/lib/redisClient');
 jest.mock('../lineClient');
+// Avoid loading src/lib/queue, which really connects to redis
+jest.mock('src/lib/queues', () => ({}));
 
 import { getContext } from '../';
 import { sign } from 'src/lib/jwt';

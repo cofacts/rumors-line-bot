@@ -8,10 +8,11 @@ import Koa from 'koa';
 import request from 'supertest';
 import MockDate from 'mockdate';
 
-import webhookRouter, { groupEventQueue, expiredGroupEventQueue } from '../';
+import webhookRouter from '../';
 import UserSettings from '../../database/models/userSettings';
 import Client from '../../database/mongoClient';
 import lineClient from 'src/webhook/lineClient';
+import { groupEventQueue, expiredGroupEventQueue } from 'src/lib/queues';
 import redis from 'src/lib/redisClient';
 import {
   createGreetingMessage,
