@@ -89,11 +89,12 @@ ${LENGHEN_HINT}`
     placeholder={t`Ex: I googled using (some keyword) and found that... / I found different opinion on (some website) saying that...`}
   />
 
-  <Button type="submit" disabled={disabled}>
-    {#if reason.length === 0}
+  <Button
+    type="submit"
+    disabled={disabled}
+  >
+    {#if reason.length > 0}
       {t`Submit`}
-    {:else if vote === 'DOWNVOTE'}
-      {t`Please provide your comment above`}
     {:else}
       {t`Close`}
     {/if}
