@@ -1,0 +1,104 @@
+<script>
+  import { onMount } from 'svelte';
+  import { t, ngettext, msgid } from 'ttag';
+  import ReplyRequestForm from '../components/ReplyRequestForm.svelte';
+  import { gql } from '../lib';
+
+  const params = new URLSearchParams(location.search);
+  const articleId = params.get('articleId');
+
+  let searchedText = null;
+  let processing = false;
+  let reason = '';
+
+  onMount(async () => {
+    // Load searchedText from API
+    const {data, errors} = await gql`
+      query GetCurrentUserRequestInLIFF($articleId: string) {
+        ListReplyRequests({filter: {articleId: $articleId, selfOnly: true}) {
+          edges {
+            node {
+              id
+              reason
+              article {
+                text
+              }
+            }
+          }
+        }
+      }
+    `({articleId});
+
+    if(errors) {
+      alert(errors[0].message);
+      return;
+    }
+
+    if(data.ListReplyRequests.edges.length === 0) {
+      alert('Article not found')
+      return;
+    }
+
+    searchedText = data.ListReplyRequests.edges[0].node.article.text;
+    reason = data.ListReplyRequests.edges[0].node.reason;
+
+    gtag('set', { page_title: gaTitle(searchedText) });
+    gtag('event', 'Comment', {
+      event_category: 'LIFF',
+      event_label: articleId,
+    });
+  });
+
+  const handleSubmit = async (reason) => {
+    processing = true;
+    const {data, errors} = await gql`
+      mutation UpdateReasonInLIFF($articleId: string, $reason: string) {
+        CreateOrUpdateReplyRequest(articleId: $articleId, reason: $reason) {
+          replyRequestCount
+        }
+      }
+    `({articleId});
+    processing = false;
+
+    if(errors) {
+      alert(errors[0].message);
+      return;
+    }
+
+    const otherReplyRequestCount = data.CreateOrUpdateReplyRequest.replyRequestCount - 1;
+    alert(
+      t`Thanks for the info you provided.` + '\n' +
+      ngettext(
+        msgid`There is ${otherReplyRequestCount} user also waiting for clarification.`,
+        `There are ${otherReplyRequestCount} users also waiting for clarification.`,
+        otherReplyRequestCount
+      ),
+    )
+
+    liff.closeWindow();
+  }
+</script>
+
+<svelte:head>
+  <title>{t`Provide more info`}</title>
+</svelte:head>
+
+<style>
+  main {
+    min-height: 100vh;
+    display: flex;
+    flex-flow: column;
+
+    padding: 16px;
+    background: var(--orange1);
+  }
+</style>
+
+<main>
+  <ReplyRequestForm
+    reason={reason}
+    searchedText={searchedText}
+    disabled={processing}
+    on:submit={handleSubmit}
+  />
+</main>
