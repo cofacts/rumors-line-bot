@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { t, ngettext, msgid } from 'ttag';
+  import { gaTitle } from 'src/lib/sharedUtils';
   import ReplyRequestForm from '../components/ReplyRequestForm.svelte';
   import { gql } from '../lib';
 
@@ -14,8 +15,10 @@
   onMount(async () => {
     // Load searchedText from API
     const {data, errors} = await gql`
-      query GetCurrentUserRequestInLIFF($articleId: string) {
-        ListReplyRequests({filter: {articleId: $articleId, selfOnly: true}) {
+      query GetCurrentUserRequestInLIFF($articleId: String) {
+        ListReplyRequests(
+          filter: {articleId: $articleId, selfOnly: true}
+        ) {
           edges {
             node {
               id
@@ -49,15 +52,15 @@
     });
   });
 
-  const handleSubmit = async (reason) => {
+  const handleSubmit = async e => {
     processing = true;
     const {data, errors} = await gql`
-      mutation UpdateReasonInLIFF($articleId: string, $reason: string) {
+      mutation UpdateReasonInLIFF($articleId: String!, $reason: String) {
         CreateOrUpdateReplyRequest(articleId: $articleId, reason: $reason) {
           replyRequestCount
         }
       }
-    `({articleId});
+    `({articleId, reason: (e.detail || '').trim()});
     processing = false;
 
     if(errors) {
