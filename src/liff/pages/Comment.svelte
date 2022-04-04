@@ -8,8 +8,9 @@
   const params = new URLSearchParams(location.search);
   const articleId = params.get('articleId');
 
+  let isLoading = true;
+  let isSubmitting = false;
   let searchedText = null;
-  let processing = false;
   let reason = '';
 
   onMount(async () => {
@@ -32,6 +33,8 @@
       }
     `({articleId});
 
+    isLoading = false;
+
     if(errors) {
       alert(errors[0].message);
       return;
@@ -53,7 +56,7 @@
   });
 
   const handleSubmit = async e => {
-    processing = true;
+    isSubmitting = true;
     const {data, errors} = await gql`
       mutation UpdateReasonInLIFF($articleId: String!, $reason: String) {
         CreateOrUpdateReplyRequest(articleId: $articleId, reason: $reason) {
@@ -61,7 +64,7 @@
         }
       }
     `({articleId, reason: (e.detail || '').trim()});
-    processing = false;
+    isSubmitting = false;
 
     if(errors) {
       alert(errors[0].message);
@@ -101,7 +104,7 @@
   <ReplyRequestForm
     reason={reason}
     searchedText={searchedText}
-    disabled={processing}
+    disabled={isSubmitting || isLoading}
     on:submit={handleSubmit}
   />
 </main>

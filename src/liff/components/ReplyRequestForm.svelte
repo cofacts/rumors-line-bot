@@ -86,6 +86,7 @@ ${LENGHEN_HINT}`
   <TextArea
     name="reason"
     bind:value={reason}
+    disabled={disabled}
     placeholder={t`Ex: I googled using (some keyword) and found that... / I found different opinion on (some website) saying that...`}
   />
 
