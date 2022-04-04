@@ -56,6 +56,7 @@
   });
 
   const handleSubmit = async e => {
+    const reason = (e.detail || '').trim();
     isSubmitting = true;
     const {data, errors} = await gql`
       mutation UpdateReasonInLIFF($articleId: String!, $reason: String) {
@@ -63,11 +64,16 @@
           replyRequestCount
         }
       }
-    `({articleId, reason: (e.detail || '').trim()});
+    `({articleId, reason});
     isSubmitting = false;
 
     if(errors) {
       alert(errors[0].message);
+      return;
+    }
+
+    if(!reason) {
+      liff.closeWindow();
       return;
     }
 
