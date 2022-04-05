@@ -276,7 +276,7 @@ describe('groupMessage', () => {
   });
 
   it('should handle input is not identical to article ', async () => {
-    event.input = '我知道黑啤愛吃蠶寶寶哦！';
+    event.input = '我知道黑啤愛吃兔寶寶哦！';
     gql.__push(apiResult.invalidArticleReply);
     expect((await groupMessage(event)).replies).toBeUndefined();
     expect(gql.__finished()).toBe(true);
@@ -285,7 +285,7 @@ describe('groupMessage', () => {
         Array [
           undefined,
           "__INIT__",
-          "我知道黑啤愛吃蠶寶寶哦！",
+          "我知道黑啤愛吃兔寶寶哦！",
           "group",
         ],
       ]
