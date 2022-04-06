@@ -654,9 +654,8 @@ export function isEventExpired(timestamp, milliseconds = 30 * 1000) {
 export const POSTBACK_NO_ARTICLE_FOUND = '__NO_ARTICLE_FOUND__';
 
 /**
- *
  * @param {string} articleId
- * @returns {object} Flex bubble messasge object
+ * @returns {object} Flex bubble messasge object that opens a Comment LIFF
  */
 export function createCommentBubble(articleId) {
   return {
@@ -711,14 +710,14 @@ export function createCommentBubble(articleId) {
  *
  * This prevents user to "share" Cofacts chatbot's text to Cofacts chatbot itself.
  *
- * @param {string} text
- * @param {Object[] | undefined} contents - Optional contents field for span objects.
+ * @param {Object} textProps - https://developers.line.biz/en/reference/messaging-api/#f-text.
+ *   type & wrap is specified by default.
  * @returns {Object} A single flex bubble message
  */
-export function createTextMessage(text, contents = undefined) {
+export function createTextMessage(textProps) {
   return {
     type: 'flex',
-    altText: text,
+    altText: textProps.text,
     contents: {
       type: 'bubble',
       body: {
@@ -728,8 +727,7 @@ export function createTextMessage(text, contents = undefined) {
           {
             type: 'text',
             wrap: true,
-            text,
-            contents,
+            ...textProps,
           },
         ],
       },

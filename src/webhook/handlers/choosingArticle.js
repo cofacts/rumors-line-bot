@@ -305,12 +305,36 @@ export default async function choosingArticle(params) {
     const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
       userId
     );
-
     replies = [
-      createTextMessage(
-        t`This message is already published at ${articleUrl} , waiting for nice volunteers to fact-check. Don’t trust the message just yet!`
-      ),
-      createTextMessage(t`In the meantime, you may consider:`),
+      {
+        type: 'flex',
+        altText: t`This message is already published at Cofacts, waiting for nice volunteers to fact-check.\nDon’t trust the message just yet!`,
+        contents: {
+          type: 'bubble',
+          body: {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'text',
+                wrap: true,
+                text: t`This message is already published at Cofacts, waiting for nice volunteers to fact-check.
+Don’t trust the message just yet!`,
+              },
+              {
+                type: 'button',
+                action: {
+                  type: 'uri',
+                  label: t`View reported message`,
+                  uri: articleUrl,
+                },
+                margin: 'md',
+              },
+            ],
+          },
+        },
+      },
+      createTextMessage({ text: t`In the meantime, you may consider:` }),
       {
         type: 'flex',
         altText: t`Provide more detail`,
