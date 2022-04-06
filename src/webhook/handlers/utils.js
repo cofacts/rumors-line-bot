@@ -652,3 +652,87 @@ export function isEventExpired(timestamp, milliseconds = 30 * 1000) {
 }
 
 export const POSTBACK_NO_ARTICLE_FOUND = '__NO_ARTICLE_FOUND__';
+
+/**
+ *
+ * @param {string} articleId
+ * @returns {object} Flex bubble messasge object
+ */
+export function createCommentBubble(articleId) {
+  return {
+    type: 'bubble',
+    header: {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          type: 'text',
+          text: t`Provide more detail`,
+          size: 'lg',
+          color: '#00B172',
+        },
+      ],
+      paddingBottom: 'none',
+    },
+    body: {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          type: 'text',
+          text: t`It would help fact checkers a lot if you provide more detail :)`,
+          wrap: true,
+        },
+      ],
+    },
+    footer: {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          type: 'button',
+          action: {
+            type: 'uri',
+            label: t`Provide detail`,
+            uri: `${process.env.LIFF_URL}?p=comment&articleId=${articleId}`,
+          },
+          style: 'primary',
+          color: '#00B172',
+        },
+      ],
+      spacing: 'sm',
+    },
+  };
+}
+
+/**
+ * Creates a single flex bubble message that acts identical to text message, but cannot be copied
+ * nor forwarded by the user.
+ *
+ * This prevents user to "share" Cofacts chatbot's text to Cofacts chatbot itself.
+ *
+ * @param {string} text
+ * @param {Object[] | undefined} contents - Optional contents field for span objects.
+ * @returns {Object} A single flex bubble message
+ */
+export function createTextMessage(text, contents = undefined) {
+  return {
+    type: 'flex',
+    altText: text,
+    contents: {
+      type: 'bubble',
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            wrap: true,
+            text,
+            contents,
+          },
+        ],
+      },
+    },
+  };
+}
