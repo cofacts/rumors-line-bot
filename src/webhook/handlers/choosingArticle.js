@@ -6,7 +6,7 @@ import {
   createFeedbackWords,
   ellipsis,
   ManipulationError,
-  createAskArticleSubmissionConsentReply,
+  createArticleSourceQuickReplyMessage,
   POSTBACK_NO_ARTICLE_FOUND,
   createTextMessage,
   createCommentBubble,
@@ -56,17 +56,19 @@ export default async function choosingArticle(params) {
     });
     visitor.send();
 
+    const inputSummary = ellipsis(data.searchedText, 12);
     return {
       data,
       event,
       userId,
       replies: [
-        {
-          type: 'text',
-          text: t`I see. Don't trust the message just yet!
-            May I have your help?`,
-        },
-        createAskArticleSubmissionConsentReply(userId, data.sessionId),
+        createTextMessage({
+          text:
+            t`I am sorry you cannot find the information “${inputSummary}” you are looking for. But I would still like to help.` +
+            '\n' +
+            t` May I ask you a quick question?`,
+        }),
+        createArticleSourceQuickReplyMessage(data.sessionId),
       ],
     };
   }

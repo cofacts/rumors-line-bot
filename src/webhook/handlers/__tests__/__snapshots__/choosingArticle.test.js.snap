@@ -15,84 +15,62 @@ Object {
   },
   "replies": Array [
     Object {
-      "text": "I see. Don't trust the message just yet!
-May I have your help?",
-      "type": "text",
-    },
-    Object {
-      "altText": "🥇 Be the first to report the message",
+      "altText": "I am sorry you cannot find the information “這一篇文章確實是一個⋯⋯” you are looking for. But I would still like to help.
+ May I ask you a quick question?",
       "contents": Object {
         "body": Object {
           "contents": Array [
             Object {
-              "contents": Array [
-                Object {
-                  "text": "Currently we don't have this message in our database. If you think it is probably a rumor, ",
-                  "type": "span",
-                },
-                Object {
-                  "color": "#ffb600",
-                  "text": "press “🆕 Submit to database” to make this message public on Cofacts database ",
-                  "type": "span",
-                  "weight": "bold",
-                },
-                Object {
-                  "text": "for nice volunteers to fact-check. Although you won't receive answers rightaway, you can help the people who receive the same message in the future.",
-                  "type": "span",
-                },
-              ],
+              "text": "I am sorry you cannot find the information “這一篇文章確實是一個⋯⋯” you are looking for. But I would still like to help.
+ May I ask you a quick question?",
               "type": "text",
               "wrap": true,
             },
           ],
           "layout": "vertical",
-          "paddingAll": "lg",
-          "spacing": "md",
           "type": "box",
-        },
-        "footer": Object {
-          "contents": Array [
-            Object {
-              "action": Object {
-                "label": "🆕 Submit to database",
-                "type": "uri",
-                "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYzc2ZDhhZTljY2QxYWRhNGYwNmM0ZTE1MTVkNDY0NjYiLCJleHAiOjE1Nzc5MjMyMDB9.ZxHN5etvaneWUumNx9bqdBA_6IPmBIQ5sfz7jneJNvI&article_submission=true",
-              },
-              "color": "#ffb600",
-              "style": "primary",
-              "type": "button",
-            },
-          ],
-          "layout": "vertical",
-          "type": "box",
-        },
-        "header": Object {
-          "contents": Array [
-            Object {
-              "flex": 0,
-              "gravity": "center",
-              "text": "🥇",
-              "type": "text",
-            },
-            Object {
-              "color": "#ffb600",
-              "text": "Be the first to report the message",
-              "type": "text",
-              "weight": "bold",
-              "wrap": true,
-            },
-          ],
-          "layout": "horizontal",
-          "paddingAll": "lg",
-          "spacing": "sm",
-          "type": "box",
-        },
-        "styles": Object {
-          "body": Object {
-            "separator": true,
-          },
         },
         "type": "bubble",
+      },
+      "type": "flex",
+    },
+    Object {
+      "altText": "Did you forward this message as a whole to me from the LINE app?",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "Did you forward this message as a whole to me from the LINE app?",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "quickReply": Object {
+        "items": Array [
+          Object {
+            "action": Object {
+              "data": "{\\"input\\":\\"__POSTBACK_IS_FORWARDED__\\",\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+              "displayText": "Yes, I forwarded it as a whole",
+              "label": "Yes, I forwarded it",
+              "type": "postback",
+            },
+            "type": "action",
+          },
+          Object {
+            "action": Object {
+              "data": "{\\"input\\":\\"__POSTBACK_IS_NOT_FORWARDED__\\",\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+              "displayText": "No, typed it myself",
+              "label": "No, typed it myself",
+              "type": "postback",
+            },
+            "type": "action",
+          },
+        ],
       },
       "type": "flex",
     },

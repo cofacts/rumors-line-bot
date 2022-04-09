@@ -726,3 +726,43 @@ export function createTextMessage(textProps) {
     },
   };
 }
+
+export const POSTBACK_IS_FORWARDED = '__POSTBACK_IS_FORWARDED__';
+export const POSTBACK_IS_NOT_FORWARDED = '__POSTBACK_IS_NOT_FORWARDED__';
+
+/**
+ *
+ * @param {string} sessionId - Chatbot session ID
+ * @returns {object} Messaging API message object
+ */
+export function createArticleSourceQuickReplyMessage(sessionId) {
+  return {
+    ...createTextMessage({
+      text: t`Did you forward this message as a whole to me from the LINE app?`,
+    }),
+    quickReply: {
+      items: [
+        {
+          type: 'action',
+          action: createPostbackAction(
+            t`Yes, I forwarded it`,
+            POSTBACK_IS_FORWARDED,
+            t`Yes, I forwarded it as a whole`,
+            sessionId,
+            'ASKING_ARTICLE_SOURCE'
+          ),
+        },
+        {
+          type: 'action',
+          action: createPostbackAction(
+            t`No, typed it myself`,
+            POSTBACK_IS_NOT_FORWARDED,
+            t`No, typed it myself`,
+            sessionId,
+            'ASKING_ARTICLE_SOURCE'
+          ),
+        },
+      ],
+    },
+  };
+}

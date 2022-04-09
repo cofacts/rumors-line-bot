@@ -4,10 +4,11 @@ import gql from 'src/lib/gql';
 import {
   createPostbackAction,
   ellipsis,
-  createAskArticleSubmissionConsentReply,
   createSuggestOtherFactCheckerReply,
   POSTBACK_NO_ARTICLE_FOUND,
   createHighlightContents,
+  createTextMessage,
+  createArticleSourceQuickReplyMessage,
 } from './utils';
 import ga from 'src/lib/ga';
 import detectDialogflowIntent from 'src/lib/detectDialogflowIntent';
@@ -318,13 +319,13 @@ export default async function initState(params) {
       ];
     } else {
       replies = [
-        {
-          type: 'text',
-          text: t`It's good that you don't trust that message just yet. 👍
-
-                  However, I currently don't recognize "${inputSummary}". May I have your help?`,
-        },
-        createAskArticleSubmissionConsentReply(userId, data.sessionId),
+        createTextMessage({
+          text:
+            t`Unfortunately, I currently don’t recognize “${inputSummary}”, but I would still like to help.` +
+            '\n' +
+            t` May I ask you a quick question?`,
+        }),
+        createArticleSourceQuickReplyMessage(data.sessionId),
       ];
     }
   }
