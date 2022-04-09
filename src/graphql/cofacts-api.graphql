@@ -102,6 +102,23 @@ type Query {
     """
     before: String
   ): ListReplyRequestConnection
+  ListBlockedUsers(
+    filter: ListBlockedUsersFilter
+    orderBy: [ListBlockedUsersOrderBy]
+
+    """Returns only first <first> results"""
+    first: Int = 10
+
+    """
+    Specify a cursor, returns results after this cursor. cannot be used with "before".
+    """
+    after: String
+
+    """
+    Specify a cursor, returns results before this cursor. cannot be used with "after".
+    """
+    before: String
+  ): UserConnection!
   ValidateSlug(slug: String!): ValidationResult
 }
 
@@ -119,19 +136,30 @@ type Article implements Node {
   Connections between this article and replies. Sorted by the logic described in https://github.com/cofacts/rumors-line-bot/issues/78.
   """
   articleReplies(
-    """When specified, returns only article replies with the specified status"""
+    """
+    Deprecated. Please use statuses instead. When specified, returns only article replies with the specified status
+    """
     status: ArticleReplyStatusEnum
+
+    """Returns only article replies with the specified statuses"""
+    statuses: [ArticleReplyStatusEnum!] = [NORMAL]
   ): [ArticleReply]
   articleCategories(
     """
-    When specified, returns only article categories with the specified status
+    Deprecated. Please use statuses instead. When specified, returns only article categories with the specified status
     """
     status: ArticleCategoryStatusEnum
+
+    """Returns only article categories with the specified statuses"""
+    statuses: [ArticleCategoryStatusEnum!] = [NORMAL]
   ): [ArticleCategory]
 
   """Number of normal article categories"""
   categoryCount: Int
-  replyRequests: [ReplyRequest]
+  replyRequests(
+    """Returns only article replies with the specified statuses"""
+    statuses: [ReplyRequestStatusEnum!] = [NORMAL]
+  ): [ReplyRequest]
   replyRequestCount: Int
   lastRequestedAt: String
 
@@ -204,11 +232,16 @@ type ArticleReply {
 
   """The user who conencted this reply and this article."""
   user: User
+  userId: String!
+  appId: String!
   canUpdateStatus: Boolean
   feedbackCount: Int
   positiveFeedbackCount: Int
   negativeFeedbackCount: Int
-  feedbacks: [ArticleReplyFeedback]
+  feedbacks(
+    """Returns only aricle reply feedbacks with the specified statuses"""
+    statuses: [ArticleReplyFeedbackStatusEnum!] = [NORMAL]
+  ): [ArticleReplyFeedback]
 
   """
   The feedback of current user. null when not logged in or not voted yet.
@@ -229,10 +262,11 @@ type Reply implements Node {
   type: ReplyTypeEnum
   reference: String
   articleReplies(
-    """
-    When specified, returns only reply connections with the specified status
-    """
+    """Deprecated. Please use statuses instead."""
     status: ArticleReplyStatusEnum
+
+    """Returns only article replies with the specified statuses"""
+    statuses: [ArticleReplyStatusEnum!] = [NORMAL]
   ): [ArticleReply]
 
   """
@@ -259,8 +293,8 @@ type Reply implements Node {
   ): ReplyConnection
 }
 
-type User {
-  id: String
+type User implements Node {
+  id: ID!
   slug: String
 
   """Returns only for current user. Returns `null` otherwise."""
@@ -309,6 +343,9 @@ type User {
     """List only the contributions between the specific time range."""
     dateRange: TimeRangeInput
   ): [Contribution]
+
+  """If not null, the user is blocked with the announcement in this string."""
+  blockedReason: String
 }
 
 enum AvatarTypeEnum {
@@ -368,6 +405,9 @@ enum ReplyTypeEnum {
 enum ArticleReplyStatusEnum {
   NORMAL
   DELETED
+
+  """Created by a blocked user violating terms of use."""
+  BLOCKED
 }
 
 """Data behind a hyperlink"""
@@ -467,6 +507,7 @@ type ArticleReplyFeedback implements Node {
   comment: String
   createdAt: String
   updatedAt: String
+  status: ArticleReplyFeedbackStatusEnum!
 
   """User's vote on the articleReply"""
   vote: FeedbackVote
@@ -486,6 +527,13 @@ type ArticleReplyFeedback implements Node {
   articleReply: ArticleReply
 }
 
+enum ArticleReplyFeedbackStatusEnum {
+  NORMAL
+
+  """Created by a blocked user violating terms of use."""
+  BLOCKED
+}
+
 enum FeedbackVote {
   UPVOTE
   NEUTRAL
@@ -502,6 +550,8 @@ type ArticleCategory implements Node {
 
   """The user who updated this category with this article."""
   user: User
+  userId: String!
+  appId: String!
   canUpdateStatus: Boolean
   feedbackCount: Int
   positiveFeedbackCount: Int
@@ -572,6 +622,9 @@ type ArticleCategoryConnectionPageInfo implements PageInfo {
 enum ArticleCategoryStatusEnum {
   NORMAL
   DELETED
+
+  """Created by a blocked user violating terms of use."""
+  BLOCKED
 }
 
 """
@@ -595,6 +648,7 @@ type ArticleCategoryFeedback {
 
 type ReplyRequest implements Node {
   id: ID!
+  articleId: ID!
   userId: String
   appId: String
 
@@ -611,6 +665,15 @@ type ReplyRequest implements Node {
   The feedback of current user. null when not logged in or not voted yet.
   """
   ownVote: FeedbackVote
+  article: Article!
+  status: ReplyRequestStatusEnum!
+}
+
+enum ReplyRequestStatusEnum {
+  NORMAL
+
+  """Created by a blocked user violating terms of use."""
+  BLOCKED
 }
 
 type ArticleConnection implements Connection {
@@ -664,6 +727,23 @@ type Analytics {
 }
 
 input ListArticleFilter {
+  """Show only articles created by a specific app."""
+  appId: String
+
+  """Show only articles created by the specific user."""
+  userId: String
+
+  """
+  List only the articles that were created between the specific time range.
+  """
+  createdAt: TimeRangeInput
+
+  """If given, only list out articles with specific IDs"""
+  ids: [ID!]
+
+  """Only list the articles created by the currently logged in user"""
+  selfOnly: Boolean
+
   """List only the articles whose number of replies matches the criteria."""
   replyCount: RangeInput
 
@@ -682,26 +762,12 @@ input ListArticleFilter {
   replyRequestCount: RangeInput
 
   """
-  List only the articles that were created between the specific time range.
-  """
-  createdAt: TimeRangeInput
-
-  """
   List only the articles that were replied between the specific time range.
   """
   repliedAt: TimeRangeInput
 
-  """Show only articles from a specific user."""
-  appId: String
-
-  """Show only articles from a specific user."""
-  userId: String
-
   """
-  
-              Specify an articleId here to show only articles from the sender of that specified article.
-              When specified, it overrides the settings of appId and userId.
-            
+  Specify an articleId here to show only articles from the sender of that specified article.
   """
   fromUserOfArticleId: String
 
@@ -762,23 +828,29 @@ input ListArticleOrderBy {
 }
 
 input ListReplyFilter {
-  userId: String
+  """Show only replies created by a specific app."""
   appId: String
-  moreLikeThis: MoreLikeThisInput
 
-  """List the replies created by the requester themselves"""
+  """Show only replies created by the specific user."""
+  userId: String
+
+  """
+  List only the replies that were created between the specific time range.
+  """
+  createdAt: TimeRangeInput
+
+  """If given, only list out replies with specific IDs"""
+  ids: [ID!]
+
+  """Only list the replies created by the currently logged in user"""
   selfOnly: Boolean
+  moreLikeThis: MoreLikeThisInput
 
   """[Deprecated] use types instead."""
   type: ReplyTypeEnum
 
   """List the replies of certain types"""
   types: [ReplyTypeEnum]
-
-  """
-  List only the replies that were created between the specific time range.
-  """
-  createdAt: TimeRangeInput
 }
 
 """
@@ -839,8 +911,24 @@ type ListArticleReplyFeedbackConnectionPageInfo implements PageInfo {
 }
 
 input ListArticleReplyFeedbackFilter {
-  userId: String
+  """Show only article reply feedbacks created by a specific app."""
   appId: String
+
+  """Show only article reply feedbacks created by the specific user."""
+  userId: String
+
+  """
+  List only the article reply feedbacks that were created between the specific time range.
+  """
+  createdAt: TimeRangeInput
+
+  """If given, only list out article reply feedbacks with specific IDs"""
+  ids: [ID!]
+
+  """
+  Only list the article reply feedbacks created by the currently logged in user
+  """
+  selfOnly: Boolean
   articleId: String
   replyId: String
 
@@ -851,14 +939,12 @@ input ListArticleReplyFeedbackFilter {
   vote: [FeedbackVote]
 
   """
-  List only the article reply feedbacks that were created within the specific time range.
-  """
-  createdAt: TimeRangeInput
-
-  """
   List only the article reply feedbacks that were last updated within the specific time range.
   """
   updatedAt: TimeRangeInput
+
+  """List only the article reply feedbacks with the selected statuses"""
+  statuses: [ArticleReplyFeedbackStatusEnum!] = [NORMAL]
 }
 
 """
@@ -895,10 +981,26 @@ type ListReplyRequestConnectionPageInfo implements PageInfo {
 }
 
 input ListReplyRequestFilter {
-  userId: String
+  """Show only reply requests created by a specific app."""
   appId: String
-  articleId: String
+
+  """Show only reply requests created by the specific user."""
+  userId: String
+
+  """
+  List only the reply requests that were created between the specific time range.
+  """
   createdAt: TimeRangeInput
+
+  """If given, only list out reply requests with specific IDs"""
+  ids: [ID!]
+
+  """Only list the reply requests created by the currently logged in user"""
+  selfOnly: Boolean
+  articleId: String
+
+  """List only reply requests with specified statuses"""
+  statuses: [ReplyRequestStatusEnum!] = [NORMAL]
 }
 
 """
@@ -907,6 +1009,41 @@ An entry of orderBy argument. Specifies field name and the sort order. Only one 
 input ListReplyRequestOrderBy {
   createdAt: SortOrderEnum
   vote: SortOrderEnum
+}
+
+type UserConnection implements Connection {
+  """
+  The total count of the entire collection, regardless of "before", "after".
+  """
+  totalCount: Int!
+  edges: [UserConnectionEdge!]!
+  pageInfo: UserConnectionPageInfo!
+}
+
+type UserConnectionEdge implements Edge {
+  node: User!
+  cursor: String!
+  score: Float
+  highlight: Highlights
+}
+
+type UserConnectionPageInfo implements PageInfo {
+  lastCursor: String
+  firstCursor: String
+}
+
+input ListBlockedUsersFilter {
+  """
+  List only the blocked users that were registered between the specific time range.
+  """
+  createdAt: TimeRangeInput
+}
+
+"""
+An entry of orderBy argument. Specifies field name and the sort order. Only one field name is allowd per entry.
+"""
+input ListBlockedUsersOrderBy {
+  createdAt: SortOrderEnum
 }
 
 type ValidationResult {

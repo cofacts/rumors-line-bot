@@ -5,6 +5,7 @@
   import Articles from './pages/Articles.svelte';
   import Source from './pages/Source.svelte';
   import Reason from './pages/Reason.svelte';
+  import Comment from './pages/Comment.svelte';
   import UserSetting from './pages/UserSetting.svelte';
   import PositiveFeedback from './pages/PositiveFeedback.svelte';
   import NegativeFeedback from './pages/NegativeFeedback.svelte';
@@ -13,10 +14,12 @@
     article: Article,
     articles: Articles,
     source: Source,
-    reason: Reason,
     'feedback/yes': PositiveFeedback,
     'feedback/no': NegativeFeedback,
     setting: UserSetting,
+    comment: Comment,
+    // Legacy reply request form
+    reason: Reason,
   };
 
   // Send pageview with correct path on each page change.
