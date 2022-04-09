@@ -259,6 +259,7 @@ msgstr "${ countOfType.NOT_ARTICLE } 人認為它 ⚠️️ 不在 Cofacts 的�
 msgid "I choose “${ displayTextWhenChosen }”"
 msgstr "我要選「${displayTextWhenChosen}」"
 
+#: src/liff/pages/Comment.svelte:93
 #: src/liff/pages/Reason.svelte:79
 #: src/liff/pages/Source.svelte:33
 #: src/webhook/handlers/choosingArticle.js:302
@@ -276,10 +277,12 @@ msgstr "出了一些問題，導致現在無法取得訊息與回應。請再傳
 msgid "Something went wrong when recording your reason, please try again later."
 msgstr "出了一些問題，導致我們無法記錄您提供的理由。請稍後再試。"
 
+#: src/liff/pages/Comment.svelte:82
 #: src/webhook/handlers/askingReplyRequestReason.js:130
 msgid "Thanks for the info you provided."
 msgstr "感謝您所提供的資訊。"
 
+#: src/liff/pages/Comment.svelte:83
 #: src/webhook/handlers/askingReplyRequestReason.js:162
 #, javascript-format
 msgid "There is ${ otherReplyRequestCount } user also waiting for clarification."
@@ -384,6 +387,7 @@ msgid "Sorry, the function is not applicable on desktop."
 msgstr "不好意思，在桌面環境無法使用這個功能。"
 
 #: src/liff/components/FeedbackForm.svelte:38
+#: src/liff/components/ReplyRequestForm.svelte:55
 #: src/liff/pages/Reason.svelte:86
 msgid "Submit"
 msgstr "送出"
@@ -392,6 +396,7 @@ msgstr "送出"
 msgid "Do you have anything to add about the reply?"
 msgstr "針對這則回應，有沒有想補充的呢？"
 
+#: src/liff/components/ReplyRequestForm.svelte:14
 #: src/liff/pages/Reason.svelte:10
 #. t: Guidance in LIFF
 msgid ""
@@ -405,6 +410,7 @@ msgstr ""
 "2. 去 google 查查看\n"
 "3. 把全文複製貼上到 Facebook 搜尋框看看"
 
+#: src/liff/components/ReplyRequestForm.svelte:20
 #: src/liff/pages/Reason.svelte:16
 #. t: Guidance in LIFF
 #, javascript-format
@@ -423,6 +429,7 @@ msgstr ""
 "\n"
 "若要補充資訊，請按「取消」；覺得現在這樣送出就好，請按「確定」。"
 
+#: src/liff/components/ReplyRequestForm.svelte:27
 #: src/liff/pages/Reason.svelte:23
 #. t: Guidance in LIFF
 msgid ""
@@ -434,14 +441,17 @@ msgstr ""
 "\n"
 "${ LENGHEN_HINT }"
 
+#: src/liff/components/ReplyRequestForm.svelte:50
 #: src/liff/pages/Reason.svelte:80
 msgid "To help with fact-checking, please tell the editors:"
 msgstr "為了協助查證，請告訴闢謠志工："
 
+#: src/liff/components/ReplyRequestForm.svelte:51
 #: src/liff/pages/Reason.svelte:81
 msgid "Why do you think this is a hoax?"
 msgstr "為何您覺得這是謠言？"
 
+#: src/liff/components/ReplyRequestForm.svelte:53
 #: src/liff/pages/Reason.svelte:83
 msgid ""
 "Ex: I googled using (some keyword) and found that... / I found different "
@@ -815,6 +825,7 @@ msgid "Please provide your comment above"
 msgstr "請在上面輸入寶貴建議"
 
 #: src/liff/components/FeedbackForm.svelte:40
+#: src/liff/components/ReplyRequestForm.svelte:56
 msgid "Close"
 msgstr "關閉"
 
@@ -953,28 +964,28 @@ msgstr "查看其他查核回應"
 msgid "Open in Cofacts"
 msgstr "在「真的假的」開啟"
 
-#: src/liff/Redirect.svelte:23
+#: src/liff/Redirect.svelte:25
 msgid "Proceed"
 msgstr "繼續前往"
 
-#: src/liff/Redirect.svelte:25
+#: src/liff/Redirect.svelte:27
 msgid "Let's check the message, together!"
 msgstr "一起來查真假吧！"
 
-#: src/liff/Redirect.svelte:26
+#: src/liff/Redirect.svelte:28
 msgid ""
 "You are going to proceed to Cofacts to read the reply for you written by "
 "fact-check volunteers."
 msgstr "您即將前往 Cofacts 真的假的，閱讀闢謠志工為您撰寫的回應。"
 
-#: src/liff/Redirect.svelte:27
+#: src/liff/Redirect.svelte:29
 msgid ""
 "If the reply and the reference is helpful to you, please provide positive "
 "feedback. If existing replies can be improved, please login the website and "
 "provide new fact-check replies."
 msgstr "如果回應與出處對您有幫助，請您不吝給予好評；若有更好的寫法，也請登入動手查核、直接寫新回應。"
 
-#: src/liff/Redirect.svelte:28
+#: src/liff/Redirect.svelte:30
 msgid "Proceed to read the reply"
 msgstr "前往閱讀查核回應"
 
