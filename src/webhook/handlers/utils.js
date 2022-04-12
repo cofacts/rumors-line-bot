@@ -652,3 +652,85 @@ export function isEventExpired(timestamp, milliseconds = 30 * 1000) {
 }
 
 export const POSTBACK_NO_ARTICLE_FOUND = '__NO_ARTICLE_FOUND__';
+
+/**
+ * @param {string} articleId
+ * @returns {object} Flex bubble messasge object that opens a Comment LIFF
+ */
+export function createCommentBubble(articleId) {
+  return {
+    type: 'bubble',
+    header: {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          type: 'text',
+          text: t`Provide more detail`,
+          size: 'lg',
+          color: '#00B172',
+        },
+      ],
+      paddingBottom: 'none',
+    },
+    body: {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          type: 'text',
+          text: t`It would help fact checkers a lot if you provide more detail :)`,
+          wrap: true,
+        },
+      ],
+    },
+    footer: {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          type: 'button',
+          action: {
+            type: 'uri',
+            label: t`Provide detail`,
+            uri: `${process.env.LIFF_URL}?p=comment&articleId=${articleId}`,
+          },
+          style: 'primary',
+          color: '#00B172',
+        },
+      ],
+      spacing: 'sm',
+    },
+  };
+}
+
+/**
+ * Creates a single flex bubble message that acts identical to text message, but cannot be copied
+ * nor forwarded by the user.
+ *
+ * This prevents user to "share" Cofacts chatbot's text to Cofacts chatbot itself.
+ *
+ * @param {Object} textProps - https://developers.line.biz/en/reference/messaging-api/#f-text.
+ *   type & wrap is specified by default.
+ * @returns {Object} A single flex bubble message
+ */
+export function createTextMessage(textProps) {
+  return {
+    type: 'flex',
+    altText: textProps.text,
+    contents: {
+      type: 'bubble',
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            wrap: true,
+            ...textProps,
+          },
+        ],
+      },
+    },
+  };
+}

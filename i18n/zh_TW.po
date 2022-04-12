@@ -50,19 +50,19 @@ msgstr "出處"
 msgid "This reply has no ${ prompt } and it may be biased"
 msgstr "此回應沒有${prompt}，請自行斟酌回應之可信度。"
 
-#: src/webhook/handlers/choosingArticle.js:151
+#: src/webhook/handlers/choosingArticle.js:154
 msgid "Volunteer editors have published several replies to this message."
 msgstr "真的假的查證志工對這則訊息發表了多則看法唷！"
 
-#: src/webhook/handlers/choosingArticle.js:273
+#: src/webhook/handlers/choosingArticle.js:276
 msgid "Let's pick one"
 msgstr "選一則來閱讀吧"
 
-#: src/webhook/handlers/choosingArticle.js:252
+#: src/webhook/handlers/choosingArticle.js:255
 msgid "Take a look"
 msgstr "看他怎麼說"
 
-#: src/webhook/handlers/choosingArticle.js:289
+#: src/webhook/handlers/choosingArticle.js:292
 #, javascript-format
 msgid "Visit ${ articleUrl } for more replies."
 msgstr "更多回應請到：${ articleUrl }"
@@ -132,11 +132,11 @@ msgstr "回報此訊息"
 msgid "Please choose the most similar message from the list."
 msgstr "請從下列選擇您要查的訊息。"
 
-#: src/webhook/handlers/choosingArticle.js:277
+#: src/webhook/handlers/choosingArticle.js:280
 msgid "Please take a look at the following replies."
 msgstr "請從下列選擇您要查看的回應。"
 
-#: src/webhook/handlers/choosingArticle.js:198
+#: src/webhook/handlers/choosingArticle.js:201
 #, javascript-format
 msgid "Someone thinks it ${ typeWords }"
 msgstr "有人認為它${typeWords}"
@@ -228,32 +228,32 @@ msgstr "查看回報的訊息"
 msgid "We've received feedback from you and ${ _otherFeedbackCount } other users!"
 msgstr "感謝您與其他 ${_otherFeedbackCount} 人的評價。"
 
-#: src/webhook/handlers/choosingArticle.js:43
+#: src/webhook/handlers/choosingArticle.js:46
 #: src/webhook/handlers/choosingReply.js:86
 msgid "Please choose from provided options."
 msgstr "請從上面的選項中做選擇。"
 
-#: src/webhook/handlers/choosingArticle.js:155
+#: src/webhook/handlers/choosingArticle.js:158
 #, javascript-format
 msgid "${ countOfType.RUMOR } of them say it ❌ contains misinformation."
 msgstr "${ countOfType.RUMOR } 人認為它 ❌ 含有不實訊息。"
 
-#: src/webhook/handlers/choosingArticle.js:158
+#: src/webhook/handlers/choosingArticle.js:161
 msgid "${ countOfType.NOT_RUMOR } of them says it ⭕ contains true information."
 msgstr "${ countOfType.NOT_RUMOR } 人認為它 ⭕ 含有真實訊息。"
 
-#: src/webhook/handlers/choosingArticle.js:163
+#: src/webhook/handlers/choosingArticle.js:166
 #, javascript-format
 msgid ""
 "${ countOfType.OPINIONATED } of them says it 💬 contains personal "
 "perspective."
 msgstr "${ countOfType.OPINIONATED } 人認為它 💬 含有個人意見。"
 
-#: src/webhook/handlers/choosingArticle.js:168
+#: src/webhook/handlers/choosingArticle.js:171
 msgid "${ countOfType.NOT_ARTICLE } of them says it ⚠️️ is out of scope of Cofacts."
 msgstr "${ countOfType.NOT_ARTICLE } 人認為它 ⚠️️ 不在 Cofacts 的查證範圍。"
 
-#: src/webhook/handlers/choosingArticle.js:254
+#: src/webhook/handlers/choosingArticle.js:257
 #: src/webhook/handlers/initState.js:203
 #, javascript-format
 msgid "I choose “${ displayTextWhenChosen }”"
@@ -262,7 +262,6 @@ msgstr "我要選「${displayTextWhenChosen}」"
 #: src/liff/pages/Comment.svelte:93
 #: src/liff/pages/Reason.svelte:79
 #: src/liff/pages/Source.svelte:33
-#: src/webhook/handlers/choosingArticle.js:302
 #: src/webhook/handlers/utils.js:463
 msgid "Provide more info"
 msgstr "提供更多資訊"
@@ -778,7 +777,7 @@ msgstr "Hi 我是「Cofacts 真的假的」訊息查證機器人～"
 msgid "Thank you for sharing “${ inputSummary }”"
 msgstr "感謝您的分享 “${ inputSummary }”"
 
-#: src/webhook/handlers/choosingArticle.js:62
+#: src/webhook/handlers/choosingArticle.js:65
 msgid ""
 "I see. Don't trust the message just yet!\n"
 "May I have your help?"
@@ -786,19 +785,9 @@ msgstr ""
 "這樣呀。請先不要相信這個訊息唷！\n"
 "可以請你幫我一個忙嗎？"
 
-#: src/webhook/handlers/choosingArticle.js:104
+#: src/webhook/handlers/choosingArticle.js:107
 msgid "Provided message is not found."
-msgstr ""
-
-#: src/webhook/handlers/choosingArticle.js:306
-msgid ""
-"I would suggest don't trust this message just yet. To help Cofacts editors "
-"checking the message, please "
-msgstr "先不要相信這個訊息唷，它可能是假的。如果要請闢謠志工查證，請"
-
-#: src/webhook/handlers/choosingArticle.js:310
-msgid "provide more information using the button below. "
-msgstr "點下面的按鈕，提供你找到的情報。"
+msgstr "找不到此訊息。"
 
 #: src/webhook/handlers/initState.js:323
 #, javascript-format
@@ -996,3 +985,32 @@ msgstr "此訊息不存在。"
 #: src/liff/pages/Article.svelte:130
 msgid "The reply does not exist. Maybe it has been deleted by its author."
 msgstr "此回應不存在。或許已經被作者刪掉囉。"
+
+#: src/webhook/handlers/choosingArticle.js:311
+#: src/webhook/handlers/choosingArticle.js:321
+msgid ""
+"This message is already published at Cofacts, waiting for nice volunteers "
+"to fact-check.\n"
+"Don’t trust the message just yet!"
+msgstr " 此訊息已經被收錄至 Cofacts 真的假的，有待好心人來查證。請先不要相信這個訊息唷！"
+
+#: src/webhook/handlers/choosingArticle.js:328
+msgid "View reported message"
+msgstr "檢視回報訊息"
+
+#: src/webhook/handlers/choosingArticle.js:337
+msgid "In the meantime, you may consider:"
+msgstr "接下來您可以："
+
+#: src/webhook/handlers/choosingArticle.js:340
+#: src/webhook/handlers/utils.js:669
+msgid "Provide more detail"
+msgstr "提供更多情報"
+
+#: src/webhook/handlers/utils.js:682
+msgid "It would help fact checkers a lot if you provide more detail :)"
+msgstr "您可以提供更多關於此訊息的情報給查證志工，讓好心人更容易查真假唷！"
+
+#: src/webhook/handlers/utils.js:695
+msgid "Provide detail"
+msgstr "提供更多情報"

@@ -8,10 +8,14 @@ import {
   ManipulationError,
   createAskArticleSubmissionConsentReply,
   POSTBACK_NO_ARTICLE_FOUND,
-  FLEX_MESSAGE_ALT_TEXT,
-  getLIFFURL,
+  createTextMessage,
+  createCommentBubble,
+  createNotificationSettingsBubble,
+  createArticleShareBubble,
 } from './utils';
 import ga from 'src/lib/ga';
+import choosingReply from './choosingReply';
+import UserSettings from 'src/database/models/userSettings';
 
 import UserArticleLink from '../../database/models/userArticleLink';
 
@@ -37,7 +41,7 @@ function reorderArticleReplies(articleReplies) {
 // https://developers.line.me/en/docs/messaging-api/reference/#template-messages
 
 export default async function choosingArticle(params) {
-  let { data, state, event, userId, replies, isSkipUser } = params;
+  let { data, state, event, userId, replies } = params;
 
   if (event.type !== 'postback') {
     throw new ManipulationError(t`Please choose from provided options.`);
@@ -64,7 +68,6 @@ export default async function choosingArticle(params) {
         },
         createAskArticleSubmissionConsentReply(userId, data.sessionId),
       ],
-      isSkipUser,
     };
   }
 
@@ -120,8 +123,8 @@ export default async function choosingArticle(params) {
   if (articleReplies.length === 1) {
     visitor.send();
 
-    // choose for user
-    return {
+    // choose reply for user
+    return choosingReply({
       data,
       event: {
         type: 'postback',
@@ -129,11 +132,8 @@ export default async function choosingArticle(params) {
       },
       userId,
       replies,
-      // override state to 'CHOOSING_REPLY'
       state: 'CHOOSING_REPLY',
-      // handleInput again
-      isSkipUser: true,
-    };
+    });
   }
 
   if (articleReplies.length !== 0) {
@@ -298,61 +298,56 @@ export default async function choosingArticle(params) {
       ea: 'NoReply',
       el: selectedArticleId,
     });
-
-    const btnText = `ℹ️ ${t`Provide more info`}`;
-    const spans = [
-      {
-        type: 'span',
-        text: t`I would suggest don't trust this message just yet. To help Cofacts editors checking the message, please `,
-      },
-      {
-        type: 'span',
-        text: t`provide more information using the button below. `,
-        color: '#ffb600',
-        weight: 'bold',
-      },
-    ];
-
+    const articleUrl = getArticleURL(selectedArticleId);
+    const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
+      userId
+    );
     replies = [
       {
         type: 'flex',
-        altText: FLEX_MESSAGE_ALT_TEXT,
+        altText: t`This message is already published at Cofacts, waiting for nice volunteers to fact-check.\nDon’t trust the message just yet!`,
         contents: {
           type: 'bubble',
           body: {
             type: 'box',
             layout: 'vertical',
-            spacing: 'md',
-            paddingAll: 'lg',
             contents: [
               {
                 type: 'text',
                 wrap: true,
-                contents: spans,
+                text: t`This message is already published at Cofacts, waiting for nice volunteers to fact-check.
+Don’t trust the message just yet!`,
               },
-            ],
-          },
-          footer: {
-            type: 'box',
-            layout: 'vertical',
-            contents: [
               {
                 type: 'button',
-                style: 'primary',
-                color: '#ffb600',
                 action: {
                   type: 'uri',
-                  label: btnText,
-                  uri: getLIFFURL('source', userId, data.sessionId),
+                  label: t`View reported message`,
+                  uri: articleUrl,
                 },
+                margin: 'md',
               },
             ],
           },
-          styles: {
-            body: {
-              separator: true,
-            },
-          },
+        },
+      },
+      createTextMessage({ text: t`In the meantime, you may consider:` }),
+      {
+        type: 'flex',
+        altText: t`Provide more detail`,
+        contents: {
+          type: 'carousel',
+          contents: [
+            createCommentBubble(selectedArticleId),
+
+            // Ask user to turn on notification if the user did not turn it on
+            //
+            process.env.NOTIFY_METHOD &&
+              !allowNewReplyUpdate &&
+              createNotificationSettingsBubble(),
+
+            createArticleShareBubble(articleUrl),
+          ].filter(m => m),
         },
       },
     ];
@@ -369,5 +364,5 @@ export default async function choosingArticle(params) {
 
   visitor.send();
 
-  return { data, event, userId, replies, isSkipUser };
+  return { data, event, userId, replies };
 }

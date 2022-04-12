@@ -13,7 +13,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "postback",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "text": "I see. Don't trust the message just yet!
@@ -130,7 +129,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "postback",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "text": "👨‍👩‍👧‍👦  Volunteer editors have published several replies to this message.
@@ -487,7 +485,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "postback",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "text": "👨‍👩‍👧‍👦  Volunteer editors have published several replies to this message.
@@ -1327,7 +1324,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "postback",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "text": "👨‍👩‍👧‍👦  Volunteer editors have published several replies to this message.
@@ -1511,24 +1507,6 @@ Object {
 }
 `;
 
-exports[`should select article with just one reply 1`] = `
-Object {
-  "data": Object {
-    "searchedText": "Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply",
-    "selectedArticleId": "article-id",
-    "selectedArticleText": "Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply ",
-  },
-  "event": Object {
-    "input": "AV--O3nfyCdS-nWhujMD",
-    "type": "postback",
-  },
-  "isSkipUser": true,
-  "replies": undefined,
-  "state": "CHOOSING_REPLY",
-  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
-}
-`;
-
 exports[`should select article with no replies 1`] = `
 Object {
   "data": Object {
@@ -1544,57 +1522,144 @@ Object {
     "timestamp": 1519019734813,
     "type": "postback",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
-      "altText": "📱 Please proceed on your mobile phone.",
+      "altText": "This message is already published at Cofacts, waiting for nice volunteers to fact-check.\\\\nDon’t trust the message just yet!",
       "contents": Object {
         "body": Object {
           "contents": Array [
             Object {
-              "contents": Array [
-                Object {
-                  "text": "I would suggest don't trust this message just yet. To help Cofacts editors checking the message, please ",
-                  "type": "span",
-                },
-                Object {
-                  "color": "#ffb600",
-                  "text": "provide more information using the button below. ",
-                  "type": "span",
-                  "weight": "bold",
-                },
-              ],
+              "text": "This message is already published at Cofacts, waiting for nice volunteers to fact-check.
+Don’t trust the message just yet!",
               "type": "text",
               "wrap": true,
             },
-          ],
-          "layout": "vertical",
-          "paddingAll": "lg",
-          "spacing": "md",
-          "type": "box",
-        },
-        "footer": Object {
-          "contents": Array [
             Object {
               "action": Object {
-                "label": "ℹ️ Provide more info",
+                "label": "View reported message",
                 "type": "uri",
-                "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYzc2ZDhhZTljY2QxYWRhNGYwNmM0ZTE1MTVkNDY0NjYiLCJleHAiOjE1Nzc5MjMyMDB9.ZxHN5etvaneWUumNx9bqdBA_6IPmBIQ5sfz7jneJNvI",
+                "uri": "https://dev.cofacts.tw/article/article-id",
               },
-              "color": "#ffb600",
-              "style": "primary",
+              "margin": "md",
               "type": "button",
             },
           ],
           "layout": "vertical",
           "type": "box",
         },
-        "styles": Object {
-          "body": Object {
-            "separator": true,
-          },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+    Object {
+      "altText": "In the meantime, you may consider:",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "In the meantime, you may consider:",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
         },
         "type": "bubble",
+      },
+      "type": "flex",
+    },
+    Object {
+      "altText": "Provide more detail",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "It would help fact checkers a lot if you provide more detail :)",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "Provide detail",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=comment&articleId=article-id",
+                  },
+                  "color": "#00B172",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "color": "#00B172",
+                  "size": "lg",
+                  "text": "Provide more detail",
+                  "type": "text",
+                },
+              ],
+              "layout": "vertical",
+              "paddingBottom": "none",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "Share on LINE",
+                    "type": "uri",
+                    "uri": "line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fdev.cofacts.tw%2Farticle%2Farticle-id",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "Share on Facebook",
+                    "type": "uri",
+                    "uri": "https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fdev.cofacts.tw%2Farticle%2Farticle-id",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
       },
       "type": "flex",
     },
