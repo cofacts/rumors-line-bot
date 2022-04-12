@@ -14,6 +14,7 @@ import {
   createArticleShareBubble,
 } from './utils';
 import ga from 'src/lib/ga';
+import choosingReply from './choosingReply';
 import UserSettings from 'src/database/models/userSettings';
 
 import UserArticleLink from '../../database/models/userArticleLink';
@@ -40,7 +41,7 @@ function reorderArticleReplies(articleReplies) {
 // https://developers.line.me/en/docs/messaging-api/reference/#template-messages
 
 export default async function choosingArticle(params) {
-  let { data, state, event, userId, replies, isSkipUser } = params;
+  let { data, state, event, userId, replies } = params;
 
   if (event.type !== 'postback') {
     throw new ManipulationError(t`Please choose from provided options.`);
@@ -67,7 +68,6 @@ export default async function choosingArticle(params) {
         },
         createAskArticleSubmissionConsentReply(userId, data.sessionId),
       ],
-      isSkipUser,
     };
   }
 
@@ -123,8 +123,8 @@ export default async function choosingArticle(params) {
   if (articleReplies.length === 1) {
     visitor.send();
 
-    // choose for user
-    return {
+    // choose reply for user
+    return choosingReply({
       data,
       event: {
         type: 'postback',
@@ -132,11 +132,8 @@ export default async function choosingArticle(params) {
       },
       userId,
       replies,
-      // override state to 'CHOOSING_REPLY'
       state: 'CHOOSING_REPLY',
-      // handleInput again
-      isSkipUser: true,
-    };
+    });
   }
 
   if (articleReplies.length !== 0) {
@@ -367,5 +364,5 @@ Don’t trust the message just yet!`,
 
   visitor.send();
 
-  return { data, event, userId, replies, isSkipUser };
+  return { data, event, userId, replies };
 }

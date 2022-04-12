@@ -13,7 +13,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "postback",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "text": "I see. Don't trust the message just yet!
@@ -130,7 +129,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "postback",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "text": "👨‍👩‍👧‍👦  Volunteer editors have published several replies to this message.
@@ -487,7 +485,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "postback",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "text": "👨‍👩‍👧‍👦  Volunteer editors have published several replies to this message.
@@ -1327,7 +1324,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "postback",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "text": "👨‍👩‍👧‍👦  Volunteer editors have published several replies to this message.
@@ -1511,24 +1507,6 @@ Object {
 }
 `;
 
-exports[`should select article with just one reply 1`] = `
-Object {
-  "data": Object {
-    "searchedText": "Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply",
-    "selectedArticleId": "article-id",
-    "selectedArticleText": "Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply ",
-  },
-  "event": Object {
-    "input": "AV--O3nfyCdS-nWhujMD",
-    "type": "postback",
-  },
-  "isSkipUser": true,
-  "replies": undefined,
-  "state": "CHOOSING_REPLY",
-  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
-}
-`;
-
 exports[`should select article with no replies 1`] = `
 Object {
   "data": Object {
@@ -1544,7 +1522,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "postback",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "altText": "This message is already published at Cofacts, waiting for nice volunteers to fact-check.\\\\nDon’t trust the message just yet!",
