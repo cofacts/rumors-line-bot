@@ -468,7 +468,6 @@ Object {
       "type": "flex",
     },
   ],
-  "state": "CHOOSING_ARTICLE",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -1299,7 +1298,6 @@ Object {
       "type": "text",
     },
   ],
-  "state": "CHOOSING_ARTICLE",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -1509,7 +1507,6 @@ Object {
       "type": "flex",
     },
   ],
-  "state": "CHOOSING_ARTICLE",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
@@ -1690,7 +1687,6 @@ Don’t trust the message just yet!",
       "type": "flex",
     },
   ],
-  "state": "__INIT__",
   "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;

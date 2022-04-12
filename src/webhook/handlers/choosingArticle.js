@@ -363,11 +363,9 @@ Don’t trust the message just yet!`,
         }
       }
     `({ id: selectedArticleId }, { userId });
-
-    state = '__INIT__';
   }
 
   visitor.send();
 
-  return { data, event, userId, replies, isSkipUser, state };
+  return { data, event, userId, replies, isSkipUser };
 }
