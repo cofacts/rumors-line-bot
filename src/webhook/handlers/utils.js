@@ -369,14 +369,10 @@ export function getArticleSourceOptionFromLabel(articleSourceOptionLabel) {
   return option;
 }
 
-const MANUAL_FACT_CHECKERS = [
+export const MANUAL_FACT_CHECKERS = [
   {
-    label: 'MyGoPen 賣擱騙',
-    value: 'line://ti/p/%40mygopen',
-  },
-  {
-    label: '蘭姆酒吐司',
-    value: 'line://ti/p/%40rumtoast',
+    label: 'MyGoPen 真人查證',
+    value: 'https://line.me/R/ti/p/%40imygopen',
   },
 ];
 /**
