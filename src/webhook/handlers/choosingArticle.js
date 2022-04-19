@@ -305,7 +305,8 @@ export default async function choosingArticle(params) {
     replies = [
       {
         type: 'flex',
-        altText: t`This message is already published at Cofacts, waiting for nice volunteers to fact-check.\nDon’t trust the message just yet!`,
+        altText: t`This message has already published on Cofacts, and will soon be fact-checked by volunteers.
+Don’t trust the message just yet!`,
         contents: {
           type: 'bubble',
           body: {
@@ -315,7 +316,7 @@ export default async function choosingArticle(params) {
               {
                 type: 'text',
                 wrap: true,
-                text: t`This message is already published at Cofacts, waiting for nice volunteers to fact-check.
+                text: t`This message has already published on Cofacts, and will soon be fact-checked by volunteers.
 Don’t trust the message just yet!`,
               },
               {
@@ -331,7 +332,7 @@ Don’t trust the message just yet!`,
           },
         },
       },
-      createTextMessage({ text: t`In the meantime, you may consider:` }),
+      createTextMessage({ text: t`In the meantime, you can:` }),
       {
         type: 'flex',
         altText: t`Provide more detail`,
