@@ -581,19 +581,9 @@ Object {
           "contents": Array [
             Object {
               "action": Object {
-                "label": "MyGoPen 賣擱騙",
+                "label": "MyGoPen 真人查證",
                 "type": "uri",
-                "uri": "line://ti/p/%40mygopen",
-              },
-              "color": "#333333",
-              "style": "primary",
-              "type": "button",
-            },
-            Object {
-              "action": Object {
-                "label": "蘭姆酒吐司",
-                "type": "uri",
-                "uri": "line://ti/p/%40rumtoast",
+                "uri": "https://line.me/R/ti/p/%40imygopen",
               },
               "color": "#333333",
               "style": "primary",

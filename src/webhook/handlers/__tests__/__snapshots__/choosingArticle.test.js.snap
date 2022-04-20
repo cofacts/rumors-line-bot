@@ -1524,12 +1524,13 @@ Object {
   },
   "replies": Array [
     Object {
-      "altText": "This message is already published at Cofacts, waiting for nice volunteers to fact-check.\\\\nDon’t trust the message just yet!",
+      "altText": "This message has already published on Cofacts, and will soon be fact-checked by volunteers.
+Don’t trust the message just yet!",
       "contents": Object {
         "body": Object {
           "contents": Array [
             Object {
-              "text": "This message is already published at Cofacts, waiting for nice volunteers to fact-check.
+              "text": "This message has already published on Cofacts, and will soon be fact-checked by volunteers.
 Don’t trust the message just yet!",
               "type": "text",
               "wrap": true,
@@ -1552,12 +1553,12 @@ Don’t trust the message just yet!",
       "type": "flex",
     },
     Object {
-      "altText": "In the meantime, you may consider:",
+      "altText": "In the meantime, you can:",
       "contents": Object {
         "body": Object {
           "contents": Array [
             Object {
-              "text": "In the meantime, you may consider:",
+              "text": "In the meantime, you can:",
               "type": "text",
               "wrap": true,
             },
@@ -1621,7 +1622,7 @@ Don’t trust the message just yet!",
             "body": Object {
               "contents": Array [
                 Object {
-                  "text": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
+                  "text": "We all get by with a little help from our friends 🌟 Share your question to friends, someone might be able to help!",
                   "type": "text",
                   "wrap": true,
                 },

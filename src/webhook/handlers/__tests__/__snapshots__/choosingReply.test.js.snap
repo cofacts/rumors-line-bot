@@ -75,7 +75,7 @@ https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz",
           "body": Object {
             "contents": Array [
               Object {
-                "text": "You can turn on notification if you want Cofacts to notify you when someone replies this message.",
+                "text": "You can turn on notifications if you want Cofacts to notify you when someone replies to this message.",
                 "type": "text",
                 "wrap": true,
               },

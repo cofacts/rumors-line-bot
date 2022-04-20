@@ -22,7 +22,7 @@ My reason",
             "body": Object {
               "contents": Array [
                 Object {
-                  "text": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
+                  "text": "We all get by with a little help from our friends 🌟 Share your question to friends, someone might be able to help!",
                   "type": "text",
                   "wrap": true,
                 },
@@ -137,7 +137,7 @@ My reason",
             "body": Object {
               "contents": Array [
                 Object {
-                  "text": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
+                  "text": "We all get by with a little help from our friends 🌟 Share your question to friends, someone might be able to help!",
                   "type": "text",
                   "wrap": true,
                 },
@@ -286,7 +286,7 @@ A LINE group",
             "body": Object {
               "contents": Array [
                 Object {
-                  "text": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
+                  "text": "We all get by with a little help from our friends 🌟 Share your question to friends, someone might be able to help!",
                   "type": "text",
                   "wrap": true,
                 },
@@ -380,7 +380,7 @@ Array [
     "body": Object {
       "contents": Array [
         Object {
-          "text": "You can turn on notification if you want Cofacts to notify you when someone replies this message.",
+          "text": "You can turn on notifications if you want Cofacts to notify you when someone replies to this message.",
           "type": "text",
           "wrap": true,
         },
@@ -423,7 +423,7 @@ Array [
     "body": Object {
       "contents": Array [
         Object {
-          "text": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
+          "text": "We all get by with a little help from our friends 🌟 Share your question to friends, someone might be able to help!",
           "type": "text",
           "wrap": true,
         },
@@ -469,7 +469,7 @@ Array [
     "body": Object {
       "contents": Array [
         Object {
-          "text": "You can turn on notification if you want Cofacts to notify you when someone replies this message.",
+          "text": "You can turn on notifications if you want Cofacts to notify you when someone replies to this message.",
           "type": "text",
           "wrap": true,
         },
@@ -512,7 +512,7 @@ Array [
     "body": Object {
       "contents": Array [
         Object {
-          "text": "Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!",
+          "text": "We all get by with a little help from our friends 🌟 Share your question to friends, someone might be able to help!",
           "type": "text",
           "wrap": true,
         },
