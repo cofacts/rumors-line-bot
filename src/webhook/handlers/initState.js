@@ -8,7 +8,7 @@ import {
   POSTBACK_NO_ARTICLE_FOUND,
   createHighlightContents,
   createTextMessage,
-  createArticleSourceQuickReplyMessage,
+  createArticleSourceReply,
 } from './utils';
 import ga from 'src/lib/ga';
 import detectDialogflowIntent from 'src/lib/detectDialogflowIntent';
@@ -325,7 +325,7 @@ export default async function initState(params) {
             '\n' +
             t` May I ask you a quick question?`,
         }),
-        createArticleSourceQuickReplyMessage(data.sessionId),
+        createArticleSourceReply(data.sessionId),
       ];
     }
   }

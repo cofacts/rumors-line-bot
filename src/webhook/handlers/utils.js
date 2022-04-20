@@ -735,34 +735,61 @@ export const POSTBACK_IS_NOT_FORWARDED = '__POSTBACK_IS_NOT_FORWARDED__';
  * @param {string} sessionId - Chatbot session ID
  * @returns {object} Messaging API message object
  */
-export function createArticleSourceQuickReplyMessage(sessionId) {
+export function createArticleSourceReply(sessionId) {
+  const question = t`Did you forward this message as a whole to me from the LINE app?`;
+
   return {
-    ...createTextMessage({
-      text: t`Did you forward this message as a whole to me from the LINE app?`,
-    }),
-    quickReply: {
-      items: [
-        {
-          type: 'action',
-          action: createPostbackAction(
-            t`Yes, I forwarded it`,
-            POSTBACK_IS_FORWARDED,
-            t`Yes, I forwarded it as a whole`,
-            sessionId,
-            'ASKING_ARTICLE_SOURCE'
-          ),
+    type: 'flex',
+    altText: question,
+    contents: {
+      type: 'bubble',
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: question,
+            wrap: true,
+          },
+        ],
+      },
+      footer: {
+        type: 'box',
+        layout: 'vertical',
+        spacing: 'sm',
+        contents: [
+          {
+            type: 'button',
+            action: createPostbackAction(
+              t`Yes, I forwarded it`,
+              POSTBACK_IS_FORWARDED,
+              t`Yes, I forwarded it as a whole`,
+              sessionId,
+              'ASKING_ARTICLE_SOURCE'
+            ),
+            style: 'primary',
+            color: '#333333',
+          },
+          {
+            type: 'button',
+            action: createPostbackAction(
+              t`No, typed it myself`,
+              POSTBACK_IS_NOT_FORWARDED,
+              t`No, typed it myself`,
+              sessionId,
+              'ASKING_ARTICLE_SOURCE'
+            ),
+            style: 'primary',
+            color: '#333333',
+          },
+        ],
+      },
+      styles: {
+        body: {
+          separator: true,
         },
-        {
-          type: 'action',
-          action: createPostbackAction(
-            t`No, typed it myself`,
-            POSTBACK_IS_NOT_FORWARDED,
-            t`No, typed it myself`,
-            sessionId,
-            'ASKING_ARTICLE_SOURCE'
-          ),
-        },
-      ],
+      },
     },
   };
 }

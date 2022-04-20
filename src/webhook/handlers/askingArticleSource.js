@@ -143,6 +143,7 @@ export default async function askingArticleSource(params) {
           },
         },
       ];
+      state = '__INIT__';
       break;
 
     case POSTBACK_IS_FORWARDED:

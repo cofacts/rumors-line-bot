@@ -415,29 +415,41 @@ Object {
           "layout": "vertical",
           "type": "box",
         },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "data": "{\\"input\\":\\"__POSTBACK_IS_FORWARDED__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "displayText": "Yes, I forwarded it as a whole",
+                "label": "Yes, I forwarded it",
+                "type": "postback",
+              },
+              "color": "#333333",
+              "style": "primary",
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "data": "{\\"input\\":\\"__POSTBACK_IS_NOT_FORWARDED__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "displayText": "No, typed it myself",
+                "label": "No, typed it myself",
+                "type": "postback",
+              },
+              "color": "#333333",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
+          },
+        },
         "type": "bubble",
-      },
-      "quickReply": Object {
-        "items": Array [
-          Object {
-            "action": Object {
-              "data": "{\\"input\\":\\"__POSTBACK_IS_FORWARDED__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
-              "displayText": "Yes, I forwarded it as a whole",
-              "label": "Yes, I forwarded it",
-              "type": "postback",
-            },
-            "type": "action",
-          },
-          Object {
-            "action": Object {
-              "data": "{\\"input\\":\\"__POSTBACK_IS_NOT_FORWARDED__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
-              "displayText": "No, typed it myself",
-              "label": "No, typed it myself",
-              "type": "postback",
-            },
-            "type": "action",
-          },
-        ],
       },
       "type": "flex",
     },
@@ -953,29 +965,41 @@ Object {
           "layout": "vertical",
           "type": "box",
         },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "data": "{\\"input\\":\\"__POSTBACK_IS_FORWARDED__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "displayText": "Yes, I forwarded it as a whole",
+                "label": "Yes, I forwarded it",
+                "type": "postback",
+              },
+              "color": "#333333",
+              "style": "primary",
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "data": "{\\"input\\":\\"__POSTBACK_IS_NOT_FORWARDED__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "displayText": "No, typed it myself",
+                "label": "No, typed it myself",
+                "type": "postback",
+              },
+              "color": "#333333",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
+          },
+        },
         "type": "bubble",
-      },
-      "quickReply": Object {
-        "items": Array [
-          Object {
-            "action": Object {
-              "data": "{\\"input\\":\\"__POSTBACK_IS_FORWARDED__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
-              "displayText": "Yes, I forwarded it as a whole",
-              "label": "Yes, I forwarded it",
-              "type": "postback",
-            },
-            "type": "action",
-          },
-          Object {
-            "action": Object {
-              "data": "{\\"input\\":\\"__POSTBACK_IS_NOT_FORWARDED__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
-              "displayText": "No, typed it myself",
-              "label": "No, typed it myself",
-              "type": "postback",
-            },
-            "type": "action",
-          },
-        ],
       },
       "type": "flex",
     },

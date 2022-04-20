@@ -6,7 +6,7 @@ import {
   createFeedbackWords,
   ellipsis,
   ManipulationError,
-  createArticleSourceQuickReplyMessage,
+  createArticleSourceReply,
   POSTBACK_NO_ARTICLE_FOUND,
   createTextMessage,
   createCommentBubble,
@@ -68,7 +68,7 @@ export default async function choosingArticle(params) {
             '\n' +
             t` May I ask you a quick question?`,
         }),
-        createArticleSourceQuickReplyMessage(data.sessionId),
+        createArticleSourceReply(data.sessionId),
       ],
     };
   }
