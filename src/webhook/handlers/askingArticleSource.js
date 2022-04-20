@@ -24,6 +24,7 @@ export default async function askingArticleSource(params) {
     case POSTBACK_IS_NOT_FORWARDED:
       replies = [
         createTextMessage({
+          text: t`Instructions`,
           contents: [
             {
               type: 'span',
@@ -31,7 +32,7 @@ export default async function askingArticleSource(params) {
             },
             {
               type: 'span',
-              text: /* t: emphasized text in sentence "It is important to send me the ~ that is being passed around" */ t`entire message`,
+              text: /* t: emphasized text in sentence "It is important to send me the ~ that is being passed around" */ t` entire message `,
               color: '#ffb600',
               weight: 'bold',
             },
@@ -83,7 +84,7 @@ export default async function askingArticleSource(params) {
                       type: 'button',
                       action: createPostbackAction(
                         t`See Tutorial`,
-                        '',
+                        TUTORIAL_STEPS.RICH_MENU,
                         TUTORIAL_STEPS.RICH_MENU,
                         data.sessionId,
                         'TUTORIAL'
@@ -106,7 +107,7 @@ export default async function askingArticleSource(params) {
                       text: t`Find a real person`,
                       wrap: true,
                       size: 'lg',
-                      color: '#00B172',
+                      color: '#333333',
                     },
                   ],
                   paddingBottom: 'none',
@@ -117,7 +118,7 @@ export default async function askingArticleSource(params) {
                   contents: [
                     {
                       type: 'text',
-                      text: t` You can forward your question to another LINE account which provides a human response`,
+                      text: t`You can forward your question to another LINE account which provides a human response`,
                       wrap: true,
                     },
                   ],

@@ -5,6 +5,7 @@ import choosingReply from './handlers/choosingReply';
 import askingReplyFeedback from './handlers/askingReplyFeedback';
 import askingArticleSubmissionConsent from './handlers/askingArticleSubmissionConsent';
 import askingReplyRequestReason from './handlers/askingReplyRequestReason';
+import askingArticleSource from './handlers/askingArticleSource';
 import defaultState from './handlers/defaultState';
 import { ManipulationError } from './handlers/utils';
 import {
@@ -114,6 +115,10 @@ export default async function handleInput({ data = {} }, event, userId) {
         }
         case 'TUTORIAL': {
           params = tutorial(params);
+          break;
+        }
+        case 'ASKING_ARTICLE_SOURCE': {
+          params = await askingArticleSource(params);
           break;
         }
 
