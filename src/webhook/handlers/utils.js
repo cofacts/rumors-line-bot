@@ -149,6 +149,7 @@ export function createAskArticleSubmissionConsentReply(sessionId) {
       footer: {
         type: 'box',
         layout: 'vertical',
+        spacing: 'sm',
         contents: [
           {
             type: 'button',
@@ -165,7 +166,7 @@ export function createAskArticleSubmissionConsentReply(sessionId) {
           {
             type: 'button',
             style: 'primary',
-            color: '#ffb600',
+            color: '#333333',
             action: createPostbackAction(
               t`Don’t report`,
               POSTBACK_NO,
@@ -751,7 +752,7 @@ export function createArticleSourceReply(sessionId) {
           {
             type: 'button',
             action: createPostbackAction(
-              t`Yes, I forwarded it`,
+              t`Yes, I forwarded it as a whole`,
               POSTBACK_YES,
               t`Yes, I forwarded it as a whole`,
               sessionId,
