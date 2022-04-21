@@ -2,12 +2,13 @@ import { t } from 'ttag';
 import ga from 'src/lib/ga';
 
 import {
-  POSTBACK_IS_FORWARDED,
-  POSTBACK_IS_NOT_FORWARDED,
+  POSTBACK_YES,
+  POSTBACK_NO,
   ManipulationError,
   createTextMessage,
   MANUAL_FACT_CHECKERS,
   createPostbackAction,
+  createAskArticleSubmissionConsentReply,
 } from './utils';
 
 import { TUTORIAL_STEPS } from './tutorial';
@@ -21,7 +22,7 @@ export default async function askingArticleSource(params) {
     default:
       throw new ManipulationError(t`Please choose from provided options.`);
 
-    case POSTBACK_IS_NOT_FORWARDED:
+    case POSTBACK_NO:
       replies = [
         createTextMessage({
           text: t`Instructions`,
@@ -146,7 +147,17 @@ export default async function askingArticleSource(params) {
       state = '__INIT__';
       break;
 
-    case POSTBACK_IS_FORWARDED:
+    case POSTBACK_YES:
+      replies = [
+        createTextMessage({
+          text: t`I see. Don’t trust the message just yet!`,
+        }),
+        createTextMessage({
+          text: t`Do you want someone to fact-check this message?`,
+        }),
+        createAskArticleSubmissionConsentReply(data.sessionId),
+      ];
+      state = 'ASKING_ARTICLE_SUBMISSION_CONSENT';
   }
 
   visitor.send();

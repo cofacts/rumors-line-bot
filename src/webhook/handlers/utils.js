@@ -106,17 +106,15 @@ export function getLIFFURL(page, userId, sessionId) {
 }
 
 /**
- * @param {string} userId - LINE user ID
  * @param {string} sessionId - Search session ID
- * @returns {object} reply message object with button that opens source LIFF
+ * @returns {object} reply message object
  */
-export function createAskArticleSubmissionConsentReply(userId, sessionId) {
-  const titleText = `🥇 ${t`Be the first to report the message`}`;
-  const btnText = `🆕 ${t`Submit to database`}`;
+export function createAskArticleSubmissionConsentReply(sessionId) {
+  const btnText = `🆕 ${t`Report to database`}`;
   const spans = [
     {
       type: 'span',
-      text: t`Currently we don't have this message in our database. If you think it is probably a rumor, `,
+      text: t`Currently we don’t have this message in our database. If you think it is most likely a rumor, `,
     },
     {
       type: 'span',
@@ -126,36 +124,15 @@ export function createAskArticleSubmissionConsentReply(userId, sessionId) {
     },
     {
       type: 'span',
-      text: t`for nice volunteers to fact-check. Although you won't receive answers rightaway, you can help the people who receive the same message in the future.`,
+      text: t`and have volunteers fact-check it. This way you can help the people who receive the same message in the future.`,
     },
   ];
 
   return {
     type: 'flex',
-    altText: titleText,
+    altText: t`Be the first to report the message`,
     contents: {
       type: 'bubble',
-      header: {
-        type: 'box',
-        layout: 'horizontal',
-        spacing: 'sm',
-        paddingAll: 'lg',
-        contents: [
-          {
-            type: 'text',
-            text: '🥇',
-            flex: 0,
-            gravity: 'center',
-          },
-          {
-            type: 'text',
-            text: t`Be the first to report the message`,
-            weight: 'bold',
-            color: '#ffb600',
-            wrap: true,
-          },
-        ],
-      },
       body: {
         type: 'box',
         layout: 'vertical',
@@ -177,13 +154,25 @@ export function createAskArticleSubmissionConsentReply(userId, sessionId) {
             type: 'button',
             style: 'primary',
             color: '#ffb600',
-            action: {
-              type: 'uri',
-              label: btnText,
-              uri:
-                getLIFFURL('source', userId, sessionId) +
-                `&article_submission=true`,
-            },
+            action: createPostbackAction(
+              btnText,
+              POSTBACK_YES,
+              btnText,
+              sessionId,
+              'ASKING_ARTICLE_SUBMISSION_CONSENT'
+            ),
+          },
+          {
+            type: 'button',
+            style: 'primary',
+            color: '#ffb600',
+            action: createPostbackAction(
+              t`Don’t report`,
+              POSTBACK_NO,
+              t`Don’t report`,
+              sessionId,
+              'ASKING_ARTICLE_SUBMISSION_CONSENT'
+            ),
           },
         ],
       },
@@ -727,8 +716,8 @@ export function createTextMessage(textProps) {
   };
 }
 
-export const POSTBACK_IS_FORWARDED = '__POSTBACK_IS_FORWARDED__';
-export const POSTBACK_IS_NOT_FORWARDED = '__POSTBACK_IS_NOT_FORWARDED__';
+export const POSTBACK_YES = '__POSTBACK_YES__';
+export const POSTBACK_NO = '__POSTBACK_NO__';
 
 /**
  *
@@ -763,7 +752,7 @@ export function createArticleSourceReply(sessionId) {
             type: 'button',
             action: createPostbackAction(
               t`Yes, I forwarded it`,
-              POSTBACK_IS_FORWARDED,
+              POSTBACK_YES,
               t`Yes, I forwarded it as a whole`,
               sessionId,
               'ASKING_ARTICLE_SOURCE'
@@ -775,7 +764,7 @@ export function createArticleSourceReply(sessionId) {
             type: 'button',
             action: createPostbackAction(
               t`No, typed it myself`,
-              POSTBACK_IS_NOT_FORWARDED,
+              POSTBACK_NO,
               t`No, typed it myself`,
               sessionId,
               'ASKING_ARTICLE_SOURCE'
