@@ -1,10 +1,5 @@
 import { t } from 'ttag';
-import {
-  ellipsis,
-  createPostbackAction,
-  createReplyMessages,
-  FLEX_MESSAGE_ALT_TEXT,
-} from './utils';
+import { ellipsis, createPostbackAction, createReplyMessages } from './utils';
 import ga from 'src/lib/ga';
 
 /**
@@ -99,7 +94,7 @@ export function createGreetingMessage() {
 
   return {
     type: 'flex',
-    altText: ellipsis(text, 300) + '\n' + FLEX_MESSAGE_ALT_TEXT,
+    altText: ellipsis(text, 300),
     contents: {
       type: 'carousel',
       contents: [createImageTextBubble(imageUrl, text)],
@@ -137,13 +132,10 @@ export function createTutorialMessage(sessionId) {
 
   return {
     type: 'flex',
-    altText:
-      ellipsis(
-        textStep1 + '\n' + textStep2 + '\n' + textStep3 + '\n' + textStep4,
-        300
-      ) +
-      '\n' +
-      FLEX_MESSAGE_ALT_TEXT,
+    altText: ellipsis(
+      textStep1 + '\n' + textStep2 + '\n' + textStep3 + '\n' + textStep4,
+      300
+    ),
     contents: {
       type: 'carousel',
       contents: [
@@ -201,7 +193,7 @@ function createEndingMessage() {
 
   return {
     type: 'flex',
-    altText: ellipsis(text, 300) + '\n' + FLEX_MESSAGE_ALT_TEXT,
+    altText: ellipsis(text, 300),
     contents: {
       type: 'carousel',
       contents: [createImageTextBubble(imageUrl, text)],
@@ -255,7 +247,7 @@ function createPermissionSetupDialog(message) {
 
   return {
     type: 'flex',
-    altText: ellipsis(message, 300) + '\n' + FLEX_MESSAGE_ALT_TEXT,
+    altText: ellipsis(message, 300),
     contents: {
       type: 'bubble',
       direction: 'ltr',

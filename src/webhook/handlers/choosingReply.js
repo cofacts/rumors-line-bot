@@ -3,7 +3,6 @@ import gql from 'src/lib/gql';
 import {
   getLIFFURL,
   ManipulationError,
-  FLEX_MESSAGE_ALT_TEXT,
   createNotificationSettingsBubble,
   createReplyMessages,
 } from './utils';
@@ -23,7 +22,7 @@ async function createAskReplyFeedbackMessage(userId, sessionId) {
 
   return {
     type: 'flex',
-    altText: helpfulTitle + '\n' + FLEX_MESSAGE_ALT_TEXT,
+    altText: helpfulTitle,
     contents: {
       type: 'carousel',
       contents: [

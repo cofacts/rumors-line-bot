@@ -2,8 +2,7 @@
 
 exports[`createGreetingMessage() 1`] = `
 Object {
-  "altText": "This is a chatbot that looks up suspicious forwarded messages for you. Here is how to use me:
-📱 Please proceed on your mobile phone.",
+  "altText": "This is a chatbot that looks up suspicious forwarded messages for you. Here is how to use me:",
   "contents": Object {
     "contents": Array [
       Object {
@@ -57,8 +56,7 @@ Object {
   "altText": "1. When receiving a message from elsewhere
 2. Long press and share
 3. Select Cofacts to share
-4. Cofacts replies with a crowd-sourced fact-check or chatbot replies
-📱 Please proceed on your mobile phone.",
+4. Cofacts replies with a crowd-sourced fact-check or chatbot replies",
   "contents": Object {
     "contents": Array [
       Object {
@@ -281,8 +279,7 @@ Object {
       "type": "text",
     },
     Object {
-      "altText": "To wrap up, please finish your permission settings so that I can provide a smoother experience.
-📱 Please proceed on your mobile phone.",
+      "altText": "To wrap up, please finish your permission settings so that I can provide a smoother experience.",
       "contents": Object {
         "body": Object {
           "contents": Array [
@@ -380,8 +377,7 @@ Object {
       "type": "text",
     },
     Object {
-      "altText": "To wrap up, please finish your permission settings so that I can provide a smoother experience.
-📱 Please proceed on your mobile phone.",
+      "altText": "To wrap up, please finish your permission settings so that I can provide a smoother experience.",
       "contents": Object {
         "body": Object {
           "contents": Array [
@@ -477,8 +473,7 @@ Object {
     Object {
       "altText": "When I provide hoax-busting replies to you, I would like to ask you for any feedback on the crowd-sourced reply.
 In order to achieve that, I need to ask for your permission to \\"Send messages to chats\\".
-The permission will be used to send only this one message of yours back to this particular chatr⋯⋯
-📱 Please proceed on your mobile phone.",
+The permission will be used to send only this one message of yours back to this particular chatr⋯⋯",
       "contents": Object {
         "body": Object {
           "contents": Array [
@@ -569,8 +564,7 @@ Object {
       "altText": "1. When receiving a message from elsewhere
 2. Long press and share
 3. Select Cofacts to share
-4. Cofacts replies with a crowd-sourced fact-check or chatbot replies
-📱 Please proceed on your mobile phone.",
+4. Cofacts replies with a crowd-sourced fact-check or chatbot replies",
       "contents": Object {
         "contents": Array [
           Object {
@@ -786,8 +780,7 @@ Object {
   "issuedAt": 1519019735467,
   "replies": Array [
     Object {
-      "altText": "This is the end of the tutorial. Next time when you receive a suspicious message, don't hesitate to forward it to me! 🤗
-📱 Please proceed on your mobile phone.",
+      "altText": "This is the end of the tutorial. Next time when you receive a suspicious message, don't hesitate to forward it to me! 🤗",
       "contents": Object {
         "contents": Array [
           Object {
@@ -857,8 +850,7 @@ Object {
       "type": "text",
     },
     Object {
-      "altText": "This is the end of the tutorial. Next time when you receive a suspicious message, don't hesitate to forward it to me! 🤗
-📱 Please proceed on your mobile phone.",
+      "altText": "This is the end of the tutorial. Next time when you receive a suspicious message, don't hesitate to forward it to me! 🤗",
       "contents": Object {
         "contents": Array [
           Object {

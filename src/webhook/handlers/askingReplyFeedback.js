@@ -7,7 +7,7 @@ import {
   DOWNVOTE_PREFIX,
   createTypeWords,
 } from 'src/lib/sharedUtils';
-import { ellipsis, ManipulationError, FLEX_MESSAGE_ALT_TEXT } from './utils';
+import { ellipsis, ManipulationError } from './utils';
 
 /**
  * @param {{vote: FeedbackVote, articleId: String, replyId: String, comment: String}} variables
@@ -83,7 +83,7 @@ export default async function askingReplyFeedback(params) {
       },
       {
         type: 'flex',
-        altText: callToAction + '\n' + FLEX_MESSAGE_ALT_TEXT,
+        altText: callToAction,
         contents: {
           type: 'bubble',
           body: {
