@@ -419,9 +419,9 @@ Object {
           "contents": Array [
             Object {
               "action": Object {
-                "data": "{\\"input\\":\\"__POSTBACK_IS_FORWARDED__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
                 "displayText": "Yes, I forwarded it as a whole",
-                "label": "Yes, I forwarded it",
+                "label": "Yes, I forwarded it as a whole",
                 "type": "postback",
               },
               "color": "#333333",
@@ -430,7 +430,7 @@ Object {
             },
             Object {
               "action": Object {
-                "data": "{\\"input\\":\\"__POSTBACK_IS_NOT_FORWARDED__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
                 "displayText": "No, typed it myself",
                 "label": "No, typed it myself",
                 "type": "postback",
@@ -969,9 +969,9 @@ Object {
           "contents": Array [
             Object {
               "action": Object {
-                "data": "{\\"input\\":\\"__POSTBACK_IS_FORWARDED__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
                 "displayText": "Yes, I forwarded it as a whole",
-                "label": "Yes, I forwarded it",
+                "label": "Yes, I forwarded it as a whole",
                 "type": "postback",
               },
               "color": "#333333",
@@ -980,7 +980,7 @@ Object {
             },
             Object {
               "action": Object {
-                "data": "{\\"input\\":\\"__POSTBACK_IS_NOT_FORWARDED__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
                 "displayText": "No, typed it myself",
                 "label": "No, typed it myself",
                 "type": "postback",

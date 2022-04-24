@@ -52,9 +52,9 @@ Object {
           "contents": Array [
             Object {
               "action": Object {
-                "data": "{\\"input\\":\\"__POSTBACK_IS_FORWARDED__\\",\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
                 "displayText": "Yes, I forwarded it as a whole",
-                "label": "Yes, I forwarded it",
+                "label": "Yes, I forwarded it as a whole",
                 "type": "postback",
               },
               "color": "#333333",
@@ -63,7 +63,7 @@ Object {
             },
             Object {
               "action": Object {
-                "data": "{\\"input\\":\\"__POSTBACK_IS_NOT_FORWARDED__\\",\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
                 "displayText": "No, typed it myself",
                 "label": "No, typed it myself",
                 "type": "postback",
@@ -93,6 +93,13 @@ Object {
 
 exports[`should create a UserArticleLink when selecting a article 1`] = `
 Array [
+  Object {
+    "_id": "_id",
+    "articleId": "new-article-id",
+    "createdAt": 2020-01-01T00:00:00.000Z,
+    "lastViewedAt": 2020-01-01T00:00:00.000Z,
+    "userId": "user-id-0",
+  },
   Object {
     "_id": "_id",
     "articleId": "article-id",
