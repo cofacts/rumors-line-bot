@@ -339,13 +339,12 @@ We use dimemsion `Message Source` (Custom Dimemsion1) to classify different even
   - If we found a articles in database that matches the message:
     - `UserInput` / `ArticleSearch` / `ArticleFound`
     - `Article` / `Search` / `<article id>` for each article found
-  - When user opens LIFF providing source, page view for page `/source` is sent.
   - If nothing found in database:
     - `UserInput` / `ArticleSearch` / `ArticleNotFound`
   - If articles found in database but is not what user want:
     - `UserInput` / `ArticleSearch` / `ArticleFoundButNoHit`
-  - When user provides source (includes invalid source)
-    - `UserInput` / `ProvidingSource` / `<source value>`
+  - When user provides source
+    - `UserInput` / `IsForwarded` / `Yes` | `No`
   - Matches one of Dialogflow intents
     - `UserInput` / `ChatWithBot` / `<intent name>`
 
@@ -366,7 +365,6 @@ We use dimemsion `Message Source` (Custom Dimemsion1) to classify different even
 
 5. User want to submit a new article
   - `Article` / `Create` / `Yes`
-  - `Article` / `ProvidingSource` / `<articleId>/<source value>`
 
 6. User does not want to submit an article
   - `Article` / `Create` / `No`

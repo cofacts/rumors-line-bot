@@ -1,5 +1,12 @@
+jest.mock('src/lib/ga');
+import ga from 'src/lib/ga';
+
 import askingArticleSource from '../askingArticleSource';
 import { POSTBACK_YES, POSTBACK_NO } from '../utils';
+
+beforeEach(() => {
+  ga.clearAllMocks();
+});
 
 it('throws on incorrect input', async () => {
   const incorrectParam = {
@@ -181,6 +188,19 @@ it('returns instructions if user did not forward the whole message', async () =>
       },
     ]
   `);
+
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "IsForwarded",
+          "ec": "UserInput",
+          "el": "No",
+        },
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
 it('sends user submission consent if user forwarded the whole message', async () => {
@@ -302,4 +322,17 @@ it('sends user submission consent if user forwarded the whole message', async ()
       },
     ]
   `);
+
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "IsForwarded",
+          "ec": "UserInput",
+          "el": "Yes",
+        },
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
