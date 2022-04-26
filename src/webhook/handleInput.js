@@ -4,16 +4,12 @@ import choosingArticle from './handlers/choosingArticle';
 import choosingReply from './handlers/choosingReply';
 import askingReplyFeedback from './handlers/askingReplyFeedback';
 import askingArticleSubmissionConsent from './handlers/askingArticleSubmissionConsent';
-import askingReplyRequestReason from './handlers/askingReplyRequestReason';
 import askingArticleSource from './handlers/askingArticleSource';
 import defaultState from './handlers/defaultState';
 import { ManipulationError } from './handlers/utils';
 import {
-  REASON_PREFIX,
   DOWNVOTE_PREFIX,
   UPVOTE_PREFIX,
-  SOURCE_PREFIX_NOT_YET_REPLIED,
-  SOURCE_PREFIX_FRIST_SUBMISSION,
   extractArticleId,
 } from 'src/lib/sharedUtils';
 import tutorial, { TUTORIAL_STEPS } from './handlers/tutorial';
@@ -60,12 +56,6 @@ export default async function handleInput({ data = {} }, event, userId) {
       event.input.startsWith(DOWNVOTE_PREFIX)
     ) {
       state = 'ASKING_REPLY_FEEDBACK';
-    } else if (event.input.startsWith(REASON_PREFIX)) {
-      state = 'ASKING_REPLY_REQUEST_REASON';
-    } else if (event.input.startsWith(SOURCE_PREFIX_NOT_YET_REPLIED)) {
-      state = 'ASKING_REPLY_REQUEST_REASON';
-    } else if (event.input.startsWith(SOURCE_PREFIX_FRIST_SUBMISSION)) {
-      state = 'ASKING_ARTICLE_SUBMISSION_CONSENT';
     } else if (event.input === TUTORIAL_STEPS['RICH_MENU']) {
       state = 'TUTORIAL';
     } else {
@@ -121,21 +111,15 @@ export default async function handleInput({ data = {} }, event, userId) {
           params = await askingArticleSource(params);
           break;
         }
+        case 'ASKING_ARTICLE_SUBMISSION_CONSENT': {
+          params = await askingArticleSubmissionConsent(params);
+          break;
+        }
 
         // from liff, message contains prefix
         // UPVOTE_PREFIX, DOWNVOTE_PREFIX
         case 'ASKING_REPLY_FEEDBACK': {
           params = await askingReplyFeedback(params);
-          break;
-        }
-        // SOURCE_PREFIX_FRIST_SUBMISSION
-        case 'ASKING_ARTICLE_SUBMISSION_CONSENT': {
-          params = await askingArticleSubmissionConsent(params);
-          break;
-        }
-        // SOURCE_PREFIX_NOT_YET_REPLIED, REASON_PREFIX
-        case 'ASKING_REPLY_REQUEST_REASON': {
-          params = await askingReplyRequestReason(params);
           break;
         }
 

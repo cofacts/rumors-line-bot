@@ -1,11 +1,7 @@
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
 import { sign } from 'src/lib/jwt';
-import {
-  ARTICLE_SOURCE_OPTIONS,
-  getArticleURL,
-  createTypeWords,
-} from 'src/lib/sharedUtils';
+import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
 
 const splitter = new GraphemeSplitter();
 
@@ -337,24 +333,6 @@ export class TimeoutError extends Error {
   }
 }
 
-/**
- * @param {string} articleSourceOptionLabel - Label in ARTICLE_SOURCE_OPTIONS
- * @returns {object} selected item in ARTICLE_SOURCE_OPTIONS
- */
-export function getArticleSourceOptionFromLabel(articleSourceOptionLabel) {
-  const option = ARTICLE_SOURCE_OPTIONS.find(
-    ({ label }) => label === articleSourceOptionLabel
-  );
-
-  if (!option) {
-    throw new ManipulationError(
-      t`Please tell us where you have received the message using the options we provided.`
-    );
-  }
-
-  return option;
-}
-
 export const MANUAL_FACT_CHECKERS = [
   {
     label: 'MyGoPen 真人查證',
@@ -403,52 +381,6 @@ export function createSuggestOtherFactCheckerReply() {
         },
       },
     },
-  };
-}
-
-/**
- *
- * @param {string} articleUrl
- * @param {string} userId
- * @param {string} sessionId
- * @param {boolean} isUpdating
- * @returns {object} Flex bubble message's footer object
- */
-export function createReasonButtonFooter(
-  articleUrl,
-  userId,
-  sessionId,
-  isUpdating = false
-) {
-  // Updating is not call-to-action, use normal gray
-  const color = isUpdating ? '#333333' : '#ffb600';
-
-  return {
-    type: 'box',
-    layout: 'vertical',
-    spacing: 'sm',
-    contents: [
-      {
-        type: 'button',
-        action: {
-          type: 'uri',
-          label: t`See reported message`,
-          uri: articleUrl,
-        },
-        style: 'primary',
-        color,
-      },
-      {
-        type: 'button',
-        action: {
-          type: 'uri',
-          label: isUpdating ? t`Rewrite my reason` : t`Provide more info`,
-          uri: getLIFFURL('reason', userId, sessionId),
-        },
-        style: 'primary',
-        color,
-      },
-    ],
   };
 }
 

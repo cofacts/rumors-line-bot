@@ -3,8 +3,6 @@
   import { page } from './lib';
   import Article from './pages/Article.svelte';
   import Articles from './pages/Articles.svelte';
-  import Source from './pages/Source.svelte';
-  import Reason from './pages/Reason.svelte';
   import Comment from './pages/Comment.svelte';
   import UserSetting from './pages/UserSetting.svelte';
   import PositiveFeedback from './pages/PositiveFeedback.svelte';
@@ -13,13 +11,10 @@
   const routes = {
     article: Article,
     articles: Articles,
-    source: Source,
     'feedback/yes': PositiveFeedback,
     'feedback/no': NegativeFeedback,
     setting: UserSetting,
     comment: Comment,
-    // Legacy reply request form
-    reason: Reason,
   };
 
   // Send pageview with correct path on each page change.
