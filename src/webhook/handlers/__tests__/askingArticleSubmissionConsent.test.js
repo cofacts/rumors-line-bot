@@ -3,10 +3,7 @@ jest.mock('src/lib/ga');
 
 import MockDate from 'mockdate';
 import askingArticleSubmissionConsent from '../askingArticleSubmissionConsent';
-import {
-  SOURCE_PREFIX_FRIST_SUBMISSION,
-  ARTICLE_SOURCE_OPTIONS,
-} from 'src/lib/sharedUtils';
+import { POSTBACK_NO, POSTBACK_YES } from '../utils';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
 
@@ -28,56 +25,23 @@ beforeEach(() => {
   ga.clearAllMocks();
 });
 
-it('should block non-existence source option', async () => {
-  const params = {
-    data: {
-      searchedText: 'Some text forwarded by the user',
-      foundArticleIds: [],
-    },
+it('throws on incorrect input', async () => {
+  const incorrectParam = {
+    data: { searchedText: 'foo' },
+    state: 'ASKING_ARTICLE_SUBMISSION',
     event: {
-      type: 'message',
-      input: SOURCE_PREFIX_FRIST_SUBMISSION + 'foo', // Correct prefix with wrong value
+      input: 'Wrong',
     },
   };
 
-  await expect(
-    askingArticleSubmissionConsent(params)
+  expect(
+    askingArticleSubmissionConsent(incorrectParam)
   ).rejects.toMatchInlineSnapshot(
-    `[Error: Please tell us where you have received the message using the options we provided.]`
+    `[Error: Please choose from provided options.]`
   );
 });
 
-it('should redirect user to other fact-checkers for invalid options', async () => {
-  const params = {
-    data: {
-      searchedText: 'Some text forwarded by the user',
-      foundArticleIds: [],
-    },
-    event: {
-      type: 'message',
-      input:
-        SOURCE_PREFIX_FRIST_SUBMISSION +
-        ARTICLE_SOURCE_OPTIONS.find(({ valid }) => !valid).label, // Correct prefix + option that should not proceed
-    },
-  };
-
-  const result = await askingArticleSubmissionConsent(params);
-  expect(result).toMatchSnapshot();
-  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
-    Array [
-      Array [
-        Object {
-          "ea": "ProvidingSource",
-          "ec": "UserInput",
-          "el": "outside LINE",
-        },
-      ],
-    ]
-  `);
-  expect(ga.sendMock).toHaveBeenCalledTimes(1);
-});
-
-it('should submit article when valid source is provided', async () => {
+it('should thank the user if user does not agree to submit', async () => {
   const inputSession = new Date('2020-01-01T18:10:18.314Z').getTime();
   const params = {
     data: {
@@ -86,10 +50,27 @@ it('should submit article when valid source is provided', async () => {
       sessionId: inputSession,
     },
     event: {
-      type: 'message',
-      input:
-        SOURCE_PREFIX_FRIST_SUBMISSION +
-        ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label,
+      type: 'postback',
+      input: POSTBACK_NO,
+    },
+    userId: 'userId',
+  };
+
+  const { replies } = await askingArticleSubmissionConsent(params);
+  expect(replies).toMatchInlineSnapshot();
+});
+
+it('should submit article if user agrees to submit', async () => {
+  const inputSession = new Date('2020-01-01T18:10:18.314Z').getTime();
+  const params = {
+    data: {
+      searchedText: 'Some text forwarded by the user',
+      foundArticleIds: [],
+      sessionId: inputSession,
+    },
+    event: {
+      type: 'postback',
+      input: POSTBACK_YES,
     },
     userId: 'userId',
   };
@@ -106,23 +87,9 @@ it('should submit article when valid source is provided', async () => {
     Array [
       Array [
         Object {
-          "ea": "ProvidingSource",
-          "ec": "UserInput",
-          "el": "group message",
-        },
-      ],
-      Array [
-        Object {
           "ea": "Create",
           "ec": "Article",
           "el": "Yes",
-        },
-      ],
-      Array [
-        Object {
-          "ea": "ProvidingSource",
-          "ec": "Article",
-          "el": "new-article-id/group message",
         },
       ],
     ]
@@ -138,10 +105,8 @@ it('should create a UserArticleLink when creating a Article', async () => {
       foundArticleIds: [],
     },
     event: {
-      type: 'message',
-      input:
-        SOURCE_PREFIX_FRIST_SUBMISSION +
-        ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label,
+      type: 'postback',
+      input: POSTBACK_YES,
     },
     userId,
   };
@@ -163,10 +128,8 @@ it('should ask user to turn on notification settings if they did not turn it on 
       foundArticleIds: [],
     },
     event: {
-      type: 'message',
-      input:
-        SOURCE_PREFIX_FRIST_SUBMISSION +
-        ARTICLE_SOURCE_OPTIONS.find(({ valid }) => valid).label,
+      type: 'postback',
+      input: POSTBACK_YES,
     },
     userId,
   };
