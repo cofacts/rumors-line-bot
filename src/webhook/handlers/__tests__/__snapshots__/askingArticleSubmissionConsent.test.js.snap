@@ -160,9 +160,7 @@ Somewhere outside LINE",
       "type": "text",
     },
     Object {
-      "altText": "We suggest forwarding the message to the following fact-checkers instead. They have 💁 1-on-1 Q&A service to respond to your questions.
-
-📱 Please proceed on your mobile phone.",
+      "altText": "We suggest forwarding the message to the following fact-checkers instead. They have 💁 1-on-1 Q&A service to respond to your questions.",
       "contents": Object {
         "body": Object {
           "contents": Array [

@@ -3,7 +3,6 @@ import ga from 'src/lib/ga';
 import UserArticleLink from 'src/database/models/userArticleLink';
 import UserSettings from 'src/database/models/userSettings';
 import SendMessage from 'src/lib/sendMessage';
-import { FLEX_MESSAGE_ALT_TEXT } from 'src/webhook/handlers/utils';
 import { t } from 'ttag';
 
 // Async generator that gets a batch of articles with articleReply between `from` and `to`.
@@ -188,7 +187,7 @@ function createNotifyFlexMessage() {
 
   return {
     type: 'flex',
-    altText: message + FLEX_MESSAGE_ALT_TEXT,
+    altText: message,
     contents: {
       type: 'bubble',
       body: {

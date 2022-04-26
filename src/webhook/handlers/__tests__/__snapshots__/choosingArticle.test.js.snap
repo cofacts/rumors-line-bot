@@ -20,8 +20,7 @@ May I have your help?",
       "type": "text",
     },
     Object {
-      "altText": "🥇 Be the first to report the message
-📱 Please proceed on your mobile phone.",
+      "altText": "🥇 Be the first to report the message",
       "contents": Object {
         "body": Object {
           "contents": Array [

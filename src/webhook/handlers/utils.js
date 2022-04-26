@@ -105,10 +105,6 @@ export function getLIFFURL(page, userId, sessionId) {
   return `${process.env.LIFF_URL}?p=${page}&token=${jwt}`;
 }
 
-export const FLEX_MESSAGE_ALT_TEXT = `📱 ${
-  /* t: Flex message alt-text */ t`Please proceed on your mobile phone.`
-}`;
-
 /**
  * @param {string} userId - LINE user ID
  * @param {string} sessionId - Search session ID
@@ -136,7 +132,7 @@ export function createAskArticleSubmissionConsentReply(userId, sessionId) {
 
   return {
     type: 'flex',
-    altText: titleText + '\n' + FLEX_MESSAGE_ALT_TEXT,
+    altText: titleText,
     contents: {
       type: 'bubble',
       header: {
@@ -382,7 +378,7 @@ export function createSuggestOtherFactCheckerReply() {
   const suggestion = t`We suggest forwarding the message to the following fact-checkers instead. They have 💁 1-on-1 Q&A service to respond to your questions.`;
   return {
     type: 'flex',
-    altText: `${suggestion}\n\n${FLEX_MESSAGE_ALT_TEXT}`,
+    altText: suggestion,
     contents: {
       type: 'bubble',
       body: {
