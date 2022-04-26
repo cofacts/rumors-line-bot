@@ -57,7 +57,28 @@ it('should thank the user if user does not agree to submit', async () => {
   };
 
   const { replies } = await askingArticleSubmissionConsent(params);
-  expect(replies).toMatchInlineSnapshot();
+  expect(replies).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "altText": "The message has not been reported and won’t be fact-checked. Thanks anyway!",
+        "contents": Object {
+          "body": Object {
+            "contents": Array [
+              Object {
+                "text": "The message has not been reported and won’t be fact-checked. Thanks anyway!",
+                "type": "text",
+                "wrap": true,
+              },
+            ],
+            "layout": "vertical",
+            "type": "box",
+          },
+          "type": "bubble",
+        },
+        "type": "flex",
+      },
+    ]
+  `);
 });
 
 it('should submit article if user agrees to submit', async () => {
