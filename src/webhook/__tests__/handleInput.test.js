@@ -3,6 +3,7 @@ import initState from '../handlers/initState';
 import choosingArticle from '../handlers/choosingArticle';
 import choosingReply from '../handlers/choosingReply';
 import askingReplyFeedback from '../handlers/askingReplyFeedback';
+import askingArticleSource from '../handlers/askingArticleSource';
 import askingArticleSubmissionConsent from '../handlers/askingArticleSubmissionConsent';
 import askingReplyRequestReason from '../handlers/askingReplyRequestReason';
 import { ManipulationError } from '../handlers/utils';
@@ -24,6 +25,7 @@ jest.mock('../handlers/initState');
 jest.mock('../handlers/choosingArticle');
 jest.mock('../handlers/choosingReply');
 jest.mock('../handlers/askingReplyFeedback');
+jest.mock('../handlers/askingArticleSource');
 jest.mock('../handlers/askingArticleSubmissionConsent');
 jest.mock('../handlers/askingReplyRequestReason');
 jest.mock('../handlers/tutorial');
@@ -62,36 +64,42 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
   const context = {
     data: { sessionId: FIXED_DATE },
   };
-  const event = {
-    type: 'postback',
-    postbackHandlerState: 'CHOOSING_REPLY',
-    input: 'reply-id',
-  };
 
-  choosingReply.mockImplementationOnce(params => {
-    // it doesn't return `state`, discard it
-    // eslint-disable-next-line no-unused-vars
-    const { state, ...restParams } = params;
-    return Promise.resolve({
-      ...restParams,
-      isSkipUser: false,
-      replies: 'Foo replies',
+  for (const { postbackState, expectedHandler } of [
+    // The states that are triggered by postback
+    {
+      postbackState: 'CHOOSING_REPLY',
+      expectedHandler: choosingReply,
+    },
+    {
+      postbackState: 'ASKING_ARTICLE_SOURCE',
+      expectedHandler: askingArticleSource,
+    },
+    {
+      postbackState: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
+      expectedHandler: askingArticleSubmissionConsent,
+    },
+  ]) {
+    const event = {
+      type: 'postback',
+      postbackHandlerState: postbackState,
+      input: 'Foo',
+    };
+
+    expectedHandler.mockImplementationOnce(() => {
+      return Promise.resolve({
+        // Bare minimal return values by handlers for handleInput to work without crash
+        isSkipUser: false,
+        replies: [],
+      });
     });
-  });
 
-  await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-          Object {
-            "context": Object {
-              "data": Object {
-                "sessionId": 612964800000,
-              },
-            },
-            "replies": "Foo replies",
-          }
-        `);
+    await handleInput(context, event);
+    expect(expectedHandler).toHaveBeenCalledTimes(1);
+  }
 
+  // Expect that default state is not invoked
   expect(choosingArticle).not.toHaveBeenCalled();
-  expect(choosingReply).toHaveBeenCalledTimes(1);
 });
 
 it('shows reply list when VIEW_ARTICLE_PREFIX is sent', async () => {
