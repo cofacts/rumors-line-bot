@@ -159,6 +159,51 @@ Object {
   "isSkipUser": undefined,
   "replies": Array [
     Object {
+      "altText": "The message has now been recorded at Cofacts for volunteers to fact-check. Thank you for submitting!",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "The message has now been recorded at Cofacts for volunteers to fact-check. Thank you for submitting!",
+              "type": "text",
+              "wrap": true,
+            },
+            Object {
+              "action": Object {
+                "label": "View reported message",
+                "type": "uri",
+                "uri": "https://dev.cofacts.tw/article/new-article-id",
+              },
+              "margin": "md",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+    Object {
+      "altText": "In the meantime, you can:",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "In the meantime, you can:",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+    Object {
       "altText": "Your submission is now recorded at https://dev.cofacts.tw/article/new-article-id",
       "contents": Object {
         "contents": Array [

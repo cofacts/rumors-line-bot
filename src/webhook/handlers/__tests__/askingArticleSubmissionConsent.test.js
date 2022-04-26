@@ -163,7 +163,7 @@ it('should ask user to turn on notification settings if they did not turn it on 
   const results = await askingArticleSubmissionConsent(params);
   MockDate.reset();
 
-  expect(results.replies[0].contents.contents).toMatchSnapshot();
+  expect(results.replies[2].contents.contents).toMatchSnapshot();
 
   delete process.env.NOTIFY_METHOD;
   await UserSettings.setAllowNewReplyUpdate(userId, true);

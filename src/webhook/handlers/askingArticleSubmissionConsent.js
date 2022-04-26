@@ -63,6 +63,36 @@ export default async function askingArticleSubmissionConsent(params) {
       replies = [
         {
           type: 'flex',
+          altText: t`The message has now been recorded at Cofacts for volunteers to fact-check. Thank you for submitting!`,
+          contents: {
+            type: 'bubble',
+            body: {
+              type: 'box',
+              layout: 'vertical',
+              contents: [
+                {
+                  type: 'text',
+                  wrap: true,
+                  text: t`The message has now been recorded at Cofacts for volunteers to fact-check. Thank you for submitting!`,
+                },
+                {
+                  type: 'button',
+                  action: {
+                    type: 'uri',
+                    label: t`View reported message`,
+                    uri: articleUrl,
+                  },
+                  margin: 'md',
+                },
+              ],
+            },
+          },
+        },
+        createTextMessage({
+          text: t`In the meantime, you can:`,
+        }),
+        {
+          type: 'flex',
           altText: articleCreatedMsg,
           contents: {
             type: 'carousel',
