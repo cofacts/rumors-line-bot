@@ -232,7 +232,7 @@ export function createArticleShareBubble(articleUrl) {
         {
           type: 'text',
           wrap: true,
-          text: t`Your friends may know the answer 🌟 Share your question to friends, maybe someone can help!`,
+          text: t`We all get by with a little help from our friends 🌟 Share your question to friends, someone might be able to help!`,
         },
       ],
     },
@@ -297,7 +297,7 @@ export function createNotificationSettingsBubble() {
         {
           type: 'text',
           wrap: true,
-          text: t`You can turn on notification if you want Cofacts to notify you when someone replies this message.`,
+          text: t`You can turn on notifications if you want Cofacts to notify you when someone replies to this message.`,
         },
       ],
     },
@@ -369,14 +369,10 @@ export function getArticleSourceOptionFromLabel(articleSourceOptionLabel) {
   return option;
 }
 
-const MANUAL_FACT_CHECKERS = [
+export const MANUAL_FACT_CHECKERS = [
   {
-    label: 'MyGoPen 賣擱騙',
-    value: 'line://ti/p/%40mygopen',
-  },
-  {
-    label: '蘭姆酒吐司',
-    value: 'line://ti/p/%40rumtoast',
+    label: 'MyGoPen 真人查證',
+    value: 'https://line.me/R/ti/p/%40imygopen',
   },
 ];
 /**
