@@ -16,13 +16,13 @@ Object {
   "replies": Array [
     Object {
       "altText": "I am sorry you cannot find the information “這一篇文章確實是一個⋯⋯” you are looking for. But I would still like to help.
- May I ask you a quick question?",
+May I ask you a quick question?",
       "contents": Object {
         "body": Object {
           "contents": Array [
             Object {
               "text": "I am sorry you cannot find the information “這一篇文章確實是一個⋯⋯” you are looking for. But I would still like to help.
- May I ask you a quick question?",
+May I ask you a quick question?",
               "type": "text",
               "wrap": true,
             },

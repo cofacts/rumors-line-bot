@@ -383,13 +383,13 @@ Object {
   "replies": Array [
     Object {
       "altText": "Unfortunately, I currently don’t recognize “零一二三四五六七八九十”, but I would still like to help.
- May I ask you a quick question?",
+May I ask you a quick question?",
       "contents": Object {
         "body": Object {
           "contents": Array [
             Object {
               "text": "Unfortunately, I currently don’t recognize “零一二三四五六七八九十”, but I would still like to help.
- May I ask you a quick question?",
+May I ask you a quick question?",
               "type": "text",
               "wrap": true,
             },
@@ -933,13 +933,13 @@ Object {
   "replies": Array [
     Object {
       "altText": "Unfortunately, I currently don’t recognize “YouTube · ⋯⋯”, but I would still like to help.
- May I ask you a quick question?",
+May I ask you a quick question?",
       "contents": Object {
         "body": Object {
           "contents": Array [
             Object {
               "text": "Unfortunately, I currently don’t recognize “YouTube · ⋯⋯”, but I would still like to help.
- May I ask you a quick question?",
+May I ask you a quick question?",
               "type": "text",
               "wrap": true,
             },

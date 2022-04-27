@@ -323,7 +323,7 @@ export default async function initState(params) {
           text:
             t`Unfortunately, I currently don’t recognize “${inputSummary}”, but I would still like to help.` +
             '\n' +
-            t` May I ask you a quick question?`,
+            t`May I ask you a quick question?`,
         }),
         createArticleSourceReply(data.sessionId),
       ];
