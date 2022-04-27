@@ -86,7 +86,7 @@ export function createReferenceWords({ reference, type }) {
 const LIFF_EXP_SEC = 86400; // LIFF JWT is only valid for 1 day
 
 /**
- * @param {'source'|'reason'|'feedback'} page - The page to display
+ * @param {'feedback'} page - The page to display
  * @param {string} userId - LINE user ID
  * @param {string} sessionId - The current session ID
  * @returns {string}
