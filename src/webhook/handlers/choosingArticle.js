@@ -66,7 +66,7 @@ export default async function choosingArticle(params) {
           text:
             t`I am sorry you cannot find the information “${inputSummary}” you are looking for. But I would still like to help.` +
             '\n' +
-            t` May I ask you a quick question?`,
+            t`May I ask you a quick question?`,
         }),
         createArticleSourceReply(data.sessionId),
       ],
