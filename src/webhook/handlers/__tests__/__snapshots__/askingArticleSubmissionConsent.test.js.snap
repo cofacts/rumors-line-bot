@@ -6,7 +6,7 @@ Array [
     "body": Object {
       "contents": Array [
         Object {
-          "text": "Your submission is now recorded at https://dev.cofacts.tw/article/new-article-id",
+          "text": "It would help fact checkers a lot if you provide more detail :)",
           "type": "text",
           "wrap": true,
         },
@@ -18,27 +18,30 @@ Array [
       "contents": Array [
         Object {
           "action": Object {
-            "label": "See reported message",
+            "label": "Provide detail",
             "type": "uri",
-            "uri": "https://dev.cofacts.tw/article/new-article-id",
+            "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=comment&articleId=new-article-id",
           },
-          "color": "#ffb600",
-          "style": "primary",
-          "type": "button",
-        },
-        Object {
-          "action": Object {
-            "label": "Provide more info",
-            "type": "uri",
-            "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE1Nzc4MzY4MDAwMDAsInN1YiI6InVzZXItaWQtMCIsImV4cCI6MTU3NzkyMzIwMH0.8BerlnWZ5tp5Voipq2feE3W1sWxadJ9whgrIitn1h5U",
-          },
-          "color": "#ffb600",
+          "color": "#00B172",
           "style": "primary",
           "type": "button",
         },
       ],
       "layout": "vertical",
       "spacing": "sm",
+      "type": "box",
+    },
+    "header": Object {
+      "contents": Array [
+        Object {
+          "color": "#00B172",
+          "size": "lg",
+          "text": "Provide more detail",
+          "type": "text",
+        },
+      ],
+      "layout": "vertical",
+      "paddingBottom": "none",
       "type": "box",
     },
     "type": "bubble",
@@ -142,30 +145,53 @@ Array [
 ]
 `;
 
-exports[`should redirect user to other fact-checkers for invalid options 1`] = `
+exports[`should submit article if user agrees to submit 1`] = `
 Object {
   "data": Object {
     "foundArticleIds": Array [],
     "searchedText": "Some text forwarded by the user",
+    "sessionId": 1577923200000,
   },
   "event": Object {
-    "input": "1️⃣ I got the message from:
-Somewhere outside LINE",
-    "type": "message",
+    "input": "__POSTBACK_YES__",
+    "type": "postback",
   },
   "isSkipUser": undefined,
   "replies": Array [
     Object {
-      "text": "Thanks for the info.",
-      "type": "text",
-    },
-    Object {
-      "altText": "We suggest forwarding the message to the following fact-checkers instead. They have 💁 1-on-1 Q&A service to respond to your questions.",
+      "altText": "The message has now been recorded at Cofacts for volunteers to fact-check. Thank you for submitting!",
       "contents": Object {
         "body": Object {
           "contents": Array [
             Object {
-              "text": "We suggest forwarding the message to the following fact-checkers instead. They have 💁 1-on-1 Q&A service to respond to your questions.",
+              "text": "The message has now been recorded at Cofacts for volunteers to fact-check. Thank you for submitting!",
+              "type": "text",
+              "wrap": true,
+            },
+            Object {
+              "action": Object {
+                "label": "View reported message",
+                "type": "uri",
+                "uri": "https://dev.cofacts.tw/article/new-article-id",
+              },
+              "margin": "md",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+    Object {
+      "altText": "In the meantime, you can:",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "In the meantime, you can:",
               "type": "text",
               "wrap": true,
             },
@@ -173,52 +199,10 @@ Somewhere outside LINE",
           "layout": "vertical",
           "type": "box",
         },
-        "footer": Object {
-          "contents": Array [
-            Object {
-              "action": Object {
-                "label": "MyGoPen 真人查證",
-                "type": "uri",
-                "uri": "https://line.me/R/ti/p/%40imygopen",
-              },
-              "color": "#333333",
-              "style": "primary",
-              "type": "button",
-            },
-          ],
-          "layout": "vertical",
-          "spacing": "sm",
-          "type": "box",
-        },
-        "styles": Object {
-          "body": Object {
-            "separator": true,
-          },
-        },
         "type": "bubble",
       },
       "type": "flex",
     },
-  ],
-  "userId": undefined,
-}
-`;
-
-exports[`should submit article when valid source is provided 1`] = `
-Object {
-  "data": Object {
-    "foundArticleIds": Array [],
-    "searchedText": "Some text forwarded by the user",
-    "selectedArticleId": "new-article-id",
-    "sessionId": 1577923200000,
-  },
-  "event": Object {
-    "input": "1️⃣ I got the message from:
-A LINE group",
-    "type": "message",
-  },
-  "isSkipUser": undefined,
-  "replies": Array [
     Object {
       "altText": "Your submission is now recorded at https://dev.cofacts.tw/article/new-article-id",
       "contents": Object {
@@ -227,7 +211,7 @@ A LINE group",
             "body": Object {
               "contents": Array [
                 Object {
-                  "text": "Your submission is now recorded at https://dev.cofacts.tw/article/new-article-id",
+                  "text": "It would help fact checkers a lot if you provide more detail :)",
                   "type": "text",
                   "wrap": true,
                 },
@@ -239,27 +223,30 @@ A LINE group",
               "contents": Array [
                 Object {
                   "action": Object {
-                    "label": "See reported message",
+                    "label": "Provide detail",
                     "type": "uri",
-                    "uri": "https://dev.cofacts.tw/article/new-article-id",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=comment&articleId=new-article-id",
                   },
-                  "color": "#ffb600",
-                  "style": "primary",
-                  "type": "button",
-                },
-                Object {
-                  "action": Object {
-                    "label": "Provide more info",
-                    "type": "uri",
-                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=reason&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE1Nzc5MjMyMDAwMDAsInN1YiI6InVzZXJJZCIsImV4cCI6MTU3ODAwOTYwMH0.NNLTji977VFNyYJ0Mplj63tAUBrzifCmNtWp-0dHrus",
-                  },
-                  "color": "#ffb600",
+                  "color": "#00B172",
                   "style": "primary",
                   "type": "button",
                 },
               ],
               "layout": "vertical",
               "spacing": "sm",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "color": "#00B172",
+                  "size": "lg",
+                  "text": "Provide more detail",
+                  "type": "text",
+                },
+              ],
+              "layout": "vertical",
+              "paddingBottom": "none",
               "type": "box",
             },
             "type": "bubble",

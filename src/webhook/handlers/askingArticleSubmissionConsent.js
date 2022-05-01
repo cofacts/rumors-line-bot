@@ -1,15 +1,14 @@
 import { t } from 'ttag';
 import ga from 'src/lib/ga';
 import gql from 'src/lib/gql';
+import { getArticleURL } from 'src/lib/sharedUtils';
 import {
-  SOURCE_PREFIX_FRIST_SUBMISSION,
-  getArticleURL,
-} from 'src/lib/sharedUtils';
-import {
+  POSTBACK_YES,
+  POSTBACK_NO,
+  ManipulationError,
+  createTextMessage,
+  createCommentBubble,
   createArticleShareBubble,
-  createSuggestOtherFactCheckerReply,
-  getArticleSourceOptionFromLabel,
-  createReasonButtonFooter,
   createNotificationSettingsBubble,
 } from './utils';
 import UserSettings from 'src/database/models/userSettings';
@@ -20,97 +19,97 @@ export default async function askingArticleSubmissionConsent(params) {
 
   const visitor = ga(userId, state, data.searchedText);
 
-  const sourceOption = getArticleSourceOptionFromLabel(
-    event.input.slice(SOURCE_PREFIX_FRIST_SUBMISSION.length)
-  );
+  switch (event.input) {
+    default:
+      throw new ManipulationError(t`Please choose from provided options.`);
 
-  visitor.event({
-    ec: 'UserInput',
-    ea: 'ProvidingSource',
-    el: sourceOption.value,
-  });
+    case POSTBACK_NO:
+      visitor.event({ ec: 'Article', ea: 'Create', el: 'No' });
+      replies = [
+        createTextMessage({
+          text: t`The message has not been reported and won’t be fact-checked. Thanks anyway!`,
+        }),
+      ];
+      state = '__INIT__';
+      break;
 
-  if (!sourceOption.valid) {
-    replies = [
-      {
-        type: 'text',
-        text: t`Thanks for the info.`,
-      },
-      createSuggestOtherFactCheckerReply(),
-    ];
-  } else {
-    visitor.event({ ec: 'Article', ea: 'Create', el: 'Yes' });
+    case POSTBACK_YES: {
+      visitor.event({ ec: 'Article', ea: 'Create', el: 'Yes' });
 
-    const {
-      data: { CreateArticle },
-    } = await gql`
-      mutation($text: String!) {
-        CreateArticle(text: $text, reference: { type: LINE }) {
-          id
+      const {
+        data: { CreateArticle },
+      } = await gql`
+        mutation($text: String!) {
+          CreateArticle(text: $text, reference: { type: LINE }) {
+            id
+          }
         }
-      }
-    `({ text: data.searchedText }, { userId });
+      `({ text: data.searchedText }, { userId });
 
-    await UserArticleLink.createOrUpdateByUserIdAndArticleId(
-      userId,
-      CreateArticle.id
-    );
+      await UserArticleLink.createOrUpdateByUserIdAndArticleId(
+        userId,
+        CreateArticle.id
+      );
 
-    // Create new session, make article submission button expire after submitting
-    data.sessionId = Date.now();
+      // Create new session, make article submission button expire after submission
+      data.sessionId = Date.now();
 
-    const articleUrl = getArticleURL(CreateArticle.id);
-    const articleCreatedMsg = t`Your submission is now recorded at ${articleUrl}`;
-    const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
-      userId
-    );
+      const articleUrl = getArticleURL(CreateArticle.id);
+      const articleCreatedMsg = t`Your submission is now recorded at ${articleUrl}`;
+      const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
+        userId
+      );
 
-    // Track the source of the new message.
-    visitor.event({
-      ec: 'Article',
-      ea: 'ProvidingSource',
-      el: `${CreateArticle.id}/${sourceOption.value}`,
-    });
-
-    replies = [
-      {
-        type: 'flex',
-        altText: articleCreatedMsg,
-        contents: {
-          type: 'carousel',
-          contents: [
-            {
-              type: 'bubble',
-              body: {
-                type: 'box',
-                layout: 'vertical',
-                contents: [
-                  {
-                    type: 'text',
-                    wrap: true,
-                    text: articleCreatedMsg,
+      replies = [
+        {
+          type: 'flex',
+          altText: t`The message has now been recorded at Cofacts for volunteers to fact-check. Thank you for submitting!`,
+          contents: {
+            type: 'bubble',
+            body: {
+              type: 'box',
+              layout: 'vertical',
+              contents: [
+                {
+                  type: 'text',
+                  wrap: true,
+                  text: t`The message has now been recorded at Cofacts for volunteers to fact-check. Thank you for submitting!`,
+                },
+                {
+                  type: 'button',
+                  action: {
+                    type: 'uri',
+                    label: t`View reported message`,
+                    uri: articleUrl,
                   },
-                ],
-              },
-              footer: createReasonButtonFooter(
-                articleUrl,
-                userId,
-                data.sessionId
-              ),
+                  margin: 'md',
+                },
+              ],
             },
-            // Ask user to turn on notification if the user did not turn it on
-            //
-            process.env.NOTIFY_METHOD &&
-              !allowNewReplyUpdate &&
-              createNotificationSettingsBubble(),
-            createArticleShareBubble(articleUrl),
-          ].filter(m => m),
+          },
         },
-      },
-    ];
-
-    // Record article ID in context for reason LIFF
-    data.selectedArticleId = CreateArticle.id;
+        createTextMessage({
+          text: t`In the meantime, you can:`,
+        }),
+        {
+          type: 'flex',
+          altText: articleCreatedMsg,
+          contents: {
+            type: 'carousel',
+            contents: [
+              createCommentBubble(CreateArticle.id),
+              // Ask user to turn on notification if the user did not turn it on
+              //
+              process.env.NOTIFY_METHOD &&
+                !allowNewReplyUpdate &&
+                createNotificationSettingsBubble(),
+              createArticleShareBubble(articleUrl),
+            ].filter(m => m),
+          },
+        },
+      ];
+      state = '__INIT__';
+    }
   }
 
   visitor.send();

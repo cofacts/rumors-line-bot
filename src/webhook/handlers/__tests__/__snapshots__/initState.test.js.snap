@@ -382,76 +382,65 @@ Object {
   "isSkipUser": false,
   "replies": Array [
     Object {
-      "text": "It's good that you don't trust that message just yet. 👍
-
-                  However, I currently don't recognize \\"零一二三四五六七八九十\\". May I have your help?",
-      "type": "text",
-    },
-    Object {
-      "altText": "🥇 Be the first to report the message",
+      "altText": "Unfortunately, I currently don’t recognize “零一二三四五六七八九十”, but I would still like to help.
+ May I ask you a quick question?",
       "contents": Object {
         "body": Object {
           "contents": Array [
             Object {
-              "contents": Array [
-                Object {
-                  "text": "Currently we don't have this message in our database. If you think it is probably a rumor, ",
-                  "type": "span",
-                },
-                Object {
-                  "color": "#ffb600",
-                  "text": "press “🆕 Submit to database” to make this message public on Cofacts database ",
-                  "type": "span",
-                  "weight": "bold",
-                },
-                Object {
-                  "text": "for nice volunteers to fact-check. Although you won't receive answers rightaway, you can help the people who receive the same message in the future.",
-                  "type": "span",
-                },
-              ],
+              "text": "Unfortunately, I currently don’t recognize “零一二三四五六七八九十”, but I would still like to help.
+ May I ask you a quick question?",
               "type": "text",
               "wrap": true,
             },
           ],
           "layout": "vertical",
-          "paddingAll": "lg",
-          "spacing": "md",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+    Object {
+      "altText": "Did you forward this message as a whole to me from the LINE app?",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "Did you forward this message as a whole to me from the LINE app?",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
           "type": "box",
         },
         "footer": Object {
           "contents": Array [
             Object {
               "action": Object {
-                "label": "🆕 Submit to database",
-                "type": "uri",
-                "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE0OTc5OTQwMTc0NDcsInN1YiI6IlVjNzZkOGFlOWNjZDFhZGE0ZjA2YzRlMTUxNWQ0NjQ2NiIsImV4cCI6MTU3NzkyMzIwMH0.V4OTSDA0wDDrlc665JRyjkC0Ux3RFqUM-RN_VNKNCcs&article_submission=true",
+                "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "displayText": "Yes, I forwarded it as a whole",
+                "label": "Yes, I forwarded it as a whole",
+                "type": "postback",
               },
-              "color": "#ffb600",
+              "color": "#333333",
+              "style": "primary",
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "displayText": "No, typed it myself",
+                "label": "No, typed it myself",
+                "type": "postback",
+              },
+              "color": "#333333",
               "style": "primary",
               "type": "button",
             },
           ],
           "layout": "vertical",
-          "type": "box",
-        },
-        "header": Object {
-          "contents": Array [
-            Object {
-              "flex": 0,
-              "gravity": "center",
-              "text": "🥇",
-              "type": "text",
-            },
-            Object {
-              "color": "#ffb600",
-              "text": "Be the first to report the message",
-              "type": "text",
-              "weight": "bold",
-              "wrap": true,
-            },
-          ],
-          "layout": "horizontal",
-          "paddingAll": "lg",
           "spacing": "sm",
           "type": "box",
         },
@@ -943,76 +932,65 @@ Object {
   "isSkipUser": false,
   "replies": Array [
     Object {
-      "text": "It's good that you don't trust that message just yet. 👍
-
-                  However, I currently don't recognize \\"YouTube · ⋯⋯\\". May I have your help?",
-      "type": "text",
-    },
-    Object {
-      "altText": "🥇 Be the first to report the message",
+      "altText": "Unfortunately, I currently don’t recognize “YouTube · ⋯⋯”, but I would still like to help.
+ May I ask you a quick question?",
       "contents": Object {
         "body": Object {
           "contents": Array [
             Object {
-              "contents": Array [
-                Object {
-                  "text": "Currently we don't have this message in our database. If you think it is probably a rumor, ",
-                  "type": "span",
-                },
-                Object {
-                  "color": "#ffb600",
-                  "text": "press “🆕 Submit to database” to make this message public on Cofacts database ",
-                  "type": "span",
-                  "weight": "bold",
-                },
-                Object {
-                  "text": "for nice volunteers to fact-check. Although you won't receive answers rightaway, you can help the people who receive the same message in the future.",
-                  "type": "span",
-                },
-              ],
+              "text": "Unfortunately, I currently don’t recognize “YouTube · ⋯⋯”, but I would still like to help.
+ May I ask you a quick question?",
               "type": "text",
               "wrap": true,
             },
           ],
           "layout": "vertical",
-          "paddingAll": "lg",
-          "spacing": "md",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+    Object {
+      "altText": "Did you forward this message as a whole to me from the LINE app?",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "Did you forward this message as a whole to me from the LINE app?",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
           "type": "box",
         },
         "footer": Object {
           "contents": Array [
             Object {
               "action": Object {
-                "label": "🆕 Submit to database",
-                "type": "uri",
-                "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=source&token=eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOjE0OTc5OTQwMTc0NDcsInN1YiI6IlVjNzZkOGFlOWNjZDFhZGE0ZjA2YzRlMTUxNWQ0NjQ2NiIsImV4cCI6MTU3NzkyMzIwMH0.V4OTSDA0wDDrlc665JRyjkC0Ux3RFqUM-RN_VNKNCcs&article_submission=true",
+                "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "displayText": "Yes, I forwarded it as a whole",
+                "label": "Yes, I forwarded it as a whole",
+                "type": "postback",
               },
-              "color": "#ffb600",
+              "color": "#333333",
+              "style": "primary",
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "displayText": "No, typed it myself",
+                "label": "No, typed it myself",
+                "type": "postback",
+              },
+              "color": "#333333",
               "style": "primary",
               "type": "button",
             },
           ],
           "layout": "vertical",
-          "type": "box",
-        },
-        "header": Object {
-          "contents": Array [
-            Object {
-              "flex": 0,
-              "gravity": "center",
-              "text": "🥇",
-              "type": "text",
-            },
-            Object {
-              "color": "#ffb600",
-              "text": "Be the first to report the message",
-              "type": "text",
-              "weight": "bold",
-              "wrap": true,
-            },
-          ],
-          "layout": "horizontal",
-          "paddingAll": "lg",
           "spacing": "sm",
           "type": "box",
         },
