@@ -3,6 +3,7 @@ import { google } from 'googleapis';
 import fs from 'fs';
 import util from 'util';
 import { exec as child_process_exec } from 'child_process';
+import { getLineContentProxyURL } from './utils';
 const exec = util.promisify(child_process_exec);
 
 const OAuth2 = google.auth.OAuth2;
@@ -80,6 +81,8 @@ export async function saveImageFile(fetchResponse, fileName) {
 }
 
 export async function processImage(messageId) {
+  console.log(`Image url:  ${getLineContentProxyURL(messageId)}`);
+
   const filePath = tmpDir + messageId;
   const command = `tesseract ${filePath}.jpg ${filePath} -l chi_tra`;
   await exec(command);

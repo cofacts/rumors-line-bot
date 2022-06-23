@@ -1,6 +1,7 @@
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
 import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
+import { sign } from 'src/lib/jwt';
 
 const splitter = new GraphemeSplitter();
 
@@ -695,4 +696,19 @@ export function createArticleSourceReply(sessionId) {
       },
     },
   };
+}
+
+const LINE_CONTENT_EXP_SEC = 300; // LINE content proxy JWT is only valid for 5 min
+
+/**
+ * @param {string} messageId - The line messageId
+ * @returns {string}
+ */
+export function getLineContentProxyURL(messageId) {
+  const jwt = sign({
+    messageId,
+    exp: Math.round(Date.now() / 1000) + LINE_CONTENT_EXP_SEC,
+  });
+
+  return `${process.env.RUMORS_LINE_BOT_URL}/getcontent?token=${jwt}`;
 }
