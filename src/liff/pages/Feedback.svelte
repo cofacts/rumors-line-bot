@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { t, ngettext, msgid } from 'ttag';
+  import { t } from 'ttag';
   import { gaTitle } from 'src/lib/sharedUtils';
   import { gql } from '../lib';
   import FeedbackForm from '../components/FeedbackForm.svelte' ;
