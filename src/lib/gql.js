@@ -1,9 +1,60 @@
 import fetch from 'node-fetch';
 import rollbar from './rollbar';
-import url from 'url';
+import { format } from 'url';
+import Dataloader from 'dataloader';
 
 const API_URL =
   process.env.API_URL || 'https://cofacts-api.hacktabl.org/graphql';
+
+// Maps URL to dataloader. Cleared after batched request is fired.
+const loaders = {};
+
+/**
+ * Returns a dataloader instance that can send query & variable to the GraphQL endpoint specified by `url`.
+ *
+ * The dataloader instance is automatically created when not exist for the specified `url`, and is
+ * cleared automatically when the batch request fires.
+ *
+ * @param {string} url - GraphQL endpoint URL
+ * @returns {Dataloader} A dataloader instance that loads response of the given {query, variable}
+ */
+function getGraphQLRespLoader(url) {
+  if (loaders[url]) return loaders[url];
+
+  return (loaders[url] = new Dataloader(async queryAndVariables => {
+    // Clear dataloader so that next batch will get a fresh dataloader
+    delete loaders[url];
+
+    // Implements Apollo's transport layer batching
+    // https://www.apollographql.com/blog/apollo-client/performance/query-batching/#1bce
+    //
+    const responses = await (await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-app-secret': process.env.APP_SECRET,
+      },
+      credentials: 'include',
+      body: JSON.stringify(queryAndVariables),
+    })).json();
+
+    responses.forEach((resp, i) => {
+      if (resp.errors) {
+        console.error('GraphQL operation contains error:', resp.errors);
+        rollbar.error(
+          'GraphQL error',
+          {
+            body: JSON.stringify(queryAndVariables[i]),
+            url,
+          },
+          { resp }
+        );
+      }
+    });
+
+    return responses;
+  }));
+}
 
 // Usage:
 //
@@ -15,8 +66,6 @@ const API_URL =
 // We use template string here so that Atom's language-babel does syntax highlight
 // for us.
 //
-// GraphQL Protocol: http://dev.apollodata.com/tools/graphql-server/requests.html
-//
 export default (query, ...substitutions) => (variables, search) => {
   const queryAndVariable = {
     query: String.raw(query, ...substitutions),
@@ -24,42 +73,7 @@ export default (query, ...substitutions) => (variables, search) => {
 
   if (variables) queryAndVariable.variables = variables;
 
-  let status;
-  const URL = `${API_URL}${url.format({ query: search })}`;
-
-  return fetch(URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-app-secret': process.env.APP_SECRET,
-    },
-    credentials: 'include',
-    body: JSON.stringify(queryAndVariable),
-  })
-    .then(r => {
-      status = r.status;
-      return r.json();
-    })
-    .then(resp => {
-      if (status === 400) {
-        throw new Error(
-          `GraphQL Error: ${resp.errors
-            .map(({ message }) => message)
-            .join('\n')}`
-        );
-      }
-      if (resp.errors) {
-        // When status is 200 but have error, just print them out.
-        console.error('GraphQL operation contains error:', resp.errors);
-        rollbar.error(
-          'GraphQL error',
-          {
-            body: JSON.stringify(queryAndVariable),
-            url: URL,
-          },
-          { resp }
-        );
-      }
-      return resp;
-    });
+  return getGraphQLRespLoader(`${API_URL}${format({ query: search })}`).load(
+    queryAndVariable
+  );
 };
