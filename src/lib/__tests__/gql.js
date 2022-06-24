@@ -1,20 +1,20 @@
-jest.mock("node-fetch");
-jest.mock("../rollbar");
+jest.mock('node-fetch');
+jest.mock('../rollbar');
 
-import fetch from "node-fetch";
-import rollbar from "../rollbar";
-import gql, { loaders } from "../gql";
+import fetch from 'node-fetch';
+import rollbar from '../rollbar';
+import gql, { loaders } from '../gql';
 
 beforeEach(() => {
   fetch.mockClear();
   rollbar.error.mockClear();
 });
 
-it("invokes fetch and returns result", async () => {
+it('invokes fetch and returns result', async () => {
   fetch.mockImplementationOnce(() =>
     Promise.resolve({ json: () => Promise.resolve([{ data: { foo: 1 } }]) })
   );
-  const result = await gql`(bar: String){foo}`({ bar: "bar" });
+  const result = await gql`(bar: String){foo}`({ bar: 'bar' });
 
   expect(fetch.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -42,15 +42,15 @@ it("invokes fetch and returns result", async () => {
   `);
 });
 
-it("handles syntax error", async () => {
+it('handles syntax error', async () => {
   fetch.mockImplementationOnce(() =>
     Promise.resolve({
       status: 200, // Apollo Server always return 200 when transport layer batch is used.
       json: () =>
         Promise.resolve([
           // Apollo Server do not send `data` when there is syntax error
-          { errors: [{ message: "Syntax error" }] }
-        ])
+          { errors: [{ message: 'Syntax error' }] },
+        ]),
     })
   );
   const result = await gql`
@@ -62,15 +62,15 @@ it("handles syntax error", async () => {
   expect(result).toMatchInlineSnapshot(`[Error: GraphQL Error: Syntax error]`);
 });
 
-it("handles runtime error", async () => {
+it('handles runtime error', async () => {
   fetch.mockImplementationOnce(() =>
     Promise.resolve({
       status: 200,
       json: () =>
         Promise.resolve([
           // No fields resolved successfully, but data is still an object
-          { data: {}, errors: [{ message: "Runtime error" }] }
-        ])
+          { data: {}, errors: [{ message: 'Runtime error' }] },
+        ]),
     })
   );
   const result = await gql`
@@ -112,17 +112,17 @@ it("handles runtime error", async () => {
   `);
 });
 
-it("batches consecutive requests by URL", async () => {
+it('batches consecutive requests by URL', async () => {
   fetch
     .mockImplementationOnce(() =>
       Promise.resolve({
         json: () =>
-          Promise.resolve([{ data: { foo: 1 } }, { data: { bar: 2 } }])
+          Promise.resolve([{ data: { foo: 1 } }, { data: { bar: 2 } }]),
       })
     )
     .mockImplementationOnce(() =>
       Promise.resolve({
-        json: () => Promise.resolve([{ data: { foobar: 3 } }])
+        json: () => Promise.resolve([{ data: { foobar: 3 } }]),
       })
     );
 
@@ -141,7 +141,7 @@ it("batches consecutive requests by URL", async () => {
       {
         foobar
       }
-    `({}, { userId: "another-user" })
+    `({}, { userId: 'another-user' }),
   ]);
 
   // Expect called 2 times
