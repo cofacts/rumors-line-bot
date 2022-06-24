@@ -12,7 +12,7 @@ beforeEach(() => {
 
 it('invokes fetch and returns result', async () => {
   fetch.mockImplementationOnce(() =>
-    Promise.resolve({ json: () => Promise.resolve({ data: { foo: 1 } }) })
+    Promise.resolve({ json: () => Promise.resolve([{ data: { foo: 1 } }]) })
   );
   const result = await gql`(bar: String){foo}`({ bar: 'bar' });
 
@@ -21,7 +21,7 @@ it('invokes fetch and returns result', async () => {
       Array [
         "https://dev-api.cofacts.tw/graphql",
         Object {
-          "body": "{\\"query\\":\\"(bar: String){foo}\\",\\"variables\\":{\\"bar\\":\\"bar\\"}}",
+          "body": "[{\\"query\\":\\"(bar: String){foo}\\",\\"variables\\":{\\"bar\\":\\"bar\\"}}]",
           "credentials": "include",
           "headers": Object {
             "Content-Type": "application/json",
@@ -45,9 +45,12 @@ it('invokes fetch and returns result', async () => {
 it('handles syntax error', async () => {
   fetch.mockImplementationOnce(() =>
     Promise.resolve({
-      status: 400,
+      status: 200, // Apollo Server always return 200 when transport layer batch is used.
       json: () =>
-        Promise.resolve({ data: null, errors: [{ message: 'Syntax error' }] }),
+        Promise.resolve([
+          // Apollo Server do not send `data` when there is syntax error
+          { errors: [{ message: 'Syntax error' }] },
+        ]),
     })
   );
   const result = await gql`
@@ -64,7 +67,10 @@ it('handles runtime error', async () => {
     Promise.resolve({
       status: 200,
       json: () =>
-        Promise.resolve({ data: null, errors: [{ message: 'Runtime error' }] }),
+        Promise.resolve([
+          // No fields resolved successfully, but data is still an object
+          { data: {}, errors: [{ message: 'Runtime error' }] },
+        ]),
     })
   );
   const result = await gql`
@@ -75,7 +81,7 @@ it('handles runtime error', async () => {
 
   expect(result).toMatchInlineSnapshot(`
     Object {
-      "data": null,
+      "data": Object {},
       "errors": Array [
         Object {
           "message": "Runtime error",
@@ -93,7 +99,7 @@ it('handles runtime error', async () => {
         },
         Object {
           "resp": Object {
-            "data": null,
+            "data": Object {},
             "errors": Array [
               Object {
                 "message": "Runtime error",
