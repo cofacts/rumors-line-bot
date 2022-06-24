@@ -23,13 +23,13 @@ afterAll(async () => {
   await (await Client.getInstance()).close();
 });
 
-// Note: all commented to make unit test pass on other PRs.
-
 describe('should select reply by replyId', () => {
   const params = {
     data: {
       searchedText: '貼圖',
       selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
+      selectedArticleText:
+        '(0)(1)(/)(0)(9)(line)免費貼圖\n「[全螢幕貼圖]生活市集x生活小黑熊」\n https://line.me/S/sticker/',
     },
     event: {
       type: 'postback',

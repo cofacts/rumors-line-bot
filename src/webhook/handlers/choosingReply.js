@@ -139,7 +139,6 @@ export default async function choosingReply(params) {
       }
       GetArticle(id: $articleId) {
         replyCount
-        text
       }
     }
   `({ id: selectedReplyId, articleId: data.selectedArticleId });
@@ -172,7 +171,7 @@ export default async function choosingReply(params) {
 
           createShareBubble(
             data.selectedArticleId,
-            GetArticle.text,
+            data.selectedArticleText,
             GetReply.type
           ),
         ].filter(m => m),
