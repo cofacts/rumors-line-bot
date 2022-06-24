@@ -7,7 +7,8 @@ const API_URL =
   process.env.API_URL || 'https://cofacts-api.hacktabl.org/graphql';
 
 // Maps URL to dataloader. Cleared after batched request is fired.
-const loaders = {};
+// Exported just for unit test.
+export const loaders = {};
 
 /**
  * Returns a dataloader instance that can send query & variable to the GraphQL endpoint specified by `url`.
