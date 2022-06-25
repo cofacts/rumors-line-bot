@@ -2,16 +2,11 @@ import { t } from 'ttag';
 import initState from './handlers/initState';
 import choosingArticle from './handlers/choosingArticle';
 import choosingReply from './handlers/choosingReply';
-import askingReplyFeedback from './handlers/askingReplyFeedback';
 import askingArticleSubmissionConsent from './handlers/askingArticleSubmissionConsent';
 import askingArticleSource from './handlers/askingArticleSource';
 import defaultState from './handlers/defaultState';
 import { ManipulationError } from './handlers/utils';
-import {
-  DOWNVOTE_PREFIX,
-  UPVOTE_PREFIX,
-  extractArticleId,
-} from 'src/lib/sharedUtils';
+import { extractArticleId } from 'src/lib/sharedUtils';
 import tutorial, { TUTORIAL_STEPS } from './handlers/tutorial';
 
 /**
@@ -51,11 +46,6 @@ export default async function handleInput({ data = {} }, event, userId) {
         type: 'postback',
         input: articleId,
       };
-    } else if (
-      event.input.startsWith(UPVOTE_PREFIX) ||
-      event.input.startsWith(DOWNVOTE_PREFIX)
-    ) {
-      state = 'ASKING_REPLY_FEEDBACK';
     } else if (event.input === TUTORIAL_STEPS['RICH_MENU']) {
       state = 'TUTORIAL';
     } else {
@@ -115,14 +105,6 @@ export default async function handleInput({ data = {} }, event, userId) {
           params = await askingArticleSubmissionConsent(params);
           break;
         }
-
-        // from liff, message contains prefix
-        // UPVOTE_PREFIX, DOWNVOTE_PREFIX
-        case 'ASKING_REPLY_FEEDBACK': {
-          params = await askingReplyFeedback(params);
-          break;
-        }
-
         default: {
           params = defaultState(params);
           break;

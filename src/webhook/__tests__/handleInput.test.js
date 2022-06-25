@@ -2,24 +2,17 @@ import MockDate from 'mockdate';
 import initState from '../handlers/initState';
 import choosingArticle from '../handlers/choosingArticle';
 import choosingReply from '../handlers/choosingReply';
-import askingReplyFeedback from '../handlers/askingReplyFeedback';
 import askingArticleSource from '../handlers/askingArticleSource';
 import askingArticleSubmissionConsent from '../handlers/askingArticleSubmissionConsent';
 import { ManipulationError } from '../handlers/utils';
 import handleInput from '../handleInput';
 import tutorial, { TUTORIAL_STEPS } from '../handlers/tutorial';
 
-import {
-  DOWNVOTE_PREFIX,
-  UPVOTE_PREFIX,
-  VIEW_ARTICLE_PREFIX,
-  getArticleURL,
-} from 'src/lib/sharedUtils';
+import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
 
 jest.mock('../handlers/initState');
 jest.mock('../handlers/choosingArticle');
 jest.mock('../handlers/choosingReply');
-jest.mock('../handlers/askingReplyFeedback');
 jest.mock('../handlers/askingArticleSource');
 jest.mock('../handlers/askingArticleSubmissionConsent');
 jest.mock('../handlers/tutorial');
@@ -34,7 +27,6 @@ beforeEach(() => {
   initState.mockClear();
   choosingArticle.mockClear();
   choosingReply.mockClear();
-  askingReplyFeedback.mockClear();
   askingArticleSubmissionConsent.mockClear();
   tutorial.mockClear();
   MockDate.set(NOW);
@@ -227,77 +219,8 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
           }
         `);
 
-  expect(askingReplyFeedback).not.toHaveBeenCalled();
   expect(initState).toHaveBeenCalledTimes(1);
   expect(choosingArticle).toHaveBeenCalledTimes(1);
-});
-
-it('processes upvote', async () => {
-  const context = {
-    data: { sessionId: FIXED_DATE },
-  };
-  const event = {
-    type: 'message',
-    input: `${UPVOTE_PREFIX}My upvote reason`,
-  };
-
-  askingReplyFeedback.mockImplementationOnce(params => {
-    // it doesn't return `state`, discard it
-    // eslint-disable-next-line no-unused-vars
-    const { state, ...restParams } = params;
-    return Promise.resolve({
-      ...restParams,
-      isSkipUser: false,
-      replies: 'Foo replies',
-    });
-  });
-
-  await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-          Object {
-            "context": Object {
-              "data": Object {
-                "sessionId": 612964800000,
-              },
-            },
-            "replies": "Foo replies",
-          }
-        `);
-
-  expect(askingReplyFeedback).toHaveBeenCalledTimes(1);
-});
-
-it('processes downvote', async () => {
-  const context = {
-    data: { sessionId: FIXED_DATE },
-  };
-  const event = {
-    type: 'message',
-    input: `${DOWNVOTE_PREFIX}My downvote reason`,
-  };
-
-  askingReplyFeedback.mockImplementationOnce(params => {
-    // it doesn't return `state`, discard it
-    // eslint-disable-next-line no-unused-vars
-    const { state, ...restParams } = params;
-    return Promise.resolve({
-      ...restParams,
-      isSkipUser: false,
-      replies: 'Foo replies',
-    });
-  });
-
-  await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-          Object {
-            "context": Object {
-              "data": Object {
-                "sessionId": 612964800000,
-              },
-            },
-            "replies": "Foo replies",
-          }
-        `);
-
-  expect(askingReplyFeedback).toHaveBeenCalledTimes(1);
 });
 
 describe('defaultState', () => {
