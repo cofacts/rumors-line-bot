@@ -15,11 +15,6 @@ export const isDuringLiffRedirect = !!params.get('liff.state');
 export const page = writable(params.get('p'));
 
 /**
- * Original JWT token from URL param.
- */
-const urlToken = params.get('token');
-
-/**
  * Usage: gql`query {...}`(variables)
  *
  * @returns {(variables: object): Promise<object>}
@@ -32,18 +27,14 @@ export const gql = (query, ...substitutions) => variables => {
   if (variables) queryAndVariable.variables = variables;
 
   let status;
-  let lineIDToken;
-  if (!urlToken) {
-    lineIDToken = liff.getIDToken();
-    if (!lineIDToken) return Promise.reject('gql Error: token not set.');
-  }
-  const token = urlToken ? `Bearer ${urlToken}` : `line ${lineIDToken}`;
+  const lineIDToken = liff.getIDToken();
+  if (!lineIDToken) return Promise.reject('gql Error: token not set.');
 
   return fetch('/graphql', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: token,
+      Authorization: `line ${lineIDToken}`,
     },
     body: JSON.stringify(queryAndVariable),
   })

@@ -88,42 +88,6 @@ describe('gql', () => {
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(rollbar.error).toHaveBeenCalledTimes(1);
   });
-
-  it('returns GraphQL result', async () => {
-    global.location = { search: '?token=foo' }; // has url token
-    global.fetch = jest.fn().mockImplementation(() =>
-      Promise.resolve({
-        status: 200,
-        json: () =>
-          Promise.resolve({
-            data: 'bar',
-          }),
-      })
-    );
-
-    const { gql } = require('../lib');
-    await expect(gql`query`({ variables: { foobar: 123 } })).resolves
-      .toMatchInlineSnapshot(`
-            Object {
-              "data": "bar",
-            }
-          `);
-    expect(fetch.mock.calls).toMatchInlineSnapshot(`
-      Array [
-        Array [
-          "/graphql",
-          Object {
-            "body": "{\\"query\\":\\"query\\",\\"variables\\":{\\"variables\\":{\\"foobar\\":123}}}",
-            "headers": Object {
-              "Authorization": "Bearer foo",
-              "Content-Type": "application/json",
-            },
-            "method": "POST",
-          },
-        ],
-      ]
-    `);
-  });
 });
 
 describe('assertInClient', () => {

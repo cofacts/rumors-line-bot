@@ -104,12 +104,13 @@ In development mode, it spins a webpack-dev-server on `localhost:<LIFF_DEV_PORT>
 and `/liff` of chatbot server proxies all requests to the webpack-dev-server.
 
 A tip to develop LIFF in browser is:
-1. trigger LIFF in the mobile phone
-2. Get LIFF token from dev server proxy log (something like `GET /liff/index.html?p=<page>&token=<jwt> proxy to -> ...`)
-3. Visit `https://<your-dev-chatbot.ngrok.io>/liff/index.html?p=<page>&token=<jwt>` in desktop browser for easier development
+1. Visit `https://<your-dev-chatbot.ngrok.io>/liff/index.html?p=<page>&...` in desktop browser.
+2. If your browser has not logged in LINE, LIFF SDK will redirect your desktop browser window to login page.
+3. If your browser logged in LINE for a while, it is possible that your session has timed out. LINE LIFF does not log you out automatically; you will need to type `liff.logout()` manually in JS console to trigger a re-login.
 
 `liff.init()` would still work in desktop browser, so that the app renders, enabling us to debug web layouts on desktop.
 `liff.sendMessages()` would not work, though.
+`liff.closeWindow()` will not work either if your browser window has gone through login redirects.
 
 #### GraphQL API for LIFF
 
