@@ -71,15 +71,26 @@ describe('should select reply by replyId', () => {
     expect(ga.sendMock).toHaveBeenCalledTimes(1);
   });
 
-  it('should ask user to turn on notification settings if they did not turn it on', async () => {
-    gql.__push(apiResult.oneReply);
-    process.env.NOTIFY_METHOD == 'LINE_NOTIFY';
-    await UserSettings.setAllowNewReplyUpdate(params.userId, false);
+  it('should ask user to turn on notification settings if and only if they did not turn it on', async () => {
+    process.env.NOTIFY_METHOD = 'LINE_NOTIFY';
 
-    expect((await choosingReply(params)).replies).toMatchSnapshot();
+    // Not allowing notification yet, expect notification bubble to show
+    //
+    await UserSettings.setAllowNewReplyUpdate(params.userId, false);
+    gql.__push(apiResult.oneReply);
+    expect((await choosingReply(params)).replies.slice(-1)).toMatchSnapshot(
+      'Not allowing notification yet'
+    );
+
+    // The user already allowed notification, expect notification bubble to not show
+    //
+    await UserSettings.setAllowNewReplyUpdate(params.userId, true);
+    gql.__push(apiResult.oneReply);
+    expect((await choosingReply(params)).replies.slice(-1)).toMatchSnapshot(
+      'Notification already allowed'
+    );
 
     // Reset
-    await UserSettings.setAllowNewReplyUpdate(params.userId, true);
     delete process.env.NOTIFY_METHOD;
   });
 
