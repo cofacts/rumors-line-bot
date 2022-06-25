@@ -6,9 +6,6 @@ type Query {
   # Open monitor metrics of the job queue
   queue: [QueueInfo!]!
 
-  # Current user's chatbot context
-  context: UserContext @auth
-
   # Returns articleReplyLinks of the current user
   userArticleLinks(
     before: Cursor
@@ -22,12 +19,6 @@ type Query {
 }
 
 type Mutation {
-  """
-  Add feedback to article-reply in context.
-  Returns feedback count after vote.
-  """
-  voteReply(vote: FeedbackVote!): Int @auth @deprecated(reason: "Use CreateOrUpdateArticleReplyFeedback instead")
-
   """
   Establish article-user link between the current user and the specified article.
   """
@@ -190,18 +181,6 @@ type QueueJobCountInfo {
   completed: Int!
   failed: Int!
   delayed: Int!
-}
-
-type UserContext {
-  data: StateData
-}
-
-type StateData {
-  sessionId: String
-  searchedText: String
-  selectedArticleId: ID
-  selectedArticleText: String
-  selectedReplyId: ID
 }
 
 enum FeedbackVote {
