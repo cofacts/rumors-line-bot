@@ -1,6 +1,5 @@
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
-import { sign } from 'src/lib/jwt';
 import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
 
 const splitter = new GraphemeSplitter();
