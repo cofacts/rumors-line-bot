@@ -208,9 +208,6 @@ const singleUserHandler = async (
 
       let text = '';
       try {
-        const res = await fetchFile(otherFields.message.id);
-        uploadImageFile(res.clone(), otherFields.message.id);
-        await saveImageFile(res, otherFields.message.id);
         text = await processImage(otherFields.message.id);
       } catch (e) {
         console.error(e);

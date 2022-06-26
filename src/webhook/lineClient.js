@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import rollbar from 'src/lib/rollbar';
 
-export default { post, get };
+export default { post, get, getContent };
 
 async function post(endpoint = '', body = {}, options = {}) {
   const URL = `https://api.line.me/v2/bot${endpoint}`;
@@ -67,4 +67,35 @@ async function get(endpoint = '', options = {}) {
   }
 
   return result;
+}
+
+async function getContent(messageId, options = {}) {
+  // this endpoint is for sending and receiving large amounts of data in the LINE platform for Messaging API.
+  const URL = `https://api-data.line.me/v2/bot/message/${messageId}/content`;
+  const resp = await fetch(URL, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${process.env.LINE_CHANNEL_TOKEN}`,
+      ...options.headers,
+    },
+    ...options,
+  });
+
+  if (resp.status !== 200) {
+    const err = await resp.json();
+    console.error(JSON.stringify(err, null, '  '));
+
+    rollbar.error(
+      `[LINE Client] ${resp.status}: ${err.message}.`,
+      {
+        // Request object for rollbar server SDK
+        headers: options.headers,
+        url: URL,
+        method: 'GET',
+      },
+      { result: err }
+    );
+  }
+
+  return resp;
 }

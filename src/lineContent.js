@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import { fetchFile } from './webhook/handlers/fileHandler';
+import lineClient from 'src/webhook/lineClient';
 import { verify, read } from 'src/lib/jwt';
 
 const lineContentRouter = Router();
@@ -14,7 +14,8 @@ lineContentRouter.get('/', async ctx => {
   }
 
   const parsed = read(jwt);
-  const response = await fetchFile(parsed.messageId);
+
+  const response = await lineClient.getContent(parsed.messageId);
   ctx.response.set('content-length', response.headers.get('content-length'));
   ctx.response.set('content-type', response.headers.get('content-type'));
   ctx.response.set(
