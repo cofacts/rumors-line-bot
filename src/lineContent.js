@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import { downloadFile } from './webhook/handlers/fileHandler';
+import { fetchFile } from './webhook/handlers/fileHandler';
 import { verify, read } from 'src/lib/jwt';
 
 const lineContentRouter = Router();
@@ -14,16 +14,15 @@ lineContentRouter.get('/', async ctx => {
   }
 
   const parsed = read(jwt);
-  const result = await downloadFile(parsed.messageId);
-
-  // let mimeType = 'image/jpeg';
-  // ctx.response.set('content-type', mimeType);
+  const response = await fetchFile(parsed.messageId);
+  ctx.response.set('content-length', response.headers.get('content-length'));
+  ctx.response.set('content-type', response.headers.get('content-type'));
   ctx.response.set(
     'content-disposition',
     `attachment; filename=${parsed.messageId}`
   );
   ctx.status = 200;
-  ctx.body = result.body;
+  ctx.body = response.body;
 });
 
 export default lineContentRouter;

@@ -37,7 +37,7 @@ function initGDrive() {
   drive = google.drive({ version: 'v3', auth: oauth2Client });
 }
 
-export async function downloadFile(messageId) {
+export async function fetchFile(messageId) {
   //get line message file
   const LINE_API_URL = `https://api-data.line.me/v2/bot/message/${messageId}/content`;
   const options = {
