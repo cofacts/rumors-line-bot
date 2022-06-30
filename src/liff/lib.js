@@ -15,11 +15,6 @@ export const isDuringLiffRedirect = !!params.get('liff.state');
 export const page = writable(params.get('p'));
 
 /**
- * Original JWT token from URL param.
- */
-const urlToken = params.get('token');
-
-/**
  * Usage: gql`query {...}`(variables)
  *
  * @returns {(variables: object): Promise<object>}
@@ -32,18 +27,14 @@ export const gql = (query, ...substitutions) => variables => {
   if (variables) queryAndVariable.variables = variables;
 
   let status;
-  let lineIDToken;
-  if (!urlToken) {
-    lineIDToken = liff.getIDToken();
-    if (!lineIDToken) return Promise.reject('gql Error: token not set.');
-  }
-  const token = urlToken ? `Bearer ${urlToken}` : `line ${lineIDToken}`;
+  const lineIDToken = liff.getIDToken();
+  if (!lineIDToken) return Promise.reject('gql Error: token not set.');
 
   return fetch('/graphql', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: token,
+      Authorization: `line ${lineIDToken}`,
     },
     body: JSON.stringify(queryAndVariable),
   })
@@ -90,59 +81,6 @@ export const assertInClient = () => {
         ' 📲 '
     );
     liff.closeWindow();
-  }
-};
-
-/**
- * Checks if still in the same search session.
- * This checks URL token for expiracy and try retrieving sessionId from GraphQL server.
- *
- * Closes LIFF when GraphQL server rejects.
- */
-export const assertSameSearchSession = async () => {
-  if (!urlToken) {
-    alert(t`Cannot get token from URL`);
-    liff.closeWindow();
-    return;
-  }
-
-  const parsedToken = urlToken
-    ? JSON.parse(atob(urlToken.split('.')[1]))
-    : null;
-
-  if ((parsedToken.exp || -Infinity) < Date.now() / 1000) {
-    alert(t`Sorry, the button is expired.`);
-    liff.closeWindow();
-    return;
-  }
-
-  const { data, errors } = await gql`
-    query CheckSessionId {
-      context {
-        data {
-          sessionId
-        }
-      }
-    }
-  `();
-
-  if (errors && errors[0].message === 'Invalid authentication header') {
-    alert(t`This button was for previous search and is now expired.`);
-    liff.closeWindow();
-    return;
-  }
-
-  if (
-    !data ||
-    !data.context ||
-    !data.context.data ||
-    !data.context.data.sessionId
-  ) {
-    alert(
-      /* t: In LIFF, should not happen */ t`Unexpected error, no search session data is retrieved.`
-    );
-    liff.closeWindow();
-    return;
   }
 };
 

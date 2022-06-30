@@ -5,7 +5,6 @@ import linebotSchema from './linebotSchema';
 import cofactsSchema from './cofactsSchema';
 import redis from 'src/lib/redisClient';
 import { verifyIDToken } from './lineClient';
-import { verify, read } from 'src/lib/jwt';
 
 // Empty context for non-auth public APIs
 const EMPTY_CONTEXT = {
@@ -36,30 +35,6 @@ export async function getContext({ ctx: { req } }) {
     return {
       userId: parsed.sub,
       userContext: context,
-    };
-  } else if (authorization.toLowerCase().startsWith('bearer ')) {
-    const jwt = authorization.replace(/^Bearer /i, '');
-    if (!jwt || !verify(jwt)) {
-      return EMPTY_CONTEXT;
-    }
-
-    const parsed = read(jwt);
-
-    if (!parsed || !parsed.sub) {
-      return EMPTY_CONTEXT;
-    }
-
-    const context = await redis.get(parsed.sub);
-
-    return {
-      userId: parsed.sub,
-      userContext:
-        context &&
-        context.data &&
-        parsed.sessionId &&
-        context.data.sessionId === parsed.sessionId
-          ? context
-          : null,
     };
   }
 

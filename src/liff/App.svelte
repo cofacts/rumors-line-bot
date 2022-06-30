@@ -5,15 +5,11 @@
   import Articles from './pages/Articles.svelte';
   import Comment from './pages/Comment.svelte';
   import UserSetting from './pages/UserSetting.svelte';
-  import PositiveFeedback from './pages/PositiveFeedback.svelte';
-  import NegativeFeedback from './pages/NegativeFeedback.svelte';
   import Feedback from './pages/Feedback.svelte';
 
   const routes = {
     article: Article,
     articles: Articles,
-    'feedback/yes': PositiveFeedback,
-    'feedback/no': NegativeFeedback,
     setting: UserSetting,
     comment: Comment,
     feedback: Feedback,

@@ -14,8 +14,6 @@ const SITE_URLS = (process.env.SITE_URLS || 'https://cofacts.g0v.tw').split(
 /**
  * prefilled text for LIFF sendMessage()
  */
-export const UPVOTE_PREFIX = `👍 ${t`I think the reply is useful and I want to add`}:\n`;
-export const DOWNVOTE_PREFIX = `💡 ${t`I think the reply is not useful and I suggest`}:\n`;
 export const VIEW_ARTICLE_PREFIX = `📃 ${t`See replies of`}:\n`;
 
 /**
