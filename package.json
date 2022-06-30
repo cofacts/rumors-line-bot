@@ -52,6 +52,7 @@
     "ajv": "^6.12.2",
     "apollo-server-koa": "^2.21.0",
     "bull": "^3.20.0",
+    "dataloader": "^2.1.0",
     "date-fns": "^2.14.0",
     "googleapis": "^75.0.0",
     "grapheme-splitter": "^1.0.4",

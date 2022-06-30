@@ -196,6 +196,15 @@ type Article implements Node {
     """List only the activities between the specific time range."""
     dateRange: TimeRangeInput
   ): [Analytics]
+
+  """Message event type"""
+  articleType: ArticleTypeEnum!
+
+  """Attachment of this article"""
+  attachmentUrl: String
+
+  """Attachment hash to search or identify files"""
+  attachmentHash: String
 }
 
 """Basic entity. Modeled after Relay's GraphQL Server Specification."""
@@ -726,6 +735,13 @@ type Analytics {
   webVisit: Int
 }
 
+enum ArticleTypeEnum {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+}
+
 input ListArticleFilter {
   """Show only articles created by a specific app."""
   appId: String
@@ -785,6 +801,12 @@ input ListArticleFilter {
 
   """List the articles with replies of certain types"""
   replyTypes: [ReplyTypeEnum]
+
+  """List the articles with certain types"""
+  articleTypes: [ArticleTypeEnum]
+
+  """Show the media article similar to the input url"""
+  mediaUrl: String
 }
 
 """
@@ -1070,6 +1092,18 @@ type Mutation {
   """Create an article and/or a replyRequest"""
   CreateArticle(
     text: String!
+    reference: ArticleReferenceInput!
+
+    """
+    The reason why the user want to submit this article. Mandatory for 1st sender
+    """
+    reason: String
+  ): MutationResult
+
+  """Create a media article and/or a replyRequest"""
+  CreateMediaArticle(
+    mediaUrl: String!
+    articleType: ArticleTypeEnum!
     reference: ArticleReferenceInput!
 
     """
