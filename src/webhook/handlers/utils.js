@@ -1,6 +1,5 @@
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
-import { sign } from 'src/lib/jwt';
 import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
 
 const splitter = new GraphemeSplitter();
@@ -81,24 +80,6 @@ export function createReferenceWords({ reference, type }) {
 
   if (reference) return `${prompt}：${reference}`;
   return `\uDBC0\uDC85 ⚠️️ ${t`This reply has no ${prompt} and it may be biased`} ⚠️️  \uDBC0\uDC85`;
-}
-
-const LIFF_EXP_SEC = 86400; // LIFF JWT is only valid for 1 day
-
-/**
- * @param {'feedback'} page - The page to display
- * @param {string} userId - LINE user ID
- * @param {string} sessionId - The current session ID
- * @returns {string}
- */
-export function getLIFFURL(page, userId, sessionId) {
-  const jwt = sign({
-    sessionId,
-    sub: userId,
-    exp: Math.round(Date.now() / 1000) + LIFF_EXP_SEC,
-  });
-
-  return `${process.env.LIFF_URL}?p=${page}&token=${jwt}`;
 }
 
 /**

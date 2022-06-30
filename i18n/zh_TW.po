@@ -99,17 +99,18 @@ msgid "If you have different thoughts, you may have your say here:"
 msgstr "如果你對這則訊息有不同看法，歡迎到下面這裡寫入新的回應："
 
 #: src/liff/components/FeedbackForm.svelte:23
-#: src/webhook/handlers/choosingReply.js:18
+#: src/webhook/handlers/choosingReply.js:29
+#: src/webhook/handlers/choosingReply.js:161
 msgid "Is the reply helpful?"
 msgstr "請問上面回應是否有幫助？"
 
 #: src/liff/components/FeedbackForm.svelte:27
-#: src/webhook/handlers/choosingReply.js:54
+#: src/webhook/handlers/choosingReply.js:44
 msgid "Yes"
 msgstr "是"
 
 #: src/liff/components/FeedbackForm.svelte:30
-#: src/webhook/handlers/choosingReply.js:64
+#: src/webhook/handlers/choosingReply.js:56
 msgid "No"
 msgstr "否"
 
@@ -173,11 +174,13 @@ msgstr "抱歉，chatbot 出錯了。我們已經重設您目前的搜尋狀態�
 msgid "Your submission is now recorded at ${ articleUrl }"
 msgstr "您回報的訊息已經被收錄至 ${ articleUrl }"
 
+#: src/liff/pages/Feedback.svelte:81
 #: src/webhook/handlers/askingReplyFeedback.js:41
 msgid "Cannot record your feedback. Try again later?"
 msgstr "無法記錄您的評價，請稍後再試。"
 
 #: src/webhook/handlers/askingReplyFeedback.js:71
+#: src/webhook/handlers/choosingReply.js:77
 #, javascript-format
 msgid ""
 "Someone says the message “${ articleText }” ${ replyType }.\n"
@@ -190,22 +193,26 @@ msgstr ""
 "請至 ${ articleUrl } 觀看完整的訊息內容、其他鄉親的回應以及出處。"
 
 #: src/webhook/handlers/askingReplyFeedback.js:74
+#: src/webhook/handlers/choosingReply.js:89
 msgid "Don't forget to forward the messages above to others and share with them!"
 msgstr "別忘了把上面的回應轉傳回您的聊天室，給其他人也看看！"
 
 #: src/liff/components/FeedbackSummary.svelte:14
+#: src/liff/pages/Feedback.svelte:88
 #: src/webhook/handlers/askingReplyFeedback.js:81
 #, javascript-format
 msgid "We've received feedback from you and ${ otherFeedbackCount } other users!"
 msgstr "感謝您與其他 ${otherFeedbackCount} 人的評價。"
 
 #: src/liff/components/FeedbackSummary.svelte:15
+#: src/liff/pages/Feedback.svelte:89
 #: src/webhook/handlers/askingReplyFeedback.js:82
 #: src/webhook/handlers/askingReplyFeedback.js:154
 msgid "Thanks. You're the first one who gave feedback on this reply!"
 msgstr "感謝您的回饋，您是第一個評價這個回應的人 :)"
 
 #: src/webhook/handlers/askingReplyFeedback.js:113
+#: src/webhook/handlers/choosingReply.js:104
 msgid "Share to friends"
 msgstr "分享給朋友"
 
@@ -221,7 +228,7 @@ msgstr "感謝您與其他 ${_otherFeedbackCount} 人的評價。"
 #: src/webhook/handlers/askingArticleSource.js:23
 #: src/webhook/handlers/askingArticleSubmissionConsent.js:24
 #: src/webhook/handlers/choosingArticle.js:47
-#: src/webhook/handlers/choosingReply.js:85
+#: src/webhook/handlers/choosingReply.js:127
 msgid "Please choose from provided options."
 msgstr "請從上面的選項中做選擇。"
 
@@ -255,7 +262,7 @@ msgstr "我要選「${displayTextWhenChosen}」"
 msgid "Provide more info"
 msgstr "提供更多資訊"
 
-#: src/webhook/handlers/choosingReply.js:106
+#: src/webhook/handlers/choosingReply.js:148
 msgid ""
 "We have problem retrieving message and reply data, please forward the "
 "message again"
@@ -698,10 +705,12 @@ msgstr "請在上面輸入寶貴建議"
 msgid "Close"
 msgstr "關閉"
 
+#: src/liff/pages/Feedback.svelte:125
 #: src/liff/pages/NegativeFeedback.svelte:41
 msgid "Report not helpful"
 msgstr "表示回應沒幫助"
 
+#: src/liff/pages/Feedback.svelte:124
 #: src/liff/pages/PositiveFeedback.svelte:42
 msgid "Report reply helpful"
 msgstr "表示回應有幫助"
@@ -1033,3 +1042,7 @@ msgstr "否，我自行打字輸入的"
 #: src/webhook/handlers/initState.js:326
 msgid "May I ask you a quick question?"
 msgstr "想先請教您一個問題："
+
+#: src/webhook/handlers/choosingReply.js:114
+msgid "Provide better reply"
+msgstr "提供更好的回應"

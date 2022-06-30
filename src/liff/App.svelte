@@ -7,6 +7,7 @@
   import UserSetting from './pages/UserSetting.svelte';
   import PositiveFeedback from './pages/PositiveFeedback.svelte';
   import NegativeFeedback from './pages/NegativeFeedback.svelte';
+  import Feedback from './pages/Feedback.svelte';
 
   const routes = {
     article: Article,
@@ -15,6 +16,7 @@
     'feedback/no': NegativeFeedback,
     setting: UserSetting,
     comment: Comment,
+    feedback: Feedback,
   };
 
   // Send pageview with correct path on each page change.

@@ -1,29 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should select reply by replyId should ask user to turn on notification settings if they did not turn it on 1`] = `
+exports[`should select reply by replyId should ask user to turn on notification settings if and only if they did not turn it on: Not allowing notification yet 1`] = `
 Array [
-  Object {
-    "text": "💡 Someone on the internet replies to the message:",
-    "type": "text",
-  },
-  Object {
-    "text": "這是商業活動廣告01 這是商業活動廣告02 這是商業活動廣告03 這是商業活動廣告04 這是商業活動廣告05 這是商業活動廣告06 這是商業活動廣告07 這是商業活動廣告08 這是商業活動廣告09 這是商業活動廣告10 這是商業活動廣告11 這是商業活動廣告12 這是商業活動廣告13 這是商業活動廣告14 這是商業活動廣告15 這是商業活動廣告16 這是商業活動廣告17 這是商業活動廣告18 這是商業活動廣告19 這是商業活動廣告20",
-    "type": "text",
-  },
-  Object {
-    "text": "􀂅 ⚠️️ This reply has no references and it may be biased ⚠️️  􀂅",
-    "type": "text",
-  },
-  Object {
-    "text": "⬆️ Therefore, the author think the message invalid request.
-
-💁 This content is provided by Cofact message reporting chatbot and crowd-sourced fact-checking community under CC BY-SA 4.0 license. Please refer to their references and make judgements on your own.
-
-
-⁉️ If you have different thoughts, you may have your say here:
-https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz",
-    "type": "text",
-  },
   Object {
     "altText": "Is the reply helpful?",
     "contents": Object {
@@ -45,26 +23,26 @@ https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz",
             "contents": Array [
               Object {
                 "action": Object {
-                  "label": "Yes",
+                  "label": "👍 Yes",
                   "type": "uri",
-                  "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback/yes&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
+                  "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback&articleId=AWDZYXxAyCdS-nWhumlz&replyId=AWDZeeV0yCdS-nWhuml8&vote=UPVOTE",
                 },
-                "color": "#ffb600",
+                "color": "#00B172",
                 "style": "primary",
                 "type": "button",
               },
               Object {
                 "action": Object {
-                  "label": "No",
+                  "label": "😕 No",
                   "type": "uri",
-                  "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback/no&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
+                  "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback&articleId=AWDZYXxAyCdS-nWhumlz&replyId=AWDZeeV0yCdS-nWhuml8&vote=DOWNVOTE",
                 },
-                "color": "#ffb600",
+                "color": "#FB5959",
                 "style": "primary",
                 "type": "button",
               },
             ],
-            "layout": "horizontal",
+            "layout": "vertical",
             "spacing": "sm",
             "type": "box",
           },
@@ -113,6 +91,148 @@ https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz",
           },
           "type": "bubble",
         },
+        Object {
+          "body": Object {
+            "contents": Array [
+              Object {
+                "text": "Don't forget to forward the messages above to others and share with them!",
+                "type": "text",
+                "wrap": true,
+              },
+            ],
+            "layout": "vertical",
+            "paddingAll": "lg",
+            "spacing": "md",
+            "type": "box",
+          },
+          "footer": Object {
+            "contents": Array [
+              Object {
+                "action": Object {
+                  "label": "Share to friends",
+                  "type": "uri",
+                  "uri": "https://line.me/R/msg/text/?Someone%20says%20the%20message%20%E2%80%9C(0)(1)(/)(0)(%E2%8B%AF%E2%8B%AF%E2%80%9D%20invalid%20request.%0A%0APlease%20refer%20to%20https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz%20for%20more%20information,%20replies%20and%20references.",
+                },
+                "color": "#ffb600",
+                "style": "primary",
+                "type": "button",
+              },
+              Object {
+                "action": Object {
+                  "label": "Provide better reply",
+                  "type": "uri",
+                  "uri": "https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz",
+                },
+                "color": "#ffb600",
+                "style": "link",
+                "type": "button",
+              },
+            ],
+            "layout": "vertical",
+            "spacing": "sm",
+            "type": "box",
+          },
+          "type": "bubble",
+        },
+      ],
+      "type": "carousel",
+    },
+    "type": "flex",
+  },
+]
+`;
+
+exports[`should select reply by replyId should ask user to turn on notification settings if and only if they did not turn it on: Notification already allowed 1`] = `
+Array [
+  Object {
+    "altText": "Is the reply helpful?",
+    "contents": Object {
+      "contents": Array [
+        Object {
+          "body": Object {
+            "contents": Array [
+              Object {
+                "text": "Is the reply helpful?",
+                "type": "text",
+                "wrap": true,
+              },
+            ],
+            "layout": "vertical",
+            "paddingAll": "xl",
+            "type": "box",
+          },
+          "footer": Object {
+            "contents": Array [
+              Object {
+                "action": Object {
+                  "label": "👍 Yes",
+                  "type": "uri",
+                  "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback&articleId=AWDZYXxAyCdS-nWhumlz&replyId=AWDZeeV0yCdS-nWhuml8&vote=UPVOTE",
+                },
+                "color": "#00B172",
+                "style": "primary",
+                "type": "button",
+              },
+              Object {
+                "action": Object {
+                  "label": "😕 No",
+                  "type": "uri",
+                  "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback&articleId=AWDZYXxAyCdS-nWhumlz&replyId=AWDZeeV0yCdS-nWhuml8&vote=DOWNVOTE",
+                },
+                "color": "#FB5959",
+                "style": "primary",
+                "type": "button",
+              },
+            ],
+            "layout": "vertical",
+            "spacing": "sm",
+            "type": "box",
+          },
+          "type": "bubble",
+        },
+        Object {
+          "body": Object {
+            "contents": Array [
+              Object {
+                "text": "Don't forget to forward the messages above to others and share with them!",
+                "type": "text",
+                "wrap": true,
+              },
+            ],
+            "layout": "vertical",
+            "paddingAll": "lg",
+            "spacing": "md",
+            "type": "box",
+          },
+          "footer": Object {
+            "contents": Array [
+              Object {
+                "action": Object {
+                  "label": "Share to friends",
+                  "type": "uri",
+                  "uri": "https://line.me/R/msg/text/?Someone%20says%20the%20message%20%E2%80%9C(0)(1)(/)(0)(%E2%8B%AF%E2%8B%AF%E2%80%9D%20invalid%20request.%0A%0APlease%20refer%20to%20https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz%20for%20more%20information,%20replies%20and%20references.",
+                },
+                "color": "#ffb600",
+                "style": "primary",
+                "type": "button",
+              },
+              Object {
+                "action": Object {
+                  "label": "Provide better reply",
+                  "type": "uri",
+                  "uri": "https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz",
+                },
+                "color": "#ffb600",
+                "style": "link",
+                "type": "button",
+              },
+            ],
+            "layout": "vertical",
+            "spacing": "sm",
+            "type": "box",
+          },
+          "type": "bubble",
+        },
       ],
       "type": "carousel",
     },
@@ -126,6 +246,9 @@ Object {
   "data": Object {
     "searchedText": "貼圖",
     "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
+    "selectedArticleText": "(0)(1)(/)(0)(9)(line)免費貼圖
+「[全螢幕貼圖]生活市集x生活小黑熊」
+ https://line.me/S/sticker/",
     "selectedReplyId": "AWDZeeV0yCdS-nWhuml8",
   },
   "event": Object {
@@ -182,9 +305,52 @@ https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz",
               "contents": Array [
                 Object {
                   "action": Object {
-                    "label": "Yes",
+                    "label": "👍 Yes",
                     "type": "uri",
-                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback/yes&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback&articleId=AWDZYXxAyCdS-nWhumlz&replyId=AWDZeeV0yCdS-nWhuml8&vote=UPVOTE",
+                  },
+                  "color": "#00B172",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "😕 No",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback&articleId=AWDZYXxAyCdS-nWhumlz&replyId=AWDZeeV0yCdS-nWhuml8&vote=DOWNVOTE",
+                  },
+                  "color": "#FB5959",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "Don't forget to forward the messages above to others and share with them!",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "paddingAll": "lg",
+              "spacing": "md",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "Share to friends",
+                    "type": "uri",
+                    "uri": "https://line.me/R/msg/text/?Someone%20says%20the%20message%20%E2%80%9C(0)(1)(/)(0)(%E2%8B%AF%E2%8B%AF%E2%80%9D%20invalid%20request.%0A%0APlease%20refer%20to%20https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz%20for%20more%20information,%20replies%20and%20references.",
                   },
                   "color": "#ffb600",
                   "style": "primary",
@@ -192,16 +358,16 @@ https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz",
                 },
                 Object {
                   "action": Object {
-                    "label": "No",
+                    "label": "Provide better reply",
                     "type": "uri",
-                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback/no&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
+                    "uri": "https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz",
                   },
                   "color": "#ffb600",
-                  "style": "primary",
+                  "style": "link",
                   "type": "button",
                 },
               ],
-              "layout": "horizontal",
+              "layout": "vertical",
               "spacing": "sm",
               "type": "box",
             },
@@ -222,6 +388,9 @@ Object {
   "data": Object {
     "searchedText": "貼圖",
     "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
+    "selectedArticleText": "(0)(1)(/)(0)(9)(line)免費貼圖
+「[全螢幕貼圖]生活市集x生活小黑熊」
+ https://line.me/S/sticker/",
     "selectedReplyId": "AWDZeeV0yCdS-nWhuml8",
   },
   "event": Object {
@@ -280,9 +449,52 @@ https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz",
               "contents": Array [
                 Object {
                   "action": Object {
-                    "label": "Yes",
+                    "label": "👍 Yes",
                     "type": "uri",
-                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback/yes&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback&articleId=AWDZYXxAyCdS-nWhumlz&replyId=AWDZeeV0yCdS-nWhuml8&vote=UPVOTE",
+                  },
+                  "color": "#00B172",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "😕 No",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback&articleId=AWDZYXxAyCdS-nWhumlz&replyId=AWDZeeV0yCdS-nWhuml8&vote=DOWNVOTE",
+                  },
+                  "color": "#FB5959",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "Don't forget to forward the messages above to others and share with them!",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "paddingAll": "lg",
+              "spacing": "md",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "Share to friends",
+                    "type": "uri",
+                    "uri": "https://line.me/R/msg/text/?Someone%20says%20the%20message%20%E2%80%9C(0)(1)(/)(0)(%E2%8B%AF%E2%8B%AF%E2%80%9D%20invalid%20request.%0A%0APlease%20refer%20to%20https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz%20for%20more%20information,%20replies%20and%20references.",
                   },
                   "color": "#ffb600",
                   "style": "primary",
@@ -290,16 +502,16 @@ https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz",
                 },
                 Object {
                   "action": Object {
-                    "label": "No",
+                    "label": "Provide better reply",
                     "type": "uri",
-                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback/no&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVYWRkYzc0ZGY4YTNhMTc2YjkwMWQ5ZDY0OGIwZmM0ZmUiLCJleHAiOjE1Nzc5MjMyMDB9.rVpljRKoxb65cvss9Rtuup-N9vF0y2n46pQ9SXNRufw",
+                    "uri": "https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz",
                   },
                   "color": "#ffb600",
-                  "style": "primary",
+                  "style": "link",
                   "type": "button",
                 },
               ],
-              "layout": "horizontal",
+              "layout": "vertical",
               "spacing": "sm",
               "type": "box",
             },

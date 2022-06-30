@@ -1,79 +1,121 @@
 import { t } from 'ttag';
 import gql from 'src/lib/gql';
 import {
-  getLIFFURL,
   ManipulationError,
   createNotificationSettingsBubble,
   createReplyMessages,
+  ellipsis,
 } from './utils';
+import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
 import ga from 'src/lib/ga';
 import UserSettings from 'src/database/models/userSettings';
 
 /**
- * @param {string} userId LINE user ID that does the input
- * @param {string} sessionId Search session ID
- * @returns {object} Flex message object
+ * @param {string} articleId - Article ID of the article-reply to feedback
+ * @param {string} replyId - Reply ID of the article-reply to feedback
+ * @returns {object} Flex message bubble object that asks the user if reply is helpful
  */
-async function createAskReplyFeedbackMessage(userId, sessionId) {
-  const helpfulTitle = t`Is the reply helpful?`;
-  const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
-    userId
-  );
-
+function createAskReplyFeedbackBubble(articleId, replyId) {
   return {
-    type: 'flex',
-    altText: helpfulTitle,
-    contents: {
-      type: 'carousel',
+    type: 'bubble',
+    body: {
+      type: 'box',
+      layout: 'vertical',
+      paddingAll: 'xl',
       contents: [
         {
-          type: 'bubble',
-          body: {
-            type: 'box',
-            layout: 'vertical',
-            paddingAll: 'xl',
-            contents: [
-              {
-                type: 'text',
-                wrap: true,
-                text: helpfulTitle,
-              },
-            ],
-          },
-          footer: {
-            type: 'box',
-            layout: 'horizontal',
-            spacing: 'sm',
-            contents: [
-              {
-                type: 'button',
-                style: 'primary',
-                color: '#ffb600',
-                action: {
-                  type: 'uri',
-                  label: t`Yes`,
-                  uri: getLIFFURL('feedback/yes', userId, sessionId),
-                },
-              },
-              {
-                type: 'button',
-                style: 'primary',
-                color: '#ffb600',
-                action: {
-                  type: 'uri',
-                  label: t`No`,
-                  uri: getLIFFURL('feedback/no', userId, sessionId),
-                },
-              },
-            ],
+          type: 'text',
+          wrap: true,
+          text: t`Is the reply helpful?`,
+        },
+      ],
+    },
+    footer: {
+      type: 'box',
+      layout: 'vertical',
+      spacing: 'sm',
+      contents: [
+        {
+          type: 'button',
+          style: 'primary',
+          color: '#00B172',
+          action: {
+            type: 'uri',
+            label: '👍 ' + t`Yes`,
+            uri: `${
+              process.env.LIFF_URL
+            }?p=feedback&articleId=${articleId}&replyId=${replyId}&vote=UPVOTE`,
           },
         },
-        // Ask user to turn on notification if the user did not turn it on
-        //
-        process.env.NOTIFY_METHOD &&
-          !allowNewReplyUpdate &&
-          createNotificationSettingsBubble(),
-      ].filter(m => m),
+        {
+          type: 'button',
+          style: 'primary',
+          color: '#FB5959',
+          action: {
+            type: 'uri',
+            label: '😕 ' + t`No`,
+            uri: `${
+              process.env.LIFF_URL
+            }?p=feedback&articleId=${articleId}&replyId=${replyId}&vote=DOWNVOTE`,
+          },
+        },
+      ],
+    },
+  };
+}
+
+/**
+ * @param {string} articleId - article ID to share
+ * @param {string} fullArticleText - article text
+ * @param {ReplyTypeEnum} replyTypeEnumValue - reply's type enum
+ * @returns Flex message bubble object that asks user to share
+ */
+function createShareBubble(articleId, fullArticleText, replyTypeEnumValue) {
+  const articleUrl = getArticleURL(articleId);
+  const articleText = ellipsis(fullArticleText, 15);
+  const replyType = createTypeWords(replyTypeEnumValue).toLowerCase();
+  const sharedText = t`Someone says the message “${articleText}” ${replyType}.\n\nPlease refer to ${articleUrl} for more information, replies and references.`;
+  return {
+    type: 'bubble',
+    body: {
+      type: 'box',
+      layout: 'vertical',
+      spacing: 'md',
+      paddingAll: 'lg',
+      contents: [
+        {
+          type: 'text',
+          wrap: true,
+          text: t`Don't forget to forward the messages above to others and share with them!`,
+        },
+      ],
+    },
+    footer: {
+      type: 'box',
+      layout: 'vertical',
+      spacing: 'sm',
+      contents: [
+        {
+          type: 'button',
+          style: 'primary',
+          color: '#ffb600',
+          action: {
+            type: 'uri',
+            label: t`Share to friends`,
+            uri: `https://line.me/R/msg/text/?${encodeURI(sharedText)}`,
+          },
+        },
+        {
+          type: 'button',
+          style: 'link',
+          color: '#ffb600',
+          action: {
+            type: 'uri',
+            label: t`Provide better reply`,
+            uri: getArticleURL(articleId),
+          },
+        },
+      ],
     },
   };
 }
@@ -108,12 +150,34 @@ export default async function choosingReply(params) {
   }
 
   const { GetReply, GetArticle } = getReplyData;
+  const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
+    userId
+  );
 
-  replies = createReplyMessages(
-    GetReply,
-    GetArticle,
-    data.selectedArticleId
-  ).concat(await createAskReplyFeedbackMessage(userId, data.sessionId));
+  replies = [
+    ...createReplyMessages(GetReply, GetArticle, data.selectedArticleId),
+    {
+      type: 'flex',
+      altText: t`Is the reply helpful?`,
+      contents: {
+        type: 'carousel',
+        contents: [
+          createAskReplyFeedbackBubble(data.selectedArticleId, selectedReplyId),
+
+          // Ask user to turn on notification if the user did not turn it on
+          process.env.NOTIFY_METHOD &&
+            !allowNewReplyUpdate &&
+            createNotificationSettingsBubble(),
+
+          createShareBubble(
+            data.selectedArticleId,
+            data.selectedArticleText,
+            GetReply.type
+          ),
+        ].filter(m => m),
+      },
+    },
+  ];
 
   const visitor = ga(userId, state, data.selectedArticleText);
   // Track when user select a reply.
