@@ -71,6 +71,7 @@ async function get(endpoint = '', options = {}) {
 
 async function getContent(messageId, options = {}) {
   // this endpoint is for sending and receiving large amounts of data in the LINE platform for Messaging API.
+  // https://developers.line.biz/en/reference/messaging-api/#get-content
   const URL = `https://api-data.line.me/v2/bot/message/${messageId}/content`;
   const resp = await fetch(URL, {
     method: 'GET',

@@ -56,7 +56,7 @@ export default async function choosingArticle(params) {
     });
     visitor.send();
 
-    const inputSummary = ellipsis(data.searchedText, 12);
+    const inputSummary = ellipsis(data?.searchedText, 12);
     return {
       data,
       event,

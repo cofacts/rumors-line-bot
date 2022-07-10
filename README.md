@@ -36,10 +36,7 @@ Other customizable env vars are:
 
 * `REDIS_URL`: If not given, `redis://127.0.0.1:6379` is used.
 * `PORT`: Which port the line bot server will listen at.
-* `GOOGLE_DRIVE_IMAGE_FOLDER`: Google drive folder id is needed when you want to test uploading image.
-* `GOOGLE_CREDENTIALS`: will be populated by `authGoogleDrive.js`. See "Upload image/video" section below.
 * `GA_ID`: Google analytics tracking ID, for tracking events. You should also add custom dimensions and metrics, see "Google Analytics Custom dimensions and metrics" section below.
-* `IMAGE_MESSAGE_ENABLED`: Default disabled. To enable, please see "Process image message" section below.
 * `DEBUG_LIFF`: Disables external browser check in LIFF. Useful when debugging LIFF in external browser. Don't enable this on production.
 * `RUMORS_LINE_BOT_URL`: Server public url which is used to generate tutorial image urls and auth callback url of LINE Notify.
 
@@ -137,33 +134,6 @@ if LIFF ID is consistent with your LIFF URL, which should be the path without le
 The LIFF ID is set using Webpack Define plugin during build,
 thus swapping LIFF URL env variable without rebuilding the LIFF binaries will cause 400 bad request.
 
-### Process image message(using Tesseract-OCR)
-
-[Install tesseract-ocr binary](https://github.com/tesseract-ocr/tesseract/wiki) and set `IMAGE_MESSAGE_ENABLED` to `true`. If you are going to deploy linebot on heroku, you should [use buildpack](https://github.com/cofacts/rumors-line-bot#tesseract-ocr-on-heroku).
-
-Note : Linebot will temporarily save both image and tesseract output file in `tmp_image_process` folder every time image message sends in.
-
-### Upload image/video
-
-First, follow the step1 in this [url](https://developers.google.com/drive/v3/web/quickstart/nodejs) to get `client_secret.json` and save it to project root.
-
-Second, run:
-
-```
-$ node scripts/authGoogleDrive.js
-```
-
-Visit the given url provided above. Get the auth code and paste it to console.
-Then the program will save your google drive access_token locally at `GOOGLE_CREDENTIALS` in `.env`.
-
-Make sure you've also set `GOOGLE_DRIVE_IMAGE_FOLDER` = [folderID](https://googleappsscriptdeveloper.wordpress.com/2017/03/04/how-to-find-your-google-drive-folder-id/) in .env file.
-
-ref:
-
-[OAuth2 Protocols](https://developers.google.com/identity/protocols/OAuth2)
-
-[Googleapi Nodejs Client](https://github.com/google/google-api-nodejs-client)   P.S. This page provide the newest api usage then [this](https://developers.google.com/drive/v3/web/quickstart/nodejs).
-
 ### Translation
 
 We use [ttag](https://ttag.js.org/) to support build-time i18n for the chatbot.
@@ -235,10 +205,12 @@ We use dialogflow to detect if user is chatting with bot.
 If userinput matches one of dialogflow intents, we can directly return predefined responses in that intent.
 
 To use Dialogflow,
+
 1. You should [create a project](https://cloud.google.com/dialogflow/es/docs/quick/setup#project) and take note of the project ID then [enable api](https://cloud.google.com/dialogflow/es/docs/quick/setup#api).
 2. [Build an agent](https://cloud.google.com/dialogflow/es/docs/quick/build-agent).
 3. You will get a JSON file after [seting up authentication](https://cloud.google.com/dialogflow/es/docs/quick/setup#auth), copy `client_email` and `private_key` in the file.
 4. sets in `.env` file
+
     ```
     DAILOGFLOW_CLIENT_EMAIL=<paste client_email get from step3 here>
     DAILOGFLOW_PRIVATE_KEY=<paste private_key get from step3 here>
@@ -301,13 +273,9 @@ Use the env var `MONGODB_URI` to specify your MongoDB's connection string.
 
 [MongoDB Atlas Free Tier cluster](https://docs.atlas.mongodb.com/tutorial/deploy-free-tier-cluster/) to start with.
 
-#### Tesseract-ocr on heroku
-
-[Install heroku tesseract buildpack](https://github.com/cofacts/heroku-buildpack-tesseract) and set var `IMAGE_MESSAGE_ENABLED` to `true`.
-
 #### Configurations
 
-Besides previously mentioned `MONGODB_URI`, `REDIS_URL` and `IMAGE_MESSAGE_ENABLED`,
+Besides previously mentioned `MONGODB_URI` and `REDIS_URL`,
 you will still have to set the following config vars manually:
 
 ```

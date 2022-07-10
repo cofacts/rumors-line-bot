@@ -8,12 +8,7 @@ import checkSignatureAndParse from './checkSignatureAndParse';
 import handleInput from './handleInput';
 import { groupEventQueue, expiredGroupEventQueue } from 'src/lib/queues';
 import GroupHandler from './handlers/groupHandler';
-import {
-  fetchFile,
-  uploadImageFile,
-  saveImageFile,
-  processImage,
-} from './handlers/fileHandler';
+import processImage from './handlers/processImage';
 import ga from 'src/lib/ga';
 
 import UserSettings from '../database/models/userSettings';
@@ -184,48 +179,10 @@ const singleUserHandler = async (
 
     result = await processText(context, type, input, otherFields, userId, req);
   } else if (type === 'message' && otherFields.message.type === 'image') {
-    if (
-      process.env.IMAGE_MESSAGE_ENABLED === 'true' ||
-      process.env.IMAGE_MESSAGE_ENABLED === 'TRUE'
-    ) {
-      const context = (await redis.get(userId)) || {};
+    const context = (await redis.get(userId)) || {};
+    const event = { messageId: otherFields.message.id, type, ...otherFields };
 
-      // Limit the number of images that can be processed simultaneously.
-      // To avoid race condiction,
-      // use `incr` to increase and read 'imageProcessingCount'(one step)
-      // instead of using `get` then check to `incr` or do noting(two step).
-      const imageProcessingCount = await redis.incr('imageProcessingCount');
-      if (imageProcessingCount > (process.env.MAX_IMAGE_PROCESS_NUMBER || 3)) {
-        console.log('[LOG] request abort, too many images are processing now.');
-        lineClient.post('/message/reply', {
-          replyToken,
-          messages: messageBotIsBusy,
-        });
-        clearTimeout(timerId);
-        await redis.decr('imageProcessingCount');
-        return;
-      }
-
-      let text = '';
-      try {
-        text = await processImage(otherFields.message.id);
-      } catch (e) {
-        console.error(e);
-        rollbar.error(e);
-      } finally {
-        await redis.decr('imageProcessingCount');
-      }
-      if (text.length >= 3) {
-        result = await processText(
-          context,
-          type,
-          text,
-          otherFields,
-          userId,
-          req
-        );
-      }
-    }
+    result = await processImage(context, event, userId);
   } else if (type === 'message' && otherFields.message.type === 'video') {
     // Track video message type send by user
     ga(userId)
@@ -312,10 +269,6 @@ async function processText(context, type, input, otherFields, userId, req) {
   console.log('\n||LOG||---------->');
   return result;
 }
-
-// If shutdown during imageProcessing, count will be non-zero value on next deploy.
-// So reset imageProcessingCount to 0 every time.
-redis.set('imageProcessingCount', 0);
 
 const router = Router();
 
