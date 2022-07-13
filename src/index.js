@@ -11,6 +11,7 @@ import redis from './lib/redisClient';
 import session from 'koa-session2';
 import passport from 'koa-passport';
 import { loginRouter, authRouter } from './auth';
+import lineContentRouter from './lineContent';
 
 const app = new Koa();
 const router = Router();
@@ -36,6 +37,11 @@ router.use('/callback', webhookRouter.routes(), webhookRouter.allowedMethods());
 
 router.use('/login', loginRouter.routes(), loginRouter.allowedMethods());
 router.use('/authcallback', authRouter.routes(), authRouter.allowedMethods());
+router.use(
+  '/getcontent',
+  lineContentRouter.routes(),
+  lineContentRouter.allowedMethods()
+);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(

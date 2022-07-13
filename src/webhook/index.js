@@ -9,7 +9,7 @@ import handleInput from './handleInput';
 import { groupEventQueue, expiredGroupEventQueue } from 'src/lib/queues';
 import GroupHandler from './handlers/groupHandler';
 import {
-  downloadFile,
+  fetchFile,
   uploadImageFile,
   saveImageFile,
   processImage,
@@ -208,7 +208,7 @@ const singleUserHandler = async (
 
       let text = '';
       try {
-        const res = await downloadFile(otherFields.message.id);
+        const res = await fetchFile(otherFields.message.id);
         uploadImageFile(res.clone(), otherFields.message.id);
         await saveImageFile(res, otherFields.message.id);
         text = await processImage(otherFields.message.id);
