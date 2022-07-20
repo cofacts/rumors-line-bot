@@ -144,7 +144,6 @@ export default async function askingArticleSource(params) {
           },
         },
       ];
-      state = '__INIT__';
       visitor.event({
         ec: 'UserInput',
         ea: 'IsForwarded',
@@ -162,7 +161,6 @@ export default async function askingArticleSource(params) {
         }),
         createAskArticleSubmissionConsentReply(data.sessionId),
       ];
-      state = 'ASKING_ARTICLE_SUBMISSION_CONSENT';
       visitor.event({
         ec: 'UserInput',
         ea: 'IsForwarded',
