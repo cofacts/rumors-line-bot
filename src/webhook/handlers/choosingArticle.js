@@ -14,10 +14,10 @@ import {
   createArticleShareBubble,
 } from './utils';
 import ga from 'src/lib/ga';
-import choosingReply from './choosingReply';
 import UserSettings from 'src/database/models/userSettings';
 
 import UserArticleLink from '../../database/models/userArticleLink';
+import handlePostback from '../handlePostback';
 
 /**
  * 第2句 (template message)：按照時間排序「不在查證範圍」之外的回應，每則回應第一行是
@@ -126,16 +126,11 @@ export default async function choosingArticle(params) {
     visitor.send();
 
     // choose reply for user
-    return choosingReply({
-      data,
-      event: {
-        type: 'postback',
-        input: articleReplies[0].reply.id,
-      },
-      userId,
-      replies,
-      state: 'CHOOSING_REPLY',
-    });
+    event = {
+      type: 'postback',
+      input: articleReplies[0].reply.id,
+    };
+    return await handlePostback({ data }, 'CHOOSING_REPLY', event, userId);
   }
 
   if (articleReplies.length !== 0) {
