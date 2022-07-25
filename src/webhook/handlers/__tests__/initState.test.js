@@ -1,6 +1,9 @@
 jest.mock('src/lib/gql');
 jest.mock('src/lib/ga');
 jest.mock('src/lib/detectDialogflowIntent');
+jest.mock('src/webhook/handlePostback', () =>
+  jest.fn(() => '__HANDLE_POSTBACK_RESULT__')
+);
 
 import MockDate from 'mockdate';
 import initState from '../initState';
@@ -8,11 +11,13 @@ import * as apiResult from '../__fixtures__/initState';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
 import detectDialogflowIntent from 'src/lib/detectDialogflowIntent';
+import handlePostback from 'src/webhook/handlePostback';
 
 beforeEach(() => {
   ga.clearAllMocks();
   gql.__reset();
   detectDialogflowIntent.mockClear();
+  handlePostback.mockClear();
 });
 
 it('article found', async () => {
@@ -185,7 +190,23 @@ it('only one article found with high similarity', async () => {
     isSkipUser: false,
   };
 
-  expect(await initState(input)).toMatchSnapshot();
+  expect(await initState(input)).toBe('__HANDLE_POSTBACK_RESULT__');
+  expect(handlePostback.mock.calls[0]).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "data": Object {
+          "searchedText": "YouTube · 寻找健康人生",
+          "sessionId": 1497994017447,
+        },
+      },
+      "CHOOSING_ARTICLE",
+      Object {
+        "input": "AVvY-yizyCdS-nWhuYWx",
+        "type": "postback",
+      },
+      "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+    ]
+  `);
   expect(gql.__finished()).toBe(true);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [

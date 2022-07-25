@@ -512,23 +512,6 @@ Object {
 }
 `;
 
-exports[`only one article found with high similarity 1`] = `
-Object {
-  "data": Object {
-    "searchedText": "YouTube · 寻找健康人生",
-    "sessionId": 1497994017447,
-  },
-  "event": Object {
-    "input": "AVvY-yizyCdS-nWhuYWx",
-    "type": "postback",
-  },
-  "isSkipUser": true,
-  "replies": undefined,
-  "state": "CHOOSING_ARTICLE",
-  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
-}
-`;
-
 exports[`should handle image not found 1`] = `
 Object {
   "data": Object {
