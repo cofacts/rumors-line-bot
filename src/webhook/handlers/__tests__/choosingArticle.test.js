@@ -1,6 +1,8 @@
 jest.mock('src/lib/gql');
 jest.mock('src/lib/ga');
-jest.mock('../choosingReply', () => jest.fn(() => '__CHOOSING_REPLY_RESULT__'));
+jest.mock('src/webhook/handlePostback', () =>
+  jest.fn(() => '__HANDLE_POSTBACK_RESULT__')
+);
 
 import MockDate from 'mockdate';
 import choosingArticle from '../choosingArticle';
@@ -8,7 +10,7 @@ import * as apiResult from '../__fixtures__/choosingArticle';
 import { POSTBACK_NO_ARTICLE_FOUND } from '../utils';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
-import choosingReply from '../choosingReply';
+import handlePostback from 'src/webhook/handlePostback';
 
 import UserArticleLink from '../../../database/models/userArticleLink';
 import Client from '../../../database/mongoClient';
@@ -26,7 +28,7 @@ afterAll(async () => {
 beforeEach(() => {
   ga.clearAllMocks();
   gql.__reset();
-  choosingReply.mockClear();
+  handlePostback.mockClear();
 });
 
 it('should select article by articleId', async () => {
@@ -246,7 +248,7 @@ it('should select article with just one reply', async () => {
     isSkipUser: false,
   };
 
-  expect(await choosingArticle(params)).toBe('__CHOOSING_REPLY_RESULT__');
+  expect(await choosingArticle(params)).toBe('__HANDLE_POSTBACK_RESULT__');
   expect(gql.__finished()).toBe(true);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -260,10 +262,10 @@ it('should select article with just one reply', async () => {
     ]
   `);
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
-  expect(choosingReply).toHaveBeenCalledTimes(1);
+  expect(handlePostback).toHaveBeenCalledTimes(1);
 
-  // Record the params being passed to choosingReply()
-  expect(choosingReply.mock.calls[0]).toMatchInlineSnapshot(`
+  // Record the params being passed to handlePostback()
+  expect(handlePostback.mock.calls[0]).toMatchInlineSnapshot(`
     Array [
       Object {
         "data": Object {
@@ -271,14 +273,13 @@ it('should select article with just one reply', async () => {
           "selectedArticleId": "article-id",
           "selectedArticleText": "Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply ",
         },
-        "event": Object {
-          "input": "AV--O3nfyCdS-nWhujMD",
-          "type": "postback",
-        },
-        "replies": undefined,
-        "state": "CHOOSING_REPLY",
-        "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
       },
+      "CHOOSING_REPLY",
+      Object {
+        "input": "AV--O3nfyCdS-nWhujMD",
+        "type": "postback",
+      },
+      "Uc76d8ae9ccd1ada4f06c4e1515d46466",
     ]
   `);
 });
