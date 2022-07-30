@@ -15,7 +15,7 @@ import UserSettings from 'src/database/models/userSettings';
 import UserArticleLink from 'src/database/models/userArticleLink';
 
 export default async function askingArticleSubmissionConsent(params) {
-  let { data, state, event, userId, replies, isSkipUser } = params;
+  let { data, state, event, userId, replies } = params;
 
   const visitor = ga(userId, state, data.searchedText);
 
@@ -113,5 +113,5 @@ export default async function askingArticleSubmissionConsent(params) {
   }
 
   visitor.send();
-  return { data, event, userId, replies, isSkipUser };
+  return { data, event, userId, replies };
 }

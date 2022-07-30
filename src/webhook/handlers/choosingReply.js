@@ -121,7 +121,7 @@ function createShareBubble(articleId, fullArticleText, replyTypeEnumValue) {
 }
 
 export default async function choosingReply(params) {
-  let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
+  let { data, state, event, issuedAt, userId, replies } = params;
 
   if (event.type !== 'postback') {
     throw new ManipulationError(t`Please choose from provided options.`);
@@ -186,5 +186,5 @@ export default async function choosingReply(params) {
   visitor.event({ ec: 'Reply', ea: 'Type', el: GetReply.type, ni: true });
   visitor.send();
 
-  return { data, event, issuedAt, userId, replies, isSkipUser };
+  return { data, event, issuedAt, userId, replies };
 }

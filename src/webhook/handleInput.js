@@ -16,7 +16,6 @@ import handlePostback from './handlePostback';
 export default async function handleInput({ data = {} }, event, userId) {
   let state;
   let replies;
-  let isSkipUser = false;
 
   if (event.input === undefined) {
     throw new Error('input undefined');
@@ -63,77 +62,72 @@ export default async function handleInput({ data = {} }, event, userId) {
     event,
     userId,
     replies,
-    isSkipUser,
   };
 
   // Sets data and replies
   //
-  do {
-    params.isSkipUser = false;
-    try {
-      switch (params.state) {
-        case '__INIT__': {
-          params = await initState(params);
-          break;
-        }
-        case 'TUTORIAL': {
-          params = tutorial(params);
-          break;
-        }
-
-        default: {
-          params = defaultState(params);
-          break;
-        }
+  try {
+    switch (params.state) {
+      case '__INIT__': {
+        params = await initState(params);
+        break;
       }
-    } catch (e) {
-      if (e instanceof ManipulationError) {
-        params = {
-          ...params,
-          replies: [
-            {
-              type: 'flex',
-              altText: e.toString(),
-              contents: {
-                type: 'bubble',
-                header: {
-                  type: 'box',
-                  layout: 'vertical',
-                  contents: [
-                    {
-                      type: 'text',
-                      text: `⚠️ ${t`Wrong usage`}`,
-                      color: '#ffb600',
-                      weight: 'bold',
-                    },
-                  ],
-                },
-                body: {
-                  type: 'box',
-                  layout: 'vertical',
-                  contents: [
-                    {
-                      type: 'text',
-                      text: e.message,
-                      wrap: true,
-                    },
-                  ],
-                },
-                styles: {
-                  body: {
-                    separator: true,
+      case 'TUTORIAL': {
+        params = tutorial(params);
+        break;
+      }
+
+      default: {
+        params = defaultState(params);
+        break;
+      }
+    }
+  } catch (e) {
+    if (e instanceof ManipulationError) {
+      params = {
+        ...params,
+        replies: [
+          {
+            type: 'flex',
+            altText: e.toString(),
+            contents: {
+              type: 'bubble',
+              header: {
+                type: 'box',
+                layout: 'vertical',
+                contents: [
+                  {
+                    type: 'text',
+                    text: `⚠️ ${t`Wrong usage`}`,
+                    color: '#ffb600',
+                    weight: 'bold',
                   },
+                ],
+              },
+              body: {
+                type: 'box',
+                layout: 'vertical',
+                contents: [
+                  {
+                    type: 'text',
+                    text: e.message,
+                    wrap: true,
+                  },
+                ],
+              },
+              styles: {
+                body: {
+                  separator: true,
                 },
               },
             },
-          ],
-        };
-      } else {
-        throw e;
-      }
+          },
+        ],
+      };
+    } else {
+      throw e;
     }
-    ({ isSkipUser } = params);
-  } while (isSkipUser);
+  }
 
   ({ data, replies } = params);
 

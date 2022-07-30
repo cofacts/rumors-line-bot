@@ -1,5 +1,5 @@
 export default function defaultState(params) {
-  let { data, event, issuedAt, userId, replies, isSkipUser } = params;
+  let { data, event, issuedAt, userId, replies } = params;
 
   replies = [
     {
@@ -7,5 +7,5 @@ export default function defaultState(params) {
       text: '我們看不懂 QQ\n大俠請重新來過。',
     },
   ];
-  return { data, event, issuedAt, userId, replies, isSkipUser };
+  return { data, event, issuedAt, userId, replies };
 }

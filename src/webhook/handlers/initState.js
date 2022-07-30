@@ -17,7 +17,7 @@ import handlePostback from '../handlePostback';
 const SIMILARITY_THRESHOLD = 0.95;
 
 export default async function initState(params) {
-  let { data, event, userId, replies, isSkipUser } = params;
+  let { data, event, userId, replies } = params;
   const state = '__INIT__';
 
   // Track text message type send by user
@@ -50,7 +50,7 @@ export default async function initState(params) {
       el: dialogflowResponse.queryResult.intent.displayName,
     });
     visitor.send();
-    return { data, event, userId, replies, isSkipUser };
+    return { data, event, userId, replies };
   }
 
   // Search for articles
@@ -323,5 +323,5 @@ export default async function initState(params) {
     }
   }
   visitor.send();
-  return { data, event, userId, replies, isSkipUser };
+  return { data, event, userId, replies };
 }

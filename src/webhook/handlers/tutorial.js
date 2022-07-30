@@ -293,7 +293,7 @@ function createPermissionSetupDialog(message) {
 }
 
 export default function tutorial(params) {
-  let { data, event, issuedAt, replies, userId, isSkipUser } = params;
+  let { data, event, issuedAt, replies, userId } = params;
 
   const replyProvidePermissionSetup = `${t`You are smart`} 😊`;
   const replySetupLater = t`OK. When we ask for feedback from you, the permission dialog will pop-up again.`;
@@ -421,5 +421,5 @@ export default function tutorial(params) {
   });
   visitor.send();
 
-  return { data, event, issuedAt, userId, replies, isSkipUser };
+  return { data, event, issuedAt, userId, replies };
 }
