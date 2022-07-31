@@ -169,6 +169,27 @@ const singleUserHandler = async (
       return;
     }
 
+    // When the postback is expired,
+    // i.e. If other new messages have been sent before pressing buttons,
+    // Don't do anything, just ignore silently.
+    //
+    if (postbackData.sessionId !== context.data.sessionId) {
+      console.log('Previous button pressed.');
+      lineClient.post('/message/reply', {
+        replyToken,
+        messages: [
+          {
+            type: 'text',
+            text:
+              '🚧 ' +
+              t`You are currently searching for another message, buttons from previous search sessions do not work now.`,
+          },
+        ],
+      });
+      clearTimeout(timerId);
+      return;
+    }
+
     input = postbackData.input;
 
     result = await handlePostback(
