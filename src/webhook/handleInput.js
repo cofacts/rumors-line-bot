@@ -1,7 +1,5 @@
-import { t } from 'ttag';
 import initState from './handlers/initState';
 import defaultState from './handlers/defaultState';
-import { ManipulationError } from './handlers/utils';
 import { extractArticleId } from 'src/lib/sharedUtils';
 import tutorial, { TUTORIAL_STEPS } from './handlers/tutorial';
 import handlePostback from './handlePostback';
@@ -66,66 +64,19 @@ export default async function handleInput({ data = {} }, event, userId) {
 
   // Sets data and replies
   //
-  try {
-    switch (params.state) {
-      case '__INIT__': {
-        params = await initState(params);
-        break;
-      }
-      case 'TUTORIAL': {
-        params = tutorial(params);
-        break;
-      }
-
-      default: {
-        params = defaultState(params);
-        break;
-      }
+  switch (params.state) {
+    case '__INIT__': {
+      params = await initState(params);
+      break;
     }
-  } catch (e) {
-    if (e instanceof ManipulationError) {
-      params = {
-        ...params,
-        replies: [
-          {
-            type: 'flex',
-            altText: e.toString(),
-            contents: {
-              type: 'bubble',
-              header: {
-                type: 'box',
-                layout: 'vertical',
-                contents: [
-                  {
-                    type: 'text',
-                    text: `⚠️ ${t`Wrong usage`}`,
-                    color: '#ffb600',
-                    weight: 'bold',
-                  },
-                ],
-              },
-              body: {
-                type: 'box',
-                layout: 'vertical',
-                contents: [
-                  {
-                    type: 'text',
-                    text: e.message,
-                    wrap: true,
-                  },
-                ],
-              },
-              styles: {
-                body: {
-                  separator: true,
-                },
-              },
-            },
-          },
-        ],
-      };
-    } else {
-      throw e;
+    case 'TUTORIAL': {
+      params = tutorial(params);
+      break;
+    }
+
+    default: {
+      params = defaultState(params);
+      break;
     }
   }
 
