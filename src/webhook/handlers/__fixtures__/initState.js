@@ -21,7 +21,7 @@ export const longArticle = {
 export const twelveLongArticles = {
   data: {
     ListArticles: {
-      edges: Array.from(Array(6)).reduce(
+      edges: Array.from(Array(4)).reduce(
         arr =>
           arr.concat([
             {
