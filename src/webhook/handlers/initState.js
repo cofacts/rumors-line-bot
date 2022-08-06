@@ -4,7 +4,6 @@ import gql from 'src/lib/gql';
 import {
   createPostbackAction,
   ellipsis,
-  createSuggestOtherFactCheckerReply,
   POSTBACK_NO_ARTICLE_FOUND,
   createHighlightContents,
   createTextMessage,
@@ -289,11 +288,8 @@ export default async function initState(params) {
       },
       templateMessage,
     ];
-    if (event.message.type === 'image') {
-      replies = textArticleFound;
-    } else {
-      replies = prefixTextArticleFound.concat(textArticleFound);
-    }
+
+    replies = prefixTextArticleFound.concat(textArticleFound);
   } else {
     // Track if find similar Articles in DB.
     visitor.event({
@@ -302,25 +298,15 @@ export default async function initState(params) {
       el: 'ArticleNotFound',
     });
 
-    if (event.message.type === 'image') {
-      replies = [
-        {
-          type: 'text',
-          text: t`We didn't find anything about this image :(`,
-        },
-        createSuggestOtherFactCheckerReply(),
-      ];
-    } else {
-      replies = [
-        createTextMessage({
-          text:
-            t`Unfortunately, I currently don’t recognize “${inputSummary}”, but I would still like to help.` +
-            '\n' +
-            t`May I ask you a quick question?`,
-        }),
-        createArticleSourceReply(data.sessionId),
-      ];
-    }
+    replies = [
+      createTextMessage({
+        text:
+          t`Unfortunately, I currently don’t recognize “${inputSummary}”, but I would still like to help.` +
+          '\n' +
+          t`May I ask you a quick question?`,
+      }),
+      createArticleSourceReply(data.sessionId),
+    ];
   }
   visitor.send();
   return { data, event, userId, replies };
