@@ -1,0 +1,645 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`one article found 1`] = `
+Object {
+  "context": Object {
+    "data": Object {
+      "sessionId": 1577836800000,
+    },
+  },
+  "replies": Array [
+    Object {
+      "text": "🔍 There are some messages that looks similar to the one you have sent to me.",
+      "type": "text",
+    },
+    Object {
+      "text": "Internet rumors are often mutated and shared.
+Please choose the version that looks the most similar👇",
+      "type": "text",
+    },
+    Object {
+      "altText": "Please choose the most similar message from the list.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"image-article-1\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “No.1”",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😄",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "No.1, Looks 100% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "hero": Object {
+              "size": "full",
+              "type": "image",
+              "url": "http://foo/image.jpeg",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "gravity": "top",
+                  "maxLines": 5,
+                  "text": "None of these messages matches mine :(",
+                  "type": "text",
+                  "weight": "regular",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "margin": "none",
+              "spacing": "none",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"__NO_ARTICLE_FOUND__\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "None of these messages matches mine :(",
+                    "label": "Tell us more",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "color": "#AAAAAA",
+                  "margin": "none",
+                  "size": "sm",
+                  "text": "😶",
+                  "type": "text",
+                  "weight": "bold",
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+}
+`;
+
+exports[`twelve articles found 1`] = `
+Object {
+  "context": Object {
+    "data": Object {
+      "sessionId": 1577836800000,
+    },
+  },
+  "replies": Array [
+    Object {
+      "text": "🔍 There are some messages that looks similar to the one you have sent to me.",
+      "type": "text",
+    },
+    Object {
+      "text": "Internet rumors are often mutated and shared.
+Please choose the version that looks the most similar👇",
+      "type": "text",
+    },
+    Object {
+      "altText": "Please choose the most similar message from the list.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"image-article-1\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “No.1”",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😄",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "No.1, Looks 100% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "hero": Object {
+              "size": "full",
+              "type": "image",
+              "url": "http://foo/image.jpeg",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"image-article-2\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “No.2”",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😄",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "No.2, Looks 87% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "hero": Object {
+              "size": "full",
+              "type": "image",
+              "url": "http://foo/image2.jpeg",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"image-article-1\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “No.3”",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😄",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "No.3, Looks 100% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "hero": Object {
+              "size": "full",
+              "type": "image",
+              "url": "http://foo/image.jpeg",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"image-article-2\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “No.4”",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😄",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "No.4, Looks 87% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "hero": Object {
+              "size": "full",
+              "type": "image",
+              "url": "http://foo/image2.jpeg",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"image-article-1\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “No.5”",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😄",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "No.5, Looks 100% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "hero": Object {
+              "size": "full",
+              "type": "image",
+              "url": "http://foo/image.jpeg",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"image-article-2\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “No.6”",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😄",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "No.6, Looks 87% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "hero": Object {
+              "size": "full",
+              "type": "image",
+              "url": "http://foo/image2.jpeg",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"image-article-1\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “No.7”",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😄",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "No.7, Looks 100% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "hero": Object {
+              "size": "full",
+              "type": "image",
+              "url": "http://foo/image.jpeg",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"image-article-2\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “No.8”",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😄",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "No.8, Looks 87% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "hero": Object {
+              "size": "full",
+              "type": "image",
+              "url": "http://foo/image2.jpeg",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"image-article-1\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose “No.9”",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "😄",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "No.9, Looks 100% similar",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "hero": Object {
+              "size": "full",
+              "type": "image",
+              "url": "http://foo/image.jpeg",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "gravity": "top",
+                  "maxLines": 5,
+                  "text": "None of these messages matches mine :(",
+                  "type": "text",
+                  "weight": "regular",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "margin": "none",
+              "spacing": "none",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"__NO_ARTICLE_FOUND__\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "None of these messages matches mine :(",
+                    "label": "Tell us more",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "color": "#AAAAAA",
+                  "margin": "none",
+                  "size": "sm",
+                  "text": "😶",
+                  "type": "text",
+                  "weight": "bold",
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+}
+`;
