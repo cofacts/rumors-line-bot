@@ -342,49 +342,6 @@ it('should handle text not found', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
-it('should handle image not found', async () => {
-  gql.__push(apiResult.notFound);
-
-  const input = {
-    data: {
-      sessionId: 1497994017447,
-    },
-    event: {
-      type: 'message',
-      input: 'OCR text OCR text OCR text',
-      timestamp: 1497994016356,
-      message: {
-        type: 'image',
-      },
-    },
-    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    replies: undefined,
-  };
-
-  expect(await initState(input)).toMatchSnapshot();
-  expect(gql.__finished()).toBe(true);
-
-  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
-    Array [
-      Array [
-        Object {
-          "ea": "MessageType",
-          "ec": "UserInput",
-          "el": "image",
-        },
-      ],
-      Array [
-        Object {
-          "ea": "ArticleSearch",
-          "ec": "UserInput",
-          "el": "ArticleNotFound",
-        },
-      ],
-    ]
-  `);
-  expect(ga.sendMock).toHaveBeenCalledTimes(1);
-});
-
 describe('input matches dialogflow intent', () => {
   it('uses dialogflow response when input length < 10', async () => {
     gql.__push(apiResult.notFound);
