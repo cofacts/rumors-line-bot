@@ -7,7 +7,10 @@ import {
   createFlexMessageText,
   createHighlightContents,
   createReplyMessages,
+  getLineContentProxyURL,
 } from '../utils';
+import MockDate from 'mockdate';
+import { read } from 'src/lib/jwt';
 
 describe('createArticleShareBubble()', () => {
   it('should uri size less then 1000', () => {
@@ -244,5 +247,19 @@ describe('createReplyMessages()', () => {
     expect(
       createReplyMessages(reply, article, selectedArticleId)
     ).toMatchSnapshot();
+  });
+});
+
+describe('getLineContentProxyURL()', () => {
+  it('should return line content proxy url', () => {
+    const messageId = '578742384791';
+    MockDate.set('2020-01-01');
+    process.env.RUMORS_LINE_BOT_URL = 'https://testlinebot.cofacts';
+    const url = getLineContentProxyURL(messageId);
+    expect(url).toMatchSnapshot();
+    const token = url.split('?token=')[1];
+    expect(read(token).messageId).toBe(messageId);
+    MockDate.reset();
+    delete process.env.RUMORS_LINE_BOT_URL;
   });
 });
