@@ -16,7 +16,6 @@ Object {
     "timestamp": 1497994016356,
     "type": "message",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "text": "🔍 There are some messages that looks similar to \\"計程車上有裝悠遊卡感⋯⋯\\" you have sent to me.",
@@ -180,7 +179,6 @@ Object {
     "timestamp": 1497994016356,
     "type": "message",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "text": "🔍 There are some messages that looks similar to \\"YouTube · ⋯⋯\\" you have sent to me.",
@@ -379,7 +377,6 @@ Object {
     "timestamp": 1497994016356,
     "type": "message",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "altText": "Unfortunately, I currently don’t recognize “零一二三四五六七八九十”, but I would still like to help.
@@ -474,7 +471,6 @@ Object {
     "timestamp": 1497994016356,
     "type": "message",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "text": "歡迎光臨",
@@ -501,7 +497,6 @@ Object {
     "timestamp": 1497994016356,
     "type": "message",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "text": "歡迎光臨",
@@ -526,7 +521,6 @@ Object {
     "timestamp": 1497994016356,
     "type": "message",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "text": "We didn't find anything about this image :(",
@@ -593,7 +587,6 @@ Object {
     "timestamp": 1497994016356,
     "type": "message",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "text": "🔍 There are some messages that looks similar to \\"YouTube · ⋯⋯\\" you have sent to me.",
@@ -912,7 +905,6 @@ Object {
     "timestamp": 1497994016356,
     "type": "message",
   },
-  "isSkipUser": false,
   "replies": Array [
     Object {
       "altText": "Unfortunately, I currently don’t recognize “YouTube · ⋯⋯”, but I would still like to help.

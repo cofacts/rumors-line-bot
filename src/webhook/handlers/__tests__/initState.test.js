@@ -41,7 +41,6 @@ it('article found', async () => {
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   expect(await initState(input)).toMatchSnapshot();
@@ -95,7 +94,6 @@ it('long article replies still below flex message limit', async () => {
       },
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    isSkipUser: false,
   };
 
   const result = await initState(input);
@@ -126,7 +124,6 @@ it('articles found with high similarity', async () => {
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   expect(await initState(input)).toMatchSnapshot();
@@ -187,7 +184,6 @@ it('only one article found with high similarity', async () => {
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   expect(await initState(input)).toBe('__HANDLE_POSTBACK_RESULT__');
@@ -256,7 +252,6 @@ it('should handle message matches only hyperlinks', async () => {
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   expect(await initState(input)).toMatchSnapshot();
@@ -319,7 +314,6 @@ it('should handle text not found', async () => {
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   MockDate.set('2020-01-01');
@@ -365,7 +359,6 @@ it('should handle image not found', async () => {
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   expect(await initState(input)).toMatchSnapshot();
@@ -419,7 +412,6 @@ describe('input matches dialogflow intent', () => {
       },
       userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
       replies: undefined,
-      isSkipUser: false,
     };
     expect(await initState(input)).toMatchSnapshot();
     expect(gql.__finished()).toBe(false);
@@ -473,7 +465,6 @@ describe('input matches dialogflow intent', () => {
       },
       userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
       replies: undefined,
-      isSkipUser: false,
     };
     expect(await initState(input)).toMatchSnapshot();
     expect(gql.__finished()).toBe(false);
@@ -527,7 +518,6 @@ describe('input matches dialogflow intent', () => {
       },
       userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
       replies: undefined,
-      isSkipUser: false,
     };
     MockDate.set('2020-01-01');
     expect(await initState(input)).toMatchSnapshot();

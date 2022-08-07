@@ -50,7 +50,6 @@ it('should select article by articleId', async () => {
     },
     issuedAt: 1505314295017,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    isSkipUser: false,
   };
 
   expect(await choosingArticle(params)).toMatchSnapshot();
@@ -96,7 +95,6 @@ it('throws ManipulationError when articleId is not valid', async () => {
     },
     issuedAt: 1505314295017,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    isSkipUser: false,
   };
 
   await expect(choosingArticle(params)).rejects.toMatchInlineSnapshot(
@@ -125,7 +123,6 @@ it('should select article and have OPINIONATED and NOT_ARTICLE replies', async (
     issuedAt: 1511633232970,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   expect(await choosingArticle(params)).toMatchSnapshot();
@@ -196,7 +193,6 @@ it('should select article with no replies', async () => {
     issuedAt: 1511702208730,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   MockDate.set('2020-01-01');
@@ -245,7 +241,6 @@ it('should select article with just one reply', async () => {
     issuedAt: 1511702208730,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   expect(await choosingArticle(params)).toBe('__HANDLE_POSTBACK_RESULT__');
@@ -299,7 +294,6 @@ it('should block non-postback interactions', async () => {
     issuedAt: 1511702208730,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   await expect(choosingArticle(params)).rejects.toMatchInlineSnapshot(
@@ -327,7 +321,6 @@ it('should select article and slice replies when over 10', async () => {
     issuedAt: 1511633232970,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   expect(await choosingArticle(params)).toMatchSnapshot();
@@ -351,7 +344,6 @@ it('should ask users if they want to submit article when user say not found', as
     issuedAt: 1511633232970,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   MockDate.set('2020-01-01');
@@ -390,7 +382,6 @@ it('should create a UserArticleLink when selecting a article', async () => {
     },
     issuedAt: 1505314295017,
     userId,
-    isSkipUser: false,
   };
 
   MockDate.set('2020-01-01');
