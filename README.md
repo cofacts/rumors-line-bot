@@ -6,7 +6,7 @@ Line bot that checks if a message contains internet rumor.
 
 ## State diagram & Documents
 
-This is a one of the sub-project of [真的假的](http://beta.hackfoldr.org/rumors)。
+This is a one of the sub-project of [真的假的](https://beta.hackfoldr.org/cofacts)。
 
 This state diagram describes how the LINE bot talks to users:
 
