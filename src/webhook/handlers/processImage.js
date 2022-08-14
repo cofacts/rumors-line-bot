@@ -36,7 +36,6 @@ export default async function({ data = {} }, event, userId) {
             id
             articleType
             attachmentUrl(variant: THUMBNAIL)
-            attachmentHash
           }
         }
       }
