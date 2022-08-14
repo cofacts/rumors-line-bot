@@ -68,6 +68,7 @@ export default async function({ data = {} }, event, userId) {
           imgNumber
         );
 
+        // ListArticle score is 1~2 for the current query; the variable part is the ID hash difference
         const similarity = score - 1;
         const scoreInPercent = Math.floor(similarity * 100);
         const similarityEmoji = ['😐', '🙂', '😀', '😃', '😄'][
