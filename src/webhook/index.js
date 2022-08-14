@@ -171,7 +171,7 @@ const singleUserHandler = async (
 
     // When the postback is expired,
     // i.e. If other new messages have been sent before pressing buttons,
-    // Don't do anything, just ignore silently.
+    // tell the user about the expiry of buttons
     //
     if (postbackData.sessionId !== context.data.sessionId) {
       console.log('Previous button pressed.');
