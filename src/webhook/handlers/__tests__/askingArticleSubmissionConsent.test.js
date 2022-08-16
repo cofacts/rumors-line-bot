@@ -118,6 +118,44 @@ it('should submit article if user agrees to submit', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
+it('should submit image article if user agrees to submit', async () => {
+  const inputSession = new Date('2020-01-01T18:10:18.314Z').getTime();
+  const params = {
+    data: {
+      searchedText: '',
+      messageId: '6530038889933',
+      foundArticleIds: [],
+      sessionId: inputSession,
+    },
+    event: {
+      type: 'postback',
+      input: POSTBACK_YES,
+    },
+    userId: 'userId',
+  };
+
+  MockDate.set('2020-01-02');
+  gql.__push({ data: { CreateMediaArticle: { id: 'new-article-id' } } });
+  const result = await askingArticleSubmissionConsent(params);
+  MockDate.reset();
+  expect(gql.__finished()).toBe(true);
+
+  expect(result).toMatchSnapshot();
+  expect(result.data.sessionId).not.toEqual(inputSession);
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "Create",
+          "ec": "Article",
+          "el": "Yes",
+        },
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
+});
+
 it('should create a UserArticleLink when creating a Article', async () => {
   const userId = 'user-id-0';
   const params = {
