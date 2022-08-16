@@ -10,6 +10,7 @@ import {
   createCommentBubble,
   createArticleShareBubble,
   createNotificationSettingsBubble,
+  getLineContentProxyURL,
 } from './utils';
 import UserSettings from 'src/database/models/userSettings';
 import UserArticleLink from 'src/database/models/userArticleLink';
@@ -35,26 +36,41 @@ export default async function askingArticleSubmissionConsent(params) {
 
     case POSTBACK_YES: {
       visitor.event({ ec: 'Article', ea: 'Create', el: 'Yes' });
-
-      const {
-        data: { CreateArticle },
-      } = await gql`
-        mutation($text: String!) {
-          CreateArticle(text: $text, reference: { type: LINE }) {
-            id
+      let article;
+      if (data.searchedText && !data.messageId) {
+        const result = await gql`
+          mutation($text: String!) {
+            CreateArticle(text: $text, reference: { type: LINE }) {
+              id
+            }
           }
-        }
-      `({ text: data.searchedText }, { userId });
+        `({ text: data.searchedText }, { userId });
+        article = result.data.CreateArticle;
+      } else if (data.messageId) {
+        const proxyUrl = getLineContentProxyURL(data.messageId);
+        const result = await gql`
+          mutation($mediaUrl: String!) {
+            CreateMediaArticle(
+              mediaUrl: $mediaUrl
+              articleType: IMAGE
+              reference: { type: LINE }
+            ) {
+              id
+            }
+          }
+        `({ mediaUrl: proxyUrl }, { userId });
+        article = result.data.CreateMediaArticle;
+      }
 
       await UserArticleLink.createOrUpdateByUserIdAndArticleId(
         userId,
-        CreateArticle.id
+        article.id
       );
 
       // Create new session, make article submission button expire after submission
       data.sessionId = Date.now();
 
-      const articleUrl = getArticleURL(CreateArticle.id);
+      const articleUrl = getArticleURL(article.id);
       const articleCreatedMsg = t`Your submission is now recorded at ${articleUrl}`;
       const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
         userId
@@ -97,7 +113,7 @@ export default async function askingArticleSubmissionConsent(params) {
           contents: {
             type: 'carousel',
             contents: [
-              createCommentBubble(CreateArticle.id),
+              createCommentBubble(article.id),
               // Ask user to turn on notification if the user did not turn it on
               //
               process.env.NOTIFY_METHOD &&

@@ -3,6 +3,8 @@ import {
   getLineContentProxyURL,
   createPostbackAction,
   POSTBACK_NO_ARTICLE_FOUND,
+  createTextMessage,
+  createAskArticleSubmissionConsentReply,
 } from './utils';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
@@ -230,8 +232,26 @@ export default async function({ data = {} }, event, userId) {
 
     replies = prefixTextArticleFound.concat(textArticleFound);
   } else {
+    visitor.event({
+      ec: 'UserInput',
+      ea: 'ArticleSearch',
+      el: 'ArticleNotFound',
+    });
+
+    // Store user messageId into context, which will use for submit new image article
+    data.searchedText = '';
+    data.messageId = event.messageId;
+
     // submit
-    console.log('Image not found, would you like to submit?');
+    replies = [
+      createTextMessage({
+        text:
+          t`I am sorry you cannot find the information you are looking for.` +
+          '\n' +
+          t`Do you want someone to fact-check this message?`,
+      }),
+      createAskArticleSubmissionConsentReply(data.sessionId),
+    ];
   }
   visitor.send();
   return { context: { data }, replies };
