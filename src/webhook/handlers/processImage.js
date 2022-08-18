@@ -6,6 +6,7 @@ import {
 } from './utils';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
+import handlePostback from '../handlePostback';
 
 export default async function({ data = {} }, event, userId) {
   const proxyUrl = getLineContentProxyURL(event.messageId);
@@ -57,6 +58,18 @@ export default async function({ data = {} }, event, userId) {
         ni: true,
       });
     });
+
+    const hasIdenticalDocs = ListArticles.edges[0].score === 2;
+    if (ListArticles.edges.length === 1 && hasIdenticalDocs) {
+      visitor.send();
+
+      // choose for user
+      event = {
+        type: 'postback',
+        input: ListArticles.edges[0].node.id,
+      };
+      return await handlePostback({ data }, 'CHOOSING_ARTICLE', event, userId);
+    }
 
     const articleOptions = ListArticles.edges
       .map(({ node: { attachmentUrl, id }, score }, index) => {
@@ -132,61 +145,63 @@ export default async function({ data = {} }, event, userId) {
       })
       .slice(0, 9) /* flex carousel has at most 10 bubbles */;
 
-    // Show "no-article-found" option
+    // Show "no-article-found" option only when no identical docs are found
     //
-    articleOptions.push({
-      type: 'bubble',
-      header: {
-        type: 'box',
-        layout: 'horizontal',
-        paddingBottom: 'none',
-        contents: [
-          {
-            type: 'text',
-            text: '😶',
-            margin: 'none',
-            size: 'sm',
-            weight: 'bold',
-            color: '#AAAAAA',
-          },
-        ],
-      },
-      body: {
-        type: 'box',
-        layout: 'horizontal',
-        spacing: 'none',
-        margin: 'none',
-        contents: [
-          {
-            type: 'text',
-            text: t`None of these messages matches mine :(`,
-            maxLines: 5,
-            flex: 0,
-            gravity: 'top',
-            weight: 'regular',
-            wrap: true,
-          },
-        ],
-      },
-      footer: {
-        type: 'box',
-        layout: 'horizontal',
-        contents: [
-          {
-            type: 'button',
-            action: createPostbackAction(
-              t`Tell us more`,
-              POSTBACK_NO_ARTICLE_FOUND,
-              t`None of these messages matches mine :(`,
-              data.sessionId,
-              'CHOOSING_ARTICLE'
-            ),
-            style: 'primary',
-            color: '#ffb600',
-          },
-        ],
-      },
-    });
+    if (!hasIdenticalDocs) {
+      articleOptions.push({
+        type: 'bubble',
+        header: {
+          type: 'box',
+          layout: 'horizontal',
+          paddingBottom: 'none',
+          contents: [
+            {
+              type: 'text',
+              text: '😶',
+              margin: 'none',
+              size: 'sm',
+              weight: 'bold',
+              color: '#AAAAAA',
+            },
+          ],
+        },
+        body: {
+          type: 'box',
+          layout: 'horizontal',
+          spacing: 'none',
+          margin: 'none',
+          contents: [
+            {
+              type: 'text',
+              text: t`None of these messages matches mine :(`,
+              maxLines: 5,
+              flex: 0,
+              gravity: 'top',
+              weight: 'regular',
+              wrap: true,
+            },
+          ],
+        },
+        footer: {
+          type: 'box',
+          layout: 'horizontal',
+          contents: [
+            {
+              type: 'button',
+              action: createPostbackAction(
+                t`Tell us more`,
+                POSTBACK_NO_ARTICLE_FOUND,
+                t`None of these messages matches mine :(`,
+                data.sessionId,
+                'CHOOSING_ARTICLE'
+              ),
+              style: 'primary',
+              color: '#ffb600',
+            },
+          ],
+        },
+      });
+    }
 
     const templateMessage = {
       type: 'flex',
