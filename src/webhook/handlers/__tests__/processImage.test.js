@@ -27,6 +27,7 @@ it('one identical article found', async () => {
   const event = {
     type: 'message',
     timestamp: 1497994016356,
+    messageId: '6270464463537',
     message: {
       type: 'image',
       id: '6270464463537',
@@ -75,6 +76,7 @@ it('one article found (not identical)', async () => {
   const event = {
     type: 'message',
     timestamp: 1497994016356,
+    messageId: '6270464463537',
     message: {
       type: 'image',
       id: '6270464463537',
@@ -123,6 +125,7 @@ it('twelve articles found', async () => {
   const event = {
     type: 'message',
     timestamp: 1497994016356,
+    messageId: '6530038889933',
     message: {
       type: 'image',
       id: '6530038889933',
@@ -140,4 +143,44 @@ it('twelve articles found', async () => {
   expect(carousel.type).toBe('carousel');
   expect(carousel.contents.length).toBeLessThanOrEqual(10); // Flex message carousel 10 bubble limit
   expect(JSON.stringify(carousel).length).toBeLessThan(50 * 1000); // Flex message carousel 50K limit
+});
+
+it('should handle image not found', async () => {
+  gql.__push(apiResult.notFound);
+  const data = {
+    sessionId: 1497994017447,
+  };
+  const event = {
+    type: 'message',
+    timestamp: 1497994016356,
+    messageId: '6530038889933',
+    message: {
+      type: 'image',
+      id: '6530038889933',
+    },
+  };
+  const userId = 'Uc76d8ae9ccd1ada4f06c4e1515d46466';
+  MockDate.set('2020-01-01');
+  expect(await processImage(data, event, userId)).toMatchSnapshot();
+  MockDate.reset();
+  expect(gql.__finished()).toBe(true);
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "MessageType",
+          "ec": "UserInput",
+          "el": "image",
+        },
+      ],
+      Array [
+        Object {
+          "ea": "ArticleSearch",
+          "ec": "UserInput",
+          "el": "ArticleNotFound",
+        },
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
