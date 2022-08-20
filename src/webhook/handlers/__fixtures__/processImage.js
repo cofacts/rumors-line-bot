@@ -3,6 +3,24 @@ export const oneImageArticle = {
     ListArticles: {
       edges: [
         {
+          score: 1.87,
+          node: {
+            articleType: 'IMAGE',
+            attachmentHash: 'ffff8000',
+            attachmentUrl: 'http://foo/image.jpeg',
+            id: 'image-article-1',
+          },
+        },
+      ],
+    },
+  },
+};
+
+export const oneIdenticalImageArticle = {
+  data: {
+    ListArticles: {
+      edges: [
+        {
           score: 2,
           node: {
             articleType: 'IMAGE',
