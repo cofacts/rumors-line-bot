@@ -6,14 +6,10 @@ import redis from 'src/lib/redisClient';
 import lineClient from './lineClient';
 import checkSignatureAndParse from './checkSignatureAndParse';
 import handleInput from './handleInput';
+import handlePostback from './handlePostback';
 import { groupEventQueue, expiredGroupEventQueue } from 'src/lib/queues';
 import GroupHandler from './handlers/groupHandler';
-import {
-  fetchFile,
-  uploadImageFile,
-  saveImageFile,
-  processImage,
-} from './handlers/fileHandler';
+import processImage from './handlers/processImage';
 import ga from 'src/lib/ga';
 
 import UserSettings from '../database/models/userSettings';
@@ -113,66 +109,12 @@ const singleUserHandler = async (
     return;
   }
 
+  const context = (await redis.get(userId)) || {};
   // React to certain type of events
   //
-  if (
-    (type === 'message' && otherFields.message.type === 'text') ||
-    type === 'postback'
-  ) {
-    const context = (await redis.get(userId)) || {};
-
+  if (type === 'message' && otherFields.message.type === 'text') {
     // normalized "input"
-    let input;
-    if (type === 'postback') {
-      const data = JSON.parse(otherFields.postback.data);
-
-      // Handle the case when user context in redis is expired
-      if (!context.data) {
-        lineClient.post('/message/reply', {
-          replyToken,
-          messages: [
-            {
-              type: 'text',
-              text: '🚧 ' + t`Sorry, the button is expired.`,
-            },
-          ],
-        });
-        clearTimeout(timerId);
-        return;
-      }
-
-      // When the postback is expired,
-      // i.e. If other new messages have been sent before pressing buttons,
-      // Don't do anything, just ignore silently.
-      //
-      if (data.sessionId !== context.data.sessionId) {
-        console.log('Previous button pressed.');
-        lineClient.post('/message/reply', {
-          replyToken,
-          messages: [
-            {
-              type: 'text',
-              text:
-                '🚧 ' +
-                t`You are currently searching for another message, buttons from previous search sessions do not work now.`,
-            },
-          ],
-        });
-        clearTimeout(timerId);
-        return;
-      }
-
-      input = data.input;
-
-      // Pass to handleInput
-      // FIXME:
-      // handleIput(), processText() arguments is pretty messy here. Should refactor when applying
-      // Typescript.
-      //
-      otherFields.postbackHandlerState = data.state;
-    } else if (type === 'message') {
-      input = otherFields.message.text;
-    }
+    const input = otherFields.message.text;
 
     // Debugging: type 'RESET' to reset user's context and start all over.
     //
@@ -184,51 +126,9 @@ const singleUserHandler = async (
 
     result = await processText(context, type, input, otherFields, userId, req);
   } else if (type === 'message' && otherFields.message.type === 'image') {
-    if (
-      process.env.IMAGE_MESSAGE_ENABLED === 'true' ||
-      process.env.IMAGE_MESSAGE_ENABLED === 'TRUE'
-    ) {
-      const context = (await redis.get(userId)) || {};
+    const event = { messageId: otherFields.message.id, type, ...otherFields };
 
-      // Limit the number of images that can be processed simultaneously.
-      // To avoid race condiction,
-      // use `incr` to increase and read 'imageProcessingCount'(one step)
-      // instead of using `get` then check to `incr` or do noting(two step).
-      const imageProcessingCount = await redis.incr('imageProcessingCount');
-      if (imageProcessingCount > (process.env.MAX_IMAGE_PROCESS_NUMBER || 3)) {
-        console.log('[LOG] request abort, too many images are processing now.');
-        lineClient.post('/message/reply', {
-          replyToken,
-          messages: messageBotIsBusy,
-        });
-        clearTimeout(timerId);
-        await redis.decr('imageProcessingCount');
-        return;
-      }
-
-      let text = '';
-      try {
-        const res = await fetchFile(otherFields.message.id);
-        uploadImageFile(res.clone(), otherFields.message.id);
-        await saveImageFile(res, otherFields.message.id);
-        text = await processImage(otherFields.message.id);
-      } catch (e) {
-        console.error(e);
-        rollbar.error(e);
-      } finally {
-        await redis.decr('imageProcessingCount');
-      }
-      if (text.length >= 3) {
-        result = await processText(
-          context,
-          type,
-          text,
-          otherFields,
-          userId,
-          req
-        );
-      }
-    }
+    result = await processImage(context, event, userId);
   } else if (type === 'message' && otherFields.message.type === 'video') {
     // Track video message type send by user
     ga(userId)
@@ -249,6 +149,55 @@ const singleUserHandler = async (
         el: otherFields.message.type,
       })
       .send();
+  } else if (type === 'postback') {
+    let input;
+
+    const postbackData = JSON.parse(otherFields.postback.data);
+
+    // Handle the case when user context in redis is expired
+    if (!context.data) {
+      lineClient.post('/message/reply', {
+        replyToken,
+        messages: [
+          {
+            type: 'text',
+            text: '🚧 ' + t`Sorry, the button is expired.`,
+          },
+        ],
+      });
+      clearTimeout(timerId);
+      return;
+    }
+
+    // When the postback is expired,
+    // i.e. If other new messages have been sent before pressing buttons,
+    // tell the user about the expiry of buttons
+    //
+    if (postbackData.sessionId !== context.data.sessionId) {
+      console.log('Previous button pressed.');
+      lineClient.post('/message/reply', {
+        replyToken,
+        messages: [
+          {
+            type: 'text',
+            text:
+              '🚧 ' +
+              t`You are currently searching for another message, buttons from previous search sessions do not work now.`,
+          },
+        ],
+      });
+      clearTimeout(timerId);
+      return;
+    }
+
+    input = postbackData.input;
+
+    result = await handlePostback(
+      context,
+      postbackData.state,
+      { type, input, otherFields },
+      userId
+    );
   }
 
   if (isReplied) {
@@ -256,6 +205,24 @@ const singleUserHandler = async (
     return;
   }
   clearTimeout(timerId);
+
+  // LOGGING:
+  // 60 chars per line, each prepended with ||LOG||
+  //
+  console.log('\n||LOG||<----------');
+  JSON.stringify({
+    CONTEXT: context,
+    INPUT: { type, userId, ...otherFields },
+    OUTPUT: result,
+  })
+    .split(/(.{60})/)
+    .forEach(line => {
+      if (line) {
+        // Leading \n makes sure ||LOG|| is in the first line
+        console.log(`\n||LOG||${line}`);
+      }
+    });
+  console.log('\n||LOG||---------->');
 
   // Send replies. Does not need to wait for lineClient's callbacks.
   // lineClient's callback does error handling by itself.
@@ -296,29 +263,8 @@ async function processText(context, type, input, otherFields, userId, req) {
       ],
     };
   }
-  // LOGGING:
-  // 60 chars per line, each prepended with ||LOG||
-  //
-  console.log('\n||LOG||<----------');
-  JSON.stringify({
-    CONTEXT: context,
-    INPUT: { type, userId, ...otherFields },
-    OUTPUT: result,
-  })
-    .split(/(.{60})/)
-    .forEach(line => {
-      if (line) {
-        // Leading \n makes sure ||LOG|| is in the first line
-        console.log(`\n||LOG||${line}`);
-      }
-    });
-  console.log('\n||LOG||---------->');
   return result;
 }
-
-// If shutdown during imageProcessing, count will be non-zero value on next deploy.
-// So reset imageProcessingCount to 0 every time.
-redis.set('imageProcessingCount', 0);
 
 const router = Router();
 

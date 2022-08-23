@@ -156,7 +156,6 @@ Object {
     "input": "__POSTBACK_YES__",
     "type": "postback",
   },
-  "isSkipUser": undefined,
   "replies": Array [
     Object {
       "altText": "The message has now been recorded at Cofacts for volunteers to fact-check. Thank you for submitting!",

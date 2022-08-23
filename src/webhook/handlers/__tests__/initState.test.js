@@ -1,6 +1,9 @@
 jest.mock('src/lib/gql');
 jest.mock('src/lib/ga');
 jest.mock('src/lib/detectDialogflowIntent');
+jest.mock('src/webhook/handlePostback', () =>
+  jest.fn(() => '__HANDLE_POSTBACK_RESULT__')
+);
 
 import MockDate from 'mockdate';
 import initState from '../initState';
@@ -8,11 +11,13 @@ import * as apiResult from '../__fixtures__/initState';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
 import detectDialogflowIntent from 'src/lib/detectDialogflowIntent';
+import handlePostback from 'src/webhook/handlePostback';
 
 beforeEach(() => {
   ga.clearAllMocks();
   gql.__reset();
   detectDialogflowIntent.mockClear();
+  handlePostback.mockClear();
 });
 
 it('article found', async () => {
@@ -36,7 +41,6 @@ it('article found', async () => {
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   expect(await initState(input)).toMatchSnapshot();
@@ -90,7 +94,6 @@ it('long article replies still below flex message limit', async () => {
       },
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    isSkipUser: false,
   };
 
   const result = await initState(input);
@@ -121,7 +124,6 @@ it('articles found with high similarity', async () => {
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   expect(await initState(input)).toMatchSnapshot();
@@ -182,10 +184,25 @@ it('only one article found with high similarity', async () => {
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
-  expect(await initState(input)).toMatchSnapshot();
+  expect(await initState(input)).toBe('__HANDLE_POSTBACK_RESULT__');
+  expect(handlePostback.mock.calls[0]).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "data": Object {
+          "searchedText": "YouTube · 寻找健康人生",
+          "sessionId": 1497994017447,
+        },
+      },
+      "CHOOSING_ARTICLE",
+      Object {
+        "input": "AVvY-yizyCdS-nWhuYWx",
+        "type": "postback",
+      },
+      "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+    ]
+  `);
   expect(gql.__finished()).toBe(true);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -235,7 +252,6 @@ it('should handle message matches only hyperlinks', async () => {
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   expect(await initState(input)).toMatchSnapshot();
@@ -298,7 +314,6 @@ it('should handle text not found', async () => {
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
-    isSkipUser: false,
   };
 
   MockDate.set('2020-01-01');
@@ -313,50 +328,6 @@ it('should handle text not found', async () => {
           "ea": "MessageType",
           "ec": "UserInput",
           "el": "text",
-        },
-      ],
-      Array [
-        Object {
-          "ea": "ArticleSearch",
-          "ec": "UserInput",
-          "el": "ArticleNotFound",
-        },
-      ],
-    ]
-  `);
-  expect(ga.sendMock).toHaveBeenCalledTimes(1);
-});
-
-it('should handle image not found', async () => {
-  gql.__push(apiResult.notFound);
-
-  const input = {
-    data: {
-      sessionId: 1497994017447,
-    },
-    event: {
-      type: 'message',
-      input: 'OCR text OCR text OCR text',
-      timestamp: 1497994016356,
-      message: {
-        type: 'image',
-      },
-    },
-    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    replies: undefined,
-    isSkipUser: false,
-  };
-
-  expect(await initState(input)).toMatchSnapshot();
-  expect(gql.__finished()).toBe(true);
-
-  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
-    Array [
-      Array [
-        Object {
-          "ea": "MessageType",
-          "ec": "UserInput",
-          "el": "image",
         },
       ],
       Array [
@@ -398,7 +369,6 @@ describe('input matches dialogflow intent', () => {
       },
       userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
       replies: undefined,
-      isSkipUser: false,
     };
     expect(await initState(input)).toMatchSnapshot();
     expect(gql.__finished()).toBe(false);
@@ -452,7 +422,6 @@ describe('input matches dialogflow intent', () => {
       },
       userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
       replies: undefined,
-      isSkipUser: false,
     };
     expect(await initState(input)).toMatchSnapshot();
     expect(gql.__finished()).toBe(false);
@@ -506,7 +475,6 @@ describe('input matches dialogflow intent', () => {
       },
       userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
       replies: undefined,
-      isSkipUser: false,
     };
     MockDate.set('2020-01-01');
     expect(await initState(input)).toMatchSnapshot();

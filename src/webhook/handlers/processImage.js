@@ -1,87 +1,49 @@
-import stringSimilarity from 'string-similarity';
-import { t } from 'ttag';
-import gql from 'src/lib/gql';
+import { t, msgid, ngettext } from 'ttag';
 import {
+  getLineContentProxyURL,
   createPostbackAction,
-  ellipsis,
   POSTBACK_NO_ARTICLE_FOUND,
-  createHighlightContents,
-  createTextMessage,
-  createArticleSourceReply,
 } from './utils';
+import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
-import detectDialogflowIntent from 'src/lib/detectDialogflowIntent';
 import handlePostback from '../handlePostback';
 
-const SIMILARITY_THRESHOLD = 0.95;
+export default async function({ data = {} }, event, userId) {
+  const proxyUrl = getLineContentProxyURL(event.messageId);
+  // console.log(`Image url:  ${proxyUrl}`);
 
-export default async function initState(params) {
-  let { data, event, userId, replies } = params;
-  const state = '__INIT__';
-
+  const visitor = ga(userId, '__PROCESS_IMAGE__', proxyUrl);
   // Track text message type send by user
-  const visitor = ga(userId, state, event.input);
   visitor.event({ ec: 'UserInput', ea: 'MessageType', el: event.message.type });
 
-  // Store user input into context
-  data.searchedText = event.input;
+  let replies;
+  data = {
+    // Start a new session
+    sessionId: Date.now(),
+  };
 
-  // send input to dialogflow before doing search
-  // uses dialogflowResponse as reply only when there's a intent matched and
-  // input.length <= 10 or input.length > 10 but intentDetectionConfidence == 1
-  const dialogflowResponse = await detectDialogflowIntent(data.searchedText);
-  if (
-    dialogflowResponse &&
-    dialogflowResponse.queryResult &&
-    dialogflowResponse.queryResult.intent &&
-    (event.input.length <= 10 ||
-      dialogflowResponse.queryResult.intentDetectionConfidence == 1)
-  ) {
-    replies = [
-      {
-        type: 'text',
-        text: dialogflowResponse.queryResult.fulfillmentText,
-      },
-    ];
-    visitor.event({
-      ec: 'UserInput',
-      ea: 'ChatWithBot',
-      el: dialogflowResponse.queryResult.intent.displayName,
-    });
-    visitor.send();
-    return { data, event, userId, replies };
-  }
-
-  // Search for articles
   const {
     data: { ListArticles },
   } = await gql`
-    query($text: String!) {
+    query($mediaUrl: String!) {
       ListArticles(
-        filter: { moreLikeThis: { like: $text } }
+        filter: { mediaUrl: $mediaUrl }
         orderBy: [{ _score: DESC }]
         first: 4
       ) {
         edges {
+          score
           node {
-            text
             id
-          }
-          highlight {
-            text
-            hyperlinks {
-              title
-              summary
-            }
+            articleType
+            attachmentUrl(variant: THUMBNAIL)
           }
         }
       }
     }
   `({
-    text: event.input,
+    mediaUrl: proxyUrl,
   });
-
-  const inputSummary = ellipsis(event.input, 12);
 
   if (ListArticles.edges.length) {
     // Track if find similar Articles in DB.
@@ -97,61 +59,40 @@ export default async function initState(params) {
       });
     });
 
-    const edgesSortedWithSimilarity = ListArticles.edges
-      .map(edge => {
-        edge.similarity = stringSimilarity.compareTwoStrings(
-          // Remove spaces so that we count word's similarities only
-          //
-          edge.node.text.replace(/\s/g, ''),
-          event.input.replace(/\s/g, '')
-        );
-        return edge;
-      })
-      .sort((edge1, edge2) => edge2.similarity - edge1.similarity)
-      .slice(0, 9) /* flex carousel has at most 10 bubbles */;
-
-    const hasIdenticalDocs =
-      edgesSortedWithSimilarity[0].similarity >= SIMILARITY_THRESHOLD;
-
-    if (edgesSortedWithSimilarity.length === 1 && hasIdenticalDocs) {
+    const hasIdenticalDocs = ListArticles.edges[0].score === 2;
+    if (ListArticles.edges.length === 1 && hasIdenticalDocs) {
       visitor.send();
 
       // choose for user
       event = {
         type: 'postback',
-        input: edgesSortedWithSimilarity[0].node.id,
+        input: ListArticles.edges[0].node.id,
       };
       return await handlePostback({ data }, 'CHOOSING_ARTICLE', event, userId);
     }
 
-    const articleOptions = edgesSortedWithSimilarity.map(
-      ({ node: { text, id }, highlight, similarity }) => {
-        const similarityPercentage = Math.round(similarity * 100);
+    const articleOptions = ListArticles.edges
+      .map(({ node: { attachmentUrl, id }, score }, index) => {
+        const imgNumber = index + 1;
+        const displayTextWhenChosen = ngettext(
+          msgid`No.${imgNumber}`,
+          `No.${imgNumber}`,
+          imgNumber
+        );
+
+        // ListArticle score is 1~2 for the current query; the variable part is the ID hash difference
+        const similarity = score - 1;
+        const scoreInPercent = Math.floor(similarity * 100);
         const similarityEmoji = ['😐', '🙂', '😀', '😃', '😄'][
           Math.floor(similarity * 4.999)
         ];
-        const displayTextWhenChosen = ellipsis(text, 25, '...');
+        const looks = ngettext(
+          msgid`Looks ${scoreInPercent}% similar`,
+          `Looks ${scoreInPercent}% similar`,
+          scoreInPercent
+        );
 
-        const bodyContents = [];
-        if (highlight && !highlight.text) {
-          bodyContents.push({
-            type: 'text',
-            text: t`(Words found in the hyperlink)`,
-            size: 'sm',
-            color: '#ff7b7b',
-            weight: 'bold',
-          });
-        }
-        bodyContents.push({
-          type: 'text',
-          contents: createHighlightContents(highlight, text), // 50KB for entire Flex carousel
-          maxLines: 6,
-          flex: 0,
-          gravity: 'top',
-          weight: 'regular',
-          wrap: true,
-        });
-
+        //show url attachmentUrl
         return {
           type: 'bubble',
           direction: 'ltr',
@@ -168,7 +109,7 @@ export default async function initState(params) {
               },
               {
                 type: 'text',
-                text: t`Looks ${similarityPercentage}% similar`,
+                text: displayTextWhenChosen + ', ' + looks,
                 gravity: 'center',
                 size: 'sm',
                 weight: 'bold',
@@ -177,12 +118,10 @@ export default async function initState(params) {
               },
             ],
           },
-          body: {
-            type: 'box',
-            layout: 'vertical',
-            spacing: 'none',
-            margin: 'none',
-            contents: bodyContents,
+          hero: {
+            type: 'image',
+            url: attachmentUrl,
+            size: 'full',
           },
           footer: {
             type: 'box',
@@ -203,8 +142,8 @@ export default async function initState(params) {
             ],
           },
         };
-      }
-    );
+      })
+      .slice(0, 9) /* flex carousel has at most 10 bubbles */;
 
     // Show "no-article-found" option only when no identical docs are found
     //
@@ -276,7 +215,7 @@ export default async function initState(params) {
     const prefixTextArticleFound = [
       {
         type: 'text',
-        text: `🔍 ${t`There are some messages that looks similar to "${inputSummary}" you have sent to me.`}`,
+        text: `🔍 ${t`There are some messages that looks similar to the one you have sent to me.`}`,
       },
     ];
     const textArticleFound = [
@@ -291,23 +230,9 @@ export default async function initState(params) {
 
     replies = prefixTextArticleFound.concat(textArticleFound);
   } else {
-    // Track if find similar Articles in DB.
-    visitor.event({
-      ec: 'UserInput',
-      ea: 'ArticleSearch',
-      el: 'ArticleNotFound',
-    });
-
-    replies = [
-      createTextMessage({
-        text:
-          t`Unfortunately, I currently don’t recognize “${inputSummary}”, but I would still like to help.` +
-          '\n' +
-          t`May I ask you a quick question?`,
-      }),
-      createArticleSourceReply(data.sessionId),
-    ];
+    // submit
+    console.log('Image not found, would you like to submit?');
   }
   visitor.send();
-  return { data, event, userId, replies };
+  return { context: { data }, replies };
 }

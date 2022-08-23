@@ -259,7 +259,6 @@ Object {
     "timestamp": 1518964687709,
     "type": "postback",
   },
-  "isSkipUser": false,
   "issuedAt": 1518964688672,
   "replies": Array [
     Object {
@@ -401,7 +400,6 @@ Object {
     "timestamp": 1518964687709,
     "type": "postback",
   },
-  "isSkipUser": false,
   "issuedAt": 1518964688672,
   "replies": Array [
     Object {

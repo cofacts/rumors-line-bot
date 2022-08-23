@@ -42,7 +42,6 @@ describe('should select reply by replyId', () => {
     issuedAt: 1518964688672,
     userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
     replies: [],
-    isSkipUser: false,
   };
 
   it('should handle the case with just one reply', async () => {
@@ -115,7 +114,6 @@ it('should block non-postback interactions', async () => {
     issuedAt: 1518964688672,
     userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
     replies: [],
-    isSkipUser: false,
   };
 
   await expect(choosingReply(params)).rejects.toMatchInlineSnapshot(
@@ -142,7 +140,6 @@ it('should handle graphql error gracefully', async () => {
     issuedAt: 1518964688672,
     userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
     replies: [],
-    isSkipUser: false,
   };
 
   await expect(choosingReply(params)).rejects.toMatchInlineSnapshot(

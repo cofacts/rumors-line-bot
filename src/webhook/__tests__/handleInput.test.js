@@ -1,21 +1,14 @@
 import MockDate from 'mockdate';
 import initState from '../handlers/initState';
-import choosingArticle from '../handlers/choosingArticle';
-import choosingReply from '../handlers/choosingReply';
-import askingArticleSource from '../handlers/askingArticleSource';
-import askingArticleSubmissionConsent from '../handlers/askingArticleSubmissionConsent';
-import { ManipulationError } from '../handlers/utils';
 import handleInput from '../handleInput';
 import tutorial, { TUTORIAL_STEPS } from '../handlers/tutorial';
+import handlePostback from '../handlePostback';
 
 import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
 
 jest.mock('../handlers/initState');
-jest.mock('../handlers/choosingArticle');
-jest.mock('../handlers/choosingReply');
-jest.mock('../handlers/askingArticleSource');
-jest.mock('../handlers/askingArticleSubmissionConsent');
 jest.mock('../handlers/tutorial');
+jest.mock('../handlePostback');
 
 // Original session ID in context
 const FIXED_DATE = 612964800000;
@@ -25,9 +18,7 @@ const NOW = 1561982400000;
 
 beforeEach(() => {
   initState.mockClear();
-  choosingArticle.mockClear();
-  choosingReply.mockClear();
-  askingArticleSubmissionConsent.mockClear();
+  handlePostback.mockClear();
   tutorial.mockClear();
   MockDate.set(NOW);
 });
@@ -45,48 +36,6 @@ it('rejects undefined input', () => {
   );
 });
 
-it('invokes state handler specified by event.postbackHandlerState', async () => {
-  const context = {
-    data: { sessionId: FIXED_DATE },
-  };
-
-  for (const { postbackState, expectedHandler } of [
-    // The states that are triggered by postback
-    {
-      postbackState: 'CHOOSING_REPLY',
-      expectedHandler: choosingReply,
-    },
-    {
-      postbackState: 'ASKING_ARTICLE_SOURCE',
-      expectedHandler: askingArticleSource,
-    },
-    {
-      postbackState: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
-      expectedHandler: askingArticleSubmissionConsent,
-    },
-  ]) {
-    const event = {
-      type: 'postback',
-      postbackHandlerState: postbackState,
-      input: 'Foo',
-    };
-
-    expectedHandler.mockImplementationOnce(() => {
-      return Promise.resolve({
-        // Bare minimal return values by handlers for handleInput to work without crash
-        isSkipUser: false,
-        replies: [],
-      });
-    });
-
-    await handleInput(context, event);
-    expect(expectedHandler).toHaveBeenCalledTimes(1);
-  }
-
-  // Expect that default state is not invoked
-  expect(choosingArticle).not.toHaveBeenCalled();
-});
-
 it('shows reply list when VIEW_ARTICLE_PREFIX is sent', async () => {
   const context = {
     data: { sessionId: FIXED_DATE },
@@ -96,13 +45,10 @@ it('shows reply list when VIEW_ARTICLE_PREFIX is sent', async () => {
     input: `${VIEW_ARTICLE_PREFIX}${getArticleURL('article-id')}`,
   };
 
-  choosingArticle.mockImplementationOnce(params => {
-    // it doesn't return `state`, discard it
-    // eslint-disable-next-line no-unused-vars
-    const { state, ...restParams } = params;
+  // eslint-disable-next-line no-unused-vars
+  handlePostback.mockImplementationOnce((context, state, event, userid) => {
     return Promise.resolve({
-      ...restParams,
-      isSkipUser: false,
+      context,
       replies: 'Foo replies',
     });
   });
@@ -119,8 +65,25 @@ it('shows reply list when VIEW_ARTICLE_PREFIX is sent', async () => {
           }
         `);
 
-  expect(choosingReply).not.toHaveBeenCalled();
-  expect(choosingArticle).toHaveBeenCalledTimes(1);
+  expect(handlePostback).toHaveBeenCalledTimes(1);
+  expect(handlePostback.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "data": Object {
+            "searchedText": "",
+            "sessionId": 1561982400000,
+          },
+        },
+        "CHOOSING_ARTICLE",
+        Object {
+          "input": "article-id",
+          "type": "postback",
+        },
+        undefined,
+      ],
+    ]
+  `);
 });
 
 it('shows reply list when article URL is sent', async () => {
@@ -132,13 +95,10 @@ it('shows reply list when article URL is sent', async () => {
     input: getArticleURL('article-id') + '  \n  ' /* simulate manual input */,
   };
 
-  choosingArticle.mockImplementationOnce(params => {
-    // it doesn't return `state`, discard it
-    // eslint-disable-next-line no-unused-vars
-    const { state, ...restParams } = params;
+  // eslint-disable-next-line no-unused-vars
+  handlePostback.mockImplementationOnce((context, state, event, userid) => {
     return Promise.resolve({
-      ...restParams,
-      isSkipUser: false,
+      context,
       replies: 'Foo replies',
     });
   });
@@ -155,9 +115,8 @@ it('shows reply list when article URL is sent', async () => {
           }
         `);
 
-  expect(choosingReply).not.toHaveBeenCalled();
-  expect(choosingArticle).toHaveBeenCalledTimes(1);
-  expect(choosingArticle.mock.calls).toMatchInlineSnapshot(`
+  expect(handlePostback).toHaveBeenCalledTimes(1);
+  expect(handlePostback.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
         Object {
@@ -165,15 +124,13 @@ it('shows reply list when article URL is sent', async () => {
             "searchedText": "",
             "sessionId": 1561982400000,
           },
-          "event": Object {
-            "input": "article-id",
-            "type": "postback",
-          },
-          "isSkipUser": false,
-          "replies": undefined,
-          "state": "CHOOSING_ARTICLE",
-          "userId": undefined,
         },
+        "CHOOSING_ARTICLE",
+        Object {
+          "input": "article-id",
+          "type": "postback",
+        },
+        undefined,
       ],
     ]
   `);
@@ -188,22 +145,10 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
     input: 'Newly forwarded message',
   };
 
-  initState.mockImplementationOnce(params =>
-    Promise.resolve({
-      ...params,
-      isSkipUser: true,
-      // isSkipUser should return a state and handleInput again
-      state: 'CHOOSING_ARTICLE',
-    })
-  );
-
-  choosingArticle.mockImplementationOnce(params => {
-    // it doesn't return `state`, discard it
-    // eslint-disable-next-line no-unused-vars
-    const { state, ...restParams } = params;
+  // eslint-disable-next-line no-unused-vars
+  initState.mockImplementationOnce(({ data, event, userId, replies }) => {
     return Promise.resolve({
-      ...restParams,
-      isSkipUser: false,
+      data,
       replies: 'Foo replies',
     });
   });
@@ -220,40 +165,27 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
         `);
 
   expect(initState).toHaveBeenCalledTimes(1);
-  expect(choosingArticle).toHaveBeenCalledTimes(1);
+  expect(initState.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "data": Object {
+            "sessionId": 1561982400000,
+          },
+          "event": Object {
+            "input": "Newly forwarded message",
+            "type": "message",
+          },
+          "replies": undefined,
+          "state": "__INIT__",
+          "userId": undefined,
+        },
+      ],
+    ]
+  `);
 });
 
 describe('defaultState', () => {
-  it('handles unimplemented state', async () => {
-    const context = {
-      data: { sessionId: FIXED_DATE },
-    };
-    const event = {
-      type: 'postback',
-      postbackHandlerState: 'NOT_IMPLEMENTED_YET',
-      input: 'foo',
-    };
-
-    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-            Object {
-              "context": Object {
-                "data": Object {
-                  "sessionId": 612964800000,
-                },
-              },
-              "replies": Array [
-                Object {
-                  "text": "我們看不懂 QQ
-            大俠請重新來過。",
-                  "type": "text",
-                },
-              ],
-            }
-          `);
-
-    expect(initState).not.toHaveBeenCalled();
-  });
-
   it('handles wrong event type', async () => {
     const context = {
       data: { sessionId: FIXED_DATE },
@@ -284,87 +216,6 @@ describe('defaultState', () => {
   });
 });
 
-it('handles ManipulationError fired in handlers', async () => {
-  const context = {
-    data: { sessionId: FIXED_DATE },
-  };
-  const event = {
-    type: 'postback',
-    postbackHandlerState: 'CHOOSING_ARTICLE',
-    input: `article-id`,
-  };
-
-  choosingArticle.mockImplementationOnce(() =>
-    Promise.reject(new ManipulationError('Foo error'))
-  );
-
-  await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-          Object {
-            "context": Object {
-              "data": Object {
-                "sessionId": 612964800000,
-              },
-            },
-            "replies": Array [
-              Object {
-                "altText": "Error: Foo error",
-                "contents": Object {
-                  "body": Object {
-                    "contents": Array [
-                      Object {
-                        "text": "Foo error",
-                        "type": "text",
-                        "wrap": true,
-                      },
-                    ],
-                    "layout": "vertical",
-                    "type": "box",
-                  },
-                  "header": Object {
-                    "contents": Array [
-                      Object {
-                        "color": "#ffb600",
-                        "text": "⚠️ Wrong usage",
-                        "type": "text",
-                        "weight": "bold",
-                      },
-                    ],
-                    "layout": "vertical",
-                    "type": "box",
-                  },
-                  "styles": Object {
-                    "body": Object {
-                      "separator": true,
-                    },
-                  },
-                  "type": "bubble",
-                },
-                "type": "flex",
-              },
-            ],
-          }
-        `);
-});
-
-it('throws on unknown error', async () => {
-  const context = {
-    data: { sessionId: FIXED_DATE },
-  };
-  const event = {
-    type: 'postback',
-    postbackHandlerState: 'CHOOSING_ARTICLE',
-    input: `article-id`,
-  };
-
-  choosingArticle.mockImplementationOnce(() =>
-    Promise.reject(new Error('Unknown error'))
-  );
-
-  await expect(handleInput(context, event)).rejects.toMatchInlineSnapshot(
-    `[Error: Unknown error]`
-  );
-});
-
 describe('tutorial', () => {
   it('handles tutorial trigger from rich menu', async () => {
     const context = {
@@ -381,42 +232,6 @@ describe('tutorial', () => {
       const { state, ...restParams } = params;
       return {
         ...restParams,
-        isSkipUser: false,
-        replies: 'Foo replies',
-      };
-    });
-
-    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-            Object {
-              "context": Object {
-                "data": Object {
-                  "sessionId": 612964800000,
-                },
-              },
-              "replies": "Foo replies",
-            }
-          `);
-
-    expect(tutorial).toHaveBeenCalledTimes(1);
-  });
-
-  it('handles TUTORIAL postbackHandlerState', async () => {
-    const context = {
-      data: { sessionId: FIXED_DATE },
-    };
-    const event = {
-      type: 'postback',
-      postbackHandlerState: 'TUTORIAL',
-      input: 'foo',
-    };
-
-    tutorial.mockImplementationOnce(params => {
-      // it doesn't return `state`, discard it
-      // eslint-disable-next-line no-unused-vars
-      const { state, ...restParams } = params;
-      return {
-        ...restParams,
-        isSkipUser: false,
         replies: 'Foo replies',
       };
     });
