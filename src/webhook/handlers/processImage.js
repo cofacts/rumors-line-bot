@@ -30,6 +30,7 @@ export default async function({ data = {} }, event, userId) {
     query($mediaUrl: String!) {
       ListArticles(
         filter: { mediaUrl: $mediaUrl }
+        articleTypes: [TEXT, IMAGE, AUDIO, VIDEO]
         orderBy: [{ _score: DESC }]
         first: 4
       ) {
