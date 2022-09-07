@@ -29,8 +29,10 @@ export default async function({ data = {} }, event, userId) {
   } = await gql`
     query($mediaUrl: String!) {
       ListArticles(
-        filter: { mediaUrl: $mediaUrl }
-        articleTypes: [TEXT, IMAGE, AUDIO, VIDEO]
+        filter: {
+          mediaUrl: $mediaUrl
+          articleTypes: [TEXT, IMAGE, AUDIO, VIDEO]
+        }
         orderBy: [{ _score: DESC }]
         first: 4
       ) {
