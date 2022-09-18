@@ -123,7 +123,7 @@ function createShareBubble(articleId, fullArticleText, replyTypeEnumValue) {
 export default async function choosingReply(params) {
   let { data, state, event, issuedAt, userId, replies } = params;
 
-  if (event.type !== 'postback') {
+  if (event.type !== 'postback' && event.type !== 'server_choose') {
     throw new ManipulationError(t`Please choose from provided options.`);
   }
 

@@ -8,7 +8,7 @@ import {
 } from './utils';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
-import handlePostback from '../handlePostback';
+import choosingArticle from '../handlers/choosingArticle';
 
 export default async function({ data = {} }, event, userId) {
   const proxyUrl = getLineContentProxyURL(event.messageId);
@@ -70,10 +70,17 @@ export default async function({ data = {} }, event, userId) {
 
       // choose for user
       event = {
-        type: 'postback',
+        type: 'server_choose',
         input: ListArticles.edges[0].node.id,
       };
-      return await handlePostback({ data }, 'CHOOSING_ARTICLE', event, userId);
+
+      return await choosingArticle({
+        data,
+        state: 'CHOOSING_ARTICLE',
+        event,
+        userId,
+        replies: [],
+      });
     }
 
     const articleOptions = ListArticles.edges

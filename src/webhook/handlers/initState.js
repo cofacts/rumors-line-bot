@@ -11,7 +11,7 @@ import {
 } from './utils';
 import ga from 'src/lib/ga';
 import detectDialogflowIntent from 'src/lib/detectDialogflowIntent';
-import handlePostback from '../handlePostback';
+import choosingArticle from '../handlers/choosingArticle';
 
 const SIMILARITY_THRESHOLD = 0.95;
 
@@ -118,10 +118,17 @@ export default async function initState(params) {
 
       // choose for user
       event = {
-        type: 'postback',
+        type: 'server_choose',
         input: edgesSortedWithSimilarity[0].node.id,
       };
-      return await handlePostback({ data }, 'CHOOSING_ARTICLE', event, userId);
+
+      return await choosingArticle({
+        data,
+        state: 'CHOOSING_ARTICLE',
+        event,
+        userId,
+        replies: [],
+      });
     }
 
     const articleOptions = edgesSortedWithSimilarity.map(
