@@ -130,7 +130,199 @@ Please choose the version that looks the most similar👇",
 }
 `;
 
-exports[`one identical article found 1`] = `"__HANDLE_POSTBACK_RESULT__"`;
+exports[`one identical article found and choose for user 1`] = `
+Object {
+  "data": Object {
+    "selectedArticleId": "image-article-1",
+    "selectedArticleText": "",
+    "sessionId": 1577836800000,
+  },
+  "event": Object {
+    "input": "image-article-1",
+    "type": "server_choose",
+  },
+  "replies": Array [
+    Object {
+      "text": "👨‍👩‍👧‍👦  Volunteer editors have published several replies to this message.
+
+2 of them say it ❌ contains misinformation.",
+      "type": "text",
+    },
+    Object {
+      "text": "Let's pick one 👇",
+      "type": "text",
+    },
+    Object {
+      "altText": "Please take a look at the following replies.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "查證這則謠言的過程中，約翰走鹿也發現其實網路早就有許多解答，就讓約翰走鹿來借花獻佛一下囉。多家媒體都有針對這則「吃生魚片會有海獸胃腺蟲附著胃壁」的謠言請教醫師，受訪的醫師們皆表示，這則謠言太誇大，海獸胃腺蟲沒那麼神通廣大。
+醫師們表示，台灣的衛生條件很進步，吃生魚片被寄生蟲寄生的案例很少，大部份都是生魚片不乾淨，感染沙門氏菌、大腸桿菌的案例，此外，寄生蟲也不是什麼難治之症，服用一些抗寄生蟲藥就可以殺死胃裡的這些蟲子，除非這些蟲子跑到身體其他部位那才比較難處理，但那也是要大量地吃生魚片（一週兩次以上），中獎機率才會比較高。",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "👍 14 users consider this helpful
+😕 2 users consider this not useful",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AVygFA0RyCdS-nWhuaXY\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “查證這則謠言的過程中，約翰走鹿也發現其實網路早⋯⋯”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "過去台灣只有一個海獸胃腺蟲鑽入胃壁的病例，而且僅有一隻蟲。而經查詢，台北馬偕醫院也沒有名為林清風的醫師。",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "👍 24 users consider this helpful",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AVy6LkWIyCdS-nWhuaqu\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “過去台灣只有一個海獸胃腺蟲鑽入胃壁的病例，而且⋯⋯”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
 
 exports[`should handle image not found 1`] = `
 Object {

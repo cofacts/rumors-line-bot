@@ -1,25 +1,22 @@
 jest.mock('src/lib/gql');
 jest.mock('src/lib/ga');
 jest.mock('src/lib/detectDialogflowIntent');
-jest.mock('src/webhook/handlePostback', () =>
-  jest.fn(() => '__HANDLE_POSTBACK_RESULT__')
-);
 
 import MockDate from 'mockdate';
 import processImage from '../processImage';
-import * as apiResult from '../__fixtures__/processImage';
+import * as apiListArticlesResult from '../__fixtures__/processImage';
+import * as apiGetArticleResult from '../__fixtures__/choosingArticle';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
-import handlePostback from 'src/webhook/handlePostback';
 
 beforeEach(() => {
   ga.clearAllMocks();
   gql.__reset();
-  handlePostback.mockClear();
 });
 
-it('one identical article found', async () => {
-  gql.__push(apiResult.oneIdenticalImageArticle);
+it('one identical article found and choose for user', async () => {
+  gql.__push(apiListArticlesResult.oneIdenticalImageArticle);
+  gql.__push(apiGetArticleResult.oneImageArticle);
 
   const data = {
     sessionId: 1497994017447,
@@ -62,13 +59,36 @@ it('one identical article found', async () => {
           "ni": true,
         },
       ],
+      Array [
+        Object {
+          "ea": "Selected",
+          "ec": "Article",
+          "el": "image-article-1",
+        },
+      ],
+      Array [
+        Object {
+          "ea": "Search",
+          "ec": "Reply",
+          "el": "AVygFA0RyCdS-nWhuaXY",
+          "ni": true,
+        },
+      ],
+      Array [
+        Object {
+          "ea": "Search",
+          "ec": "Reply",
+          "el": "AVy6LkWIyCdS-nWhuaqu",
+          "ni": true,
+        },
+      ],
     ]
   `);
-  expect(ga.sendMock).toHaveBeenCalledTimes(1);
+  expect(ga.sendMock).toHaveBeenCalledTimes(2);
 });
 
 it('one article found (not identical)', async () => {
-  gql.__push(apiResult.oneImageArticle);
+  gql.__push(apiListArticlesResult.oneImageArticle);
 
   const data = {
     sessionId: 1497994017447,
@@ -117,7 +137,7 @@ it('one article found (not identical)', async () => {
 });
 
 it('twelve articles found', async () => {
-  gql.__push(apiResult.twelveImageArticles);
+  gql.__push(apiListArticlesResult.twelveImageArticles);
 
   const data = {
     sessionId: 1497994017447,
@@ -146,7 +166,7 @@ it('twelve articles found', async () => {
 });
 
 it('should handle image not found', async () => {
-  gql.__push(apiResult.notFound);
+  gql.__push(apiListArticlesResult.notFound);
   const data = {
     sessionId: 1497994017447,
   };

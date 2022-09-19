@@ -13,6 +13,21 @@ export const oneReply = {
   },
 };
 
+export const oneReply2 = {
+  data: {
+    GetReply: {
+      type: 'RUMOR',
+      text:
+        'The Only Reply The Only Reply The Only Reply The Only Reply The Only Reply The Only Reply The Only Reply The Only Reply The Only Reply ',
+      reference: '',
+      createdAt: '2018-01-09T05:52:12.658Z',
+    },
+    GetArticle: {
+      replyCount: 1,
+    },
+  },
+};
+
 export const multipleReplies = {
   data: {
     GetReply: {

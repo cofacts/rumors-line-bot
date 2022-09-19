@@ -103,6 +103,141 @@ Array [
 ]
 `;
 
+exports[`should select article and choose the only one reply for user 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply",
+    "selectedArticleId": "article-id",
+    "selectedArticleText": "Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply ",
+    "selectedReplyId": "AV--O3nfyCdS-nWhujMD",
+  },
+  "event": Object {
+    "input": "AV--O3nfyCdS-nWhujMD",
+    "type": "server_choose",
+  },
+  "issuedAt": undefined,
+  "replies": Array [
+    Object {
+      "text": "💡 Someone on the internet replies to the message:",
+      "type": "text",
+    },
+    Object {
+      "text": "The Only Reply The Only Reply The Only Reply The Only Reply The Only Reply The Only Reply The Only Reply The Only Reply The Only Reply ",
+      "type": "text",
+    },
+    Object {
+      "text": "􀂅 ⚠️️ This reply has no references and it may be biased ⚠️️  􀂅",
+      "type": "text",
+    },
+    Object {
+      "text": "⬆️ Therefore, the author think the message contains misinformation.
+
+💁 This content is provided by Cofact message reporting chatbot and crowd-sourced fact-checking community under CC BY-SA 4.0 license. Please refer to their references and make judgements on your own.
+
+
+⁉️ If you have different thoughts, you may have your say here:
+https://dev.cofacts.tw/article/article-id",
+      "type": "text",
+    },
+    Object {
+      "altText": "Is the reply helpful?",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "Is the reply helpful?",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "paddingAll": "xl",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "👍 Yes",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback&articleId=article-id&replyId=AV--O3nfyCdS-nWhujMD&vote=UPVOTE",
+                  },
+                  "color": "#00B172",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "😕 No",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=feedback&articleId=article-id&replyId=AV--O3nfyCdS-nWhujMD&vote=DOWNVOTE",
+                  },
+                  "color": "#FB5959",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "Don't forget to forward the messages above to others and share with them!",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "paddingAll": "lg",
+              "spacing": "md",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "Share to friends",
+                    "type": "uri",
+                    "uri": "https://line.me/R/msg/text/?Someone%20says%20the%20message%20%E2%80%9CJust%20One%20Repl%E2%8B%AF%E2%8B%AF%E2%80%9D%20contains%20misinformation.%0A%0APlease%20refer%20to%20https://dev.cofacts.tw/article/article-id%20for%20more%20information,%20replies%20and%20references.",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "Provide better reply",
+                    "type": "uri",
+                    "uri": "https://dev.cofacts.tw/article/article-id",
+                  },
+                  "color": "#ffb600",
+                  "style": "link",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
 exports[`should select article and have OPINIONATED and NOT_ARTICLE replies 1`] = `
 Object {
   "data": Object {
