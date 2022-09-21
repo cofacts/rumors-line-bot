@@ -507,6 +507,165 @@ Object {
 }
 `;
 
+exports[`only one article found with high similarity and choose for user 1`] = `
+Object {
+  "data": Object {
+    "searchedText": "YouTube · 寻找健康人生",
+    "selectedArticleId": "AVvY-yizyCdS-nWhuYWx",
+    "selectedArticleText": "YouTube  ·  寻找健康人生",
+    "sessionId": 1497994017447,
+  },
+  "event": Object {
+    "input": "AVvY-yizyCdS-nWhuYWx",
+    "type": "server_choose",
+  },
+  "replies": Array [
+    Object {
+      "altText": "This message has already published on Cofacts, and will soon be fact-checked by volunteers.
+Don’t trust the message just yet!",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "This message has already published on Cofacts, and will soon be fact-checked by volunteers.
+Don’t trust the message just yet!",
+              "type": "text",
+              "wrap": true,
+            },
+            Object {
+              "action": Object {
+                "label": "View reported message",
+                "type": "uri",
+                "uri": "https://dev.cofacts.tw/article/AVvY-yizyCdS-nWhuYWx",
+              },
+              "margin": "md",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+    Object {
+      "altText": "In the meantime, you can:",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "In the meantime, you can:",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+    Object {
+      "altText": "Provide more detail",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "It would help fact checkers a lot if you provide more detail :)",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "Provide detail",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=comment&articleId=AVvY-yizyCdS-nWhuYWx",
+                  },
+                  "color": "#00B172",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "color": "#00B172",
+                  "size": "lg",
+                  "text": "Provide more detail",
+                  "type": "text",
+                },
+              ],
+              "layout": "vertical",
+              "paddingBottom": "none",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "We all get by with a little help from our friends 🌟 Share your question to friends, someone might be able to help!",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "Share on LINE",
+                    "type": "uri",
+                    "uri": "line://msg/text/?Please%20help%20me%20verify%20if%20this%20is%20true%3A%20https%3A%2F%2Fdev.cofacts.tw%2Farticle%2FAVvY-yizyCdS-nWhuYWx",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "Share on Facebook",
+                    "type": "uri",
+                    "uri": "https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=719656818195367&display=popup&hashtag=%23ReportedToCofacts&href=https%3A%2F%2Fdev.cofacts.tw%2Farticle%2FAVvY-yizyCdS-nWhuYWx",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
 exports[`should handle message matches only hyperlinks 1`] = `
 Object {
   "data": Object {

@@ -17,7 +17,7 @@ import ga from 'src/lib/ga';
 import UserSettings from 'src/database/models/userSettings';
 
 import UserArticleLink from '../../database/models/userArticleLink';
-import handlePostback from '../handlePostback';
+import choosingReply from '../handlers/choosingReply';
 
 /**
  * 第2句 (template message)：按照時間排序「不在查證範圍」之外的回應，每則回應第一行是
@@ -43,7 +43,7 @@ function reorderArticleReplies(articleReplies) {
 export default async function choosingArticle(params) {
   let { data, state, event, userId, replies } = params;
 
-  if (event.type !== 'postback') {
+  if (event.type !== 'postback' && event.type !== 'server_choose') {
     throw new ManipulationError(t`Please choose from provided options.`);
   }
 
@@ -127,10 +127,17 @@ export default async function choosingArticle(params) {
 
     // choose reply for user
     event = {
-      type: 'postback',
+      type: 'server_choose',
       input: articleReplies[0].reply.id,
     };
-    return await handlePostback({ data }, 'CHOOSING_REPLY', event, userId);
+
+    return await choosingReply({
+      data,
+      state: 'CHOOSING_REPLY',
+      event,
+      userId,
+      replies: [],
+    });
   }
 
   if (articleReplies.length !== 0) {

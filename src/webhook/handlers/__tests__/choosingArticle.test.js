@@ -1,16 +1,13 @@
 jest.mock('src/lib/gql');
 jest.mock('src/lib/ga');
-jest.mock('src/webhook/handlePostback', () =>
-  jest.fn(() => '__HANDLE_POSTBACK_RESULT__')
-);
 
 import MockDate from 'mockdate';
 import choosingArticle from '../choosingArticle';
-import * as apiResult from '../__fixtures__/choosingArticle';
+import * as apiGetArticleResult from '../__fixtures__/choosingArticle';
+import * as apiGetReplyResult from '../__fixtures__/choosingReply';
 import { POSTBACK_NO_ARTICLE_FOUND } from '../utils';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
-import handlePostback from 'src/webhook/handlePostback';
 
 import UserArticleLink from '../../../database/models/userArticleLink';
 import Client from '../../../database/mongoClient';
@@ -28,11 +25,10 @@ afterAll(async () => {
 beforeEach(() => {
   ga.clearAllMocks();
   gql.__reset();
-  handlePostback.mockClear();
 });
 
 it('should select article by articleId', async () => {
-  gql.__push(apiResult.selectedArticleId);
+  gql.__push(apiGetArticleResult.selectedArticleId);
 
   const params = {
     data: {
@@ -104,7 +100,7 @@ it('throws ManipulationError when articleId is not valid', async () => {
 });
 
 it('should select article and have OPINIONATED and NOT_ARTICLE replies', async () => {
-  gql.__push(apiResult.multipleReplies);
+  gql.__push(apiGetArticleResult.multipleReplies);
 
   const params = {
     data: {
@@ -174,8 +170,8 @@ it('should select article and have OPINIONATED and NOT_ARTICLE replies', async (
 });
 
 it('should select article with no replies', async () => {
-  gql.__push(apiResult.noReplies);
-  gql.__push(apiResult.createOrUpdateReplyRequest);
+  gql.__push(apiGetArticleResult.noReplies);
+  gql.__push(apiGetArticleResult.createOrUpdateReplyRequest);
 
   const params = {
     data: {
@@ -221,8 +217,9 @@ it('should select article with no replies', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
-it('should select article with just one reply', async () => {
-  gql.__push(apiResult.oneReply);
+it('should select article and choose the only one reply for user', async () => {
+  gql.__push(apiGetArticleResult.oneReply);
+  gql.__push(apiGetReplyResult.oneReply2);
 
   const params = {
     data: {
@@ -243,7 +240,7 @@ it('should select article with just one reply', async () => {
     replies: undefined,
   };
 
-  expect(await choosingArticle(params)).toBe('__HANDLE_POSTBACK_RESULT__');
+  expect(await choosingArticle(params)).toMatchSnapshot();
   expect(gql.__finished()).toBe(true);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -254,29 +251,24 @@ it('should select article with just one reply', async () => {
           "el": "article-id",
         },
       ],
-    ]
-  `);
-  expect(ga.sendMock).toHaveBeenCalledTimes(1);
-  expect(handlePostback).toHaveBeenCalledTimes(1);
-
-  // Record the params being passed to handlePostback()
-  expect(handlePostback.mock.calls[0]).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "data": Object {
-          "searchedText": "Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply",
-          "selectedArticleId": "article-id",
-          "selectedArticleText": "Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply ",
+      Array [
+        Object {
+          "ea": "Selected",
+          "ec": "Reply",
+          "el": "AV--O3nfyCdS-nWhujMD",
         },
-      },
-      "CHOOSING_REPLY",
-      Object {
-        "input": "AV--O3nfyCdS-nWhujMD",
-        "type": "postback",
-      },
-      "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+      ],
+      Array [
+        Object {
+          "ea": "Type",
+          "ec": "Reply",
+          "el": "RUMOR",
+          "ni": true,
+        },
+      ],
     ]
   `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(2);
 });
 
 it('should block non-postback interactions', async () => {
@@ -302,7 +294,7 @@ it('should block non-postback interactions', async () => {
 });
 
 it('should select article and slice replies when over 10', async () => {
-  gql.__push(apiResult.elevenReplies);
+  gql.__push(apiGetArticleResult.elevenReplies);
 
   const params = {
     data: {
@@ -385,7 +377,7 @@ it('should create a UserArticleLink when selecting a article', async () => {
   };
 
   MockDate.set('2020-01-01');
-  gql.__push(apiResult.selectedArticleId);
+  gql.__push(apiGetArticleResult.selectedArticleId);
   await choosingArticle(params);
   MockDate.reset();
 

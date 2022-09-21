@@ -1,27 +1,23 @@
 jest.mock('src/lib/gql');
 jest.mock('src/lib/ga');
 jest.mock('src/lib/detectDialogflowIntent');
-jest.mock('src/webhook/handlePostback', () =>
-  jest.fn(() => '__HANDLE_POSTBACK_RESULT__')
-);
 
 import MockDate from 'mockdate';
 import initState from '../initState';
-import * as apiResult from '../__fixtures__/initState';
+import * as apiListArticleResult from '../__fixtures__/initState';
+import * as apiGetArticleResult from '../__fixtures__/choosingArticle';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
 import detectDialogflowIntent from 'src/lib/detectDialogflowIntent';
-import handlePostback from 'src/webhook/handlePostback';
 
 beforeEach(() => {
   ga.clearAllMocks();
   gql.__reset();
   detectDialogflowIntent.mockClear();
-  handlePostback.mockClear();
 });
 
 it('article found', async () => {
-  gql.__push(apiResult.longArticle);
+  gql.__push(apiListArticleResult.longArticle);
 
   const input = {
     data: {
@@ -75,7 +71,7 @@ it('article found', async () => {
 });
 
 it('long article replies still below flex message limit', async () => {
-  gql.__push(apiResult.twelveLongArticles);
+  gql.__push(apiListArticleResult.twelveLongArticles);
 
   const input = {
     data: {
@@ -106,7 +102,7 @@ it('long article replies still below flex message limit', async () => {
 });
 
 it('articles found with high similarity', async () => {
-  gql.__push(apiResult.twoShortArticles);
+  gql.__push(apiListArticleResult.twoShortArticles);
 
   const input = {
     data: {
@@ -165,8 +161,9 @@ it('articles found with high similarity', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
-it('only one article found with high similarity', async () => {
-  gql.__push(apiResult.shortArticle);
+it('only one article found with high similarity and choose for user', async () => {
+  gql.__push(apiListArticleResult.shortArticle);
+  gql.__push(apiGetArticleResult.shortArticle);
 
   const input = {
     data: {
@@ -186,23 +183,8 @@ it('only one article found with high similarity', async () => {
     replies: undefined,
   };
 
-  expect(await initState(input)).toBe('__HANDLE_POSTBACK_RESULT__');
-  expect(handlePostback.mock.calls[0]).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "data": Object {
-          "searchedText": "YouTube · 寻找健康人生",
-          "sessionId": 1497994017447,
-        },
-      },
-      "CHOOSING_ARTICLE",
-      Object {
-        "input": "AVvY-yizyCdS-nWhuYWx",
-        "type": "postback",
-      },
-      "Uc76d8ae9ccd1ada4f06c4e1515d46466",
-    ]
-  `);
+  expect(await initState(input)).toMatchSnapshot();
+
   expect(gql.__finished()).toBe(true);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -228,13 +210,27 @@ it('only one article found with high similarity', async () => {
           "ni": true,
         },
       ],
+      Array [
+        Object {
+          "ea": "Selected",
+          "ec": "Article",
+          "el": "AVvY-yizyCdS-nWhuYWx",
+        },
+      ],
+      Array [
+        Object {
+          "ea": "NoReply",
+          "ec": "Article",
+          "el": "AVvY-yizyCdS-nWhuYWx",
+        },
+      ],
     ]
   `);
-  expect(ga.sendMock).toHaveBeenCalledTimes(1);
+  expect(ga.sendMock).toHaveBeenCalledTimes(2);
 });
 
 it('should handle message matches only hyperlinks', async () => {
-  gql.__push(apiResult.hyperlinksArticles);
+  gql.__push(apiListArticleResult.hyperlinksArticles);
 
   const input = {
     data: {
@@ -294,7 +290,7 @@ it('should handle message matches only hyperlinks', async () => {
 });
 
 it('should handle text not found', async () => {
-  gql.__push(apiResult.notFound);
+  gql.__push(apiListArticleResult.notFound);
 
   const input = {
     data: {
@@ -344,7 +340,7 @@ it('should handle text not found', async () => {
 
 describe('input matches dialogflow intent', () => {
   it('uses dialogflow response when input length < 10', async () => {
-    gql.__push(apiResult.notFound);
+    gql.__push(apiListArticleResult.notFound);
     detectDialogflowIntent.mockImplementationOnce(() => ({
       queryResult: {
         fulfillmentText: '歡迎光臨',
@@ -396,7 +392,7 @@ describe('input matches dialogflow intent', () => {
   });
 
   it('uses dialogflow response when input length > 10 and intentDetectionConfidence = 1', async () => {
-    gql.__push(apiResult.notFound);
+    gql.__push(apiListArticleResult.notFound);
     detectDialogflowIntent.mockImplementationOnce(() => ({
       queryResult: {
         fulfillmentText: '歡迎光臨',
@@ -449,7 +445,7 @@ describe('input matches dialogflow intent', () => {
   });
 
   it('search article when input length > 10 and intentDetectionConfidence != 1', async () => {
-    gql.__push(apiResult.notFound);
+    gql.__push(apiListArticleResult.notFound);
     detectDialogflowIntent.mockImplementationOnce(() => ({
       queryResult: {
         fulfillmentText: '歡迎光臨',
