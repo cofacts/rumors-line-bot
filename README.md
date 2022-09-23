@@ -73,7 +73,7 @@ We recommend [using `ngrok`](https://medium.com/@Oskarr3/developing-messenger-bo
 $ ngrok http 5001
 ```
 
-`ngrok` will give you a public URL. Use this to set the webhook URL of your Channel (See the section "Channel Console" in [LINE official tutorial](https://developers.line.me/messaging-api/getting-started)).
+`ngrok` will give you a public URL. Use this to set the webhook URL of your Channel (See the section "Channel Console" in [LINE official tutorial](https://developers.line.biz/en/docs/messaging-api/getting-started/)).
 
 We recommend using [ngrok configuration file](https://ngrok.com/docs#config) to setup a tunnel with a fixed `subdomain`. In this way the public URL can be fixed (means no repeatitive copy-pasting to LINE Channel settings!) as long as the `subdomain` is not occupied by others.
 
