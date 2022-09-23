@@ -1,4 +1,3 @@
-import Client from 'src/database/mongoClient';
 import UserArticleLink from 'src/database/models/userArticleLink';
 import { gql } from '../testUtils';
 
@@ -64,10 +63,6 @@ describe('finds', () => {
     for (const fixture of fixtures) {
       await UserArticleLink.create(fixture);
     }
-  });
-
-  afterAll(async () => {
-    await (await Client.getInstance()).close();
   });
 
   it('finds all without any arguments', () =>

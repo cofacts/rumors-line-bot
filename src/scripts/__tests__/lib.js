@@ -6,7 +6,6 @@ jest.mock('src/lib/sendMessage');
 
 import lib from '../lib';
 import SendMessage from 'src/lib/sendMessage';
-import Client from 'src/database/mongoClient';
 import UserArticleLink from 'src/database/models/userArticleLink';
 import UserSettings from 'src/database/models/userSettings';
 import gql from 'src/lib/gql';
@@ -15,9 +14,6 @@ import ga from 'src/lib/ga';
 beforeEach(async () => {
   ga.clearAllMocks();
   gql.__reset();
-});
-afterAll(async () => {
-  await (await Client.getInstance()).close();
 });
 
 describe('get notification list', () => {

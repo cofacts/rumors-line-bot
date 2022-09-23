@@ -10,16 +10,11 @@ import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
 
 import UserArticleLink from '../../../database/models/userArticleLink';
-import Client from '../../../database/mongoClient';
 
 beforeAll(async () => {
   if (await UserArticleLink.collectionExists()) {
     await (await UserArticleLink.client).drop();
   }
-});
-
-afterAll(async () => {
-  await (await Client.getInstance()).close();
 });
 
 beforeEach(() => {

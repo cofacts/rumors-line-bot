@@ -1,4 +1,3 @@
-import Client from '../../mongoClient';
 import MockDate from 'mockdate';
 import { validators } from '../schemaValidator';
 import UserArticleLink from '../userArticleLink';
@@ -19,7 +18,6 @@ describe('userArticleLink', () => {
   });
 
   afterAll(async () => {
-    await (await Client.getInstance()).close();
     MockDate.reset();
   });
 

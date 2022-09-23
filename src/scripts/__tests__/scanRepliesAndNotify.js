@@ -1,5 +1,4 @@
 jest.mock('./lib');
-import Client from 'src/database/mongoClient';
 import MockDate from 'mockdate';
 import scanRepliesAndNotify from '../scanRepliesAndNotify';
 import AppVariable from 'src/database/models/appVariable';
@@ -9,10 +8,6 @@ beforeEach(async () => {
   if (await AppVariable.collectionExists()) {
     await (await AppVariable.client).drop();
   }
-});
-
-afterAll(async () => {
-  await (await Client.getInstance()).close();
 });
 
 it('scan replies and notify', async () => {

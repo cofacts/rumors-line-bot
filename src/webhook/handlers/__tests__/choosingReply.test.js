@@ -1,7 +1,6 @@
 jest.mock('src/lib/gql');
 jest.mock('src/lib/ga');
 
-import Client from 'src/database/mongoClient';
 import MockDate from 'mockdate';
 import choosingReply from '../choosingReply';
 import * as apiResult from '../__fixtures__/choosingReply';
@@ -17,10 +16,6 @@ beforeEach(() => {
 
 afterEach(() => {
   MockDate.reset();
-});
-
-afterAll(async () => {
-  await (await Client.getInstance()).close();
 });
 
 describe('should select reply by replyId', () => {

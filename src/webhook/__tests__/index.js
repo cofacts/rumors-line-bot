@@ -10,7 +10,6 @@ import MockDate from 'mockdate';
 
 import webhookRouter from '../';
 import UserSettings from '../../database/models/userSettings';
-import Client from '../../database/mongoClient';
 import lineClient from 'src/webhook/lineClient';
 import { groupEventQueue, expiredGroupEventQueue } from 'src/lib/queues';
 import redis from 'src/lib/redisClient';
@@ -44,7 +43,6 @@ describe('Webhook router', () => {
   });
 
   afterAll(async () => {
-    await (await Client.getInstance()).close();
     MockDate.reset();
     delete process.env.RUMORS_LINE_BOT_URL;
     await groupEventQueue.close();

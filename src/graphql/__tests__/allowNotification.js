@@ -1,6 +1,5 @@
 jest.mock('../lineClient');
 
-import Client from 'src/database/mongoClient';
 import UserSettings from 'src/database/models/userSettings';
 import { gql } from '../testUtils';
 
@@ -32,10 +31,6 @@ describe('finds', () => {
     if (await UserSettings.collectionExists()) {
       await (await UserSettings.client).drop();
     }
-  });
-
-  afterAll(async () => {
-    await (await Client.getInstance()).close();
   });
 
   it('creates user setting and set allowNewReplyUpdate to true', () =>
