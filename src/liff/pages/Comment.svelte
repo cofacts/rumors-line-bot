@@ -79,12 +79,12 @@
 
     const otherReplyRequestCount = data.CreateOrUpdateReplyRequest.replyRequestCount - 1;
     alert(
-      t`Thanks for the info you provided.` + '\n' +
+      t`Thanks for the info you provided.` + otherReplyRequestCount > 0 ? ('\n' +
       ngettext(
         msgid`There is ${otherReplyRequestCount} user also waiting for clarification.`,
         `There are ${otherReplyRequestCount} users also waiting for clarification.`,
         otherReplyRequestCount
-      ),
+      )) : '',
     )
 
     liff.closeWindow();
