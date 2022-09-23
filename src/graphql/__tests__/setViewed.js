@@ -1,6 +1,5 @@
 jest.mock('../lineClient');
 
-import Client from 'src/database/mongoClient';
 import UserArticleLink from 'src/database/models/userArticleLink';
 import MockDate from 'mockdate';
 import { gql } from '../testUtils';
@@ -37,7 +36,6 @@ describe('finds', () => {
 
   afterAll(async () => {
     MockDate.reset();
-    await (await Client.getInstance()).close();
   });
 
   it('creates user article link with current date', () =>

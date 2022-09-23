@@ -1,6 +1,5 @@
 jest.mock('../lineClient');
 
-import Client from 'src/database/mongoClient';
 import UserSettings from 'src/database/models/userSettings';
 import { gql } from '../testUtils';
 
@@ -88,6 +87,4 @@ it('finds user2', async () => {
         },
       }
     `);
-
-  await (await Client.getInstance()).close();
 });

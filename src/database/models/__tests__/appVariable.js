@@ -1,4 +1,3 @@
-import Client from '../../mongoClient';
 import AppVariable from '../appVariable';
 
 describe('appVariable', () => {
@@ -6,10 +5,6 @@ describe('appVariable', () => {
     if (await AppVariable.collectionExists()) {
       await (await AppVariable.client).drop();
     }
-  });
-
-  afterAll(async () => {
-    await (await Client.getInstance()).close();
   });
 
   it('[schema] should pass', async () => {

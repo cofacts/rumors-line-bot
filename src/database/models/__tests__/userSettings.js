@@ -1,4 +1,3 @@
-import Client from '../../mongoClient';
 import MockDate from 'mockdate';
 import { validators } from '../schemaValidator';
 import UserSettings from '../userSettings';
@@ -15,7 +14,6 @@ describe('userSettings', () => {
   });
 
   afterAll(async () => {
-    await (await Client.getInstance()).close();
     MockDate.reset();
   });
 
