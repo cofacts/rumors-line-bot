@@ -38,7 +38,7 @@ function reorderArticleReplies(articleReplies) {
   return replies.concat(notArticleReplies);
 }
 
-// https://developers.line.me/en/docs/messaging-api/reference/#template-messages
+// https://developers.line.biz/en/reference/messaging-api/#template-messages
 
 export default async function choosingArticle(params) {
   let { data, state, event, userId, replies } = params;
