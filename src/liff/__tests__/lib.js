@@ -153,8 +153,6 @@ describe('getArticlesFromCofacts', () => {
   let getArticlesFromCofacts;
   beforeEach(() => {
     global.location = { search: '?foo=bar' };
-    global.COFACTS_API_URL = 'http://cofacts.api';
-    global.APP_ID = 'mock_app_id';
     global.fetch = jest.fn();
     global.rollbar = { error: jest.fn() };
 
@@ -163,9 +161,7 @@ describe('getArticlesFromCofacts', () => {
   });
 
   afterEach(() => {
-    delete global.COFACTS_API_URL;
     delete global.fetch;
-    delete global.APP_ID;
     delete global.location;
     delete global.rollbar;
   });

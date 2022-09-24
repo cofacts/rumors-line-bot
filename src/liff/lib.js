@@ -118,11 +118,10 @@ export const getArticlesFromCofacts = async articleIds => {
   `;
 
   let status;
-  return fetch(COFACTS_API_URL, {
+  return fetch('/graphql', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-app-id': APP_ID,
     },
     body: JSON.stringify({ query, variables }),
   })
