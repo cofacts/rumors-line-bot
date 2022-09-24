@@ -31,7 +31,6 @@ module.exports = {
     gtag: 'readonly',
 
     // Define plugin
-    APP_ID: 'readonly',
     LIFF_ID: 'readonly',
     DEBUG_LIFF: 'readonly',
     NOTIFY_METHOD: 'readonly',

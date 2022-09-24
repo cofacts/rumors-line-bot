@@ -122,7 +122,6 @@ export const getArticlesFromCofacts = async articleIds => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-app-id': APP_ID,
     },
     body: JSON.stringify({ query, variables }),
   })
