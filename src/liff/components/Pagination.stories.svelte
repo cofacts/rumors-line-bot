@@ -21,6 +21,17 @@
 />
 
 <Story
+  name="No pages"
+  args={{
+    pageInfo: {
+      firstCursor: null,
+      lastCursor: null,
+    },
+    edges: []
+  }}
+/>
+
+<Story
   name="pageInfo and edges given"
   args={{
     pageInfo: {
