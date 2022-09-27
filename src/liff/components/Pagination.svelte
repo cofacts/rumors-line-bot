@@ -29,7 +29,7 @@
   }
 </style>
 
-{#if pageInfo && edges }
+{#if pageInfo && edges && edges.length > 0 }
   <div class="container">
     {#if pageInfo && pageInfo.firstCursor !== edges[0].cursor}
       <Button
