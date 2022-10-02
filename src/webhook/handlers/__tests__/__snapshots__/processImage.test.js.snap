@@ -4,6 +4,8 @@ exports[`one article found (not identical) 1`] = `
 Object {
   "context": Object {
     "data": Object {
+      "messageId": "6270464463537",
+      "searchedText": "",
       "sessionId": 1577836800000,
     },
   },
@@ -133,6 +135,8 @@ Please choose the version that looks the most similar👇",
 exports[`one identical article found and choose for user 1`] = `
 Object {
   "data": Object {
+    "messageId": "6270464463537",
+    "searchedText": "",
     "selectedArticleId": "image-article-1",
     "selectedArticleText": "",
     "sessionId": 1577836800000,
@@ -335,13 +339,13 @@ Object {
   },
   "replies": Array [
     Object {
-      "altText": "I am sorry you cannot find the information you are looking for.
+      "altText": "Unfortunately, I currently don’t recognize this message, but I would still like to help.
 Do you want someone to fact-check this message?",
       "contents": Object {
         "body": Object {
           "contents": Array [
             Object {
-              "text": "I am sorry you cannot find the information you are looking for.
+              "text": "Unfortunately, I currently don’t recognize this message, but I would still like to help.
 Do you want someone to fact-check this message?",
               "type": "text",
               "wrap": true,
@@ -431,6 +435,8 @@ exports[`twelve articles found 1`] = `
 Object {
   "context": Object {
     "data": Object {
+      "messageId": "6530038889933",
+      "searchedText": "",
       "sessionId": 1577836800000,
     },
   },
