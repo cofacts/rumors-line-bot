@@ -8,7 +8,7 @@ msgstr ""
 
 #: src/webhook/index.js:76
 #. Set default result
-#.
+#. 
 msgid "I cannot understand messages other than text."
 msgstr "我們還不支援文字以外的訊息唷！"
 
@@ -50,30 +50,30 @@ msgstr "出處"
 msgid "This reply has no ${ prompt } and it may be biased"
 msgstr "此回應沒有${prompt}，請自行斟酌回應之可信度。"
 
-#: src/webhook/handlers/choosingArticle.js:148
+#: src/webhook/handlers/choosingArticle.js:181
 msgid "Volunteer editors have published several replies to this message."
 msgstr "真的假的查證志工對這則訊息發表了多則看法唷！"
 
-#: src/webhook/handlers/choosingArticle.js:270
+#: src/webhook/handlers/choosingArticle.js:303
 msgid "Let's pick one"
 msgstr "選一則來閱讀吧"
 
-#: src/webhook/handlers/choosingArticle.js:249
+#: src/webhook/handlers/choosingArticle.js:282
 msgid "Take a look"
 msgstr "看他怎麼說"
 
-#: src/webhook/handlers/choosingArticle.js:286
+#: src/webhook/handlers/choosingArticle.js:319
 #, javascript-format
 msgid "Visit ${ articleUrl } for more replies."
 msgstr "更多回應請到：${ articleUrl }"
 
-#: src/webhook/handlers/initState.js:194
-#: src/webhook/handlers/processImage.js:122
+#: src/webhook/handlers/initState.js:201
+#: src/webhook/handlers/processImage.js:149
 msgid "Choose this one"
 msgstr "選擇這篇"
 
-#: src/webhook/handlers/initState.js:286
-#: src/webhook/handlers/processImage.js:212
+#: src/webhook/handlers/initState.js:293
+#: src/webhook/handlers/processImage.js:241
 msgid ""
 "Internet rumors are often mutated and shared.\n"
 "Please choose the version that looks the most similar"
@@ -116,10 +116,10 @@ msgstr "是"
 msgid "No"
 msgstr "否"
 
-#: src/webhook/handlers/initState.js:237
-#: src/webhook/handlers/initState.js:255
-#: src/webhook/handlers/processImage.js:164
-#: src/webhook/handlers/processImage.js:182
+#: src/webhook/handlers/initState.js:244
+#: src/webhook/handlers/initState.js:262
+#: src/webhook/handlers/processImage.js:192
+#: src/webhook/handlers/processImage.js:210
 msgid "None of these messages matches mine :("
 msgstr "找不到我想查的訊息 QQ"
 
@@ -129,26 +129,26 @@ msgid "${ positive } user considers this helpful"
 msgid_plural "${ positive } users consider this helpful"
 msgstr[0] "有 ${positive} 人覺得此回應有幫助"
 
-#: src/webhook/handlers/initState.js:253
-#: src/webhook/handlers/processImage.js:180
+#: src/webhook/handlers/initState.js:260
+#: src/webhook/handlers/processImage.js:208
 msgid "Tell us more"
 msgstr "回報此訊息"
 
-#: src/webhook/handlers/initState.js:269
-#: src/webhook/handlers/processImage.js:195
+#: src/webhook/handlers/initState.js:276
+#: src/webhook/handlers/processImage.js:224
 msgid "Please choose the most similar message from the list."
 msgstr "請從下列選擇您要查的訊息。"
 
-#: src/webhook/handlers/choosingArticle.js:274
+#: src/webhook/handlers/choosingArticle.js:307
 msgid "Please take a look at the following replies."
 msgstr "請從下列選擇您要查看的回應。"
 
-#: src/webhook/handlers/choosingArticle.js:195
+#: src/webhook/handlers/choosingArticle.js:228
 #, javascript-format
 msgid "Someone thinks it ${ typeWords }"
 msgstr "有人認為它${typeWords}"
 
-#: src/webhook/handlers/initState.js:171
+#: src/webhook/handlers/initState.js:178
 #, javascript-format
 msgid "Looks ${ similarityPercentage }% similar"
 msgstr "看起來 ${similarityPercentage}% 像"
@@ -217,39 +217,39 @@ msgstr "分享給朋友"
 
 #: src/webhook/handlers/askingArticleSource.js:23
 #: src/webhook/handlers/askingArticleSubmissionConsent.js:25
-#: src/webhook/handlers/choosingArticle.js:47
+#: src/webhook/handlers/choosingArticle.js:48
 #: src/webhook/handlers/choosingReply.js:127
 msgid "Please choose from provided options."
 msgstr "請從上面的選項中做選擇。"
 
-#: src/webhook/handlers/choosingArticle.js:152
+#: src/webhook/handlers/choosingArticle.js:185
 #, javascript-format
 msgid "${ countOfType.RUMOR } of them say it ❌ contains misinformation."
 msgstr "${ countOfType.RUMOR } 人認為它 ❌ 含有不實訊息。"
 
-#: src/webhook/handlers/choosingArticle.js:155
+#: src/webhook/handlers/choosingArticle.js:188
 msgid "${ countOfType.NOT_RUMOR } of them says it ⭕ contains true information."
 msgstr "${ countOfType.NOT_RUMOR } 人認為它 ⭕ 含有真實訊息。"
 
-#: src/webhook/handlers/choosingArticle.js:160
+#: src/webhook/handlers/choosingArticle.js:193
 #, javascript-format
 msgid ""
 "${ countOfType.OPINIONATED } of them says it 💬 contains personal "
 "perspective."
 msgstr "${ countOfType.OPINIONATED } 人認為它 💬 含有個人意見。"
 
-#: src/webhook/handlers/choosingArticle.js:165
+#: src/webhook/handlers/choosingArticle.js:198
 msgid "${ countOfType.NOT_ARTICLE } of them says it ⚠️️ is out of scope of Cofacts."
 msgstr "${ countOfType.NOT_ARTICLE } 人認為它 ⚠️️ 不在 Cofacts 的查證範圍。"
 
-#: src/webhook/handlers/choosingArticle.js:251
-#: src/webhook/handlers/initState.js:196
-#: src/webhook/handlers/processImage.js:124
+#: src/webhook/handlers/choosingArticle.js:284
+#: src/webhook/handlers/initState.js:203
+#: src/webhook/handlers/processImage.js:151
 #, javascript-format
 msgid "I choose “${ displayTextWhenChosen }”"
 msgstr "我要選「${displayTextWhenChosen}」"
 
-#: src/liff/pages/Comment.svelte:93
+#: src/liff/pages/Comment.svelte:96
 msgid "Provide more info"
 msgstr "提供更多資訊"
 
@@ -263,13 +263,13 @@ msgstr "出了一些問題，導致現在無法取得訊息與回應。請再傳
 msgid "Thanks for the info you provided."
 msgstr "感謝您所提供的資訊。"
 
-#: src/liff/pages/Comment.svelte:83
+#: src/liff/pages/Comment.svelte:84
 #, javascript-format
 msgid "There is ${ otherReplyRequestCount } user also waiting for clarification."
 msgid_plural "There are ${ otherReplyRequestCount } users also waiting for clarification."
 msgstr[0] "另有 ${ otherReplyRequestCount } 人跟您一樣渴望看到針對這篇訊息的回應。"
 
-#: src/webhook/handlers/initState.js:279
+#: src/webhook/handlers/initState.js:286
 #, javascript-format
 msgid ""
 "There are some messages that looks similar to \"${ inputSummary }\" you "
@@ -303,7 +303,7 @@ msgid "Share on Facebook"
 msgstr "請教臉書大神"
 
 #: src/webhook/handlers/utils.js:228
-#. t: Facebook hash tag
+#. t: Facebook hash tag 
 msgid "ReportedToCofacts"
 msgstr "Cofacts求解惑"
 
@@ -331,7 +331,7 @@ msgid "Do you have anything to add about the reply?"
 msgstr "針對這則回應，有沒有想補充的呢？"
 
 #: src/liff/components/ReplyRequestForm.svelte:14
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 msgid ""
 "You may try:\n"
 "1. Express your thought more\n"
@@ -344,7 +344,7 @@ msgstr ""
 "3. 把全文複製貼上到 Facebook 搜尋框看看"
 
 #: src/liff/components/ReplyRequestForm.svelte:20
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 #, javascript-format
 msgid ""
 "It would help fact-checking editors a lot if you provide more info :)\n"
@@ -362,7 +362,7 @@ msgstr ""
 "若要補充資訊，請按「取消」；覺得現在這樣送出就好，請按「確定」。"
 
 #: src/liff/components/ReplyRequestForm.svelte:27
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 msgid ""
 "The info you provide should not be identical to the message itself.\n"
 "\n"
@@ -436,7 +436,7 @@ msgstr "下一頁"
 msgid "Settings"
 msgstr "設定"
 
-#: src/liff/lib.js:166
+#: src/liff/lib.js:165
 msgid ""
 "Please retry and allow the permission 'send messages to chats', so that you "
 "can interact with chatbot while clicking the buttons."
@@ -461,7 +461,7 @@ msgid ""
 "for more details."
 msgstr "有人針對您之前曾看過的訊息，寫了新的查證回應唷！"
 
-#: src/webhook/handlers/initState.js:139
+#: src/webhook/handlers/initState.js:146
 msgid "(Words found in the hyperlink)"
 msgstr "（網址裡找到的字）"
 
@@ -644,7 +644,7 @@ msgstr "Hi 我是「Cofacts 真的假的」訊息查證機器人～"
 msgid "Thank you for sharing “${ inputSummary }”"
 msgstr "感謝您的分享 “${ inputSummary }”"
 
-#: src/webhook/handlers/choosingArticle.js:109
+#: src/webhook/handlers/choosingArticle.js:135
 msgid "Provided message is not found."
 msgstr "找不到此訊息。"
 
@@ -834,12 +834,12 @@ msgid "The reply does not exist. Maybe it has been deleted by its author."
 msgstr "此回應不存在。或許已經被作者刪掉囉。"
 
 #: src/webhook/handlers/askingArticleSubmissionConsent.js:98
-#: src/webhook/handlers/choosingArticle.js:323
+#: src/webhook/handlers/choosingArticle.js:356
 msgid "View reported message"
 msgstr "檢視回報訊息"
 
 #: src/webhook/handlers/askingArticleSource.js:49
-#: src/webhook/handlers/choosingArticle.js:335
+#: src/webhook/handlers/choosingArticle.js:368
 #: src/webhook/handlers/utils.js:565
 msgid "Provide more detail"
 msgstr "提供更多情報"
@@ -852,8 +852,8 @@ msgstr "您可以提供更多關於此訊息的情報給查證志工，讓好心
 msgid "Provide detail"
 msgstr "提供更多情報"
 
-#: src/webhook/handlers/choosingArticle.js:305
-#: src/webhook/handlers/choosingArticle.js:316
+#: src/webhook/handlers/choosingArticle.js:338
+#: src/webhook/handlers/choosingArticle.js:349
 msgid ""
 "This message has already published on Cofacts, and will soon be "
 "fact-checked by volunteers.\n"
@@ -863,7 +863,7 @@ msgstr ""
 "請先不要相信這個訊息唷！"
 
 #: src/webhook/handlers/askingArticleSubmissionConsent.js:108
-#: src/webhook/handlers/choosingArticle.js:332
+#: src/webhook/handlers/choosingArticle.js:365
 msgid "In the meantime, you can:"
 msgstr "接下來您可以："
 
@@ -884,19 +884,19 @@ msgid "Instructions"
 msgstr "指示"
 
 #: src/webhook/handlers/askingArticleSource.js:32
-#. t: ~ entire message that ...
+#. t: ~ entire message that ... 
 msgid ""
 "I am a bot which only recognizes messages forwarded on LINE, therefore it "
 "is important to send me the"
 msgstr "我是一個機器人，只認得在 LINE 上面傳來傳去的訊息，所以把"
 
 #: src/webhook/handlers/askingArticleSource.js:36
-#. t: emphasized text in sentence "It is important to send me the ~ that is being passed around"
+#. t: emphasized text in sentence "It is important to send me the ~ that is being passed around" 
 msgid " entire message "
 msgstr "整篇訊息"
 
 #: src/webhook/handlers/askingArticleSource.js:42
-#. t: the entire message ~
+#. t: the entire message ~ 
 msgid "that is being passed around so I can identify it."
 msgstr "給我，我才能辨認唷！"
 
@@ -933,7 +933,8 @@ msgid "I see. Don’t trust the message just yet!"
 msgstr "這樣呀。請先不要相信這個訊息唷！"
 
 #: src/webhook/handlers/askingArticleSource.js:160
-#: src/webhook/handlers/processImage.js:236
+#: src/webhook/handlers/choosingArticle.js:95
+#: src/webhook/handlers/processImage.js:261
 msgid "Do you want someone to fact-check this message?"
 msgstr "你要請人查查這則訊息嗎？"
 
@@ -948,14 +949,14 @@ msgid ""
 "Thank you for submitting!"
 msgstr "訊息已經被收錄至 Cofacts 真的假的，讓好心人來查證。謝謝您的回報！"
 
-#: src/webhook/handlers/choosingArticle.js:67
+#: src/webhook/handlers/choosingArticle.js:68
 #, javascript-format
 msgid ""
 "I am sorry you cannot find the information “${ inputSummary }” you are "
 "looking for. But I would still like to help."
 msgstr "抱歉沒有找到你想要查詢的「${ inputSummary }」。可是我還是想幫你查證。"
 
-#: src/webhook/handlers/initState.js:304
+#: src/webhook/handlers/initState.js:311
 #, javascript-format
 msgid ""
 "Unfortunately, I currently don’t recognize “${ inputSummary }”, but I would "
@@ -997,8 +998,8 @@ msgstr "是，我整篇分享過來的"
 msgid "No, typed it myself"
 msgstr "否，我自行打字輸入的"
 
-#: src/webhook/handlers/choosingArticle.js:69
-#: src/webhook/handlers/initState.js:306
+#: src/webhook/handlers/choosingArticle.js:70
+#: src/webhook/handlers/initState.js:313
 msgid "May I ask you a quick question?"
 msgstr "想先請教您一個問題："
 
@@ -1006,21 +1007,27 @@ msgstr "想先請教您一個問題："
 msgid "Provide better reply"
 msgstr "提供更好的回應"
 
-#: src/webhook/handlers/processImage.js:66
+#: src/webhook/handlers/processImage.js:93
 #, javascript-format
 msgid "No.${ imgNumber }"
 msgstr "第 ${ imgNumber } 張"
 
-#: src/webhook/handlers/processImage.js:205
+#: src/webhook/handlers/processImage.js:234
 msgid "There are some messages that looks similar to the one you have sent to me."
 msgstr "資料庫裡有幾篇訊息，跟您傳給我的有些接近。"
 
-#: src/webhook/handlers/processImage.js:78
+#: src/webhook/handlers/processImage.js:105
 msgid "Looks ${ scoreInPercent }% similar"
 msgid_plural "Looks ${ scoreInPercent }% similar"
 msgstr[0] "看起來 ${ scoreInPercent }% 像"
 
-#: src/webhook/handlers/processImage.js:234
-#. submit
+#: src/webhook/handlers/choosingArticle.js:93
 msgid "I am sorry you cannot find the information you are looking for."
 msgstr "抱歉沒有找到你想要查詢的訊息。"
+
+#: src/webhook/handlers/processImage.js:259
+#. submit
+msgid ""
+"Unfortunately, I currently don’t recognize this message, but I would still "
+"like to help."
+msgstr "抱歉我目前還不認得這個訊息，可是我還是想幫你查證。"
