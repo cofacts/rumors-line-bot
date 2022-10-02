@@ -171,6 +171,7 @@
     {t`Suspicious messages`}
   </Header>
   <ArticleCard
+    article={articleData}
     text={articleData.text}
     replyRequestCount={articleData.replyRequestCount}
     createdAt={createdAt}

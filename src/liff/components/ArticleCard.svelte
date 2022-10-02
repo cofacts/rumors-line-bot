@@ -4,18 +4,16 @@
   import Card from './Card.svelte';
   const MAX_TEXT_HEIGHT = 100; // px
 
-  export let createdAt;
-  const createdAtStr = createdAt ? format(createdAt) : '';
+  export let article;
+  const {createdAt, text, replyRequestCount} = article;
+  const createdAtStr = createdAt ? format(new Date(createdAt)) : '';
   const firstReportedStr = t`First reported on ${createdAtStr}`;
 
-  export let replyRequestCount;
   const reportCountText = ngettext(
     msgid`${replyRequestCount} person reported`,
     `${replyRequestCount} people reported`,
     replyRequestCount
   );
-
-  export let text = '';
 
   // Measured text height.
   // Default to MAX to trigger collapsed view to avoid too much flicker.
