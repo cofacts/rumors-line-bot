@@ -41,6 +41,8 @@
           replyRequestCount
           requestedForReply
           createdAt
+          articleType
+          attachmentUrl(type: PREVIEW)
 
           articleReplies(status: NORMAL) {
             ...ArticleReplyCard_articleReply
