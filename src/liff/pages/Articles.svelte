@@ -56,8 +56,6 @@
               articleId
               createdAt
               lastViewedAt
-              articleType
-              attachmentUrl(type: THUMBNAIL)
             }
           }
         }

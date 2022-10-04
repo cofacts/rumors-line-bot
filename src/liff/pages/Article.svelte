@@ -42,7 +42,7 @@
           requestedForReply
           createdAt
           articleType
-          attachmentUrl(type: PREVIEW)
+          attachmentUrl(variant: PREVIEW)
 
           articleReplies(status: NORMAL) {
             ...ArticleReplyCard_articleReply
