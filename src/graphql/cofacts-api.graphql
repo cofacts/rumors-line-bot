@@ -119,6 +119,23 @@ type Query {
     """
     before: String
   ): UserConnection!
+  ListAnalytics(
+    filter: ListAnalyticsFilter
+    orderBy: [ListAnalyticsOrderBy]
+
+    """Returns only first <first> results"""
+    first: Int = 10
+
+    """
+    Specify a cursor, returns results after this cursor. cannot be used with "before".
+    """
+    after: String
+
+    """
+    Specify a cursor, returns results before this cursor. cannot be used with "after".
+    """
+    before: String
+  ): AnalyticsConnection!
   ValidateSlug(slug: String!): ValidationResult
 }
 
@@ -143,6 +160,15 @@ type Article implements Node {
 
     """Returns only article replies with the specified statuses"""
     statuses: [ArticleReplyStatusEnum!] = [NORMAL]
+
+    """Show only articleReplies created by a specific app."""
+    appId: String
+
+    """Show only articleReplies created by the specific user."""
+    userId: String
+
+    """Only list the articleReplies created by the currently logged in user"""
+    selfOnly: Boolean
   ): [ArticleReply]
   articleCategories(
     """
@@ -200,8 +226,8 @@ type Article implements Node {
   """Message event type"""
   articleType: ArticleTypeEnum!
 
-  """Attachment of this article"""
-  attachmentUrl: String
+  """Attachment URL for this article."""
+  attachmentUrl(variant: AttachmentVariantEnum): String
 
   """Attachment hash to search or identify files"""
   attachmentHash: String
@@ -513,6 +539,12 @@ type ArticleReplyFeedback implements Node {
   user: User
   userId: String
   appId: String
+
+  """User ID of the reply's author"""
+  replyUserId: String!
+
+  """User ID of the article-reply's author"""
+  articleReplyUserId: String!
   comment: String
   createdAt: String
   updatedAt: String
@@ -727,12 +759,48 @@ input RelatedArticleOrderBy {
   updatedAt: SortOrderEnum
 }
 
-type Analytics {
-  date: String
+type Analytics implements Node {
+  id: ID!
+
+  """The id for the document that this analytic datapoint is for."""
+  docId: ID!
+
+  """Type of document that this analytic datapoint is for."""
+  type: AnalyticsDocTypeEnum!
+
+  """The day this analytic datapoint is represented, in YYYY-MM-DD format"""
+  date: String!
   lineUser: Int
   lineVisit: Int
   webUser: Int
   webVisit: Int
+
+  """Sum of LIFF visitor count from all sources"""
+  liffUser: Int!
+
+  """Sum of LIFF view count from all sources"""
+  liffVisit: Int!
+  liff: [AnalyticsLiffEntry!]!
+
+  """Author of the document that this analytic datapoint measures."""
+  docUserId: ID
+
+  """
+  Authoring app ID of the document that this analytic datapoint measures.
+  """
+  docAppId: ID
+}
+
+enum AnalyticsDocTypeEnum {
+  ARTICLE
+  REPLY
+}
+
+type AnalyticsLiffEntry {
+  """utm_source for this LIFF stat entry. Empty string if not set."""
+  source: String!
+  user: Int!
+  visit: Int!
 }
 
 enum ArticleTypeEnum {
@@ -740,6 +808,19 @@ enum ArticleTypeEnum {
   IMAGE
   VIDEO
   AUDIO
+}
+
+enum AttachmentVariantEnum {
+  """The original file. Only available to logged-in users."""
+  ORIGINAL
+
+  """Downsized file. Fixed-width webp for images; other type TBD."""
+  PREVIEW
+
+  """
+  Tiny, static image representing the attachment. Fixed-height jpeg for images; other types TBD.
+  """
+  THUMBNAIL
 }
 
 input ListArticleFilter {
@@ -778,7 +859,7 @@ input ListArticleFilter {
   replyRequestCount: RangeInput
 
   """
-  List only the articles that were replied between the specific time range.
+  [Deprecated] use articleReply filter instead. List only the articles that were replied between the specific time range.
   """
   repliedAt: TimeRangeInput
 
@@ -799,7 +880,9 @@ input ListArticleFilter {
   """
   hasArticleReplyWithMorePositiveFeedback: Boolean
 
-  """List the articles with replies of certain types"""
+  """
+  [Deprecated] use articleReply filter instead. List the articles with replies of certain types
+  """
   replyTypes: [ReplyTypeEnum]
 
   """List the articles with certain types"""
@@ -807,6 +890,9 @@ input ListArticleFilter {
 
   """Show the media article similar to the input url"""
   mediaUrl: String
+
+  """Show articles with article replies matching this criteria"""
+  articleReply: ArticleReplyFilterInput
 }
 
 """
@@ -836,6 +922,24 @@ input UserAndExistInput {
   exists: Boolean = true
 }
 
+input ArticleReplyFilterInput {
+  """Show only articleReplies created by a specific app."""
+  appId: String
+
+  """Show only articleReplies created by the specific user."""
+  userId: String
+
+  """
+  List only the articleReplies that were created between the specific time range.
+  """
+  createdAt: TimeRangeInput
+
+  """Only list the articleReplies created by the currently logged in user"""
+  selfOnly: Boolean
+  statuses: [ArticleReplyStatusEnum!] = [NORMAL]
+  replyTypes: [ReplyTypeEnum]
+}
+
 """
 An entry of orderBy argument. Specifies field name and the sort order. Only one field name is allowd per entry.
 """
@@ -847,6 +951,7 @@ input ListArticleOrderBy {
   replyCount: SortOrderEnum
   lastRequestedAt: SortOrderEnum
   lastRepliedAt: SortOrderEnum
+  lastMatchingArticleReplyCreatedAt: SortOrderEnum
 }
 
 input ListReplyFilter {
@@ -967,6 +1072,17 @@ input ListArticleReplyFeedbackFilter {
 
   """List only the article reply feedbacks with the selected statuses"""
   statuses: [ArticleReplyFeedbackStatusEnum!] = [NORMAL]
+
+  """List only the feedbacks to the replies created by this user ID"""
+  replyUserId: String
+
+  """List only the feedbacks to the article-replies created by this user ID"""
+  articleReplyUserId: String
+
+  """
+  List only the feedbacks whose `replyUserId` *or* `articleReplyUserId` is this user ID
+  """
+  authorId: String
 }
 
 """
@@ -1066,6 +1182,43 @@ An entry of orderBy argument. Specifies field name and the sort order. Only one 
 """
 input ListBlockedUsersOrderBy {
   createdAt: SortOrderEnum
+}
+
+type AnalyticsConnection implements Connection {
+  """
+  The total count of the entire collection, regardless of "before", "after".
+  """
+  totalCount: Int!
+  edges: [AnalyticsConnectionEdge!]!
+  pageInfo: AnalyticsConnectionPageInfo!
+}
+
+type AnalyticsConnectionEdge implements Edge {
+  node: Analytics!
+  cursor: String!
+  score: Float
+  highlight: Highlights
+}
+
+type AnalyticsConnectionPageInfo implements PageInfo {
+  lastCursor: String
+  firstCursor: String
+}
+
+input ListAnalyticsFilter {
+  """List only the activities between the specific time range."""
+  date: TimeRangeInput
+  type: AnalyticsDocTypeEnum
+  docId: ID
+  docUserId: ID
+  docAppId: ID
+}
+
+"""
+An entry of orderBy argument. Specifies field name and the sort order. Only one field name is allowd per entry.
+"""
+input ListAnalyticsOrderBy {
+  date: SortOrderEnum
 }
 
 type ValidationResult {

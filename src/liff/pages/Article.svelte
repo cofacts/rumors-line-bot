@@ -41,6 +41,8 @@
           replyRequestCount
           requestedForReply
           createdAt
+          articleType
+          attachmentUrl(variant: PREVIEW)
 
           articleReplies(status: NORMAL) {
             ...ArticleReplyCard_articleReply
@@ -171,6 +173,7 @@
     {t`Suspicious messages`}
   </Header>
   <ArticleCard
+    article={articleData}
     text={articleData.text}
     replyRequestCount={articleData.replyRequestCount}
     createdAt={createdAt}

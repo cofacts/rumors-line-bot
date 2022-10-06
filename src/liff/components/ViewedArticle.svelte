@@ -58,6 +58,10 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
   }
+  .img {
+    max-width: 100%;
+    max-height: 120px;
+  }
 </style>
 
 <Card class="ViewedArticle-root" on:click>
@@ -78,6 +82,8 @@
   <main>
     {#if !article}
       {t`Loading`}...
+    {:else if article.articleType === 'IMAGE'}
+      <img class="img" src={article.attachmentUrl} alt={article.text} />
     {:else}
       {article.text}
     {/if}

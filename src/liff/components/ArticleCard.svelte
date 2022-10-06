@@ -4,18 +4,22 @@
   import Card from './Card.svelte';
   const MAX_TEXT_HEIGHT = 100; // px
 
-  export let createdAt;
-  const createdAtStr = createdAt ? format(createdAt) : '';
+  export let article;
+  const {
+    createdAt,
+    text,
+    replyRequestCount,
+    articleType,
+    attachmentUrl,
+  } = article;
+  const createdAtStr = createdAt ? format(new Date(createdAt)) : '';
   const firstReportedStr = t`First reported on ${createdAtStr}`;
 
-  export let replyRequestCount;
   const reportCountText = ngettext(
     msgid`${replyRequestCount} person reported`,
     `${replyRequestCount} people reported`,
     replyRequestCount
   );
-
-  export let text = '';
 
   // Measured text height.
   // Default to MAX to trigger collapsed view to avoid too much flicker.
@@ -59,18 +63,29 @@
     color: var(--blue1);
     text-decoration: none;
   }
+  .img {
+    max-width: 100%;
+    max-height: 640px;
+  }
 </style>
-<div class="measurerContainer">
-  <div class="measurer" bind:clientHeight={textHeight}>
-    {text}
+{#if text}
+  <div class="measurerContainer">
+    <div class="measurer" bind:clientHeight={textHeight}>
+      {text}
+    </div>
   </div>
-</div>
+{/if}
 <Card style="--gap: 8px">
   <aside>{firstReportedStr}｜{reportCountText}</aside>
-  <article
-    class:truncated={isTooLong && !isExpanded}
-  >{text}</article>
-  {#if isTooLong }
+  {#if articleType === 'IMAGE'}
+    <img class="img" src={attachmentUrl} alt={text} />
+  {/if}
+  {#if text}
+    <article class:truncated={isTooLong && !isExpanded}>
+      {text}
+    </article>
+  {/if}
+  {#if text && isTooLong }
     <!-- svelte-ignore a11y-missing-attribute -->
     <a class="expandLink" role="button" on:click={handleExpandClick}>
       {isExpanded ? `${t`Show Less`} ▲` : `${t`Show More`} ▼`}

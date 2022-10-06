@@ -30,7 +30,8 @@
   args={{
     article: {
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      articleReplies: []
+      articleReplies: [],
+      articleType: 'TEXT',
     }
   }}
 />
@@ -44,7 +45,8 @@
         createdAt: '2020-06-04T00:00:00Z'
       }, {
         createdAt: '2019-06-04T00:00:00Z'
-      }]
+      }],
+      articleType: 'TEXT',
     }
   }}
 />
@@ -58,7 +60,30 @@
         createdAt: '2021-06-12T00:00:00Z'
       }, {
         createdAt: '2019-06-04T00:00:00Z'
-      }]
+      }],
+      articleType: 'TEXT',
+    }
+  }}
+/>
+
+<Story
+  name="Horizontal image"
+  args={{
+    article: {
+      attachmentUrl: 'https://placekitten.com/400/240',
+      articleReplies: [],
+      articleType: 'IMAGE',
+    }
+  }}
+/>
+
+<Story
+  name="Vertical image"
+  args={{
+    article: {
+      attachmentUrl: 'https://placekitten.com/200/240',
+      articleReplies: [],
+      articleType: 'IMAGE',
     }
   }}
 />

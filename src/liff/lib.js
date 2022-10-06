@@ -111,6 +111,8 @@ export const getArticlesFromCofacts = async articleIds => {
               articleReplies(status: NORMAL) {
                 createdAt
               }
+              articleType
+              attachmentUrl(variant: THUMBNAIL)
             }`
         )
         .join('\n')}
