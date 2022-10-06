@@ -119,6 +119,7 @@ it('should submit image article if user agrees to submit', async () => {
     data: {
       searchedText: '',
       messageId: '6530038889933',
+      messageType: 'image',
       foundArticleIds: [],
       sessionId: inputSession,
     },

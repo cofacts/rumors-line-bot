@@ -1,0 +1,302 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`one identical video article found and choose for user 1`] = `
+Object {
+  "data": Object {
+    "messageId": "6270464463537",
+    "messageType": "video",
+    "searchedText": "",
+    "selectedArticleId": "video-article-1",
+    "selectedArticleText": "",
+    "sessionId": 1577836800000,
+  },
+  "event": Object {
+    "input": "video-article-1",
+    "type": "server_choose",
+  },
+  "replies": Array [
+    Object {
+      "text": "👨‍👩‍👧‍👦  Volunteer editors have published several replies to this message.
+
+2 of them say it ❌ contains misinformation.",
+      "type": "text",
+    },
+    Object {
+      "text": "Let's pick one 👇",
+      "type": "text",
+    },
+    Object {
+      "altText": "Please take a look at the following replies.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "查證這則謠言的過程中，約翰走鹿也發現其實網路早就有許多解答，就讓約翰走鹿來借花獻佛一下囉。多家媒體都有針對這則「吃生魚片會有海獸胃腺蟲附著胃壁」的謠言請教醫師，受訪的醫師們皆表示，這則謠言太誇大，海獸胃腺蟲沒那麼神通廣大。
+醫師們表示，台灣的衛生條件很進步，吃生魚片被寄生蟲寄生的案例很少，大部份都是生魚片不乾淨，感染沙門氏菌、大腸桿菌的案例，此外，寄生蟲也不是什麼難治之症，服用一些抗寄生蟲藥就可以殺死胃裡的這些蟲子，除非這些蟲子跑到身體其他部位那才比較難處理，但那也是要大量地吃生魚片（一週兩次以上），中獎機率才會比較高。",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "👍 14 users consider this helpful
+😕 2 users consider this not useful",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AVygFA0RyCdS-nWhuaXY\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “查證這則謠言的過程中，約翰走鹿也發現其實網路早⋯⋯”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "align": "start",
+                  "margin": "md",
+                  "maxLines": 10,
+                  "text": "過去台灣只有一個海獸胃腺蟲鑽入胃壁的病例，而且僅有一隻蟲。而經查詢，台北馬偕醫院也沒有名為林清風的醫師。",
+                  "type": "text",
+                  "wrap": true,
+                },
+                Object {
+                  "type": "filler",
+                },
+                Object {
+                  "margin": "md",
+                  "type": "separator",
+                },
+                Object {
+                  "contents": Array [
+                    Object {
+                      "size": "xs",
+                      "text": "👍 24 users consider this helpful",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "margin": "md",
+                  "spacing": "none",
+                  "type": "box",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"AVy6LkWIyCdS-nWhuaqu\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "displayText": "I choose “過去台灣只有一個海獸胃腺蟲鑽入胃壁的病例，而且⋯⋯”",
+                    "label": "👀 Take a look",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "flex": 0,
+                  "text": "💬",
+                  "type": "text",
+                },
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "Someone thinks it contains misinformation",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "none",
+              "spacing": "md",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
+exports[`should handle video not found 1`] = `
+Object {
+  "context": Object {
+    "data": Object {
+      "messageId": "6530038889933",
+      "messageType": "video",
+      "searchedText": "",
+      "sessionId": 1577836800000,
+    },
+  },
+  "replies": Array [
+    Object {
+      "altText": "Unfortunately, I currently don’t recognize this message, but I would still like to help.
+Do you want someone to fact-check this message?",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "Unfortunately, I currently don’t recognize this message, but I would still like to help.
+Do you want someone to fact-check this message?",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+    Object {
+      "altText": "Be the first to report the message",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "contents": Array [
+                Object {
+                  "text": "Currently we don’t have this message in our database. If you think it is most likely a rumor, ",
+                  "type": "span",
+                },
+                Object {
+                  "color": "#ffb600",
+                  "text": "press “🆕 Report to database” to make this message public on Cofacts database ",
+                  "type": "span",
+                  "weight": "bold",
+                },
+                Object {
+                  "text": "and have volunteers fact-check it. This way you can help the people who receive the same message in the future.",
+                  "type": "span",
+                },
+              ],
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "paddingAll": "lg",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"sessionId\\":1577836800000,\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
+                "displayText": "🆕 Report to database",
+                "label": "🆕 Report to database",
+                "type": "postback",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"sessionId\\":1577836800000,\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
+                "displayText": "Don’t report",
+                "label": "Don’t report",
+                "type": "postback",
+              },
+              "color": "#333333",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
+          },
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+}
+`;

@@ -306,6 +306,7 @@ Object {
   "data": Object {
     "foundArticleIds": Array [],
     "messageId": "6530038889933",
+    "messageType": "image",
     "searchedText": "",
     "sessionId": 1577923200000,
   },

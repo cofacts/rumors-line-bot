@@ -5,6 +5,7 @@ Object {
   "context": Object {
     "data": Object {
       "messageId": "6270464463537",
+      "messageType": "image",
       "searchedText": "",
       "sessionId": 1577836800000,
     },
@@ -136,6 +137,7 @@ exports[`one identical article found and choose for user 1`] = `
 Object {
   "data": Object {
     "messageId": "6270464463537",
+    "messageType": "image",
     "searchedText": "",
     "selectedArticleId": "image-article-1",
     "selectedArticleText": "",
@@ -333,6 +335,7 @@ Object {
   "context": Object {
     "data": Object {
       "messageId": "6530038889933",
+      "messageType": "image",
       "searchedText": "",
       "sessionId": 1577836800000,
     },
@@ -436,6 +439,7 @@ Object {
   "context": Object {
     "data": Object {
       "messageId": "6530038889933",
+      "messageType": "image",
       "searchedText": "",
       "sessionId": 1577836800000,
     },

@@ -4,8 +4,11 @@ jest.mock('src/lib/detectDialogflowIntent');
 
 import MockDate from 'mockdate';
 import processMedia from '../processMedia';
-import * as apiListArticlesResult from '../__fixtures__/processMedia';
-import * as apiGetArticleResult from '../__fixtures__/choosingArticle';
+import {
+  oneIdenticalVideoArticle,
+  getVideoArticle,
+  notFound,
+} from '../__fixtures__/processMedia';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
 
@@ -14,9 +17,9 @@ beforeEach(() => {
   gql.__reset();
 });
 
-it('one identical article found and choose for user', async () => {
-  gql.__push(apiListArticlesResult.oneIdenticalImageArticle);
-  gql.__push(apiGetArticleResult.oneImageArticle);
+it('one identical video article found and choose for user', async () => {
+  gql.__push(oneIdenticalVideoArticle);
+  gql.__push(getVideoArticle);
 
   const data = {
     sessionId: 1497994017447,
@@ -26,13 +29,13 @@ it('one identical article found and choose for user', async () => {
     timestamp: 1497994016356,
     messageId: '6270464463537',
     message: {
-      type: 'image',
+      type: 'video',
       id: '6270464463537',
     },
   };
   const userId = 'Uc76d8ae9ccd1ada4f06c4e1515d46466';
   MockDate.set('2020-01-01');
-  expect(await processImage(data, event, userId)).toMatchSnapshot();
+  expect(await processMedia(data, event, userId)).toMatchSnapshot();
   MockDate.reset();
   expect(gql.__finished()).toBe(true);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
@@ -41,7 +44,7 @@ it('one identical article found and choose for user', async () => {
         Object {
           "ea": "MessageType",
           "ec": "UserInput",
-          "el": "image",
+          "el": "video",
         },
       ],
       Array [
@@ -55,7 +58,7 @@ it('one identical article found and choose for user', async () => {
         Object {
           "ea": "Search",
           "ec": "Article",
-          "el": "image-article-1",
+          "el": "video-article-1",
           "ni": true,
         },
       ],
@@ -63,7 +66,7 @@ it('one identical article found and choose for user', async () => {
         Object {
           "ea": "Selected",
           "ec": "Article",
-          "el": "image-article-1",
+          "el": "video-article-1",
         },
       ],
       Array [
@@ -87,8 +90,8 @@ it('one identical article found and choose for user', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(2);
 });
 
-it('should handle image not found', async () => {
-  gql.__push(apiListArticlesResult.notFound);
+it('should handle video not found', async () => {
+  gql.__push(notFound);
   const data = {
     sessionId: 1497994017447,
   };
@@ -97,13 +100,13 @@ it('should handle image not found', async () => {
     timestamp: 1497994016356,
     messageId: '6530038889933',
     message: {
-      type: 'image',
+      type: 'video',
       id: '6530038889933',
     },
   };
   const userId = 'Uc76d8ae9ccd1ada4f06c4e1515d46466';
   MockDate.set('2020-01-01');
-  expect(await processImage(data, event, userId)).toMatchSnapshot();
+  expect(await processMedia(data, event, userId)).toMatchSnapshot();
   MockDate.reset();
   expect(gql.__finished()).toBe(true);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
@@ -112,7 +115,7 @@ it('should handle image not found', async () => {
         Object {
           "ea": "MessageType",
           "ec": "UserInput",
-          "el": "image",
+          "el": "video",
         },
       ],
       Array [
