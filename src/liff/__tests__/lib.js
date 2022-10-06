@@ -242,6 +242,8 @@ describe('getArticlesFromCofacts', () => {
                     articleReplies(status: NORMAL) {
                       createdAt
                     }
+                    articleType
+                    attachmentUrl(variant: THUMBNAIL)
                   }
       a1: GetArticle(id: $a1) {
                     id
@@ -249,6 +251,8 @@ describe('getArticlesFromCofacts', () => {
                     articleReplies(status: NORMAL) {
                       createdAt
                     }
+                    articleType
+                    attachmentUrl(variant: THUMBNAIL)
                   }
       a2: GetArticle(id: $a2) {
                     id
@@ -256,6 +260,8 @@ describe('getArticlesFromCofacts', () => {
                     articleReplies(status: NORMAL) {
                       createdAt
                     }
+                    articleType
+                    attachmentUrl(variant: THUMBNAIL)
                   }
           }
         ",
