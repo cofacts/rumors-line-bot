@@ -12,6 +12,7 @@ import {
   createCommentBubble,
   createNotificationSettingsBubble,
   createArticleShareBubble,
+  createAskArticleSubmissionConsentReply,
 } from './utils';
 import ga from 'src/lib/ga';
 import UserSettings from 'src/database/models/userSettings';
@@ -47,7 +48,7 @@ export default async function choosingArticle(params) {
     throw new ManipulationError(t`Please choose from provided options.`);
   }
 
-  if (event.input === POSTBACK_NO_ARTICLE_FOUND) {
+  if (event.input === POSTBACK_NO_ARTICLE_FOUND && data.searchedText) {
     const visitor = ga(userId, state, data.searchedText);
     visitor.event({
       ec: 'UserInput',
@@ -69,6 +70,31 @@ export default async function choosingArticle(params) {
             t`May I ask you a quick question?`,
         }),
         createArticleSourceReply(data.sessionId),
+      ],
+    };
+  }
+
+  if (event.input === POSTBACK_NO_ARTICLE_FOUND && data.messageId) {
+    const visitor = ga(userId, state, data.messageId);
+    visitor.event({
+      ec: 'UserInput',
+      ea: 'ArticleSearch',
+      el: 'ArticleFoundButNoHit',
+    });
+    visitor.send();
+
+    return {
+      data,
+      event,
+      userId,
+      replies: [
+        createTextMessage({
+          text:
+            t`I am sorry you cannot find the information you are looking for.` +
+            '\n' +
+            t`Do you want someone to fact-check this message?`,
+        }),
+        createAskArticleSubmissionConsentReply(data.sessionId),
       ],
     };
   }

@@ -22,6 +22,10 @@ export default async function({ data = {} }, event, userId) {
   data = {
     // Start a new session
     sessionId: Date.now(),
+
+    // Store user messageId into context, which will use for submit new image article
+    searchedText: '',
+    messageId: event.messageId,
   };
 
   const {
@@ -248,15 +252,11 @@ export default async function({ data = {} }, event, userId) {
       el: 'ArticleNotFound',
     });
 
-    // Store user messageId into context, which will use for submit new image article
-    data.searchedText = '';
-    data.messageId = event.messageId;
-
     // submit
     replies = [
       createTextMessage({
         text:
-          t`I am sorry you cannot find the information you are looking for.` +
+          t`Unfortunately, I currently don’t recognize this message, but I would still like to help.` +
           '\n' +
           t`Do you want someone to fact-check this message?`,
       }),

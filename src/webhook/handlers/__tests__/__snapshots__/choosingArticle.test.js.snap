@@ -91,6 +91,115 @@ May I ask you a quick question?",
 }
 `;
 
+exports[`should ask users if they want to submit image article when user say not found 1`] = `
+Object {
+  "data": Object {
+    "messageId": "6530038889933",
+    "searchedText": "",
+  },
+  "event": Object {
+    "input": "__NO_ARTICLE_FOUND__",
+    "postback": Object {
+      "data": "{\\"input\\":\\"__NO_ARTICLE_FOUND__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+    },
+    "timestamp": 1519019734813,
+    "type": "postback",
+  },
+  "replies": Array [
+    Object {
+      "altText": "I am sorry you cannot find the information you are looking for.
+Do you want someone to fact-check this message?",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "I am sorry you cannot find the information you are looking for.
+Do you want someone to fact-check this message?",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+    Object {
+      "altText": "Be the first to report the message",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "contents": Array [
+                Object {
+                  "text": "Currently we don’t have this message in our database. If you think it is most likely a rumor, ",
+                  "type": "span",
+                },
+                Object {
+                  "color": "#ffb600",
+                  "text": "press “🆕 Report to database” to make this message public on Cofacts database ",
+                  "type": "span",
+                  "weight": "bold",
+                },
+                Object {
+                  "text": "and have volunteers fact-check it. This way you can help the people who receive the same message in the future.",
+                  "type": "span",
+                },
+              ],
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "paddingAll": "lg",
+          "spacing": "md",
+          "type": "box",
+        },
+        "footer": Object {
+          "contents": Array [
+            Object {
+              "action": Object {
+                "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
+                "displayText": "🆕 Report to database",
+                "label": "🆕 Report to database",
+                "type": "postback",
+              },
+              "color": "#ffb600",
+              "style": "primary",
+              "type": "button",
+            },
+            Object {
+              "action": Object {
+                "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
+                "displayText": "Don’t report",
+                "label": "Don’t report",
+                "type": "postback",
+              },
+              "color": "#333333",
+              "style": "primary",
+              "type": "button",
+            },
+          ],
+          "layout": "vertical",
+          "spacing": "sm",
+          "type": "box",
+        },
+        "styles": Object {
+          "body": Object {
+            "separator": true,
+          },
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
+    },
+  ],
+  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
+}
+`;
+
 exports[`should create a UserArticleLink when selecting a article 1`] = `
 Array [
   Object {

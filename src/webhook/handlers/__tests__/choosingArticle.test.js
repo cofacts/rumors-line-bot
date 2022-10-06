@@ -352,6 +352,44 @@ it('should ask users if they want to submit article when user say not found', as
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
+it('should ask users if they want to submit image article when user say not found', async () => {
+  const params = {
+    data: {
+      searchedText: '',
+      messageId: '6530038889933',
+    },
+    event: {
+      type: 'postback',
+      input: POSTBACK_NO_ARTICLE_FOUND,
+      timestamp: 1519019734813,
+      postback: {
+        data: `{"input":"${POSTBACK_NO_ARTICLE_FOUND}","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}`,
+      },
+    },
+    issuedAt: 1511633232970,
+    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+    replies: undefined,
+  };
+
+  MockDate.set('2020-01-01');
+  const result = await choosingArticle(params);
+  MockDate.reset();
+
+  expect(result).toMatchSnapshot();
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "ArticleSearch",
+          "ec": "UserInput",
+          "el": "ArticleFoundButNoHit",
+        },
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
+});
+
 it('should create a UserArticleLink when selecting a article', async () => {
   const userId = 'user-id-0';
   const params = {
