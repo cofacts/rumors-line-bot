@@ -26,6 +26,7 @@ export default async function({ data = {} }, event, userId) {
     // Store user messageId into context, which will use for submit new image article
     searchedText: '',
     messageId: event.messageId,
+    messageType: event.type,
   };
 
   const {

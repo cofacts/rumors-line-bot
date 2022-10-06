@@ -49,16 +49,19 @@ export default async function askingArticleSubmissionConsent(params) {
       } else if (data.messageId) {
         const proxyUrl = getLineContentProxyURL(data.messageId);
         const result = await gql`
-          mutation($mediaUrl: String!) {
+          mutation($mediaUrl: String!, $articleType: ArticleTypeEnum) {
             CreateMediaArticle(
               mediaUrl: $mediaUrl
-              articleType: IMAGE
+              articleType: $articleType
               reference: { type: LINE }
             ) {
               id
             }
           }
-        `({ mediaUrl: proxyUrl }, { userId });
+        `(
+          { mediaUrl: proxyUrl, articleType: data.messageType.toUpperCase() },
+          { userId }
+        );
         article = result.data.CreateMediaArticle;
       }
 
