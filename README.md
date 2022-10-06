@@ -398,6 +398,10 @@ We use dimemsion `Message Source` (Custom Dimemsion1) to classify different even
 3. User trigger chatbot to introduce itself:
   - `UserInput` / `Intro` /
 
+### Others
+
+1. LINE content proxy URL is being accessed: `ContentProxy` / `Forward` / `<content type>` / `<content length>` (value)
+
 ## Legal
 
 `LICENSE` defines the license agreement for the source code in this repository.
