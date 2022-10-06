@@ -199,10 +199,12 @@ describe('getArticlesFromCofacts', () => {
               a0: {
                 id: 'id1',
                 text: 'text1',
+                articleType: 'TEXT',
               },
               a1: {
                 id: 'id2',
                 text: 'text2',
+                articleType: 'TEXT',
               },
             },
             errors: [{ message: 'Some error loading id3' }],
@@ -212,18 +214,20 @@ describe('getArticlesFromCofacts', () => {
     );
 
     await expect(getArticlesFromCofacts(ids)).resolves.toMatchInlineSnapshot(`
-                  Array [
-                    Object {
-                      "id": "id1",
-                      "text": "text1",
-                    },
-                    Object {
-                      "id": "id2",
-                      "text": "text2",
-                    },
-                    undefined,
-                  ]
-              `);
+            Array [
+              Object {
+                "articleType": "TEXT",
+                "id": "id1",
+                "text": "text1",
+              },
+              Object {
+                "articleType": "TEXT",
+                "id": "id2",
+                "text": "text2",
+              },
+              undefined,
+            ]
+          `);
 
     expect(rollbar.error).toHaveBeenCalledTimes(1);
 
