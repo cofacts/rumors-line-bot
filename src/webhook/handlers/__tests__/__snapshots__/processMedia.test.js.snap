@@ -206,13 +206,13 @@ Object {
   },
   "replies": Array [
     Object {
-      "altText": "Unfortunately, I currently don’t recognize this message, but I would still like to help.
+      "altText": "Checking audio and video is still under construction. But I would still like to help.
 Do you want someone to fact-check this message?",
       "contents": Object {
         "body": Object {
           "contents": Array [
             Object {
-              "text": "Unfortunately, I currently don’t recognize this message, but I would still like to help.
+              "text": "Checking audio and video is still under construction. But I would still like to help.
 Do you want someone to fact-check this message?",
               "type": "text",
               "wrap": true,
