@@ -94,7 +94,7 @@ export default async function({ data = {} }, event, userId) {
   replies = [
     createTextMessage({
       text:
-        t`Unfortunately, I currently don’t recognize this message, but I would still like to help.` +
+        t`Checking audio and video is still under construction. But I would still like to help.` +
         '\n' +
         t`Do you want someone to fact-check this message?`,
     }),
