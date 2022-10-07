@@ -135,17 +135,15 @@ Please choose the version that looks the most similar👇",
 
 exports[`one identical article found and choose for user 1`] = `
 Object {
-  "data": Object {
-    "messageId": "6270464463537",
-    "messageType": "image",
-    "searchedText": "",
-    "selectedArticleId": "image-article-1",
-    "selectedArticleText": "",
-    "sessionId": 1577836800000,
-  },
-  "event": Object {
-    "input": "image-article-1",
-    "type": "server_choose",
+  "context": Object {
+    "data": Object {
+      "messageId": "6270464463537",
+      "messageType": "image",
+      "searchedText": "",
+      "selectedArticleId": "image-article-1",
+      "selectedArticleText": "",
+      "sessionId": 1577836800000,
+    },
   },
   "replies": Array [
     Object {
@@ -326,7 +324,6 @@ Object {
       "type": "flex",
     },
   ],
-  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
 

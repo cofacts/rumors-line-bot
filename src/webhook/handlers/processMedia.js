@@ -66,23 +66,22 @@ export default async function({ data = {} }, event, userId) {
       });
     });
 
-    if (ListArticles.edges.length === 1) {
-      visitor.send();
+    visitor.send();
 
-      // choose for user
-      event = {
-        type: 'server_choose',
-        input: ListArticles.edges[0].node.id,
-      };
+    // choose for user
+    event = {
+      type: 'server_choose',
+      input: ListArticles.edges[0].node.id,
+    };
 
-      return await choosingArticle({
-        data,
-        state: 'CHOOSING_ARTICLE',
-        event,
-        userId,
-        replies: [],
-      });
-    }
+    ({ data, replies } = await choosingArticle({
+      data,
+      state: 'CHOOSING_ARTICLE',
+      event,
+      userId,
+      replies: [],
+    }));
+    return { context: { data }, replies };
   }
 
   visitor.event({
