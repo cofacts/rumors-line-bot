@@ -698,48 +698,48 @@ msgstr "在${ dateString }看過"
 msgid "${ dateStr } ago"
 msgstr "${ dateStr }前"
 
-#: src/liff/pages/Article.svelte:112
+#: src/liff/pages/Article.svelte:113
 msgid "Cofacts volunteer's reply to the message above"
 msgstr "真的假的查證志工針對以上訊息的回應"
 
-#: src/liff/pages/Article.svelte:113
+#: src/liff/pages/Article.svelte:114
 #, javascript-format
 msgid ""
 "Cofacts volunteers have published ${ articleReplies.length } replies to the "
 "message above"
 msgstr "真的假的查證志工對以上訊息發表了 ${ articleReplies.length } 則回應"
 
-#: src/liff/pages/Article.svelte:119
+#: src/liff/pages/Article.svelte:120
 msgid "IM check"
 msgstr "網傳訊息查證"
 
-#: src/liff/pages/Article.svelte:120
+#: src/liff/pages/Article.svelte:121
 msgid "Cofacts chatbot"
 msgstr "真的假的聊天機器人"
 
-#: src/liff/pages/Article.svelte:122
+#: src/liff/pages/Article.svelte:123
 msgid "Loading IM data..."
 msgstr "載入可疑訊息"
 
-#: src/liff/pages/Article.svelte:125
+#: src/liff/pages/Article.svelte:126
 msgid "Suspicious messages"
 msgstr "網傳可疑訊息"
 
-#: src/liff/components/ArticleCard.svelte:18
+#: src/liff/components/ArticleCard.svelte:19
 msgid "${ replyRequestCount } person reported"
 msgid_plural "${ replyRequestCount } people reported"
 msgstr[0] "${ replyRequestCount } 人回報"
 
-#: src/liff/components/ArticleCard.svelte:16
+#: src/liff/components/ArticleCard.svelte:17
 #, javascript-format
 msgid "First reported on ${ createdAtStr }"
 msgstr "首次回報於 ${ createdAtStr }"
 
-#: src/liff/components/ArticleCard.svelte:42
+#: src/liff/components/ArticleCard.svelte:45
 msgid "Show Less"
 msgstr "收合全文"
 
-#: src/liff/components/ArticleCard.svelte:42
+#: src/liff/components/ArticleCard.svelte:45
 msgid "Show More"
 msgstr "閱讀全文"
 
@@ -782,21 +782,21 @@ msgstr ""
 msgid "Edit feedback"
 msgstr "修改評價"
 
-#: src/liff/pages/Article.svelte:135
+#: src/liff/pages/Article.svelte:133
 msgid "Other replies"
 msgstr "其他查核回應"
 
-#: src/liff/pages/Article.svelte:138
+#: src/liff/pages/Article.svelte:136
 msgid ""
 "There are different replies for the message. We suggest read them all here "
 "before you make judgements."
 msgstr "這則訊息有很多不同的查核回應，建議全部讀完再下判斷唷。"
 
-#: src/liff/pages/Article.svelte:139
+#: src/liff/pages/Article.svelte:137
 msgid "Read other replies"
 msgstr "查看其他查核回應"
 
-#: src/liff/pages/Article.svelte:124
+#: src/liff/pages/Article.svelte:125
 msgid "Open in Cofacts"
 msgstr "在「真的假的」開啟"
 
@@ -825,11 +825,11 @@ msgstr "如果回應與出處對您有幫助，請您不吝給予好評；若有
 msgid "Proceed to read the reply"
 msgstr "前往閱讀查核回應"
 
-#: src/liff/pages/Article.svelte:56
+#: src/liff/pages/Article.svelte:57
 msgid "This message does not exist."
 msgstr "此訊息不存在。"
 
-#: src/liff/pages/Article.svelte:133
+#: src/liff/pages/Article.svelte:131
 msgid "The reply does not exist. Maybe it has been deleted by its author."
 msgstr "此回應不存在。或許已經被作者刪掉囉。"
 
@@ -1039,3 +1039,16 @@ msgid ""
 "Checking audio and video is still under construction. But I would still "
 "like to help."
 msgstr "查詢錄音與影片的功能仍在開發中。不過，我還是想幫你查證。"
+
+#: src/liff/components/ViewedArticle.svelte:45
+msgid "A video"
+msgstr "影片一則"
+
+#: src/liff/components/ViewedArticle.svelte:46
+#: src/liff/components/ViewedArticle.svelte:48
+msgid "Preview not supported yet"
+msgstr "尚未支援預覽"
+
+#: src/liff/components/ViewedArticle.svelte:47
+msgid "An audio"
+msgstr "語音訊息一則"

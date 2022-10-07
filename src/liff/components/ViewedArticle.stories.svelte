@@ -87,3 +87,23 @@
     }
   }}
 />
+
+<Story
+  name="Video"
+  args={{
+    article: {
+      articleReplies: [],
+      articleType: 'VIDEO',
+    }
+  }}
+/>
+
+<Story
+  name="Audio"
+  args={{
+    article: {
+      articleReplies: [],
+      articleType: 'AUDIO',
+    }
+  }}
+/>
