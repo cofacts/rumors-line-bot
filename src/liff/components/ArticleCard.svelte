@@ -11,7 +11,6 @@
     replyRequestCount,
     articleType,
     attachmentUrl,
-    originalAttachmentUrl,
   } = article;
   const createdAtStr = createdAt ? format(new Date(createdAt)) : '';
   const firstReportedStr = t`First reported on ${createdAtStr}`;
