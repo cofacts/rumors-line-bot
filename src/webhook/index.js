@@ -1,22 +1,23 @@
 import { t } from 'ttag';
 import Router from 'koa-router';
-import rollbar from 'src/lib/rollbar';
 
+import rollbar from 'src/lib/rollbar';
+import ga from 'src/lib/ga';
 import redis from 'src/lib/redisClient';
+import { groupEventQueue, expiredGroupEventQueue } from 'src/lib/queues';
+
 import lineClient from './lineClient';
 import checkSignatureAndParse from './checkSignatureAndParse';
 import handleInput from './handleInput';
 import handlePostback from './handlePostback';
-import { groupEventQueue, expiredGroupEventQueue } from 'src/lib/queues';
 import GroupHandler from './handlers/groupHandler';
 import processImage from './handlers/processImage';
-import ga from 'src/lib/ga';
-
-import UserSettings from '../database/models/userSettings';
 import {
   createGreetingMessage,
   createTutorialMessage,
 } from './handlers/tutorial';
+import processMedia from './handlers/processMedia';
+import UserSettings from '../database/models/userSettings';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
@@ -129,17 +130,13 @@ const singleUserHandler = async (
     const event = { messageId: otherFields.message.id, type, ...otherFields };
 
     result = await processImage(context, event, userId);
-  } else if (type === 'message' && otherFields.message.type === 'video') {
-    // Track video message type send by user
-    ga(userId)
-      .event({
-        ec: 'UserInput',
-        ea: 'MessageType',
-        el: otherFields.message.type,
-      })
-      .send();
+  } else if (
+    type === 'message' &&
+    ['video', 'audio'].includes(otherFields.message.type)
+  ) {
+    const event = { messageId: otherFields.message.id, type, ...otherFields };
 
-    //uploadVideoFile(otherFields.message.id);
+    result = await processMedia(context, event, userId);
   } else if (type === 'message') {
     // Track other message type send by user
     ga(userId)

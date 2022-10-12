@@ -26,6 +26,7 @@ export default async function({ data = {} }, event, userId) {
     // Store user messageId into context, which will use for submit new image article
     searchedText: '',
     messageId: event.messageId,
+    messageType: event.message.type,
   };
 
   const {
@@ -78,13 +79,15 @@ export default async function({ data = {} }, event, userId) {
         input: ListArticles.edges[0].node.id,
       };
 
-      return await choosingArticle({
+      ({ data, replies } = await choosingArticle({
         data,
         state: 'CHOOSING_ARTICLE',
         event,
         userId,
         replies: [],
-      });
+      }));
+
+      return { context: { data }, replies };
     }
 
     const articleOptions = ListArticles.edges

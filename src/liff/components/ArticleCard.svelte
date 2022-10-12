@@ -63,7 +63,7 @@
     color: var(--blue1);
     text-decoration: none;
   }
-  .img {
+  .replacedContent {
     max-width: 100%;
     max-height: 640px;
   }
@@ -78,7 +78,21 @@
 <Card style="--gap: 8px">
   <aside>{firstReportedStr}｜{reportCountText}</aside>
   {#if articleType === 'IMAGE'}
-    <img class="img" src={attachmentUrl} alt={text} />
+    <img class="replacedContent" src={attachmentUrl} alt={text} />
+  {:else if articleType === 'VIDEO'}
+    {#if !attachmentUrl}
+      {t`A video`} ({t`Preview not supported yet`})
+    {:else}
+      <!-- svelte-ignore a11y-media-has-caption -->
+      <video class="replacedContent" src={attachmentUrl} controls />
+    {/if}
+  {:else if articleType === 'AUDIO'}
+    {#if !attachmentUrl}
+      {t`An audio`} ({t`Preview not supported yet`})
+    {:else}
+      <!-- svelte-ignore a11y-media-has-caption -->
+      <audio src={attachmentUrl} controls />
+    {/if}
   {/if}
   {#if text}
     <article class:truncated={isTooLong && !isExpanded}>

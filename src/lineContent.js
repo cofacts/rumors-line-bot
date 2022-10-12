@@ -1,6 +1,7 @@
 import Router from 'koa-router';
 import lineClient from 'src/webhook/lineClient';
 import { verify, read } from 'src/lib/jwt';
+import ua from 'universal-analytics';
 
 const lineContentRouter = Router();
 
@@ -16,8 +17,22 @@ lineContentRouter.get('/', async ctx => {
   const parsed = read(jwt);
 
   const response = await lineClient.getContent(parsed.messageId);
-  ctx.response.set('content-length', response.headers.get('content-length'));
-  ctx.response.set('content-type', response.headers.get('content-type'));
+
+  const contentType = response.headers.get('content-type');
+  const contentLength = response.headers.get('content-length');
+
+  const visitor = ua(process.env.GA_ID);
+  visitor.screenview('Content Proxy', 'rumors-line-bot');
+  visitor.event({
+    ec: 'ContentProxy',
+    ea: 'Forward',
+    el: contentType,
+    ev: contentLength,
+  });
+  visitor.send();
+
+  ctx.response.set('content-type', contentType);
+  ctx.response.set('content-length', contentLength);
   ctx.response.set(
     'content-disposition',
     `attachment; filename=${parsed.messageId}`

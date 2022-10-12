@@ -172,12 +172,7 @@
   <Header>
     {t`Suspicious messages`}
   </Header>
-  <ArticleCard
-    article={articleData}
-    text={articleData.text}
-    replyRequestCount={articleData.replyRequestCount}
-    createdAt={createdAt}
-  />
+  <ArticleCard article={articleData} />
 
   {#if articleReplies.length + collapsedArticleReplies.length === 0}
     <!-- No any existing replies -->

@@ -67,3 +67,30 @@
     attachmentUrl: 'https://placekitten.com/600/400'
   }} />
 </Story>
+
+<Story name="Video">
+  Vertical
+  <ArticleCard article={{
+    ...DEFAULT_ARGS.article,
+    articleType: 'VIDEO',
+    attachmentUrl: 'https://drive.google.com/uc?id=1SQ9lc1-ghzw-SL6Dyb_UMN6hAPBAckvK&confirm=t'
+  }} />
+
+  Horizontal
+  <ArticleCard article={{
+    ...DEFAULT_ARGS.article,
+    articleType: 'VIDEO',
+    attachmentUrl: 'https://drive.google.com/uc?id=1DczThMYTmGV3GvDCAU2EPnhsBwVcoFQi&confirm=t'
+  }} />
+</Story>
+
+<Story
+  name="Audio"
+  args={{
+    article: {
+      ...DEFAULT_ARGS.article,
+      articleType: 'AUDIO',
+      attachmentUrl: 'https://drive.google.com/uc?id=1D-K8hVcOw7UNbu80uJkAYMJd1HilAFOp&confirm=t',
+    }
+  }}
+/>

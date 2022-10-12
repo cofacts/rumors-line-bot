@@ -84,6 +84,10 @@
       {t`Loading`}...
     {:else if article.articleType === 'IMAGE'}
       <img class="img" src={article.attachmentUrl} alt={article.text} />
+    {:else if article.articleType === 'VIDEO'}
+      {t`A video`} ({t`Preview not supported yet`})
+    {:else if article.articleType === 'AUDIO'}
+      {t`An audio`} ({t`Preview not supported yet`})
     {:else}
       {article.text}
     {/if}

@@ -6,9 +6,9 @@ msgstr ""
 "mime-version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/webhook/index.js:76
+#: src/webhook/index.js:77
 #. Set default result
-#. 
+#.
 msgid "I cannot understand messages other than text."
 msgstr "我們還不支援文字以外的訊息唷！"
 
@@ -68,12 +68,12 @@ msgid "Visit ${ articleUrl } for more replies."
 msgstr "更多回應請到：${ articleUrl }"
 
 #: src/webhook/handlers/initState.js:201
-#: src/webhook/handlers/processImage.js:149
+#: src/webhook/handlers/processImage.js:152
 msgid "Choose this one"
 msgstr "選擇這篇"
 
 #: src/webhook/handlers/initState.js:293
-#: src/webhook/handlers/processImage.js:241
+#: src/webhook/handlers/processImage.js:244
 msgid ""
 "Internet rumors are often mutated and shared.\n"
 "Please choose the version that looks the most similar"
@@ -118,8 +118,8 @@ msgstr "否"
 
 #: src/webhook/handlers/initState.js:244
 #: src/webhook/handlers/initState.js:262
-#: src/webhook/handlers/processImage.js:192
-#: src/webhook/handlers/processImage.js:210
+#: src/webhook/handlers/processImage.js:195
+#: src/webhook/handlers/processImage.js:213
 msgid "None of these messages matches mine :("
 msgstr "找不到我想查的訊息 QQ"
 
@@ -130,12 +130,12 @@ msgid_plural "${ positive } users consider this helpful"
 msgstr[0] "有 ${positive} 人覺得此回應有幫助"
 
 #: src/webhook/handlers/initState.js:260
-#: src/webhook/handlers/processImage.js:208
+#: src/webhook/handlers/processImage.js:211
 msgid "Tell us more"
 msgstr "回報此訊息"
 
 #: src/webhook/handlers/initState.js:276
-#: src/webhook/handlers/processImage.js:224
+#: src/webhook/handlers/processImage.js:227
 msgid "Please choose the most similar message from the list."
 msgstr "請從下列選擇您要查的訊息。"
 
@@ -153,7 +153,7 @@ msgstr "有人認為它${typeWords}"
 msgid "Looks ${ similarityPercentage }% similar"
 msgstr "看起來 ${similarityPercentage}% 像"
 
-#: src/webhook/index.js:38
+#: src/webhook/index.js:39
 msgid ""
 "Line bot is busy, or we cannot handle this message. Maybe you can try again "
 "a few minutes later."
@@ -163,19 +163,19 @@ msgstr "不好意思！系統可能在忙線中，無法及時處理您傳的訊
 msgid "Wrong usage"
 msgstr "這不是這樣用的"
 
-#: src/webhook/index.js:185
+#: src/webhook/index.js:182
 msgid ""
 "You are currently searching for another message, buttons from previous "
 "search sessions do not work now."
 msgstr "您已經在搜尋新的訊息了，過去查過的訊息的按鈕已經失效囉。"
 
-#: src/webhook/index.js:261
+#: src/webhook/index.js:258
 msgid ""
 "Oops, something is not working. We have cleared your search data, hopefully "
 "the error will go away. Would you please send us the message from the start?"
 msgstr "抱歉，chatbot 出錯了。我們已經重設您目前的搜尋狀態，以期能自錯誤狀態中復原。請從頭再傳一次您想詢問的訊息。"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.js:74
+#: src/webhook/handlers/askingArticleSubmissionConsent.js:77
 #, javascript-format
 msgid "Your submission is now recorded at ${ articleUrl }"
 msgstr "您回報的訊息已經被收錄至 ${ articleUrl }"
@@ -244,7 +244,7 @@ msgstr "${ countOfType.NOT_ARTICLE } 人認為它 ⚠️️ 不在 Cofacts 的�
 
 #: src/webhook/handlers/choosingArticle.js:284
 #: src/webhook/handlers/initState.js:203
-#: src/webhook/handlers/processImage.js:151
+#: src/webhook/handlers/processImage.js:154
 #, javascript-format
 msgid "I choose “${ displayTextWhenChosen }”"
 msgstr "我要選「${displayTextWhenChosen}」"
@@ -303,7 +303,7 @@ msgid "Share on Facebook"
 msgstr "請教臉書大神"
 
 #: src/webhook/handlers/utils.js:228
-#. t: Facebook hash tag 
+#. t: Facebook hash tag
 msgid "ReportedToCofacts"
 msgstr "Cofacts求解惑"
 
@@ -313,7 +313,7 @@ msgid ""
 "They have 💁 1-on-1 Q&A service to respond to your questions."
 msgstr "好的，建議您把訊息轉傳給下面的專業事實查核機構，而且有 💁 專人為您解答喔！"
 
-#: src/webhook/index.js:164
+#: src/webhook/index.js:161
 msgid "Sorry, the button is expired."
 msgstr "不好意思，這是有點久以前的訊息，現在按鈕已經失效囉。"
 
@@ -331,7 +331,7 @@ msgid "Do you have anything to add about the reply?"
 msgstr "針對這則回應，有沒有想補充的呢？"
 
 #: src/liff/components/ReplyRequestForm.svelte:14
-#. t: Guidance in LIFF 
+#. t: Guidance in LIFF
 msgid ""
 "You may try:\n"
 "1. Express your thought more\n"
@@ -344,7 +344,7 @@ msgstr ""
 "3. 把全文複製貼上到 Facebook 搜尋框看看"
 
 #: src/liff/components/ReplyRequestForm.svelte:20
-#. t: Guidance in LIFF 
+#. t: Guidance in LIFF
 #, javascript-format
 msgid ""
 "It would help fact-checking editors a lot if you provide more info :)\n"
@@ -362,7 +362,7 @@ msgstr ""
 "若要補充資訊，請按「取消」；覺得現在這樣送出就好，請按「確定」。"
 
 #: src/liff/components/ReplyRequestForm.svelte:27
-#. t: Guidance in LIFF 
+#. t: Guidance in LIFF
 msgid ""
 "The info you provide should not be identical to the message itself.\n"
 "\n"
@@ -436,7 +436,7 @@ msgstr "下一頁"
 msgid "Settings"
 msgstr "設定"
 
-#: src/liff/lib.js:165
+#: src/liff/lib.js:167
 msgid ""
 "Please retry and allow the permission 'send messages to chats', so that you "
 "can interact with chatbot while clicking the buttons."
@@ -698,48 +698,48 @@ msgstr "在${ dateString }看過"
 msgid "${ dateStr } ago"
 msgstr "${ dateStr }前"
 
-#: src/liff/pages/Article.svelte:110
+#: src/liff/pages/Article.svelte:113
 msgid "Cofacts volunteer's reply to the message above"
 msgstr "真的假的查證志工針對以上訊息的回應"
 
-#: src/liff/pages/Article.svelte:111
+#: src/liff/pages/Article.svelte:114
 #, javascript-format
 msgid ""
 "Cofacts volunteers have published ${ articleReplies.length } replies to the "
 "message above"
 msgstr "真的假的查證志工對以上訊息發表了 ${ articleReplies.length } 則回應"
 
-#: src/liff/pages/Article.svelte:117
+#: src/liff/pages/Article.svelte:120
 msgid "IM check"
 msgstr "網傳訊息查證"
 
-#: src/liff/pages/Article.svelte:118
+#: src/liff/pages/Article.svelte:121
 msgid "Cofacts chatbot"
 msgstr "真的假的聊天機器人"
 
-#: src/liff/pages/Article.svelte:120
+#: src/liff/pages/Article.svelte:123
 msgid "Loading IM data..."
 msgstr "載入可疑訊息"
 
-#: src/liff/pages/Article.svelte:123
+#: src/liff/pages/Article.svelte:126
 msgid "Suspicious messages"
 msgstr "網傳可疑訊息"
 
-#: src/liff/components/ArticleCard.svelte:12
+#: src/liff/components/ArticleCard.svelte:19
 msgid "${ replyRequestCount } person reported"
 msgid_plural "${ replyRequestCount } people reported"
 msgstr[0] "${ replyRequestCount } 人回報"
 
-#: src/liff/components/ArticleCard.svelte:9
+#: src/liff/components/ArticleCard.svelte:17
 #, javascript-format
 msgid "First reported on ${ createdAtStr }"
 msgstr "首次回報於 ${ createdAtStr }"
 
-#: src/liff/components/ArticleCard.svelte:36
+#: src/liff/components/ArticleCard.svelte:45
 msgid "Show Less"
 msgstr "收合全文"
 
-#: src/liff/components/ArticleCard.svelte:36
+#: src/liff/components/ArticleCard.svelte:45
 msgid "Show More"
 msgstr "閱讀全文"
 
@@ -782,21 +782,21 @@ msgstr ""
 msgid "Edit feedback"
 msgstr "修改評價"
 
-#: src/liff/pages/Article.svelte:132
+#: src/liff/pages/Article.svelte:133
 msgid "Other replies"
 msgstr "其他查核回應"
 
-#: src/liff/pages/Article.svelte:135
+#: src/liff/pages/Article.svelte:136
 msgid ""
 "There are different replies for the message. We suggest read them all here "
 "before you make judgements."
 msgstr "這則訊息有很多不同的查核回應，建議全部讀完再下判斷唷。"
 
-#: src/liff/pages/Article.svelte:136
+#: src/liff/pages/Article.svelte:137
 msgid "Read other replies"
 msgstr "查看其他查核回應"
 
-#: src/liff/pages/Article.svelte:122
+#: src/liff/pages/Article.svelte:125
 msgid "Open in Cofacts"
 msgstr "在「真的假的」開啟"
 
@@ -825,15 +825,15 @@ msgstr "如果回應與出處對您有幫助，請您不吝給予好評；若有
 msgid "Proceed to read the reply"
 msgstr "前往閱讀查核回應"
 
-#: src/liff/pages/Article.svelte:54
+#: src/liff/pages/Article.svelte:57
 msgid "This message does not exist."
 msgstr "此訊息不存在。"
 
-#: src/liff/pages/Article.svelte:130
+#: src/liff/pages/Article.svelte:131
 msgid "The reply does not exist. Maybe it has been deleted by its author."
 msgstr "此回應不存在。或許已經被作者刪掉囉。"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.js:98
+#: src/webhook/handlers/askingArticleSubmissionConsent.js:101
 #: src/webhook/handlers/choosingArticle.js:356
 msgid "View reported message"
 msgstr "檢視回報訊息"
@@ -862,7 +862,7 @@ msgstr ""
 "此訊息已經被收錄至 Cofacts 有待好心人來查證。\n"
 "請先不要相信這個訊息唷！"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.js:108
+#: src/webhook/handlers/askingArticleSubmissionConsent.js:111
 #: src/webhook/handlers/choosingArticle.js:365
 msgid "In the meantime, you can:"
 msgstr "接下來您可以："
@@ -884,19 +884,19 @@ msgid "Instructions"
 msgstr "指示"
 
 #: src/webhook/handlers/askingArticleSource.js:32
-#. t: ~ entire message that ... 
+#. t: ~ entire message that ...
 msgid ""
 "I am a bot which only recognizes messages forwarded on LINE, therefore it "
 "is important to send me the"
 msgstr "我是一個機器人，只認得在 LINE 上面傳來傳去的訊息，所以把"
 
 #: src/webhook/handlers/askingArticleSource.js:36
-#. t: emphasized text in sentence "It is important to send me the ~ that is being passed around" 
+#. t: emphasized text in sentence "It is important to send me the ~ that is being passed around"
 msgid " entire message "
 msgstr "整篇訊息"
 
 #: src/webhook/handlers/askingArticleSource.js:42
-#. t: the entire message ~ 
+#. t: the entire message ~
 msgid "that is being passed around so I can identify it."
 msgstr "給我，我才能辨認唷！"
 
@@ -934,7 +934,8 @@ msgstr "這樣呀。請先不要相信這個訊息唷！"
 
 #: src/webhook/handlers/askingArticleSource.js:160
 #: src/webhook/handlers/choosingArticle.js:95
-#: src/webhook/handlers/processImage.js:261
+#: src/webhook/handlers/processImage.js:264
+#: src/webhook/handlers/processMedia.js:99
 msgid "Do you want someone to fact-check this message?"
 msgstr "你要請人查查這則訊息嗎？"
 
@@ -942,8 +943,8 @@ msgstr "你要請人查查這則訊息嗎？"
 msgid "The message has not been reported and won’t be fact-checked. Thanks anyway!"
 msgstr "好的，那就不查囉。還是謝謝你！"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.js:82
-#: src/webhook/handlers/askingArticleSubmissionConsent.js:92
+#: src/webhook/handlers/askingArticleSubmissionConsent.js:85
+#: src/webhook/handlers/askingArticleSubmissionConsent.js:95
 msgid ""
 "The message has now been recorded at Cofacts for volunteers to fact-check. "
 "Thank you for submitting!"
@@ -1007,16 +1008,16 @@ msgstr "想先請教您一個問題："
 msgid "Provide better reply"
 msgstr "提供更好的回應"
 
-#: src/webhook/handlers/processImage.js:93
+#: src/webhook/handlers/processImage.js:96
 #, javascript-format
 msgid "No.${ imgNumber }"
 msgstr "第 ${ imgNumber } 張"
 
-#: src/webhook/handlers/processImage.js:234
+#: src/webhook/handlers/processImage.js:237
 msgid "There are some messages that looks similar to the one you have sent to me."
 msgstr "資料庫裡有幾篇訊息，跟您傳給我的有些接近。"
 
-#: src/webhook/handlers/processImage.js:105
+#: src/webhook/handlers/processImage.js:108
 msgid "Looks ${ scoreInPercent }% similar"
 msgid_plural "Looks ${ scoreInPercent }% similar"
 msgstr[0] "看起來 ${ scoreInPercent }% 像"
@@ -1025,9 +1026,29 @@ msgstr[0] "看起來 ${ scoreInPercent }% 像"
 msgid "I am sorry you cannot find the information you are looking for."
 msgstr "抱歉沒有找到你想要查詢的訊息。"
 
-#: src/webhook/handlers/processImage.js:259
+#: src/webhook/handlers/processImage.js:262
 #. submit
 msgid ""
 "Unfortunately, I currently don’t recognize this message, but I would still "
 "like to help."
 msgstr "抱歉我目前還不認得這個訊息，可是我還是想幫你查證。"
+
+#: src/webhook/handlers/processMedia.js:97
+#. submit
+msgid ""
+"Checking audio and video is still under construction. But I would still "
+"like to help."
+msgstr "查詢錄音與影片的功能仍在開發中。不過，我還是想幫你查證。"
+
+#: src/liff/components/ViewedArticle.svelte:45
+msgid "A video"
+msgstr "影片一則"
+
+#: src/liff/components/ViewedArticle.svelte:46
+#: src/liff/components/ViewedArticle.svelte:48
+msgid "Preview not supported yet"
+msgstr "尚未支援預覽"
+
+#: src/liff/components/ViewedArticle.svelte:47
+msgid "An audio"
+msgstr "語音訊息一則"
