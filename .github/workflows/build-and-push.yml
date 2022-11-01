@@ -47,7 +47,7 @@ jobs:
       - name: Generate production .env file
         run: 'curl $ENV_URL -o .env'
         env:
-          ENV_URL: ${{ secrets.PRODUCTION_ENV_URL }}
+          ENV_URL: ${{ secrets.PRODUCTION_ENV_URL }}${{ matrix.locales.postfix }}
         if: ${{ env.RELEASE_TAG == 'latest' }}
 
       - name: Login to Docker Hub
@@ -67,7 +67,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: cofacts/rumors-line-bot:${{ env.RELEASE_TAG }}-${{ matrix.locales.postfix }}
+          tags: cofacts/rumors-line-bot:${{ env.RELEASE_TAG }}${{ matrix.locales.postfix }}
           build-args: |
             "LOCALE=${{ matrix.locales.locale }}"
           cache-from: type=gha
