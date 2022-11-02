@@ -23,8 +23,6 @@ WORKDIR /srv/www
 EXPOSE 5001
 ENTRYPOINT NODE_ENV=production npm start
 
-RUN apk --no-cache add tesseract-ocr tesseract-ocr-data-chi_tra
-
 COPY package.json package-lock.json ecosystem.config.js ./
 COPY i18n i18n
 COPY static static
