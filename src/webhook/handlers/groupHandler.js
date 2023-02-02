@@ -59,7 +59,7 @@ export default class {
     }
 
     async function onCompleted(job, output) {
-      // console.log('group message completed, job ' + job.id);
+      console.log('group message completed, job ' + job.id);
       const { result, replyToken } = output;
 
       if (result.replies) {
@@ -71,24 +71,15 @@ export default class {
           messages: result.replies,
         });
 
-        // eslint-disable-next-line no-unused-vars
-        console.log('--------------------');
         // LOGGING:
         // 60 chars per line, each prepended with ||LOG||
         //
-        console.log('\n||LOG||<----------');
-        JSON.stringify({
-          INPUT: job.data,
-          OUTPUT: result.replies,
-        })
-          .split(/(.{60})/)
-          .forEach(line => {
-            if (line) {
-              // Leading \n makes sure ||LOG|| is in the first line
-              console.log(`\n||LOG||${line}`);
-            }
-          });
-        console.log('\n||LOG||---------->');
+        console.log(
+          JSON.stringify({
+            INPUT: job.data,
+            OUTPUT: result.replies,
+          })
+        );
       }
     }
 

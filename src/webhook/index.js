@@ -203,23 +203,13 @@ const singleUserHandler = async (
   }
   clearTimeout(timerId);
 
-  // LOGGING:
-  // 60 chars per line, each prepended with ||LOG||
-  //
-  console.log('\n||LOG||<----------');
-  JSON.stringify({
-    CONTEXT: context,
-    INPUT: { type, userId, ...otherFields },
-    OUTPUT: result,
-  })
-    .split(/(.{60})/)
-    .forEach(line => {
-      if (line) {
-        // Leading \n makes sure ||LOG|| is in the first line
-        console.log(`\n||LOG||${line}`);
-      }
-    });
-  console.log('\n||LOG||---------->');
+  console.log(
+    JSON.stringify({
+      CONTEXT: context,
+      INPUT: { type, userId, ...otherFields },
+      OUTPUT: result,
+    })
+  );
 
   // Send replies. Does not need to wait for lineClient's callbacks.
   // lineClient's callback does error handling by itself.
