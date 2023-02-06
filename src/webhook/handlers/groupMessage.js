@@ -163,6 +163,18 @@ export default async function processText(event, groupId) {
       }
     }
 
+    console.debug(
+      '[GROUP]',
+      JSON.stringify({
+        similarities: edgesSortedWithSimilarity.map(({ similarity }) =>
+          similarity.toFixed(2)
+        ),
+        hasIdenticalDocs,
+        hasValidCategory,
+        hasReply: !!replies,
+      })
+    );
+
     // sends ga only when article found
     visitor.send();
   }

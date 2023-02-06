@@ -59,7 +59,6 @@ export default class {
     }
 
     async function onCompleted(job, output) {
-      console.log('group message completed, job ' + job.id);
       const { result, replyToken } = output;
 
       if (result.replies) {
@@ -74,7 +73,8 @@ export default class {
         // LOGGING:
         // 60 chars per line, each prepended with ||LOG||
         //
-        console.log(
+        console.info(
+          '[GROUP]',
           JSON.stringify({
             INPUT: job.data,
             OUTPUT: result.replies,
