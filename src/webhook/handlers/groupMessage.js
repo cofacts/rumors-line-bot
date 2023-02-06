@@ -171,6 +171,7 @@ export default async function processText(event, groupId) {
         ),
         hasIdenticalDocs,
         hasValidCategory,
+        hasReply: !!replies,
       })
     );
 
