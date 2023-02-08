@@ -44,6 +44,8 @@
 
 2. Cofacts 聊天機器人基於 LINE 官方帳號的服務與其設計獲得之使用者資訊，若用戶對其內容有疑慮，請向 LINE 反應。Cofacts WG 無法影響介入 LINE 官方之資料使用政策，也不負擔相關責任。
 
+3. Cofacts WG 使用雲端儲存服務（如 Google Cloud 等）存放使用者提交之資訊，包含影像、影片與聲音檔案等。使用者應確保其提交之資訊內容不致使 Cofacts WG 違反雲端儲存服務之使用者條款，包含但不限於 Google 服務條款、Google cloud 服務條款、[條列於 Google 說明頁面之違規樣態](https://support.google.com/accounts/answer/40695)等。Cofacts WG 會刪除致使違反雲端儲存服務之條款的使用者提交之資訊。
+
 ## 五、聯絡方式
 
 1. 如果您對於本使用者條款、服務內容或隱私等有任何疑慮，請寄信至 Cofacts WG 之聯絡信箱 cofacts@googlegroups.com ，由 Cofacts WG 成員在固定會議中或透過其他管道為您處理。
