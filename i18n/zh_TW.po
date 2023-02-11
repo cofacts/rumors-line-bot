@@ -8,7 +8,7 @@ msgstr ""
 
 #: src/webhook/index.js:77
 #. Set default result
-#.
+#. 
 msgid "I cannot understand messages other than text."
 msgstr "我們還不支援文字以外的訊息唷！"
 
@@ -169,7 +169,7 @@ msgid ""
 "search sessions do not work now."
 msgstr "您已經在搜尋新的訊息了，過去查過的訊息的按鈕已經失效囉。"
 
-#: src/webhook/index.js:258
+#: src/webhook/index.js:248
 msgid ""
 "Oops, something is not working. We have cleared your search data, hopefully "
 "the error will go away. Would you please send us the message from the start?"
@@ -303,7 +303,7 @@ msgid "Share on Facebook"
 msgstr "請教臉書大神"
 
 #: src/webhook/handlers/utils.js:228
-#. t: Facebook hash tag
+#. t: Facebook hash tag 
 msgid "ReportedToCofacts"
 msgstr "Cofacts求解惑"
 
@@ -331,7 +331,7 @@ msgid "Do you have anything to add about the reply?"
 msgstr "針對這則回應，有沒有想補充的呢？"
 
 #: src/liff/components/ReplyRequestForm.svelte:14
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 msgid ""
 "You may try:\n"
 "1. Express your thought more\n"
@@ -344,7 +344,7 @@ msgstr ""
 "3. 把全文複製貼上到 Facebook 搜尋框看看"
 
 #: src/liff/components/ReplyRequestForm.svelte:20
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 #, javascript-format
 msgid ""
 "It would help fact-checking editors a lot if you provide more info :)\n"
@@ -362,7 +362,7 @@ msgstr ""
 "若要補充資訊，請按「取消」；覺得現在這樣送出就好，請按「確定」。"
 
 #: src/liff/components/ReplyRequestForm.svelte:27
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 msgid ""
 "The info you provide should not be identical to the message itself.\n"
 "\n"
@@ -698,48 +698,48 @@ msgstr "在${ dateString }看過"
 msgid "${ dateStr } ago"
 msgstr "${ dateStr }前"
 
-#: src/liff/pages/Article.svelte:113
+#: src/liff/pages/Article.svelte:112
 msgid "Cofacts volunteer's reply to the message above"
 msgstr "真的假的查證志工針對以上訊息的回應"
 
-#: src/liff/pages/Article.svelte:114
+#: src/liff/pages/Article.svelte:113
 #, javascript-format
 msgid ""
 "Cofacts volunteers have published ${ articleReplies.length } replies to the "
 "message above"
 msgstr "真的假的查證志工對以上訊息發表了 ${ articleReplies.length } 則回應"
 
-#: src/liff/pages/Article.svelte:120
+#: src/liff/pages/Article.svelte:119
 msgid "IM check"
 msgstr "網傳訊息查證"
 
-#: src/liff/pages/Article.svelte:121
+#: src/liff/pages/Article.svelte:120
 msgid "Cofacts chatbot"
 msgstr "真的假的聊天機器人"
 
-#: src/liff/pages/Article.svelte:123
+#: src/liff/pages/Article.svelte:122
 msgid "Loading IM data..."
 msgstr "載入可疑訊息"
 
-#: src/liff/pages/Article.svelte:126
+#: src/liff/pages/Article.svelte:125
 msgid "Suspicious messages"
 msgstr "網傳可疑訊息"
 
-#: src/liff/components/ArticleCard.svelte:19
+#: src/liff/components/ArticleCard.svelte:18
 msgid "${ replyRequestCount } person reported"
 msgid_plural "${ replyRequestCount } people reported"
 msgstr[0] "${ replyRequestCount } 人回報"
 
-#: src/liff/components/ArticleCard.svelte:17
+#: src/liff/components/ArticleCard.svelte:16
 #, javascript-format
 msgid "First reported on ${ createdAtStr }"
 msgstr "首次回報於 ${ createdAtStr }"
 
-#: src/liff/components/ArticleCard.svelte:45
+#: src/liff/components/ArticleCard.svelte:48
 msgid "Show Less"
 msgstr "收合全文"
 
-#: src/liff/components/ArticleCard.svelte:45
+#: src/liff/components/ArticleCard.svelte:48
 msgid "Show More"
 msgstr "閱讀全文"
 
@@ -782,21 +782,21 @@ msgstr ""
 msgid "Edit feedback"
 msgstr "修改評價"
 
-#: src/liff/pages/Article.svelte:133
+#: src/liff/pages/Article.svelte:132
 msgid "Other replies"
 msgstr "其他查核回應"
 
-#: src/liff/pages/Article.svelte:136
+#: src/liff/pages/Article.svelte:135
 msgid ""
 "There are different replies for the message. We suggest read them all here "
 "before you make judgements."
 msgstr "這則訊息有很多不同的查核回應，建議全部讀完再下判斷唷。"
 
-#: src/liff/pages/Article.svelte:137
+#: src/liff/pages/Article.svelte:136
 msgid "Read other replies"
 msgstr "查看其他查核回應"
 
-#: src/liff/pages/Article.svelte:125
+#: src/liff/pages/Article.svelte:124
 msgid "Open in Cofacts"
 msgstr "在「真的假的」開啟"
 
@@ -825,11 +825,11 @@ msgstr "如果回應與出處對您有幫助，請您不吝給予好評；若有
 msgid "Proceed to read the reply"
 msgstr "前往閱讀查核回應"
 
-#: src/liff/pages/Article.svelte:57
+#: src/liff/pages/Article.svelte:56
 msgid "This message does not exist."
 msgstr "此訊息不存在。"
 
-#: src/liff/pages/Article.svelte:131
+#: src/liff/pages/Article.svelte:130
 msgid "The reply does not exist. Maybe it has been deleted by its author."
 msgstr "此回應不存在。或許已經被作者刪掉囉。"
 
@@ -884,19 +884,19 @@ msgid "Instructions"
 msgstr "指示"
 
 #: src/webhook/handlers/askingArticleSource.js:32
-#. t: ~ entire message that ...
+#. t: ~ entire message that ... 
 msgid ""
 "I am a bot which only recognizes messages forwarded on LINE, therefore it "
 "is important to send me the"
 msgstr "我是一個機器人，只認得在 LINE 上面傳來傳去的訊息，所以把"
 
 #: src/webhook/handlers/askingArticleSource.js:36
-#. t: emphasized text in sentence "It is important to send me the ~ that is being passed around"
+#. t: emphasized text in sentence "It is important to send me the ~ that is being passed around" 
 msgid " entire message "
 msgstr "整篇訊息"
 
 #: src/webhook/handlers/askingArticleSource.js:42
-#. t: the entire message ~
+#. t: the entire message ~ 
 msgid "that is being passed around so I can identify it."
 msgstr "給我，我才能辨認唷！"
 
@@ -1040,15 +1040,19 @@ msgid ""
 "like to help."
 msgstr "查詢錄音與影片的功能仍在開發中。不過，我還是想幫你查證。"
 
+#: src/liff/components/ArticleCard.svelte:41
 #: src/liff/components/ViewedArticle.svelte:45
 msgid "A video"
 msgstr "影片一則"
 
+#: src/liff/components/ArticleCard.svelte:42
+#: src/liff/components/ArticleCard.svelte:45
 #: src/liff/components/ViewedArticle.svelte:46
 #: src/liff/components/ViewedArticle.svelte:48
 msgid "Preview not supported yet"
 msgstr "尚未支援預覽"
 
+#: src/liff/components/ArticleCard.svelte:44
 #: src/liff/components/ViewedArticle.svelte:47
 msgid "An audio"
 msgstr "語音訊息一則"
