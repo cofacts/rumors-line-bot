@@ -1,6 +1,6 @@
 # Cofacts 真的假的 聊天機器人使用者條款
 
-> Version 1, 17 February 2021
+> Version 2, 23 February 2023
 
 此使用者條款載明社群軟體（LINE、facebook 等）使用者使用 Cofacts 真的假的聊天機器人的使用規範。使用者使用本服務即表示同意遵守使用條款，如有任何疑義請釐清後再與聊天機器人互動。
 
