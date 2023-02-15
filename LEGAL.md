@@ -1,6 +1,6 @@
 # Cofacts 真的假的 聊天機器人使用者條款
 
-> Version 1, 17 February 2021
+> Version 2, 14 February 2023
 
 此使用者條款載明社群軟體（LINE、facebook 等）使用者使用 Cofacts 真的假的聊天機器人的使用規範。使用者使用本服務即表示同意遵守使用條款，如有任何疑義請釐清後再與聊天機器人互動。
 
@@ -43,6 +43,8 @@
 1. 對於本查核服務回傳之回應、資料佐證來源會如何被使用者使用、轉傳，Cofacts WG 不負任何法律責任。
 
 2. Cofacts 聊天機器人基於 LINE 官方帳號的服務與其設計獲得之使用者資訊，若用戶對其內容有疑慮，請向 LINE 反應。Cofacts WG 無法影響介入 LINE 官方之資料使用政策，也不負擔相關責任。
+
+3. Cofacts WG 使用雲端儲存服務（如 Google Cloud 等）存放使用者提交之資訊，包含影像、影片與聲音檔案等。使用者應確保其提交之資訊內容不致使 Cofacts WG 違反雲端儲存服務之使用者條款，包含但不限於 Google 服務條款、Google cloud 服務條款、[條列於 Google 說明頁面之違規樣態](https://support.google.com/accounts/answer/40695)等。Cofacts WG 得刪除致使違反雲端儲存服務之條款的使用者提交之資訊；情節嚴重者，亦得禁止該使用者使用本聊天機器人與相關平台網站系統。
 
 ## 五、聯絡方式
 
