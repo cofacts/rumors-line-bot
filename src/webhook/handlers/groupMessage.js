@@ -6,7 +6,7 @@ import { createGroupReplyMessages } from './utils';
 import ga from 'src/lib/ga';
 import lineClient from 'src/webhook/lineClient';
 
-const SIMILARITY_THRESHOLD = 0.8;
+const SIMILARITY_THRESHOLD = 0.7;
 const INTRO_KEYWORDS = ['hi cofacts', 'hi confacts'];
 const LEAVE_KEYWORD = 'bye bye cofacts';
 const VALID_CATEGORIES = [
