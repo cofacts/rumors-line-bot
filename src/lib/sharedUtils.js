@@ -7,9 +7,7 @@ import dateFnsFormat from 'date-fns/format';
 import dateFnsFormatDistanceToNow from 'date-fns/formatDistanceToNow';
 import GraphemeSplitter from 'grapheme-splitter';
 
-const SITE_URLS = (process.env.SITE_URLS || 'https://cofacts.g0v.tw').split(
-  ','
-);
+const SITE_URLS = (process.env.SITE_URLS || 'https://cofacts.tw').split(',');
 
 /**
  * prefilled text for LIFF sendMessage()

@@ -25,7 +25,7 @@ Please follow all the steps in [LINE official tutorial](https://developers.line.
 
 Create `.env` file from `.env.sample` template, at least fill in:
 ```
-API_URL=https://dev-api.cofacts.org/graphql
+API_URL=https://dev-api.cofacts.tw/graphql
 LINE_CHANNEL_SECRET=<paste Messaging API's channel secret here>
 LINE_CHANNEL_TOKEN=<paste Messaging API's channel access token here>
 LINE_LOGIN_CHANNEL_ID=<paste LINE Login channel ID here>
@@ -280,8 +280,8 @@ Besides previously mentioned `MONGODB_URI` and `REDIS_URL`,
 you will still have to set the following config vars manually:
 
 ```
-$ heroku config:set API_URL=https://cofacts-api.g0v.tw/graphql
-$ heroku config:set SITE_URLS=https://cofacts.g0v.tw
+$ heroku config:set API_URL=https://api.cofacts.tw/graphql
+$ heroku config:set SITE_URLS=https://cofacts.tw
 $ heroku config:set LINE_CHANNEL_SECRET=<Your channel secret>
 $ heroku config:set LINE_CHANNEL_TOKEN=<Your channel token>
 $ heroku config:set LIFF_URL=<LIFF URL>
