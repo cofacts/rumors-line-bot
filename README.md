@@ -25,7 +25,7 @@ Please follow all the steps in [LINE official tutorial](https://developers.line.
 
 Create `.env` file from `.env.sample` template, at least fill in:
 ```
-API_URL=https://dev-api.cofacts.org/graphql
+API_URL=https://dev-api.cofacts.tw/graphql
 LINE_CHANNEL_SECRET=<paste Messaging API's channel secret here>
 LINE_CHANNEL_TOKEN=<paste Messaging API's channel access token here>
 LINE_LOGIN_CHANNEL_ID=<paste LINE Login channel ID here>
@@ -64,6 +64,10 @@ $ npm run dev
 The server will be started on `localhost:5001` (or the `PORT` you specified in your `.env` file.)
 
 If you wish to stop the peripherals, run `docker-compose stop`.
+
+### Unit test
+
+Just run `npm test`. It will automatically spin up the aforementioned docker and run unit tests.
 
 ### Get LINE messages to your local machine
 
@@ -230,10 +234,6 @@ To use Dialogflow,
 
 ## Production Deployment
 
-You have two deployment options:
-
-### Option 1. Build docker image & deploy using docker-compose
-
 Prepare `.env` file (which should be identical to your deployment environment) and run `docker build .` to generate docker image.
 
 `.env` will be copied over to the builder image to generate LIFF static file with the env.
@@ -244,52 +244,6 @@ Since built docker images will encode public URLs into statically built files, t
 You can test the built image locally using the `docker-compose.yml`; just uncomment the line bot section and provide the built image name.
 
 For production, please see [rumors-deploy](https://github.com/cofacts/rumors-deploy/) for sample `docker-coompose.yml` that runs such image.
-
-### Option 2. Deploy to Heroku
-
-If you would like to start your own LINE bot server in production environment, this section describes how you can deploy the line bot to your own Heroku account.
-
-#### Get the server running
-
-You can deploy the line bot server to your own Heroku account by [creating a Heroku app and push to it](https://devcenter.heroku.com/articles/git#creating-a-heroku-remote).
-
-Despite the fact that we don't use `Procfile`, Heroku still does detection and installs the correct environment for us.
-
-#### Prepare storage services
-
-##### Redis
-
-We use Redis to store conversation context.
-
-Use the env var `REDIS_URL` to specify how chatbot should link to the Redis server.
-
-On Heroku, you can [provision a Heroku Redis addon](https://elements.heroku.com/addons/heroku-redis) to get redis.
-It sets the env var `REDIS_URL` for you.
-
-##### MongoDB
-
-We use MongoDB to store users' visited posts. It's the data source for related GraphQL APIs.
-
-Use the env var `MONGODB_URI` to specify your MongoDB's connection string.
-
-[MongoDB Atlas Free Tier cluster](https://docs.atlas.mongodb.com/tutorial/deploy-free-tier-cluster/) to start with.
-
-#### Configurations
-
-Besides previously mentioned `MONGODB_URI` and `REDIS_URL`,
-you will still have to set the following config vars manually:
-
-```
-$ heroku config:set API_URL=https://cofacts-api.g0v.tw/graphql
-$ heroku config:set SITE_URLS=https://cofacts.g0v.tw
-$ heroku config:set LINE_CHANNEL_SECRET=<Your channel secret>
-$ heroku config:set LINE_CHANNEL_TOKEN=<Your channel token>
-$ heroku config:set LIFF_URL=<LIFF URL>
-$ heroku config:set FACEBOOK_APP_ID=<Facebook App ID for share dialog>
-$ heroku config:set JWT_SECRET=<arbitary secret string>
-```
-
-Consult `.env.sample` for other optional env vars.
 
 ## Google Analytics Events table
 

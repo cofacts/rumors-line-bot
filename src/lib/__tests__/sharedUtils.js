@@ -14,7 +14,7 @@ describe('getArticleURL and extractArticleId', () => {
   it('use the default SITE_URL', () => {
     const utils = require('../sharedUtils');
     expect(utils.getArticleURL('AWDZYXxAyCdS-nWhumlz')).toMatchInlineSnapshot(
-      `"https://cofacts.g0v.tw/article/AWDZYXxAyCdS-nWhumlz"`
+      `"https://cofacts.tw/article/AWDZYXxAyCdS-nWhumlz"`
     );
   });
 
