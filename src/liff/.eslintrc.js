@@ -28,7 +28,7 @@ module.exports = {
     // global scripts include in index.html
     rollbar: 'readonly',
     liff: 'readonly',
-    gtag: 'readonly',
+    dataLayer: 'readonly',
 
     // Define plugin
     LIFF_ID: 'readonly',

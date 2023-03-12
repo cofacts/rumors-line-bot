@@ -14,6 +14,8 @@
   let reason = '';
 
   onMount(async () => {
+    dataLayer.push({articleId});
+
     // Load searchedText from API
     const {data, errors} = await gql`
       query GetCurrentUserRequestInLIFF($articleId: String) {
@@ -45,13 +47,9 @@
       return;
     }
 
-    searchedText = data.ListReplyRequests.edges[0].node.article.text;
-    reason = data.ListReplyRequests.edges[0].node.reason;
-
-    gtag('set', { page_title: gaTitle(searchedText) });
-    gtag('event', 'Comment', {
-      event_category: 'LIFF',
-      event_label: articleId,
+    dataLayer.push({
+      event: 'dataLoaded',
+      doc: data.ListReplyRequests.edges[0],
     });
   });
 

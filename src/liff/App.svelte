@@ -16,30 +16,12 @@
   };
 
   // Send pageview with correct path on each page change.
-  // delay a bit for page components to change page title
+  // delay a bit for page components for onMount() to be invoked.
   page.subscribe(p => {
     setTimeout(() => {
-      gtag('event', 'page_view', { page_path: p });
+      dataLayer.push({ event: 'routeChangeComplete', pagePath: p });
     }, 10)
   });
-
-  onMount(() => {
-    if(window.performance) {
-      gtag('event', 'timing_complete', {
-        name: 'App mounted',
-        value: performance.now(),
-        event_category: 'LIFF',
-        event_label: 'App',
-      });
-      if(performance.navigation) {
-        gtag('event', 'page_redirect', {
-          event_category: 'LIFF',
-          event_label: 'App',
-          value: performance.navigation.redirectCount,
-        });
-      }
-    }
-  })
 </script>
 
 <svelte:component this={routes[$page]} />

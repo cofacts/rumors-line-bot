@@ -36,7 +36,7 @@ Other customizable env vars are:
 
 * `REDIS_URL`: If not given, `redis://127.0.0.1:6379` is used.
 * `PORT`: Which port the line bot server will listen at.
-* `GA_ID`: Google analytics tracking ID, for tracking events. You should also add custom dimensions and metrics, see "Google Analytics Custom dimensions and metrics" section below.
+* `GTM_ID`: Google Tag Manager ID. For the events and variables we push to `dataLayer`, see "Google Tag Manager" section below.
 * `DEBUG_LIFF`: Disables external browser check in LIFF. Useful when debugging LIFF in external browser. Don't enable this on production.
 * `RUMORS_LINE_BOT_URL`: Server public url which is used to generate tutorial image urls and auth callback url of LINE Notify.
 
@@ -245,11 +245,32 @@ You can test the built image locally using the `docker-compose.yml`; just uncomm
 
 For production, please see [rumors-deploy](https://github.com/cofacts/rumors-deploy/) for sample `docker-coompose.yml` that runs such image.
 
+## Google Tag Manager
+
+We push variables and events in Google Tag Manager's `dataLayer` when the user interacts with LIFF.
+
+You can prepare the following setup in `.env` file:
+- `GTM_ID`: Google Tag Manager Container ID (`GTM-XXXXXXX`)
+
+The application will fire the following custom events in GTM `dataLayer`:
+
+- `dataLoaded` - when data is loaded in article, comment or feedback LIFF.
+- `routeChangeComplete` - when LIFF path change completes.
+- `feedbackVote` - when the user submits a feedback. Fires once when user opens LIFF, and can fire again when user updates vote or comments.
+- `chooseArticle` - when the user chooses an article in Articles LIFF.
+
+Also, it will push the following custom variable to `dataLayer`;
+
+- `pagePath` - Set when `routeChangeComplete` event fires. The page path from LIFF's router.
+- `userId` - Set after LIFF gets ID token and decodes LINE user ID inside.
+- `articleId` and `replyId`: set on Article, Comment and Feedback `onMount()` lifecycle is called. Or when `chooseArticle` event is fired.
+- `doc` - Set when `dataLoaded` event fires. The loaded content itself in object (article in Article LIFF, comment in Comment LIFF and feedback in feedback LIFF).
+
 ## Google Analytics Events table
 
 Sent event format: `Event category` / `Event action` / `Event label`
 
-We use dimemsion `Message Source` (Custom Dimemsion1) to classify different event sources
+We use dimension `Message Source` (Custom Dimemsion1) to classify different event sources
 - `user` for 1 on 1 messages
 - `room` | `group` for group messages
 
@@ -311,13 +332,7 @@ We use dimemsion `Message Source` (Custom Dimemsion1) to classify different even
   - If opened after sending reply requests: `utm_source=rumors-line-bot&utm_medium=reply-request`
   - If opened in tutorial: `&utm_source=rumors-line-bot&utm_medium=tutorial`
 
-11. Other LIFF operations
-  - `LIFF` / `page_redirect` / `App` is sent on LIFF redirect, with value being redirect count.
-  - `LIFF` / `ViewArticle` / `<articleId>` when article page with `articleId` is opened
-  - `LIFF` / `Comment` / `<articleId>` when comment page with `articleId` is opened
-  - `LIFF` / `ViewReply` / `<replyId>` for each displayed reply in article page
-
-12. Tutorial
+11. Tutorial
   - If it's triggered by follow event (a.k.a add-friend event)
     - `Tutorial` / `Step` / `ON_BOARDING`
   - If it's triggered by rich menu

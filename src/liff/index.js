@@ -20,5 +20,7 @@ liff.init({ liffId: LIFF_ID }).then(() => {
       // https://github.com/line/line-liff-v2-starter/issues/4
       redirectUri: location.href,
     });
+  } else {
+    dataLayer.push({ userId: liff.getDecodedIDToken().sub });
   }
 });

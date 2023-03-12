@@ -57,25 +57,14 @@
       return;
     }
 
+    dataLayer.push({ event: 'dataLoaded', doc: GetArticle });
+
     const {articleReplies: list, ...rest} = GetArticle;
 
     articleReplies = !replyId ? list : list.filter(({reply}) => reply.id === replyId);
     collapsedArticleReplies = !replyId ? [] : list.filter(({reply}) => reply.id !== replyId);
     articleData = rest;
     createdAt = new Date(articleData.createdAt);
-
-    // Send event to Google Analytics
-    gtag('set', { page_title: gaTitle(articleData.text) });
-    gtag('event', 'ViewArticle', {
-      event_category: 'LIFF',
-      event_label: articleId,
-    });
-    articleReplies.forEach(({reply}) => {
-      gtag('event', 'ViewReply', {
-        event_category: 'LIFF',
-        event_label: reply.id,
-      });
-    })
   }
 
   const setViewed = async () => {
@@ -87,6 +76,8 @@
   }
 
   onMount(() => {
+    dataLayer.push({ articleId });
+
     loadData();
     setViewed();
   });
