@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { t } from 'ttag';
   import { gql } from '../lib';
-  import { gaTitle, getArticleURL, VIEW_ARTICLE_PREFIX } from 'src/lib/sharedUtils';
+  import { getArticleURL, VIEW_ARTICLE_PREFIX } from 'src/lib/sharedUtils';
   import AppBar from '../components/AppBar.svelte';
   import SingleColorLogo from '../components/icons/SingleColorLogo.svelte';
   import FullpagePrompt from '../components/FullpagePrompt.svelte';
