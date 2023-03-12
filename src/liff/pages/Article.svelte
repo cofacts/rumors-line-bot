@@ -76,7 +76,7 @@
   }
 
   onMount(() => {
-    dataLayer.push({ articleId });
+    dataLayer.push({ articleId, replyId });
 
     loadData();
     setViewed();
