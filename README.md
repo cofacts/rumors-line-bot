@@ -255,7 +255,7 @@ You can prepare the following setup in `.env` file:
 The application will fire the following custom events in GTM `dataLayer`:
 
 - `dataLoaded` - when data is loaded in article, comment or feedback LIFF.
-- `routeChangeComplete` - when LIFF path change completes.
+- `routeChangeComplete` - when LIFF is loaded or changes path.
 - `feedbackVote` - when the user submits a feedback. Fires once when user opens LIFF, and can fire again when user updates vote or comments.
 - `chooseArticle` - when the user chooses an article in Articles LIFF.
 

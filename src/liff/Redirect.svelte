@@ -1,5 +1,6 @@
 <script>
   import { t } from 'ttag';
+  import { onMount } from 'svelte';
   import Button from './components/Button.svelte';
   import AppBar from './components/AppBar.svelte';
   import multipleRepliesBanner from './assets/multiple-replies.png';
@@ -16,6 +17,16 @@
     )
   );
   const LIFF_URL = `https://liff.line.me/${LIFF_ID}?${newParams.toString()}`;
+
+  onMount(() => {
+    dataLayer.push({
+      event: 'routeChangeComplete',
+      pagePath: 'redirect',
+      articleId: currentParams.get('articleId'),
+      replyId: currentParams.get('replyId'),
+    });
+    dataLayer.push({ articleId });
+  });
 
   const handleClick = () => {
     location.href = LIFF_URL;
