@@ -54,7 +54,7 @@
     // (previous vote will be overwritten by current vote)
     comment = data.ListArticleReplyFeedbacks.edges[0]?.node.comment ?? '';
 
-    dataLayer.push({event: 'dataLoaded', doc: data.ListArticleReplyFeedbacks.edges[0]})
+    dataLayer.push({event: 'dataLoaded', doc: data.ListArticleReplyFeedbacks.edges[0]?.node})
     await submitFeedback();
   });
 

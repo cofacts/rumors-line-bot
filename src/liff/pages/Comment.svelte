@@ -46,9 +46,12 @@
       return;
     }
 
+    searchedText = data.ListReplyRequests.edges[0].node.article.text;
+    reason = data.ListReplyRequests.edges[0].node.reason;
+
     dataLayer.push({
       event: 'dataLoaded',
-      doc: data.ListReplyRequests.edges[0],
+      doc: data.ListReplyRequests.edges[0].node,
     });
   });
 
