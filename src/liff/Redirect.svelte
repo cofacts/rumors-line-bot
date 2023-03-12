@@ -25,7 +25,6 @@
       articleId: currentParams.get('articleId'),
       replyId: currentParams.get('replyId'),
     });
-    dataLayer.push({ articleId });
   });
 
   const handleClick = () => {
