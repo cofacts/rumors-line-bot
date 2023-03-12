@@ -256,7 +256,9 @@ The application will fire the following custom events in GTM `dataLayer`:
 
 - `dataLoaded` - when data is loaded in article, comment or feedback LIFF.
 - `routeChangeComplete` - when LIFF is loaded or changes path.
-- `feedbackVote` - when the user submits a feedback. Fires once when user opens LIFF, and can fire again when user updates vote or comments.
+- `feedbackVote` - when the user submits a feedback.
+  - Fires once when user opens Feedback LIFF, and can fire again when user updates vote or comments.
+  - Also fires when user submits feedback on Article LIFF.
 - `chooseArticle` - when the user chooses an article in Articles LIFF.
 
 Also, it will push the following custom variable to `dataLayer`;
