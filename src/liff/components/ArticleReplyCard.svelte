@@ -26,6 +26,12 @@
    * @returns {Promise<ArticleReplyCard_articleReply>}
    */
   const submitVote = async (vote, comment = null) => {
+    dataLayer.push({
+      event: 'feedbackVote',
+      articleId: articleReply.articleId,
+      replyId: articleReply.reply.id
+    });
+
     const resp = await gql`
       mutation VoteInArticleLIFF(
         $articleId: String!

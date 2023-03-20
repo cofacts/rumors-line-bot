@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { t } from 'ttag';
   import { gql } from '../lib';
-  import { gaTitle, getArticleURL, VIEW_ARTICLE_PREFIX } from 'src/lib/sharedUtils';
+  import { getArticleURL, VIEW_ARTICLE_PREFIX } from 'src/lib/sharedUtils';
   import AppBar from '../components/AppBar.svelte';
   import SingleColorLogo from '../components/icons/SingleColorLogo.svelte';
   import FullpagePrompt from '../components/FullpagePrompt.svelte';
@@ -57,25 +57,14 @@
       return;
     }
 
+    dataLayer.push({ event: 'dataLoaded', doc: GetArticle });
+
     const {articleReplies: list, ...rest} = GetArticle;
 
     articleReplies = !replyId ? list : list.filter(({reply}) => reply.id === replyId);
     collapsedArticleReplies = !replyId ? [] : list.filter(({reply}) => reply.id !== replyId);
     articleData = rest;
     createdAt = new Date(articleData.createdAt);
-
-    // Send event to Google Analytics
-    gtag('set', { page_title: gaTitle(articleData.text) });
-    gtag('event', 'ViewArticle', {
-      event_category: 'LIFF',
-      event_label: articleId,
-    });
-    articleReplies.forEach(({reply}) => {
-      gtag('event', 'ViewReply', {
-        event_category: 'LIFF',
-        event_label: reply.id,
-      });
-    })
   }
 
   const setViewed = async () => {
@@ -87,6 +76,8 @@
   }
 
   onMount(() => {
+    dataLayer.push({ articleId, replyId });
+
     loadData();
     setViewed();
   });

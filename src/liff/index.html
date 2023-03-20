@@ -2,10 +2,17 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cofacts 真的假的</title>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','<%= htmlWebpackPlugin.options.GTM_ID %>');</script>
+    <!-- End Google Tag Manager -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" href="/static/favicon.png" type="image/png" />
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
-    <title>Cofacts 真的假的</title>
     <script>
       var _rollbarConfig = {
         accessToken: "<%= htmlWebpackPlugin.options.ROLLBAR_CLIENT_TOKEN %>",
@@ -18,16 +25,13 @@
       // End Rollbar Snippet
     </script>
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= htmlWebpackPlugin.options.GA_ID %>"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '<%= htmlWebpackPlugin.options.GA_ID %>', { send_page_view: false });
-    </script>
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= htmlWebpackPlugin.options.GTM_ID %>"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <div id="loading">
       <!-- Removed by index.js -->
       <style>

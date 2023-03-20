@@ -11,14 +11,16 @@ liff.init({ liffId: LIFF_ID }).then(() => {
 
   document.getElementById('loading').remove(); // Cleanup loading
 
-  // Kickstart app loading; fire assertions
-  new App({ target: document.body });
-
   // For devs (and users on LINE desktop, which is rare)
   if (!liff.isLoggedIn()) {
     liff.login({
       // https://github.com/line/line-liff-v2-starter/issues/4
       redirectUri: location.href,
     });
+  } else {
+    dataLayer.push({ userId: liff.getDecodedIDToken().sub });
+
+    // Kickstart app loading; fire assertions
+    new App({ target: document.body });
   }
 });
