@@ -37,7 +37,7 @@ import { parseToJson } from '@cofacts/line-bot-log-parser';
  */
 
 async function main(logFilePath) {
-  const parse = async path => {
+  const parse = async (path) => {
     const status = {
       processedLog: 0,
       writtenUserSettings: 0,
@@ -87,7 +87,5 @@ async function main(logFilePath) {
 
 if (require.main === module) {
   const path = '../rumors-line-bot-logs';
-  main(path)
-    .then(console.log)
-    .catch(console.error);
+  main(path).then(console.log).catch(console.error);
 }

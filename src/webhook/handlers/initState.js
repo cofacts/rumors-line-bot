@@ -56,7 +56,7 @@ export default async function initState(params) {
   const {
     data: { ListArticles },
   } = await gql`
-    query($text: String!) {
+    query ($text: String!) {
       ListArticles(
         filter: { moreLikeThis: { like: $text } }
         orderBy: [{ _score: DESC }]
@@ -88,7 +88,7 @@ export default async function initState(params) {
     visitor.event({ ec: 'UserInput', ea: 'ArticleSearch', el: 'ArticleFound' });
 
     // Track which Article is searched. And set tracking event as non-interactionHit.
-    ListArticles.edges.forEach(edge => {
+    ListArticles.edges.forEach((edge) => {
       visitor.event({
         ec: 'Article',
         ea: 'Search',
@@ -98,7 +98,7 @@ export default async function initState(params) {
     });
 
     const edgesSortedWithSimilarity = ListArticles.edges
-      .map(edge => {
+      .map((edge) => {
         edge.similarity = stringSimilarity.compareTwoStrings(
           // Remove spaces so that we count word's similarities only
           //
@@ -108,7 +108,7 @@ export default async function initState(params) {
         return edge;
       })
       .sort((edge1, edge2) => edge2.similarity - edge1.similarity)
-      .slice(0, 9) /* flex carousel has at most 10 bubbles */;
+      .slice(0, 9); /* flex carousel has at most 10 bubbles */
 
     const hasIdenticalDocs =
       edgesSortedWithSimilarity[0].similarity >= SIMILARITY_THRESHOLD;

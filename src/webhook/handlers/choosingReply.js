@@ -42,9 +42,7 @@ function createAskReplyFeedbackBubble(articleId, replyId) {
           action: {
             type: 'uri',
             label: '👍 ' + t`Yes`,
-            uri: `${
-              process.env.LIFF_URL
-            }?p=feedback&articleId=${articleId}&replyId=${replyId}&vote=UPVOTE`,
+            uri: `${process.env.LIFF_URL}?p=feedback&articleId=${articleId}&replyId=${replyId}&vote=UPVOTE`,
           },
         },
         {
@@ -54,9 +52,7 @@ function createAskReplyFeedbackBubble(articleId, replyId) {
           action: {
             type: 'uri',
             label: '😕 ' + t`No`,
-            uri: `${
-              process.env.LIFF_URL
-            }?p=feedback&articleId=${articleId}&replyId=${replyId}&vote=DOWNVOTE`,
+            uri: `${process.env.LIFF_URL}?p=feedback&articleId=${articleId}&replyId=${replyId}&vote=DOWNVOTE`,
           },
         },
       ],
@@ -174,7 +170,7 @@ export default async function choosingReply(params) {
             data.selectedArticleText,
             GetReply.type
           ),
-        ].filter(m => m),
+        ].filter((m) => m),
       },
     },
   ];

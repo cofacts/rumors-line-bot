@@ -39,7 +39,7 @@ export default async function askingArticleSubmissionConsent(params) {
       let article;
       if (data.searchedText && !data.messageId) {
         const result = await gql`
-          mutation($text: String!) {
+          mutation ($text: String!) {
             CreateArticle(text: $text, reference: { type: LINE }) {
               id
             }
@@ -49,7 +49,7 @@ export default async function askingArticleSubmissionConsent(params) {
       } else if (data.messageId) {
         const proxyUrl = getLineContentProxyURL(data.messageId);
         const result = await gql`
-          mutation($mediaUrl: String!, $articleType: ArticleTypeEnum!) {
+          mutation ($mediaUrl: String!, $articleType: ArticleTypeEnum!) {
             CreateMediaArticle(
               mediaUrl: $mediaUrl
               articleType: $articleType
@@ -123,7 +123,7 @@ export default async function askingArticleSubmissionConsent(params) {
                 !allowNewReplyUpdate &&
                 createNotificationSettingsBubble(),
               createArticleShareBubble(articleUrl),
-            ].filter(m => m),
+            ].filter((m) => m),
           },
         },
       ];

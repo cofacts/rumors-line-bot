@@ -8,7 +8,7 @@ import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
 import choosingArticle from '../handlers/choosingArticle';
 
-export default async function({ data = {} }, event, userId) {
+export default async function ({ data = {} }, event, userId) {
   const proxyUrl = getLineContentProxyURL(event.messageId);
 
   const visitor = ga(userId, '__PROCESS_MEDIA__', proxyUrl);
@@ -29,7 +29,7 @@ export default async function({ data = {} }, event, userId) {
   const {
     data: { ListArticles },
   } = await gql`
-    query($mediaUrl: String!) {
+    query ($mediaUrl: String!) {
       ListArticles(
         filter: {
           mediaUrl: $mediaUrl
@@ -57,7 +57,7 @@ export default async function({ data = {} }, event, userId) {
     visitor.event({ ec: 'UserInput', ea: 'ArticleSearch', el: 'ArticleFound' });
 
     // Track which Article is searched. And set tracking event as non-interactionHit.
-    ListArticles.edges.forEach(edge => {
+    ListArticles.edges.forEach((edge) => {
       visitor.event({
         ec: 'Article',
         ea: 'Search',

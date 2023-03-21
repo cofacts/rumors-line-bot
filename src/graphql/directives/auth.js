@@ -14,7 +14,7 @@ class AuthDirective extends SchemaDirectiveVisitor {
     field.resolve = (...args) => {
       const [, , context] = args;
 
-      check.forEach(checkedField => {
+      check.forEach((checkedField) => {
         if (!context[checkedField]) {
           throw new AuthenticationError('Invalid authentication header');
         }

@@ -172,7 +172,7 @@ it('should create a UserArticleLink when creating a Article', async () => {
   MockDate.reset();
 
   const userArticleLinks = await UserArticleLink.findByUserId(userId);
-  expect(userArticleLinks.map(e => ({ ...e, _id: '_id' }))).toMatchSnapshot();
+  expect(userArticleLinks.map((e) => ({ ...e, _id: '_id' }))).toMatchSnapshot();
 });
 
 it('should ask user to turn on notification settings if they did not turn it on after creating an Article', async () => {

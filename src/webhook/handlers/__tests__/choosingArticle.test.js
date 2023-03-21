@@ -35,8 +35,7 @@ it('should select article by articleId', async () => {
       input: 'article-id',
       timestamp: 1519019734813,
       postback: {
-        data:
-          '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
+        data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
       },
     },
     issuedAt: 1505314295017,
@@ -107,8 +106,7 @@ it('should select article and have OPINIONATED and NOT_ARTICLE replies', async (
       input: 'article-id',
       timestamp: 1519019734813,
       postback: {
-        data:
-          '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
+        data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
       },
     },
     issuedAt: 1511633232970,
@@ -177,8 +175,7 @@ it('should select article with no replies', async () => {
       input: 'article-id',
       timestamp: 1519019734813,
       postback: {
-        data:
-          '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
+        data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
       },
     },
     issuedAt: 1511702208730,
@@ -226,8 +223,7 @@ it('should select article and choose the only one reply for user', async () => {
       input: 'article-id',
       timestamp: 1519019734813,
       postback: {
-        data:
-          '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
+        data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
       },
     },
     issuedAt: 1511702208730,
@@ -301,8 +297,7 @@ it('should select article and slice replies when over 10', async () => {
       input: 'article-id',
       timestamp: 1519019734813,
       postback: {
-        data:
-          '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
+        data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
       },
     },
     issuedAt: 1511633232970,
@@ -401,8 +396,7 @@ it('should create a UserArticleLink when selecting a article', async () => {
       input: 'article-id',
       timestamp: 1519019734813,
       postback: {
-        data:
-          '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
+        data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
       },
     },
     issuedAt: 1505314295017,
@@ -415,5 +409,5 @@ it('should create a UserArticleLink when selecting a article', async () => {
   MockDate.reset();
 
   const userArticleLinks = await UserArticleLink.findByUserId(userId);
-  expect(userArticleLinks.map(e => ({ ...e, _id: '_id' }))).toMatchSnapshot();
+  expect(userArticleLinks.map((e) => ({ ...e, _id: '_id' }))).toMatchSnapshot();
 });

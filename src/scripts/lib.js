@@ -118,7 +118,7 @@ const getNotificationList = async (lastScannedAt, nowWithOffset) => {
       articles.map(({ id }) => id)
     )) {
       // processes a batch of articleIds
-      userArticleLinks.forEach(data => {
+      userArticleLinks.forEach((data) => {
         const uid = data.userId;
         const node = articles.find(({ id }) => id === data.articleId);
         // return if user viewed the article
@@ -145,16 +145,14 @@ const getNotificationList = async (lastScannedAt, nowWithOffset) => {
 
 // When using method LINE_NOTIFY, we guide user to go to chatbot instead of directly opening liff.
 // It's because viewd_article liff will send messages to cofacts chat room.
-const sendNotification = async notificationList => {
-  const message = t`There are new replies for the articles you have searched. Please see 'View article' on cofacts chatbot(${
-    process.env.LINE_FRIEND_URL
-  }) menu.`;
+const sendNotification = async (notificationList) => {
+  const message = t`There are new replies for the articles you have searched. Please see 'View article' on cofacts chatbot(${process.env.LINE_FRIEND_URL}) menu.`;
 
   let userIdList = [];
   for await (const settings of getUserSettingsBatch(
     Object.keys(notificationList)
   )) {
-    settings.forEach(setting => {
+    settings.forEach((setting) => {
       if (setting.userId && setting.allowNewReplyUpdate) {
         userIdList.push(setting.userId);
         if (process.env.NOTIFY_METHOD == 'LINE_NOTIFY')
@@ -181,9 +179,7 @@ const sendNotification = async notificationList => {
 function createNotifyFlexMessage() {
   const btnText = `🆕 ${t`View new replies`}`;
   const message = t`There are new replies for the articles you have searched. Click the button for more details.`;
-  const url = `${
-    process.env.LIFF_URL
-  }?p=articles&utm_source=rumors-line-bot&utm_medium=push`;
+  const url = `${process.env.LIFF_URL}?p=articles&utm_source=rumors-line-bot&utm_medium=push`;
 
   return {
     type: 'flex',

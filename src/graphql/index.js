@@ -50,7 +50,7 @@ export const schema = stitchSchemas({
         CofactsAPIArticle: {
           fieldName: 'GetArticle',
           selectionSet: '{ id }',
-          args: articleObj => ({ id: articleObj.id }),
+          args: (articleObj) => ({ id: articleObj.id }),
         },
       },
     },

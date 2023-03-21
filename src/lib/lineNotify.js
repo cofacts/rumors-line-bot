@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import rollbar from 'src/lib/rollbar';
 
 // https://notify-bot.line.me/doc/en/
-export default async function(token, body = {}, options = {}) {
+export default async function (token, body = {}, options = {}) {
   const URL = `https://notify-api.line.me/api/notify`;
   const resp = await fetch(URL, {
     method: 'POST',

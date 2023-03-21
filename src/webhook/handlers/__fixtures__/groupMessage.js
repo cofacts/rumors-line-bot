@@ -4,8 +4,7 @@ const validArticleWithOneCategory = {
       edges: [
         {
           node: {
-            text:
-              'WHO 最新研究顯示 Covid-19 其實源自黑暗料理界，即日起正名為「黑料病毒」',
+            text: 'WHO 最新研究顯示 Covid-19 其實源自黑暗料理界，即日起正名為「黑料病毒」',
             id: '3nbzf064ks60d',
             articleCategories: [
               {
@@ -110,8 +109,7 @@ const validArticleWithTwoCategories = {
                 reply: {
                   id: 'fake-reply-id3',
                   type: 'RUMOR',
-                  text:
-                    '謠言說進口蘋果會上蠟，所以一定要削皮，但其實不用太擔心。蘋果自己本身就會產生蠟，為了增加保存期限，農家也會將蘋果上蠟。\n蘋果本身就會產生天然蠟來保護果肉，並不讓水分流失，這天然蠟還非常營養，富含花青素、槲皮素等等，能夠抵抗發炎、過敏等反應，而且不是只有蘋果會產生果蠟，還有許多水果，像是甘蔗、檸檬或是李子，也都會產生果蠟。',
+                  text: '謠言說進口蘋果會上蠟，所以一定要削皮，但其實不用太擔心。蘋果自己本身就會產生蠟，為了增加保存期限，農家也會將蘋果上蠟。\n蘋果本身就會產生天然蠟來保護果肉，並不讓水分流失，這天然蠟還非常營養，富含花青素、槲皮素等等，能夠抵抗發炎、過敏等反應，而且不是只有蘋果會產生果蠟，還有許多水果，像是甘蔗、檸檬或是李子，也都會產生果蠟。',
                   reference: 'https://today.line.me/tw/v2/article/m1jBJn',
                 },
                 positiveFeedbackCount: 100,
@@ -244,8 +242,7 @@ const invalidArticleCategory = {
                 reply: {
                   id: 'fake-reply-id',
                   type: 'RUMOR',
-                  text:
-                    '謠言說進口蘋果會上蠟，所以一定要削皮，但其實不用太擔心。蘋果自己本身就會產生蠟，為了增加保存期限，農家也會將蘋果上蠟。\n蘋果本身就會產生天然蠟來保護果肉，並不讓水分流失，這天然蠟還非常營養，富含花青素、槲皮素等等，能夠抵抗發炎、過敏等反應，而且不是只有蘋果會產生果蠟，還有許多水果，像是甘蔗、檸檬或是李子，也都會產生果蠟。',
+                  text: '謠言說進口蘋果會上蠟，所以一定要削皮，但其實不用太擔心。蘋果自己本身就會產生蠟，為了增加保存期限，農家也會將蘋果上蠟。\n蘋果本身就會產生天然蠟來保護果肉，並不讓水分流失，這天然蠟還非常營養，富含花青素、槲皮素等等，能夠抵抗發炎、過敏等反應，而且不是只有蘋果會產生果蠟，還有許多水果，像是甘蔗、檸檬或是李子，也都會產生果蠟。',
                   reference: 'https://today.line.me/tw/v2/article/m1jBJn',
                 },
                 positiveFeedbackCount: 100,
@@ -437,8 +434,7 @@ const threeReplies2 = {
     {
       reply: {
         type: 'OPINIONATED',
-        text:
-          'OPINIONATED reply has highest positiveFeedbackCount, but negativeFeedbackCount > positiveFeedbackCount',
+        text: 'OPINIONATED reply has highest positiveFeedbackCount, but negativeFeedbackCount > positiveFeedbackCount',
       },
       positiveFeedbackCount: 3,
       negativeFeedbackCount: 4,
@@ -459,8 +455,7 @@ const multipleReplies1 = {
     {
       reply: {
         type: 'RUMOR',
-        text:
-          'Rumor reply1 has second highest positiveFeedbackCount and equals to reply3',
+        text: 'Rumor reply1 has second highest positiveFeedbackCount and equals to reply3',
       },
       positiveFeedbackCount: 2,
       negativeFeedbackCount: 0,
@@ -484,8 +479,7 @@ const multipleReplies1 = {
     {
       reply: {
         type: 'NOT_RUMOR',
-        text:
-          'NOT_RUMOR reply has highest positiveFeedbackCount, but negativeFeedbackCount > positiveFeedbackCount',
+        text: 'NOT_RUMOR reply has highest positiveFeedbackCount, but negativeFeedbackCount > positiveFeedbackCount',
       },
       positiveFeedbackCount: 3,
       negativeFeedbackCount: 4,
@@ -493,8 +487,7 @@ const multipleReplies1 = {
     {
       reply: {
         type: 'RUMOR',
-        text:
-          'Rumor reply3 has second highest positiveFeedbackCount and equals to reply1',
+        text: 'Rumor reply3 has second highest positiveFeedbackCount and equals to reply1',
       },
       positiveFeedbackCount: 2,
       negativeFeedbackCount: 0,
@@ -515,8 +508,7 @@ const multipleReplies2 = {
     {
       reply: {
         type: 'RUMOR',
-        text:
-          'Rumor reply2 has highest positiveFeedbackCount, but negativeFeedbackCount > positiveFeedbackCount',
+        text: 'Rumor reply2 has highest positiveFeedbackCount, but negativeFeedbackCount > positiveFeedbackCount',
       },
       positiveFeedbackCount: 4,
       negativeFeedbackCount: 5,
@@ -813,8 +805,7 @@ const invalidMultipleReplies3 = {
     {
       reply: {
         type: 'RUMOR',
-        text:
-          'Rumor reply4 has highest positiveFeedbackCount, but negativeFeedbackCount > positiveFeedbackCount',
+        text: 'Rumor reply4 has highest positiveFeedbackCount, but negativeFeedbackCount > positiveFeedbackCount',
       },
       positiveFeedbackCount: 5,
       negativeFeedbackCount: 6,

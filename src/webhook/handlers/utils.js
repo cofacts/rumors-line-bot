@@ -275,9 +275,7 @@ export function createNotificationSettingsBubble() {
           action: {
             type: 'uri',
             label: t`Go to settings`,
-            uri: `${
-              process.env.LIFF_URL
-            }?p=setting&utm_source=rumors-line-bot&utm_medium=reply-request`,
+            uri: `${process.env.LIFF_URL}?p=setting&utm_source=rumors-line-bot&utm_medium=reply-request`,
           },
           style: 'primary',
           color: '#00B172',

@@ -8,6 +8,6 @@
 export function argsToStyle(args) {
   return Object.entries(args)
     .map(([key, value]) => value && `${key}: ${value};`)
-    .filter(s => s)
+    .filter((s) => s)
     .join('');
 }

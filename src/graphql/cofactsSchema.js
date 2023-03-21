@@ -11,7 +11,7 @@ const cofactsSchema = wrapSchema({
     })
   ),
   executor,
-  transforms: [new RenameTypes(name => `CofactsAPI${name}`)],
+  transforms: [new RenameTypes((name) => `CofactsAPI${name}`)],
 });
 
 export default cofactsSchema;

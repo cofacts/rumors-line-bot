@@ -19,49 +19,51 @@ export const page = writable(params.get('p'));
  *
  * @returns {(variables: object): Promise<object>}
  */
-export const gql = (query, ...substitutions) => variables => {
-  const queryAndVariable = {
-    query: String.raw(query, ...substitutions),
-  };
+export const gql =
+  (query, ...substitutions) =>
+  (variables) => {
+    const queryAndVariable = {
+      query: String.raw(query, ...substitutions),
+    };
 
-  if (variables) queryAndVariable.variables = variables;
+    if (variables) queryAndVariable.variables = variables;
 
-  let status;
-  const lineIDToken = liff.getIDToken();
-  if (!lineIDToken) return Promise.reject('gql Error: token not set.');
+    let status;
+    const lineIDToken = liff.getIDToken();
+    if (!lineIDToken) return Promise.reject('gql Error: token not set.');
 
-  return fetch('/graphql', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `line ${lineIDToken}`,
-    },
-    body: JSON.stringify(queryAndVariable),
-  })
-    .then(r => {
-      status = r.status;
-      return r.json();
+    return fetch('/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `line ${lineIDToken}`,
+      },
+      body: JSON.stringify(queryAndVariable),
     })
-    .then(resp => {
-      if (status === 400) {
-        throw new Error(
-          `GraphQL Error: ${resp.errors
-            .map(({ message }) => message)
-            .join('\n')}`
-        );
-      }
-      if (resp.errors) {
-        // When status is 200 but have error, just print them out.
-        console.error('GraphQL operation contains error:', resp.errors);
-        rollbar.error(
-          'GraphQL error',
-          { body: JSON.stringify(queryAndVariable) },
-          { resp }
-        );
-      }
-      return resp;
-    });
-};
+      .then((r) => {
+        status = r.status;
+        return r.json();
+      })
+      .then((resp) => {
+        if (status === 400) {
+          throw new Error(
+            `GraphQL Error: ${resp.errors
+              .map(({ message }) => message)
+              .join('\n')}`
+          );
+        }
+        if (resp.errors) {
+          // When status is 200 but have error, just print them out.
+          console.error('GraphQL operation contains error:', resp.errors);
+          rollbar.error(
+            'GraphQL error',
+            { body: JSON.stringify(queryAndVariable) },
+            { resp }
+          );
+        }
+        return resp;
+      });
+  };
 
 /**
  * Prevent users from proceeding with external browsers.
@@ -88,7 +90,7 @@ export const assertInClient = () => {
  * @param {string[]} articleIds
  * @returns {Article} Article object from Cofacts API
  */
-export const getArticlesFromCofacts = async articleIds => {
+export const getArticlesFromCofacts = async (articleIds) => {
   if (articleIds.length === 0) return [];
 
   const variables = articleIds.reduce((agg, articleId, idx) => {
@@ -100,11 +102,11 @@ export const getArticlesFromCofacts = async articleIds => {
 
   const query = `
     query GetArticlesLinkedToUser(
-      ${variableKeys.map(k => `$${k}: String!`).join('\n')}
+      ${variableKeys.map((k) => `$${k}: String!`).join('\n')}
     ) {
       ${variableKeys
         .map(
-          k =>
+          (k) =>
             `${k}: GetArticle(id: $${k}) {
               id
               text
@@ -127,11 +129,11 @@ export const getArticlesFromCofacts = async articleIds => {
     },
     body: JSON.stringify({ query, variables }),
   })
-    .then(r => {
+    .then((r) => {
       status = r.status;
       return r.json();
     })
-    .then(resp => {
+    .then((resp) => {
       if (status === 400) {
         throw new Error(
           `getArticlesFromCofacts Error: ${resp.errors
@@ -151,14 +153,14 @@ export const getArticlesFromCofacts = async articleIds => {
           { resp }
         );
       }
-      return variableKeys.map(key => resp.data[key]);
+      return variableKeys.map((key) => resp.data[key]);
     });
 };
 
 /**
  * @param {Object} messages
  */
-export const sendMessages = async messages => {
+export const sendMessages = async (messages) => {
   try {
     await liff.sendMessages(messages);
   } catch (e) {
@@ -175,10 +177,7 @@ export const sendMessages = async messages => {
 
 /** Sanitize HTML tags */
 function escapeHtml(str) {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 const urlRegExp = /(https?:\/\/\S+)/;
@@ -190,7 +189,7 @@ const urlRegExp = /(https?:\/\/\S+)/;
  * @returns {string} HTML string that wraps `str`'s URL with <a> tag with additional props in propStr
  */
 export function linkify(str, propStr = '') {
-  const tokenized = str.split(urlRegExp).map(s => {
+  const tokenized = str.split(urlRegExp).map((s) => {
     if (!s.match(urlRegExp)) return escapeHtml(s);
 
     // Perform URI encode only when necessary (containing " will break HTML string)

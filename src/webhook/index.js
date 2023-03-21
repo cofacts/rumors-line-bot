@@ -39,7 +39,7 @@ const singleUserHandler = async (
       text: t`Line bot is busy, or we cannot handle this message. Maybe you can try again a few minutes later.`,
     },
   ];
-  const timerId = setTimeout(function() {
+  const timerId = setTimeout(function () {
     isReplied = true;
     console.log(
       `[LOG] Timeout ${JSON.stringify({
@@ -259,7 +259,7 @@ const groupHandler = new GroupHandler(groupEventQueue, expiredGroupEventQueue);
 // Routes that is after protection of checkSignature
 //
 router.use('/', checkSignatureAndParse);
-router.post('/', ctx => {
+router.post('/', (ctx) => {
   // Allow free-form request handling.
   // Don't wait for anything before returning 200.
 

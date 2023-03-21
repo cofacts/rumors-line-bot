@@ -50,9 +50,9 @@ function getNewToken(oauth2Client) {
     input: process.stdin,
     output: process.stdout,
   });
-  rl.question('Enter the code from that page here: ', function(code) {
+  rl.question('Enter the code from that page here: ', function (code) {
     rl.close();
-    oauth2Client.getToken(code, function(err, token) {
+    oauth2Client.getToken(code, function (err, token) {
       if (err) {
         console.log('Error while trying to retrieve access token', err);
         return;
@@ -71,7 +71,7 @@ function storeToken(token) {
   fs.appendFile(
     ENV_FILE_PATH,
     `GOOGLE_CREDENTIALS=${JSON.stringify({ token, secrets })}`,
-    function(err) {
+    function (err) {
       if (err) {
         console.log('Error while trying to store access token', err);
       } else {

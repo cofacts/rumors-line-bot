@@ -109,7 +109,7 @@ module.exports = {
             loader: 'url-loader',
             options: {
               limit: 4096,
-              generator: content => svgToMiniDataURI(content.toString()),
+              generator: (content) => svgToMiniDataURI(content.toString()),
             },
           },
         ],

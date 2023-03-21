@@ -182,7 +182,7 @@ describe('finds', () => {
   it('filters by before', () =>
     expect(
       gql`
-        query($after: Cursor) {
+        query ($after: Cursor) {
           userArticleLinks(after: $after) {
             edges {
               cursor

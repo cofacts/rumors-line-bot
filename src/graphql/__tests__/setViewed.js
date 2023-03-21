@@ -6,7 +6,7 @@ import { gql } from '../testUtils';
 
 it('context rejects anonymous users', async () => {
   const result = await gql`
-    mutation($articleId: String!) {
+    mutation ($articleId: String!) {
       setViewed(articleId: $articleId) {
         articleId
       }
@@ -41,7 +41,7 @@ describe('finds', () => {
   it('creates user article link with current date', () =>
     expect(
       gql`
-        mutation($articleId: String!) {
+        mutation ($articleId: String!) {
           setViewed(articleId: $articleId) {
             articleId
             lastViewedAt

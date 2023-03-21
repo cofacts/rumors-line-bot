@@ -57,7 +57,7 @@ it('handles syntax error', async () => {
     {
       foo
     }
-  `().catch(err => err);
+  `().catch((err) => err);
 
   expect(result).toMatchInlineSnapshot(`[Error: GraphQL Error: Syntax error]`);
 });

@@ -48,7 +48,7 @@ afterAll(async () => {
   MockDate.reset();
 });
 
-it('should not reply if result.replies undefined', done => {
+it('should not reply if result.replies undefined', (done) => {
   const param = jobData.joinGroup;
   processGroupEvent.mockImplementationOnce(() => ({
     replyToken: param.replyToken,
@@ -88,7 +88,7 @@ it('should not reply if result.replies undefined', done => {
   });
 });
 
-it('should reply', done => {
+it('should reply', (done) => {
   const jobId = 'testId';
   const param = jobData.textMessage;
   processGroupEvent.mockImplementationOnce(() => ({
@@ -103,7 +103,7 @@ it('should reply', done => {
   // Listen jobQueue.on('completed'),
   // this will run after gh.onCompleted
   // so we can test if the result of gh.onCompleted is correct
-  jobQueue.on('completed', async job => {
+  jobQueue.on('completed', async (job) => {
     // console.log('test 2 completed, id ' + job.id);
     expect(job.id).toBe(jobId);
   });
@@ -137,7 +137,7 @@ it('should reply', done => {
   });
 });
 
-it('should jobQueue failed with TimeoutError and should not add job to expiredQueue', done => {
+it('should jobQueue failed with TimeoutError and should not add job to expiredQueue', (done) => {
   const jobId = 'testId';
   const param = jobData.textMessage;
   processGroupEvent.mockImplementationOnce(() =>
@@ -183,7 +183,7 @@ it('should jobQueue failed with TimeoutError and should not add job to expiredQu
   });
 });
 
-it('should jobQueue failed with TimeoutError and add job to expiredQueue', done => {
+it('should jobQueue failed with TimeoutError and add job to expiredQueue', (done) => {
   const jobId = 'testId';
   const param = jobData.expiredTextMessage;
   processGroupEvent.mockImplementationOnce(() =>
@@ -239,7 +239,7 @@ it('should jobQueue failed with TimeoutError and add job to expiredQueue', done 
   });
 });
 
-it('should pause expiredJobQueue when there are events comming in', done => {
+it('should pause expiredJobQueue when there are events comming in', (done) => {
   const param = jobData.textMessage;
   processGroupEvent.mockImplementation(async () => {
     await sleep(100);
@@ -291,7 +291,7 @@ it('should pause expiredJobQueue when there are events comming in', done => {
   });
 });
 
-it('should activate expiredJobQueue after jobQueue drained', done => {
+it('should activate expiredJobQueue after jobQueue drained', (done) => {
   const expiredJobData = jobData.expiredTextMessage;
   const activeJobData = jobData.textMessage;
 
@@ -372,7 +372,7 @@ it('should activate expiredJobQueue after jobQueue drained', done => {
   });
 });
 
-const getKeys = async q => {
+const getKeys = async (q) => {
   const multi = q.multi();
   multi.keys('*');
   const keys = await multi.exec();
@@ -381,12 +381,12 @@ const getKeys = async q => {
 
 const filterQueueKeys = (q, keys) => {
   const prefix = `${q.keyPrefix}:${q.name}`;
-  return keys.filter(k => k.includes(prefix));
+  return keys.filter((k) => k.includes(prefix));
 };
 
 const deleteKeys = async (q, keys) => {
   const multi = q.multi();
-  keys.forEach(k => multi.del(k));
+  keys.forEach((k) => multi.del(k));
   await multi.exec();
 };
 
@@ -397,7 +397,7 @@ const deleteKeys = async (q, keys) => {
  *
  * @param {Bull.Queue} q
  */
-const emptyQueue = async q => {
+const emptyQueue = async (q) => {
   const keys = await getKeys(q);
   const queueKeys = filterQueueKeys(q, keys);
   await deleteKeys(q, queueKeys);
@@ -408,14 +408,16 @@ const emptyQueue = async q => {
  * @param {Bull.Queue} q
  * @return {boolean}
  */
-const isQueueIdle = async q => {
-  return (await Promise.all([
-    q.getPausedCount(),
-    q.getActiveCount(),
-    q.getWaitingCount(),
-  ])).reduce((acc, v) => {
+const isQueueIdle = async (q) => {
+  return (
+    await Promise.all([
+      q.getPausedCount(),
+      q.getActiveCount(),
+      q.getWaitingCount(),
+    ])
+  ).reduce((acc, v) => {
     return (acc = v === 0 && acc);
   }, true);
 };
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

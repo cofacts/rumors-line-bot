@@ -15,7 +15,7 @@ function gqlMock() {
  * @param {*} returnValue the mock value that gql()()'s returned promise will resolve to.
  * @returns nothing
  */
-gqlMock.__push = function(returnValue) {
+gqlMock.__push = function (returnValue) {
   mockResultQueue.push(returnValue);
 };
 
@@ -25,14 +25,14 @@ gqlMock.__push = function(returnValue) {
  * Invoking this in afterEach() will ensure 1 failed test would not leave side effects to other
  * tests.
  */
-gqlMock.__reset = function() {
+gqlMock.__reset = function () {
   mockResultQueue.length = 0;
 };
 
 /**
  * @returns {Boolean} if the mock response has been depleted
  */
-gqlMock.__finished = function() {
+gqlMock.__finished = function () {
   return mockResultQueue.length === 0;
 };
 

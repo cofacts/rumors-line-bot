@@ -19,7 +19,7 @@ import {
 } from 'src/webhook/handlers/tutorial';
 import ga from 'src/lib/ga';
 
-const sleep = async ms => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = async (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 describe('Webhook router', () => {
   beforeEach(() => {
@@ -71,10 +71,7 @@ describe('Webhook router', () => {
 
     const server = app.listen();
 
-    await request(server)
-      .post('/')
-      .send(eventObject)
-      .expect(200);
+    await request(server).post('/').send(eventObject).expect(200);
 
     /**
      * The HTTP response isn't guaranteed the event handling to be complete
@@ -82,7 +79,7 @@ describe('Webhook router', () => {
     await sleep(500);
 
     expect(
-      (await UserSettings.find({ userId })).map(e => ({ ...e, _id: '_id' }))
+      (await UserSettings.find({ userId })).map((e) => ({ ...e, _id: '_id' }))
     ).toMatchSnapshot();
 
     expect(createGreetingMessage).toHaveBeenCalledTimes(1);
@@ -109,7 +106,7 @@ describe('Webhook router', () => {
     expect(ga.sendMock).toHaveBeenCalledTimes(1);
 
     return new Promise((resolve, reject) => {
-      server.close(error => {
+      server.close((error) => {
         if (error) return reject(error);
         resolve();
       });
@@ -139,10 +136,7 @@ describe('Webhook router', () => {
 
     const server = app.listen();
 
-    await request(server)
-      .post('/')
-      .send(eventObject)
-      .expect(200);
+    await request(server).post('/').send(eventObject).expect(200);
 
     /**
      * The HTTP response isn't guaranteed the event handling to be complete
@@ -150,7 +144,7 @@ describe('Webhook router', () => {
     await sleep(500);
 
     expect(
-      (await UserSettings.find({ userId })).map(e => ({ ...e, _id: '_id' }))
+      (await UserSettings.find({ userId })).map((e) => ({ ...e, _id: '_id' }))
     ).toMatchSnapshot();
 
     expect(createGreetingMessage).not.toHaveBeenCalled();
@@ -159,7 +153,7 @@ describe('Webhook router', () => {
     expect(lineClient.post).not.toHaveBeenCalled();
 
     return new Promise((resolve, reject) => {
-      server.close(error => {
+      server.close((error) => {
         if (error) return reject(error);
         resolve();
       });
@@ -192,17 +186,14 @@ describe('Webhook router', () => {
 
     for (const type of types) {
       eventObject.events[0].type = type;
-      await request(server)
-        .post('/')
-        .send(eventObject)
-        .expect(200);
+      await request(server).post('/').send(eventObject).expect(200);
 
       /**
        * The HTTP response isn't guaranteed the event handling to be complete
        */
       await sleep(500);
       expect(
-        (await UserSettings.find({ userId })).map(e => ({ ...e, _id: '_id' }))
+        (await UserSettings.find({ userId })).map((e) => ({ ...e, _id: '_id' }))
       ).toMatchSnapshot();
     }
 
@@ -210,7 +201,7 @@ describe('Webhook router', () => {
     expect(lineClient.post).toHaveBeenCalledTimes(2);
 
     return new Promise((resolve, reject) => {
-      server.close(error => {
+      server.close((error) => {
         if (error) return reject(error);
         resolve();
       });
@@ -246,10 +237,7 @@ describe('Webhook router', () => {
 
     const server = app.listen();
 
-    await request(server)
-      .post('/')
-      .send(eventObject)
-      .expect(200);
+    await request(server).post('/').send(eventObject).expect(200);
 
     /**
      * The HTTP response isn't guaranteed the event handling to be complete
@@ -262,7 +250,7 @@ describe('Webhook router', () => {
     expect(redis.set.mock.calls).toMatchSnapshot();
 
     return new Promise((resolve, reject) => {
-      server.close(error => {
+      server.close((error) => {
         if (error) return reject(error);
         resolve();
       });
