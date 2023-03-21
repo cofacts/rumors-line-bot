@@ -10,6 +10,13 @@ import type {
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
 import gql from 'src/lib/gql';
+
+import type {
+  CreateHighlightContentsHighlightFragment,
+  CreateReplyMessagesReplyFragment,
+  CreateReplyMessagesArticleFragment,
+  CreateReferenceWordsReplyFragment,
+} from 'typegen/graphql';
 import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
 import { sign } from 'src/lib/jwt';
 
@@ -86,10 +93,7 @@ export function createFlexMessageText(text = '') {
 export function createReferenceWords({
   reference,
   type,
-}: /** The reply object */ {
-  reference: string;
-  type: string;
-}) {
+}: CreateReferenceWordsReplyFragment) {
   const prompt = type === 'OPINIONATED' ? t`different opinions` : t`references`;
 
   if (reference) return `${prompt}：${reference}`;
@@ -383,7 +387,7 @@ export function createSuggestOtherFactCheckerReply(): Message {
  * @returns Flex text contents
  */
 export function createHighlightContents(
-  highlight: { text: string; hyperlinks: { title: string; summary: string }[] },
+  highlight: CreateHighlightContentsHighlightFragment,
   oriText = '',
   lettersLimit = 200,
   contentsLimit = 4000
@@ -404,19 +408,19 @@ export function createHighlightContents(
 
   const summaries = highlight.hyperlinks?.reduce<string[]>(
     (result, hyperlink) => {
-      if (hyperlink.summary) result.push(hyperlink.summary);
+      if (hyperlink?.summary) result.push(hyperlink.summary);
       return result;
     },
     []
   );
   const titles = highlight.hyperlinks?.reduce<string[]>((result, hyperlink) => {
-    if (hyperlink.title) result.push(hyperlink.title);
+    if (hyperlink?.title) result.push(hyperlink.title);
     return result;
   }, []);
   const text =
     highlight.text ||
-    (summaries.length ? summaries.join('\n') : undefined) ||
-    (titles.length ? titles.join('\n') : undefined);
+    (summaries?.length ? summaries.join('\n') : undefined) ||
+    (titles?.length ? titles.join('\n') : undefined);
 
   // fix issue 220 (api bug)
   // return original text if highlight isn't null but text and hyperlinks are null
@@ -487,12 +491,16 @@ function createHighlightContent(text: ReadonlyArray<string>) {
 }
 
 /**
- * @param {object} reply `Reply` type from rumors-api
- * @param {object} article `Article` type from rumors-api
- * @param {string} selectedArticleId
- * @returns {object[]} message object array
+ * @param reply `Reply` type from rumors-api
+ * @param article `Article` type from rumors-api
+ * @param selectedArticleId
+ * @returns message object array
  */
-export function createReplyMessages(reply, article, selectedArticleId) {
+export function createReplyMessages(
+  reply: CreateReplyMessagesReplyFragment,
+  article: CreateReplyMessagesArticleFragment,
+  selectedArticleId: string
+): Message[] {
   const articleUrl = getArticleURL(selectedArticleId);
   const typeStr = createTypeWords(reply.type).toLocaleLowerCase();
 
@@ -501,7 +509,7 @@ export function createReplyMessages(reply, article, selectedArticleId) {
       type: 'text',
       text: `💡 ${t`Someone on the internet replies to the message:`}`,
     },
-    ...commonReplyMessages(reply, typeStr, article.replyCount, articleUrl),
+    ...commonReplyMessages(reply, typeStr, article.replyCount ?? 0, articleUrl),
   ];
 }
 
@@ -543,11 +551,11 @@ export async function createAIReply(articleId, userId) {
  * @returns {object[]} message object array
  */
 export function createGroupReplyMessages(
-  input,
-  reply,
-  articleReplyCount,
-  selectedArticleId
-) {
+  input: string,
+  reply: CreateReplyMessagesReplyFragment,
+  articleReplyCount: number,
+  selectedArticleId: string
+): Message[] {
   const articleUrl = getArticleURL(selectedArticleId);
   const typeStr = createTypeWords(reply.type).toLocaleLowerCase();
   // same as initState.js
@@ -561,11 +569,16 @@ export function createGroupReplyMessages(
   ];
 }
 
-function commonReplyMessages(reply, typeStr, articleReplyCount, articleUrl) {
+function commonReplyMessages(
+  reply: CreateReplyMessagesReplyFragment,
+  typeStr: string,
+  articleReplyCount: number,
+  articleUrl: string
+): Message[] {
   return [
     {
       type: 'text',
-      text: ellipsis(reply.text, 2000),
+      text: ellipsis(reply.text ?? '', 2000),
     },
     {
       type: 'text',

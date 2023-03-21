@@ -26,7 +26,9 @@
     "cofactsapi": "babel-node -r dotenv/config src/scripts/introspectCofactsApi.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "typegen": "graphql-codegen",
+    "posttypegen": "eslint --fix typegen"
   },
   "repository": {
     "type": "git",
@@ -88,6 +90,8 @@
     "@babel/plugin-syntax-import-meta": "^7.2.0",
     "@babel/preset-env": "^7.9.0",
     "@cofacts/line-bot-log-parser": "0.0.1",
+    "@graphql-codegen/cli": "^3.2.2",
+    "@graphql-codegen/client-preset": "^2.1.1",
     "@storybook/addon-actions": "^6.2.9",
     "@storybook/addon-essentials": "^6.2.9",
     "@storybook/addon-links": "^6.2.9",
