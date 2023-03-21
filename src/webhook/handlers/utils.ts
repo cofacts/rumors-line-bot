@@ -1,3 +1,12 @@
+import type {
+  Action,
+  Message,
+  FlexSpan,
+  FlexBubble,
+  EventBase,
+  TextMessage,
+  FlexMessage,
+} from '@line/bot-sdk';
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
 import gql from 'src/lib/gql';
@@ -7,19 +16,19 @@ import { sign } from 'src/lib/jwt';
 const splitter = new GraphemeSplitter();
 
 /**
- * @param {string} label - Postback action button text, max 20 words
- * @param {string} input - Input when pressed
- * @param {string} displayText - Text to display in chat window.
- * @param {string} sessionId - Current session ID
- * @param {string} state - the state that processes the postback
+ * @param label - Postback action button text, max 20 words
+ * @param input - Input when pressed
+ * @param displayText - Text to display in chat window.
+ * @param sessionId - Current session ID
+ * @param state - the state that processes the postback
  */
 export function createPostbackAction(
-  label,
-  input,
-  displayText,
-  sessionId,
-  state
-) {
+  label: string,
+  input: string,
+  displayText: string,
+  sessionId: string,
+  state: string
+): Action {
   return {
     type: 'postback',
     label,
@@ -33,11 +42,11 @@ export function createPostbackAction(
 }
 
 /**
- * @param {number} positive - Count of positive feedbacks
- * @param {number} negative - Count of negative feedbacks
- * @return {string} Description of feedback counts
+ * @param positive - Count of positive feedbacks
+ * @param negative - Count of negative feedbacks
+ * @return  Description of feedback counts
  */
-export function createFeedbackWords(positive, negative) {
+export function createFeedbackWords(positive: number, negative: number) {
   if (positive + negative === 0) return t`No feedback yet`;
   let result = '';
   if (positive)
@@ -72,12 +81,15 @@ export function createFlexMessageText(text = '') {
 }
 
 /**
- * @param {object} reply The reply object
- * @param {string} reply.reference
- * @param {string} reply.type
- * @returns {string} The reference message to send
+ * @returns The reference message to send
  */
-export function createReferenceWords({ reference, type }) {
+export function createReferenceWords({
+  reference,
+  type,
+}: /** The reply object */ {
+  reference: string;
+  type: string;
+}) {
   const prompt = type === 'OPINIONATED' ? t`different opinions` : t`references`;
 
   if (reference) return `${prompt}：${reference}`;
@@ -85,12 +97,14 @@ export function createReferenceWords({ reference, type }) {
 }
 
 /**
- * @param {string} sessionId - Search session ID
- * @returns {object} reply message object
+ * @param sessionId - Search session ID
+ * @returns reply message object
  */
-export function createAskArticleSubmissionConsentReply(sessionId) {
+export function createAskArticleSubmissionConsentReply(
+  sessionId: string
+): Message {
   const btnText = `🆕 ${t`Report to database`}`;
-  const spans = [
+  const spans: FlexSpan[] = [
     {
       type: 'span',
       text: t`Currently we don’t have this message in our database. If you think it is most likely a rumor, `,
@@ -166,12 +180,10 @@ export function createAskArticleSubmissionConsentReply(sessionId) {
 }
 
 /**
- * @param {string} text
- * @param {number} limit
- * @return {string} if the text length is lower than limit, return text; else, return
- *                  text with ellipsis.
+ * @return if the text length is lower than limit, return text; else, return
+ *         text with ellipsis.
  */
-export function ellipsis(text, limit, ellipsis = '⋯⋯') {
+export function ellipsis(text: string, limit: number, ellipsis = '⋯⋯') {
   if (splitter.countGraphemes(text) < limit) return text;
 
   return (
@@ -183,11 +195,9 @@ export function ellipsis(text, limit, ellipsis = '⋯⋯') {
 }
 
 /**
- * @param {string} articleUrl
- * @param {string} reason
- * @returns {object} Reply object with sharing buttings
+ * @returns Reply object with sharing buttings
  */
-export function createArticleShareBubble(articleUrl) {
+export function createArticleShareBubble(articleUrl: string): FlexBubble {
   return {
     type: 'bubble',
     body: {
@@ -240,7 +250,7 @@ export function createArticleShareBubble(articleUrl) {
 /**
  * @returns {object} Bubble object that asks user to turn on notification
  */
-export function createNotificationSettingsBubble() {
+export function createNotificationSettingsBubble(): FlexBubble {
   return {
     type: 'bubble',
     header: {
@@ -293,10 +303,10 @@ export function createNotificationSettingsBubble() {
 export class ManipulationError extends Error {
   /**
    *
-   * @param {string} instruction - A message telling user why the manipulation is wrong and what they
-   *                               should do instead.
+   * @param instruction - A message telling user why the manipulation is wrong and what they
+   *                      should do instead.
    */
-  constructor(instruction) {
+  constructor(instruction: string) {
     super(instruction);
   }
 }
@@ -306,10 +316,9 @@ export class ManipulationError extends Error {
  */
 export class TimeoutError extends Error {
   /**
-   *
-   * @param {string} instruction
+   * @param instruction
    */
-  constructor(instruction) {
+  constructor(instruction: string) {
     super(instruction);
   }
 }
@@ -320,10 +329,11 @@ export const MANUAL_FACT_CHECKERS = [
     value: 'https://line.me/R/ti/p/%40imygopen',
   },
 ];
+
 /**
  * @returns {object} Reply object with buttons that goes to other fact checkers
  */
-export function createSuggestOtherFactCheckerReply() {
+export function createSuggestOtherFactCheckerReply(): Message {
   const suggestion = t`We suggest forwarding the message to the following fact-checkers instead. They have 💁 1-on-1 Q&A service to respond to your questions.`;
   return {
     type: 'flex',
@@ -366,19 +376,19 @@ export function createSuggestOtherFactCheckerReply() {
 }
 
 /**
- * @param {{ text: string, hyperlinks: {title: string, summary: string }[]}} highlight - highlight object
- * @param {string} oriText - Original text, used when highlightText null or undefined.
- * @param {string} lettersLimit - Default to be 200 (maxLine: 6 * 30). In en, one line is 30 letters most; In zh-tw, one line is 16 letters most.
- * @param {string} contentsLimit - Default to be 4000. Flex message carousel 50K limit. Flex message allows at most 10 bubbles so bubble contents should less than 5000 - 850(bubble without contents).
- * @returns {object[]} Flex text contents
+ * @param highlight - highlight object
+ * @param oriText - Original text, used when highlightText null or undefined.
+ * @param lettersLimit - Default to be 200 (maxLine: 6 * 30). In en, one line is 30 letters most; In zh-tw, one line is 16 letters most.
+ * @param contentsLimit - Default to be 4000. Flex message carousel 50K limit. Flex message allows at most 10 bubbles so bubble contents should less than 5000 - 850(bubble without contents).
+ * @returns Flex text contents
  */
 export function createHighlightContents(
-  highlight,
+  highlight: { text: string; hyperlinks: { title: string; summary: string }[] },
   oriText = '',
   lettersLimit = 200,
   contentsLimit = 4000
 ) {
-  let result = [];
+  const result: FlexSpan[] = [];
   let totalLength = 4; // 4 comes from JSON.stringify([]).length;
   let totalLetters = 0;
 
@@ -392,11 +402,14 @@ export function createHighlightContents(
     ];
   }
 
-  const summaries = highlight.hyperlinks?.reduce((result, hyperlink) => {
-    if (hyperlink.summary) result.push(hyperlink.summary);
-    return result;
-  }, []);
-  const titles = highlight.hyperlinks?.reduce((result, hyperlink) => {
+  const summaries = highlight.hyperlinks?.reduce<string[]>(
+    (result, hyperlink) => {
+      if (hyperlink.summary) result.push(hyperlink.summary);
+      return result;
+    },
+    []
+  );
+  const titles = highlight.hyperlinks?.reduce<string[]>((result, hyperlink) => {
     if (hyperlink.title) result.push(hyperlink.title);
     return result;
   }, []);
@@ -416,7 +429,7 @@ export function createHighlightContents(
     ];
   }
 
-  for (let highlightPair of text.split('</HIGHLIGHT>')) {
+  for (const highlightPair of text.split('</HIGHLIGHT>')) {
     const highlightContent = createHighlightContent(
       highlightPair.split('<HIGHLIGHT>')
     );
@@ -437,11 +450,15 @@ export function createHighlightContents(
 }
 
 /**
- * @param {string[]} text - array[0] is normal text ,array[1] is highlight text, both may be null or undefined
- * @returns {{ defaultContentLength: number, lettersLength: number, content: string[] }} Flex text contents
+ * @param text - array[0] is normal text ,array[1] is highlight text, both may be null or undefined
+ * @returns Flex text contents
  * */
-function createHighlightContent(text) {
-  let result = { defaultContentLength: 0, lettersLength: 0, content: [] };
+function createHighlightContent(text: ReadonlyArray<string>) {
+  const result = {
+    defaultContentLength: 0,
+    lettersLength: 0,
+    content: [] as FlexSpan[],
+  };
 
   if (text[0]) {
     result.content.push({
@@ -568,11 +585,13 @@ function commonReplyMessages(reply, typeStr, articleReplyCount, articleUrl) {
 }
 
 /**
- * @param {string} timestamp Line message event timestamp
- * @returns {boolean}
+ * @param timestamp Line message event timestamp
  */
-export function isEventExpired(timestamp, milliseconds = 30 * 1000) {
-  var timeElapsed = Date.now() - new Date(timestamp).getTime();
+export function isEventExpired(
+  timestamp: EventBase['timestamp'],
+  milliseconds = 30 * 1000
+) {
+  const timeElapsed = Date.now() - new Date(timestamp).getTime();
   // console.log('timeElapsed' + timeElapsed);
   return timeElapsed > milliseconds;
 }
@@ -580,10 +599,10 @@ export function isEventExpired(timestamp, milliseconds = 30 * 1000) {
 export const POSTBACK_NO_ARTICLE_FOUND = '__NO_ARTICLE_FOUND__';
 
 /**
- * @param {string} articleId
- * @returns {object} Flex bubble messasge object that opens a Comment LIFF
+ * @param articleId
+ * @returns Flex bubble messasge object that opens a Comment LIFF
  */
-export function createCommentBubble(articleId) {
+export function createCommentBubble(articleId: string): FlexBubble {
   return {
     type: 'bubble',
     header: {
@@ -640,7 +659,9 @@ export function createCommentBubble(articleId) {
  *   type & wrap is specified by default.
  * @returns {Object} A single flex bubble message
  */
-export function createTextMessage(textProps) {
+export function createTextMessage(
+  textProps: Omit<TextMessage, 'type'>
+): FlexMessage {
   return {
     type: 'flex',
     altText: textProps.text,
@@ -666,10 +687,10 @@ export const POSTBACK_NO = '__POSTBACK_NO__';
 
 /**
  *
- * @param {string} sessionId - Chatbot session ID
+ * @param sessionId - Chatbot session ID
  * @returns {object} Messaging API message object
  */
-export function createArticleSourceReply(sessionId) {
+export function createArticleSourceReply(sessionId: string) {
   const question = t`Did you forward this message as a whole to me from the LINE app?`;
 
   return {
@@ -731,10 +752,9 @@ export function createArticleSourceReply(sessionId) {
 const LINE_CONTENT_EXP_SEC = 300; // LINE content proxy JWT is only valid for 5 min
 
 /**
- * @param {string} messageId - The line messageId
- * @returns {string}
+ * @param messageId - The line messageId
  */
-export function getLineContentProxyURL(messageId) {
+export function getLineContentProxyURL(messageId: string) {
   const jwt = sign({
     messageId,
     exp: Math.round(Date.now() / 1000) + LINE_CONTENT_EXP_SEC,
