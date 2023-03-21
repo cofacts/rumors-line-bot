@@ -12,6 +12,7 @@ module.exports = {
         },
       },
     ],
+    '@babel/preset-typescript',
   ],
   plugins: [
     ['ttag', { resolve: { translations: `i18n/${locale}.po` } }],

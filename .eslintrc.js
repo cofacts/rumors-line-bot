@@ -7,7 +7,7 @@ module.exports = {
     'prettier',
   ],
   env: { node: true, es6: true, jest: true },
-  plugins: ['prettier'],
+  plugins: ['prettier', 'import'],
   rules: {
     'prettier/prettier': [
       'error',
@@ -19,8 +19,19 @@ module.exports = {
     'no-console': 'off', // just use console :P
   },
   settings: {
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts'],
+    },
     'import/resolver': {
       'babel-module': {},
+      typescript: {},
     },
   },
+  overrides: [
+    {
+      files: ['**/*.ts'],
+      extends: ['plugin:@typescript-eslint/recommended'],
+      plugins: ['@typescript-eslint'],
+    },
+  ],
 };
