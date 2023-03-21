@@ -230,6 +230,10 @@ To use Dialogflow,
 
 [Create](https://support.google.com/analytics/answer/2709829) a custom (user scope) dimemsion for `Message Source`, and a custom (hit scope) metrix for `Group Members Count`. Both of them default index is 1. If the indexes GA created are not 1, find `cd1` and `cm1` in the code and change them to `cd$theIndexGACreated` and `cm$theIndexGACreated` respectively.
 
+### Typescript
+
+Use `npm run typecheck` to check types.
+
 ---
 
 ## Production Deployment
