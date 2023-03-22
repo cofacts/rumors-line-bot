@@ -24,6 +24,7 @@
     "clean:liff": "rm -rf liff",
     "notify": "babel-node -r dotenv/config src/scripts/scanRepliesAndNotify.js",
     "cofactsapi": "babel-node -r dotenv/config src/scripts/introspectCofactsApi.js",
+    "postcofactsapi": "npm run typegen",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "typecheck": "tsc",

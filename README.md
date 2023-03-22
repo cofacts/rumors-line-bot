@@ -232,7 +232,7 @@ To use Dialogflow,
 
 ### Typescript
 
-Use `npm run typecheck` to check types.
+Use `npm run typecheck` to check types; use `npm run typegen` to generate type from GraphQL schema.
 
 ---
 
