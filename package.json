@@ -140,9 +140,6 @@
   "jest": {
     "testEnvironment": "node",
     "collectCoverage": true,
-    "roots": [
-      "<rootDir>/src"
-    ],
     "coveragePathIgnorePatterns": [
       "/__fixtures__/"
     ],
