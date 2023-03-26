@@ -112,7 +112,7 @@ export default async function choosingArticle(params) {
   const {
     data: { GetArticle },
   } = await gql`
-    query($id: String!) {
+    query ($id: String!) {
       GetArticle(id: $id) {
         text
         replyCount
@@ -168,7 +168,7 @@ export default async function choosingArticle(params) {
 
   if (articleReplies.length !== 0) {
     const countOfType = {};
-    articleReplies.forEach(ar => {
+    articleReplies.forEach((ar) => {
       // Track which Reply is searched. And set tracking event as non-interactionHit.
       visitor.event({ ec: 'Reply', ea: 'Search', el: ar.reply.id, ni: true });
 
@@ -185,22 +185,16 @@ export default async function choosingArticle(params) {
           ? t`${countOfType.RUMOR} of them say it ❌ contains misinformation.`
           : '',
         countOfType.NOT_RUMOR > 0
-          ? t`${
-              countOfType.NOT_RUMOR
-            } of them says it ⭕ contains true information.`
+          ? t`${countOfType.NOT_RUMOR} of them says it ⭕ contains true information.`
           : '',
         countOfType.OPINIONATED > 0
-          ? t`${
-              countOfType.OPINIONATED
-            } of them says it 💬 contains personal perspective.`
+          ? t`${countOfType.OPINIONATED} of them says it 💬 contains personal perspective.`
           : '',
         countOfType.NOT_ARTICLE > 0
-          ? t`${
-              countOfType.NOT_ARTICLE
-            } of them says it ⚠️️ is out of scope of Cofacts.`
+          ? t`${countOfType.NOT_ARTICLE} of them says it ⚠️️ is out of scope of Cofacts.`
           : '',
       ]
-        .filter(s => s)
+        .filter((s) => s)
         .join('\n');
 
     const replyOptions = articleReplies
@@ -378,7 +372,7 @@ Don’t trust the message just yet!`,
               createNotificationSettingsBubble(),
 
             createArticleShareBubble(articleUrl),
-          ].filter(m => m),
+          ].filter((m) => m),
         },
       },
     ];

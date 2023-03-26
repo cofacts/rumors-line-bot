@@ -27,7 +27,7 @@ export default async function processText(event, groupId) {
   const visitor = ga(groupId, '__INIT__', event.input, event.source.type);
 
   const inputSimilarityWithIntro = Math.max(
-    ...INTRO_KEYWORDS.map(keyword => {
+    ...INTRO_KEYWORDS.map((keyword) => {
       return stringSimilarity.compareTwoStrings(
         event.input.toLowerCase(),
         keyword
@@ -65,7 +65,7 @@ export default async function processText(event, groupId) {
   const {
     data: { ListArticles },
   } = await gql`
-    query($text: String!) {
+    query ($text: String!) {
       ListArticles(
         filter: { moreLikeThis: { like: $text } }
         orderBy: [{ _score: DESC }]
@@ -103,7 +103,7 @@ export default async function processText(event, groupId) {
     visitor.event({ ec: 'UserInput', ea: 'ArticleSearch', el: 'ArticleFound' });
 
     // Track which Article is searched. And set tracking event as non-interactionHit.
-    ListArticles.edges.forEach(edge => {
+    ListArticles.edges.forEach((edge) => {
       visitor.event({
         ec: 'Article',
         ea: 'Search',
@@ -113,7 +113,7 @@ export default async function processText(event, groupId) {
     });
 
     const edgesSortedWithSimilarity = ListArticles.edges
-      .map(edge => {
+      .map((edge) => {
         edge.similarity = stringSimilarity.compareTwoStrings(
           // Remove spaces so that we count word's similarities only
           //
@@ -126,15 +126,16 @@ export default async function processText(event, groupId) {
 
     const hasIdenticalDocs =
       edgesSortedWithSimilarity[0].similarity >= SIMILARITY_THRESHOLD;
-    const hasValidCategory = edgesSortedWithSimilarity[0].node.articleCategories.reduce(
-      (acc, articleCategory) =>
-        (acc =
-          acc ||
-          (VALID_CATEGORIES.includes(articleCategory.categoryId) &&
-            articleCategory.positiveFeedbackCount >=
-              articleCategory.negativeFeedbackCount)),
-      false
-    );
+    const hasValidCategory =
+      edgesSortedWithSimilarity[0].node.articleCategories.reduce(
+        (acc, articleCategory) =>
+          (acc =
+            acc ||
+            (VALID_CATEGORIES.includes(articleCategory.categoryId) &&
+              articleCategory.positiveFeedbackCount >=
+                articleCategory.negativeFeedbackCount)),
+        false
+      );
 
     if (hasIdenticalDocs) {
       const node = edgesSortedWithSimilarity[0].node;
@@ -222,7 +223,7 @@ export function getValidArticleReply({ articleReplies }) {
 
     // get first non-rumor articleReply (it may be undefined)
     const nonRumorAR = postiveArticleReplies.find(
-      ar => ar.reply.type !== 'RUMOR'
+      (ar) => ar.reply.type !== 'RUMOR'
     );
 
     // return candidate if its positiveFeedbackCount > first non-rumor articleReply

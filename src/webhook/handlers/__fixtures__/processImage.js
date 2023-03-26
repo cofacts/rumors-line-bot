@@ -38,7 +38,7 @@ export const twelveImageArticles = {
   data: {
     ListArticles: {
       edges: Array.from(Array(6)).reduce(
-        arr =>
+        (arr) =>
           arr.concat([
             {
               score: 2,

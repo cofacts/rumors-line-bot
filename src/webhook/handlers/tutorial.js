@@ -88,9 +88,7 @@ function createQuickReplyPostbackItem(label, sessionId, postbackState) {
  */
 export function createGreetingMessage() {
   const text = t`This is a chatbot that looks up suspicious forwarded messages for you. Here is how to use me:`;
-  const imageUrl = `${
-    process.env.RUMORS_LINE_BOT_URL
-  }/static/img/greeting.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
+  const imageUrl = `${process.env.RUMORS_LINE_BOT_URL}/static/img/greeting.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
 
   return {
     type: 'flex',
@@ -112,18 +110,10 @@ export function createTutorialMessage(sessionId) {
   const textStep3 = `3. ${t`Select Cofacts to share`}`;
   const textStep4 = `4. ${t`Cofacts replies with a crowd-sourced fact-check or chatbot replies`}`;
 
-  const imageUrlStep1 = `${
-    process.env.RUMORS_LINE_BOT_URL
-  }/static/img/tutorial1.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
-  const imageUrlStep2 = `${
-    process.env.RUMORS_LINE_BOT_URL
-  }/static/img/tutorial2.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
-  const imageUrlStep3 = `${
-    process.env.RUMORS_LINE_BOT_URL
-  }/static/img/tutorial3.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
-  const imageUrlStep4 = `${
-    process.env.RUMORS_LINE_BOT_URL
-  }/static/img/tutorial4.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
+  const imageUrlStep1 = `${process.env.RUMORS_LINE_BOT_URL}/static/img/tutorial1.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
+  const imageUrlStep2 = `${process.env.RUMORS_LINE_BOT_URL}/static/img/tutorial2.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
+  const imageUrlStep3 = `${process.env.RUMORS_LINE_BOT_URL}/static/img/tutorial3.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
+  const imageUrlStep4 = `${process.env.RUMORS_LINE_BOT_URL}/static/img/tutorial4.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
 
   const askForForwardingMessage = t`Wanna try it out? Just forward a message to me!`;
   const buttonLabel = TUTORIAL_STEPS['SIMULATE_FORWARDING_MESSAGE'];
@@ -187,9 +177,7 @@ export function createTutorialMessage(sessionId) {
  */
 function createEndingMessage() {
   const text = `${t`This is the end of the tutorial. Next time when you receive a suspicious message, don't hesitate to forward it to me!`} 🤗`;
-  const imageUrl = `${
-    process.env.RUMORS_LINE_BOT_URL
-  }/static/img/endoftutorial.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
+  const imageUrl = `${process.env.RUMORS_LINE_BOT_URL}/static/img/endoftutorial.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
 
   return {
     type: 'flex',
@@ -210,8 +198,7 @@ function createMockReplyMessages(sessionId) {
     type: 'RUMOR',
     reference:
       'http://www.mygopen.com/2017/06/blog-post_26.html\n神奇的地瓜葉？搭配鮮奶遠離三高？謠言讓醫生說：有痛風或是腎臟不好的人要小心！',
-    text:
-      '基本上地瓜葉其實單吃就有效果，牛奶、豆漿可加可不加，民眾不用迷信。 三高或是糖尿病的患者還是要搭配醫生的治療，不能單靠吃地瓜葉就想將身體調養好，民眾千萬要注意。\n另外地瓜葉內還有鉀和鈉，對於有痛風或是腎臟不好的民眾反而會造成負擔，因此並不建議食用。',
+    text: '基本上地瓜葉其實單吃就有效果，牛奶、豆漿可加可不加，民眾不用迷信。 三高或是糖尿病的患者還是要搭配醫生的治療，不能單靠吃地瓜葉就想將身體調養好，民眾千萬要注意。\n另外地瓜葉內還有鉀和鈉，對於有痛風或是腎臟不好的民眾反而會造成負擔，因此並不建議食用。',
   };
   const article = { replyCount: 1 };
   const selectedArticleId = '2sn80q5l5mzi0';
@@ -241,9 +228,7 @@ function createMockReplyMessages(sessionId) {
  */
 function createPermissionSetupDialog(message) {
   const buttonLabel = t`Setup permission`;
-  const buttonUri = `${
-    process.env.LIFF_URL
-  }?p=setting&utm_source=rumors-line-bot&utm_medium=tutorial`;
+  const buttonUri = `${process.env.LIFF_URL}?p=setting&utm_source=rumors-line-bot&utm_medium=tutorial`;
 
   return {
     type: 'flex',
@@ -416,7 +401,7 @@ export default function tutorial(params) {
     ec: 'Tutorial',
     ea: 'Step',
     el: Object.keys(TUTORIAL_STEPS).find(
-      key => TUTORIAL_STEPS[key] === event.input
+      (key) => TUTORIAL_STEPS[key] === event.input
     ),
   });
   visitor.send();

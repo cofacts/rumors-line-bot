@@ -156,11 +156,8 @@ describe('processGroupEvent', () => {
   });
 
   it('should reject expired text message event', async () => {
-    const {
-      type,
-      replyToken,
-      ...otherFields
-    } = messageEvent.expiredTextMessage;
+    const { type, replyToken, ...otherFields } =
+      messageEvent.expiredTextMessage;
     const param = {
       replyToken,
       type,

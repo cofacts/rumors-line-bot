@@ -29,7 +29,7 @@ app.use(session({}, app));
 app.use(passport.initialize());
 app.use(passport.session());
 
-router.get('/', ctx => {
+router.get('/', (ctx) => {
   ctx.body = JSON.stringify({ version });
 });
 

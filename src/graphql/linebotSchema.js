@@ -9,17 +9,15 @@ const lineSchema = makeExecutableSchema({
   resolvers: fs
     .readdirSync(path.join(__dirname, 'resolvers'))
     .reduce((resolvers, fileName) => {
-      resolvers[
-        fileName.replace(/\.js$/, '')
-      ] = require(`./resolvers/${fileName}`).default;
+      resolvers[fileName.replace(/\.js$/, '')] =
+        require(`./resolvers/${fileName}`).default;
       return resolvers;
     }, {}),
   schemaDirectives: fs
     .readdirSync(path.join(__dirname, 'directives'))
     .reduce((directives, fileName) => {
-      directives[
-        fileName.replace(/\.js$/, '')
-      ] = require(`./directives/${fileName}`).default;
+      directives[fileName.replace(/\.js$/, '')] =
+        require(`./directives/${fileName}`).default;
       return directives;
     }, {}),
   resolverValidationOptions: {

@@ -23,7 +23,7 @@ export default async function scanRepliesAndNotify() {
 /* istanbul ignore if */
 if (require.main === module) {
   scanRepliesAndNotify()
-    .catch(e => {
+    .catch((e) => {
       console.error(e);
       rollbar.error(e);
       process.exit(1);

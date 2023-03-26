@@ -13,16 +13,16 @@ const ClassTable = {
 };
 
 ajv.addKeyword('instanceOf', {
-  compile: function(className) {
+  compile: function (className) {
     var Class = ClassTable[className];
-    return function(data) {
+    return function (data) {
       return data instanceof Class;
     };
   },
 });
 
 export function compile(schemaName) {
-  return data => {
+  return (data) => {
     const validate = ajv.compile(SCHEMAS[schemaName]);
     const valid = validate(data);
     return { valid, errors: validate.errors };

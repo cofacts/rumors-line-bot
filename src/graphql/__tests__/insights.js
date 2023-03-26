@@ -30,7 +30,7 @@ it('MessagingAPIDate throws error on invalid date', async () => {
   `);
 
   const valueResult = await gql`
-    query($date: MessagingAPIDate!) {
+    query ($date: MessagingAPIDate!) {
       insights {
         messageDelivery(date: $date) {
           status
@@ -216,7 +216,7 @@ it('demographic returns demographic data', async () => {
   }));
 
   const result = await gql`
-    query($date: MessagingAPIDate!) {
+    query ($date: MessagingAPIDate!) {
       insights {
         demographic(date: $date) {
           available

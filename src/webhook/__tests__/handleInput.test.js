@@ -226,7 +226,7 @@ describe('tutorial', () => {
       input: TUTORIAL_STEPS['RICH_MENU'],
     };
 
-    tutorial.mockImplementationOnce(params => {
+    tutorial.mockImplementationOnce((params) => {
       // it doesn't return `state`, discard it
       // eslint-disable-next-line no-unused-vars
       const { state, ...restParams } = params;

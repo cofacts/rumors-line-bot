@@ -64,13 +64,14 @@ describe('userArticleLink', () => {
 
     await UserArticleLink.create({ userId, articleId });
 
-    const updatedDate = await UserArticleLink.createOrUpdateByUserIdAndArticleId(
-      userId,
-      articleId,
-      {
-        lastViewedAt: new Date(FIXED_DATE + 60 * 1000),
-      }
-    );
+    const updatedDate =
+      await UserArticleLink.createOrUpdateByUserIdAndArticleId(
+        userId,
+        articleId,
+        {
+          lastViewedAt: new Date(FIXED_DATE + 60 * 1000),
+        }
+      );
 
     delete updatedDate._id;
     expect(updatedDate).toMatchSnapshot();
@@ -80,13 +81,14 @@ describe('userArticleLink', () => {
     const userId = 'userId-3';
     const articleId = 'articleId-3';
 
-    const updatedData = await UserArticleLink.createOrUpdateByUserIdAndArticleId(
-      userId,
-      articleId,
-      {
-        lastViewedAt: new Date(FIXED_DATE + 60 * 1000),
-      }
-    );
+    const updatedData =
+      await UserArticleLink.createOrUpdateByUserIdAndArticleId(
+        userId,
+        articleId,
+        {
+          lastViewedAt: new Date(FIXED_DATE + 60 * 1000),
+        }
+      );
 
     delete updatedData._id;
     expect(updatedData).toMatchSnapshot();
@@ -132,7 +134,7 @@ describe('userArticleLink', () => {
 
     const result = await UserArticleLink.findByArticleIds(['a2', 'a1']);
 
-    result.forEach(x => delete x._id);
+    result.forEach((x) => delete x._id);
     expect(result).toMatchSnapshot();
   });
 });

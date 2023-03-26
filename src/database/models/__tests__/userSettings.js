@@ -121,7 +121,7 @@ describe('userSettings', () => {
       'userId-3',
       'userId-5',
     ]);
-    result.forEach(setting => delete setting._id);
+    result.forEach((setting) => delete setting._id);
     expect(result).toMatchSnapshot();
   });
 });

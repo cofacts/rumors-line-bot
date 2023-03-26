@@ -110,7 +110,7 @@ describe('defaultState', () => {
       type: 'postback',
       input: 'foo',
     };
-    defaultState.mockImplementationOnce(params => {
+    defaultState.mockImplementationOnce((params) => {
       // it doesn't return `state`, discard it
       // eslint-disable-next-line no-unused-vars
       const { state, ...restParams } = params;
@@ -223,7 +223,7 @@ describe('tutorial', () => {
       input: 'foo',
     };
 
-    tutorial.mockImplementationOnce(params => {
+    tutorial.mockImplementationOnce((params) => {
       // it doesn't return `state`, discard it
       // eslint-disable-next-line no-unused-vars
       const { state, ...restParams } = params;

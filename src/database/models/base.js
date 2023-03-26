@@ -17,13 +17,13 @@ export default class Base {
    * @returns {Promise<import('mongodb').Collection>}
    */
   static get client() {
-    return mongoClient.getInstance().then(e => e.collection(this.collection));
+    return mongoClient.getInstance().then((e) => e.collection(this.collection));
   }
 
   static async collectionExists() {
     return mongoClient
       .getInstance()
-      .then(e => e.db.listCollections({ name: this.collection }).hasNext());
+      .then((e) => e.db.listCollections({ name: this.collection }).hasNext());
   }
 
   /**
@@ -73,9 +73,13 @@ export default class Base {
       update['$setOnInsert'] = $setOnInsert;
     }
 
-    return (await (await this.client).findOneAndUpdate(query, update, {
-      upsert: true,
-      returnOriginal: false,
-    })).value;
+    return (
+      await (
+        await this.client
+      ).findOneAndUpdate(query, update, {
+        upsert: true,
+        returnOriginal: false,
+      })
+    ).value;
   }
 }

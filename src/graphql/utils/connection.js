@@ -16,9 +16,9 @@ export async function processConnection(model, args) {
     filter: args.filter || {},
   };
 
-  const _totalCount = await (await model.client).countDocuments(
-    normalizedArgs.filter
-  );
+  const _totalCount = await (
+    await model.client
+  ).countDocuments(normalizedArgs.filter);
 
   // setup parent object for the field resolvers
   const parent = {

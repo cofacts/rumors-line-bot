@@ -81,7 +81,7 @@ function decr(key) {
 
 function quit() {
   return new Promise((resolve, reject) => {
-    client.quit(err => {
+    client.quit((err) => {
       if (err) {
         reject(err);
       } else {

@@ -5,7 +5,7 @@ import ua from 'universal-analytics';
 
 const lineContentRouter = Router();
 
-lineContentRouter.get('/', async ctx => {
+lineContentRouter.get('/', async (ctx) => {
   const jwt = ctx.query.token;
   if (!jwt || !verify(jwt)) {
     const err = new Error('`token` is invalid or expired.');

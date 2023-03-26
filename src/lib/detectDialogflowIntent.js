@@ -12,7 +12,7 @@ const credentials = {
 // https://googleapis.dev/nodejs/dialogflow/latest/v2beta1.SessionsClient.html
 const sessionClient = new dialogflow.SessionsClient({ credentials });
 
-export default async function(input) {
+export default async function (input) {
   if (!projectId || !credentials.client_email || !credentials.private_key) {
     console.log(
       '[Dialogflow] Skip detecting intent, one of env variables not set.'

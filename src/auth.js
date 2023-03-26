@@ -65,7 +65,7 @@ export const loginRouter = Router()
   })
   .get('/line_notify', passport.authenticate('line_notify'));
 
-const handlePassportCallback = strategy => (ctx, next) =>
+const handlePassportCallback = (strategy) => (ctx, next) =>
   passport.authenticate(strategy, (err, accessToken) => {
     if (err) {
       err.status = 401;

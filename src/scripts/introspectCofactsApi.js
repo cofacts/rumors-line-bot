@@ -8,7 +8,7 @@ const PATH_PREFIX = '../graphql';
 const OUTPUT = path.join(__dirname, `${PATH_PREFIX}/cofacts-api.graphql`);
 
 introspectSchema(executor)
-  .then(schema => {
+  .then((schema) => {
     const sdl = printSchema(schema);
 
     fs.writeFileSync(
