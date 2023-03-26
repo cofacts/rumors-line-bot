@@ -1,5 +1,6 @@
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
+import gql from 'src/lib/gql';
 import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
 import { sign } from 'src/lib/jwt';
 
@@ -485,6 +486,21 @@ export function createReplyMessages(reply, article, selectedArticleId) {
     },
     ...commonReplyMessages(reply, typeStr, article.replyCount, articleUrl),
   ];
+}
+
+export async function createAIReplyMessages(articleId, userId) {
+  return {
+    type: 'text',
+    text: (
+      await gql`
+        mutation ($articleId: String!) {
+          CreateAIReply(articleId: $articleId, waitForCompletion: true) {
+            text
+          }
+        }
+      `({ articleId }, { userId })
+    ).data.CreateAIReply.text,
+  };
 }
 
 /**

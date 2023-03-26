@@ -13,6 +13,7 @@ import {
   createNotificationSettingsBubble,
   createArticleShareBubble,
   createAskArticleSubmissionConsentReply,
+  createAIReplyMessages,
 } from './utils';
 import ga from 'src/lib/ga';
 import UserSettings from 'src/database/models/userSettings';
@@ -340,8 +341,7 @@ Don’t trust the message just yet!`,
               {
                 type: 'text',
                 wrap: true,
-                text: t`This message has already published on Cofacts, and will soon be fact-checked by volunteers.
-Don’t trust the message just yet!`,
+                text: '此訊息已經被收錄至 Cofacts 有待好心人來查證。',
               },
               {
                 type: 'button',
@@ -356,7 +356,13 @@ Don’t trust the message just yet!`,
           },
         },
       },
-      createTextMessage({ text: t`In the meantime, you can:` }),
+      createTextMessage({
+        text: '這篇文章尚待查核中，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。',
+      }),
+      await createAIReplyMessages(selectedArticleId, userId),
+      createTextMessage({
+        text: '讀完以上機器人的初步分析後，您可以：',
+      }),
       {
         type: 'flex',
         altText: t`Provide more detail`,
