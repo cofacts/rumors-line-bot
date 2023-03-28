@@ -117,6 +117,7 @@ export default async function choosingArticle(params) {
       GetArticle(id: $id) {
         text
         replyCount
+        articleType
         articleReplies(status: NORMAL) {
           reply {
             id
@@ -327,6 +328,8 @@ export default async function choosingArticle(params) {
     const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
       userId
     );
+    const isTextArticle = GetArticle.articleType === 'TEXT';
+
     replies = [
       {
         type: 'flex',
@@ -341,7 +344,10 @@ Don’t trust the message just yet!`,
               {
                 type: 'text',
                 wrap: true,
-                text: '此訊息已經被收錄至 Cofacts 有待好心人來查證。',
+                text: isTextArticle
+                  ? '此訊息已經被收錄至 Cofacts 有待好心人來查證。'
+                  : t`This message has already published on Cofacts, and will soon be fact-checked by volunteers.
+                Don’t trust the message just yet!`,
               },
               {
                 type: 'button',
@@ -356,13 +362,21 @@ Don’t trust the message just yet!`,
           },
         },
       },
-      createTextMessage({
-        text: '這篇文章尚待查核中，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。',
-      }),
-      await createAIReplyMessages(selectedArticleId, userId),
-      createTextMessage({
-        text: '讀完以上機器人的初步分析後，您可以：',
-      }),
+      ...(isTextArticle
+        ? [
+            createTextMessage({
+              text: '這篇文章尚待查核，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。',
+            }),
+            await createAIReplyMessages(selectedArticleId, userId),
+            createTextMessage({
+              text: '讀完以上機器人的自動分析後，您可以：',
+            }),
+          ]
+        : [
+            createTextMessage({
+              text: t`In the meantime, you can:`,
+            }),
+          ]),
       {
         type: 'flex',
         altText: t`Provide more detail`,
