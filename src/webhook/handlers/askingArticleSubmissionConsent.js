@@ -11,7 +11,7 @@ import {
   createArticleShareBubble,
   createNotificationSettingsBubble,
   getLineContentProxyURL,
-  createAIReplyMessages,
+  createAIReply,
 } from './utils';
 import UserSettings from 'src/database/models/userSettings';
 import UserArticleLink from 'src/database/models/userArticleLink';
@@ -86,6 +86,30 @@ export default async function askingArticleSubmissionConsent(params) {
         userId
       );
 
+      let maybeAIReplies = [
+        createTextMessage({
+          text: t`In the meantime, you can:`,
+        }),
+      ];
+
+      if (isTextArticle) {
+        const aiReply = await createAIReply(article.id, userId);
+        if (aiReply) {
+          maybeAIReplies = [
+            createTextMessage({
+              text: '這篇文章尚待查核中，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。',
+            }),
+            {
+              type: 'text',
+              text: aiReply,
+            },
+            createTextMessage({
+              text: '讀完以上機器人的自動分析後，您可以：',
+            }),
+          ];
+        }
+      }
+
       replies = [
         {
           type: 'flex',
@@ -114,21 +138,7 @@ export default async function askingArticleSubmissionConsent(params) {
             },
           },
         },
-        ...(isTextArticle
-          ? [
-              createTextMessage({
-                text: '這篇文章尚待查核中，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。',
-              }),
-              await createAIReplyMessages(article.id, userId),
-              createTextMessage({
-                text: '讀完以上機器人的自動分析後，您可以：',
-              }),
-            ]
-          : [
-              createTextMessage({
-                text: t`In the meantime, you can:`,
-              }),
-            ]),
+        ...maybeAIReplies,
         {
           type: 'flex',
           altText: articleCreatedMsg,

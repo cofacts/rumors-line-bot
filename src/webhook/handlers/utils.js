@@ -488,19 +488,16 @@ export function createReplyMessages(reply, article, selectedArticleId) {
   ];
 }
 
-export async function createAIReplyMessages(articleId, userId) {
-  return {
-    type: 'text',
-    text: (
-      await gql`
-        mutation ($articleId: String!) {
-          CreateAIReply(articleId: $articleId, waitForCompletion: true) {
-            text
-          }
+export async function createAIReply(articleId, userId) {
+  return (
+    await gql`
+      mutation ($articleId: String!) {
+        CreateAIReply(articleId: $articleId, waitForCompletion: true) {
+          text
         }
-      `({ articleId }, { userId })
-    ).data.CreateAIReply.text,
-  };
+      }
+    `({ articleId }, { userId })
+  ).data.CreateAIReply.text;
 }
 
 /**

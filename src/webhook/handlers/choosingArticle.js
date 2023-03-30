@@ -13,7 +13,7 @@ import {
   createNotificationSettingsBubble,
   createArticleShareBubble,
   createAskArticleSubmissionConsentReply,
-  createAIReplyMessages,
+  createAIReply,
 } from './utils';
 import ga from 'src/lib/ga';
 import UserSettings from 'src/database/models/userSettings';
@@ -330,6 +330,30 @@ export default async function choosingArticle(params) {
     );
     const isTextArticle = GetArticle.articleType === 'TEXT';
 
+    let maybeAIReplies = [
+      createTextMessage({
+        text: t`In the meantime, you can:`,
+      }),
+    ];
+
+    if (isTextArticle) {
+      const aiReply = await createAIReply(selectedArticleId, userId);
+      if (aiReply) {
+        maybeAIReplies = [
+          createTextMessage({
+            text: '這篇文章尚待查核，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。',
+          }),
+          {
+            type: 'text',
+            text: aiReply,
+          },
+          createTextMessage({
+            text: '讀完以上機器人的自動分析後，您可以：',
+          }),
+        ];
+      }
+    }
+
     replies = [
       {
         type: 'flex',
@@ -362,21 +386,7 @@ Don’t trust the message just yet!`,
           },
         },
       },
-      ...(isTextArticle
-        ? [
-            createTextMessage({
-              text: '這篇文章尚待查核，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。',
-            }),
-            await createAIReplyMessages(selectedArticleId, userId),
-            createTextMessage({
-              text: '讀完以上機器人的自動分析後，您可以：',
-            }),
-          ]
-        : [
-            createTextMessage({
-              text: t`In the meantime, you can:`,
-            }),
-          ]),
+      ...maybeAIReplies,
       {
         type: 'flex',
         altText: t`Provide more detail`,
