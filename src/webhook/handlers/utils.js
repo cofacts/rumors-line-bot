@@ -492,7 +492,7 @@ export async function createAIReply(articleId, userId) {
   return (
     await gql`
       mutation ($articleId: String!) {
-        CreateAIReply(articleId: $articleId, waitForCompletion: true) {
+        CreateAIReply(articleId: $articleId) {
           text
         }
       }
