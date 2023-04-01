@@ -11,6 +11,7 @@ import {
   createArticleShareBubble,
   createNotificationSettingsBubble,
   getLineContentProxyURL,
+  createAIReply,
 } from './utils';
 import UserSettings from 'src/database/models/userSettings';
 import UserArticleLink from 'src/database/models/userArticleLink';
@@ -36,8 +37,9 @@ export default async function askingArticleSubmissionConsent(params) {
 
     case POSTBACK_YES: {
       visitor.event({ ec: 'Article', ea: 'Create', el: 'Yes' });
+      const isTextArticle = data.searchedText && !data.messageId;
       let article;
-      if (data.searchedText && !data.messageId) {
+      if (isTextArticle) {
         const result = await gql`
           mutation ($text: String!) {
             CreateArticle(text: $text, reference: { type: LINE }) {
@@ -46,7 +48,12 @@ export default async function askingArticleSubmissionConsent(params) {
           }
         `({ text: data.searchedText }, { userId });
         article = result.data.CreateArticle;
-      } else if (data.messageId) {
+      } else {
+        if (!data.messageId) {
+          // Should not be here
+          throw new Error('No message ID found, cannot submit message.');
+        }
+
         const proxyUrl = getLineContentProxyURL(data.messageId);
         const result = await gql`
           mutation ($mediaUrl: String!, $articleType: ArticleTypeEnum!) {
@@ -79,6 +86,31 @@ export default async function askingArticleSubmissionConsent(params) {
         userId
       );
 
+      let maybeAIReplies = [
+        createTextMessage({
+          text: t`In the meantime, you can:`,
+        }),
+      ];
+
+      if (isTextArticle) {
+        const aiReply = await createAIReply(article.id, userId);
+        /* istanbul ignore else */
+        if (aiReply) {
+          maybeAIReplies = [
+            createTextMessage({
+              text: '這篇文章尚待查核中，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。',
+            }),
+            {
+              type: 'text',
+              text: aiReply,
+            },
+            createTextMessage({
+              text: '讀完以上機器人的自動分析後，您可以：',
+            }),
+          ];
+        }
+      }
+
       replies = [
         {
           type: 'flex',
@@ -107,9 +139,7 @@ export default async function askingArticleSubmissionConsent(params) {
             },
           },
         },
-        createTextMessage({
-          text: t`In the meantime, you can:`,
-        }),
+        ...maybeAIReplies,
         {
           type: 'flex',
           altText: articleCreatedMsg,

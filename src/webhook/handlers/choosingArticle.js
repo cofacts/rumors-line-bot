@@ -13,6 +13,7 @@ import {
   createNotificationSettingsBubble,
   createArticleShareBubble,
   createAskArticleSubmissionConsentReply,
+  createAIReply,
 } from './utils';
 import ga from 'src/lib/ga';
 import UserSettings from 'src/database/models/userSettings';
@@ -116,6 +117,7 @@ export default async function choosingArticle(params) {
       GetArticle(id: $id) {
         text
         replyCount
+        articleType
         articleReplies(status: NORMAL) {
           reply {
             id
@@ -326,6 +328,33 @@ export default async function choosingArticle(params) {
     const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
       userId
     );
+    const isTextArticle = GetArticle.articleType === 'TEXT';
+
+    let maybeAIReplies = [
+      createTextMessage({
+        text: t`In the meantime, you can:`,
+      }),
+    ];
+
+    if (isTextArticle) {
+      const aiReply = await createAIReply(selectedArticleId, userId);
+      /* istanbul ignore else */
+      if (aiReply) {
+        maybeAIReplies = [
+          createTextMessage({
+            text: '這篇文章尚待查核，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。',
+          }),
+          {
+            type: 'text',
+            text: aiReply,
+          },
+          createTextMessage({
+            text: '讀完以上機器人的自動分析後，您可以：',
+          }),
+        ];
+      }
+    }
+
     replies = [
       {
         type: 'flex',
@@ -340,8 +369,10 @@ Don’t trust the message just yet!`,
               {
                 type: 'text',
                 wrap: true,
-                text: t`This message has already published on Cofacts, and will soon be fact-checked by volunteers.
-Don’t trust the message just yet!`,
+                text: isTextArticle
+                  ? '此訊息已經被收錄至 Cofacts 有待好心人來查證。'
+                  : t`This message has already published on Cofacts, and will soon be fact-checked by volunteers.
+                Don’t trust the message just yet!`,
               },
               {
                 type: 'button',
@@ -356,7 +387,7 @@ Don’t trust the message just yet!`,
           },
         },
       },
-      createTextMessage({ text: t`In the meantime, you can:` }),
+      ...maybeAIReplies,
       {
         type: 'flex',
         altText: t`Provide more detail`,

@@ -208,6 +208,7 @@ export const noReplies = {
   data: {
     GetArticle: {
       text: '老司機車裡總備一塊香皂，知道內情的新手默默也準備了一塊',
+      articleType: 'TEXT',
       replyCount: 0,
       articleReplies: [],
     },

@@ -164,6 +164,7 @@ it('should select article and have OPINIONATED and NOT_ARTICLE replies', async (
 
 it('should select article with no replies', async () => {
   gql.__push(apiGetArticleResult.noReplies);
+  gql.__push({ data: { CreateAIReply: { text: 'Hello from ChatGPT' } } });
   gql.__push(apiGetArticleResult.createOrUpdateReplyRequest);
 
   const params = {
