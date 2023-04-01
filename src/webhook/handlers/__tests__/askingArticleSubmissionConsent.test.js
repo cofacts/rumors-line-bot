@@ -93,6 +93,7 @@ it('should submit article if user agrees to submit', async () => {
 
   MockDate.set('2020-01-02');
   gql.__push({ data: { CreateArticle: { id: 'new-article-id' } } });
+  gql.__push({ data: { CreateAIReply: { text: 'Hello from ChatGPT' } } });
   const result = await askingArticleSubmissionConsent(params);
   MockDate.reset();
   expect(gql.__finished()).toBe(true);
@@ -168,6 +169,7 @@ it('should create a UserArticleLink when creating a Article', async () => {
 
   MockDate.set('2020-01-01');
   gql.__push({ data: { CreateArticle: { id: 'new-article-id' } } });
+  gql.__push({ data: { CreateAIReply: { text: 'Hello from ChatGPT' } } });
   await askingArticleSubmissionConsent(params);
   MockDate.reset();
 
@@ -190,6 +192,7 @@ it('should ask user to turn on notification settings if they did not turn it on 
   };
 
   gql.__push({ data: { CreateArticle: { id: 'new-article-id' } } });
+  gql.__push({ data: { CreateAIReply: { text: 'Hello from ChatGPT' } } });
   process.env.NOTIFY_METHOD = 'LINE_NOTIFY';
   await UserSettings.setAllowNewReplyUpdate(userId, false);
 
@@ -197,7 +200,7 @@ it('should ask user to turn on notification settings if they did not turn it on 
   const results = await askingArticleSubmissionConsent(params);
   MockDate.reset();
 
-  expect(results.replies[2].contents.contents).toMatchSnapshot();
+  expect(results.replies[4].contents.contents).toMatchSnapshot();
 
   delete process.env.NOTIFY_METHOD;
   await UserSettings.setAllowNewReplyUpdate(userId, true);
