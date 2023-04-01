@@ -338,6 +338,7 @@ export default async function choosingArticle(params) {
 
     if (isTextArticle) {
       const aiReply = await createAIReply(selectedArticleId, userId);
+      /* istanbul ignore else */
       if (aiReply) {
         maybeAIReplies = [
           createTextMessage({

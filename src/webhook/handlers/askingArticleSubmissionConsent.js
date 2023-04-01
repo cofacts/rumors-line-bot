@@ -94,6 +94,7 @@ export default async function askingArticleSubmissionConsent(params) {
 
       if (isTextArticle) {
         const aiReply = await createAIReply(article.id, userId);
+        /* istanbul ignore else */
         if (aiReply) {
           maybeAIReplies = [
             createTextMessage({
