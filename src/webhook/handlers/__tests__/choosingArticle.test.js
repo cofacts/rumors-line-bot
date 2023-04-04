@@ -163,6 +163,7 @@ it('should select article and have OPINIONATED and NOT_ARTICLE replies', async (
 });
 
 it('should select article with no replies', async () => {
+  // The case when have AI replies
   gql.__push(apiGetArticleResult.noReplies);
   gql.__push({ data: { CreateAIReply: { text: 'Hello from ChatGPT' } } });
   gql.__push(apiGetArticleResult.createOrUpdateReplyRequest);
@@ -185,7 +186,7 @@ it('should select article with no replies', async () => {
   };
 
   MockDate.set('2020-01-01');
-  expect(await choosingArticle(params)).toMatchSnapshot();
+  expect(await choosingArticle(params)).toMatchSnapshot('has AI reply');
   MockDate.reset();
 
   expect(gql.__finished()).toBe(true);
@@ -208,6 +209,18 @@ it('should select article with no replies', async () => {
     ]
   `);
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
+
+  // The case when no AI reply is provided (such as in the case of insufficient data)
+  //
+  gql.__push(apiGetArticleResult.noReplies);
+  gql.__push({ data: { CreateAIReply: null } }); // CreateAIReply returns null in this case
+  gql.__push(apiGetArticleResult.createOrUpdateReplyRequest);
+
+  MockDate.set('2020-01-01');
+  expect(await choosingArticle(params)).toMatchSnapshot('has no AI reply');
+  MockDate.reset();
+
+  expect(gql.__finished()).toBe(true);
 });
 
 it('should select article and choose the only one reply for user', async () => {

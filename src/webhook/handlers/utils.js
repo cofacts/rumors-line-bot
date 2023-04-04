@@ -497,7 +497,7 @@ export async function createAIReply(articleId, userId) {
         }
       }
     `({ articleId }, { userId })
-  ).data.CreateAIReply.text;
+  ).data.CreateAIReply?.text;
 }
 
 /**
