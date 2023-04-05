@@ -93,12 +93,13 @@ it('should submit article if user agrees to submit', async () => {
 
   MockDate.set('2020-01-02');
   gql.__push({ data: { CreateArticle: { id: 'new-article-id' } } });
+  // The case when have AI replies
   gql.__push({ data: { CreateAIReply: { text: 'Hello from ChatGPT' } } });
   const result = await askingArticleSubmissionConsent(params);
   MockDate.reset();
   expect(gql.__finished()).toBe(true);
 
-  expect(result).toMatchSnapshot();
+  expect(result).toMatchSnapshot('has AI reply');
   expect(result.data.sessionId).not.toEqual(inputSession);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -112,6 +113,17 @@ it('should submit article if user agrees to submit', async () => {
     ]
   `);
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
+
+  // The case when no AI reply is provided (such as in the case of insufficient data)
+  //
+  MockDate.set('2020-01-02');
+  gql.__push({ data: { CreateArticle: { id: 'new-article-id-2' } } });
+  gql.__push({ data: { CreateAIReply: null } });
+  expect(await askingArticleSubmissionConsent(params)).toMatchSnapshot(
+    'has no AI reply'
+  );
+  MockDate.reset();
+  expect(gql.__finished()).toBe(true);
 });
 
 it('should submit image article if user agrees to submit', async () => {

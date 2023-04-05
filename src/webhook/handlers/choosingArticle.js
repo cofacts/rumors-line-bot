@@ -338,16 +338,13 @@ export default async function choosingArticle(params) {
 
     if (isTextArticle) {
       const aiReply = await createAIReply(selectedArticleId, userId);
-      /* istanbul ignore else */
+
       if (aiReply) {
         maybeAIReplies = [
           createTextMessage({
             text: '這篇文章尚待查核，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。',
           }),
-          {
-            type: 'text',
-            text: aiReply,
-          },
+          aiReply,
           createTextMessage({
             text: '讀完以上機器人的自動分析後，您可以：',
           }),
