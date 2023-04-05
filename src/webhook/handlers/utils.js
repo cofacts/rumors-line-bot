@@ -488,8 +488,16 @@ export function createReplyMessages(reply, article, selectedArticleId) {
   ];
 }
 
+const AI_REPLY_IMAGE_VERSION = '20230405';
+
+/**
+ *
+ * @param {string} articleId
+ * @param {string} userId
+ * @returns {object | null} AI reply object, or null of AI cannot return reply.
+ */
 export async function createAIReply(articleId, userId) {
-  return (
+  const text = (
     await gql`
       mutation ($articleId: String!) {
         CreateAIReply(articleId: $articleId) {
@@ -498,6 +506,17 @@ export async function createAIReply(articleId, userId) {
       }
     `({ articleId }, { userId })
   ).data.CreateAIReply?.text;
+
+  return !text
+    ? null
+    : {
+        type: 'text',
+        text,
+        sender: {
+          name: 'AI 自動分析',
+          iconUrl: `${process.env.RUMORS_LINE_BOT_URL}/static/img/aireply.png?cachebust=${AI_REPLY_IMAGE_VERSION}`,
+        },
+      };
 }
 
 /**

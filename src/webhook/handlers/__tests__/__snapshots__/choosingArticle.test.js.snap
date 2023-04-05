@@ -1805,6 +1805,10 @@ Don’t trust the message just yet!",
       "type": "flex",
     },
     Object {
+      "sender": Object {
+        "iconUrl": "/static/img/aireply.png?cachebust=20230405",
+        "name": "AI 自動分析",
+      },
       "text": "Hello from ChatGPT",
       "type": "text",
     },
