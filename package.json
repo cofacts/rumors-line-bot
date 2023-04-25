@@ -145,7 +145,8 @@
     ],
     "setupFilesAfterEnv": [
       "./scripts/setup-jest.js"
-    ]
+    ],
+    "modulePaths": ["<rootDir>"]
   },
   "engines": {
     "node": "16.x"
