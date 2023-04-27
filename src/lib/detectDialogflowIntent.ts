@@ -4,7 +4,7 @@ import crypto from 'crypto';
 
 // https://googleapis.dev/nodejs/dialogflow/latest/v2beta1.SessionsClient.html
 const sessionClient = new dialogflow.SessionsClient(/* { credentials } */);
-let projectId = null;
+let projectId: string | null = null;
 sessionClient
   .getProjectId()
   .then((id) => {
@@ -13,7 +13,7 @@ sessionClient
   })
   .catch((e) => console.error('[Dialogflow]', e));
 
-export default async function (input) {
+export default async function (input: string) {
   if (!projectId) {
     return;
   }
