@@ -91,7 +91,8 @@ it('detects intent', async () => {
   detectDialogflowIntent = require('../detectDialogflowIntent').default;
   await sleep(1); // Wait for module initialization (project ID detection)
 
-  mockDetectIntent.mockImplementation(() => intentResponse);  expect(await detectDialogflowIntent('Hi')).toMatchInlineSnapshot(`
+  mockDetectIntent.mockImplementation(() => intentResponse);
+  expect(await detectDialogflowIntent('Hi')).toMatchInlineSnapshot(`
     Object {
       "outputAudio": Object {
         "data": Array [],
