@@ -8,8 +8,6 @@ let projectId = null;
 sessionClient
   .getProjectId()
   .then((id) => {
-    if (!id) return;
-
     projectId = id;
     console.log(`[Dialogflow] Connected to project ID = ${id}`);
   })
