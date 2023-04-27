@@ -214,9 +214,8 @@ provide the path to your downloaded service account key. See [documentation](htt
 
 #### Dialogflow
 
-We use Dialogflow to detect if user is chatting with bot.
-
-If user input matches one of dialogflow intents, we can directly return predefined responses in that intent.
+We use Dialogflow to detect if user is trying to chit-chat.
+If user input matches any of the Dialogflow intents, we can directly return predefined responses in that intent.
 
 To use Dialogflow, please do the following setup:
 
