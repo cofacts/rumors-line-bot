@@ -2,13 +2,6 @@
 import dialogflow from '@google-cloud/dialogflow';
 import crypto from 'crypto';
 
-// const projectId = process.env.DAILOGFLOW_PROJECT_ID;
-// const credentials = {
-//   client_email: process.env.DAILOGFLOW_CLIENT_EMAIL,
-//   // https://stackoverflow.com/questions/39492587/escaping-issue-with-firebase-privatekey-as-a-heroku-config-variable/41044630#41044630
-//   private_key: (process.env.DAILOGFLOW_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
-// };
-
 // https://googleapis.dev/nodejs/dialogflow/latest/v2beta1.SessionsClient.html
 const sessionClient = new dialogflow.SessionsClient(/* { credentials } */);
 let projectId = null;
@@ -20,7 +13,7 @@ sessionClient
     projectId = id;
     console.log(`[Dialogflow] Connected to project ID = ${id}`);
   })
-  .catch((e) => ('[Dialogflow]', e));
+  .catch((e) => console.error('[Dialogflow]', e));
 
 export default async function (input) {
   if (!projectId) {
