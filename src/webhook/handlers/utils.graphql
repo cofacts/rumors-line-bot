@@ -1,0 +1,21 @@
+fragment CreateReferenceWordsReply on Reply {
+  reference
+  type
+}
+
+fragment CreateReplyMessagesReply on Reply {
+  text
+  ...CreateReferenceWordsReply
+}
+
+fragment CreateReplyMessagesArticle on Article {
+  replyCount
+}
+
+fragment CreateHighlightContentsHighlight on Highlights {
+  text
+  hyperlinks {
+    title
+    summary
+  }
+}

@@ -13,7 +13,7 @@
     "dev:liff": "webpack-dev-server",
     "heroku-postbuild": "npm run build",
     "build": "run-p build:*",
-    "build:server": "babel src -d build --ignore \"src/liff/**\",\"**/__tests__/**\",\"**/__mocks__/**\" --copy-files --no-copy-ignored",
+    "build:server": "babel src --extensions .ts,.js -d build --ignore \"src/liff/**\",\"**/__tests__/**\",\"**/__mocks__/**\" --copy-files --no-copy-ignored",
     "build:liff": "NODE_ENV=production webpack",
     "lint:fix": "eslint --fix .",
     "lint": "eslint .",
@@ -24,8 +24,12 @@
     "clean:liff": "rm -rf liff",
     "notify": "babel-node -r dotenv/config src/scripts/scanRepliesAndNotify.js",
     "cofactsapi": "babel-node -r dotenv/config src/scripts/introspectCofactsApi.js",
+    "postcofactsapi": "npm run typegen",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "typecheck": "tsc",
+    "typegen": "graphql-codegen",
+    "posttypegen": "eslint --fix typegen"
   },
   "repository": {
     "type": "git",
@@ -43,12 +47,13 @@
   },
   "homepage": "https://github.com/cofacts/rumors-line-bot#readme",
   "dependencies": {
+    "@babel/preset-typescript": "^7.21.0",
     "@google-cloud/dialogflow": "^3.3.0",
     "@graphql-tools/schema": "^7.1.3",
     "@graphql-tools/stitch": "^7.5.1",
     "@graphql-tools/utils": "^7.7.3",
     "@graphql-tools/wrap": "^7.0.5",
-    "@line/bot-sdk": "^7.3.0",
+    "@line/bot-sdk": "^7.5.2",
     "ajv": "^6.12.2",
     "apollo-server-koa": "^2.21.0",
     "bull": "^3.20.0",
@@ -86,11 +91,15 @@
     "@babel/plugin-syntax-import-meta": "^7.2.0",
     "@babel/preset-env": "^7.9.0",
     "@cofacts/line-bot-log-parser": "0.0.1",
+    "@graphql-codegen/cli": "^3.2.2",
+    "@graphql-codegen/client-preset": "^2.1.1",
     "@storybook/addon-actions": "^6.2.9",
     "@storybook/addon-essentials": "^6.2.9",
     "@storybook/addon-links": "^6.2.9",
     "@storybook/addon-svelte-csf": "^2.0.11",
     "@storybook/svelte": "^6.2.9",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.1.0",
@@ -100,10 +109,11 @@
     "core-js": "^3.6.4",
     "css-loader": "^5.2.6",
     "dotenv": "^6.2.0",
-    "eslint": "^7.0.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-import-resolver-babel-module": "^5.1.2",
-    "eslint-plugin-import": "^2.2.0",
+    "eslint-import-resolver-typescript": "^3.5.3",
+    "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^3.0.0",
     "eslint-plugin-svelte3": "^2.7.3",
     "html-webpack-plugin": "^4.0.4",
@@ -121,6 +131,7 @@
     "svelte-loader": "github:sveltejs/svelte-loader",
     "terser-webpack-plugin": "^2.3.5",
     "ttag-cli": "^1.9.3",
+    "typescript": "^5.0.2",
     "url-loader": "^4.1.1",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
@@ -129,15 +140,13 @@
   "jest": {
     "testEnvironment": "node",
     "collectCoverage": true,
-    "roots": [
-      "<rootDir>/src"
-    ],
     "coveragePathIgnorePatterns": [
       "/__fixtures__/"
     ],
     "setupFilesAfterEnv": [
       "./scripts/setup-jest.js"
-    ]
+    ],
+    "modulePaths": ["<rootDir>"]
   },
   "engines": {
     "node": "16.x"

@@ -15,6 +15,7 @@ module.exports = {
       // Don't reload server for LIFF changes
       ignore_watch: ['src/liff'],
       interpreter: './node_modules/.bin/babel-node',
+      interpreter_args: '--extensions .ts,.js',
     },
   ],
 };

@@ -10,3 +10,5 @@
 !i18n/*
 !.env
 !static
+!typegen
+!tsconfig.json
