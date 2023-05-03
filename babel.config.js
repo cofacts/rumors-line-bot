@@ -16,7 +16,13 @@ module.exports = {
   ],
   plugins: [
     ['ttag', { resolve: { translations: `i18n/${locale}.po` } }],
-    ['module-resolver', { root: ['./'] }],
+    [
+      'module-resolver',
+      {
+        root: ['./'],
+        extensions: ['.js', '.ts'],
+      },
+    ],
     '@babel/plugin-proposal-class-properties',
   ],
 };
