@@ -1,31 +1,25 @@
 const mockSessionPath = jest.fn();
 const mockDetectIntent = jest.fn();
+const mockGetProjectId = jest.fn();
 
 let detectDialogflowIntent;
-beforeEach(() => {
-  // following variables are just for `detectDialogflowIntent` env varialbe check
-  process.env.DAILOGFLOW_PROJECT_ID = 'projectId';
-  process.env.DAILOGFLOW_CLIENT_EMAIL = 'client_email';
-  process.env.DAILOGFLOW_PRIVATE_KEY = 'private_key';
+const sleep = async (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+beforeEach(() => {
   mockSessionPath.mockClear();
   mockDetectIntent.mockClear();
+  mockGetProjectId.mockClear();
 
-  // To test different case of process.env.* in `detectDialogflowIntent` we should resetModules
+  // To test different case in `detectDialogflowIntent` we should resetModules
   //
   jest.resetModules();
   jest.mock('@google-cloud/dialogflow', () => ({
     SessionsClient: jest.fn().mockImplementation(() => ({
       projectAgentEnvironmentUserSessionPath: mockSessionPath,
       detectIntent: mockDetectIntent,
+      getProjectId: mockGetProjectId,
     })),
   }));
-});
-
-afterEach(() => {
-  delete process.env.DAILOGFLOW_PROJECT_ID;
-  delete process.env.DAILOGFLOW_CLIENT_EMAIL;
-  delete process.env.DAILOGFLOW_PRIVATE_KEY;
 });
 
 const intentResponse = [
@@ -80,8 +74,12 @@ const intentResponse = [
 ];
 
 it('skip detecting intent', async () => {
-  delete process.env.DAILOGFLOW_CLIENT_EMAIL;
+  mockGetProjectId.mockImplementation(() =>
+    Promise.reject('Test the case when Google service account is not provided')
+  );
   detectDialogflowIntent = require('../detectDialogflowIntent').default;
+  await sleep(1); // Wait for module initialization (project ID detection)
+
   mockDetectIntent.mockImplementation(() => intentResponse);
   expect(await detectDialogflowIntent('Hi')).toMatchInlineSnapshot(`undefined`);
   expect(mockSessionPath).not.toHaveBeenCalled();
@@ -89,7 +87,10 @@ it('skip detecting intent', async () => {
 });
 
 it('detects intent', async () => {
+  mockGetProjectId.mockImplementation(() => Promise.resolve('test-gcp-id'));
   detectDialogflowIntent = require('../detectDialogflowIntent').default;
+  await sleep(1); // Wait for module initialization (project ID detection)
+
   mockDetectIntent.mockImplementation(() => intentResponse);
   expect(await detectDialogflowIntent('Hi')).toMatchInlineSnapshot(`
     Object {
@@ -155,7 +156,10 @@ it('detects intent', async () => {
 });
 
 it('handles error', async () => {
+  mockGetProjectId.mockImplementation(() => Promise.resolve('test-gcp-id'));
   detectDialogflowIntent = require('../detectDialogflowIntent').default;
+  await sleep(1); // Wait for module initialization (project ID detection)
+
   mockDetectIntent.mockImplementation(() => {
     const error = new Error(
       `3 INVALID_ARGUMENT: Resource name 'projects/undefined_project_id/agent/sessions/sessionId/' does not match 'projects/*/locations/*/agent/environments/*/users/*/sessions/*'.`

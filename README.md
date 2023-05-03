@@ -204,25 +204,25 @@ $ npm run notify
 $ node build/scripts/scanRepliesAndNotify.js
 ```
 
-### Dialogflow
+### Google cloud services
 
-We use dialogflow to detect if user is chatting with bot.
-If userinput matches one of dialogflow intents, we can directly return predefined responses in that intent.
+rumors-line-bot uses Google cloud services that is authenticated and authorized using Google Cloud
+service accounts and [Application Default Credentials](https://cloud.google.com/docs/authentication/application-default-credentials).
 
-To use Dialogflow,
+Please create a service account under the project, download its key and use `GOOGLE_APPLICATION_CREDENTIALS` env var to
+provide the path to your downloaded service account key. See [documentation](https://cloud.google.com/docs/authentication/provide-credentials-adc#local-key) for detail.
 
-1. You should [create a project](https://cloud.google.com/dialogflow/es/docs/quick/setup#project) and take note of the project ID then [enable api](https://cloud.google.com/dialogflow/es/docs/quick/setup#api).
-2. [Build an agent](https://cloud.google.com/dialogflow/es/docs/quick/build-agent).
-3. You will get a JSON file after [seting up authentication](https://cloud.google.com/dialogflow/es/docs/quick/setup#auth), copy `client_email` and `private_key` in the file.
-4. sets in `.env` file
+#### Dialogflow
 
-    ```
-    DAILOGFLOW_CLIENT_EMAIL=<paste client_email get from step3 here>
-    DAILOGFLOW_PRIVATE_KEY=<paste private_key get from step3 here>
-    DAILOGFLOW_PROJECT_ID=<paste project_id get from step1 here>
-    ```
+We use Dialogflow to detect if user is trying to chit-chat.
+If user input matches any of the Dialogflow intents, we can directly return predefined responses in that intent.
 
-    Optional env variables:
+To use Dialogflow, please do the following setup:
+
+1. Please ensure your [GCP project](https://cloud.google.com/dialogflow/es/docs/quick/setup#project) has [enabled Dialogflow api](https://cloud.google.com/dialogflow/es/docs/quick/setup#api).
+2. [Build an agent](https://cloud.google.com/dialogflow/es/docs/quick/build-agent) connected to the GCP project.
+3. Please ensure the service account has `dialogflow.sessions.detectIntent` permission.
+4. Set these env variables (optional):
     - `DAILOGFLOW_LANGUAGE` : Empty to agent's default language, or you can specify a [language](https://cloud.google.com/dialogflow/es/docs/reference/language).
     - `DAILOGFLOW_ENV` : Default to draft agent, or you can create different [versions](https://cloud.google.com/dialogflow/es/docs/agents-versions).
 
