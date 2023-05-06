@@ -9,7 +9,8 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "lib": ["ES2022"],
   },
   "exclude": [
     "node_modules"
