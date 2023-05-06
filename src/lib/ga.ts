@@ -1,12 +1,8 @@
 import ua from 'universal-analytics';
 import type { EventParams } from 'universal-analytics';
 import { gaTitle } from './sharedUtils';
-
-type BQEvent = {
-  category?: string;
-  action?: string;
-  label?: string;
-};
+import { insertAnalytics } from './bq';
+import type { EventBatch } from './bq';
 
 /**
  * Sends a screen view and returns the visitor
@@ -21,7 +17,7 @@ export default function ga(
   uuid: string,
   state = 'N/A',
   documentTitle = '',
-  messageSource = 'user'
+  messageSource: 'user' | 'group' | 'room' = 'user'
 ) {
   const visitor = ua(process.env.GA_ID || '', uuid, { strictCidFormat: false });
 
@@ -36,21 +32,27 @@ export default function ga(
 
   visitor.set('cd1', messageSource);
 
-  let events: BQEvent[] = [];
+  let events: EventBatch['events'] = [];
 
   return {
     event(evt: EventParams) {
       events.push({
-        category: evt.ec,
-        action: evt.ea,
-        label: evt.el,
+        category: evt.ec ?? null,
+        action: evt.ea ?? null,
+        label: evt.el ?? null,
+        time: new Date(),
       });
       return visitor.event(evt);
     },
     send() {
       // TODO: send this nested document to GA
       // This avoids title being duplicated in DB
-      console.log({ title: documentTitle, messageSource, events });
+      insertAnalytics({
+        text: documentTitle,
+        messageSource,
+        events,
+        createdAt: new Date(),
+      });
       events = [];
       return visitor.send();
     },
