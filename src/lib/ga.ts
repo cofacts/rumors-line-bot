@@ -45,14 +45,12 @@ export default function ga(
       return visitor.event(evt);
     },
     send() {
-      // TODO: send this nested document to GA
-      // This avoids title being duplicated in DB
       insertAnalytics({
         text: documentTitle,
         messageSource,
         events,
         createdAt: new Date(),
-      });
+      }).catch((e) => console.error('[insertAnalytics]', e));
       events = [];
       return visitor.send();
     },
