@@ -1,18 +1,12 @@
 import ua from 'universal-analytics';
+import type { EventParams } from 'universal-analytics';
 import { gaTitle } from './sharedUtils';
 
-/**
- * Typescript only narrows `obj` for in operator, but not narrowing `key`.
- * This type predicate also narrows the key.
- *
- * Ref: https://stackoverflow.com/a/74631955/1582110
- */
-function isKey<T extends object>(
-  obj: T,
-  key: string | symbol | number
-): key is keyof T {
-  return key in obj;
-}
+type BQEvent = {
+  category?: string;
+  action?: string;
+  label?: string;
+};
 
 /**
  * Sends a screen view and returns the visitor
@@ -36,34 +30,29 @@ export default function ga(
   //
   visitor.screenview(state, 'rumors-line-bot');
 
-  let calls: [prop: string, args: unknown[]][] = [];
-
-  // A proxy that records visitor's method calls
-  const proxiedVisitor = new Proxy(visitor, {
-    get(visitor, prop) {
-      if (!isKey(visitor, prop)) return; // Make Typescript happy
-
-      if (typeof visitor[prop] !== 'function') return visitor[prop];
-
-      if (prop === 'send') {
-        console.log(calls);
-        calls = [];
-      }
-
-      return (...args: unknown[]) => {
-        calls.push([prop, args]);
-
-        /* @ts-expect-error: vistor[prop] is a union of functions */
-        return visitor[prop](...args);
-      };
-    },
-  });
-
   if (documentTitle) {
-    proxiedVisitor.set('dt', gaTitle(documentTitle));
+    visitor.set('dt', gaTitle(documentTitle));
   }
 
-  proxiedVisitor.set('cd1', messageSource);
+  visitor.set('cd1', messageSource);
 
-  return proxiedVisitor;
+  let events: BQEvent[] = [];
+
+  return {
+    event(evt: EventParams) {
+      events.push({
+        category: evt.ec,
+        action: evt.ea,
+        label: evt.el,
+      });
+      return visitor.event(evt);
+    },
+    send() {
+      // TODO: send this nested document to GA
+      // This avoids title being duplicated in DB
+      console.log({ title: documentTitle, messageSource, events });
+      events = [];
+      return visitor.send();
+    },
+  };
 }
