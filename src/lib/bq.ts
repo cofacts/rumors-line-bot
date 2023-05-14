@@ -1,3 +1,6 @@
+import { TABLE, SCHEMA as bqSchema } from 'rumors-db/bq/events';
+import type { EventBatch } from 'rumors-db/bq/events';
+
 /**
  * BigQuery client and schema
  */

@@ -1,0 +1,3 @@
+[submodule "rumors-db"]
+	path = rumors-db
+	url = git@github.com:cofacts/rumors-db.git
