@@ -17,6 +17,15 @@ This state diagram describes how the LINE bot talks to users:
 
 Developing rumors-line-bot requires you to finish the following settings.
 
+### Getting repository
+
+After cloning this repository & cd into project directory, then install the dependencies.
+
+```
+$ git clone --recursive git@github.com:cofacts/rumors-line-bot.git # --recursive for the submodules
+$ cd rumors-line-bot
+```
+
 ### LINE channels & Developer accounts
 
 Please follow all the steps in [LINE official tutorial](https://developers.line.biz/en/docs/messaging-api/getting-started/).
