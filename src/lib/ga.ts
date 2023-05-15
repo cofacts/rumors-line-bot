@@ -1,8 +1,8 @@
 import ua from 'universal-analytics';
 import type { EventParams } from 'universal-analytics';
 import { gaTitle } from './sharedUtils';
-import { insertAnalytics } from './bq';
-import type { EventBatch } from './bq';
+import { insertEventBatch } from './bq';
+import type { EventBatch } from 'rumors-db/bq/events';
 
 /**
  * Sends a screen view and returns the visitor
@@ -45,7 +45,7 @@ export default function ga(
       return visitor.event(evt);
     },
     send() {
-      insertAnalytics({
+      insertEventBatch({
         text: documentTitle,
         messageSource,
         events,
