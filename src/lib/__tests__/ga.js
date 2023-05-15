@@ -10,17 +10,14 @@ jest.mock('universal-analytics', () => {
   return jest.fn().mockReturnValue(mockVisitor);
 });
 
-const insertEventBatchMock = jest.fn;
-
 jest.mock('../bq', () => {
-  return { insertEventBatch: insertEventBatchMock };
+  return { insertEventBatch: jest.fn() };
 });
 
 beforeEach(() => {
   ua.mockClear();
   ua().screenview.mockClear();
   ua().set.mockClear();
-  insertEventBatchMock.mockClear();
 });
 
 it('returns visitor', () => {
