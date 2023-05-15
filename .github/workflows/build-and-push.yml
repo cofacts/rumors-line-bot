@@ -37,6 +37,8 @@ jobs:
 
       - name: Checkout repo
         uses: actions/checkout@v2
+        with:
+          submodules: recursive
 
       - name: Generate staging .env file
         run: 'curl $ENV_URL -o .env'
