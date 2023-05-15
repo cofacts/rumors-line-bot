@@ -7,7 +7,7 @@ const ga = Object.assign(
     event: eventMock,
     send: sendMock,
     set: setMock,
-    screenview: () => {},
+    screenview: () => undefined,
   })),
   {
     clearAllMocks: () => {
@@ -18,7 +18,7 @@ const ga = Object.assign(
     },
     eventMock,
     sendMock,
-    setMock
+    setMock,
   }
 );
 
