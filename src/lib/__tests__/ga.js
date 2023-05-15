@@ -10,14 +10,21 @@ jest.mock('universal-analytics', () => {
   return jest.fn().mockReturnValue(mockVisitor);
 });
 
+const insertEventBatchMock = jest.fn;
+
+jest.mock('../bq', () => {
+  return { insertEventBatch: insertEventBatchMock };
+});
+
 beforeEach(() => {
   ua.mockClear();
   ua().screenview.mockClear();
   ua().set.mockClear();
+  insertEventBatchMock.mockClear();
 });
 
 it('returns visitor', () => {
-  expect(ga('userId')).toBe(ua());
+  expect(ga('userId')).toHaveProperty('send');
   expect(ua().screenview.mock.calls[0]).toMatchInlineSnapshot(`
     Array [
       "N/A",
@@ -40,7 +47,7 @@ it('sets title when title is given', () => {
     .map(() => '👨‍👩‍👧‍👦👨‍👨‍👧‍👧👩‍👩‍👧‍👦')
     .join('');
 
-  expect(ga('userId', '__INIT__', longTitle)).toBe(ua());
+  ga('userId', '__INIT__', longTitle);
   expect(ua().screenview.mock.calls[0]).toMatchInlineSnapshot(`
     Array [
       "__INIT__",
