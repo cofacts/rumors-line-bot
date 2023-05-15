@@ -1,4 +1,4 @@
-import { TABLE, SCHEMA as bqSchema } from 'rumors-db/bq/events';
+import { TABLE } from 'rumors-db/bq/events';
 import type { EventBatch } from 'rumors-db/bq/events';
 
 /**
@@ -12,6 +12,5 @@ const bqDataset = new BigQuery().dataset(
 );
 
 export function insertEventBatch(eventBatch: EventBatch) {
-  const table = bqDataset.table(TABLE);
-  return table.insert(eventBatch, { schema: bqSchema });
+  return bqDataset.table(TABLE).insert(eventBatch);
 }
