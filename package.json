@@ -100,6 +100,7 @@
     "@storybook/addon-links": "^6.2.9",
     "@storybook/addon-svelte-csf": "^2.0.11",
     "@storybook/svelte": "^6.2.9",
+    "@types/jest": "^24.9.1",
     "@types/universal-analytics": "^0.4.5",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
