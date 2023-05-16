@@ -1,10 +1,10 @@
-import ua from "universal-analytics";
-import { BigQuery } from "@google-cloud/bigquery";
-import MockDate from "mockdate";
+import ua from 'universal-analytics';
+import { BigQuery } from '@google-cloud/bigquery';
+import MockDate from 'mockdate';
 
-import ga from "../ga";
+import ga from '../ga';
 
-jest.mock("universal-analytics", () => {
+jest.mock('universal-analytics', () => {
   const mockVisitor = {
     screenview: jest.fn(),
     set: jest.fn(),
@@ -15,7 +15,7 @@ jest.mock("universal-analytics", () => {
   return jest.fn().mockReturnValue(mockVisitor);
 });
 
-jest.mock("@google-cloud/bigquery", () => {
+jest.mock('@google-cloud/bigquery', () => {
   const insertMock = jest.fn(() => Promise.resolve());
 
   return {
@@ -39,9 +39,9 @@ afterEach(() => {
   MockDate.reset();
 });
 
-it("returns visitor", () => {
-  const visitor = ga("userId");
-  expect(visitor).toHaveProperty("send");
+it('returns visitor', () => {
+  const visitor = ga('userId');
+  expect(visitor).toHaveProperty('send');
   expect(ua().screenview.mock.calls[0]).toMatchInlineSnapshot(`
     Array [
       "N/A",
@@ -76,13 +76,13 @@ it("returns visitor", () => {
   `);
 });
 
-it("sets title when title is given", () => {
+it('sets title when title is given', () => {
   // 3000 emoji title. When slicing, it should not break emoji.
   const longTitle = Array.from(Array(1000))
-    .map(() => "👨‍👩‍👧‍👦👨‍👨‍👧‍👧👩‍👩‍👧‍👦")
-    .join("");
+    .map(() => '👨‍👩‍👧‍👦👨‍👨‍👧‍👧👩‍👩‍👧‍👦')
+    .join('');
 
-  const visitor = ga("userId", "__INIT__", longTitle);
+  const visitor = ga('userId', '__INIT__', longTitle);
   expect(ua().screenview.mock.calls[0]).toMatchInlineSnapshot(`
     Array [
       "__INIT__",
@@ -104,20 +104,20 @@ it("sets title when title is given", () => {
   ).toHaveLength(longTitle.length);
 });
 
-it("sets events", () => {
-  const visitor = ga("userId");
+it('sets events', () => {
+  const visitor = ga('userId');
 
   visitor.event({
-    ec: "event_category1",
-    ea: "event_action1",
-    el: "event_label1",
-    ev: "event_value1",
+    ec: 'event_category1',
+    ea: 'event_action1',
+    el: 'event_label1',
+    ev: 'event_value1',
   });
 
   visitor.event({
-    ec: "event_category2",
-    ea: "event_action2",
-    el: "event_label2",
+    ec: 'event_category2',
+    ea: 'event_action2',
+    el: 'event_label2',
     // Missing value, fill with null
   });
 
