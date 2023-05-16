@@ -40,6 +40,7 @@ export default function ga(
         category: evt.ec ?? null,
         action: evt.ea ?? null,
         label: evt.el ?? null,
+        value: !evt.ev ? null : evt.ev.toString(),
         time: new Date(),
       });
       return visitor.event(evt);
