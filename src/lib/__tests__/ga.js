@@ -82,7 +82,7 @@ it('sets title when title is given', () => {
     .map(() => '👨‍👩‍👧‍👦👨‍👨‍👧‍👧👩‍👩‍👧‍👦')
     .join('');
 
-  const visitor = ga('userId', '__INIT__', longTitle);
+  const visitor = ga('userId', '__INIT__', longTitle, 'room');
   expect(ua().screenview.mock.calls[0]).toMatchInlineSnapshot(`
     Array [
       "__INIT__",
@@ -98,10 +98,19 @@ it('sets title when title is given', () => {
 
   visitor.send();
 
+  const { text, ...otherArgs } = new BigQuery().dataset().table().insert.mock
+    .calls[0][0];
+
+  // Expect user id and messages source is included in insert() args
+  expect(otherArgs).toMatchInlineSnapshot(`
+    Object {
+      "createdAt": 1989-06-04T00:00:00.000Z,
+      "events": Array [],
+      "messageSource": "room",
+    }
+  `);
   // Expect title is sent to BigQuery
-  expect(
-    new BigQuery().dataset().table().insert.mock.calls[0][0].text
-  ).toHaveLength(longTitle.length);
+  expect(text).toHaveLength(longTitle.length);
 });
 
 it('sets events', () => {
