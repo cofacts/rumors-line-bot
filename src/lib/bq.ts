@@ -1,6 +1,6 @@
 import { BigQuery } from '@google-cloud/bigquery';
-import { TABLE } from 'rumors-db/bq/events';
-import type { EventBatch } from 'rumors-db/bq/events';
+import { TABLE } from 'src/rumors-db/bq/events';
+import type { EventBatch } from 'src/rumors-db/bq/events';
 
 /**
  * BigQuery cliens
