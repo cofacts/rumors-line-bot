@@ -2,7 +2,7 @@ import ua from 'universal-analytics';
 import type { EventParams } from 'universal-analytics';
 import { gaTitle } from './sharedUtils';
 import { insertEventBatch } from './bq';
-import type { EventBatch } from 'rumors-db/bq/events';
+import type { EventBatch } from 'src/rumors-db/bq/events';
 
 /**
  * Sends a screen view and returns the visitor
