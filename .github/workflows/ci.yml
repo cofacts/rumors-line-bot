@@ -24,6 +24,8 @@ jobs:
           - 6379:6379
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - uses: actions/setup-node@v1
         with:
           node-version: '16.x'

@@ -4,3 +4,4 @@ src/__fixtures__/*
 liff/*
 storybook-static
 !.storybook
+src/rumors-db/*

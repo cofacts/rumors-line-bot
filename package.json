@@ -11,7 +11,6 @@
     "dev": "run-p dev:*",
     "dev:server": "pm2-dev ecosystem.dev.config.js",
     "dev:liff": "webpack-dev-server",
-    "heroku-postbuild": "npm run build",
     "build": "run-p build:*",
     "build:server": "babel src --extensions .ts,.js -d build --ignore \"src/liff/**\",\"**/__tests__/**\",\"**/__mocks__/**\" --copy-files --no-copy-ignored",
     "build:liff": "NODE_ENV=production webpack",
@@ -48,6 +47,7 @@
   "homepage": "https://github.com/cofacts/rumors-line-bot#readme",
   "dependencies": {
     "@babel/preset-typescript": "^7.21.0",
+    "@google-cloud/bigquery": "^6.2.0",
     "@google-cloud/dialogflow": "^3.3.0",
     "@graphql-tools/schema": "^7.1.3",
     "@graphql-tools/stitch": "^7.5.1",
@@ -79,7 +79,9 @@
     "string-similarity": "^3.0.0",
     "supertest": "^4.0.2",
     "ttag": "^1.7.22",
-    "universal-analytics": "^0.4.16"
+    "universal-analytics": "^0.4.16",
+    "zod": "^3.21.4",
+    "zoq": "^0.0.7"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.16",
@@ -98,6 +100,9 @@
     "@storybook/addon-links": "^6.2.9",
     "@storybook/addon-svelte-csf": "^2.0.11",
     "@storybook/svelte": "^6.2.9",
+    "@types/jest": "^24.9.1",
+    "@types/koa-router": "^7.4.4",
+    "@types/universal-analytics": "^0.4.5",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
     "babel-eslint": "^10.0.3",
@@ -146,7 +151,9 @@
     "setupFilesAfterEnv": [
       "./scripts/setup-jest.js"
     ],
-    "modulePaths": ["<rootDir>"]
+    "modulePaths": [
+      "<rootDir>"
+    ]
   },
   "engines": {
     "node": "16.x"
