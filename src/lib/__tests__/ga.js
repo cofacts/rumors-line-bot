@@ -68,6 +68,7 @@ it('returns visitor', () => {
         Object {
           "createdAt": 1989-06-04T00:00:00.000Z,
           "events": Array [],
+          "extra": "{}",
           "messageSource": "user",
           "text": "",
         },
@@ -106,6 +107,7 @@ it('sets title when title is given', () => {
     Object {
       "createdAt": 1989-06-04T00:00:00.000Z,
       "events": Array [],
+      "extra": "{}",
       "messageSource": "room",
     }
   `);
@@ -120,7 +122,7 @@ it('sets events', () => {
     ec: 'event_category1',
     ea: 'event_action1',
     el: 'event_label1',
-    ev: 'event_value1',
+    ev: 123,
   });
 
   visitor.event({
@@ -145,7 +147,7 @@ it('sets events', () => {
               "category": "event_category1",
               "label": "event_label1",
               "time": 1989-06-04T00:00:00.000Z,
-              "value": "event_value1",
+              "value": 123,
             },
             Object {
               "action": "event_action2",
@@ -155,6 +157,7 @@ it('sets events', () => {
               "value": null,
             },
           ],
+          "extra": "{}",
           "messageSource": "user",
           "text": "",
         },
