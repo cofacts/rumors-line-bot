@@ -3,6 +3,7 @@ import type { EventParams } from 'universal-analytics';
 import { gaTitle } from './sharedUtils';
 import { insertEventBatch } from './bq';
 import type { EventBatch } from 'src/rumors-db/bq/events';
+import rollbar from './rollbar';
 
 /**
  * Sends a screen view and returns the visitor
@@ -33,14 +34,20 @@ export default function ga(
   visitor.set('cd1', messageSource);
 
   let events: EventBatch['events'] = [];
+  const extra: Record<string, unknown> = {};
 
   return {
+    set(key: string, value: unknown) {
+      extra[key] = value;
+      return visitor.set(key, value);
+    },
+
     event(evt: EventParams) {
       events.push({
         category: evt.ec ?? null,
         action: evt.ea ?? null,
         label: evt.el ?? null,
-        value: !evt.ev ? null : evt.ev.toString(),
+        value: evt.ev === undefined ? null : +evt.ev,
         time: new Date(),
       });
       return visitor.event(evt);
@@ -51,7 +58,11 @@ export default function ga(
         messageSource,
         events,
         createdAt: new Date(),
-      }).catch((e) => console.error('[insertAnalytics]', e));
+        extra,
+      }).catch((e) => {
+        console.error('[insertAnalytics]', e);
+        rollbar.error(`[insertAnalytics] ${e.message}`, e);
+      });
       events = [];
       return visitor.send();
     },
