@@ -58,9 +58,14 @@ export default function ga(
         messageSource,
         events,
         createdAt: new Date(),
-        extra,
+        extra: JSON.stringify(extra),
       }).catch((e) => {
-        console.error('[insertAnalytics]', e);
+        console.error(
+          '[insertAnalytics]',
+          e,
+          // Display nested errors
+          e.errors ? JSON.stringify(e.errors) : ''
+        );
         rollbar.error(`[insertAnalytics] ${e.message}`, e);
       });
       events = [];
