@@ -32,14 +32,14 @@ lineContentRouter.get('/', async (ctx) => {
 
   insertEventBatch({
     createdAt: new Date(),
-    text: '',
-    messageSource: '',
+    text: null,
+    messageSource: null,
     events: [
       {
         category: 'ContentProxy',
         action: 'Forward',
         label: contentType,
-        value: contentLength,
+        value: +contentLength,
         time: new Date(),
       },
     ],
