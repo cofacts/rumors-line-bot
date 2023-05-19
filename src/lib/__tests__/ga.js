@@ -71,6 +71,7 @@ it('returns visitor', () => {
           "extra": "{}",
           "messageSource": "user",
           "text": "",
+          "userId": "userId",
         },
       ],
     ]
@@ -109,6 +110,7 @@ it('sets title when title is given', () => {
       "events": Array [],
       "extra": "{}",
       "messageSource": "room",
+      "userId": "userId",
     }
   `);
   // Expect title is sent to BigQuery
@@ -160,6 +162,7 @@ it('sets events', () => {
           "extra": "{}",
           "messageSource": "user",
           "text": "",
+          "userId": "userId",
         },
       ],
     ]

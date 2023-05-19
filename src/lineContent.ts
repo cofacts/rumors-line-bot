@@ -31,6 +31,7 @@ lineContentRouter.get('/', async (ctx) => {
   visitor.send();
 
   insertEventBatch({
+    userId: null,
     createdAt: new Date(),
     text: null,
     messageSource: null,
