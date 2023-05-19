@@ -52,8 +52,10 @@ export default function ga(
       });
       return visitor.event(evt);
     },
+
     send() {
       insertEventBatch({
+        userId: uuid,
         text: documentTitle,
         messageSource,
         events,
