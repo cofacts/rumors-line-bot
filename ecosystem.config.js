@@ -16,6 +16,9 @@ module.exports = {
 
       // https://devcenter.heroku.com/articles/optimizing-dyno-usage#node-js
       exec_mode: 'cluster',
+
+      out_file: '/dev/null',
+      error_file: '/dev/null',
     },
   ],
 };
