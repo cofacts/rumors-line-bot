@@ -22,10 +22,11 @@ import {
   FlexMessage,
   TextMessage,
 } from '@line/bot-sdk';
+import { ChatbotStateHandler } from 'src/types/ChatbotStates';
 
 const SIMILARITY_THRESHOLD = 0.95;
 
-export default async function initState(params) {
+const initState: ChatbotStateHandler = async (params) => {
   let { data, event, userId, replies } = params;
   const state = '__INIT__';
 
@@ -327,4 +328,6 @@ export default async function initState(params) {
   }
   visitor.send();
   return { data, event, userId, replies };
-}
+};
+
+export default initState;
