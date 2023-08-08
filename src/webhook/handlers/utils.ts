@@ -387,11 +387,11 @@ export function createSuggestOtherFactCheckerReply(): Message {
  * @returns Flex text contents
  */
 export function createHighlightContents(
-  highlight: CreateHighlightContentsHighlightFragment,
+  highlight: CreateHighlightContentsHighlightFragment | null | undefined,
   oriText = '',
   lettersLimit = 200,
   contentsLimit = 4000
-) {
+): FlexSpan[] {
   const result: FlexSpan[] = [];
   let totalLength = 4; // 4 comes from JSON.stringify([]).length;
   let totalLetters = 0;
