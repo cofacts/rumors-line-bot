@@ -33,7 +33,7 @@ export function createPostbackAction(
   label: string,
   input: string,
   displayText: string,
-  sessionId: string,
+  sessionId: number,
   state: string
 ): Action {
   return {
@@ -105,7 +105,7 @@ export function createReferenceWords({
  * @returns reply message object
  */
 export function createAskArticleSubmissionConsentReply(
-  sessionId: string
+  sessionId: number
 ): Message {
   const btnText = `🆕 ${t`Report to database`}`;
   const spans: FlexSpan[] = [
@@ -703,7 +703,7 @@ export const POSTBACK_NO = '__POSTBACK_NO__';
  * @param sessionId - Chatbot session ID
  * @returns {object} Messaging API message object
  */
-export function createArticleSourceReply(sessionId: string) {
+export function createArticleSourceReply(sessionId: number): FlexMessage {
   const question = t`Did you forward this message as a whole to me from the LINE app?`;
 
   return {

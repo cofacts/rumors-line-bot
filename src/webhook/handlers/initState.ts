@@ -1,5 +1,12 @@
 import stringSimilarity from 'string-similarity';
 import { t } from 'ttag';
+import {
+  FlexBubble,
+  FlexComponent,
+  FlexMessage,
+  TextMessage,
+} from '@line/bot-sdk';
+import type { ChatbotStateHandler } from 'src/types/ChatbotStates';
 import gql from 'src/lib/gql';
 import {
   createPostbackAction,
@@ -16,13 +23,6 @@ import {
   ListArticlesInInitStateQuery,
   ListArticlesInInitStateQueryVariables,
 } from 'typegen/graphql';
-import {
-  FlexBubble,
-  FlexComponent,
-  FlexMessage,
-  TextMessage,
-} from '@line/bot-sdk';
-import { ChatbotStateHandler } from 'src/types/ChatbotStates';
 
 const SIMILARITY_THRESHOLD = 0.95;
 
