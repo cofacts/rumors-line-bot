@@ -22,7 +22,6 @@ it('invokes fetch and returns result', async () => {
         "https://dev-api.cofacts.tw/graphql",
         Object {
           "body": "[{\\"query\\":\\"(bar: String){foo}\\",\\"variables\\":{\\"bar\\":\\"bar\\"}}]",
-          "credentials": "include",
           "headers": Object {
             "Content-Type": "application/json",
             "x-app-secret": "CHANGE_ME",
@@ -151,7 +150,6 @@ it('batches consecutive requests by URL', async () => {
         "https://dev-api.cofacts.tw/graphql",
         Object {
           "body": "[{\\"query\\":\\"\\\\n      {\\\\n        foo\\\\n      }\\\\n    \\"},{\\"query\\":\\"\\\\n      {\\\\n        bar\\\\n      }\\\\n    \\"}]",
-          "credentials": "include",
           "headers": Object {
             "Content-Type": "application/json",
             "x-app-secret": "CHANGE_ME",
@@ -163,7 +161,6 @@ it('batches consecutive requests by URL', async () => {
         "https://dev-api.cofacts.tw/graphql?userId=another-user",
         Object {
           "body": "[{\\"query\\":\\"\\\\n      {\\\\n        foobar\\\\n      }\\\\n    \\",\\"variables\\":{}}]",
-          "credentials": "include",
           "headers": Object {
             "Content-Type": "application/json",
             "x-app-secret": "CHANGE_ME",
