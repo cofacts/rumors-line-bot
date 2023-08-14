@@ -1,4 +1,4 @@
-const mockResultQueue = [];
+const mockResultQueue: object[] = [];
 
 function gqlMock() {
   return () => {
@@ -15,7 +15,7 @@ function gqlMock() {
  * @param {*} returnValue the mock value that gql()()'s returned promise will resolve to.
  * @returns nothing
  */
-gqlMock.__push = function (returnValue) {
+gqlMock.__push = function (returnValue: object) {
   mockResultQueue.push(returnValue);
 };
 
