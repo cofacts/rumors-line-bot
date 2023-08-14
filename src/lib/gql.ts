@@ -61,7 +61,7 @@ function getGraphQLRespLoader(url: string) {
 export default (query: TemplateStringsArray, ...substitutions: string[]) =>
   <QueryResp extends object, Variable>(
     variables: Variable,
-    search?: string
+    search?: Record<string, string | number>
   ) => {
     const queryAndVariable: QV = {
       query: String.raw(query, ...substitutions),

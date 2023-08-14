@@ -16,6 +16,8 @@ import type {
   CreateReplyMessagesReplyFragment,
   CreateReplyMessagesArticleFragment,
   CreateReferenceWordsReplyFragment,
+  CreateAiReplyMutation,
+  CreateAiReplyMutationVariables,
 } from 'typegen/graphql';
 import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
 import { sign } from 'src/lib/jwt';
@@ -524,12 +526,15 @@ const AI_REPLY_IMAGE_VERSION = '20230405';
 export async function createAIReply(articleId: string, userId: string) {
   const text = (
     await gql`
-      mutation ($articleId: String!) {
+      mutation CreateAIReply($articleId: String!) {
         CreateAIReply(articleId: $articleId) {
           text
         }
       }
-    `({ articleId }, { userId })
+    `<CreateAiReplyMutation, CreateAiReplyMutationVariables>(
+      { articleId },
+      { userId }
+    )
   ).data.CreateAIReply?.text;
 
   return !text
