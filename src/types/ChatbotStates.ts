@@ -55,7 +55,7 @@ type ChatbotStateHandlerReturnType = Omit<
 >;
 
 /**
- *
+ * Generic handler type for function under src/webhook/handlers
  */
 export type ChatbotStateHandler = (
   params: ChatbotStateHandlerParams
