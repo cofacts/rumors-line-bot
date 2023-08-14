@@ -27,12 +27,17 @@ import {
 const SIMILARITY_THRESHOLD = 0.95;
 
 const initState: ChatbotStateHandler = async (params) => {
-  let { data, event, userId, replies } = params;
+  const { data, userId } = params;
+  let { event, replies } = params;
   const state = '__INIT__';
 
   // Track text message type send by user
   const visitor = ga(userId, state, event.input);
-  visitor.event({ ec: 'UserInput', ea: 'MessageType', el: event.message.type });
+  visitor.event({
+    ec: 'UserInput',
+    ea: 'MessageType',
+    el: 'message' in event ? event.message.type : '',
+  });
 
   // Store user input into context
   data.searchedText = event.input;
@@ -51,7 +56,7 @@ const initState: ChatbotStateHandler = async (params) => {
     replies = [
       {
         type: 'text',
-        text: dialogflowResponse.queryResult.fulfillmentText,
+        text: dialogflowResponse.queryResult.fulfillmentText ?? '',
       },
     ];
     visitor.event({
