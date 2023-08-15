@@ -18,16 +18,25 @@ import {
 } from './handlers/tutorial';
 import processMedia from './handlers/processMedia';
 import UserSettings from '../database/models/userSettings';
+import { Request } from 'koa';
+import {
+  Group,
+  MessageEvent,
+  PostbackEvent,
+  Room,
+  TextEventMessage,
+  WebhookEvent,
+} from '@line/bot-sdk';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
 const singleUserHandler = async (
-  req,
-  type,
-  replyToken,
-  timeout,
-  userId,
-  otherFields
+  req: Request,
+  type: WebhookEventType,
+  replyToken: string,
+  timeout: number,
+  userId: string,
+  otherFields: Omit<WebhookEvent, 'type' | 'replyToken'>
 ) => {
   // reply before timeout
   // the reply token becomes invalid after a certain period of time
@@ -88,7 +97,11 @@ const singleUserHandler = async (
       result = {
         context: { data: data },
         replies: [
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           createGreetingMessage(),
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           createTutorialMessage(data.sessionId),
         ],
       };
@@ -113,9 +126,13 @@ const singleUserHandler = async (
   const context = (await redis.get(userId)) || {};
   // React to certain type of events
   //
-  if (type === 'message' && otherFields.message.type === 'text') {
+  if (
+    type === 'message' &&
+    (otherFields as MessageEvent).message.type === 'text'
+  ) {
     // normalized "input"
-    const input = otherFields.message.text;
+    const input = ((otherFields as MessageEvent).message as TextEventMessage)
+      .text;
 
     // Debugging: type 'RESET' to reset user's context and start all over.
     //
@@ -124,17 +141,29 @@ const singleUserHandler = async (
       clearTimeout(timerId);
       return;
     }
-
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     result = await processText(context, type, input, otherFields, userId, req);
-  } else if (type === 'message' && otherFields.message.type === 'image') {
-    const event = { messageId: otherFields.message.id, type, ...otherFields };
+  } else if (
+    type === 'message' &&
+    (otherFields as MessageEvent).message.type === 'image'
+  ) {
+    const event = {
+      messageId: (otherFields as MessageEvent).message.id,
+      type,
+      ...otherFields,
+    };
 
     result = await processImage(context, event, userId);
   } else if (
     type === 'message' &&
-    ['video', 'audio'].includes(otherFields.message.type)
+    ['video', 'audio'].includes((otherFields as MessageEvent).message.type)
   ) {
-    const event = { messageId: otherFields.message.id, type, ...otherFields };
+    const event = {
+      messageId: (otherFields as MessageEvent).message.id,
+      type,
+      ...otherFields,
+    };
 
     result = await processMedia(context, event, userId);
   } else if (type === 'message') {
@@ -143,13 +172,13 @@ const singleUserHandler = async (
       .event({
         ec: 'UserInput',
         ea: 'MessageType',
-        el: otherFields.message.type,
+        el: (otherFields as MessageEvent).message.type,
       })
       .send();
   } else if (type === 'postback') {
-    let input;
-
-    const postbackData = JSON.parse(otherFields.postback.data);
+    const postbackData = JSON.parse(
+      (otherFields as PostbackEvent).postback.data
+    );
 
     // Handle the case when user context in redis is expired
     if (!context.data) {
@@ -187,8 +216,9 @@ const singleUserHandler = async (
       return;
     }
 
-    input = postbackData.input;
-
+    const input = postbackData.input;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     result = await handlePostback(
       context,
       postbackData.state,
@@ -224,7 +254,14 @@ const singleUserHandler = async (
   await redis.set(userId, result.context);
 };
 
-async function processText(context, type, input, otherFields, userId, req) {
+async function processText(
+  context: Context,
+  type: string,
+  input: string,
+  otherFields: Partial<WebhookEvent>,
+  userId: string,
+  req: Request
+) {
   let result;
   try {
     result = await handleInput(
@@ -239,7 +276,7 @@ async function processText(context, type, input, otherFields, userId, req) {
     }
   } catch (e) {
     console.error(e);
-    rollbar.error(e, req);
+    rollbar.error(e as Error, req);
     result = {
       context: { data: {} },
       replies: [
@@ -253,7 +290,7 @@ async function processText(context, type, input, otherFields, userId, req) {
   return result;
 }
 
-const router = Router();
+const router = new Router();
 
 const groupHandler = new GroupHandler(groupEventQueue, expiredGroupEventQueue);
 // Routes that is after protection of checkSignature
@@ -263,8 +300,14 @@ router.post('/', (ctx) => {
   // Allow free-form request handling.
   // Don't wait for anything before returning 200.
 
-  ctx.request.body.events.forEach(
-    async ({ type, replyToken, ...otherFields }) => {
+  (ctx.request.body as { events: WebhookEvent[] }).events.forEach(
+    async (args: WebhookEvent) => {
+      const { type, ...otherFields } = args;
+      let replyToken = '';
+      if ('replyToken' in args) {
+        replyToken = args.replyToken;
+      }
+
       // set 28s timeout
       const timeout = 28000;
       if (otherFields.source.type === 'user') {
@@ -283,7 +326,9 @@ router.post('/', (ctx) => {
         groupHandler.addJob({
           type,
           replyToken,
-          groupId: otherFields.source.groupId || otherFields.source.roomId,
+          groupId:
+            (otherFields.source as Group).groupId ||
+            (otherFields.source as Room).roomId,
           otherFields,
         });
       }
