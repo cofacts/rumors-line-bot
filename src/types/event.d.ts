@@ -12,9 +12,3 @@ type WebhookEventType =
   | 'memberJoined'
   | 'memberLeft'
   | 'accountLink';
-
-type Context = {
-  data: {
-    sessionId: number;
-  };
-};
