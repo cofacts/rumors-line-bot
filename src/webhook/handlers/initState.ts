@@ -1,5 +1,12 @@
 import stringSimilarity from 'string-similarity';
 import { t } from 'ttag';
+import {
+  FlexBubble,
+  FlexComponent,
+  FlexMessage,
+  TextMessage,
+} from '@line/bot-sdk';
+import type { ChatbotStateHandler } from 'src/types/chatbotState';
 import gql from 'src/lib/gql';
 import {
   createPostbackAction,
@@ -11,17 +18,26 @@ import {
 } from './utils';
 import ga from 'src/lib/ga';
 import detectDialogflowIntent from 'src/lib/detectDialogflowIntent';
-import choosingArticle from '../handlers/choosingArticle';
+import choosingArticle from './choosingArticle';
+import {
+  ListArticlesInInitStateQuery,
+  ListArticlesInInitStateQueryVariables,
+} from 'typegen/graphql';
 
 const SIMILARITY_THRESHOLD = 0.95;
 
-export default async function initState(params) {
-  let { data, event, userId, replies } = params;
+const initState: ChatbotStateHandler = async (params) => {
+  const { data, userId } = params;
+  let { event, replies } = params;
   const state = '__INIT__';
 
   // Track text message type send by user
   const visitor = ga(userId, state, event.input);
-  visitor.event({ ec: 'UserInput', ea: 'MessageType', el: event.message.type });
+  visitor.event({
+    ec: 'UserInput',
+    ea: 'MessageType',
+    el: 'message' in event ? event.message.type : '',
+  });
 
   // Store user input into context
   data.searchedText = event.input;
@@ -40,13 +56,13 @@ export default async function initState(params) {
     replies = [
       {
         type: 'text',
-        text: dialogflowResponse.queryResult.fulfillmentText,
+        text: dialogflowResponse.queryResult.fulfillmentText ?? '',
       },
     ];
     visitor.event({
       ec: 'UserInput',
       ea: 'ChatWithBot',
-      el: dialogflowResponse.queryResult.intent.displayName,
+      el: dialogflowResponse.queryResult.intent.displayName ?? undefined,
     });
     visitor.send();
     return { data, event, userId, replies };
@@ -56,7 +72,7 @@ export default async function initState(params) {
   const {
     data: { ListArticles },
   } = await gql`
-    query ($text: String!) {
+    query ListArticlesInInitState($text: String!) {
       ListArticles(
         filter: { moreLikeThis: { like: $text } }
         orderBy: [{ _score: DESC }]
@@ -77,13 +93,13 @@ export default async function initState(params) {
         }
       }
     }
-  `({
+  `<ListArticlesInInitStateQuery, ListArticlesInInitStateQueryVariables>({
     text: event.input,
   });
 
   const inputSummary = ellipsis(event.input, 12);
 
-  if (ListArticles.edges.length) {
+  if (ListArticles?.edges.length) {
     // Track if find similar Articles in DB.
     visitor.event({ ec: 'UserInput', ea: 'ArticleSearch', el: 'ArticleFound' });
 
@@ -98,15 +114,15 @@ export default async function initState(params) {
     });
 
     const edgesSortedWithSimilarity = ListArticles.edges
-      .map((edge) => {
-        edge.similarity = stringSimilarity.compareTwoStrings(
+      .map((edge) => ({
+        ...edge,
+        similarity: stringSimilarity.compareTwoStrings(
           // Remove spaces so that we count word's similarities only
           //
-          edge.node.text.replace(/\s/g, ''),
+          (edge.node.text ?? '').replace(/\s/g, ''),
           event.input.replace(/\s/g, '')
-        );
-        return edge;
-      })
+        ),
+      }))
       .sort((edge1, edge2) => edge2.similarity - edge1.similarity)
       .slice(0, 9); /* flex carousel has at most 10 bubbles */
 
@@ -131,15 +147,15 @@ export default async function initState(params) {
       });
     }
 
-    const articleOptions = edgesSortedWithSimilarity.map(
+    const articleOptions: FlexBubble[] = edgesSortedWithSimilarity.map(
       ({ node: { text, id }, highlight, similarity }) => {
         const similarityPercentage = Math.round(similarity * 100);
         const similarityEmoji = ['😐', '🙂', '😀', '😃', '😄'][
           Math.floor(similarity * 4.999)
         ];
-        const displayTextWhenChosen = ellipsis(text, 25, '...');
+        const displayTextWhenChosen = ellipsis(text ?? '', 25, '...');
 
-        const bodyContents = [];
+        const bodyContents: FlexComponent[] = [];
         if (highlight && !highlight.text) {
           bodyContents.push({
             type: 'text',
@@ -151,7 +167,7 @@ export default async function initState(params) {
         }
         bodyContents.push({
           type: 'text',
-          contents: createHighlightContents(highlight, text), // 50KB for entire Flex carousel
+          contents: createHighlightContents(highlight, text ?? undefined), // 50KB for entire Flex carousel
           maxLines: 6,
           flex: 0,
           gravity: 'top',
@@ -271,7 +287,7 @@ export default async function initState(params) {
       });
     }
 
-    const templateMessage = {
+    const templateMessage: FlexMessage = {
       type: 'flex',
       altText: t`Please choose the most similar message from the list.`,
       contents: {
@@ -284,7 +300,7 @@ export default async function initState(params) {
       {
         type: 'text',
         text: `🔍 ${t`There are some messages that looks similar to "${inputSummary}" you have sent to me.`}`,
-      },
+      } satisfies TextMessage,
     ];
     const textArticleFound = [
       {
@@ -292,11 +308,11 @@ export default async function initState(params) {
         text:
           t`Internet rumors are often mutated and shared.
             Please choose the version that looks the most similar` + '👇',
-      },
+      } satisfies TextMessage,
       templateMessage,
     ];
 
-    replies = prefixTextArticleFound.concat(textArticleFound);
+    replies = [...prefixTextArticleFound, ...textArticleFound];
   } else {
     // Track if find similar Articles in DB.
     visitor.event({
@@ -317,4 +333,6 @@ export default async function initState(params) {
   }
   visitor.send();
   return { data, event, userId, replies };
-}
+};
+
+export default initState;

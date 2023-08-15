@@ -16,6 +16,8 @@ import type {
   CreateReplyMessagesReplyFragment,
   CreateReplyMessagesArticleFragment,
   CreateReferenceWordsReplyFragment,
+  CreateAiReplyMutation,
+  CreateAiReplyMutationVariables,
 } from 'typegen/graphql';
 import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
 import { sign } from 'src/lib/jwt';
@@ -33,7 +35,7 @@ export function createPostbackAction(
   label: string,
   input: string,
   displayText: string,
-  sessionId: string,
+  sessionId: number,
   state: string
 ): Action {
   return {
@@ -105,7 +107,7 @@ export function createReferenceWords({
  * @returns reply message object
  */
 export function createAskArticleSubmissionConsentReply(
-  sessionId: string
+  sessionId: number
 ): Message {
   const btnText = `🆕 ${t`Report to database`}`;
   const spans: FlexSpan[] = [
@@ -387,11 +389,11 @@ export function createSuggestOtherFactCheckerReply(): Message {
  * @returns Flex text contents
  */
 export function createHighlightContents(
-  highlight: CreateHighlightContentsHighlightFragment,
+  highlight: CreateHighlightContentsHighlightFragment | null | undefined,
   oriText = '',
   lettersLimit = 200,
   contentsLimit = 4000
-) {
+): FlexSpan[] {
   const result: FlexSpan[] = [];
   let totalLength = 4; // 4 comes from JSON.stringify([]).length;
   let totalLetters = 0;
@@ -524,12 +526,15 @@ const AI_REPLY_IMAGE_VERSION = '20230405';
 export async function createAIReply(articleId: string, userId: string) {
   const text = (
     await gql`
-      mutation ($articleId: String!) {
+      mutation CreateAIReply($articleId: String!) {
         CreateAIReply(articleId: $articleId) {
           text
         }
       }
-    `({ articleId }, { userId })
+    `<CreateAiReplyMutation, CreateAiReplyMutationVariables>(
+      { articleId },
+      { userId }
+    )
   ).data.CreateAIReply?.text;
 
   return !text
@@ -703,7 +708,7 @@ export const POSTBACK_NO = '__POSTBACK_NO__';
  * @param sessionId - Chatbot session ID
  * @returns {object} Messaging API message object
  */
-export function createArticleSourceReply(sessionId: string) {
+export function createArticleSourceReply(sessionId: number): FlexMessage {
   const question = t`Did you forward this message as a whole to me from the LINE app?`;
 
   return {

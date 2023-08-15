@@ -136,6 +136,40 @@ type Query {
     """
     before: String
   ): AnalyticsConnection!
+  ListAIResponses(
+    filter: ListAIResponsesFilter
+    orderBy: [ListAIResponsesOrderBy]
+
+    """Returns only first <first> results"""
+    first: Int = 10
+
+    """
+    Specify a cursor, returns results after this cursor. cannot be used with "before".
+    """
+    after: String
+
+    """
+    Specify a cursor, returns results before this cursor. cannot be used with "after".
+    """
+    before: String
+  ): AIResponseConnection!
+  ListCooccurrences(
+    filter: ListCooccurrenceFilter
+    orderBy: [ListCooccurrenceOrderBy]
+
+    """Returns only first <first> results"""
+    first: Int = 10
+
+    """
+    Specify a cursor, returns results after this cursor. cannot be used with "before".
+    """
+    after: String
+
+    """
+    Specify a cursor, returns results before this cursor. cannot be used with "after".
+    """
+    before: String
+  ): ListCooccurrenceConnection
   ValidateSlug(slug: String!): ValidationResult
 }
 
@@ -144,6 +178,7 @@ type Article implements Node {
   text: String
   createdAt: String
   updatedAt: String
+  status: ReplyRequestStatusEnum!
   references: [ArticleReference]
 
   """Number of normal article replies"""
@@ -167,9 +202,17 @@ type Article implements Node {
     """Show only articleReplies created by the specific user."""
     userId: String
 
+    """Show only articleReplies created by the specified users."""
+    userIds: [String!]
+
     """Only list the articleReplies created by the currently logged in user"""
     selfOnly: Boolean
   ): [ArticleReply]
+
+  """
+  Automated reply from AI before human fact checkers compose an fact check
+  """
+  aiReplies: [AIReply!]!
   articleCategories(
     """
     Deprecated. Please use statuses instead. When specified, returns only article categories with the specified status
@@ -231,11 +274,19 @@ type Article implements Node {
 
   """Attachment hash to search or identify files"""
   attachmentHash: String
+  cooccurrences: [Cooccurrence!]
 }
 
 """Basic entity. Modeled after Relay's GraphQL Server Specification."""
 interface Node {
   id: ID!
+}
+
+enum ReplyRequestStatusEnum {
+  NORMAL
+
+  """Created by a blocked user violating terms of use."""
+  BLOCKED
 }
 
 type ArticleReference {
@@ -581,6 +632,72 @@ enum FeedbackVote {
   DOWNVOTE
 }
 
+"""A ChatGPT reply for an article with no human fact-checks yet"""
+type AIReply implements Node & AIResponse {
+  id: ID!
+
+  """The id for the document that this AI response is for."""
+  docId: ID
+
+  """AI response type"""
+  type: AIResponseTypeEnum!
+
+  """The user triggered this AI response"""
+  user: User
+
+  """Processing status of AI"""
+  status: AIResponseStatusEnum!
+
+  """AI response text. Populated after status becomes SUCCESS."""
+  text: String
+  createdAt: String!
+  updatedAt: String
+
+  """
+  The usage returned from OpenAI. Populated after status becomes SUCCESS.
+  """
+  usage: OpenAICompletionUsage
+}
+
+"""Denotes an AI processed response and its processing status."""
+interface AIResponse implements Node {
+  id: ID!
+
+  """The id for the document that this AI response is for."""
+  docId: ID
+
+  """AI response type"""
+  type: AIResponseTypeEnum!
+
+  """The user triggered this AI response"""
+  user: User
+
+  """Processing status of AI"""
+  status: AIResponseStatusEnum!
+
+  """AI response text. Populated after status becomes SUCCESS."""
+  text: String
+  createdAt: String!
+  updatedAt: String
+}
+
+enum AIResponseTypeEnum {
+  """The AI Response is an automated analysis / reply of an article."""
+  AI_REPLY
+}
+
+enum AIResponseStatusEnum {
+  LOADING
+  SUCCESS
+  ERROR
+}
+
+type OpenAICompletionUsage {
+  promptTokens: Int!
+  completionTokens: Int!
+  totalTokens: Int!
+}
+
 """The linkage between an Article and a Category"""
 type ArticleCategory implements Node {
   id: ID!
@@ -710,13 +827,6 @@ type ReplyRequest implements Node {
   status: ReplyRequestStatusEnum!
 }
 
-enum ReplyRequestStatusEnum {
-  NORMAL
-
-  """Created by a blocked user violating terms of use."""
-  BLOCKED
-}
-
 type ArticleConnection implements Connection {
   """
   The total count of the entire collection, regardless of "before", "after".
@@ -823,12 +933,25 @@ enum AttachmentVariantEnum {
   THUMBNAIL
 }
 
+type Cooccurrence implements Node {
+  id: ID!
+  userId: String!
+  appId: String!
+  articles: [Article!]!
+  articleIds: [String!]!
+  createdAt: String!
+  updatedAt: String!
+}
+
 input ListArticleFilter {
   """Show only articles created by a specific app."""
   appId: String
 
   """Show only articles created by the specific user."""
   userId: String
+
+  """Show only articles created by the specified users."""
+  userIds: [String!]
 
   """
   List only the articles that were created between the specific time range.
@@ -891,8 +1014,16 @@ input ListArticleFilter {
   """Show the media article similar to the input url"""
   mediaUrl: String
 
+  """
+  Specifies how the transcript of `mediaUrl` can be used to search. Can only specify `transcript` when `mediaUrl` is specified.
+  """
+  transcript: TranscriptFilter
+
   """Show articles with article replies matching this criteria"""
   articleReply: ArticleReplyFilterInput
+
+  """Returns only articles with the specified statuses"""
+  statuses: [ArticleStatusEnum!] = [NORMAL]
 }
 
 """
@@ -922,12 +1053,28 @@ input UserAndExistInput {
   exists: Boolean = true
 }
 
+input TranscriptFilter {
+  """
+  more_like_this query's "minimum_should_match" query param for the transcript of `mediaUrl`
+  See https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-minimum-should-match.html for possible values.
+  """
+  minimumShouldMatch: String
+
+  """
+  Only used when `filter.mediaUrl` is provided. Generates transcript if provided `filter.mediaUrl` is not transcribed previously.
+  """
+  shouldCreate: Boolean = false
+}
+
 input ArticleReplyFilterInput {
   """Show only articleReplies created by a specific app."""
   appId: String
 
   """Show only articleReplies created by the specific user."""
   userId: String
+
+  """Show only articleReplies created by the specified users."""
+  userIds: [String!]
 
   """
   List only the articleReplies that were created between the specific time range.
@@ -938,6 +1085,13 @@ input ArticleReplyFilterInput {
   selfOnly: Boolean
   statuses: [ArticleReplyStatusEnum!] = [NORMAL]
   replyTypes: [ReplyTypeEnum]
+}
+
+enum ArticleStatusEnum {
+  NORMAL
+
+  """Created by a blocked user violating terms of use."""
+  BLOCKED
 }
 
 """
@@ -960,6 +1114,9 @@ input ListReplyFilter {
 
   """Show only replies created by the specific user."""
   userId: String
+
+  """Show only replies created by the specified users."""
+  userIds: [String!]
 
   """
   List only the replies that were created between the specific time range.
@@ -1044,6 +1201,9 @@ input ListArticleReplyFeedbackFilter {
   """Show only article reply feedbacks created by the specific user."""
   userId: String
 
+  """Show only article reply feedbacks created by the specified users."""
+  userIds: [String!]
+
   """
   List only the article reply feedbacks that were created between the specific time range.
   """
@@ -1124,6 +1284,9 @@ input ListReplyRequestFilter {
 
   """Show only reply requests created by the specific user."""
   userId: String
+
+  """Show only reply requests created by the specified users."""
+  userIds: [String!]
 
   """
   List only the reply requests that were created between the specific time range.
@@ -1221,6 +1384,105 @@ input ListAnalyticsOrderBy {
   date: SortOrderEnum
 }
 
+type AIResponseConnection implements Connection {
+  """
+  The total count of the entire collection, regardless of "before", "after".
+  """
+  totalCount: Int!
+  edges: [AIResponseConnectionEdge!]!
+  pageInfo: AIResponseConnectionPageInfo!
+}
+
+type AIResponseConnectionEdge implements Edge {
+  node: AIResponse!
+  cursor: String!
+  score: Float
+  highlight: Highlights
+}
+
+type AIResponseConnectionPageInfo implements PageInfo {
+  lastCursor: String
+  firstCursor: String
+}
+
+input ListAIResponsesFilter {
+  """Show only AI responses created by a specific app."""
+  appId: String
+
+  """Show only AI responses created by the specific user."""
+  userId: String
+
+  """Show only AI responses created by the specified users."""
+  userIds: [String!]
+
+  """
+  List only the AI responses that were created between the specific time range.
+  """
+  createdAt: TimeRangeInput
+
+  """If given, only list out AI responses with specific IDs"""
+  ids: [ID!]
+
+  """Only list the AI responses created by the currently logged in user"""
+  selfOnly: Boolean
+
+  """If specified, only return AI repsonses with the specified types."""
+  types: [AIResponseTypeEnum!]
+
+  """If specified, only return AI repsonses under the specified doc IDs."""
+  docIds: [ID!]
+
+  """If specified, only return AI repsonses under the specified statuses."""
+  statuses: [AIResponseStatusEnum!]
+
+  """List only the AI responses updated within the specific time range."""
+  updatedAt: TimeRangeInput
+}
+
+"""
+An entry of orderBy argument. Specifies field name and the sort order. Only one field name is allowd per entry.
+"""
+input ListAIResponsesOrderBy {
+  createdAt: SortOrderEnum
+  updatedAt: SortOrderEnum
+}
+
+type ListCooccurrenceConnection implements Connection {
+  """
+  The total count of the entire collection, regardless of "before", "after".
+  """
+  totalCount: Int!
+  edges: [ListCooccurrenceConnectionEdge!]!
+  pageInfo: ListCooccurrenceConnectionPageInfo!
+}
+
+type ListCooccurrenceConnectionEdge implements Edge {
+  node: Cooccurrence!
+  cursor: String!
+  score: Float
+  highlight: Highlights
+}
+
+type ListCooccurrenceConnectionPageInfo implements PageInfo {
+  lastCursor: String
+  firstCursor: String
+}
+
+input ListCooccurrenceFilter {
+  """
+  List only the cooccurrence that were last updated within the specific time range.
+  """
+  updatedAt: TimeRangeInput
+}
+
+"""
+An entry of orderBy argument. Specifies field name and the sort order. Only one field name is allowd per entry.
+"""
+input ListCooccurrenceOrderBy {
+  createdAt: SortOrderEnum
+  updatedAt: SortOrderEnum
+}
+
 type ValidationResult {
   success: Boolean!
   error: SlugErrorEnum
@@ -1276,6 +1538,11 @@ type Mutation {
     waitForHyperlinks: Boolean = false
   ): MutationResult
 
+  """
+  Create an AI reply for a specific article. If existed, returns an existing one. If information in the article is not sufficient for AI, return null.
+  """
+  CreateAIReply(articleId: String!): AIReply
+
   """Connects specified reply and specified article."""
   CreateArticleReply(articleId: String!, replyId: String!): [ArticleReply]
 
@@ -1309,6 +1576,9 @@ type Mutation {
 
   """Create or update a feedback on a reply request reason"""
   CreateOrUpdateReplyRequestFeedback(replyRequestId: String!, vote: FeedbackVote!): ReplyRequest
+
+  """Create or update a cooccurrence for the given articles"""
+  CreateOrUpdateCooccurrence(articleIds: [String!]): Cooccurrence
 
   """Change status of specified articleReplies"""
   UpdateArticleReplyStatus(articleId: String!, replyId: String!, status: ArticleReplyStatusEnum!): [ArticleReply]
