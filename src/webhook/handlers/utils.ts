@@ -393,19 +393,28 @@ export function createHighlightContents(
   oriText = '',
   lettersLimit = 200,
   contentsLimit = 4000
-): FlexSpan[] {
+): {
+  /** The highlighted FlexSpan */
+  contents: FlexSpan[];
+
+  /** Which field does the highlight comes from. Null if no highlight. */
+  source: keyof CreateHighlightContentsHighlightFragment | null;
+} {
   const result: FlexSpan[] = [];
   let totalLength = 4; // 4 comes from JSON.stringify([]).length;
   let totalLetters = 0;
 
   // return original text if highlight null or undefined, basically this won't happen
   if (!highlight) {
-    return [
-      {
-        type: 'span',
-        text: ellipsis(oriText, lettersLimit),
-      },
-    ];
+    return {
+      source: null,
+      contents: [
+        {
+          type: 'span',
+          text: ellipsis(oriText, lettersLimit),
+        },
+      ],
+    };
   }
 
   const summaries = highlight.hyperlinks?.reduce<string[]>(
@@ -427,12 +436,15 @@ export function createHighlightContents(
   // fix issue 220 (api bug)
   // return original text if highlight isn't null but text and hyperlinks are null
   if (!text) {
-    return [
-      {
-        type: 'span',
-        text: ellipsis(oriText, lettersLimit),
-      },
-    ];
+    return {
+      source: null,
+      contents: [
+        {
+          type: 'span',
+          text: ellipsis(oriText, lettersLimit),
+        },
+      ],
+    };
   }
 
   for (const highlightPair of text.split('</HIGHLIGHT>')) {
@@ -452,7 +464,10 @@ export function createHighlightContents(
     result.push(...highlightContent.content);
   }
 
-  return result;
+  return {
+    source: highlight.text ? 'text' : 'hyperlinks',
+    contents: result,
+  };
 }
 
 /**
