@@ -6,7 +6,7 @@ import {
   FlexMessage,
   TextMessage,
 } from '@line/bot-sdk';
-import type { ChatbotStateHandler } from 'src/types/ChatbotStates';
+import type { ChatbotStateHandler } from 'src/types/chatbotState';
 import gql from 'src/lib/gql';
 import {
   createPostbackAction,
