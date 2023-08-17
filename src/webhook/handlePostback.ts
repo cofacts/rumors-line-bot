@@ -6,6 +6,13 @@ import askingArticleSource from './handlers/askingArticleSource';
 import defaultState from './handlers/defaultState';
 import { ManipulationError } from './handlers/utils';
 import tutorial from './handlers/tutorial';
+import {
+  ChatbotEvent,
+  ChatbotState,
+  ChatbotStateHandlerParams,
+  ChatbotStateHandlerReturnType,
+} from 'src/types/chatbotState';
+import { Message } from '@line/bot-sdk';
 
 /**
  * Given input event and context, outputs the new context and the reply to emit.
@@ -17,11 +24,11 @@ import tutorial from './handlers/tutorial';
  */
 export default async function handlePostback(
   { data = {} },
-  state,
-  event,
-  userId
+  state: ChatbotState,
+  event: ChatbotEvent,
+  userId: string
 ) {
-  let replies;
+  let replies: Message[] = [];
 
   if (event.input === undefined) {
     throw new Error('input undefined');
@@ -31,7 +38,7 @@ export default async function handlePostback(
     throw new Error('wrong event type');
   }
 
-  let params = {
+  let params: ChatbotStateHandlerParams | ChatbotStateHandlerReturnType = {
     data,
     state,
     event,
@@ -44,10 +51,14 @@ export default async function handlePostback(
   try {
     switch (params.state) {
       case 'CHOOSING_ARTICLE': {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         params = await choosingArticle(params);
         break;
       }
       case 'CHOOSING_REPLY': {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         params = await choosingReply(params);
         break;
       }
@@ -56,14 +67,20 @@ export default async function handlePostback(
         break;
       }
       case 'ASKING_ARTICLE_SOURCE': {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         params = await askingArticleSource(params);
         break;
       }
       case 'ASKING_ARTICLE_SUBMISSION_CONSENT': {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         params = await askingArticleSubmissionConsent(params);
         break;
       }
       default: {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         params = defaultState(params);
         break;
       }

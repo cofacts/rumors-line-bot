@@ -1,16 +1,29 @@
 import { t } from 'ttag';
 import { ellipsis, createPostbackAction, createReplyMessages } from './utils';
 import ga from 'src/lib/ga';
+import {
+  FlexBubble,
+  FlexMessage,
+  Message,
+  QuickReplyItem,
+} from '@line/bot-sdk';
+import { CreateReplyMessagesReplyFragment } from 'typegen/graphql';
+import {
+  ChatbotStateHandlerParams,
+  ChatbotStateHandlerReturnType,
+  Context,
+} from 'src/types/chatbotState';
 
 /**
  * When updating tutorial images(static/img/), change TUTORIAL_IMAGE_VERSION for cache busting
  */
 const TUTORIAL_IMAGE_VERSION = '20201105';
 
+type TutorialSteps = { [key: string]: string };
 /**
  * Fixed inputs that indicate which reply should `tutorial` function return
  */
-export const TUTORIAL_STEPS = {
+export const TUTORIAL_STEPS: TutorialSteps = {
   // From rich menu
   RICH_MENU: `📖 ${t`tutorial`}`,
   // From flex message button
@@ -28,7 +41,7 @@ export const TUTORIAL_STEPS = {
  * @param {string} text
  * @returns {object} Flex message contents object
  */
-function createImageTextBubble(imageUrl, text) {
+function createImageTextBubble(imageUrl: string, text: string): FlexBubble {
   return {
     type: 'bubble',
     body: {
@@ -72,11 +85,15 @@ function createImageTextBubble(imageUrl, text) {
 
 /**
  * @param {string} label Act as quickReply's label and postback's input and displayText
- * @param {string} sessionId Search session ID
+ * @param {number} sessionId Search session ID
  * @param {string} postbackState Used by `handleInput` to determine which handler to call
  * @returns {object} quickReply items object
  */
-function createQuickReplyPostbackItem(label, sessionId, postbackState) {
+function createQuickReplyPostbackItem(
+  label: string,
+  sessionId: number,
+  postbackState: string
+): QuickReplyItem {
   return {
     type: 'action',
     action: createPostbackAction(label, label, label, sessionId, postbackState),
@@ -86,7 +103,7 @@ function createQuickReplyPostbackItem(label, sessionId, postbackState) {
 /**
  * @returns {object} Flex message object
  */
-export function createGreetingMessage() {
+export function createGreetingMessage(): FlexMessage {
   const text = t`This is a chatbot that looks up suspicious forwarded messages for you. Here is how to use me:`;
   const imageUrl = `${process.env.RUMORS_LINE_BOT_URL}/static/img/greeting.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
 
@@ -101,10 +118,10 @@ export function createGreetingMessage() {
 }
 
 /**
- * @param {string} sessionId Search session ID
+ * @param {number} sessionId Search session ID
  * @returns {object} Flex message object
  */
-export function createTutorialMessage(sessionId) {
+export function createTutorialMessage(sessionId: number): FlexMessage {
   const textStep1 = `1. ${t`When receiving a message from elsewhere`}`;
   const textStep2 = `2. ${t`Long press and share`}`;
   const textStep3 = `3. ${t`Select Cofacts to share`}`;
@@ -175,7 +192,7 @@ export function createTutorialMessage(sessionId) {
 /**
  * @returns {object} Flex message object
  */
-function createEndingMessage() {
+function createEndingMessage(): FlexMessage {
   const text = `${t`This is the end of the tutorial. Next time when you receive a suspicious message, don't hesitate to forward it to me!`} 🤗`;
   const imageUrl = `${process.env.RUMORS_LINE_BOT_URL}/static/img/endoftutorial.png?cachebust=${TUTORIAL_IMAGE_VERSION}`;
 
@@ -190,11 +207,11 @@ function createEndingMessage() {
 }
 
 /**
- * @param {string} sessionId Search session ID
+ * @param sessionId Search session ID
  * @returns {object[]} message objects
  */
-function createMockReplyMessages(sessionId) {
-  const reply = {
+function createMockReplyMessages(sessionId: number): Message[] {
+  const reply: CreateReplyMessagesReplyFragment = {
     type: 'RUMOR',
     reference:
       'http://www.mygopen.com/2017/06/blog-post_26.html\n神奇的地瓜葉？搭配鮮奶遠離三高？謠言讓醫生說：有痛風或是腎臟不好的人要小心！',
@@ -226,7 +243,7 @@ function createMockReplyMessages(sessionId) {
  * @param {string} message
  * @returns {object} Flex message object
  */
-function createPermissionSetupDialog(message) {
+function createPermissionSetupDialog(message: string): FlexMessage {
   const buttonLabel = t`Setup permission`;
   const buttonUri = `${process.env.LIFF_URL}?p=setting&utm_source=rumors-line-bot&utm_medium=tutorial`;
 
@@ -277,8 +294,12 @@ function createPermissionSetupDialog(message) {
   };
 }
 
-export default function tutorial(params) {
-  let { data, event, issuedAt, replies, userId } = params;
+export default function tutorial(
+  params: ChatbotStateHandlerParams
+): ChatbotStateHandlerReturnType {
+  const { event, userId } = params;
+  const data = params.data as Context;
+  let replies = params.replies;
 
   const replyProvidePermissionSetup = `${t`You are smart`} 😊`;
   const replySetupLater = t`OK. When we ask for feedback from you, the permission dialog will pop-up again.`;
@@ -406,5 +427,5 @@ export default function tutorial(params) {
   });
   visitor.send();
 
-  return { data, event, issuedAt, userId, replies };
+  return { data, event, userId, replies };
 }

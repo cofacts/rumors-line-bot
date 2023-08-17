@@ -3,6 +3,13 @@ import defaultState from './handlers/defaultState';
 import { extractArticleId } from 'src/lib/sharedUtils';
 import tutorial, { TUTORIAL_STEPS } from './handlers/tutorial';
 import handlePostback from './handlePostback';
+import {
+  ChatbotEvent,
+  ChatbotState,
+  ChatbotStateHandlerParams,
+} from 'src/types/chatbotState';
+import { Result } from 'src/types/result';
+import { Message } from '@line/bot-sdk';
 
 /**
  * Given input event and context, outputs the new context and the reply to emit.
@@ -11,9 +18,13 @@ import handlePostback from './handlePostback';
  * @param {*} event The input event
  * @param {*} userId LINE user ID that does the input
  */
-export default async function handleInput({ data = {} }, event, userId) {
-  let state;
-  let replies;
+export default async function handleInput(
+  { data = {} },
+  event: ChatbotEvent,
+  userId: string
+): Promise<Result> {
+  let state: ChatbotState;
+  let replies: Message[] = [];
 
   if (event.input === undefined) {
     throw new Error('input undefined');
@@ -34,7 +45,7 @@ export default async function handleInput({ data = {} }, event, userId) {
       event = {
         type: 'postback',
         input: articleId,
-      };
+      } as ChatbotEvent;
       return await handlePostback({ data }, 'CHOOSING_ARTICLE', event, userId);
     } else if (event.input === TUTORIAL_STEPS['RICH_MENU']) {
       state = 'TUTORIAL';
@@ -54,7 +65,7 @@ export default async function handleInput({ data = {} }, event, userId) {
     state = 'Error';
   }
 
-  let params = {
+  let params: ChatbotStateHandlerParams = {
     data,
     state,
     event,
@@ -66,6 +77,8 @@ export default async function handleInput({ data = {} }, event, userId) {
   //
   switch (params.state) {
     case '__INIT__': {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       params = await initState(params);
       break;
     }
@@ -75,6 +88,8 @@ export default async function handleInput({ data = {} }, event, userId) {
     }
 
     default: {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       params = defaultState(params);
       break;
     }

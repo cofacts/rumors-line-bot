@@ -27,6 +27,8 @@ import {
   TextEventMessage,
   WebhookEvent,
 } from '@line/bot-sdk';
+import { Result } from 'src/types/result';
+import { ChatbotEvent, Context } from 'src/types/chatbotState';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
@@ -78,7 +80,7 @@ const singleUserHandler = async (
 
   // Set default result
   //
-  let result = {
+  let result: Result = {
     context: { data: {} },
     replies: [
       {
@@ -95,13 +97,9 @@ const singleUserHandler = async (
     if (process.env.RUMORS_LINE_BOT_URL) {
       const data = { sessionId: Date.now() };
       result = {
-        context: { data: data },
+        context: { data },
         replies: [
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
           createGreetingMessage(),
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
           createTutorialMessage(data.sessionId),
         ],
       };
@@ -141,8 +139,7 @@ const singleUserHandler = async (
       clearTimeout(timerId);
       return;
     }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+
     result = await processText(context, type, input, otherFields, userId, req);
   } else if (
     type === 'message' &&
@@ -217,12 +214,10 @@ const singleUserHandler = async (
     }
 
     const input = postbackData.input;
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     result = await handlePostback(
       context,
       postbackData.state,
-      { type, input, otherFields },
+      { type, input } as ChatbotEvent,
       userId
     );
   }
@@ -255,18 +250,18 @@ const singleUserHandler = async (
 };
 
 async function processText(
-  context: Context,
-  type: string,
+  context: { data: Partial<Context> },
+  type: 'message' | 'postback',
   input: string,
-  otherFields: Partial<WebhookEvent>,
+  otherFields: Omit<WebhookEvent, 'type' | 'replyToken'>,
   userId: string,
   req: Request
-) {
-  let result;
+): Promise<Result> {
+  let result: Result;
   try {
     result = await handleInput(
       context,
-      { type, input, ...otherFields },
+      { type, input } as ChatbotEvent,
       userId
     );
     if (!result.replies) {

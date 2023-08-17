@@ -265,7 +265,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "text",
   },
-  "issuedAt": 1519019735467,
   "replies": Array [
     Object {
       "text": "⬆️ What you see above is a simulation of what you may see after you forward a message to Cofacts.
@@ -368,7 +367,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "text",
   },
-  "issuedAt": 1519019735467,
   "replies": Array [
     Object {
       "text": "You are smart 😊",
@@ -465,7 +463,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "text",
   },
-  "issuedAt": 1519019735467,
   "replies": Array [
     Object {
       "altText": "When I provide hoax-busting replies to you, I would like to ask you for any feedback on the crowd-sourced reply.
@@ -554,7 +551,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "text",
   },
-  "issuedAt": 1519019735467,
   "replies": Array [
     Object {
       "altText": "1. When receiving a message from elsewhere
@@ -772,7 +768,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "text",
   },
-  "issuedAt": 1519019735467,
   "replies": Array [
     Object {
       "altText": "This is the end of the tutorial. Next time when you receive a suspicious message, don't hesitate to forward it to me! 🤗",
@@ -837,7 +832,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "text",
   },
-  "issuedAt": 1519019735467,
   "replies": Array [
     Object {
       "text": "OK. When we ask for feedback from you, the permission dialog will pop-up again.",
@@ -906,7 +900,6 @@ Object {
     "timestamp": 1519019734813,
     "type": "text",
   },
-  "issuedAt": 1519019735467,
   "replies": Array [
     Object {
       "text": "💡 Someone on the internet replies to the message:",
