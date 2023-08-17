@@ -10,6 +10,7 @@ import {
   ChatbotEvent,
   ChatbotState,
   ChatbotStateHandlerParams,
+  ChatbotStateHandlerReturnType,
 } from 'src/types/chatbotState';
 import { Message } from '@line/bot-sdk';
 
@@ -37,7 +38,7 @@ export default async function handlePostback(
     throw new Error('wrong event type');
   }
 
-  let params: ChatbotStateHandlerParams = {
+  let params: ChatbotStateHandlerParams | ChatbotStateHandlerReturnType = {
     data,
     state,
     event,

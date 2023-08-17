@@ -28,10 +28,10 @@ type ArgumentedEventParams = {
   input: string;
 };
 
-export declare type ChatbotEvent = (WebhookEvent | ServerChooseEvent) &
+export type ChatbotEvent = (WebhookEvent | ServerChooseEvent) &
   ArgumentedEventParams;
 
-export declare type Context = {
+export type Context = {
   /** Used to differientiate different search sessions (searched text or media) */
   sessionId: number;
 
@@ -48,6 +48,7 @@ export declare type Context = {
 };
 
 export type ChatbotStateHandlerParams = {
+  /** Record<string, never> is for empty object and it's the default parameter in handleInput and handlePostback */
   data: Context | Record<string, never>;
   state: ChatbotState;
   event: ChatbotEvent;
@@ -55,7 +56,7 @@ export type ChatbotStateHandlerParams = {
   replies: Message[];
 };
 
-type ChatbotStateHandlerReturnType = Omit<
+export type ChatbotStateHandlerReturnType = Omit<
   ChatbotStateHandlerParams,
   /** The state is determined by payloads in actions. No need to return state. */ 'state'
 >;

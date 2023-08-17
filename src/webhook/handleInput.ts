@@ -7,6 +7,7 @@ import {
   ChatbotEvent,
   ChatbotState,
   ChatbotStateHandlerParams,
+  ChatbotStateHandlerReturnType,
 } from 'src/types/chatbotState';
 import { Result } from 'src/types/result';
 import { Message } from '@line/bot-sdk';
@@ -65,7 +66,7 @@ export default async function handleInput(
     state = 'Error';
   }
 
-  let params: ChatbotStateHandlerParams = {
+  let params: ChatbotStateHandlerParams | ChatbotStateHandlerReturnType = {
     data,
     state,
     event,

@@ -140,7 +140,7 @@ const singleUserHandler = async (
       return;
     }
 
-    result = await processText(context, type, input, otherFields, userId, req);
+    result = await processText(context, type, input, userId, req);
   } else if (
     type === 'message' &&
     (otherFields as MessageEvent).message.type === 'image'
@@ -253,7 +253,6 @@ async function processText(
   context: { data: Partial<Context> },
   type: 'message' | 'postback',
   input: string,
-  otherFields: Omit<WebhookEvent, 'type' | 'replyToken'>,
   userId: string,
   req: Request
 ): Promise<Result> {

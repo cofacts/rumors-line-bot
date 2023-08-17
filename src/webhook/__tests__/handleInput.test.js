@@ -176,7 +176,7 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
             "input": "Newly forwarded message",
             "type": "message",
           },
-          "replies": undefined,
+          "replies": Array [],
           "state": "__INIT__",
           "userId": undefined,
         },
