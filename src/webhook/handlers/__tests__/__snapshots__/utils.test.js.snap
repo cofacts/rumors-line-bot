@@ -20,188 +20,212 @@ exports[`createFlexMessageText should create a text for flex message 1`] = `"計
 exports[`createFlexMessageText should handle the situation without input 1`] = `""`;
 
 exports[`createHighlightContents should create a highlight flex message 1`] = `
-Array [
-  Object {
-    "color": "#ffb600",
-    "text": "蜜蜂",
-    "type": "span",
-    "weight": "bold",
-  },
-  Object {
-    "text": "逐漸死去",
-    "type": "span",
-  },
-]
+Object {
+  "contents": Array [
+    Object {
+      "color": "#ffb600",
+      "text": "蜜蜂",
+      "type": "span",
+      "weight": "bold",
+    },
+    Object {
+      "text": "逐漸死去",
+      "type": "span",
+    },
+  ],
+  "source": "text",
+}
 `;
 
 exports[`createHighlightContents should create a highlight flex message 2`] = `
-Array [
-  Object {
-    "text": "全世界有",
-    "type": "span",
-  },
-  Object {
-    "color": "#ffb600",
-    "text": "成千上萬",
-    "type": "span",
-    "weight": "bold",
-  },
-  Object {
-    "color": "#ffb600",
-    "text": "蜜蜂",
-    "type": "span",
-    "weight": "bold",
-  },
-]
+Object {
+  "contents": Array [
+    Object {
+      "text": "全世界有",
+      "type": "span",
+    },
+    Object {
+      "color": "#ffb600",
+      "text": "成千上萬",
+      "type": "span",
+      "weight": "bold",
+    },
+    Object {
+      "color": "#ffb600",
+      "text": "蜜蜂",
+      "type": "span",
+      "weight": "bold",
+    },
+  ],
+  "source": "text",
+}
 `;
 
 exports[`createHighlightContents should create a highlight flex message 3`] = `
-Array [
-  Object {
-    "text": "全",
-    "type": "span",
-  },
-  Object {
-    "color": "#ffb600",
-    "text": "世界",
-    "type": "span",
-    "weight": "bold",
-  },
-  Object {
-    "text": "有成千上萬",
-    "type": "span",
-  },
-  Object {
-    "color": "#ffb600",
-    "text": "蜜蜂",
-    "type": "span",
-    "weight": "bold",
-  },
-  Object {
-    "text": "逐漸死去",
-    "type": "span",
-  },
-]
+Object {
+  "contents": Array [
+    Object {
+      "text": "全",
+      "type": "span",
+    },
+    Object {
+      "color": "#ffb600",
+      "text": "世界",
+      "type": "span",
+      "weight": "bold",
+    },
+    Object {
+      "text": "有成千上萬",
+      "type": "span",
+    },
+    Object {
+      "color": "#ffb600",
+      "text": "蜜蜂",
+      "type": "span",
+      "weight": "bold",
+    },
+    Object {
+      "text": "逐漸死去",
+      "type": "span",
+    },
+  ],
+  "source": "text",
+}
 `;
 
 exports[`createHighlightContents should create a highlight flex message 4`] = `
-Array [
-  Object {
-    "text": "全",
-    "type": "span",
-  },
-  Object {
-    "color": "#ffb600",
-    "text": "世界",
-    "type": "span",
-    "weight": "bold",
-  },
-  Object {
-    "text": "有成千上萬",
-    "type": "span",
-  },
-  Object {
-    "color": "#ffb600",
-    "text": "蜜蜂",
-    "type": "span",
-    "weight": "bold",
-  },
-  Object {
-    "text": "逐漸死去
+Object {
+  "contents": Array [
+    Object {
+      "text": "全",
+      "type": "span",
+    },
+    Object {
+      "color": "#ffb600",
+      "text": "世界",
+      "type": "span",
+      "weight": "bold",
+    },
+    Object {
+      "text": "有成千上萬",
+      "type": "span",
+    },
+    Object {
+      "color": "#ffb600",
+      "text": "蜜蜂",
+      "type": "span",
+      "weight": "bold",
+    },
+    Object {
+      "text": "逐漸死去
 ",
-    "type": "span",
-  },
-  Object {
-    "color": "#ffb600",
-    "text": "計程車",
-    "type": "span",
-    "weight": "bold",
-  },
-  Object {
-    "text": "上有裝悠遊卡",
-    "type": "span",
-  },
-  Object {
-    "color": "#ffb600",
-    "text": "感應器",
-    "type": "span",
-    "weight": "bold",
-  },
-  Object {
-    "text": "
+      "type": "span",
+    },
+    Object {
+      "color": "#ffb600",
+      "text": "計程車",
+      "type": "span",
+      "weight": "bold",
+    },
+    Object {
+      "text": "上有裝悠遊卡",
+      "type": "span",
+    },
+    Object {
+      "color": "#ffb600",
+      "text": "感應器",
+      "type": "span",
+      "weight": "bold",
+    },
+    Object {
+      "text": "
 不影響",
-    "type": "span",
-  },
-  Object {
-    "color": "#ffb600",
-    "text": "司機收入",
-    "type": "span",
-    "weight": "bold",
-  },
-  Object {
-    "text": "，下車時使用老人悠遊卡",
-    "type": "span",
-  },
-]
+      "type": "span",
+    },
+    Object {
+      "color": "#ffb600",
+      "text": "司機收入",
+      "type": "span",
+      "weight": "bold",
+    },
+    Object {
+      "text": "，下車時使用老人悠遊卡",
+      "type": "span",
+    },
+  ],
+  "source": "hyperlinks",
+}
 `;
 
 exports[`createHighlightContents should create a highlight flex message 5`] = `
-Array [
-  Object {
-    "color": "#ffb600",
-    "text": "蜜蜂",
-    "type": "span",
-    "weight": "bold",
-  },
-  Object {
-    "text": "逐漸死去
+Object {
+  "contents": Array [
+    Object {
+      "color": "#ffb600",
+      "text": "蜜蜂",
+      "type": "span",
+      "weight": "bold",
+    },
+    Object {
+      "text": "逐漸死去
 全",
-    "type": "span",
-  },
-  Object {
-    "color": "#ffb600",
-    "text": "世界",
-    "type": "span",
-    "weight": "bold",
-  },
-  Object {
-    "text": "有成千上萬",
-    "type": "span",
-  },
-  Object {
-    "color": "#ffb600",
-    "text": "蜜蜂",
-    "type": "span",
-    "weight": "bold",
-  },
-]
+      "type": "span",
+    },
+    Object {
+      "color": "#ffb600",
+      "text": "世界",
+      "type": "span",
+      "weight": "bold",
+    },
+    Object {
+      "text": "有成千上萬",
+      "type": "span",
+    },
+    Object {
+      "color": "#ffb600",
+      "text": "蜜蜂",
+      "type": "span",
+      "weight": "bold",
+    },
+  ],
+  "source": "hyperlinks",
+}
 `;
 
 exports[`createHighlightContents should handle line-bot#220 issue 1`] = `
-Array [
-  Object {
-    "text": "Original text",
-    "type": "span",
-  },
-]
+Object {
+  "contents": Array [
+    Object {
+      "text": "Original text",
+      "type": "span",
+    },
+  ],
+  "source": null,
+}
 `;
 
 exports[`createHighlightContents should handle the situation without highlight 1`] = `
-Array [
-  Object {
-    "text": "Original text",
-    "type": "span",
-  },
-]
+Object {
+  "contents": Array [
+    Object {
+      "text": "Original text",
+      "type": "span",
+    },
+  ],
+  "source": null,
+}
 `;
 
 exports[`createHighlightContents should handle the situation without input 1`] = `
-Array [
-  Object {
-    "text": "",
-    "type": "span",
-  },
-]
+Object {
+  "contents": Array [
+    Object {
+      "text": "",
+      "type": "span",
+    },
+  ],
+  "source": null,
+}
 `;
 
 exports[`createPostbackAction() should return postback message body 1`] = `

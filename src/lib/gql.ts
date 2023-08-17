@@ -99,6 +99,6 @@ export default (query: TemplateStringsArray, ...substitutions: string[]) =>
           );
         }
 
-        return resp as { data: QueryResp; errors?: object[] };
+        return resp as GqlResponse<QueryResp>;
       });
   };

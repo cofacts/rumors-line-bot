@@ -180,7 +180,7 @@ describe('createHighlightContents', () => {
   });
 
   it('should limit letters size', () => {
-    const result = createHighlightContents(
+    const { contents: result } = createHighlightContents(
       {
         text: '全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去',
       },
@@ -194,7 +194,7 @@ describe('createHighlightContents', () => {
   });
 
   it('should limit contents size', () => {
-    const result = createHighlightContents(
+    const { contents: result } = createHighlightContents(
       {
         text: '全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去全<HIGHLIGHT>世界</HIGHLIGHT>有成千上萬<HIGHLIGHT>蜜蜂</HIGHLIGHT>逐漸死去',
       },

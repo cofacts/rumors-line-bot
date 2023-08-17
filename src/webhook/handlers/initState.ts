@@ -82,6 +82,7 @@ const initState: ChatbotStateHandler = async (params) => {
           node {
             text
             id
+            articleType
           }
           highlight {
             text
@@ -148,7 +149,7 @@ const initState: ChatbotStateHandler = async (params) => {
     }
 
     const articleOptions: FlexBubble[] = edgesSortedWithSimilarity.map(
-      ({ node: { text, id }, highlight, similarity }) => {
+      ({ node: { text, id, articleType }, highlight, similarity }) => {
         const similarityPercentage = Math.round(similarity * 100);
         const similarityEmoji = ['😐', '🙂', '😀', '😃', '😄'][
           Math.floor(similarity * 4.999)
@@ -156,18 +157,33 @@ const initState: ChatbotStateHandler = async (params) => {
         const displayTextWhenChosen = ellipsis(text ?? '', 25, '...');
 
         const bodyContents: FlexComponent[] = [];
-        if (highlight && !highlight.text) {
+
+        const { contents: highlightContents, source: highlightSource } =
+          createHighlightContents(highlight);
+
+        let highlightSourceInfo = '';
+        switch (highlightSource) {
+          case 'hyperlinks':
+            highlightSourceInfo = t`(Words found in the hyperlink)`;
+            break;
+          case 'text':
+            if (articleType !== 'TEXT') {
+              highlightSourceInfo = t`(Words found in transcript)`;
+            }
+        }
+        if (highlightSourceInfo) {
           bodyContents.push({
             type: 'text',
-            text: t`(Words found in the hyperlink)`,
+            text: highlightSourceInfo,
             size: 'sm',
             color: '#ff7b7b',
             weight: 'bold',
           });
         }
+
         bodyContents.push({
           type: 'text',
-          contents: createHighlightContents(highlight, text ?? undefined), // 50KB for entire Flex carousel
+          contents: highlightContents,
           maxLines: 6,
           flex: 0,
           gravity: 'top',

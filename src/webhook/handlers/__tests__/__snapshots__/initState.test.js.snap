@@ -34,6 +34,13 @@ Please choose the version that looks the most similar👇",
             "body": Object {
               "contents": Array [
                 Object {
+                  "color": "#ff7b7b",
+                  "size": "sm",
+                  "text": "(Words found in transcript)",
+                  "type": "text",
+                  "weight": "bold",
+                },
+                Object {
                   "contents": Array [
                     Object {
                       "color": "#ffb600",
