@@ -8,7 +8,11 @@ import {
   QuickReplyItem,
 } from '@line/bot-sdk';
 import { CreateReplyMessagesReplyFragment } from 'typegen/graphql';
-import { ChatbotStateHandlerParams, Context } from 'src/types/chatbotState';
+import {
+  ChatbotStateHandlerParams,
+  ChatbotStateHandlerReturnType,
+  Context,
+} from 'src/types/chatbotState';
 
 /**
  * When updating tutorial images(static/img/), change TUTORIAL_IMAGE_VERSION for cache busting
@@ -203,7 +207,7 @@ function createEndingMessage(): FlexMessage {
 }
 
 /**
- * @param {number} sessionId Search session ID
+ * @param sessionId Search session ID
  * @returns {object[]} message objects
  */
 function createMockReplyMessages(sessionId: number): Message[] {
@@ -292,8 +296,8 @@ function createPermissionSetupDialog(message: string): FlexMessage {
 
 export default function tutorial(
   params: ChatbotStateHandlerParams
-): ChatbotStateHandlerParams {
-  const { event, userId, state } = params;
+): ChatbotStateHandlerReturnType {
+  const { event, userId } = params;
   const data = params.data as Context;
   let replies = params.replies;
 
@@ -423,5 +427,5 @@ export default function tutorial(
   });
   visitor.send();
 
-  return { data, event, userId, replies, state };
+  return { data, event, userId, replies };
 }
