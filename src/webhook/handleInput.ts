@@ -7,6 +7,7 @@ import {
   ChatbotEvent,
   ChatbotState,
   ChatbotStateHandlerParams,
+  ChatbotStateHandlerReturnType,
 } from 'src/types/chatbotState';
 import { Result } from 'src/types/result';
 import { Message } from '@line/bot-sdk';
@@ -65,7 +66,7 @@ export default async function handleInput(
     state = 'Error';
   }
 
-  let params: ChatbotStateHandlerParams = {
+  let params: ChatbotStateHandlerParams | ChatbotStateHandlerReturnType = {
     data,
     state,
     event,
@@ -77,8 +78,6 @@ export default async function handleInput(
   //
   switch (params.state) {
     case '__INIT__': {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       params = await initState(params);
       break;
     }
@@ -88,8 +87,6 @@ export default async function handleInput(
     }
 
     default: {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       params = defaultState(params);
       break;
     }

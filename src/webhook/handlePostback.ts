@@ -51,14 +51,10 @@ export default async function handlePostback(
   try {
     switch (params.state) {
       case 'CHOOSING_ARTICLE': {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         params = await choosingArticle(params);
         break;
       }
       case 'CHOOSING_REPLY': {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         params = await choosingReply(params);
         break;
       }
@@ -67,20 +63,14 @@ export default async function handlePostback(
         break;
       }
       case 'ASKING_ARTICLE_SOURCE': {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         params = await askingArticleSource(params);
         break;
       }
       case 'ASKING_ARTICLE_SUBMISSION_CONSENT': {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         params = await askingArticleSubmissionConsent(params);
         break;
       }
       default: {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         params = defaultState(params);
         break;
       }
