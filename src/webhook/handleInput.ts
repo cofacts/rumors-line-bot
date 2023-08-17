@@ -78,8 +78,6 @@ export default async function handleInput(
   //
   switch (params.state) {
     case '__INIT__': {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       params = await initState(params);
       break;
     }
@@ -89,8 +87,6 @@ export default async function handleInput(
     }
 
     default: {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       params = defaultState(params);
       break;
     }
