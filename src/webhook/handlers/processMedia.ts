@@ -8,7 +8,7 @@ import {
 } from './utils';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
-import choosingArticle from '../handlers/choosingArticle';
+import choosingArticle from './choosingArticle';
 
 export default async function ({ data = {} }, event, userId) {
   const proxyUrl = getLineContentProxyURL(event.messageId);

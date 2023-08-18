@@ -11,7 +11,6 @@ import checkSignatureAndParse from './checkSignatureAndParse';
 import handleInput from './handleInput';
 import handlePostback from './handlePostback';
 import GroupHandler from './handlers/groupHandler';
-import processImage from './handlers/processImage';
 import {
   createGreetingMessage,
   createTutorialMessage,
@@ -143,18 +142,7 @@ const singleUserHandler = async (
     result = await processText(context, type, input, userId, req);
   } else if (
     type === 'message' &&
-    (otherFields as MessageEvent).message.type === 'image'
-  ) {
-    const event = {
-      messageId: (otherFields as MessageEvent).message.id,
-      type,
-      ...otherFields,
-    };
-
-    result = await processImage(context, event, userId);
-  } else if (
-    type === 'message' &&
-    ['video', 'audio'].includes((otherFields as MessageEvent).message.type)
+    (otherFields as MessageEvent).message.type !== 'text'
   ) {
     const event = {
       messageId: (otherFields as MessageEvent).message.id,
