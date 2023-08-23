@@ -18,14 +18,7 @@ import {
 import processMedia from './handlers/processMedia';
 import UserSettings from '../database/models/userSettings';
 import { Request } from 'koa';
-import {
-  Group,
-  MessageEvent,
-  PostbackEvent,
-  Room,
-  TextEventMessage,
-  WebhookEvent,
-} from '@line/bot-sdk';
+import { WebhookEvent } from '@line/bot-sdk';
 import { Result } from 'src/types/result';
 import { ChatbotEvent, Context } from 'src/types/chatbotState';
 
@@ -33,11 +26,12 @@ const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
 const singleUserHandler = async (
   req: Request,
+  /** @deprecated: Just use webhookEvent.type, which enables narrowing */
   type: WebhookEventType,
   replyToken: string,
   timeout: number,
   userId: string,
-  otherFields: Omit<WebhookEvent, 'type' | 'replyToken'>
+  webhookEvent: WebhookEvent
 ) => {
   // reply before timeout
   // the reply token becomes invalid after a certain period of time
@@ -53,9 +47,8 @@ const singleUserHandler = async (
     isReplied = true;
     console.log(
       `[LOG] Timeout ${JSON.stringify({
-        type,
         userId,
-        ...otherFields,
+        ...webhookEvent,
       })}\n`
     );
     lineClient.post('/message/reply', {
@@ -68,9 +61,8 @@ const singleUserHandler = async (
     // User blacklist
     console.log(
       `[LOG] Blocked user INPUT =\n${JSON.stringify({
-        type,
         userId,
-        ...otherFields,
+        ...webhookEvent,
       })}\n`
     );
     clearTimeout(timerId);
@@ -90,7 +82,7 @@ const singleUserHandler = async (
   };
 
   // Handle follow/unfollow event
-  if (type === 'follow') {
+  if (webhookEvent.type === 'follow') {
     await UserSettings.setAllowNewReplyUpdate(userId, true);
 
     if (process.env.RUMORS_LINE_BOT_URL) {
@@ -114,7 +106,7 @@ const singleUserHandler = async (
       clearTimeout(timerId);
       return;
     }
-  } else if (type === 'unfollow') {
+  } else if (webhookEvent.type === 'unfollow') {
     await UserSettings.setAllowNewReplyUpdate(userId, false);
     clearTimeout(timerId);
     return;
@@ -123,13 +115,9 @@ const singleUserHandler = async (
   const context = (await redis.get(userId)) || {};
   // React to certain type of events
   //
-  if (
-    type === 'message' &&
-    (otherFields as MessageEvent).message.type === 'text'
-  ) {
+  if (webhookEvent.type === 'message' && webhookEvent.message.type === 'text') {
     // normalized "input"
-    const input = ((otherFields as MessageEvent).message as TextEventMessage)
-      .text;
+    const input = webhookEvent.message.text;
 
     // Debugging: type 'RESET' to reset user's context and start all over.
     //
@@ -139,31 +127,23 @@ const singleUserHandler = async (
       return;
     }
 
-    result = await processText(context, type, input, userId, req);
+    result = await processText(context, webhookEvent.type, input, userId, req);
   } else if (
-    type === 'message' &&
-    (otherFields as MessageEvent).message.type !== 'text'
+    webhookEvent.type === 'message' &&
+    webhookEvent.message.type !== 'text'
   ) {
-    const event = {
-      messageId: (otherFields as MessageEvent).message.id,
-      type,
-      ...otherFields,
-    };
-
-    result = await processMedia(context, event, userId);
-  } else if (type === 'message') {
+    result = await processMedia(context, webhookEvent, userId);
+  } else if (webhookEvent.type === 'message') {
     // Track other message type send by user
     ga(userId)
       .event({
         ec: 'UserInput',
         ea: 'MessageType',
-        el: (otherFields as MessageEvent).message.type,
+        el: webhookEvent.message.type,
       })
       .send();
-  } else if (type === 'postback') {
-    const postbackData = JSON.parse(
-      (otherFields as PostbackEvent).postback.data
-    );
+  } else if (webhookEvent.type === 'postback') {
+    const postbackData = JSON.parse(webhookEvent.postback.data);
 
     // Handle the case when user context in redis is expired
     if (!context.data) {
@@ -205,7 +185,7 @@ const singleUserHandler = async (
     result = await handlePostback(
       context,
       postbackData.state,
-      { type, input } as ChatbotEvent,
+      { type: webhookEvent.type, input } as ChatbotEvent,
       userId
     );
   }
@@ -219,7 +199,7 @@ const singleUserHandler = async (
   console.log(
     JSON.stringify({
       CONTEXT: context,
-      INPUT: { type, userId, ...otherFields },
+      INPUT: { userId, ...webhookEvent },
       OUTPUT: result,
     })
   );
@@ -283,35 +263,37 @@ router.post('/', (ctx) => {
   // Don't wait for anything before returning 200.
 
   (ctx.request.body as { events: WebhookEvent[] }).events.forEach(
-    async (args: WebhookEvent) => {
-      const { type, ...otherFields } = args;
+    async (webhookEvent: WebhookEvent) => {
       let replyToken = '';
-      if ('replyToken' in args) {
-        replyToken = args.replyToken;
+      if ('replyToken' in webhookEvent) {
+        replyToken = webhookEvent.replyToken;
       }
 
       // set 28s timeout
       const timeout = 28000;
-      if (otherFields.source.type === 'user') {
+      if (webhookEvent.source.type === 'user') {
         singleUserHandler(
           ctx.request,
-          type,
+          webhookEvent.type,
           replyToken,
           timeout,
-          otherFields.source.userId,
-          otherFields
+          webhookEvent.source.userId ?? '',
+          webhookEvent
         );
       } else if (
-        otherFields.source.type === 'group' ||
-        otherFields.source.type === 'room'
+        webhookEvent.source.type === 'group' ||
+        webhookEvent.source.type === 'room'
       ) {
+        const groupId =
+          webhookEvent.source.type === 'group'
+            ? webhookEvent.source.groupId
+            : webhookEvent.source.roomId;
+
         groupHandler.addJob({
-          type,
+          type: webhookEvent.type,
           replyToken,
-          groupId:
-            (otherFields.source as Group).groupId ||
-            (otherFields.source as Room).roomId,
-          otherFields,
+          groupId,
+          webhookEvent,
         });
       }
     }
