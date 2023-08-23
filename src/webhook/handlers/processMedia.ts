@@ -1,17 +1,48 @@
 import { t, msgid, ngettext } from 'ttag';
+import type {
+  MessageEvent,
+  FlexBubble,
+  Message,
+  FlexMessage,
+  FlexComponent,
+} from '@line/bot-sdk';
+import { Context } from 'src/types/chatbotState';
+
 import {
   getLineContentProxyURL,
   createPostbackAction,
   POSTBACK_NO_ARTICLE_FOUND,
   createTextMessage,
   createAskArticleSubmissionConsentReply,
+  createHighlightContents,
 } from './utils';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
 import choosingArticle from './choosingArticle';
+import {
+  ListArticlesInProcessMediaQuery,
+  ListArticlesInProcessMediaQueryVariables,
+} from 'typegen/graphql';
 
-export default async function ({ data = {} }, event, userId) {
-  const proxyUrl = getLineContentProxyURL(event.messageId);
+/**
+ * In rumors-api, hash similarity is boosted by 100.
+ * Although text similarity also contributes to score, it's usually far less than 100.
+ * Thus we take score >= 100 as "identical doc".
+ *
+ * @see https://g0v.hackmd.io/0tPABSZ6SRKswBYqAc1vZw#AI
+ * @param score - Score that ListArticle provided in edge
+ * @returns If the queried media should be considered as identical to a specific search result with that score
+ */
+function isIdenticalMedia(score: number | null) {
+  return (score ?? 0) >= 100;
+}
+
+export default async function (
+  { data = {} as Context },
+  event: MessageEvent,
+  userId: string
+) {
+  const proxyUrl = getLineContentProxyURL(event.message.id);
   // console.log(`Image url:  ${proxyUrl}`);
 
   const visitor = ga(userId, '__PROCESS_IMAGE__', proxyUrl);
@@ -25,18 +56,19 @@ export default async function ({ data = {} }, event, userId) {
 
     // Store user messageId into context, which will use for submit new image article
     searchedText: '',
-    messageId: event.messageId,
+    messageId: event.message.id,
     messageType: event.message.type,
   };
 
   const {
     data: { ListArticles },
   } = await gql`
-    query ($mediaUrl: String!) {
+    query ListArticlesInProcessMedia($mediaUrl: String!) {
       ListArticles(
         filter: {
           mediaUrl: $mediaUrl
           articleTypes: [TEXT, IMAGE, AUDIO, VIDEO]
+          transcript: { shouldCreate: true }
         }
         orderBy: [{ _score: DESC }]
         first: 4
@@ -48,14 +80,21 @@ export default async function ({ data = {} }, event, userId) {
             articleType
             attachmentUrl(variant: THUMBNAIL)
           }
+          highlight {
+            text
+            hyperlinks {
+              title
+              summary
+            }
+          }
         }
       }
     }
-  `({
+  `<ListArticlesInProcessMediaQuery, ListArticlesInProcessMediaQueryVariables>({
     mediaUrl: proxyUrl,
   });
 
-  if (ListArticles.edges.length) {
+  if (ListArticles && ListArticles.edges.length) {
     // Track if find similar Articles in DB.
     visitor.event({ ec: 'UserInput', ea: 'ArticleSearch', el: 'ArticleFound' });
 
@@ -69,20 +108,19 @@ export default async function ({ data = {} }, event, userId) {
       });
     });
 
-    const hasIdenticalDocs = ListArticles.edges[0].score === 2;
+    const hasIdenticalDocs = isIdenticalMedia(ListArticles.edges[0].score);
+
     if (ListArticles.edges.length === 1 && hasIdenticalDocs) {
       visitor.send();
-
-      // choose for user
-      event = {
-        type: 'server_choose',
-        input: ListArticles.edges[0].node.id,
-      };
 
       ({ data, replies } = await choosingArticle({
         data,
         state: 'CHOOSING_ARTICLE',
-        event,
+        event: {
+          // choose for user
+          type: 'server_choose',
+          input: ListArticles.edges[0].node.id,
+        },
         userId,
         replies: [],
       }));
@@ -91,77 +129,123 @@ export default async function ({ data = {} }, event, userId) {
     }
 
     const articleOptions = ListArticles.edges
-      .map(({ node: { attachmentUrl, id }, score }, index) => {
-        const imgNumber = index + 1;
-        const displayTextWhenChosen = ngettext(
-          msgid`No.${imgNumber}`,
-          `No.${imgNumber}`,
-          imgNumber
-        );
+      .map(
+        (
+          { node: { attachmentUrl, id, articleType }, highlight, score },
+          index
+        ): FlexBubble => {
+          const imgNumber = index + 1;
+          const displayTextWhenChosen = ngettext(
+            msgid`No.${imgNumber}`,
+            `No.${imgNumber}`,
+            imgNumber
+          );
 
-        // ListArticle score is 1~2 for the current query; the variable part is the ID hash difference
-        const similarity = score - 1;
-        const scoreInPercent = Math.floor(similarity * 100);
-        const similarityEmoji = ['😐', '🙂', '😀', '😃', '😄'][
-          Math.floor(similarity * 4.999)
-        ];
-        const looks = ngettext(
-          msgid`Looks ${scoreInPercent}% similar`,
-          `Looks ${scoreInPercent}% similar`,
-          scoreInPercent
-        );
+          const looks = isIdenticalMedia(score)
+            ? t`Same file`
+            : highlight === null
+            ? t`Similar file`
+            : t`Contains relevant text`;
 
-        //show url attachmentUrl
-        return {
-          type: 'bubble',
-          direction: 'ltr',
-          header: {
-            type: 'box',
-            layout: 'horizontal',
-            spacing: 'md',
-            paddingBottom: 'none',
-            contents: [
-              {
+          const bodyContents: FlexComponent[] = [];
+
+          if (highlight) {
+            const { contents: highlightContents, source: highlightSource } =
+              createHighlightContents(highlight);
+
+            let highlightSourceInfo = '';
+            switch (highlightSource) {
+              case 'hyperlinks':
+                highlightSourceInfo = t`(Text in the hyperlink)`;
+                break;
+              case 'text':
+                if (articleType !== 'TEXT') {
+                  highlightSourceInfo = t`(Text in transcript)`;
+                }
+            }
+
+            if (highlightSourceInfo) {
+              bodyContents.push({
                 type: 'text',
-                text: similarityEmoji,
-                flex: 0,
-              },
-              {
-                type: 'text',
-                text: displayTextWhenChosen + ', ' + looks,
-                gravity: 'center',
+                text: highlightSourceInfo,
                 size: 'sm',
+                color: '#ff7b7b',
                 weight: 'bold',
-                wrap: true,
-                color: '#AAAAAA',
-              },
-            ],
-          },
-          hero: {
-            type: 'image',
-            url: attachmentUrl,
-            size: 'full',
-          },
-          footer: {
-            type: 'box',
-            layout: 'horizontal',
-            contents: [
-              {
-                type: 'button',
-                action: createPostbackAction(
-                  t`Choose this one`,
-                  id,
-                  t`I choose “${displayTextWhenChosen}”`,
-                  data.sessionId,
-                  'CHOOSING_ARTICLE'
-                ),
-                style: 'primary',
-                color: '#ffb600',
-              },
-            ],
-          },
-        };
-      })
+              });
+            }
+
+            bodyContents.push({
+              type: 'text',
+              contents: highlightContents,
+              maxLines: 6,
+              flex: 0,
+              gravity: 'top',
+              weight: 'regular',
+              wrap: true,
+            });
+          }
+
+          return {
+            type: 'bubble',
+            direction: 'ltr',
+            header: {
+              type: 'box',
+              layout: 'horizontal',
+              spacing: 'md',
+              paddingBottom: 'none',
+              contents: [
+                {
+                  type: 'text',
+                  text: displayTextWhenChosen + ', ' + looks,
+                  gravity: 'center',
+                  size: 'sm',
+                  weight: 'bold',
+                  wrap: true,
+                  color: '#AAAAAA',
+                },
+              ],
+            },
+
+            // Show thumbnail image if available
+            hero: !attachmentUrl
+              ? undefined
+              : {
+                  type: 'image',
+                  url: attachmentUrl,
+                  size: 'full',
+                },
+
+            // Show highlighted text if available
+            body:
+              bodyContents.length === 0
+                ? undefined
+                : {
+                    type: 'box',
+                    layout: 'vertical',
+                    contents: bodyContents,
+                  },
+
+            footer: {
+              type: 'box',
+              layout: 'horizontal',
+              contents: [
+                {
+                  type: 'button',
+                  action: createPostbackAction(
+                    t`Choose this one`,
+                    id,
+                    t`I choose “${displayTextWhenChosen}”`,
+                    data.sessionId,
+                    'CHOOSING_ARTICLE'
+                  ),
+                  style: 'primary',
+                  color: '#ffb600',
+                },
+              ],
+            },
+          };
+        }
+      )
       .slice(0, 9); /* flex carousel has at most 10 bubbles */
 
     // Show "no-article-found" option only when no identical docs are found
@@ -222,7 +306,7 @@ export default async function ({ data = {} }, event, userId) {
       });
     }
 
-    const templateMessage = {
+    const templateMessage: FlexMessage = {
       type: 'flex',
       altText: t`Please choose the most similar message from the list.`,
       contents: {
@@ -231,13 +315,13 @@ export default async function ({ data = {} }, event, userId) {
       },
     };
 
-    const prefixTextArticleFound = [
+    const prefixTextArticleFound: Message[] = [
       {
         type: 'text',
         text: `🔍 ${t`There are some messages that looks similar to the one you have sent to me.`}`,
       },
     ];
-    const textArticleFound = [
+    const textArticleFound: Message[] = [
       {
         type: 'text',
         text:
