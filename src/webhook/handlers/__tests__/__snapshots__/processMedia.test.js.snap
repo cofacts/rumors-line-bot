@@ -25,6 +25,7 @@ Please choose the version that looks the most similar👇",
       "contents": Object {
         "contents": Array [
           Object {
+            "body": undefined,
             "direction": "ltr",
             "footer": Object {
               "contents": Array [
@@ -46,15 +47,10 @@ Please choose the version that looks the most similar👇",
             "header": Object {
               "contents": Array [
                 Object {
-                  "flex": 0,
-                  "text": "😄",
-                  "type": "text",
-                },
-                Object {
                   "color": "#AAAAAA",
                   "gravity": "center",
                   "size": "sm",
-                  "text": "No.1, Looks 87% similar",
+                  "text": "No.1, Similar file",
                   "type": "text",
                   "weight": "bold",
                   "wrap": true,
@@ -456,6 +452,7 @@ Please choose the version that looks the most similar👇",
       "contents": Object {
         "contents": Array [
           Object {
+            "body": undefined,
             "direction": "ltr",
             "footer": Object {
               "contents": Array [
@@ -477,15 +474,10 @@ Please choose the version that looks the most similar👇",
             "header": Object {
               "contents": Array [
                 Object {
-                  "flex": 0,
-                  "text": "😄",
-                  "type": "text",
-                },
-                Object {
                   "color": "#AAAAAA",
                   "gravity": "center",
                   "size": "sm",
-                  "text": "No.1, Looks 100% similar",
+                  "text": "No.1, Same file",
                   "type": "text",
                   "weight": "bold",
                   "wrap": true,
@@ -504,6 +496,7 @@ Please choose the version that looks the most similar👇",
             "type": "bubble",
           },
           Object {
+            "body": undefined,
             "direction": "ltr",
             "footer": Object {
               "contents": Array [
@@ -525,15 +518,10 @@ Please choose the version that looks the most similar👇",
             "header": Object {
               "contents": Array [
                 Object {
-                  "flex": 0,
-                  "text": "😄",
-                  "type": "text",
-                },
-                Object {
                   "color": "#AAAAAA",
                   "gravity": "center",
                   "size": "sm",
-                  "text": "No.2, Looks 87% similar",
+                  "text": "No.2, Similar file",
                   "type": "text",
                   "weight": "bold",
                   "wrap": true,
@@ -552,6 +540,7 @@ Please choose the version that looks the most similar👇",
             "type": "bubble",
           },
           Object {
+            "body": undefined,
             "direction": "ltr",
             "footer": Object {
               "contents": Array [
@@ -573,15 +562,10 @@ Please choose the version that looks the most similar👇",
             "header": Object {
               "contents": Array [
                 Object {
-                  "flex": 0,
-                  "text": "😄",
-                  "type": "text",
-                },
-                Object {
                   "color": "#AAAAAA",
                   "gravity": "center",
                   "size": "sm",
-                  "text": "No.3, Looks 100% similar",
+                  "text": "No.3, Same file",
                   "type": "text",
                   "weight": "bold",
                   "wrap": true,
@@ -600,6 +584,7 @@ Please choose the version that looks the most similar👇",
             "type": "bubble",
           },
           Object {
+            "body": undefined,
             "direction": "ltr",
             "footer": Object {
               "contents": Array [
@@ -621,15 +606,10 @@ Please choose the version that looks the most similar👇",
             "header": Object {
               "contents": Array [
                 Object {
-                  "flex": 0,
-                  "text": "😄",
-                  "type": "text",
-                },
-                Object {
                   "color": "#AAAAAA",
                   "gravity": "center",
                   "size": "sm",
-                  "text": "No.4, Looks 87% similar",
+                  "text": "No.4, Similar file",
                   "type": "text",
                   "weight": "bold",
                   "wrap": true,
@@ -648,6 +628,7 @@ Please choose the version that looks the most similar👇",
             "type": "bubble",
           },
           Object {
+            "body": undefined,
             "direction": "ltr",
             "footer": Object {
               "contents": Array [
@@ -669,15 +650,10 @@ Please choose the version that looks the most similar👇",
             "header": Object {
               "contents": Array [
                 Object {
-                  "flex": 0,
-                  "text": "😄",
-                  "type": "text",
-                },
-                Object {
                   "color": "#AAAAAA",
                   "gravity": "center",
                   "size": "sm",
-                  "text": "No.5, Looks 100% similar",
+                  "text": "No.5, Same file",
                   "type": "text",
                   "weight": "bold",
                   "wrap": true,
@@ -696,6 +672,7 @@ Please choose the version that looks the most similar👇",
             "type": "bubble",
           },
           Object {
+            "body": undefined,
             "direction": "ltr",
             "footer": Object {
               "contents": Array [
@@ -717,15 +694,10 @@ Please choose the version that looks the most similar👇",
             "header": Object {
               "contents": Array [
                 Object {
-                  "flex": 0,
-                  "text": "😄",
-                  "type": "text",
-                },
-                Object {
                   "color": "#AAAAAA",
                   "gravity": "center",
                   "size": "sm",
-                  "text": "No.6, Looks 87% similar",
+                  "text": "No.6, Similar file",
                   "type": "text",
                   "weight": "bold",
                   "wrap": true,
@@ -744,6 +716,7 @@ Please choose the version that looks the most similar👇",
             "type": "bubble",
           },
           Object {
+            "body": undefined,
             "direction": "ltr",
             "footer": Object {
               "contents": Array [
@@ -765,15 +738,10 @@ Please choose the version that looks the most similar👇",
             "header": Object {
               "contents": Array [
                 Object {
-                  "flex": 0,
-                  "text": "😄",
-                  "type": "text",
-                },
-                Object {
                   "color": "#AAAAAA",
                   "gravity": "center",
                   "size": "sm",
-                  "text": "No.7, Looks 100% similar",
+                  "text": "No.7, Same file",
                   "type": "text",
                   "weight": "bold",
                   "wrap": true,
@@ -792,6 +760,7 @@ Please choose the version that looks the most similar👇",
             "type": "bubble",
           },
           Object {
+            "body": undefined,
             "direction": "ltr",
             "footer": Object {
               "contents": Array [
@@ -813,15 +782,10 @@ Please choose the version that looks the most similar👇",
             "header": Object {
               "contents": Array [
                 Object {
-                  "flex": 0,
-                  "text": "😄",
-                  "type": "text",
-                },
-                Object {
                   "color": "#AAAAAA",
                   "gravity": "center",
                   "size": "sm",
-                  "text": "No.8, Looks 87% similar",
+                  "text": "No.8, Similar file",
                   "type": "text",
                   "weight": "bold",
                   "wrap": true,
@@ -840,6 +804,7 @@ Please choose the version that looks the most similar👇",
             "type": "bubble",
           },
           Object {
+            "body": undefined,
             "direction": "ltr",
             "footer": Object {
               "contents": Array [
@@ -861,15 +826,10 @@ Please choose the version that looks the most similar👇",
             "header": Object {
               "contents": Array [
                 Object {
-                  "flex": 0,
-                  "text": "😄",
-                  "type": "text",
-                },
-                Object {
                   "color": "#AAAAAA",
                   "gravity": "center",
                   "size": "sm",
-                  "text": "No.9, Looks 100% similar",
+                  "text": "No.9, Same file",
                   "type": "text",
                   "weight": "bold",
                   "wrap": true,

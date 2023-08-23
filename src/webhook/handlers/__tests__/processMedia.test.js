@@ -24,7 +24,6 @@ it('one identical article found and choose for user', async () => {
   const event = {
     type: 'message',
     timestamp: 1497994016356,
-    messageId: '6270464463537',
     message: {
       type: 'image',
       id: '6270464463537',
@@ -96,7 +95,6 @@ it('one article found (not identical)', async () => {
   const event = {
     type: 'message',
     timestamp: 1497994016356,
-    messageId: '6270464463537',
     message: {
       type: 'image',
       id: '6270464463537',
@@ -145,7 +143,6 @@ it('twelve articles found', async () => {
   const event = {
     type: 'message',
     timestamp: 1497994016356,
-    messageId: '6530038889933',
     message: {
       type: 'image',
       id: '6530038889933',
@@ -173,7 +170,6 @@ it('should handle image not found', async () => {
   const event = {
     type: 'message',
     timestamp: 1497994016356,
-    messageId: '6530038889933',
     message: {
       type: 'image',
       id: '6530038889933',

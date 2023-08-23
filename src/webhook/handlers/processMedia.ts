@@ -141,18 +141,18 @@ export default async function (
             imgNumber
           );
 
+          const { contents: highlightContents, source: highlightSource } =
+            createHighlightContents(highlight);
+
           const looks = isIdenticalMedia(score)
             ? t`Same file`
-            : highlight === null
+            : highlightSource === null
             ? t`Similar file`
             : t`Contains relevant text`;
 
           const bodyContents: FlexComponent[] = [];
 
-          if (highlight) {
-            const { contents: highlightContents, source: highlightSource } =
-              createHighlightContents(highlight);
-
+          if (highlightSource) {
             let highlightSourceInfo = '';
             switch (highlightSource) {
               case 'hyperlinks':
