@@ -90,9 +90,12 @@ export default async function (
         }
       }
     }
-  `<ListArticlesInProcessMediaQuery, ListArticlesInProcessMediaQueryVariables>({
-    mediaUrl: proxyUrl,
-  });
+  `<ListArticlesInProcessMediaQuery, ListArticlesInProcessMediaQueryVariables>(
+    {
+      mediaUrl: proxyUrl,
+    },
+    { userId }
+  );
 
   if (ListArticles && ListArticles.edges.length) {
     // Track if find similar Articles in DB.
