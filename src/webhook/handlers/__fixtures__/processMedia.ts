@@ -11,6 +11,7 @@ export const oneImageArticle: GqlResponse<ListArticlesInProcessMediaQuery> = {
             attachmentUrl: 'http://foo/image.jpeg',
             id: 'image-article-1',
           },
+          mediaSimilarity: 0.87,
           highlight: null,
         },
       ],
@@ -30,6 +31,7 @@ export const oneIdenticalImageArticle: GqlResponse<ListArticlesInProcessMediaQue
               attachmentUrl: 'http://foo/image.jpeg',
               id: 'image-article-1',
             },
+            mediaSimilarity: 1,
             highlight: null,
           },
         ],
@@ -46,6 +48,7 @@ export const twelveImageArticles: GqlResponse<ListArticlesInProcessMediaQuery> =
             arr.concat([
               {
                 score: 100,
+                mediaSimilarity: 1,
                 node: {
                   articleType: 'IMAGE',
                   attachmentUrl: 'http://foo/image.jpeg',
@@ -55,6 +58,7 @@ export const twelveImageArticles: GqlResponse<ListArticlesInProcessMediaQuery> =
               },
               {
                 score: 87.6656,
+                mediaSimilarity: 0.87,
                 node: {
                   articleType: 'IMAGE',
                   attachmentUrl: 'http://foo/image2.jpeg',
