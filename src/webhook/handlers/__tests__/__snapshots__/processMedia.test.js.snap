@@ -323,6 +323,148 @@ Object {
 }
 `;
 
+exports[`one identical image and similar text found 1`] = `
+Object {
+  "context": Object {
+    "data": Object {
+      "messageId": "6270464463537",
+      "messageType": "image",
+      "searchedText": "",
+      "sessionId": 1577836800000,
+    },
+  },
+  "replies": Array [
+    Object {
+      "text": "🔍 There are some messages that looks similar to the one you have sent to me.",
+      "type": "text",
+    },
+    Object {
+      "text": "Internet rumors are often mutated and shared.
+Please choose the version that looks the most similar👇",
+      "type": "text",
+    },
+    Object {
+      "altText": "Please choose the most similar message from the list.",
+      "contents": Object {
+        "contents": Array [
+          Object {
+            "body": undefined,
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"image-article-1\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose ①",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "① Same file",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "md",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "hero": Object {
+              "size": "full",
+              "type": "image",
+              "url": "http://foo/image.jpeg",
+            },
+            "type": "bubble",
+          },
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "contents": Array [
+                    Object {
+                      "text": "Text matching ",
+                      "type": "span",
+                    },
+                    Object {
+                      "color": "#ffb600",
+                      "text": "query transcript",
+                      "type": "span",
+                      "weight": "bold",
+                    },
+                  ],
+                  "flex": 0,
+                  "gravity": "top",
+                  "maxLines": 6,
+                  "type": "text",
+                  "weight": "regular",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "type": "box",
+            },
+            "direction": "ltr",
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"input\\":\\"text-article-1\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
+                    "displayText": "I choose ②",
+                    "label": "Choose this one",
+                    "type": "postback",
+                  },
+                  "color": "#ffb600",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "horizontal",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "color": "#AAAAAA",
+                  "gravity": "center",
+                  "size": "sm",
+                  "text": "② Contains relevant text",
+                  "type": "text",
+                  "weight": "bold",
+                  "wrap": true,
+                },
+              ],
+              "layout": "horizontal",
+              "paddingBottom": "md",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "hero": undefined,
+            "type": "bubble",
+          },
+        ],
+        "type": "carousel",
+      },
+      "type": "flex",
+    },
+  ],
+}
+`;
+
 exports[`should handle image not found 1`] = `
 Object {
   "context": Object {

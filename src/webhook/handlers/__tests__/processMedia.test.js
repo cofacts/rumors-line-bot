@@ -86,6 +86,27 @@ it('one identical article found and choose for user', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(2);
 });
 
+it('one identical image and similar text found', async () => {
+  gql.__push(apiListArticlesResult.identicalImageAndTextFound);
+
+  const data = {
+    sessionId: 1497994017447,
+  };
+  const event = {
+    type: 'message',
+    timestamp: 1497994016356,
+    message: {
+      type: 'image',
+      id: '6270464463537',
+    },
+  };
+  const userId = 'Uc76d8ae9ccd1ada4f06c4e1515d46466';
+  MockDate.set('2020-01-01');
+  expect(await processMedia(data, event, userId)).toMatchSnapshot();
+  MockDate.reset();
+  expect(gql.__finished()).toBe(true);
+});
+
 it('one article found (not identical)', async () => {
   gql.__push(apiListArticlesResult.oneImageArticle);
 
