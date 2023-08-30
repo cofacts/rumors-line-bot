@@ -24,6 +24,8 @@ import {
   ListArticlesInProcessMediaQueryVariables,
 } from 'typegen/graphql';
 
+const CIRCLED_DIGITS = '⓪①②③④⑤⑥⑦⑧⑨⑩⑪';
+
 export default async function (
   { data = {} as Context },
   event: MessageEvent,
@@ -132,12 +134,7 @@ export default async function (
           },
           index
         ): FlexBubble => {
-          const imgNumber = index + 1;
-          const displayTextWhenChosen = ngettext(
-            msgid`No.${imgNumber}`,
-            `No.${imgNumber}`,
-            imgNumber
-          );
+          const displayTextWhenChosen = CIRCLED_DIGITS[index + 1];
 
           const { contents: highlightContents, source: highlightSource } =
             createHighlightContents(highlight);
@@ -190,12 +187,12 @@ export default async function (
             header: {
               type: 'box',
               layout: 'horizontal',
-              spacing: 'md',
-              paddingBottom: 'none',
+              spacing: 'sm',
+              paddingBottom: 'md',
               contents: [
                 {
                   type: 'text',
-                  text: displayTextWhenChosen + ', ' + looks,
+                  text: displayTextWhenChosen + ' ' + looks,
                   gravity: 'center',
                   size: 'sm',
                   weight: 'bold',
@@ -233,7 +230,7 @@ export default async function (
                   action: createPostbackAction(
                     t`Choose this one`,
                     id,
-                    t`I choose “${displayTextWhenChosen}”`,
+                    t`I choose ${displayTextWhenChosen}`,
                     data.sessionId,
                     'CHOOSING_ARTICLE'
                   ),
