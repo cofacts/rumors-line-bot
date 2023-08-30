@@ -76,7 +76,26 @@ export type AiResponseStatusEnum =
 
 export type AiResponseTypeEnum =
   /** The AI Response is an automated analysis / reply of an article. */
-  | 'AI_REPLY';
+  | 'AI_REPLY'
+  /** AI transcribed text of the specified article. */
+  | 'TRANSCRIPT';
+
+/** Transcript from OCR or speech-to-text AI models for the specified MediaEntry ID as docId. */
+export type AiTranscript = AiResponse & Node & {
+  createdAt: Scalars['String'];
+  /** The id for the document that this AI response is for. */
+  docId: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
+  /** Processing status of AI */
+  status: AiResponseStatusEnum;
+  /** AI response text. Populated after status becomes SUCCESS. */
+  text: Maybe<Scalars['String']>;
+  /** AI response type */
+  type: AiResponseTypeEnum;
+  updatedAt: Maybe<Scalars['String']>;
+  /** The user triggered this AI response */
+  user: Maybe<User>;
+};
 
 export type Analytics = Node & {
   /** The day this analytic datapoint is represented, in YYYY-MM-DD format */
@@ -134,6 +153,8 @@ export type AnalyticsLiffEntry = {
 export type Article = Node & {
   /** Automated reply from AI before human fact checkers compose an fact check */
   aiReplies: Array<AiReply>;
+  /** Automated transcript */
+  aiTranscripts: Array<AiTranscript>;
   articleCategories: Maybe<Array<Maybe<ArticleCategory>>>;
   /** Connections between this article and replies. Sorted by the logic described in https://github.com/cofacts/rumors-line-bot/issues/78. */
   articleReplies: Maybe<Array<Maybe<ArticleReply>>>;
@@ -279,6 +300,11 @@ export type ArticleConnection = Connection & {
 export type ArticleConnectionEdge = Edge & {
   cursor: Scalars['String'];
   highlight: Maybe<Highlights>;
+  /**
+   * The search hit's similarity with provided mediaUrl.
+   *           Ranges from 0 to 1. 0 if mediaUrl is not provided, or the hit is not matched by mediaUrl.
+   */
+  mediaSimilarity: Scalars['Float'];
   node: Article;
   score: Maybe<Scalars['Float']>;
 };
@@ -1346,7 +1372,7 @@ export type ListArticlesInProcessMediaQueryVariables = Exact<{
 }>;
 
 
-export type ListArticlesInProcessMediaQuery = { ListArticles: { edges: Array<{ score: number | null, node: { id: string, articleType: ArticleTypeEnum, attachmentUrl: string | null }, highlight: { text: string | null, hyperlinks: Array<{ title: string | null, summary: string | null } | null> | null } | null }> } | null };
+export type ListArticlesInProcessMediaQuery = { ListArticles: { edges: Array<{ score: number | null, mediaSimilarity: number, node: { id: string, articleType: ArticleTypeEnum, attachmentUrl: string | null }, highlight: { text: string | null, hyperlinks: Array<{ title: string | null, summary: string | null } | null> | null } | null }> } | null };
 
 export type CreateReferenceWordsReplyFragment = { reference: string | null, type: ReplyTypeEnum | null };
 
@@ -1368,5 +1394,5 @@ export const CreateReplyMessagesReplyFragmentDoc = {"kind":"Document","definitio
 export const CreateReplyMessagesArticleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CreateReplyMessagesArticle"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Article"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"replyCount"}}]}}]} as unknown as DocumentNode<CreateReplyMessagesArticleFragment, unknown>;
 export const CreateHighlightContentsHighlightFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CreateHighlightContentsHighlight"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Highlights"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"hyperlinks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}}]}}]}}]} as unknown as DocumentNode<CreateHighlightContentsHighlightFragment, unknown>;
 export const ListArticlesInInitStateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListArticlesInInitState"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"text"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ListArticles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"moreLikeThis"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"like"},"value":{"kind":"Variable","name":{"kind":"Name","value":"text"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_score"},"value":{"kind":"EnumValue","value":"DESC"}}]}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"4"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"articleType"}}]}},{"kind":"Field","name":{"kind":"Name","value":"highlight"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"hyperlinks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ListArticlesInInitStateQuery, ListArticlesInInitStateQueryVariables>;
-export const ListArticlesInProcessMediaDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListArticlesInProcessMedia"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mediaUrl"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ListArticles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"mediaUrl"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mediaUrl"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"articleTypes"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"TEXT"},{"kind":"EnumValue","value":"IMAGE"},{"kind":"EnumValue","value":"AUDIO"},{"kind":"EnumValue","value":"VIDEO"}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"transcript"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"shouldCreate"},"value":{"kind":"BooleanValue","value":true}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_score"},"value":{"kind":"EnumValue","value":"DESC"}}]}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"4"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"score"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"articleType"}},{"kind":"Field","name":{"kind":"Name","value":"attachmentUrl"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"variant"},"value":{"kind":"EnumValue","value":"THUMBNAIL"}}]}]}},{"kind":"Field","name":{"kind":"Name","value":"highlight"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"hyperlinks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ListArticlesInProcessMediaQuery, ListArticlesInProcessMediaQueryVariables>;
+export const ListArticlesInProcessMediaDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListArticlesInProcessMedia"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mediaUrl"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ListArticles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"mediaUrl"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mediaUrl"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"articleTypes"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"TEXT"},{"kind":"EnumValue","value":"IMAGE"},{"kind":"EnumValue","value":"AUDIO"},{"kind":"EnumValue","value":"VIDEO"}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"transcript"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"shouldCreate"},"value":{"kind":"BooleanValue","value":true}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_score"},"value":{"kind":"EnumValue","value":"DESC"}}]}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"9"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"score"}},{"kind":"Field","name":{"kind":"Name","value":"mediaSimilarity"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"articleType"}},{"kind":"Field","name":{"kind":"Name","value":"attachmentUrl"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"variant"},"value":{"kind":"EnumValue","value":"THUMBNAIL"}}]}]}},{"kind":"Field","name":{"kind":"Name","value":"highlight"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"hyperlinks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ListArticlesInProcessMediaQuery, ListArticlesInProcessMediaQueryVariables>;
 export const CreateAiReplyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateAIReply"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"CreateAIReply"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"articleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}}]}}]}}]} as unknown as DocumentNode<CreateAiReplyMutation, CreateAiReplyMutationVariables>;

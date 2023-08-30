@@ -213,6 +213,9 @@ type Article implements Node {
   Automated reply from AI before human fact checkers compose an fact check
   """
   aiReplies: [AIReply!]!
+
+  """Automated transcript"""
+  aiTranscripts: [AITranscript!]!
   articleCategories(
     """
     Deprecated. Please use statuses instead. When specified, returns only article categories with the specified status
@@ -684,6 +687,9 @@ interface AIResponse implements Node {
 enum AIResponseTypeEnum {
   """The AI Response is an automated analysis / reply of an article."""
   AI_REPLY
+
+  """AI transcribed text of the specified article."""
+  TRANSCRIPT
 }
 
 enum AIResponseStatusEnum {
@@ -696,6 +702,30 @@ type OpenAICompletionUsage {
   promptTokens: Int!
   completionTokens: Int!
   totalTokens: Int!
+}
+
+"""
+Transcript from OCR or speech-to-text AI models for the specified MediaEntry ID as docId.
+"""
+type AITranscript implements Node & AIResponse {
+  id: ID!
+
+  """The id for the document that this AI response is for."""
+  docId: ID
+
+  """AI response type"""
+  type: AIResponseTypeEnum!
+
+  """The user triggered this AI response"""
+  user: User
+
+  """Processing status of AI"""
+  status: AIResponseStatusEnum!
+
+  """AI response text. Populated after status becomes SUCCESS."""
+  text: String
+  createdAt: String!
+  updatedAt: String
 }
 
 """The linkage between an Article and a Category"""
@@ -841,6 +871,12 @@ type ArticleConnectionEdge implements Edge {
   cursor: String!
   score: Float
   highlight: Highlights
+
+  """
+  The search hit's similarity with provided mediaUrl.
+            Ranges from 0 to 1. 0 if mediaUrl is not provided, or the hit is not matched by mediaUrl.
+  """
+  mediaSimilarity: Float!
 }
 
 type ArticleConnectionPageInfo implements PageInfo {

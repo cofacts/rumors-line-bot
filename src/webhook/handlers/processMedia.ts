@@ -24,29 +24,17 @@ import {
   ListArticlesInProcessMediaQueryVariables,
 } from 'typegen/graphql';
 
-/**
- * In rumors-api, hash similarity is boosted by 100.
- * Although text similarity also contributes to score, it's usually far less than 100.
- * Thus we take score >= 100 as "identical doc".
- *
- * @see https://g0v.hackmd.io/0tPABSZ6SRKswBYqAc1vZw#AI
- * @param score - Score that ListArticle provided in edge
- * @returns If the queried media should be considered as identical to a specific search result with that score
- */
-function isIdenticalMedia(score: number | null) {
-  return (score ?? 0) >= 100;
-}
-
 export default async function (
   { data = {} as Context },
   event: MessageEvent,
   userId: string
 ) {
   const proxyUrl = getLineContentProxyURL(event.message.id);
-  // console.log(`Image url:  ${proxyUrl}`);
+  console.log(`Media url: ${proxyUrl}`);
 
-  const visitor = ga(userId, '__PROCESS_IMAGE__', proxyUrl);
-  // Track text message type send by user
+  const visitor = ga(userId, '__PROCESS_MEDIA__', proxyUrl);
+
+  // Track media message type send by user
   visitor.event({ ec: 'UserInput', ea: 'MessageType', el: event.message.type });
 
   let replies;
@@ -71,10 +59,11 @@ export default async function (
           transcript: { shouldCreate: true }
         }
         orderBy: [{ _score: DESC }]
-        first: 4
+        first: 9
       ) {
         edges {
           score
+          mediaSimilarity
           node {
             id
             articleType
@@ -111,9 +100,11 @@ export default async function (
       });
     });
 
-    const hasIdenticalDocs = isIdenticalMedia(ListArticles.edges[0].score);
+    const identicalMediaEdge = ListArticles.edges.find(
+      (edge) => edge.mediaSimilarity === 1
+    );
 
-    if (ListArticles.edges.length === 1 && hasIdenticalDocs) {
+    if (ListArticles.edges.length === 1 && identicalMediaEdge) {
       visitor.send();
 
       ({ data, replies } = await choosingArticle({
@@ -122,7 +113,7 @@ export default async function (
         event: {
           // choose for user
           type: 'server_choose',
-          input: ListArticles.edges[0].node.id,
+          input: identicalMediaEdge.node.id,
         },
         userId,
         replies: [],
@@ -134,7 +125,11 @@ export default async function (
     const articleOptions = ListArticles.edges
       .map(
         (
-          { node: { attachmentUrl, id, articleType }, highlight, score },
+          {
+            node: { attachmentUrl, id, articleType },
+            highlight,
+            mediaSimilarity,
+          },
           index
         ): FlexBubble => {
           const imgNumber = index + 1;
@@ -147,11 +142,12 @@ export default async function (
           const { contents: highlightContents, source: highlightSource } =
             createHighlightContents(highlight);
 
-          const looks = isIdenticalMedia(score)
-            ? t`Same file`
-            : highlightSource === null
-            ? t`Similar file`
-            : t`Contains relevant text`;
+          const looks =
+            mediaSimilarity === 1
+              ? t`Same file`
+              : highlightSource === null
+              ? t`Similar file`
+              : t`Contains relevant text`;
 
           const bodyContents: FlexComponent[] = [];
 
@@ -253,7 +249,7 @@ export default async function (
 
     // Show "no-article-found" option only when no identical docs are found
     //
-    if (!hasIdenticalDocs) {
+    if (!identicalMediaEdge) {
       articleOptions.push({
         type: 'bubble',
         header: {
