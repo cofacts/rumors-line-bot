@@ -1,4 +1,4 @@
-import { t, msgid, ngettext } from 'ttag';
+import { t } from 'ttag';
 import type {
   MessageEvent,
   FlexBubble,
