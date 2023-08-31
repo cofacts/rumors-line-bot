@@ -68,12 +68,12 @@ msgid "Visit ${ articleUrl } for more replies."
 msgstr "更多回應請到：${ articleUrl }"
 
 #: src/webhook/handlers/initState.ts:233
-#: src/webhook/handlers/processMedia.ts:231
+#: src/webhook/handlers/processMedia.ts:238
 msgid "Choose this one"
 msgstr "選擇這篇"
 
 #: src/webhook/handlers/initState.ts:325
-#: src/webhook/handlers/processMedia.ts:324
+#: src/webhook/handlers/processMedia.ts:331
 msgid ""
 "Internet rumors are often mutated and shared.\n"
 "Please choose the version that looks the most similar"
@@ -118,8 +118,8 @@ msgstr "否"
 
 #: src/webhook/handlers/initState.ts:276
 #: src/webhook/handlers/initState.ts:294
-#: src/webhook/handlers/processMedia.ts:275
-#: src/webhook/handlers/processMedia.ts:293
+#: src/webhook/handlers/processMedia.ts:282
+#: src/webhook/handlers/processMedia.ts:300
 msgid "None of these messages matches mine :("
 msgstr "找不到我想查的訊息 QQ"
 
@@ -130,12 +130,12 @@ msgid_plural "${ positive } users consider this helpful"
 msgstr[0] "有 ${positive} 人覺得此回應有幫助"
 
 #: src/webhook/handlers/initState.ts:292
-#: src/webhook/handlers/processMedia.ts:291
+#: src/webhook/handlers/processMedia.ts:298
 msgid "Tell us more"
 msgstr "回報此訊息"
 
 #: src/webhook/handlers/initState.ts:308
-#: src/webhook/handlers/processMedia.ts:307
+#: src/webhook/handlers/processMedia.ts:314
 msgid "Please choose the most similar message from the list."
 msgstr "請從下列選擇您要查的訊息。"
 
@@ -149,6 +149,7 @@ msgid "Someone thinks it ${ typeWords }"
 msgstr "有人認為它${typeWords}"
 
 #: src/webhook/handlers/initState.ts:210
+#: src/webhook/handlers/processMedia.ts:150
 #, javascript-format
 msgid "Looks ${ similarityPercentage }% similar"
 msgstr "看起來 ${similarityPercentage}% 像"
@@ -933,7 +934,7 @@ msgstr "這樣呀。請先不要相信這個訊息唷！"
 
 #: src/webhook/handlers/askingArticleSource.js:160
 #: src/webhook/handlers/choosingArticle.js:96
-#: src/webhook/handlers/processMedia.ts:344
+#: src/webhook/handlers/processMedia.ts:351
 msgid "Do you want someone to fact-check this message?"
 msgstr "你要請人查查這則訊息嗎？"
 
@@ -1006,7 +1007,7 @@ msgstr "想先請教您一個問題："
 msgid "Provide better reply"
 msgstr "提供更好的回應"
 
-#: src/webhook/handlers/processMedia.ts:317
+#: src/webhook/handlers/processMedia.ts:324
 msgid "There are some messages that looks similar to the one you have sent to me."
 msgstr "資料庫裡有幾篇訊息，跟您傳給我的有些接近。"
 
@@ -1014,7 +1015,7 @@ msgstr "資料庫裡有幾篇訊息，跟您傳給我的有些接近。"
 msgid "I am sorry you cannot find the information you are looking for."
 msgstr "抱歉沒有找到你想要查詢的訊息。"
 
-#: src/webhook/handlers/processMedia.ts:342
+#: src/webhook/handlers/processMedia.ts:349
 #. submit
 msgid ""
 "Unfortunately, I currently don’t recognize this message, but I would still "
@@ -1042,27 +1043,23 @@ msgstr "語音訊息一則"
 msgid "(Words found in transcript)"
 msgstr "（逐字稿內的字）"
 
-#: src/webhook/handlers/processMedia.ts:144
-msgid "Same file"
-msgstr "完全相同的檔案"
-
-#: src/webhook/handlers/processMedia.ts:146
+#: src/webhook/handlers/processMedia.ts:152
 msgid "Similar file"
 msgstr "相似檔案"
 
-#: src/webhook/handlers/processMedia.ts:147
+#: src/webhook/handlers/processMedia.ts:153
 msgid "Contains relevant text"
 msgstr "含有相關文字"
 
-#: src/webhook/handlers/processMedia.ts:155
+#: src/webhook/handlers/processMedia.ts:161
 msgid "(Text in the hyperlink)"
 msgstr "網址內的字"
 
-#: src/webhook/handlers/processMedia.ts:159
+#: src/webhook/handlers/processMedia.ts:165
 msgid "(Text in transcript)"
 msgstr "逐字稿內的字"
 
-#: src/webhook/handlers/processMedia.ts:233
+#: src/webhook/handlers/processMedia.ts:240
 #, javascript-format
 msgid "I choose ${ displayTextWhenChosen }"
 msgstr "我選 ${ displayTextWhenChosen }"

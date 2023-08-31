@@ -68,12 +68,12 @@ msgid "Visit ${ articleUrl } for more replies."
 msgstr "他のリプライを見たい場合、こちらに：${ articleUrl }"
 
 #: src/webhook/handlers/initState.ts:233
-#: src/webhook/handlers/processMedia.ts:231
+#: src/webhook/handlers/processMedia.ts:238
 msgid "Choose this one"
 msgstr "これを選ぶ"
 
 #: src/webhook/handlers/initState.ts:325
-#: src/webhook/handlers/processMedia.ts:324
+#: src/webhook/handlers/processMedia.ts:331
 msgid ""
 "Internet rumors are often mutated and shared.\n"
 "Please choose the version that looks the most similar"
@@ -118,8 +118,8 @@ msgstr "いいえ"
 
 #: src/webhook/handlers/initState.ts:276
 #: src/webhook/handlers/initState.ts:294
-#: src/webhook/handlers/processMedia.ts:275
-#: src/webhook/handlers/processMedia.ts:293
+#: src/webhook/handlers/processMedia.ts:282
+#: src/webhook/handlers/processMedia.ts:300
 msgid "None of these messages matches mine :("
 msgstr "確認したい情報が見つかりません (T_T)"
 
@@ -130,12 +130,12 @@ msgid_plural "${ positive } users consider this helpful"
 msgstr[0] "${positive} 人がこのリプライは役に立っていると思っています"
 
 #: src/webhook/handlers/initState.ts:292
-#: src/webhook/handlers/processMedia.ts:291
+#: src/webhook/handlers/processMedia.ts:298
 msgid "Tell us more"
 msgstr "情報を報告する"
 
 #: src/webhook/handlers/initState.ts:308
-#: src/webhook/handlers/processMedia.ts:307
+#: src/webhook/handlers/processMedia.ts:314
 msgid "Please choose the most similar message from the list."
 msgstr "以下から調べたい情報を選んでください。"
 
@@ -149,6 +149,7 @@ msgid "Someone thinks it ${ typeWords }"
 msgstr "誰かが次のように考えています ${typeWords}"
 
 #: src/webhook/handlers/initState.ts:210
+#: src/webhook/handlers/processMedia.ts:150
 #, javascript-format
 msgid "Looks ${ similarityPercentage }% similar"
 msgstr "${similarityPercentage}% 似ています"
@@ -694,7 +695,7 @@ msgstr ""
 
 #: src/webhook/handlers/askingArticleSource.js:160
 #: src/webhook/handlers/choosingArticle.js:96
-#: src/webhook/handlers/processMedia.ts:344
+#: src/webhook/handlers/processMedia.ts:351
 msgid "Do you want someone to fact-check this message?"
 msgstr ""
 
@@ -762,11 +763,11 @@ msgid ""
 "still like to help."
 msgstr ""
 
-#: src/webhook/handlers/processMedia.ts:317
+#: src/webhook/handlers/processMedia.ts:324
 msgid "There are some messages that looks similar to the one you have sent to me."
 msgstr ""
 
-#: src/webhook/handlers/processMedia.ts:342
+#: src/webhook/handlers/processMedia.ts:349
 #. submit
 msgid ""
 "Unfortunately, I currently don’t recognize this message, but I would still "
@@ -1042,27 +1043,23 @@ msgstr ""
 msgid "(Words found in transcript)"
 msgstr ""
 
-#: src/webhook/handlers/processMedia.ts:144
-msgid "Same file"
-msgstr ""
-
-#: src/webhook/handlers/processMedia.ts:146
+#: src/webhook/handlers/processMedia.ts:152
 msgid "Similar file"
 msgstr ""
 
-#: src/webhook/handlers/processMedia.ts:147
+#: src/webhook/handlers/processMedia.ts:153
 msgid "Contains relevant text"
 msgstr ""
 
-#: src/webhook/handlers/processMedia.ts:155
+#: src/webhook/handlers/processMedia.ts:161
 msgid "(Text in the hyperlink)"
 msgstr ""
 
-#: src/webhook/handlers/processMedia.ts:159
+#: src/webhook/handlers/processMedia.ts:165
 msgid "(Text in transcript)"
 msgstr ""
 
-#: src/webhook/handlers/processMedia.ts:233
+#: src/webhook/handlers/processMedia.ts:240
 #, javascript-format
 msgid "I choose ${ displayTextWhenChosen }"
 msgstr ""
