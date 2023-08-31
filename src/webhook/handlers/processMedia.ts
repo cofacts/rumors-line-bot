@@ -25,6 +25,7 @@ import {
 } from 'typegen/graphql';
 
 const CIRCLED_DIGITS = '⓪①②③④⑤⑥⑦⑧⑨⑩⑪';
+const SIMILARITY_THRESHOLD = 0.95;
 
 export default async function (
   { data = {} as Context },
@@ -102,11 +103,14 @@ export default async function (
       });
     });
 
-    const identicalMediaEdge = ListArticles.edges.find(
-      (edge) => edge.mediaSimilarity === 1
+    const edgesSortedWithSimilarity = [...ListArticles.edges].sort(
+      (a, b) => b.mediaSimilarity - a.mediaSimilarity
     );
 
-    if (ListArticles.edges.length === 1 && identicalMediaEdge) {
+    const hasIdenticalDocs =
+      edgesSortedWithSimilarity[0].mediaSimilarity >= SIMILARITY_THRESHOLD;
+
+    if (ListArticles.edges.length === 1 && hasIdenticalDocs) {
       visitor.send();
 
       ({ data, replies } = await choosingArticle({
@@ -115,7 +119,7 @@ export default async function (
         event: {
           // choose for user
           type: 'server_choose',
-          input: identicalMediaEdge.node.id,
+          input: edgesSortedWithSimilarity[0].node.id,
         },
         userId,
         replies: [],
@@ -139,9 +143,11 @@ export default async function (
           const { contents: highlightContents, source: highlightSource } =
             createHighlightContents(highlight);
 
+          const similarityPercentage = Math.round(mediaSimilarity * 100);
+
           const looks =
-            mediaSimilarity === 1
-              ? t`Same file`
+            mediaSimilarity > 0
+              ? t`Looks ${similarityPercentage}% similar`
               : highlightSource === null
               ? t`Similar file`
               : t`Contains relevant text`;
@@ -246,7 +252,7 @@ export default async function (
 
     // Show "no-article-found" option only when no identical docs are found
     //
-    if (!identicalMediaEdge) {
+    if (!hasIdenticalDocs) {
       articleOptions.push({
         type: 'bubble',
         header: {
