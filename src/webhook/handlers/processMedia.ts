@@ -179,7 +179,8 @@ export default async function (
             bodyContents.push({
               type: 'text',
               contents: highlightContents,
-              maxLines: 6,
+              // Show less lines if there are thumbnails to show
+              maxLines: attachmentUrl ? 5 : 12,
               flex: 0,
               gravity: 'top',
               weight: 'regular',
