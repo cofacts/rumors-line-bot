@@ -419,17 +419,17 @@ export function createHighlightContents(
 
   const summaries = highlight.hyperlinks?.reduce<string[]>(
     (result, hyperlink) => {
-      if (hyperlink?.summary) result.push(hyperlink.summary);
+      if (hyperlink?.summary) result.push(hyperlink.summary.trim());
       return result;
     },
     []
   );
   const titles = highlight.hyperlinks?.reduce<string[]>((result, hyperlink) => {
-    if (hyperlink?.title) result.push(hyperlink.title);
+    if (hyperlink?.title) result.push(hyperlink.title.trim());
     return result;
   }, []);
   const text =
-    highlight.text ||
+    highlight.text?.trim() ||
     (summaries?.length ? summaries.join('\n') : undefined) ||
     (titles?.length ? titles.join('\n') : undefined);
 
