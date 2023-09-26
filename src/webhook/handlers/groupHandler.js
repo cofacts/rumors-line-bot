@@ -50,7 +50,7 @@ export default class {
       // Check and exit here because currently we cannot
       // kill or stop a running job outside the jobFunction.
       // see https://github.com/OptimalBits/bull/issues/1950
-      if (isEventExpired(job.data.otherFields.timestamp)) {
+      if (isEventExpired(job.data.webhookEvent.timestamp)) {
         // move job to expired queue and exit
         this.expiredJobQueue.add(job.data, { jobId: job.id });
         return Promise.reject(new TimeoutError('Event expired'));

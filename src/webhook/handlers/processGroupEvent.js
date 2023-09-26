@@ -8,7 +8,7 @@ export default async function processGroupEvent({
   type,
   replyToken,
   groupId,
-  otherFields,
+  webhookEvent,
 }) {
   // await new Promise(resolve => setTimeout(resolve, 2000));
 
@@ -26,10 +26,10 @@ export default async function processGroupEvent({
     // https://developers.line.biz/en/reference/messaging-api/#get-members-group-count
     // Note: leave group cannot get the number
     const { count: groupMembersCount } = await lineClient.get(
-      `/${otherFields.source.type}/${groupId}/members/count`
+      `/${webhookEvent.source.type}/${groupId}/members/count`
     );
 
-    const visitor = ga(groupId, 'N/A', '', otherFields.source.type);
+    const visitor = ga(groupId, 'N/A', '', webhookEvent.source.type);
     visitor.set('cm1', groupMembersCount);
     visitor.event({
       ec: 'Group',
@@ -38,7 +38,7 @@ export default async function processGroupEvent({
     });
     visitor.send();
   } else if (type === 'leave') {
-    const visitor = ga(groupId, 'N/A', '', otherFields.source.type);
+    const visitor = ga(groupId, 'N/A', '', webhookEvent.source.type);
     visitor.event({
       ec: 'Group',
       ea: 'Leave',
@@ -49,22 +49,22 @@ export default async function processGroupEvent({
 
   // React to certain type of events
   //
-  if (type === 'message' && otherFields.message.type === 'text') {
-    const input = otherFields.message.text;
+  if (type === 'message' && webhookEvent.message.type === 'text') {
+    const input = webhookEvent.message.text;
 
     try {
-      result = await groupMessage({ type, input, ...otherFields }, groupId);
+      result = await groupMessage({ type, input, ...webhookEvent }, groupId);
     } catch (e) {
       console.error(e);
-      rollbar.error(e, { type, input, ...otherFields });
+      rollbar.error(e, { type, input, ...webhookEvent });
     }
   }
-  // else if (type === 'message' && otherFields.message.type === 'image') {
+  // else if (type === 'message' && webhookEvent.message.type === 'image') {
   //   // skip
-  // } else if (type === 'message' && otherFields.message.type === 'video') {
+  // } else if (type === 'message' && webhookEvent.message.type === 'video') {
   //   // skip
   // }
-  if (isEventExpired(otherFields.timestamp)) {
+  if (isEventExpired(webhookEvent.timestamp)) {
     return Promise.reject(new TimeoutError('Event expired'));
   }
 
