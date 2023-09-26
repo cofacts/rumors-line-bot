@@ -2,7 +2,7 @@ const joinGroup = {
   replyToken: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
   type: 'join',
   groupId: 'C4a1',
-  otherFields: {
+  webhookEvent: {
     mode: 'active',
     timestamp: 1462629479859,
     source: {
@@ -16,7 +16,7 @@ const textMessage = {
   replyToken: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
   type: 'message',
   groupId: 'C4a1',
-  otherFields: {
+  webhookEvent: {
     mode: 'active',
     timestamp: 1462629479859,
     message: {
@@ -33,7 +33,7 @@ const expiredTextMessage = {
   replyToken: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
   type: 'message',
   groupId: 'C4a1',
-  otherFields: {
+  webhookEvent: {
     mode: 'active',
     timestamp: 612921600000,
     message: {

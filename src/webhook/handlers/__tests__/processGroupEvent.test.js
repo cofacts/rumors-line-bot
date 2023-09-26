@@ -34,12 +34,12 @@ afterAll(async () => {
 
 describe('processGroupEvent', () => {
   it('should handle join event', async () => {
-    const { type, replyToken, ...otherFields } = messageEvent.joinGroup;
+    const { type, replyToken, ...webhookEvent } = messageEvent.joinGroup;
     const param = {
       replyToken,
       type,
-      groupId: otherFields.source.groupId,
-      otherFields: { ...otherFields },
+      groupId: webhookEvent.source.groupId,
+      webhookEvent: { ...webhookEvent },
     };
     lineClient.get.mockImplementationOnce(() => ({
       count: 55987,
@@ -81,12 +81,12 @@ describe('processGroupEvent', () => {
   });
 
   it('should handle leave event', async () => {
-    const { type, replyToken, ...otherFields } = messageEvent.leaveGroup;
+    const { type, replyToken, ...webhookEvent } = messageEvent.leaveGroup;
     const param = {
       replyToken,
       type,
-      groupId: otherFields.source.groupId,
-      otherFields: { ...otherFields },
+      groupId: webhookEvent.source.groupId,
+      webhookEvent: { ...webhookEvent },
     };
     lineClient.get.mockImplementationOnce(() => ({
       count: 55987,
@@ -121,12 +121,12 @@ describe('processGroupEvent', () => {
   });
 
   it('should handle text message event', async () => {
-    const { type, replyToken, ...otherFields } = messageEvent.textMessage;
+    const { type, replyToken, ...webhookEvent } = messageEvent.textMessage;
     const param = {
       replyToken,
       type,
-      groupId: otherFields.source.groupId,
-      otherFields: { ...otherFields },
+      groupId: webhookEvent.source.groupId,
+      webhookEvent: { ...webhookEvent },
     };
     groupMessage.mockImplementationOnce(() => ({
       groupMessageResult: 'groupMessage result',
@@ -156,13 +156,13 @@ describe('processGroupEvent', () => {
   });
 
   it('should reject expired text message event', async () => {
-    const { type, replyToken, ...otherFields } =
+    const { type, replyToken, ...webhookEvent } =
       messageEvent.expiredTextMessage;
     const param = {
       replyToken,
       type,
-      groupId: otherFields.source.groupId,
-      otherFields: { ...otherFields },
+      groupId: webhookEvent.source.groupId,
+      webhookEvent: { ...webhookEvent },
     };
     groupMessage.mockImplementationOnce(() => ({
       groupMessageResult: 'groupMessage result',
@@ -194,12 +194,12 @@ describe('processGroupEvent', () => {
   });
 
   it('should handle groupMessage error', async () => {
-    const { type, replyToken, ...otherFields } = messageEvent.textMessage;
+    const { type, replyToken, ...webhookEvent } = messageEvent.textMessage;
     const param = {
       replyToken,
       type,
-      groupId: otherFields.source.groupId,
-      otherFields: { ...otherFields },
+      groupId: webhookEvent.source.groupId,
+      webhookEvent: { ...webhookEvent },
     };
     groupMessage.mockImplementationOnce(() =>
       Promise.reject(new Error('Foo error'))
