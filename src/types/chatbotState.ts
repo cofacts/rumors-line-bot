@@ -55,6 +55,9 @@ export type Context = {
   /** User selected article in DB */
   selectedArticleId?: string;
   selectedArticleText?: string;
+
+  /** FIXME: Probably not required now */
+  selectedReplyId?: string;
 };
 
 export type ChatbotStateHandlerParams = {

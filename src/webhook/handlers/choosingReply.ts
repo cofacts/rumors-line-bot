@@ -9,13 +9,23 @@ import {
 import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
 import ga from 'src/lib/ga';
 import UserSettings from 'src/database/models/userSettings';
+import { FlexBubble } from '@line/bot-sdk';
+import { ChatbotStateHandler } from 'src/types/chatbotState';
+import {
+  GetReplyRelatedDataQuery,
+  GetReplyRelatedDataQueryVariables,
+  ReplyTypeEnum,
+} from 'typegen/graphql';
 
 /**
  * @param {string} articleId - Article ID of the article-reply to feedback
  * @param {string} replyId - Reply ID of the article-reply to feedback
  * @returns {object} Flex message bubble object that asks the user if reply is helpful
  */
-function createAskReplyFeedbackBubble(articleId, replyId) {
+function createAskReplyFeedbackBubble(
+  articleId: string,
+  replyId: string
+): FlexBubble {
   return {
     type: 'bubble',
     body: {
@@ -61,12 +71,16 @@ function createAskReplyFeedbackBubble(articleId, replyId) {
 }
 
 /**
- * @param {string} articleId - article ID to share
- * @param {string} fullArticleText - article text
- * @param {ReplyTypeEnum} replyTypeEnumValue - reply's type enum
+ * @param articleId - article ID to share
+ * @param fullArticleText - article text
+ * @param replyTypeEnumValue - reply's type enum
  * @returns Flex message bubble object that asks user to share
  */
-function createShareBubble(articleId, fullArticleText, replyTypeEnumValue) {
+function createShareBubble(
+  articleId: string,
+  fullArticleText: string,
+  replyTypeEnumValue: ReplyTypeEnum
+): FlexBubble {
   const articleUrl = getArticleURL(articleId);
   const articleText = ellipsis(fullArticleText, 15);
   const replyType = createTypeWords(replyTypeEnumValue).toLowerCase();
@@ -116,8 +130,9 @@ function createShareBubble(articleId, fullArticleText, replyTypeEnumValue) {
   };
 }
 
-export default async function choosingReply(params) {
-  let { data, state, event, userId, replies } = params;
+const choosingReply: ChatbotStateHandler = async (params) => {
+  const { data, state, event, userId } = params;
+  let { replies } = params;
 
   if (event.type !== 'postback' && event.type !== 'server_choose') {
     throw new ManipulationError(t`Please choose from provided options.`);
@@ -137,9 +152,18 @@ export default async function choosingReply(params) {
         replyCount
       }
     }
-  `({ id: selectedReplyId, articleId: data.selectedArticleId });
+  `<GetReplyRelatedDataQuery, GetReplyRelatedDataQueryVariables>({
+    id: selectedReplyId,
+    articleId: data.selectedArticleId ?? '',
+  });
 
-  if (errors) {
+  /* istanbul ignore if */
+  if (
+    errors ||
+    getReplyData.GetReply === null ||
+    getReplyData.GetArticle === null
+  ) {
+    console.error('[GetReplyRelatedData]', errors);
     throw new ManipulationError(
       t`We have problem retrieving message and reply data, please forward the message again`
     );
@@ -151,14 +175,17 @@ export default async function choosingReply(params) {
   );
 
   replies = [
-    ...createReplyMessages(GetReply, GetArticle, data.selectedArticleId),
+    ...createReplyMessages(GetReply, GetArticle, data.selectedArticleId ?? ''),
     {
       type: 'flex',
       altText: t`Is the reply helpful?`,
       contents: {
         type: 'carousel',
         contents: [
-          createAskReplyFeedbackBubble(data.selectedArticleId, selectedReplyId),
+          createAskReplyFeedbackBubble(
+            data.selectedArticleId ?? '',
+            selectedReplyId
+          ),
 
           // Ask user to turn on notification if the user did not turn it on
           process.env.NOTIFY_METHOD &&
@@ -166,11 +193,11 @@ export default async function choosingReply(params) {
             createNotificationSettingsBubble(),
 
           createShareBubble(
-            data.selectedArticleId,
-            data.selectedArticleText,
+            data.selectedArticleId ?? '',
+            data.selectedArticleText ?? '',
             GetReply.type
           ),
-        ].filter((m) => m),
+        ].filter(Boolean),
       },
     },
   ];
@@ -183,4 +210,6 @@ export default async function choosingReply(params) {
   visitor.send();
 
   return { data, event, userId, replies };
-}
+};
+
+export default choosingReply;
