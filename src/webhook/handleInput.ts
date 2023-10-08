@@ -46,7 +46,7 @@ export default async function handleInput(
       event = {
         type: 'postback',
         input: articleId,
-      } as ChatbotEvent;
+      };
       return await handlePostback({ data }, 'CHOOSING_ARTICLE', event, userId);
     } else if (event.input === TUTORIAL_STEPS['RICH_MENU']) {
       state = 'TUTORIAL';

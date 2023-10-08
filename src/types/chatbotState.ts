@@ -1,4 +1,4 @@
-import type { Message, MessageEvent, WebhookEvent } from '@line/bot-sdk';
+import type { Message, MessageEvent } from '@line/bot-sdk';
 
 export type ChatbotState =
   | '__INIT__'
@@ -78,3 +78,14 @@ export type ChatbotStateHandlerReturnType = Omit<
 export type ChatbotStateHandler = (
   params: ChatbotStateHandlerParams
 ) => Promise<ChatbotStateHandlerReturnType>;
+
+/**
+ * The data that postback action stores as JSON.
+ *
+ * @FIXME Replace input: string with something that is more structured
+ */
+export type PostbackActionData = {
+  input: string;
+  sessionId: number;
+  state: ChatbotState;
+};

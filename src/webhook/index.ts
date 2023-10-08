@@ -20,7 +20,11 @@ import UserSettings from '../database/models/userSettings';
 import { Request } from 'koa';
 import { WebhookEvent } from '@line/bot-sdk';
 import { Result } from 'src/types/result';
-import { ChatbotEvent, Context } from 'src/types/chatbotState';
+import {
+  ChatbotEvent,
+  Context,
+  PostbackActionData,
+} from 'src/types/chatbotState';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
@@ -182,12 +186,8 @@ const singleUserHandler = async (
     }
 
     const input = postbackData.input;
-    result = await handlePostback(
-      context,
-      postbackData.state,
-      { type: webhookEvent.type, input } as ChatbotEvent,
-      userId
-    );
+    const event: ChatbotEvent = { type: webhookEvent.type, input };
+    result = await handlePostback(context, postbackData.state, event, userId);
   }
 
   if (isReplied) {
