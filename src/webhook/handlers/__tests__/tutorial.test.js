@@ -16,7 +16,6 @@ const param = {
     input: undefined,
     timestamp: 1519019734813,
   },
-  issuedAt: 1519019735467,
   userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
   replies: undefined,
 };
