@@ -10,9 +10,11 @@ type QV = {
   variables?: object;
 };
 
+type Resp = { data: object | null; errors: { message: string }[] | undefined };
+
 // Maps URL to dataloader. Cleared after batched request is fired.
 // Exported just for unit test.
-export const loaders: Record<string, Dataloader<QV, object>> = {};
+export const loaders: Record<string, Dataloader<QV, Resp>> = {};
 
 /**
  * Returns a dataloader instance that can send query & variable to the GraphQL endpoint specified by `url`.
@@ -26,26 +28,24 @@ export const loaders: Record<string, Dataloader<QV, object>> = {};
 function getGraphQLRespLoader(url: string) {
   if (loaders[url]) return loaders[url];
 
-  return (loaders[url] = new Dataloader<QV, object>(
-    async (queryAndVariables) => {
-      // Clear dataloader so that next batch will get a fresh dataloader
-      delete loaders[url];
+  return (loaders[url] = new Dataloader<QV, Resp>(async (queryAndVariables) => {
+    // Clear dataloader so that next batch will get a fresh dataloader
+    delete loaders[url];
 
-      // Implements Apollo's transport layer batching
-      // https://www.apollographql.com/blog/apollo-client/performance/query-batching/#1bce
-      //
-      return (
-        await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-app-secret': process.env.APP_SECRET ?? '',
-          },
-          body: JSON.stringify(queryAndVariables),
-        })
-      ).json();
-    }
-  ));
+    // Implements Apollo's transport layer batching
+    // https://www.apollographql.com/blog/apollo-client/performance/query-batching/#1bce
+    //
+    return (
+      await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-app-secret': process.env.APP_SECRET ?? '',
+        },
+        body: JSON.stringify(queryAndVariables),
+      })
+    ).json();
+  }));
 }
 
 // Usage:
