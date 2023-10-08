@@ -18,6 +18,7 @@ type Query {
   """
   GetUser(id: String, slug: String): User
   GetCategory(id: String): Category
+  GetYdoc(id: String!): Ydoc
   ListArticles(
     filter: ListArticleFilter
     orderBy: [ListArticleOrderBy]
@@ -176,13 +177,13 @@ type Query {
 type Article implements Node {
   id: ID!
   text: String
-  createdAt: String
+  createdAt: String!
   updatedAt: String
   status: ReplyRequestStatusEnum!
   references: [ArticleReference]
 
   """Number of normal article replies"""
-  replyCount: Int
+  replyCount: Int!
 
   """
   Connections between this article and replies. Sorted by the logic described in https://github.com/cofacts/rumors-line-bot/issues/78.
@@ -207,7 +208,7 @@ type Article implements Node {
 
     """Only list the articleReplies created by the currently logged in user"""
     selfOnly: Boolean
-  ): [ArticleReply]
+  ): [ArticleReply!]!
 
   """
   Automated reply from AI before human fact checkers compose an fact check
@@ -224,10 +225,10 @@ type Article implements Node {
 
     """Returns only article categories with the specified statuses"""
     statuses: [ArticleCategoryStatusEnum!] = [NORMAL]
-  ): [ArticleCategory]
+  ): [ArticleCategory!]!
 
   """Number of normal article categories"""
-  categoryCount: Int
+  categoryCount: Int!
   replyRequests(
     """Returns only article replies with the specified statuses"""
     statuses: [ReplyRequestStatusEnum!] = [NORMAL]
@@ -258,7 +259,7 @@ type Article implements Node {
     Specify a cursor, returns results before this cursor. cannot be used with "after".
     """
     before: String
-  ): ArticleConnection
+  ): ArticleConnection!
 
   """Hyperlinks in article text"""
   hyperlinks: [Hyperlink]
@@ -293,8 +294,8 @@ enum ReplyRequestStatusEnum {
 }
 
 type ArticleReference {
-  createdAt: String
-  type: ArticleReferenceTypeEnum
+  createdAt: String!
+  type: ArticleReferenceTypeEnum!
   permalink: String
 }
 
@@ -311,33 +312,33 @@ enum ArticleReferenceTypeEnum {
 
 """The linkage between an Article and a Reply"""
 type ArticleReply {
-  replyId: String
+  replyId: String!
   reply: Reply
 
   """Cached reply type value stored in ArticleReply"""
   replyType: ReplyTypeEnum
-  articleId: String
+  articleId: String!
   article: Article
 
   """The user who conencted this reply and this article."""
   user: User
   userId: String!
   appId: String!
-  canUpdateStatus: Boolean
-  feedbackCount: Int
-  positiveFeedbackCount: Int
-  negativeFeedbackCount: Int
+  canUpdateStatus: Boolean!
+  feedbackCount: Int!
+  positiveFeedbackCount: Int!
+  negativeFeedbackCount: Int!
   feedbacks(
     """Returns only aricle reply feedbacks with the specified statuses"""
     statuses: [ArticleReplyFeedbackStatusEnum!] = [NORMAL]
-  ): [ArticleReplyFeedback]
+  ): [ArticleReplyFeedback!]!
 
   """
   The feedback of current user. null when not logged in or not voted yet.
   """
   ownVote: FeedbackVote
-  status: ArticleReplyStatusEnum
-  createdAt: String
+  status: ArticleReplyStatusEnum!
+  createdAt: String!
   updatedAt: String
 }
 
@@ -346,9 +347,9 @@ type Reply implements Node {
 
   """The user submitted this reply version"""
   user: User
-  createdAt: String
+  createdAt: String!
   text: String
-  type: ReplyTypeEnum
+  type: ReplyTypeEnum!
   reference: String
   articleReplies(
     """Deprecated. Please use statuses instead."""
@@ -356,7 +357,7 @@ type Reply implements Node {
 
     """Returns only article replies with the specified statuses"""
     statuses: [ArticleReplyStatusEnum!] = [NORMAL]
-  ): [ArticleReply]
+  ): [ArticleReply!]!
 
   """
   Hyperlinks in reply text or reference. May be empty array if no URLs are included. `null` when hyperlinks are still fetching.
@@ -379,7 +380,7 @@ type Reply implements Node {
     Specify a cursor, returns results before this cursor. cannot be used with "after".
     """
     before: String
-  ): ReplyConnection
+  ): ReplyConnection!
 }
 
 type User implements Node {
@@ -979,6 +980,21 @@ type Cooccurrence implements Node {
   updatedAt: String!
 }
 
+type Ydoc {
+  """Binary that stores as base64 encoded string"""
+  data: String
+
+  """Ydoc snapshots which are used to restore to specific version"""
+  versions: [YdocVersion]
+}
+
+type YdocVersion {
+  createdAt: String
+
+  """Binary that stores as base64 encoded string"""
+  snapshot: String
+}
+
 input ListArticleFilter {
   """Show only articles created by a specific app."""
   appId: String
@@ -1557,9 +1573,7 @@ type Mutation {
     articleType: ArticleTypeEnum!
     reference: ArticleReferenceInput!
 
-    """
-    The reason why the user want to submit this article. Mandatory for 1st sender
-    """
+    """The reason why the user want to submit this article"""
     reason: String
   ): MutationResult
 
