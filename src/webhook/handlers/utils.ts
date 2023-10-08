@@ -21,6 +21,7 @@ import type {
 } from 'typegen/graphql';
 import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
 import { sign } from 'src/lib/jwt';
+import { ChatbotState, PostbackActionData } from 'src/types/chatbotState';
 
 const splitter = new GraphemeSplitter();
 
@@ -36,17 +37,20 @@ export function createPostbackAction(
   input: string,
   displayText: string,
   sessionId: number,
-  state: string
+  state: ChatbotState
 ): Action {
+  // Ensure the data type before stringification
+  const data: PostbackActionData = {
+    input,
+    sessionId,
+    state,
+  };
+
   return {
     type: 'postback',
     label,
     displayText,
-    data: JSON.stringify({
-      input,
-      sessionId,
-      state,
-    }),
+    data: JSON.stringify(data),
   };
 }
 

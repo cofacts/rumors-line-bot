@@ -147,7 +147,12 @@ const singleUserHandler = async (
       })
       .send();
   } else if (webhookEvent.type === 'postback') {
-    const postbackData = JSON.parse(webhookEvent.postback.data);
+    /**
+     * @FIXME Replace with runtime type check to be future-proof
+     */
+    const postbackData = JSON.parse(
+      webhookEvent.postback.data
+    ) as PostbackActionData;
 
     // Handle the case when user context in redis is expired
     if (!context.data) {
