@@ -542,7 +542,10 @@ const AI_REPLY_IMAGE_VERSION = '20230405';
  * @param userId
  * @returns AI reply object, or null of AI cannot return reply.
  */
-export async function createAIReply(articleId: string, userId: string) {
+export async function createAIReply(
+  articleId: string,
+  userId: string
+): Promise<TextMessage | null> {
   const text = (
     await gql`
       mutation CreateAIReply($articleId: String!) {
