@@ -28,7 +28,18 @@ type ArgumentedEventParams = {
   input: string;
 };
 
-export type ChatbotEvent = (WebhookEvent | ServerChooseEvent) &
+export type ChatbotEvent = (
+  | MessageEvent
+  | ServerChooseEvent
+  /**
+   * A special format of postback that Chatbot actually uses.
+   * @FIXME Replace with original PostbackEvent and parse its action to support passing more thing than a string
+   */
+  | {
+      type: 'postback';
+      input: string;
+    }
+) &
   ArgumentedEventParams;
 
 export type Context = {
