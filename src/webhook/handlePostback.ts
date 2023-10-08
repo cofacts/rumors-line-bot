@@ -17,10 +17,10 @@ import { Message } from '@line/bot-sdk';
 /**
  * Given input event and context, outputs the new context and the reply to emit.
  *
- * @param {Object<data>} context The current context of the bot
- * @param {*} state The input state
- * @param {*} event The input event
- * @param {*} userId LINE user ID that does the input
+ * @param context The current context of the bot
+ * @param state The input state
+ * @param event The input event
+ * @param userId LINE user ID that does the input
  */
 export default async function handlePostback(
   { data = {} },
