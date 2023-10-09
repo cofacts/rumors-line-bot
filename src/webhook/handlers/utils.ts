@@ -6,6 +6,7 @@ import type {
   EventBase,
   TextMessage,
   FlexMessage,
+  FlexText,
 } from '@line/bot-sdk';
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
@@ -690,21 +691,26 @@ export function createCommentBubble(articleId: string): FlexBubble {
 }
 
 /**
+ * Omit<> breaks FlexText's union, thus we Omit<> separately and then union back
+ */
+type FlexTextWithoutType =
+  | Omit<FlexText & { text?: never; contents: FlexSpan[] }, 'type'>
+  | Omit<FlexText & { text: string; contents?: never }, 'type'>;
+
+/**
  * Creates a single flex bubble message that acts identical to text message, but cannot be copied
  * nor forwarded by the user.
  *
  * This prevents user to "share" Cofacts chatbot's text to Cofacts chatbot itself.
  *
- * @param {Object} textProps - https://developers.line.biz/en/reference/messaging-api/#f-text.
+ * @param textProps - https://developers.line.biz/en/reference/messaging-api/#f-text.
  *   type & wrap is specified by default.
- * @returns {Object} A single flex bubble message
+ * @returns A single flex bubble message
  */
-export function createTextMessage(
-  textProps: Omit<TextMessage, 'type'>
-): FlexMessage {
+export function createTextMessage(textProps: FlexTextWithoutType): FlexMessage {
   return {
     type: 'flex',
-    altText: textProps.text,
+    altText: textProps.text ?? '',
     contents: {
       type: 'bubble',
       body: {
