@@ -111,7 +111,7 @@ const askingArticleSubmissionConsent: ChatbotStateHandler = async (params) => {
       /* istanbul ignore if */
       if (!article?.id) {
         throw new Error(
-          '[askingARticleSubmissionConsent] article is not created successfully'
+          '[askingArticleSubmissionConsent] article is not created successfully'
         );
       }
 
