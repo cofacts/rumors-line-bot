@@ -13,6 +13,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n          mutation SubmitTextArticleUnderConsent($text: String!) {\n            CreateArticle(text: $text, reference: { type: LINE }) {\n              id\n            }\n          }\n        ": types.SubmitTextArticleUnderConsentDocument,
+    "\n          mutation SubmitMediaArticleUnderConsent(\n            $mediaUrl: String!\n            $articleType: ArticleTypeEnum!\n          ) {\n            CreateMediaArticle(\n              mediaUrl: $mediaUrl\n              articleType: $articleType\n              reference: { type: LINE }\n            ) {\n              id\n            }\n          }\n        ": types.SubmitMediaArticleUnderConsentDocument,
     "\n    query GetArticleInChoosingArticle($id: String!) {\n      GetArticle(id: $id) {\n        text\n        replyCount\n        articleType\n        articleReplies(status: NORMAL) {\n          reply {\n            id\n            type\n            text\n          }\n          positiveFeedbackCount\n          negativeFeedbackCount\n        }\n      }\n    }\n  ": types.GetArticleInChoosingArticleDocument,
     "\n      mutation SubmitReplyRequestWithoutReason($id: String!) {\n        CreateOrUpdateReplyRequest(articleId: $id) {\n          replyRequestCount\n        }\n      }\n    ": types.SubmitReplyRequestWithoutReasonDocument,
     "\n    query GetReplyRelatedData($id: String!, $articleId: String!) {\n      GetReply(id: $id) {\n        type\n        text\n        reference\n        createdAt\n      }\n      GetArticle(id: $articleId) {\n        replyCount\n      }\n    }\n  ": types.GetReplyRelatedDataDocument,
@@ -36,6 +38,14 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n          mutation SubmitTextArticleUnderConsent($text: String!) {\n            CreateArticle(text: $text, reference: { type: LINE }) {\n              id\n            }\n          }\n        "): (typeof documents)["\n          mutation SubmitTextArticleUnderConsent($text: String!) {\n            CreateArticle(text: $text, reference: { type: LINE }) {\n              id\n            }\n          }\n        "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n          mutation SubmitMediaArticleUnderConsent(\n            $mediaUrl: String!\n            $articleType: ArticleTypeEnum!\n          ) {\n            CreateMediaArticle(\n              mediaUrl: $mediaUrl\n              articleType: $articleType\n              reference: { type: LINE }\n            ) {\n              id\n            }\n          }\n        "): (typeof documents)["\n          mutation SubmitMediaArticleUnderConsent(\n            $mediaUrl: String!\n            $articleType: ArticleTypeEnum!\n          ) {\n            CreateMediaArticle(\n              mediaUrl: $mediaUrl\n              articleType: $articleType\n              reference: { type: LINE }\n            ) {\n              id\n            }\n          }\n        "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
