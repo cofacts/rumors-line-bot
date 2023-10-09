@@ -131,7 +131,12 @@ const singleUserHandler = async (
       return;
     }
 
-    result = await processText(context, webhookEvent.type, input, userId, req);
+    result = await processText(
+      context,
+      { ...webhookEvent, input },
+      userId,
+      req
+    );
   } else if (
     webhookEvent.type === 'message' &&
     webhookEvent.message.type !== 'text'
@@ -224,18 +229,13 @@ const singleUserHandler = async (
 
 async function processText(
   context: { data: Partial<Context> },
-  type: 'message' | 'postback',
-  input: string,
+  event: ChatbotEvent,
   userId: string,
   req: Request
 ): Promise<Result> {
   let result: Result;
   try {
-    result = await handleInput(
-      context,
-      { type, input } as ChatbotEvent,
-      userId
-    );
+    result = await handleInput(context, event, userId);
     if (!result.replies) {
       throw new Error(
         'Returned replies is empty, please check processMessages() implementation.'
