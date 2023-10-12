@@ -35,7 +35,7 @@ it('returns instructions if user did not forward the whole message', async () =>
   expect(replies).toMatchInlineSnapshot(`
     Array [
       Object {
-        "altText": "",
+        "altText": "Instructions",
         "contents": Object {
           "body": Object {
             "contents": Array [

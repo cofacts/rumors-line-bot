@@ -7,6 +7,7 @@ import type {
   TextMessage,
   FlexMessage,
   FlexText,
+  FlexComponent,
 } from '@line/bot-sdk';
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
@@ -715,21 +716,34 @@ type FlexTextWithoutType =
  * @returns A single flex bubble message
  */
 export function createTextMessage(textProps: FlexTextWithoutType): FlexMessage {
+  const altText = 'altText' in textProps ? textProps.altText : textProps.text;
+
+  const content: FlexComponent = {
+    type: 'text',
+    wrap: true,
+    // Exclude altText from FlexComponent content
+    ...(() => {
+      if (!('altText' in textProps)) {
+        return textProps;
+      }
+      const {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        altText,
+        ...other
+      } = textProps;
+      return other;
+    })(),
+  };
+
   return {
     type: 'flex',
-    altText: textProps.text ?? textProps.altText,
+    altText,
     contents: {
       type: 'bubble',
       body: {
         type: 'box',
         layout: 'vertical',
-        contents: [
-          {
-            type: 'text',
-            wrap: true,
-            ...textProps,
-          },
-        ],
+        contents: [content],
       },
     },
   };
