@@ -691,10 +691,17 @@ export function createCommentBubble(articleId: string): FlexBubble {
 }
 
 /**
- * Omit<> breaks FlexText's union, thus we Omit<> separately and then union back
+ * Omit<> breaks FlexText's discriminated union, thus we Omit<> separately and then union back
  */
 type FlexTextWithoutType =
-  | Omit<FlexText & { text?: never; contents: FlexSpan[] }, 'type'>
+  | Omit<
+      FlexText & {
+        /* Discriminator */ text?: never;
+        contents: FlexSpan[];
+        /* Must be supplied in this case */ altText: string;
+      },
+      'type'
+    >
   | Omit<FlexText & { text: string; contents?: never }, 'type'>;
 
 /**
@@ -710,7 +717,7 @@ type FlexTextWithoutType =
 export function createTextMessage(textProps: FlexTextWithoutType): FlexMessage {
   return {
     type: 'flex',
-    altText: textProps.text ?? '',
+    altText: textProps.text ?? textProps.altText,
     contents: {
       type: 'bubble',
       body: {

@@ -27,6 +27,7 @@ const askingArticleSource: ChatbotStateHandler = async (params) => {
     case POSTBACK_NO:
       replies = [
         createTextMessage({
+          altText: t`Instructions`,
           contents: [
             {
               type: 'span',
