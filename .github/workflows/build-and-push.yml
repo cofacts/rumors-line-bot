@@ -100,3 +100,33 @@ jobs:
         service: dev-line-bot
         image: cofacts/rumors-line-bot:dev-tw
         region: asia-northeast1
+
+  deploy-production:
+    permissions: # Required by google-github-actions/auth
+      contents: 'read'
+      id-token: 'write'
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        locales:
+          - postfix: -en
+            url: https://lin.ee/ESe1YU6
+          - postfix: -tw
+            url: https://lin.ee/3KCZgIq
+          - postfix: -ja
+            url: https://lin.ee/N4m6fYI
+    environment:
+      name: production${{matrix.locales.postfix}}
+      url: https://lin.ee/1QUzEX4nI
+    if: ${{ startsWith(github.ref, 'refs/tags/release') }}
+    steps:
+    - uses: 'google-github-actions/auth@v1'
+      with:
+        workload_identity_provider: ${{ secrets.GC_WORKLOAD_IDENTITY_PROVIDER }}
+        service_account: ${{ secrets.GC_SERVICE_ACCOUNT }}
+    - uses: 'google-github-actions/deploy-cloudrun@v1'
+      with:
+        service: line-bot${{matrix.locales.postfix}}
+        image: cofacts/rumors-line-bot:latest${{ matrix.locales.postfix }}
+        region: asia-northeast1
