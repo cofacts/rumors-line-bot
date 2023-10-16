@@ -54,7 +54,6 @@ export type Context = {
 
   /** User selected article in DB */
   selectedArticleId?: string;
-  selectedArticleText?: string;
 };
 
 export type ChatbotStateHandlerParams = {
