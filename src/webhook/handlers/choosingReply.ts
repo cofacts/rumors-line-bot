@@ -138,7 +138,7 @@ const choosingReply: ChatbotStateHandler = async (params) => {
     throw new ManipulationError(t`Please choose from provided options.`);
   }
 
-  const selectedReplyId = (data.selectedReplyId = event.input);
+  const selectedReplyId = event.input;
 
   const { data: getReplyData, errors } = await gql`
     query GetReplyRelatedData($id: String!, $articleId: String!) {
