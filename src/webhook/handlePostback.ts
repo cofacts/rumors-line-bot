@@ -11,6 +11,7 @@ import {
   ChatbotState,
   ChatbotStateHandlerParams,
   ChatbotStateHandlerReturnType,
+  PostbackActionData,
 } from 'src/types/chatbotState';
 import { Message } from '@line/bot-sdk';
 
@@ -24,23 +25,15 @@ import { Message } from '@line/bot-sdk';
  */
 export default async function handlePostback(
   { data = {} },
-  state: ChatbotState,
+  postbackData: PostbackActionData<unknown>,
   event: ChatbotEvent,
   userId: string
 ) {
   let replies: Message[] = [];
 
-  if (event.input === undefined) {
-    throw new Error('input undefined');
-  }
-
-  if (event.type !== 'postback') {
-    throw new Error('wrong event type');
-  }
-
   let params: ChatbotStateHandlerParams | ChatbotStateHandlerReturnType = {
     data,
-    state,
+    state: postbackData.state,
     event,
     userId,
     replies,

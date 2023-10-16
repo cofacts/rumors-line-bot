@@ -34,15 +34,15 @@ const splitter = new GraphemeSplitter();
  * @param sessionId - Current session ID
  * @param state - the state that processes the postback
  */
-export function createPostbackAction(
+export function createPostbackAction<INPUT = string>(
   label: string,
-  input: string,
+  input: INPUT,
   displayText: string,
   sessionId: number,
   state: ChatbotState
 ): Action {
   // Ensure the data type before stringification
-  const data: PostbackActionData = {
+  const data: PostbackActionData<INPUT> = {
     input,
     sessionId,
     state,

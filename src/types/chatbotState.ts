@@ -1,4 +1,4 @@
-import type { Message, MessageEvent } from '@line/bot-sdk';
+import type { Message, MessageEvent, PostbackEvent } from '@line/bot-sdk';
 
 export type ChatbotState =
   | '__INIT__'
@@ -28,18 +28,9 @@ type ArgumentedEventParams = {
   input: string;
 };
 
-export type ChatbotEvent = (
-  | MessageEvent
-  | ServerChooseEvent
-  /**
-   * A special format of postback that Chatbot actually uses: postback + input (provided in `ArgumentedEventParams`)
-   * @FIXME Replace with original PostbackEvent and parse its action to support passing more thing than a string
-   */
-  | {
-      type: 'postback';
-    }
-) &
-  ArgumentedEventParams;
+export type ChatbotEvent =
+  | ((MessageEvent | ServerChooseEvent) & ArgumentedEventParams)
+  | PostbackEvent;
 
 export type Context = {
   /** Used to differientiate different search sessions (searched text or media) */
@@ -82,8 +73,8 @@ export type ChatbotStateHandler = (
  *
  * @FIXME Replace input: string with something that is more structured
  */
-export type PostbackActionData = {
-  input: string;
+export type PostbackActionData<T> = {
+  input: T;
   sessionId: number;
   state: ChatbotState;
 };
