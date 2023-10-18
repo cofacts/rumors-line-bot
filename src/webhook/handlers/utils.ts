@@ -338,7 +338,7 @@ export class TimeoutError extends Error {
 export const MANUAL_FACT_CHECKERS = [
   {
     label: 'MyGoPen 真人查證',
-    value: 'https://line.me/R/ti/p/%40imygopen',
+    value: 'https://line.me/R/ti/p/%40fdp5120z',
   },
 ];
 

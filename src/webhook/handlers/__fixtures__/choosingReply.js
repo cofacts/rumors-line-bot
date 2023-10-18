@@ -7,6 +7,7 @@ export const oneReply = {
       createdAt: '2018-01-09T05:52:12.658Z',
     },
     GetArticle: {
+      text: '(0)(1)(/)(0)(9)(line)免費貼圖\n「[全螢幕貼圖]生活市集x生活小黑熊」\n https://line.me/S/sticker/',
       replyCount: 1,
     },
   },
@@ -22,6 +23,7 @@ export const oneReply2 = {
     },
     GetArticle: {
       replyCount: 1,
+      text: 'Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply ',
     },
   },
 };
@@ -35,6 +37,7 @@ export const multipleReplies = {
       createdAt: '2018-01-09T05:52:12.658Z',
     },
     GetArticle: {
+      text: '(0)(1)(/)(0)(9)(line)免費貼圖\n「[全螢幕貼圖]生活市集x生活小黑熊」\n https://line.me/S/sticker/',
       replyCount: 4,
     },
   },

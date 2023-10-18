@@ -138,7 +138,7 @@ const choosingReply: ChatbotStateHandler = async (params) => {
     throw new ManipulationError(t`Please choose from provided options.`);
   }
 
-  const selectedReplyId = (data.selectedReplyId = event.input);
+  const selectedReplyId = event.input;
 
   const { data: getReplyData, errors } = await gql`
     query GetReplyRelatedData($id: String!, $articleId: String!) {
@@ -149,6 +149,7 @@ const choosingReply: ChatbotStateHandler = async (params) => {
         createdAt
       }
       GetArticle(id: $articleId) {
+        text
         replyCount
       }
     }
@@ -194,7 +195,7 @@ const choosingReply: ChatbotStateHandler = async (params) => {
 
           createShareBubble(
             data.selectedArticleId ?? '',
-            data.selectedArticleText ?? '',
+            getReplyData.GetArticle.text ?? '',
             GetReply.type
           ),
         ].filter(Boolean),
@@ -202,7 +203,7 @@ const choosingReply: ChatbotStateHandler = async (params) => {
     },
   ];
 
-  const visitor = ga(userId, state, data.selectedArticleText);
+  const visitor = ga(userId, state, getReplyData.GetArticle.text ?? '');
   // Track when user select a reply.
   visitor.event({ ec: 'Reply', ea: 'Selected', el: selectedReplyId });
   // Track which reply type reply to user.
