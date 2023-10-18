@@ -6,6 +6,8 @@ import type {
   EventBase,
   TextMessage,
   FlexMessage,
+  FlexText,
+  FlexComponent,
 } from '@line/bot-sdk';
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
@@ -542,7 +544,10 @@ const AI_REPLY_IMAGE_VERSION = '20230405';
  * @param userId
  * @returns AI reply object, or null of AI cannot return reply.
  */
-export async function createAIReply(articleId: string, userId: string) {
+export async function createAIReply(
+  articleId: string,
+  userId: string
+): Promise<TextMessage | null> {
   const text = (
     await gql`
       mutation CreateAIReply($articleId: String!) {
@@ -687,33 +692,58 @@ export function createCommentBubble(articleId: string): FlexBubble {
 }
 
 /**
+ * Omit<> breaks FlexText's discriminated union, thus we Omit<> separately and then union back
+ */
+type FlexTextWithoutType =
+  | Omit<
+      FlexText & {
+        /* Discriminator */ text?: never;
+        contents: FlexSpan[];
+        /* Must be supplied in this case */ altText: string;
+      },
+      'type'
+    >
+  | Omit<FlexText & { text: string; contents?: never }, 'type'>;
+
+/**
  * Creates a single flex bubble message that acts identical to text message, but cannot be copied
  * nor forwarded by the user.
  *
  * This prevents user to "share" Cofacts chatbot's text to Cofacts chatbot itself.
  *
- * @param {Object} textProps - https://developers.line.biz/en/reference/messaging-api/#f-text.
+ * @param textProps - https://developers.line.biz/en/reference/messaging-api/#f-text.
  *   type & wrap is specified by default.
- * @returns {Object} A single flex bubble message
+ * @returns A single flex bubble message
  */
-export function createTextMessage(
-  textProps: Omit<TextMessage, 'type'>
-): FlexMessage {
+export function createTextMessage(textProps: FlexTextWithoutType): FlexMessage {
+  const altText = 'altText' in textProps ? textProps.altText : textProps.text;
+
+  const content: FlexComponent = {
+    type: 'text',
+    wrap: true,
+    // Exclude altText from FlexComponent content
+    ...(() => {
+      if (!('altText' in textProps)) {
+        return textProps;
+      }
+      const {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        altText,
+        ...other
+      } = textProps;
+      return other;
+    })(),
+  };
+
   return {
     type: 'flex',
-    altText: textProps.text,
+    altText,
     contents: {
       type: 'bubble',
       body: {
         type: 'box',
         layout: 'vertical',
-        contents: [
-          {
-            type: 'text',
-            wrap: true,
-            ...textProps,
-          },
-        ],
+        contents: [content],
       },
     },
   };

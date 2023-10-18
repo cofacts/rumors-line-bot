@@ -100,6 +100,7 @@
     "@storybook/addon-links": "^6.2.9",
     "@storybook/addon-svelte-csf": "^2.0.11",
     "@storybook/svelte": "^6.2.9",
+    "@total-typescript/ts-reset": "^0.5.1",
     "@types/jest": "^24.9.1",
     "@types/koa-router": "^7.4.4",
     "@types/string-similarity": "^4.0.0",

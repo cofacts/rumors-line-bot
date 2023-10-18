@@ -12,9 +12,11 @@ import {
 } from './utils';
 
 import { TUTORIAL_STEPS } from './tutorial';
+import { ChatbotStateHandler } from 'src/types/chatbotState';
 
-export default async function askingArticleSource(params) {
-  let { data, state, event, userId, replies } = params;
+const askingArticleSource: ChatbotStateHandler = async (params) => {
+  const { data, state, event, userId } = params;
+  let { replies } = params;
 
   const visitor = ga(userId, state, data.searchedText);
 
@@ -25,7 +27,7 @@ export default async function askingArticleSource(params) {
     case POSTBACK_NO:
       replies = [
         createTextMessage({
-          text: t`Instructions`,
+          altText: t`Instructions`,
           contents: [
             {
               type: 'span',
@@ -171,4 +173,6 @@ export default async function askingArticleSource(params) {
   visitor.send();
 
   return { data, event, userId, replies };
-}
+};
+
+export default askingArticleSource;

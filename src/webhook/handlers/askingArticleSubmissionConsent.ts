@@ -1,4 +1,7 @@
 import { t } from 'ttag';
+import { Message } from '@line/bot-sdk';
+
+import { ChatbotStateHandler } from 'src/types/chatbotState';
 import ga from 'src/lib/ga';
 import gql from 'src/lib/gql';
 import { getArticleURL } from 'src/lib/sharedUtils';
@@ -15,9 +18,21 @@ import {
 } from './utils';
 import UserSettings from 'src/database/models/userSettings';
 import UserArticleLink from 'src/database/models/userArticleLink';
+import {
+  ArticleTypeEnum,
+  SubmitMediaArticleUnderConsentMutation,
+  SubmitMediaArticleUnderConsentMutationVariables,
+  SubmitTextArticleUnderConsentMutation,
+  SubmitTextArticleUnderConsentMutationVariables,
+} from 'typegen/graphql';
 
-export default async function askingArticleSubmissionConsent(params) {
-  let { data, state, event, userId, replies } = params;
+function uppercase<T extends string>(s: T) {
+  return s.toUpperCase() as Uppercase<T>;
+}
+
+const askingArticleSubmissionConsent: ChatbotStateHandler = async (params) => {
+  const { data, event, userId } = params;
+  let { state, replies } = params;
 
   const visitor = ga(userId, state, data.searchedText);
 
@@ -41,22 +56,43 @@ export default async function askingArticleSubmissionConsent(params) {
       let article;
       if (isTextArticle) {
         const result = await gql`
-          mutation ($text: String!) {
+          mutation SubmitTextArticleUnderConsent($text: String!) {
             CreateArticle(text: $text, reference: { type: LINE }) {
               id
             }
           }
-        `({ text: data.searchedText }, { userId });
+        `<
+          SubmitTextArticleUnderConsentMutation,
+          SubmitTextArticleUnderConsentMutationVariables
+        >({ text: data.searchedText ?? '' }, { userId });
         article = result.data.CreateArticle;
       } else {
+        /* istanbul ignore if */
         if (!data.messageId) {
           // Should not be here
           throw new Error('No message ID found, cannot submit message.');
         }
 
+        const articleType: ArticleTypeEnum = (() => {
+          switch (data.messageType) {
+            case 'image':
+            case 'audio':
+            case 'video':
+              return uppercase(data.messageType);
+            default:
+              throw new Error(
+                `[askingArticleSubmissionConsent] unsupported message type ${data.messageType}`
+              );
+          }
+        })();
+
         const proxyUrl = getLineContentProxyURL(data.messageId);
+
         const result = await gql`
-          mutation ($mediaUrl: String!, $articleType: ArticleTypeEnum!) {
+          mutation SubmitMediaArticleUnderConsent(
+            $mediaUrl: String!
+            $articleType: ArticleTypeEnum!
+          ) {
             CreateMediaArticle(
               mediaUrl: $mediaUrl
               articleType: $articleType
@@ -65,11 +101,18 @@ export default async function askingArticleSubmissionConsent(params) {
               id
             }
           }
-        `(
-          { mediaUrl: proxyUrl, articleType: data.messageType.toUpperCase() },
-          { userId }
-        );
+        `<
+          SubmitMediaArticleUnderConsentMutation,
+          SubmitMediaArticleUnderConsentMutationVariables
+        >({ mediaUrl: proxyUrl, articleType }, { userId });
         article = result.data.CreateMediaArticle;
+      }
+
+      /* istanbul ignore if */
+      if (!article?.id) {
+        throw new Error(
+          '[askingArticleSubmissionConsent] article is not created successfully'
+        );
       }
 
       await UserArticleLink.createOrUpdateByUserIdAndArticleId(
@@ -86,7 +129,7 @@ export default async function askingArticleSubmissionConsent(params) {
         userId
       );
 
-      let maybeAIReplies = [
+      let maybeAIReplies: Message[] = [
         createTextMessage({
           text: t`In the meantime, you can:`,
         }),
@@ -150,7 +193,7 @@ export default async function askingArticleSubmissionConsent(params) {
                 !allowNewReplyUpdate &&
                 createNotificationSettingsBubble(),
               createArticleShareBubble(articleUrl),
-            ].filter((m) => m),
+            ].filter(Boolean),
           },
         },
       ];
@@ -160,4 +203,6 @@ export default async function askingArticleSubmissionConsent(params) {
 
   visitor.send();
   return { data, event, userId, replies };
-}
+};
+
+export default askingArticleSubmissionConsent;

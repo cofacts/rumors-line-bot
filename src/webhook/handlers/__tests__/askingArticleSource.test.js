@@ -56,7 +56,6 @@ it('returns instructions if user did not forward the whole message', async () =>
                     "type": "span",
                   },
                 ],
-                "text": "Instructions",
                 "type": "text",
                 "wrap": true,
               },

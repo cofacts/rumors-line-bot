@@ -155,9 +155,9 @@ export type Article = Node & {
   aiReplies: Array<AiReply>;
   /** Automated transcript */
   aiTranscripts: Array<AiTranscript>;
-  articleCategories: Maybe<Array<Maybe<ArticleCategory>>>;
+  articleCategories: Array<ArticleCategory>;
   /** Connections between this article and replies. Sorted by the logic described in https://github.com/cofacts/rumors-line-bot/issues/78. */
-  articleReplies: Maybe<Array<Maybe<ArticleReply>>>;
+  articleReplies: Array<ArticleReply>;
   /** Message event type */
   articleType: ArticleTypeEnum;
   /** Attachment hash to search or identify files */
@@ -165,17 +165,17 @@ export type Article = Node & {
   /** Attachment URL for this article. */
   attachmentUrl: Maybe<Scalars['String']>;
   /** Number of normal article categories */
-  categoryCount: Maybe<Scalars['Int']>;
+  categoryCount: Scalars['Int'];
   cooccurrences: Maybe<Array<Cooccurrence>>;
-  createdAt: Maybe<Scalars['String']>;
+  createdAt: Scalars['String'];
   /** Hyperlinks in article text */
   hyperlinks: Maybe<Array<Maybe<Hyperlink>>>;
   id: Scalars['ID'];
   lastRequestedAt: Maybe<Scalars['String']>;
   references: Maybe<Array<Maybe<ArticleReference>>>;
-  relatedArticles: Maybe<ArticleConnection>;
+  relatedArticles: ArticleConnection;
   /** Number of normal article replies */
-  replyCount: Maybe<Scalars['Int']>;
+  replyCount: Scalars['Int'];
   replyRequestCount: Maybe<Scalars['Int']>;
   replyRequests: Maybe<Array<Maybe<ReplyRequest>>>;
   /** If the current user has requested for reply for this article. Null if not logged in. */
@@ -315,9 +315,9 @@ export type ArticleConnectionPageInfo = PageInfo & {
 };
 
 export type ArticleReference = {
-  createdAt: Maybe<Scalars['String']>;
+  createdAt: Scalars['String'];
   permalink: Maybe<Scalars['String']>;
-  type: Maybe<ArticleReferenceTypeEnum>;
+  type: ArticleReferenceTypeEnum;
 };
 
 export type ArticleReferenceInput = {
@@ -336,20 +336,20 @@ export type ArticleReferenceTypeEnum =
 export type ArticleReply = {
   appId: Scalars['String'];
   article: Maybe<Article>;
-  articleId: Maybe<Scalars['String']>;
-  canUpdateStatus: Maybe<Scalars['Boolean']>;
-  createdAt: Maybe<Scalars['String']>;
-  feedbackCount: Maybe<Scalars['Int']>;
-  feedbacks: Maybe<Array<Maybe<ArticleReplyFeedback>>>;
-  negativeFeedbackCount: Maybe<Scalars['Int']>;
+  articleId: Scalars['String'];
+  canUpdateStatus: Scalars['Boolean'];
+  createdAt: Scalars['String'];
+  feedbackCount: Scalars['Int'];
+  feedbacks: Array<ArticleReplyFeedback>;
+  negativeFeedbackCount: Scalars['Int'];
   /** The feedback of current user. null when not logged in or not voted yet. */
   ownVote: Maybe<FeedbackVote>;
-  positiveFeedbackCount: Maybe<Scalars['Int']>;
+  positiveFeedbackCount: Scalars['Int'];
   reply: Maybe<Reply>;
-  replyId: Maybe<Scalars['String']>;
+  replyId: Scalars['String'];
   /** Cached reply type value stored in ArticleReply */
   replyType: Maybe<ReplyTypeEnum>;
-  status: Maybe<ArticleReplyStatusEnum>;
+  status: ArticleReplyStatusEnum;
   updatedAt: Maybe<Scalars['String']>;
   /** The user who conencted this reply and this article. */
   user: Maybe<User>;
@@ -1024,6 +1024,7 @@ export type Query = {
    * Note that some fields like email is not visible to other users.
    */
   GetUser: Maybe<User>;
+  GetYdoc: Maybe<Ydoc>;
   ListAIResponses: AiResponseConnection;
   ListAnalytics: AnalyticsConnection;
   ListArticleReplyFeedbacks: Maybe<ListArticleReplyFeedbackConnection>;
@@ -1055,6 +1056,11 @@ export type QueryGetReplyArgs = {
 export type QueryGetUserArgs = {
   id: InputMaybe<Scalars['String']>;
   slug: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryGetYdocArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -1162,16 +1168,16 @@ export type RelatedArticleOrderBy = {
 };
 
 export type Reply = Node & {
-  articleReplies: Maybe<Array<Maybe<ArticleReply>>>;
-  createdAt: Maybe<Scalars['String']>;
+  articleReplies: Array<ArticleReply>;
+  createdAt: Scalars['String'];
   /** Hyperlinks in reply text or reference. May be empty array if no URLs are included. `null` when hyperlinks are still fetching. */
   hyperlinks: Maybe<Array<Maybe<Hyperlink>>>;
   id: Scalars['ID'];
   reference: Maybe<Scalars['String']>;
   /** Replies that has similar text or references of this current reply */
-  similarReplies: Maybe<ReplyConnection>;
+  similarReplies: ReplyConnection;
   text: Maybe<Scalars['String']>;
-  type: Maybe<ReplyTypeEnum>;
+  type: ReplyTypeEnum;
   /** The user submitted this reply version */
   user: Maybe<User>;
 };
@@ -1360,6 +1366,56 @@ export type ValidationResult = {
   success: Scalars['Boolean'];
 };
 
+export type Ydoc = {
+  /** Binary that stores as base64 encoded string */
+  data: Maybe<Scalars['String']>;
+  /** Ydoc snapshots which are used to restore to specific version */
+  versions: Maybe<Array<Maybe<YdocVersion>>>;
+};
+
+export type YdocVersion = {
+  createdAt: Maybe<Scalars['String']>;
+  /** Binary that stores as base64 encoded string */
+  snapshot: Maybe<Scalars['String']>;
+};
+
+export type SubmitTextArticleUnderConsentMutationVariables = Exact<{
+  text: Scalars['String'];
+}>;
+
+
+export type SubmitTextArticleUnderConsentMutation = { CreateArticle: { id: string | null } | null };
+
+export type SubmitMediaArticleUnderConsentMutationVariables = Exact<{
+  mediaUrl: Scalars['String'];
+  articleType: ArticleTypeEnum;
+}>;
+
+
+export type SubmitMediaArticleUnderConsentMutation = { CreateMediaArticle: { id: string | null } | null };
+
+export type GetArticleInChoosingArticleQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GetArticleInChoosingArticleQuery = { GetArticle: { text: string | null, replyCount: number, articleType: ArticleTypeEnum, articleReplies: Array<{ positiveFeedbackCount: number, negativeFeedbackCount: number, reply: { id: string, type: ReplyTypeEnum, text: string | null } | null }> } | null };
+
+export type SubmitReplyRequestWithoutReasonMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type SubmitReplyRequestWithoutReasonMutation = { CreateOrUpdateReplyRequest: { replyRequestCount: number | null } | null };
+
+export type GetReplyRelatedDataQueryVariables = Exact<{
+  id: Scalars['String'];
+  articleId: Scalars['String'];
+}>;
+
+
+export type GetReplyRelatedDataQuery = { GetReply: { type: ReplyTypeEnum, text: string | null, reference: string | null, createdAt: string } | null, GetArticle: { replyCount: number } | null };
+
 export type ListArticlesInInitStateQueryVariables = Exact<{
   text: Scalars['String'];
 }>;
@@ -1374,11 +1430,11 @@ export type ListArticlesInProcessMediaQueryVariables = Exact<{
 
 export type ListArticlesInProcessMediaQuery = { ListArticles: { edges: Array<{ score: number | null, mediaSimilarity: number, node: { id: string, articleType: ArticleTypeEnum, attachmentUrl: string | null }, highlight: { text: string | null, hyperlinks: Array<{ title: string | null, summary: string | null } | null> | null } | null }> } | null };
 
-export type CreateReferenceWordsReplyFragment = { reference: string | null, type: ReplyTypeEnum | null };
+export type CreateReferenceWordsReplyFragment = { reference: string | null, type: ReplyTypeEnum };
 
-export type CreateReplyMessagesReplyFragment = { text: string | null, reference: string | null, type: ReplyTypeEnum | null };
+export type CreateReplyMessagesReplyFragment = { text: string | null, reference: string | null, type: ReplyTypeEnum };
 
-export type CreateReplyMessagesArticleFragment = { replyCount: number | null };
+export type CreateReplyMessagesArticleFragment = { replyCount: number };
 
 export type CreateHighlightContentsHighlightFragment = { text: string | null, hyperlinks: Array<{ title: string | null, summary: string | null } | null> | null };
 
@@ -1393,6 +1449,11 @@ export const CreateReferenceWordsReplyFragmentDoc = {"kind":"Document","definiti
 export const CreateReplyMessagesReplyFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CreateReplyMessagesReply"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Reply"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"CreateReferenceWordsReply"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CreateReferenceWordsReply"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Reply"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"reference"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]} as unknown as DocumentNode<CreateReplyMessagesReplyFragment, unknown>;
 export const CreateReplyMessagesArticleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CreateReplyMessagesArticle"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Article"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"replyCount"}}]}}]} as unknown as DocumentNode<CreateReplyMessagesArticleFragment, unknown>;
 export const CreateHighlightContentsHighlightFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CreateHighlightContentsHighlight"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Highlights"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"hyperlinks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}}]}}]}}]} as unknown as DocumentNode<CreateHighlightContentsHighlightFragment, unknown>;
+export const SubmitTextArticleUnderConsentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SubmitTextArticleUnderConsent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"text"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"CreateArticle"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"text"},"value":{"kind":"Variable","name":{"kind":"Name","value":"text"}}},{"kind":"Argument","name":{"kind":"Name","value":"reference"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"EnumValue","value":"LINE"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<SubmitTextArticleUnderConsentMutation, SubmitTextArticleUnderConsentMutationVariables>;
+export const SubmitMediaArticleUnderConsentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SubmitMediaArticleUnderConsent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mediaUrl"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"articleType"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ArticleTypeEnum"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"CreateMediaArticle"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"mediaUrl"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mediaUrl"}}},{"kind":"Argument","name":{"kind":"Name","value":"articleType"},"value":{"kind":"Variable","name":{"kind":"Name","value":"articleType"}}},{"kind":"Argument","name":{"kind":"Name","value":"reference"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"EnumValue","value":"LINE"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<SubmitMediaArticleUnderConsentMutation, SubmitMediaArticleUnderConsentMutationVariables>;
+export const GetArticleInChoosingArticleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetArticleInChoosingArticle"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"GetArticle"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"replyCount"}},{"kind":"Field","name":{"kind":"Name","value":"articleType"}},{"kind":"Field","name":{"kind":"Name","value":"articleReplies"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"EnumValue","value":"NORMAL"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"reply"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"text"}}]}},{"kind":"Field","name":{"kind":"Name","value":"positiveFeedbackCount"}},{"kind":"Field","name":{"kind":"Name","value":"negativeFeedbackCount"}}]}}]}}]}}]} as unknown as DocumentNode<GetArticleInChoosingArticleQuery, GetArticleInChoosingArticleQueryVariables>;
+export const SubmitReplyRequestWithoutReasonDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SubmitReplyRequestWithoutReason"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"CreateOrUpdateReplyRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"articleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"replyRequestCount"}}]}}]}}]} as unknown as DocumentNode<SubmitReplyRequestWithoutReasonMutation, SubmitReplyRequestWithoutReasonMutationVariables>;
+export const GetReplyRelatedDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetReplyRelatedData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"GetReply"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"reference"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"GetArticle"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"replyCount"}}]}}]}}]} as unknown as DocumentNode<GetReplyRelatedDataQuery, GetReplyRelatedDataQueryVariables>;
 export const ListArticlesInInitStateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListArticlesInInitState"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"text"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ListArticles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"moreLikeThis"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"like"},"value":{"kind":"Variable","name":{"kind":"Name","value":"text"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_score"},"value":{"kind":"EnumValue","value":"DESC"}}]}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"4"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"articleType"}}]}},{"kind":"Field","name":{"kind":"Name","value":"highlight"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"hyperlinks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ListArticlesInInitStateQuery, ListArticlesInInitStateQueryVariables>;
 export const ListArticlesInProcessMediaDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListArticlesInProcessMedia"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mediaUrl"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ListArticles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"mediaUrl"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mediaUrl"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"articleTypes"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"TEXT"},{"kind":"EnumValue","value":"IMAGE"},{"kind":"EnumValue","value":"AUDIO"},{"kind":"EnumValue","value":"VIDEO"}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"transcript"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"shouldCreate"},"value":{"kind":"BooleanValue","value":true}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_score"},"value":{"kind":"EnumValue","value":"DESC"}}]}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"9"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"score"}},{"kind":"Field","name":{"kind":"Name","value":"mediaSimilarity"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"articleType"}},{"kind":"Field","name":{"kind":"Name","value":"attachmentUrl"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"variant"},"value":{"kind":"EnumValue","value":"THUMBNAIL"}}]}]}},{"kind":"Field","name":{"kind":"Name","value":"highlight"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"hyperlinks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ListArticlesInProcessMediaQuery, ListArticlesInProcessMediaQueryVariables>;
 export const CreateAiReplyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateAIReply"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"CreateAIReply"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"articleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}}]}}]}}]} as unknown as DocumentNode<CreateAiReplyMutation, CreateAiReplyMutationVariables>;

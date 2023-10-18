@@ -33,7 +33,7 @@ class UserArticleLink extends Base {
    *
    * @param {string} userId
    * @param {string} articleId
-   * @param {object} data
+   * @param {object} [data]
    * @returns {Promise<UserArticleLink>}
    */
   static async createOrUpdateByUserIdAndArticleId(userId, articleId, data) {

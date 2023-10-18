@@ -17,21 +17,36 @@ import {
 } from './utils';
 import ga from 'src/lib/ga';
 import UserSettings from 'src/database/models/userSettings';
+import {
+  GetArticleInChoosingArticleQuery,
+  GetArticleInChoosingArticleQueryVariables,
+  ReplyTypeEnum,
+  SubmitReplyRequestWithoutReasonMutation,
+  SubmitReplyRequestWithoutReasonMutationVariables,
+} from 'typegen/graphql';
 
 import UserArticleLink from '../../database/models/userArticleLink';
-import choosingReply from '../handlers/choosingReply';
+import choosingReply from './choosingReply';
+import { ChatbotStateHandler } from 'src/types/chatbotState';
+import { FlexBubble, Message } from '@line/bot-sdk';
 
 /**
  * 第2句 (template message)：按照時間排序「不在查證範圍」之外的回應，每則回應第一行是
  * 「⭕ 含有真實訊息」或「❌ 含有不實訊息」之類的 (含 emoticon)，然後是回應文字。如果
  * 還有空間，才放「不在查證範圍」的回應。最後一句的最後一格顯示「看其他回應」，連到網站。
  */
-function reorderArticleReplies(articleReplies) {
+function reorderArticleReplies(
+  articleReplies: NonNullable<
+    GetArticleInChoosingArticleQuery['GetArticle']
+  >['articleReplies']
+) {
   const replies = [];
   const notArticleReplies = [];
 
-  for (let articleReply of articleReplies) {
-    if (articleReply.reply.type !== 'NOT_ARTICLE') {
+  for (const articleReply of articleReplies ?? []) {
+    const reply = articleReply?.reply;
+    if (!reply) continue; // Make Typescript happy
+    if (reply.type !== 'NOT_ARTICLE') {
       replies.push(articleReply);
     } else {
       notArticleReplies.push(articleReply);
@@ -42,8 +57,9 @@ function reorderArticleReplies(articleReplies) {
 
 // https://developers.line.biz/en/reference/messaging-api/#template-messages
 
-export default async function choosingArticle(params) {
-  let { data, state, event, userId, replies } = params;
+const choosingArticle: ChatbotStateHandler = async (params) => {
+  const { data, state, event, userId } = params;
+  let { replies } = params;
 
   if (event.type !== 'postback' && event.type !== 'server_choose') {
     throw new ManipulationError(t`Please choose from provided options.`);
@@ -113,7 +129,7 @@ export default async function choosingArticle(params) {
   const {
     data: { GetArticle },
   } = await gql`
-    query ($id: String!) {
+    query GetArticleInChoosingArticle($id: String!) {
       GetArticle(id: $id) {
         text
         replyCount
@@ -129,7 +145,10 @@ export default async function choosingArticle(params) {
         }
       }
     }
-  `({
+  `<
+    GetArticleInChoosingArticleQuery,
+    GetArticleInChoosingArticleQueryVariables
+  >({
     id: selectedArticleId,
   });
 
@@ -138,7 +157,7 @@ export default async function choosingArticle(params) {
   }
 
   // Store it so that other handlers can use
-  data.selectedArticleText = GetArticle.text;
+  data.selectedArticleText = GetArticle.text ?? '';
 
   const visitor = ga(userId, state, data.selectedArticleText);
 
@@ -154,28 +173,34 @@ export default async function choosingArticle(params) {
     visitor.send();
 
     // choose reply for user
-    event = {
-      type: 'server_choose',
-      input: articleReplies[0].reply.id,
-    };
-
     return await choosingReply({
       data,
       state: 'CHOOSING_REPLY',
-      event,
+      event: {
+        type: 'server_choose',
+        input: articleReplies[0].reply?.id ?? '',
+      },
       userId,
       replies: [],
     });
   }
 
   if (articleReplies.length !== 0) {
-    const countOfType = {};
+    const countOfType: Record<ReplyTypeEnum, number> = {
+      RUMOR: 0,
+      NOT_RUMOR: 0,
+      NOT_ARTICLE: 0,
+      OPINIONATED: 0,
+    };
     articleReplies.forEach((ar) => {
+      /* istanbul ignore if */
+      if (!ar.reply?.type) return;
+
       // Track which Reply is searched. And set tracking event as non-interactionHit.
       visitor.event({ ec: 'Reply', ea: 'Search', el: ar.reply.id, ni: true });
 
       const type = ar.reply.type;
-      countOfType[type] = (countOfType[type] || 0) + 1;
+      countOfType[type] += 1;
     });
 
     const summary =
@@ -201,93 +226,103 @@ export default async function choosingArticle(params) {
 
     const replyOptions = articleReplies
       .slice(0, 10)
-      .map(({ reply, positiveFeedbackCount, negativeFeedbackCount }) => {
-        const typeWords = createTypeWords(reply.type).toLowerCase();
-        const displayTextWhenChosen = ellipsis(reply.text, 25);
+      .map(
+        ({
+          reply,
+          positiveFeedbackCount,
+          negativeFeedbackCount,
+        }): FlexBubble | undefined => {
+          /* istanbul ignore if */
+          if (!reply) return;
 
-        return {
-          type: 'bubble',
-          direction: 'ltr',
-          header: {
-            type: 'box',
-            layout: 'horizontal',
-            spacing: 'md',
-            paddingBottom: 'none',
-            contents: [
-              {
-                type: 'text',
-                text: '💬',
-                flex: 0,
-              },
-              {
-                type: 'text',
-                text: t`Someone thinks it ${typeWords}`,
-                gravity: 'center',
-                size: 'sm',
-                weight: 'bold',
-                wrap: true,
-                color: '#AAAAAA',
-              },
-            ],
-          },
-          body: {
-            type: 'box',
-            layout: 'vertical',
-            contents: [
-              {
-                type: 'text',
-                text: ellipsis(reply.text, 300, '...'), // 50KB for entire Flex carousel
-                align: 'start',
-                wrap: true,
-                margin: 'md',
-                maxLines: 10,
-              },
-              {
-                type: 'filler',
-              },
-              {
-                type: 'separator',
-                margin: 'md',
-              },
-              {
-                type: 'box',
-                layout: 'horizontal',
-                contents: [
-                  {
-                    type: 'text',
-                    text: createFeedbackWords(
-                      positiveFeedbackCount,
-                      negativeFeedbackCount
-                    ),
-                    size: 'xs',
-                    wrap: true,
-                  },
-                ],
-                margin: 'md',
-                spacing: 'none',
-              },
-            ],
-          },
-          footer: {
-            type: 'box',
-            layout: 'vertical',
-            contents: [
-              {
-                type: 'button',
-                action: createPostbackAction(
-                  `👀 ${t`Take a look`}`,
-                  reply.id,
-                  t`I choose “${displayTextWhenChosen}”`,
-                  data.sessionId,
-                  'CHOOSING_REPLY'
-                ),
-                style: 'primary',
-                color: '#ffb600',
-              },
-            ],
-          },
-        };
-      });
+          const typeWords = createTypeWords(reply.type).toLowerCase();
+          const displayTextWhenChosen = ellipsis(reply.text ?? '', 25);
+
+          return {
+            type: 'bubble',
+            direction: 'ltr',
+            header: {
+              type: 'box',
+              layout: 'horizontal',
+              spacing: 'md',
+              paddingBottom: 'none',
+              contents: [
+                {
+                  type: 'text',
+                  text: '💬',
+                  flex: 0,
+                },
+                {
+                  type: 'text',
+                  text: t`Someone thinks it ${typeWords}`,
+                  gravity: 'center',
+                  size: 'sm',
+                  weight: 'bold',
+                  wrap: true,
+                  color: '#AAAAAA',
+                },
+              ],
+            },
+            body: {
+              type: 'box',
+              layout: 'vertical',
+              contents: [
+                {
+                  type: 'text',
+                  text: ellipsis(reply.text ?? '', 300, '...'), // 50KB for entire Flex carousel
+                  align: 'start',
+                  wrap: true,
+                  margin: 'md',
+                  maxLines: 10,
+                },
+                {
+                  type: 'filler',
+                },
+                {
+                  type: 'separator',
+                  margin: 'md',
+                },
+                {
+                  type: 'box',
+                  layout: 'horizontal',
+                  contents: [
+                    {
+                      type: 'text',
+                      text: createFeedbackWords(
+                        positiveFeedbackCount,
+                        negativeFeedbackCount
+                      ),
+                      size: 'xs',
+                      wrap: true,
+                    },
+                  ],
+                  margin: 'md',
+                  spacing: 'none',
+                },
+              ],
+            },
+            footer: {
+              type: 'box',
+              layout: 'vertical',
+              contents: [
+                {
+                  type: 'button',
+                  action: createPostbackAction(
+                    `👀 ${t`Take a look`}`,
+                    reply.id,
+                    t`I choose “${displayTextWhenChosen}”`,
+                    data.sessionId,
+                    'CHOOSING_REPLY'
+                  ),
+                  style: 'primary',
+                  color: '#ffb600',
+                },
+              ],
+            },
+          };
+        }
+      )
+      .filter(Boolean);
 
     replies = [
       {
@@ -330,7 +365,7 @@ export default async function choosingArticle(params) {
     );
     const isTextArticle = GetArticle.articleType === 'TEXT';
 
-    let maybeAIReplies = [
+    let maybeAIReplies: Message[] = [
       createTextMessage({
         text: t`In the meantime, you can:`,
       }),
@@ -400,7 +435,7 @@ Don’t trust the message just yet!`,
               createNotificationSettingsBubble(),
 
             createArticleShareBubble(articleUrl),
-          ].filter((m) => m),
+          ].filter(Boolean),
         },
       },
     ];
@@ -412,10 +447,15 @@ Don’t trust the message just yet!`,
           replyRequestCount
         }
       }
-    `({ id: selectedArticleId }, { userId });
+    `<
+      SubmitReplyRequestWithoutReasonMutation,
+      SubmitReplyRequestWithoutReasonMutationVariables
+    >({ id: selectedArticleId }, { userId });
   }
 
   visitor.send();
 
   return { data, event, userId, replies };
-}
+};
+
+export default choosingArticle;
