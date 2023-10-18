@@ -274,8 +274,11 @@ router.post('/', (ctx) => {
         replyToken = webhookEvent.replyToken;
       }
 
-      // set 28s timeout
-      const timeout = 28000;
+      // Set 58s timeout.
+      // Reply tokens must be used within one minute after receiving the webhook.
+      // Ref: https://developers.line.biz/en/reference/messaging-api/#send-reply-message
+      //
+      const timeout = 58000;
       if (webhookEvent.source.type === 'user') {
         singleUserHandler(
           ctx.request,
