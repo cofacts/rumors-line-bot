@@ -156,7 +156,6 @@ const choosingArticle: ChatbotStateHandler = async (params) => {
     throw new ManipulationError(t`Provided message is not found.`);
   }
 
-  // Store it so that other handlers can use
   const selectedArticleText = GetArticle.text ?? '';
 
   const visitor = ga(userId, state, selectedArticleText);
