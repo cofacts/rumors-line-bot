@@ -153,7 +153,7 @@ it('returns instructions if user did not forward the whole message', async () =>
                     "action": Object {
                       "label": "MyGoPen 真人查證",
                       "type": "uri",
-                      "uri": "https://line.me/R/ti/p/%40imygopen",
+                      "uri": "https://line.me/R/ti/p/%40fdp5120z",
                     },
                     "color": "#333333",
                     "style": "primary",
