@@ -20,7 +20,11 @@ import UserSettings from '../database/models/userSettings';
 import { Request } from 'koa';
 import { WebhookEvent } from '@line/bot-sdk';
 import { Result } from 'src/types/result';
-import { ChatbotEvent, Context } from 'src/types/chatbotState';
+import {
+  ChatbotEvent,
+  Context,
+  PostbackActionData,
+} from 'src/types/chatbotState';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
@@ -127,7 +131,12 @@ const singleUserHandler = async (
       return;
     }
 
-    result = await processText(context, webhookEvent.type, input, userId, req);
+    result = await processText(
+      context,
+      { ...webhookEvent, input },
+      userId,
+      req
+    );
   } else if (
     webhookEvent.type === 'message' &&
     webhookEvent.message.type !== 'text'
@@ -143,7 +152,12 @@ const singleUserHandler = async (
       })
       .send();
   } else if (webhookEvent.type === 'postback') {
-    const postbackData = JSON.parse(webhookEvent.postback.data);
+    /**
+     * @FIXME Replace with runtime type check to be future-proof
+     */
+    const postbackData = JSON.parse(
+      webhookEvent.postback.data
+    ) as PostbackActionData;
 
     // Handle the case when user context in redis is expired
     if (!context.data) {
@@ -182,12 +196,8 @@ const singleUserHandler = async (
     }
 
     const input = postbackData.input;
-    result = await handlePostback(
-      context,
-      postbackData.state,
-      { type: webhookEvent.type, input } as ChatbotEvent,
-      userId
-    );
+    const event: ChatbotEvent = { type: webhookEvent.type, input };
+    result = await handlePostback(context, postbackData.state, event, userId);
   }
 
   if (isReplied) {
@@ -219,18 +229,13 @@ const singleUserHandler = async (
 
 async function processText(
   context: { data: Partial<Context> },
-  type: 'message' | 'postback',
-  input: string,
+  event: ChatbotEvent,
   userId: string,
   req: Request
 ): Promise<Result> {
   let result: Result;
   try {
-    result = await handleInput(
-      context,
-      { type, input } as ChatbotEvent,
-      userId
-    );
+    result = await handleInput(context, event, userId);
     if (!result.replies) {
       throw new Error(
         'Returned replies is empty, please check processMessages() implementation.'

@@ -34,7 +34,6 @@ describe('should select reply by replyId', () => {
         data: '{"input":"AWDZeeV0yCdS-nWhuml8","state":"CHOOSING_REPLY"}',
       },
     },
-    issuedAt: 1518964688672,
     userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
     replies: [],
   };
@@ -106,7 +105,6 @@ it('should block non-postback interactions', async () => {
       input: '123',
       timestamp: 1518964687709,
     },
-    issuedAt: 1518964688672,
     userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
     replies: [],
   };
@@ -132,7 +130,6 @@ it('should handle graphql error gracefully', async () => {
         data: '{"input":"AWDZeeV0yCdS-nWhuml8","state":"CHOOSING_REPLY"}',
       },
     },
-    issuedAt: 1518964688672,
     userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
     replies: [],
   };

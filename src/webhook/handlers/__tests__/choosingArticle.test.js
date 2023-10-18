@@ -38,7 +38,6 @@ it('should select article by articleId', async () => {
         data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
       },
     },
-    issuedAt: 1505314295017,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
   };
 
@@ -83,7 +82,6 @@ it('throws ManipulationError when articleId is not valid', async () => {
       type: 'postback',
       input: 'article-id',
     },
-    issuedAt: 1505314295017,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
   };
 
@@ -109,7 +107,6 @@ it('should select article and have OPINIONATED and NOT_ARTICLE replies', async (
         data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
       },
     },
-    issuedAt: 1511633232970,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
   };
@@ -180,7 +177,6 @@ it('should select article with no replies', async () => {
         data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
       },
     },
-    issuedAt: 1511702208730,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
   };
@@ -240,7 +236,6 @@ it('should select article and choose the only one reply for user', async () => {
         data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
       },
     },
-    issuedAt: 1511702208730,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
   };
@@ -288,7 +283,6 @@ it('should block non-postback interactions', async () => {
       timestamp: 1511702208226,
       message: { type: 'text', id: '7049700770815', text: '10' },
     },
-    issuedAt: 1511702208730,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
   };
@@ -314,7 +308,6 @@ it('should select article and slice replies when over 10', async () => {
         data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
       },
     },
-    issuedAt: 1511633232970,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
   };
@@ -337,7 +330,6 @@ it('should ask users if they want to submit article when user say not found', as
         data: `{"input":"${POSTBACK_NO_ARTICLE_FOUND}","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}`,
       },
     },
-    issuedAt: 1511633232970,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
   };
@@ -375,7 +367,6 @@ it('should ask users if they want to submit image article when user say not foun
         data: `{"input":"${POSTBACK_NO_ARTICLE_FOUND}","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}`,
       },
     },
-    issuedAt: 1511633232970,
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     replies: undefined,
   };
@@ -413,7 +404,6 @@ it('should create a UserArticleLink when selecting a article', async () => {
         data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
       },
     },
-    issuedAt: 1505314295017,
     userId,
   };
 

@@ -6,7 +6,7 @@ import type {
   FlexMessage,
   FlexComponent,
 } from '@line/bot-sdk';
-import { Context } from 'src/types/chatbotState';
+import { ChatbotStateHandlerParams } from 'src/types/chatbotState';
 
 import {
   getLineContentProxyURL,
@@ -28,7 +28,7 @@ const CIRCLED_DIGITS = '⓪①②③④⑤⑥⑦⑧⑨⑩⑪';
 const SIMILARITY_THRESHOLD = 0.95;
 
 export default async function (
-  { data = {} as Context },
+  { data }: { data: ChatbotStateHandlerParams['data'] },
   event: MessageEvent,
   userId: string
 ) {

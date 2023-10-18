@@ -224,7 +224,6 @@ Object {
     "input": "AV--O3nfyCdS-nWhujMD",
     "type": "server_choose",
   },
-  "issuedAt": undefined,
   "replies": Array [
     Object {
       "text": "💡 Someone on the internet replies to the message:",

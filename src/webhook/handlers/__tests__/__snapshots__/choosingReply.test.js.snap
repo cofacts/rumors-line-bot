@@ -259,7 +259,6 @@ Object {
     "timestamp": 1518964687709,
     "type": "postback",
   },
-  "issuedAt": 1518964688672,
   "replies": Array [
     Object {
       "text": "💡 Someone on the internet replies to the message:",
@@ -400,7 +399,6 @@ Object {
     "timestamp": 1518964687709,
     "type": "postback",
   },
-  "issuedAt": 1518964688672,
   "replies": Array [
     Object {
       "text": "💡 Someone on the internet replies to the message:",

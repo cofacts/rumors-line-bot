@@ -9,6 +9,7 @@ import {
 } from '@line/bot-sdk';
 import { CreateReplyMessagesReplyFragment } from 'typegen/graphql';
 import {
+  ChatbotState,
   ChatbotStateHandlerParams,
   ChatbotStateHandlerReturnType,
   Context,
@@ -84,15 +85,15 @@ function createImageTextBubble(imageUrl: string, text: string): FlexBubble {
 }
 
 /**
- * @param {string} label Act as quickReply's label and postback's input and displayText
- * @param {number} sessionId Search session ID
- * @param {string} postbackState Used by `handleInput` to determine which handler to call
- * @returns {object} quickReply items object
+ * @param label Act as quickReply's label and postback's input and displayText
+ * @param sessionId Search session ID
+ * @param postbackState Used by `handleInput` to determine which handler to call
+ * @returns quickReply items object
  */
 function createQuickReplyPostbackItem(
   label: string,
   sessionId: number,
-  postbackState: string
+  postbackState: ChatbotState
 ): QuickReplyItem {
   return {
     type: 'action',
