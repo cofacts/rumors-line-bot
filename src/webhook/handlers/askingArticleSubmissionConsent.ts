@@ -34,9 +34,13 @@ const askingArticleSubmissionConsent: ChatbotStateHandler = async (params) => {
   const { data, event, userId } = params;
   let { state, replies } = params;
 
+  if (event.type !== 'postback') {
+    throw new ManipulationError('Only postback event is allowed');
+  }
+
   const visitor = ga(userId, state, data.searchedText);
 
-  switch (event.input) {
+  switch (event.postback.data) {
     default:
       throw new ManipulationError(t`Please choose from provided options.`);
 
