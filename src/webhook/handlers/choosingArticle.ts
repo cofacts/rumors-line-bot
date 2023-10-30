@@ -65,7 +65,9 @@ const choosingArticle: ChatbotStateHandler = async (params) => {
     throw new ManipulationError(t`Please choose from provided options.`);
   }
 
-  if (event.input === POSTBACK_NO_ARTICLE_FOUND && data.searchedText) {
+  const input = event.type === 'postback' ? event.postback.data : event.input;
+
+  if (input === POSTBACK_NO_ARTICLE_FOUND && data.searchedText) {
     const visitor = ga(userId, state, data.searchedText);
     visitor.event({
       ec: 'UserInput',
@@ -91,7 +93,7 @@ const choosingArticle: ChatbotStateHandler = async (params) => {
     };
   }
 
-  if (event.input === POSTBACK_NO_ARTICLE_FOUND && data.messageId) {
+  if (input === POSTBACK_NO_ARTICLE_FOUND && data.messageId) {
     const visitor = ga(userId, state, data.messageId);
     visitor.event({
       ec: 'UserInput',
@@ -116,7 +118,7 @@ const choosingArticle: ChatbotStateHandler = async (params) => {
     };
   }
 
-  const selectedArticleId = (data.selectedArticleId = event.input);
+  const selectedArticleId = (data.selectedArticleId = input);
 
   await UserArticleLink.createOrUpdateByUserIdAndArticleId(
     userId,
