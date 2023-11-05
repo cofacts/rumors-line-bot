@@ -27,7 +27,7 @@ import {
 
 import UserArticleLink from '../../database/models/userArticleLink';
 import choosingReply from './choosingReply';
-import { ChatbotStateHandler } from 'src/types/chatbotState';
+import { ChatbotPostbackHandler } from 'src/types/chatbotState';
 import { FlexBubble, Message } from '@line/bot-sdk';
 
 /**
@@ -57,17 +57,19 @@ function reorderArticleReplies(
 
 // https://developers.line.biz/en/reference/messaging-api/#template-messages
 
-const choosingArticle: ChatbotStateHandler = async (params) => {
-  const { data, state, event, userId } = params;
-  let { replies } = params;
+const choosingArticle: ChatbotPostbackHandler = async (params) => {
+  const {
+    data,
+    userId,
+    postbackData: { input, state, sessionId },
+  } = params;
 
-  if (event.type !== 'postback' && event.type !== 'server_choose') {
+  // Input should be article ID, which is a string
+  if (typeof input !== 'string') {
     throw new ManipulationError(t`Please choose from provided options.`);
   }
 
-  const input = event.type === 'postback' ? event.postback.data : event.input;
-
-  if (input === POSTBACK_NO_ARTICLE_FOUND && data.searchedText) {
+  if (input === POSTBACK_NO_ARTICLE_FOUND && 'searchedText' in data) {
     const visitor = ga(userId, state, data.searchedText);
     visitor.event({
       ec: 'UserInput',
@@ -76,11 +78,9 @@ const choosingArticle: ChatbotStateHandler = async (params) => {
     });
     visitor.send();
 
-    const inputSummary = ellipsis(data?.searchedText, 12);
+    const inputSummary = ellipsis(data.searchedText, 12);
     return {
       data,
-      event,
-      userId,
       replies: [
         createTextMessage({
           text:
@@ -93,7 +93,7 @@ const choosingArticle: ChatbotStateHandler = async (params) => {
     };
   }
 
-  if (input === POSTBACK_NO_ARTICLE_FOUND && data.messageId) {
+  if (input === POSTBACK_NO_ARTICLE_FOUND && 'messageId' in data) {
     const visitor = ga(userId, state, data.messageId);
     visitor.event({
       ec: 'UserInput',
@@ -104,8 +104,6 @@ const choosingArticle: ChatbotStateHandler = async (params) => {
 
     return {
       data,
-      event,
-      userId,
       replies: [
         createTextMessage({
           text:
@@ -176,15 +174,16 @@ const choosingArticle: ChatbotStateHandler = async (params) => {
     // choose reply for user
     return await choosingReply({
       data,
-      state: 'CHOOSING_REPLY',
-      event: {
-        type: 'server_choose',
+      postbackData: {
+        sessionId,
+        state: 'CHOOSING_REPLY',
         input: articleReplies[0].reply?.id ?? '',
       },
       userId,
-      replies: [],
     });
   }
+
+  let replies: Message[] = [];
 
   if (articleReplies.length !== 0) {
     const countOfType: Record<ReplyTypeEnum, number> = {
@@ -456,7 +455,7 @@ Don’t trust the message just yet!`,
 
   visitor.send();
 
-  return { data, event, userId, replies };
+  return { data, replies };
 };
 
 export default choosingArticle;

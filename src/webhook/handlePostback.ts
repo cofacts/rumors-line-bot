@@ -7,70 +7,65 @@ import defaultState from './handlers/defaultState';
 import { ManipulationError } from './handlers/utils';
 import tutorial from './handlers/tutorial';
 import {
-  ChatbotEvent,
-  ChatbotState,
-  ChatbotStateHandlerParams,
+  ChatbotPostbackHandlerParams,
   ChatbotStateHandlerReturnType,
+  Context,
   PostbackActionData,
 } from 'src/types/chatbotState';
-import { Message } from '@line/bot-sdk';
 
 /**
  * Given input event and context, outputs the new context and the reply to emit.
  *
  * @param context The current context of the bot
- * @param state The input state
+ * @param postbackData The input postback data extracted from event
  * @param event The input event
  * @param userId LINE user ID that does the input
  */
 export default async function handlePostback(
-  { data = {} },
+  data: Context,
   postbackData: PostbackActionData<unknown>,
-  event: ChatbotEvent,
   userId: string
 ) {
-  let replies: Message[] = [];
-
-  let params: ChatbotStateHandlerParams | ChatbotStateHandlerReturnType = {
+  const params: ChatbotPostbackHandlerParams = {
     data,
-    state: postbackData.state,
-    event,
+    postbackData,
     userId,
-    replies,
   };
+
+  let result: ChatbotStateHandlerReturnType;
 
   // Sets data and replies
   //
   try {
-    switch (params.state) {
+    switch (params.postbackData.state) {
       case 'CHOOSING_ARTICLE': {
-        params = await choosingArticle(params);
+        result = await choosingArticle(params);
         break;
       }
       case 'CHOOSING_REPLY': {
-        params = await choosingReply(params);
+        result = await choosingReply(params);
         break;
       }
       case 'TUTORIAL': {
-        params = tutorial(params);
+        result = tutorial(params);
         break;
       }
       case 'ASKING_ARTICLE_SOURCE': {
-        params = await askingArticleSource(params);
+        result = await askingArticleSource(params);
         break;
       }
       case 'ASKING_ARTICLE_SUBMISSION_CONSENT': {
-        params = await askingArticleSubmissionConsent(params);
+        result = await askingArticleSubmissionConsent(params);
         break;
       }
       default: {
-        params = defaultState(params);
+        result = defaultState(params);
         break;
       }
     }
   } catch (e) {
     if (e instanceof ManipulationError) {
-      params = {
+      result = {
         ...params,
         replies: [
           {
@@ -115,10 +110,8 @@ export default async function handlePostback(
     }
   }
 
-  ({ data, replies } = params);
-
   return {
-    context: { data },
-    replies,
+    context: { data: result.data },
+    replies: result.replies,
   };
 }

@@ -192,7 +192,7 @@ const singleUserHandler = async (
       return;
     }
 
-    result = await handlePostback(context, postbackData, webhookEvent, userId);
+    result = await handlePostback(context, postbackData, userId);
   }
 
   if (isReplied) {
