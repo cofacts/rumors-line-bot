@@ -35,17 +35,19 @@ export type ChatbotEvent =
 export type Context = {
   /** Used to differientiate different search sessions (searched text or media) */
   sessionId: number;
-
-  /** Searched text that started this search session */
-  searchedText?: string;
-
-  /** Searched multi-media message that started this search session */
-  messageId: MessageEvent['message']['id'];
-  messageType: MessageEvent['message']['type'];
-
   /** User selected article in DB */
   selectedArticleId?: string;
-};
+} & (
+  | {
+      /** Searched multi-media message that started this search session */
+      messageId: MessageEvent['message']['id'];
+      messageType: MessageEvent['message']['type'];
+    }
+  | {
+      /** Searched text that started this search session */
+      searchedText: string;
+    }
+);
 
 export type ChatbotStateHandlerParams = {
   /** Record<string, never> is for empty object and it's the default parameter in handleInput and handlePostback */
@@ -56,9 +58,9 @@ export type ChatbotStateHandlerParams = {
   replies: Message[];
 };
 
-export type ChatbotStateHandlerReturnType = Omit<
+export type ChatbotStateHandlerReturnType = Pick<
   ChatbotStateHandlerParams,
-  /** The state is determined by payloads in actions. No need to return state. */ 'state'
+  'data' | 'replies'
 >;
 
 /**
@@ -78,3 +80,16 @@ export type PostbackActionData<T> = {
   sessionId: number;
   state: ChatbotState;
 };
+
+export type ChatbotPostbackHandlerParams<T = unknown> = {
+  data: Context;
+  postbackData: PostbackActionData<T>;
+  userId: string;
+};
+
+/**
+ * For chatbot postback event handers
+ */
+export type ChatbotPostbackHandler<T = unknown> = (
+  params: ChatbotPostbackHandlerParams<T>
+) => Promise<ChatbotStateHandlerReturnType>;
