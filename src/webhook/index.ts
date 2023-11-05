@@ -18,13 +18,9 @@ import {
 import processMedia from './handlers/processMedia';
 import UserSettings from '../database/models/userSettings';
 import { Request } from 'koa';
-import { WebhookEvent } from '@line/bot-sdk';
+import { MessageEvent, TextEventMessage, WebhookEvent } from '@line/bot-sdk';
 import { Result } from 'src/types/result';
-import {
-  ChatbotEvent,
-  Context,
-  PostbackActionData,
-} from 'src/types/chatbotState';
+import { Context, PostbackActionData } from 'src/types/chatbotState';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
@@ -133,7 +129,13 @@ const singleUserHandler = async (
 
     result = await processText(
       context,
-      { ...webhookEvent, input },
+      // Make TS happy:
+      // Directly providing `webhookEvent` here can lead to type error
+      // because it cannot correctly narrow down webhookEvent.message to be TextEventMessage.
+      {
+        ...webhookEvent,
+        message: webhookEvent.message,
+      },
       userId,
       req
     );
@@ -224,7 +226,7 @@ const singleUserHandler = async (
 
 async function processText(
   context: { data: Partial<Context> },
-  event: ChatbotEvent,
+  event: MessageEvent & { message: TextEventMessage },
   userId: string,
   req: Request
 ): Promise<Result> {

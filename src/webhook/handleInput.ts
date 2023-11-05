@@ -4,104 +4,103 @@ import { extractArticleId } from 'src/lib/sharedUtils';
 import { TUTORIAL_STEPS } from './handlers/tutorial';
 import handlePostback from './handlePostback';
 import {
-  ChatbotEvent,
   ChatbotState,
   ChatbotStateHandlerParams,
   ChatbotStateHandlerReturnType,
 } from 'src/types/chatbotState';
 import { Result } from 'src/types/result';
-import { Message } from '@line/bot-sdk';
+import { Message, MessageEvent, TextEventMessage } from '@line/bot-sdk';
 
 /**
  * Given input event and context, outputs the new context and the reply to emit.
  *
- * @param {Object<data>} context The current context of the bot
- * @param {*} event The input event
- * @param {*} userId LINE user ID that does the input
+ * @param context The current context of the bot
+ * @param event The input event
+ * @param userId LINE user ID that does the input
  */
 export default async function handleInput(
   { data = {} },
-  event: ChatbotEvent,
+  event: MessageEvent & { message: TextEventMessage },
   userId: string
 ): Promise<Result> {
   let state: ChatbotState;
-  let replies: Message[] = [];
+  const replies: Message[] = [];
 
-  if (event.input === undefined) {
-    throw new Error('input undefined');
-  }
-
-  if (event.type === 'message') {
-    // Trim input because these may come from other chatbot
-    //
-    const trimmedInput = event.input.trim();
-    const articleId = extractArticleId(trimmedInput);
-    if (articleId) {
-      // Start new session, reroute to CHOOSING_ARTILCE and simulate "choose article" postback event
-      const sessionId = Date.now();
-      return await handlePostback(
-        { sessionId, searchedText: '' },
-        {
-          state: 'CHOOSING_ARTICLE',
-          sessionId,
-          input: articleId,
-        },
-        userId
-      );
-    } else if (event.input === TUTORIAL_STEPS['RICH_MENU']) {
-      // Start new session, reroute to TUTORIAL
-      const sessionId = Date.now();
-      return await handlePostback(
-        { sessionId, searchedText: '' },
-        {
-          state: 'TUTORIAL',
-          sessionId,
-          input: event.input,
-        },
-        userId
-      );
-    } else {
-      // The user forwarded us an new message.
-      // Create a new "search session".
-      //
-      data = {
-        // Used to determine button postbacks and GraphQL requests are from
-        // previous sessions
-        //
-        sessionId: Date.now(),
-      };
-      state = '__INIT__';
-    }
+  // Trim input because these may come from other chatbot
+  //
+  const trimmedInput = event.message.text.trim();
+  const articleId = extractArticleId(trimmedInput);
+  if (articleId) {
+    // Start new session, reroute to CHOOSING_ARTILCE and simulate "choose article" postback event
+    const sessionId = Date.now();
+    return await handlePostback(
+      // Start a new session
+      {
+        sessionId,
+        searchedText: '',
+      },
+      {
+        state: 'CHOOSING_ARTICLE',
+        sessionId,
+        input: articleId,
+      },
+      userId
+    );
+  } else if (event.message.text === TUTORIAL_STEPS['RICH_MENU']) {
+    // Start new session, reroute to TUTORIAL
+    const sessionId = Date.now();
+    return await handlePostback(
+      { sessionId, searchedText: '' },
+      {
+        state: 'TUTORIAL',
+        sessionId,
+        input: TUTORIAL_STEPS['RICH_MENU'],
+      },
+      userId
+    );
   } else {
-    state = 'Error';
+    // The user forwarded us an new message.
+    // Create a new "search session".
+    //
+    data = {
+      // Used to determine button postbacks and GraphQL requests are from
+      // previous sessions
+      //
+      sessionId: Date.now(),
+    };
+    state = '__INIT__';
   }
 
-  let params: ChatbotStateHandlerParams | ChatbotStateHandlerReturnType = {
+  const params: ChatbotStateHandlerParams = {
     data,
     state,
-    event,
+    event: {
+      ...event,
+      message: event.message,
+      input: trimmedInput,
+    },
     userId,
     replies,
   };
+
+  let result: ChatbotStateHandlerReturnType;
 
   // Sets data and replies
   //
   switch (params.state) {
     case '__INIT__': {
-      params = await initState(params);
+      result = await initState(params);
       break;
     }
 
     default: {
-      params = defaultState(params);
+      result = defaultState(params);
       break;
     }
   }
 
-  ({ data, replies } = params);
-
   return {
-    context: { data },
-    replies,
+    context: { data: result.data },
+    replies: result.replies,
   };
 }
