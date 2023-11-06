@@ -141,7 +141,7 @@ const singleUserHandler = async (
     webhookEvent.type === 'message' &&
     webhookEvent.message.type !== 'text'
   ) {
-    result = await processMedia(context, webhookEvent, userId);
+    result = await processMedia(webhookEvent, userId);
   } else if (webhookEvent.type === 'message') {
     // Track other message type send by user
     ga(userId)

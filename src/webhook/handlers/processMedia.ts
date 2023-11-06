@@ -6,7 +6,7 @@ import type {
   FlexMessage,
   FlexComponent,
 } from '@line/bot-sdk';
-import { ChatbotStateHandlerParams } from 'src/types/chatbotState';
+import { Context } from 'src/types/chatbotState';
 
 import {
   getLineContentProxyURL,
@@ -27,11 +27,7 @@ import {
 const CIRCLED_DIGITS = '⓪①②③④⑤⑥⑦⑧⑨⑩⑪';
 const SIMILARITY_THRESHOLD = 0.95;
 
-export default async function (
-  { data }: { data: ChatbotStateHandlerParams['data'] },
-  event: MessageEvent,
-  userId: string
-) {
+export default async function (event: MessageEvent, userId: string) {
   const proxyUrl = getLineContentProxyURL(event.message.id);
   console.log(`Media url: ${proxyUrl}`);
 
@@ -41,7 +37,7 @@ export default async function (
   visitor.event({ ec: 'UserInput', ea: 'MessageType', el: event.message.type });
 
   let replies;
-  data = {
+  const data: Context = {
     // Start a new session
     sessionId: Date.now(),
 
@@ -113,19 +109,18 @@ export default async function (
     if (ListArticles.edges.length === 1 && hasIdenticalDocs) {
       visitor.send();
 
-      ({ data, replies } = await choosingArticle({
+      const result = await choosingArticle({
         data,
-        state: 'CHOOSING_ARTICLE',
-        event: {
-          // choose for user
-          type: 'server_choose',
+        // choose for user
+        postbackData: {
+          state: 'CHOOSING_ARTICLE',
+          sessionId: data.sessionId,
           input: edgesSortedWithSimilarity[0].node.id,
         },
         userId,
-        replies: [],
-      }));
+      });
 
-      return { context: { data }, replies };
+      return { context: { data: result.data }, replies: result.replies };
     }
 
     const articleOptions = ListArticles.edges
