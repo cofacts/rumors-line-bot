@@ -49,7 +49,17 @@ export default async function handleInput(
         userId
       );
     } else if (event.input === TUTORIAL_STEPS['RICH_MENU']) {
-      state = 'TUTORIAL';
+      // Start new session, reroute to TUTORIAL
+      const sessionId = Date.now();
+      return await handlePostback(
+        { sessionId, searchedText: '' },
+        {
+          state: 'TUTORIAL',
+          sessionId,
+          input: event.input,
+        },
+        userId
+      );
     } else {
       // The user forwarded us an new message.
       // Create a new "search session".
@@ -79,10 +89,6 @@ export default async function handleInput(
   switch (params.state) {
     case '__INIT__': {
       params = await initState(params);
-      break;
-    }
-    case 'TUTORIAL': {
-      params = tutorial(params);
       break;
     }
 
