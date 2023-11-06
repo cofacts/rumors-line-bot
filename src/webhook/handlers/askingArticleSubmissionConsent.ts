@@ -1,7 +1,7 @@
 import { t } from 'ttag';
 import { Message } from '@line/bot-sdk';
 
-import { ChatbotStateHandler } from 'src/types/chatbotState';
+import { ChatbotPostbackHandler } from 'src/types/chatbotState';
 import ga from 'src/lib/ga';
 import gql from 'src/lib/gql';
 import { getArticleURL } from 'src/lib/sharedUtils';
@@ -30,17 +30,20 @@ function uppercase<T extends string>(s: T) {
   return s.toUpperCase() as Uppercase<T>;
 }
 
-const askingArticleSubmissionConsent: ChatbotStateHandler = async (params) => {
-  const { data, event, userId } = params;
-  let { state, replies } = params;
+const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
+  data,
+  postbackData: { state, input },
+  userId,
+}) => {
+  const visitor = ga(
+    userId,
+    state,
+    'searchedText' in data ? data.searchedText : data.messageId
+  );
 
-  if (event.type !== 'postback') {
-    throw new ManipulationError('Only postback event is allowed');
-  }
+  let replies: Message[] = [];
 
-  const visitor = ga(userId, state, data.searchedText);
-
-  switch (event.postback.data) {
+  switch (input) {
     default:
       throw new ManipulationError(t`Please choose from provided options.`);
 
@@ -51,12 +54,11 @@ const askingArticleSubmissionConsent: ChatbotStateHandler = async (params) => {
           text: t`The message has not been reported and won’t be fact-checked. Thanks anyway!`,
         }),
       ];
-      state = '__INIT__';
       break;
 
     case POSTBACK_YES: {
       visitor.event({ ec: 'Article', ea: 'Create', el: 'Yes' });
-      const isTextArticle = data.searchedText && !data.messageId;
+      const isTextArticle = 'searchedText' in data && !('messageId' in data);
       let article;
       if (isTextArticle) {
         const result = await gql`
@@ -71,12 +73,6 @@ const askingArticleSubmissionConsent: ChatbotStateHandler = async (params) => {
         >({ text: data.searchedText ?? '' }, { userId });
         article = result.data.CreateArticle;
       } else {
-        /* istanbul ignore if */
-        if (!data.messageId) {
-          // Should not be here
-          throw new Error('No message ID found, cannot submit message.');
-        }
-
         const articleType: ArticleTypeEnum = (() => {
           switch (data.messageType) {
             case 'image':
@@ -201,12 +197,11 @@ const askingArticleSubmissionConsent: ChatbotStateHandler = async (params) => {
           },
         },
       ];
-      state = '__INIT__';
     }
   }
 
   visitor.send();
-  return { data, event, userId, replies };
+  return { data, replies };
 };
 
 export default askingArticleSubmissionConsent;

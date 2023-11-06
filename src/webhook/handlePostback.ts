@@ -16,9 +16,8 @@ import {
 /**
  * Given input event and context, outputs the new context and the reply to emit.
  *
- * @param context The current context of the bot
+ * @param data The current context of the bot
  * @param postbackData The input postback data extracted from event
- * @param event The input event
  * @param userId LINE user ID that does the input
  */
 export default async function handlePostback(

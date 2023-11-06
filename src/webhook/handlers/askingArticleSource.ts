@@ -12,19 +12,23 @@ import {
 } from './utils';
 
 import { TUTORIAL_STEPS } from './tutorial';
-import { ChatbotStateHandler } from 'src/types/chatbotState';
+import { ChatbotPostbackHandler } from 'src/types/chatbotState';
+import { Message } from '@line/bot-sdk';
 
-const askingArticleSource: ChatbotStateHandler = async (params) => {
-  const { data, state, event, userId } = params;
-  let { replies } = params;
+const askingArticleSource: ChatbotPostbackHandler = async ({
+  data,
+  postbackData: { state, input },
+  userId,
+}) => {
+  let replies: Message[] = [];
 
-  if (event.type !== 'postback') {
-    throw new ManipulationError('Only postback event is allowed');
-  }
+  const visitor = ga(
+    userId,
+    state,
+    'searchedText' in data ? data.searchedText : data.messageId
+  );
 
-  const visitor = ga(userId, state, data.searchedText);
-
-  switch (event.postback.data) {
+  switch (input) {
     default:
       throw new ManipulationError(t`Please choose from provided options.`);
 
@@ -176,7 +180,7 @@ const askingArticleSource: ChatbotStateHandler = async (params) => {
 
   visitor.send();
 
-  return { data, event, userId, replies };
+  return { data, replies };
 };
 
 export default askingArticleSource;
