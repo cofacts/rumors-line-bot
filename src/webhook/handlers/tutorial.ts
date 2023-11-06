@@ -1,10 +1,5 @@
 import { t } from 'ttag';
-import {
-  ellipsis,
-  createPostbackAction,
-  createReplyMessages,
-  ManipulationError,
-} from './utils';
+import { ellipsis, createPostbackAction, createReplyMessages } from './utils';
 import ga from 'src/lib/ga';
 import {
   FlexBubble,
@@ -14,12 +9,9 @@ import {
 } from '@line/bot-sdk';
 import { CreateReplyMessagesReplyFragment } from 'typegen/graphql';
 import {
-  ChatbotPostbackHandler,
   ChatbotPostbackHandlerParams,
   ChatbotState,
-  ChatbotStateHandlerParams,
   ChatbotStateHandlerReturnType,
-  Context,
 } from 'src/types/chatbotState';
 
 /**
