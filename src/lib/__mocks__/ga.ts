@@ -22,4 +22,5 @@ const ga = Object.assign(
   }
 );
 
+export type MockedGa = typeof ga;
 export default ga;
