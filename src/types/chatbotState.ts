@@ -82,7 +82,9 @@ export type PostbackActionData<T> = {
 };
 
 export type ChatbotPostbackHandlerParams<T = unknown> = {
+  /** Data stored in Chatbot context */
   data: Context;
+  /** Data in postback payload */
   postbackData: PostbackActionData<T>;
   userId: string;
 };
