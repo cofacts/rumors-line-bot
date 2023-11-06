@@ -28,9 +28,18 @@ type ArgumentedEventParams = {
   input: string;
 };
 
-export type ChatbotEvent =
-  | ((MessageEvent | ServerChooseEvent) & ArgumentedEventParams)
-  | PostbackEvent;
+export type ChatbotEvent = (
+  | MessageEvent
+  | ServerChooseEvent
+  /**
+   * A special format of postback that Chatbot actually uses: postback + input (provided in `ArgumentedEventParams`)
+   * @FIXME Replace with original PostbackEvent and parse its action to support passing more thing than a string
+   */
+  | {
+      type: 'postback';
+    }
+) &
+  ArgumentedEventParams;
 
 export type Context = {
   /** Used to differientiate different search sessions (searched text or media) */
