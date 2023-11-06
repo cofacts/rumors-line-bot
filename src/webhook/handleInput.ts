@@ -38,16 +38,16 @@ export default async function handleInput(
     const articleId = extractArticleId(trimmedInput);
     if (articleId) {
       // Start new session, reroute to CHOOSING_ARTILCE and simulate "choose article" postback event
-      data = {
-        // Start a new session
-        sessionId: Date.now(),
-        searchedText: '',
-      };
-      event = {
-        type: 'postback',
-        input: articleId,
-      };
-      return await handlePostback({ data }, 'CHOOSING_ARTICLE', event, userId);
+      const sessionId = Date.now();
+      return await handlePostback(
+        { sessionId, searchedText: '' },
+        {
+          state: 'CHOOSING_ARTICLE',
+          sessionId,
+          input: articleId,
+        },
+        userId
+      );
     } else if (event.input === TUTORIAL_STEPS['RICH_MENU']) {
       state = 'TUTORIAL';
     } else {
