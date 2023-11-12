@@ -2,7 +2,7 @@ jest.mock('src/lib/gql');
 jest.mock('src/lib/ga');
 
 import MockDate from 'mockdate';
-import choosingReply from '../choosingReply';
+import choosingReply, { Input } from '../choosingReply';
 import * as apiResult from '../__fixtures__/choosingReply';
 import UserSettings from 'src/database/models/userSettings';
 import originalGql from 'src/lib/gql';
@@ -25,15 +25,19 @@ afterEach(() => {
 });
 
 describe('should select reply by replyId', () => {
+  const input: Input = {
+    a: 'AWDZYXxAyCdS-nWhumlz',
+    r: 'AWDZeeV0yCdS-nWhuml8',
+  };
+
   const params: ChatbotPostbackHandlerParams = {
     data: {
       sessionId: 0,
       searchedText: '貼圖',
-      selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
     },
     postbackData: {
       sessionId: 0,
-      input: 'AWDZeeV0yCdS-nWhuml8',
+      input,
       state: 'CHOOSING_REPLY',
     },
     userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
@@ -100,12 +104,11 @@ it('should block invalid postback input', async () => {
     data: {
       sessionId: 0,
       searchedText: '貼圖',
-      selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
     },
     postbackData: {
       sessionId: 0,
       state: 'CHOOSING_REPLY',
-      input: undefined,
+      input: 'Some wrong string',
     },
     userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
   };
@@ -117,16 +120,19 @@ it('should block invalid postback input', async () => {
 
 it('should handle graphql error gracefully', async () => {
   gql.__push({ errors: [] });
+  const input: Input = {
+    a: 'AWDZYXxAyCdS-nWhumlz',
+    r: 'AWDZeeV0yCdS-nWhuml8',
+  };
 
   const params: ChatbotPostbackHandlerParams = {
     data: {
       sessionId: 0,
       searchedText: '貼圖',
-      selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
     },
     postbackData: {
       sessionId: 0,
-      input: 'AWDZeeV0yCdS-nWhuml8',
+      input,
       state: 'CHOOSING_REPLY',
     },
     userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',

@@ -12,8 +12,6 @@ export type ChatbotState =
 export type Context = {
   /** Used to differientiate different search sessions (searched text or media) */
   sessionId: number;
-  /** User selected article in DB */
-  selectedArticleId?: string;
 } & (
   | {
       /** Searched multi-media message that started this search session */
