@@ -316,7 +316,7 @@ it('should ask users if they want to submit article when user say not found', as
         '這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。',
     },
     postbackData: {
-      input: '${POSTBACK_NO_ARTICLE_FOUND}',
+      input: POSTBACK_NO_ARTICLE_FOUND,
       sessionId: 1497994017447,
       state: 'CHOOSING_ARTICLE',
     },
@@ -346,7 +346,7 @@ it('should ask users if they want to submit image article when user say not foun
   const params: ChatbotPostbackHandlerParams = {
     data: {
       sessionId: 0,
-      searchedText: '',
+      messageType: 'image',
       messageId: '6530038889933',
     },
     postbackData: {

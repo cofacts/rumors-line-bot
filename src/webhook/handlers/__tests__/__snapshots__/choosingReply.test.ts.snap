@@ -246,14 +246,7 @@ Object {
   "data": Object {
     "searchedText": "貼圖",
     "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
-  },
-  "event": Object {
-    "input": "AWDZeeV0yCdS-nWhuml8",
-    "postback": Object {
-      "data": "{\\"input\\":\\"AWDZeeV0yCdS-nWhuml8\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
-    },
-    "timestamp": 1518964687709,
-    "type": "postback",
+    "sessionId": 0,
   },
   "replies": Array [
     Object {
@@ -373,7 +366,6 @@ https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz",
       "type": "flex",
     },
   ],
-  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
 }
 `;
 
@@ -382,14 +374,7 @@ Object {
   "data": Object {
     "searchedText": "貼圖",
     "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
-  },
-  "event": Object {
-    "input": "AWDZeeV0yCdS-nWhuml8",
-    "postback": Object {
-      "data": "{\\"input\\":\\"AWDZeeV0yCdS-nWhuml8\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
-    },
-    "timestamp": 1518964687709,
-    "type": "postback",
+    "sessionId": 0,
   },
   "replies": Array [
     Object {
@@ -511,6 +496,5 @@ https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz",
       "type": "flex",
     },
   ],
-  "userId": "Uaddc74df8a3a176b901d9d648b0fc4fe",
 }
 `;

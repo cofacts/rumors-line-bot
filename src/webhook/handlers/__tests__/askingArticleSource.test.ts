@@ -113,7 +113,7 @@ it('returns instructions if user did not forward the whole message', async () =>
                 "contents": Array [
                   Object {
                     "action": Object {
-                      "data": "{\\"input\\":\\"📖 tutorial\\",\\"sessionId\\":\\"the-session-id\\",\\"state\\":\\"TUTORIAL\\"}",
+                      "data": "{\\"input\\":\\"📖 tutorial\\",\\"sessionId\\":0,\\"state\\":\\"TUTORIAL\\"}",
                       "displayText": "📖 tutorial",
                       "label": "See Tutorial",
                       "type": "postback",
@@ -295,7 +295,7 @@ it('sends user submission consent if user forwarded the whole message', async ()
             "contents": Array [
               Object {
                 "action": Object {
-                  "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"sessionId\\":\\"the-session-id\\",\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
+                  "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"sessionId\\":0,\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
                   "displayText": "🆕 Report to database",
                   "label": "🆕 Report to database",
                   "type": "postback",
@@ -306,7 +306,7 @@ it('sends user submission consent if user forwarded the whole message', async ()
               },
               Object {
                 "action": Object {
-                  "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"sessionId\\":\\"the-session-id\\",\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
+                  "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"sessionId\\":0,\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
                   "displayText": "Don’t report",
                   "label": "Don’t report",
                   "type": "postback",

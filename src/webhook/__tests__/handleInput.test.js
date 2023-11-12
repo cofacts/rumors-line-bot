@@ -1,13 +1,12 @@
 import MockDate from 'mockdate';
 import initState from '../handlers/initState';
 import handleInput from '../handleInput';
-import tutorial, { TUTORIAL_STEPS } from '../handlers/tutorial';
+import { TUTORIAL_STEPS } from '../handlers/tutorial';
 import handlePostback from '../handlePostback';
 
 import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
 
 jest.mock('../handlers/initState');
-jest.mock('../handlers/tutorial');
 jest.mock('../handlePostback');
 
 // Original session ID in context
@@ -19,7 +18,6 @@ const NOW = 1561982400000;
 beforeEach(() => {
   initState.mockClear();
   handlePostback.mockClear();
-  tutorial.mockClear();
   MockDate.set(NOW);
 });
 
@@ -45,10 +43,9 @@ it('shows reply list when VIEW_ARTICLE_PREFIX is sent', async () => {
     input: `${VIEW_ARTICLE_PREFIX}${getArticleURL('article-id')}`,
   };
 
-  // eslint-disable-next-line no-unused-vars
-  handlePostback.mockImplementationOnce((context, state, event, userid) => {
+  handlePostback.mockImplementationOnce((data) => {
     return Promise.resolve({
-      context,
+      context: { data },
       replies: 'Foo replies',
     });
   });
@@ -70,15 +67,13 @@ it('shows reply list when VIEW_ARTICLE_PREFIX is sent', async () => {
     Array [
       Array [
         Object {
-          "data": Object {
-            "searchedText": "",
-            "sessionId": 1561982400000,
-          },
+          "searchedText": "",
+          "sessionId": 1561982400000,
         },
-        "CHOOSING_ARTICLE",
         Object {
           "input": "article-id",
-          "type": "postback",
+          "sessionId": 1561982400000,
+          "state": "CHOOSING_ARTICLE",
         },
         undefined,
       ],
@@ -95,10 +90,9 @@ it('shows reply list when article URL is sent', async () => {
     input: getArticleURL('article-id') + '  \n  ' /* simulate manual input */,
   };
 
-  // eslint-disable-next-line no-unused-vars
-  handlePostback.mockImplementationOnce((context, state, event, userid) => {
+  handlePostback.mockImplementationOnce((data) => {
     return Promise.resolve({
-      context,
+      context: { data },
       replies: 'Foo replies',
     });
   });
@@ -120,15 +114,13 @@ it('shows reply list when article URL is sent', async () => {
     Array [
       Array [
         Object {
-          "data": Object {
-            "searchedText": "",
-            "sessionId": 1561982400000,
-          },
+          "searchedText": "",
+          "sessionId": 1561982400000,
         },
-        "CHOOSING_ARTICLE",
         Object {
           "input": "article-id",
-          "type": "postback",
+          "sessionId": 1561982400000,
+          "state": "CHOOSING_ARTICLE",
         },
         undefined,
       ],
@@ -196,21 +188,21 @@ describe('defaultState', () => {
     };
 
     await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+        Object {
+          "context": Object {
+            "data": Object {
+              "sessionId": 612964800000,
+            },
+          },
+          "replies": Array [
             Object {
-              "context": Object {
-                "data": Object {
-                  "sessionId": 612964800000,
-                },
-              },
-              "replies": Array [
-                Object {
-                  "text": "我們看不懂 QQ
-            大俠請重新來過。",
-                  "type": "text",
-                },
-              ],
-            }
-          `);
+              "text": "我們看不懂 QQ
+        大俠請重新來過。",
+              "type": "text",
+            },
+          ],
+        }
+    `);
 
     expect(initState).not.toHaveBeenCalled();
   });
@@ -226,27 +218,25 @@ describe('tutorial', () => {
       input: TUTORIAL_STEPS['RICH_MENU'],
     };
 
-    tutorial.mockImplementationOnce((params) => {
-      // it doesn't return `state`, discard it
-      // eslint-disable-next-line no-unused-vars
-      const { state, ...restParams } = params;
-      return {
-        ...restParams,
+    handlePostback.mockImplementationOnce((data) => {
+      return Promise.resolve({
+        context: { data },
         replies: 'Foo replies',
-      };
+      });
     });
 
     await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-            Object {
-              "context": Object {
-                "data": Object {
-                  "sessionId": 612964800000,
-                },
-              },
-              "replies": "Foo replies",
-            }
-          `);
+      Object {
+        "context": Object {
+          "data": Object {
+            "searchedText": "",
+            "sessionId": 1561982400000,
+          },
+        },
+        "replies": "Foo replies",
+      }
+    `);
 
-    expect(tutorial).toHaveBeenCalledTimes(1);
+    expect(handlePostback).toHaveBeenCalledTimes(1);
   });
 });
