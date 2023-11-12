@@ -463,7 +463,6 @@ exports[`only one article found with high similarity and choose for user 1`] = `
 Object {
   "data": Object {
     "searchedText": "YouTube · 寻找健康人生",
-    "selectedArticleId": "AVvY-yizyCdS-nWhuYWx",
     "sessionId": 1497994017447,
   },
   "replies": Array [
