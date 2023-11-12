@@ -1,12 +1,11 @@
 import { Message } from '@line/bot-sdk';
 import {
-  ChatbotStateHandlerParams,
   ChatbotPostbackHandlerParams,
   ChatbotStateHandlerReturnType,
 } from 'src/types/chatbotState';
 
 export default function defaultState(
-  params: ChatbotPostbackHandlerParams | ChatbotStateHandlerParams
+  params: ChatbotPostbackHandlerParams
 ): ChatbotStateHandlerReturnType {
   const replies: Message[] = [
     {
