@@ -1,7 +1,7 @@
 import initState from './handlers/initState';
 import defaultState from './handlers/defaultState';
 import { extractArticleId } from 'src/lib/sharedUtils';
-import tutorial, { TUTORIAL_STEPS } from './handlers/tutorial';
+import { TUTORIAL_STEPS } from './handlers/tutorial';
 import handlePostback from './handlePostback';
 import {
   ChatbotEvent,
