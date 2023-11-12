@@ -15,7 +15,6 @@ const gql = originalGql as MockedGql;
 import UserSettings from 'src/database/models/userSettings';
 import UserArticleLink from 'src/database/models/userArticleLink';
 import { ChatbotPostbackHandlerParams } from 'src/types/chatbotState';
-import { FlexCarousel, FlexMessage, Message } from '@line/bot-sdk';
 
 beforeAll(async () => {
   if (await UserArticleLink.collectionExists()) {
