@@ -5,7 +5,7 @@ import originalHandlePostback from '../handlePostback';
 import { TUTORIAL_STEPS } from '../handlers/tutorial';
 
 import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
-import { MessageEvent, TextEventMessage, TextMessage } from '@line/bot-sdk';
+import { MessageEvent, TextEventMessage } from '@line/bot-sdk';
 
 jest.mock('../handlers/initState');
 jest.mock('../handlePostback');
@@ -16,9 +16,6 @@ const initState = originalInitState as jest.MockedFunction<
 const handlePostback = originalHandlePostback as jest.MockedFunction<
   typeof originalHandlePostback
 >;
-
-// Original session ID in context
-const FIXED_DATE = 612964800000;
 
 // If session is renewed, sessionId will become this value
 const NOW = 1561982400000;
@@ -170,21 +167,6 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
           "data": Object {
             "searchedText": "Newly forwarded message",
             "sessionId": 1561982400000,
-          },
-          "event": Object {
-            "message": Object {
-              "id": "",
-              "text": "Newly forwarded message",
-              "type": "text",
-            },
-            "mode": "active",
-            "replyToken": "",
-            "source": Object {
-              "type": "user",
-              "userId": "",
-            },
-            "timestamp": 0,
-            "type": "message",
           },
           "userId": "user-id",
         },
