@@ -24,8 +24,19 @@ import type {
 import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
 import { sign } from 'src/lib/jwt';
 import { ChatbotState, PostbackActionData } from 'src/types/chatbotState';
+import type { Input as ChoosingReplyInput } from './choosingReply';
 
 const splitter = new GraphemeSplitter();
+
+type StateInputMap = {
+  __INIT__: string;
+  TUTORIAL: string;
+  CHOOSING_ARTICLE: string;
+  CHOOSING_REPLY: ChoosingReplyInput;
+  ASKING_ARTICLE_SOURCE: string;
+  ASKING_ARTICLE_SUBMISSION_CONSENT: string;
+  Error: unknown;
+};
 
 /**
  * @param label - Postback action button text, max 20 words
@@ -34,15 +45,15 @@ const splitter = new GraphemeSplitter();
  * @param sessionId - Current session ID
  * @param state - the state that processes the postback
  */
-export function createPostbackAction<INPUT = string>(
+export function createPostbackAction<S extends ChatbotState>(
   label: string,
-  input: INPUT,
+  input: StateInputMap[S],
   displayText: string,
   sessionId: number,
-  state: ChatbotState
+  state: S
 ): Action {
   // Ensure the data type before stringification
-  const data: PostbackActionData<INPUT> = {
+  const data: PostbackActionData<StateInputMap[S]> = {
     input,
     sessionId,
     state,
