@@ -11,7 +11,11 @@ import type {
 } from '@line/bot-sdk';
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
+
 import gql from 'src/lib/gql';
+import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
+import { sign } from 'src/lib/jwt';
+import { ChatbotState, PostbackActionData } from 'src/types/chatbotState';
 
 import type {
   CreateHighlightContentsHighlightFragment,
@@ -21,26 +25,31 @@ import type {
   CreateAiReplyMutation,
   CreateAiReplyMutationVariables,
 } from 'typegen/graphql';
-import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
-import { sign } from 'src/lib/jwt';
-import { ChatbotState, PostbackActionData } from 'src/types/chatbotState';
+
 import type { Input as ChoosingReplyInput } from './choosingReply';
+import type { Input as AskingArticleSourceInput } from './askingArticleSource';
+import type { Input as AskingArticleSubmissionConsentInput } from './askingArticleSubmissionConsent';
 
 const splitter = new GraphemeSplitter();
 
+/**
+ * Maps ChatbotState to the postback action data
+ */
 type StateInputMap = {
   __INIT__: string;
   TUTORIAL: string;
   CHOOSING_ARTICLE: string;
   CHOOSING_REPLY: ChoosingReplyInput;
-  ASKING_ARTICLE_SOURCE: string;
-  ASKING_ARTICLE_SUBMISSION_CONSENT: string;
+  ASKING_ARTICLE_SOURCE: AskingArticleSourceInput;
+  ASKING_ARTICLE_SUBMISSION_CONSENT: AskingArticleSubmissionConsentInput;
   Error: unknown;
 };
 
 /**
+ * Generate a postback action with a payload that the state handler can process properly.
+ *
  * @param label - Postback action button text, max 20 words
- * @param input - Input when pressed
+ * @param input - Input when pressed. The format must match the postback data type for that state.
  * @param displayText - Text to display in chat window.
  * @param sessionId - Current session ID
  * @param state - the state that processes the postback

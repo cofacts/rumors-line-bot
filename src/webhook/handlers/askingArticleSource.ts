@@ -1,5 +1,8 @@
 import { t } from 'ttag';
+import { Message } from '@line/bot-sdk';
+import { z } from 'zod';
 import ga from 'src/lib/ga';
+import { ChatbotPostbackHandler } from 'src/types/chatbotState';
 
 import {
   POSTBACK_YES,
@@ -12,14 +15,26 @@ import {
 } from './utils';
 
 import { TUTORIAL_STEPS } from './tutorial';
-import { ChatbotPostbackHandler } from 'src/types/chatbotState';
-import { Message } from '@line/bot-sdk';
+
+
+const inputSchema = z.enum([POSTBACK_NO, POSTBACK_YES]);
+
+/** Postback input type for ASKING_ARTICLE_SOURCE state handler */
+export type Input = z.infer<typeof inputSchema>;
 
 const askingArticleSource: ChatbotPostbackHandler = async ({
   data,
-  postbackData: { state, input },
+  postbackData: { state, input: postbackInput },
   userId,
 }) => {
+  let input: Input;
+  try {
+    input = inputSchema.parse(postbackInput);
+  } catch (e) {
+    console.error('[choosingReply]', e);
+    throw new ManipulationError(t`Please choose from provided options.`);
+  }
+
   let replies: Message[] = [];
 
   const visitor = ga(
@@ -29,8 +44,10 @@ const askingArticleSource: ChatbotPostbackHandler = async ({
   );
 
   switch (input) {
-    default:
-      throw new ManipulationError(t`Please choose from provided options.`);
+    default: {
+      // Exhaustive check
+      return input satisfies never;
+    }
 
     case POSTBACK_NO:
       replies = [

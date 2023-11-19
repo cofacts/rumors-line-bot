@@ -1,10 +1,21 @@
 import { t } from 'ttag';
 import { Message } from '@line/bot-sdk';
+import { z } from 'zod';
 
 import { ChatbotPostbackHandler } from 'src/types/chatbotState';
 import ga from 'src/lib/ga';
 import gql from 'src/lib/gql';
 import { getArticleURL } from 'src/lib/sharedUtils';
+import UserSettings from 'src/database/models/userSettings';
+import UserArticleLink from 'src/database/models/userArticleLink';
+import {
+  ArticleTypeEnum,
+  SubmitMediaArticleUnderConsentMutation,
+  SubmitMediaArticleUnderConsentMutationVariables,
+  SubmitTextArticleUnderConsentMutation,
+  SubmitTextArticleUnderConsentMutationVariables,
+} from 'typegen/graphql';
+
 import {
   POSTBACK_YES,
   POSTBACK_NO,
@@ -16,15 +27,11 @@ import {
   getLineContentProxyURL,
   createAIReply,
 } from './utils';
-import UserSettings from 'src/database/models/userSettings';
-import UserArticleLink from 'src/database/models/userArticleLink';
-import {
-  ArticleTypeEnum,
-  SubmitMediaArticleUnderConsentMutation,
-  SubmitMediaArticleUnderConsentMutationVariables,
-  SubmitTextArticleUnderConsentMutation,
-  SubmitTextArticleUnderConsentMutationVariables,
-} from 'typegen/graphql';
+
+const inputSchema = z.enum([POSTBACK_NO, POSTBACK_YES]);
+
+/** Postback input type for ASKING_ARTICLE_SUBMISSION_CONSENT state handler */
+export type Input = z.infer<typeof inputSchema>;
 
 function uppercase<T extends string>(s: T) {
   return s.toUpperCase() as Uppercase<T>;
@@ -32,9 +39,17 @@ function uppercase<T extends string>(s: T) {
 
 const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
   data,
-  postbackData: { state, input },
+  postbackData: { state, input: postbackInput },
   userId,
 }) => {
+  let input: Input;
+  try {
+    input = inputSchema.parse(postbackInput);
+  } catch (e) {
+    console.error('[askingArticleSubmissionConsnet]', e);
+    throw new ManipulationError(t`Please choose from provided options.`);
+  }
+
   const visitor = ga(
     userId,
     state,
@@ -45,7 +60,8 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
 
   switch (input) {
     default:
-      throw new ManipulationError(t`Please choose from provided options.`);
+      // Exhaustive check
+      return input satisfies never;
 
     case POSTBACK_NO:
       visitor.event({ ec: 'Article', ea: 'Create', el: 'No' });
