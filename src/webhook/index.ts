@@ -20,7 +20,7 @@ import UserSettings from '../database/models/userSettings';
 import { Request } from 'koa';
 import { MessageEvent, TextEventMessage, WebhookEvent } from '@line/bot-sdk';
 import { Result } from 'src/types/result';
-import { Context, PostbackActionData } from 'src/types/chatbotState';
+import { PostbackActionData } from 'src/types/chatbotState';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 

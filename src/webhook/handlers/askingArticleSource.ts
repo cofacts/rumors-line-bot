@@ -16,7 +16,6 @@ import {
 
 import { TUTORIAL_STEPS } from './tutorial';
 
-
 const inputSchema = z.enum([POSTBACK_NO, POSTBACK_YES]);
 
 /** Postback input type for ASKING_ARTICLE_SOURCE state handler */
