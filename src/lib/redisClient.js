@@ -1,94 +1,51 @@
-import redis from 'redis';
+import { createClient } from 'redis';
 import rollbar from './rollbar';
 
-const client = redis.createClient(
+// Reuse this connected client for future method calls
+const clientPromise = createClient(
   process.env.REDIS_URL || 'redis://127.0.0.1:6379'
-);
+)
+  .on('error', (err) => console.log('[redisClient]', err))
+  .connect();
 
-function set(key, value) {
+async function set(key, value) {
   if (typeof key !== 'string') {
     throw new Error('key of `set(key, value)` must be a string.');
   }
-  return new Promise((resolve, reject) => {
-    client.set(key, JSON.stringify(value), (err, reply) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(reply);
-      }
-    });
-  });
+
+  return (await clientPromise).set(key, JSON.stringify(value));
 }
 
-function get(key) {
+async function get(key) {
   if (typeof key !== 'string') {
     throw new Error('key of `get(key)` must be a string.');
   }
-  return new Promise((resolve, reject) => {
-    client.get(key, (err, reply) => {
-      if (err) {
-        reject(err);
-      } else {
-        try {
-          resolve(JSON.parse(reply));
-        } catch (e) {
-          // Gracefully fallback, in case the stuff in redis is a mess
-          //
-          console.error(e);
-          rollbar.error(e);
-          resolve({});
-        }
-      }
-    });
-  });
+  const reply = (await clientPromise).get(key);
+  try {
+    return JSON.parse(reply);
+  } catch (e) {
+    // Gracefully fallback, in case the stuff in redis is a mess
+    //
+    console.error(e);
+    rollbar.error(e);
+    return {};
+  }
 }
 
-function del(key) {
-  return new Promise((resolve, reject) => {
-    client.del(key, (err, reply) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(reply);
-      }
-    });
-  });
+async function del(key) {
+  return (await clientPromise).del(key);
 }
 
-function incr(key) {
-  return new Promise((resolve, reject) => {
-    client.incr(key, (err, reply) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(reply);
-      }
-    });
-  });
+async function incr(key) {
+  return (await clientPromise).incr(key);
 }
 
-function decr(key) {
-  return new Promise((resolve, reject) => {
-    client.decr(key, (err, reply) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(reply);
-      }
-    });
-  });
+async function decr(key) {
+  return (await clientPromise).decr(key);
 }
 
-function quit() {
-  return new Promise((resolve, reject) => {
-    client.quit((err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
-  });
+async function quit() {
+  return (await clientPromise).quit();
 }
 
 export default {
