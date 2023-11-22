@@ -1,4 +1,5 @@
 import { t } from 'ttag';
+import { z } from 'zod';
 import gql from 'src/lib/gql';
 import {
   ManipulationError,
@@ -16,6 +17,14 @@ import {
   GetReplyRelatedDataQueryVariables,
   ReplyTypeEnum,
 } from 'typegen/graphql';
+
+const inputSchema = z.object({
+  a: z.string().describe('Article ID'),
+  r: z.string().describe('Reply ID'),
+});
+
+/** Postback input type for CHOOSING_REPLY state handler */
+export type Input = z.infer<typeof inputSchema>;
 
 /**
  * @param {string} articleId - Article ID of the article-reply to feedback
@@ -133,13 +142,17 @@ function createShareBubble(
 const choosingReply: ChatbotPostbackHandler = async ({
   data,
   userId,
-  postbackData: { input, state },
+  postbackData: { input: postbackInput, state },
 }) => {
-  if (typeof input !== 'string') {
+  let input: Input;
+  try {
+    input = inputSchema.parse(postbackInput);
+  } catch (e) {
+    console.error('[choosingReply]', e);
     throw new ManipulationError(t`Please choose from provided options.`);
   }
 
-  const selectedReplyId = input;
+  const { a: selectedArticleId, r: selectedReplyId } = input;
 
   const { data: getReplyData, errors } = await gql`
     query GetReplyRelatedData($id: String!, $articleId: String!) {
@@ -156,7 +169,7 @@ const choosingReply: ChatbotPostbackHandler = async ({
     }
   `<GetReplyRelatedDataQuery, GetReplyRelatedDataQueryVariables>({
     id: selectedReplyId,
-    articleId: data.selectedArticleId ?? '',
+    articleId: selectedArticleId,
   });
 
   /* istanbul ignore if */
@@ -177,17 +190,14 @@ const choosingReply: ChatbotPostbackHandler = async ({
   );
 
   const replies: Message[] = [
-    ...createReplyMessages(GetReply, GetArticle, data.selectedArticleId ?? ''),
+    ...createReplyMessages(GetReply, GetArticle, selectedArticleId),
     {
       type: 'flex',
       altText: t`Is the reply helpful?`,
       contents: {
         type: 'carousel',
         contents: [
-          createAskReplyFeedbackBubble(
-            data.selectedArticleId ?? '',
-            selectedReplyId
-          ),
+          createAskReplyFeedbackBubble(selectedArticleId, selectedReplyId),
 
           // Ask user to turn on notification if the user did not turn it on
           process.env.NOTIFY_METHOD &&
@@ -195,7 +205,7 @@ const choosingReply: ChatbotPostbackHandler = async ({
             createNotificationSettingsBubble(),
 
           createShareBubble(
-            data.selectedArticleId ?? '',
+            selectedArticleId,
             getReplyData.GetArticle.text ?? '',
             GetReply.type
           ),

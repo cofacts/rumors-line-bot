@@ -245,7 +245,6 @@ exports[`should select reply by replyId should handle the case with just one rep
 Object {
   "data": Object {
     "searchedText": "貼圖",
-    "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
     "sessionId": 0,
   },
   "replies": Array [
@@ -373,7 +372,6 @@ exports[`should select reply by replyId should handle the case with multiple rep
 Object {
   "data": Object {
     "searchedText": "貼圖",
-    "selectedArticleId": "AWDZYXxAyCdS-nWhumlz",
     "sessionId": 0,
   },
   "replies": Array [

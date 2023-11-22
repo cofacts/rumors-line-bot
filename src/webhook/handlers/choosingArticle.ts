@@ -27,6 +27,7 @@ import {
 
 import UserArticleLink from '../../database/models/userArticleLink';
 import choosingReply from './choosingReply';
+import type { Input as ChoosingReplyInput } from './choosingReply';
 import { ChatbotPostbackHandler } from 'src/types/chatbotState';
 import { FlexBubble, Message } from '@line/bot-sdk';
 
@@ -116,7 +117,7 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
     };
   }
 
-  const selectedArticleId = (data.selectedArticleId = input);
+  const selectedArticleId = input;
 
   await UserArticleLink.createOrUpdateByUserIdAndArticleId(
     userId,
@@ -171,13 +172,18 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
   if (articleReplies.length === 1) {
     visitor.send();
 
+    const input: ChoosingReplyInput = {
+      a: selectedArticleId,
+      r: articleReplies[0].reply?.id ?? '',
+    };
+
     // choose reply for user
     return await choosingReply({
       data,
       postbackData: {
         sessionId,
         state: 'CHOOSING_REPLY',
-        input: articleReplies[0].reply?.id ?? '',
+        input,
       },
       userId,
     });
