@@ -37,3 +37,4 @@ gqlMock.__finished = function () {
 };
 
 export default gqlMock;
+export type MockedGql = typeof gqlMock;

@@ -4,14 +4,7 @@ exports[`should ask users if they want to submit article when user say not found
 Object {
   "data": Object {
     "searchedText": "這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。",
-  },
-  "event": Object {
-    "input": "__NO_ARTICLE_FOUND__",
-    "postback": Object {
-      "data": "{\\"input\\":\\"__NO_ARTICLE_FOUND__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
-    },
-    "timestamp": 1519019734813,
-    "type": "postback",
+    "sessionId": 0,
   },
   "replies": Array [
     Object {
@@ -52,7 +45,7 @@ May I ask you a quick question?",
           "contents": Array [
             Object {
               "action": Object {
-                "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"sessionId\\":0,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
                 "displayText": "Yes, I forwarded it as a whole",
                 "label": "Yes, I forwarded it as a whole",
                 "type": "postback",
@@ -63,7 +56,7 @@ May I ask you a quick question?",
             },
             Object {
               "action": Object {
-                "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
+                "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"sessionId\\":0,\\"state\\":\\"ASKING_ARTICLE_SOURCE\\"}",
                 "displayText": "No, typed it myself",
                 "label": "No, typed it myself",
                 "type": "postback",
@@ -87,7 +80,6 @@ May I ask you a quick question?",
       "type": "flex",
     },
   ],
-  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
 
@@ -95,15 +87,8 @@ exports[`should ask users if they want to submit image article when user say not
 Object {
   "data": Object {
     "messageId": "6530038889933",
-    "searchedText": "",
-  },
-  "event": Object {
-    "input": "__NO_ARTICLE_FOUND__",
-    "postback": Object {
-      "data": "{\\"input\\":\\"__NO_ARTICLE_FOUND__\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
-    },
-    "timestamp": 1519019734813,
-    "type": "postback",
+    "messageType": "image",
+    "sessionId": 0,
   },
   "replies": Array [
     Object {
@@ -161,7 +146,7 @@ Do you want someone to fact-check this message?",
           "contents": Array [
             Object {
               "action": Object {
-                "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
+                "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"sessionId\\":0,\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
                 "displayText": "🆕 Report to database",
                 "label": "🆕 Report to database",
                 "type": "postback",
@@ -172,7 +157,7 @@ Do you want someone to fact-check this message?",
             },
             Object {
               "action": Object {
-                "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
+                "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"sessionId\\":0,\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
                 "displayText": "Don’t report",
                 "label": "Don’t report",
                 "type": "postback",
@@ -196,7 +181,6 @@ Do you want someone to fact-check this message?",
       "type": "flex",
     },
   ],
-  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
 
@@ -217,10 +201,7 @@ Object {
   "data": Object {
     "searchedText": "Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply",
     "selectedArticleId": "article-id",
-  },
-  "event": Object {
-    "input": "AV--O3nfyCdS-nWhujMD",
-    "type": "server_choose",
+    "sessionId": 0,
   },
   "replies": Array [
     Object {
@@ -340,7 +321,6 @@ https://dev.cofacts.tw/article/article-id",
       "type": "flex",
     },
   ],
-  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
 
@@ -349,14 +329,7 @@ Object {
   "data": Object {
     "searchedText": "老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人",
     "selectedArticleId": "article-id",
-  },
-  "event": Object {
-    "input": "article-id",
-    "postback": Object {
-      "data": "{\\"input\\":\\"article-id\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
-    },
-    "timestamp": 1519019734813,
-    "type": "postback",
+    "sessionId": 1497994017447,
   },
   "replies": Array [
     Object {
@@ -417,7 +390,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “老榮民有住所，有月退俸，也不需要特別的醫療護理⋯⋯”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -495,7 +468,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV8fXikZyCdS-nWhuhfN\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AV8fXikZyCdS-nWhuhfN\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “慈濟自來有褒有貶，每人有各自的看法。”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -574,7 +547,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--LRZYyCdS-nWhujL9\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AV--LRZYyCdS-nWhujL9\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “整個基督教徒的打手，自己不努力去牧人、募款，利⋯⋯”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -652,7 +625,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV8jkRlByCdS-nWhuhiY\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AV8jkRlByCdS-nWhuhiY\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “文章是假的 照片也是盜用我方家人的照片,嚴重影⋯⋯”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -695,7 +668,6 @@ Object {
       "type": "flex",
     },
   ],
-  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
 
@@ -704,14 +676,7 @@ Object {
   "data": Object {
     "searchedText": "老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人",
     "selectedArticleId": "article-id",
-  },
-  "event": Object {
-    "input": "article-id",
-    "postback": Object {
-      "data": "{\\"input\\":\\"article-id\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
-    },
-    "timestamp": 1519019734813,
-    "type": "postback",
+    "sessionId": 0,
   },
   "replies": Array [
     Object {
@@ -772,7 +737,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應1”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -850,7 +815,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應2”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -928,7 +893,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應3”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1006,7 +971,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應4”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1084,7 +1049,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應5”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1162,7 +1127,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應6”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1240,7 +1205,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV8fXikZyCdS-nWhuhfN\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AV8fXikZyCdS-nWhuhfN\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應9”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1318,7 +1283,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應10”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1396,7 +1361,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應11”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1475,7 +1440,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--LRZYyCdS-nWhujL9\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AV--LRZYyCdS-nWhujL9\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應7。
 ”",
                     "label": "👀 Take a look",
@@ -1523,7 +1488,6 @@ Object {
       "type": "text",
     },
   ],
-  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
 
@@ -1537,14 +1501,7 @@ Object {
 尤其；鮭魚的含蟲量最高、最可怕！
 請傳給朋友，讓他們有所警惕!",
     "selectedArticleId": "article-id",
-  },
-  "event": Object {
-    "input": "article-id",
-    "postback": Object {
-      "data": "{\\"input\\":\\"article-id\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
-    },
-    "timestamp": 1519019734813,
-    "type": "postback",
+    "sessionId": 0,
   },
   "replies": Array [
     Object {
@@ -1604,7 +1561,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AVygFA0RyCdS-nWhuaXY\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AVygFA0RyCdS-nWhuaXY\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “查證這則謠言的過程中，約翰走鹿也發現其實網路早⋯⋯”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1682,7 +1639,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AVy6LkWIyCdS-nWhuaqu\\",\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":\\"AVy6LkWIyCdS-nWhuaqu\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “過去台灣只有一個海獸胃腺蟲鑽入胃壁的病例，而且⋯⋯”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1725,7 +1682,6 @@ Object {
       "type": "flex",
     },
   ],
-  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
 
@@ -1734,14 +1690,7 @@ Object {
   "data": Object {
     "searchedText": "老司機車裡總備一塊香皂，知道內情的新手默默也準備了一塊",
     "selectedArticleId": "article-id",
-  },
-  "event": Object {
-    "input": "article-id",
-    "postback": Object {
-      "data": "{\\"input\\":\\"article-id\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
-    },
-    "timestamp": 1519019734813,
-    "type": "postback",
+    "sessionId": 0,
   },
   "replies": Array [
     Object {
@@ -1913,7 +1862,6 @@ Don’t trust the message just yet!",
       "type": "flex",
     },
   ],
-  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;
 
@@ -1922,14 +1870,7 @@ Object {
   "data": Object {
     "searchedText": "老司機車裡總備一塊香皂，知道內情的新手默默也準備了一塊",
     "selectedArticleId": "article-id",
-  },
-  "event": Object {
-    "input": "article-id",
-    "postback": Object {
-      "data": "{\\"input\\":\\"article-id\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_ARTICLE\\"}",
-    },
-    "timestamp": 1519019734813,
-    "type": "postback",
+    "sessionId": 0,
   },
   "replies": Array [
     Object {
@@ -2073,6 +2014,5 @@ Don’t trust the message just yet!",
       "type": "flex",
     },
   ],
-  "userId": "Uc76d8ae9ccd1ada4f06c4e1515d46466",
 }
 `;

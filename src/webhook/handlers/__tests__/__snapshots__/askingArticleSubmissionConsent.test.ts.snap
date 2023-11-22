@@ -148,13 +148,8 @@ Array [
 exports[`should submit article if user agrees to submit: has AI reply 1`] = `
 Object {
   "data": Object {
-    "foundArticleIds": Array [],
     "searchedText": "Some text forwarded by the user",
     "sessionId": 1577923200000,
-  },
-  "event": Object {
-    "input": "__POSTBACK_YES__",
-    "type": "postback",
   },
   "replies": Array [
     Object {
@@ -325,20 +320,14 @@ Object {
       "type": "flex",
     },
   ],
-  "userId": "userId",
 }
 `;
 
 exports[`should submit article if user agrees to submit: has no AI reply 1`] = `
 Object {
   "data": Object {
-    "foundArticleIds": Array [],
     "searchedText": "Some text forwarded by the user",
     "sessionId": 1577923200000,
-  },
-  "event": Object {
-    "input": "__POSTBACK_YES__",
-    "type": "postback",
   },
   "replies": Array [
     Object {
@@ -481,22 +470,16 @@ Object {
       "type": "flex",
     },
   ],
-  "userId": "userId",
 }
 `;
 
 exports[`should submit image article if user agrees to submit 1`] = `
 Object {
   "data": Object {
-    "foundArticleIds": Array [],
     "messageId": "6530038889933",
     "messageType": "image",
     "searchedText": "",
     "sessionId": 1577923200000,
-  },
-  "event": Object {
-    "input": "__POSTBACK_YES__",
-    "type": "postback",
   },
   "replies": Array [
     Object {
@@ -639,6 +622,5 @@ Object {
       "type": "flex",
     },
   ],
-  "userId": "userId",
 }
 `;

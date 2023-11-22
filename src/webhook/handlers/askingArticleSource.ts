@@ -12,15 +12,23 @@ import {
 } from './utils';
 
 import { TUTORIAL_STEPS } from './tutorial';
-import { ChatbotStateHandler } from 'src/types/chatbotState';
+import { ChatbotPostbackHandler } from 'src/types/chatbotState';
+import { Message } from '@line/bot-sdk';
 
-const askingArticleSource: ChatbotStateHandler = async (params) => {
-  const { data, state, event, userId } = params;
-  let { replies } = params;
+const askingArticleSource: ChatbotPostbackHandler = async ({
+  data,
+  postbackData: { state, input },
+  userId,
+}) => {
+  let replies: Message[] = [];
 
-  const visitor = ga(userId, state, data.searchedText);
+  const visitor = ga(
+    userId,
+    state,
+    'searchedText' in data ? data.searchedText : data.messageId
+  );
 
-  switch (event.input) {
+  switch (input) {
     default:
       throw new ManipulationError(t`Please choose from provided options.`);
 
@@ -172,7 +180,7 @@ const askingArticleSource: ChatbotStateHandler = async (params) => {
 
   visitor.send();
 
-  return { data, event, userId, replies };
+  return { data, replies };
 };
 
 export default askingArticleSource;

@@ -4,9 +4,15 @@ jest.mock('src/lib/ga');
 import MockDate from 'mockdate';
 import choosingReply from '../choosingReply';
 import * as apiResult from '../__fixtures__/choosingReply';
-import gql from 'src/lib/gql';
-import ga from 'src/lib/ga';
 import UserSettings from 'src/database/models/userSettings';
+import originalGql from 'src/lib/gql';
+import type { MockedGql } from 'src/lib/__mocks__/gql';
+import originalGa from 'src/lib/ga';
+import type { MockedGa } from 'src/lib/__mocks__/ga';
+import { ChatbotPostbackHandlerParams } from 'src/types/chatbotState';
+
+const gql = originalGql as MockedGql;
+const ga = originalGa as MockedGa;
 
 beforeEach(() => {
   MockDate.set('2020-01-01');
@@ -19,21 +25,18 @@ afterEach(() => {
 });
 
 describe('should select reply by replyId', () => {
-  const params = {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
+      sessionId: 0,
       searchedText: '貼圖',
       selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
     },
-    event: {
-      type: 'postback',
+    postbackData: {
+      sessionId: 0,
       input: 'AWDZeeV0yCdS-nWhuml8',
-      timestamp: 1518964687709,
-      postback: {
-        data: '{"input":"AWDZeeV0yCdS-nWhuml8","state":"CHOOSING_REPLY"}',
-      },
+      state: 'CHOOSING_REPLY',
     },
     userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
-    replies: [],
   };
 
   it('should handle the case with just one reply', async () => {
@@ -92,19 +95,19 @@ describe('should select reply by replyId', () => {
   });
 });
 
-it('should block non-postback interactions', async () => {
-  const params = {
+it('should block invalid postback input', async () => {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
+      sessionId: 0,
       searchedText: '貼圖',
       selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
     },
-    event: {
-      type: 'text',
-      input: '123',
-      timestamp: 1518964687709,
+    postbackData: {
+      sessionId: 0,
+      state: 'CHOOSING_REPLY',
+      input: undefined,
     },
     userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
-    replies: [],
   };
 
   await expect(choosingReply(params)).rejects.toMatchInlineSnapshot(
@@ -115,21 +118,18 @@ it('should block non-postback interactions', async () => {
 it('should handle graphql error gracefully', async () => {
   gql.__push({ errors: [] });
 
-  const params = {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
+      sessionId: 0,
       searchedText: '貼圖',
       selectedArticleId: 'AWDZYXxAyCdS-nWhumlz',
     },
-    event: {
-      type: 'postback',
+    postbackData: {
+      sessionId: 0,
       input: 'AWDZeeV0yCdS-nWhuml8',
-      timestamp: 1518964687709,
-      postback: {
-        data: '{"input":"AWDZeeV0yCdS-nWhuml8","state":"CHOOSING_REPLY"}',
-      },
+      state: 'CHOOSING_REPLY',
     },
     userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
-    replies: [],
   };
 
   await expect(choosingReply(params)).rejects.toMatchInlineSnapshot(

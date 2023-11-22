@@ -141,7 +141,7 @@ const singleUserHandler = async (
     webhookEvent.type === 'message' &&
     webhookEvent.message.type !== 'text'
   ) {
-    result = await processMedia(context, webhookEvent, userId);
+    result = await processMedia(webhookEvent, userId);
   } else if (webhookEvent.type === 'message') {
     // Track other message type send by user
     ga(userId)
@@ -152,12 +152,9 @@ const singleUserHandler = async (
       })
       .send();
   } else if (webhookEvent.type === 'postback') {
-    /**
-     * @FIXME Replace with runtime type check to be future-proof
-     */
     const postbackData = JSON.parse(
       webhookEvent.postback.data
-    ) as PostbackActionData;
+    ) as PostbackActionData<unknown>;
 
     // Handle the case when user context in redis is expired
     if (!context.data) {
@@ -195,9 +192,7 @@ const singleUserHandler = async (
       return;
     }
 
-    const input = postbackData.input;
-    const event: ChatbotEvent = { type: webhookEvent.type, input };
-    result = await handlePostback(context, postbackData.state, event, userId);
+    result = await handlePostback(context.data, postbackData, userId);
   }
 
   if (isReplied) {

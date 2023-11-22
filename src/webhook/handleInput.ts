@@ -1,7 +1,7 @@
 import initState from './handlers/initState';
 import defaultState from './handlers/defaultState';
 import { extractArticleId } from 'src/lib/sharedUtils';
-import tutorial, { TUTORIAL_STEPS } from './handlers/tutorial';
+import { TUTORIAL_STEPS } from './handlers/tutorial';
 import handlePostback from './handlePostback';
 import {
   ChatbotEvent,
@@ -38,18 +38,28 @@ export default async function handleInput(
     const articleId = extractArticleId(trimmedInput);
     if (articleId) {
       // Start new session, reroute to CHOOSING_ARTILCE and simulate "choose article" postback event
-      data = {
-        // Start a new session
-        sessionId: Date.now(),
-        searchedText: '',
-      };
-      event = {
-        type: 'postback',
-        input: articleId,
-      };
-      return await handlePostback({ data }, 'CHOOSING_ARTICLE', event, userId);
+      const sessionId = Date.now();
+      return await handlePostback(
+        { sessionId, searchedText: '' },
+        {
+          state: 'CHOOSING_ARTICLE',
+          sessionId,
+          input: articleId,
+        },
+        userId
+      );
     } else if (event.input === TUTORIAL_STEPS['RICH_MENU']) {
-      state = 'TUTORIAL';
+      // Start new session, reroute to TUTORIAL
+      const sessionId = Date.now();
+      return await handlePostback(
+        { sessionId, searchedText: '' },
+        {
+          state: 'TUTORIAL',
+          sessionId,
+          input: event.input,
+        },
+        userId
+      );
     } else {
       // The user forwarded us an new message.
       // Create a new "search session".
@@ -79,10 +89,6 @@ export default async function handleInput(
   switch (params.state) {
     case '__INIT__': {
       params = await initState(params);
-      break;
-    }
-    case 'TUTORIAL': {
-      params = tutorial(params);
       break;
     }
 

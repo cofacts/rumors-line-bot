@@ -5,23 +5,26 @@ import tutorial, {
   createGreetingMessage,
   createTutorialMessage,
 } from '../tutorial';
-import ga from 'src/lib/ga';
+import originalGa from 'src/lib/ga';
+import type { MockedGa } from 'src/lib/__mocks__/ga';
+import { ChatbotPostbackHandlerParams } from 'src/types/chatbotState';
 
-const param = {
+const ga = originalGa as MockedGa;
+
+const param: ChatbotPostbackHandlerParams = {
   data: {
     sessionId: 1497994017447,
+    searchedText: '',
   },
-  event: {
-    type: 'text',
+  postbackData: {
+    sessionId: 1497994017447,
+    state: 'TUTORIAL',
     input: undefined,
-    timestamp: 1519019734813,
   },
   userId: 'Uaddc74df8a3a176b901d9d648b0fc4fe',
-  replies: undefined,
 };
 
 beforeEach(() => {
-  param.event.input = undefined;
   ga.clearAllMocks();
   process.env.RUMORS_LINE_BOT_URL = 'https://testlinebot.cofacts';
 });
@@ -39,10 +42,15 @@ it('rejects undefined input', () => {
   expect(() => tutorial(param)).toThrowError('input undefined');
 });
 
-it('should handle RICH_MENU', () => {
-  param.event.input = TUTORIAL_STEPS['RICH_MENU'];
+function getParamWithInput(input: unknown) {
+  return {
+    ...param,
+    postbackData: { ...param.postbackData, input },
+  };
+}
 
-  const result = tutorial(param);
+it('should handle RICH_MENU', () => {
+  const result = tutorial(getParamWithInput(TUTORIAL_STEPS['RICH_MENU']));
   expect(result).toMatchSnapshot();
   expect(ga.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -67,9 +75,9 @@ it('should handle RICH_MENU', () => {
 });
 
 it('should handle SIMULATE_FORWARDING_MESSAGE', () => {
-  param.event.input = TUTORIAL_STEPS['SIMULATE_FORWARDING_MESSAGE'];
-
-  const result = tutorial(param);
+  const result = tutorial(
+    getParamWithInput(TUTORIAL_STEPS['SIMULATE_FORWARDING_MESSAGE'])
+  );
   expect(result).toMatchSnapshot();
   expect(ga.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -94,9 +102,9 @@ it('should handle SIMULATE_FORWARDING_MESSAGE', () => {
 });
 
 it('should handle PROVIDE_PERMISSION_SETUP', () => {
-  param.event.input = TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP'];
-
-  const result = tutorial(param);
+  const result = tutorial(
+    getParamWithInput(TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP'])
+  );
   expect(result).toMatchSnapshot();
   expect(ga.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -121,10 +129,11 @@ it('should handle PROVIDE_PERMISSION_SETUP', () => {
 });
 
 it('should handle EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP', () => {
-  param.event.input =
-    TUTORIAL_STEPS['EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP'];
-
-  const result = tutorial(param);
+  const result = tutorial(
+    getParamWithInput(
+      TUTORIAL_STEPS['EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP']
+    )
+  );
   expect(result).toMatchSnapshot();
   expect(ga.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -149,10 +158,11 @@ it('should handle EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP', () => {
 });
 
 it('should handle PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION', () => {
-  param.event.input =
-    TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION'];
-
-  const result = tutorial(param);
+  const result = tutorial(
+    getParamWithInput(
+      TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION']
+    )
+  );
   expect(result).toMatchSnapshot();
   expect(ga.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -177,9 +187,7 @@ it('should handle PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION', () => {
 });
 
 it('should handle SETUP_DONE', () => {
-  param.event.input = TUTORIAL_STEPS['SETUP_DONE'];
-
-  const result = tutorial(param);
+  const result = tutorial(getParamWithInput(TUTORIAL_STEPS['SETUP_DONE']));
   expect(result).toMatchSnapshot();
   expect(ga.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -204,9 +212,7 @@ it('should handle SETUP_DONE', () => {
 });
 
 it('should handle SETUP_LATER', () => {
-  param.event.input = TUTORIAL_STEPS['SETUP_LATER'];
-
-  const result = tutorial(param);
+  const result = tutorial(getParamWithInput(TUTORIAL_STEPS['SETUP_LATER']));
   expect(result).toMatchSnapshot();
   expect(ga.mock.calls).toMatchInlineSnapshot(`
     Array [

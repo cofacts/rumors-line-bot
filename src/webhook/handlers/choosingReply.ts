@@ -9,8 +9,8 @@ import {
 import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
 import ga from 'src/lib/ga';
 import UserSettings from 'src/database/models/userSettings';
-import { FlexBubble } from '@line/bot-sdk';
-import { ChatbotStateHandler } from 'src/types/chatbotState';
+import { FlexBubble, Message } from '@line/bot-sdk';
+import { ChatbotPostbackHandler } from 'src/types/chatbotState';
 import {
   GetReplyRelatedDataQuery,
   GetReplyRelatedDataQueryVariables,
@@ -130,15 +130,16 @@ function createShareBubble(
   };
 }
 
-const choosingReply: ChatbotStateHandler = async (params) => {
-  const { data, state, event, userId } = params;
-  let { replies } = params;
-
-  if (event.type !== 'postback' && event.type !== 'server_choose') {
+const choosingReply: ChatbotPostbackHandler = async ({
+  data,
+  userId,
+  postbackData: { input, state },
+}) => {
+  if (typeof input !== 'string') {
     throw new ManipulationError(t`Please choose from provided options.`);
   }
 
-  const selectedReplyId = event.input;
+  const selectedReplyId = input;
 
   const { data: getReplyData, errors } = await gql`
     query GetReplyRelatedData($id: String!, $articleId: String!) {
@@ -175,7 +176,7 @@ const choosingReply: ChatbotStateHandler = async (params) => {
     userId
   );
 
-  replies = [
+  const replies: Message[] = [
     ...createReplyMessages(GetReply, GetArticle, data.selectedArticleId ?? ''),
     {
       type: 'flex',
@@ -210,7 +211,7 @@ const choosingReply: ChatbotStateHandler = async (params) => {
   visitor.event({ ec: 'Reply', ea: 'Type', el: GetReply.type, ni: true });
   visitor.send();
 
-  return { data, event, userId, replies };
+  return { data, replies };
 };
 
 export default choosingReply;

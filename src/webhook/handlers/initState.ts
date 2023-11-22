@@ -4,9 +4,10 @@ import {
   FlexBubble,
   FlexComponent,
   FlexMessage,
+  Message,
   TextMessage,
 } from '@line/bot-sdk';
-import type { ChatbotStateHandler } from 'src/types/chatbotState';
+import type { ChatbotStateHandler, Context } from 'src/types/chatbotState';
 import gql from 'src/lib/gql';
 import {
   createPostbackAction,
@@ -26,10 +27,13 @@ import {
 
 const SIMILARITY_THRESHOLD = 0.95;
 
-const initState: ChatbotStateHandler = async (params) => {
-  const { data, userId } = params;
-  let { event, replies } = params;
+const initState: ChatbotStateHandler = async ({
+  data: inputData,
+  userId,
+  event,
+}) => {
   const state = '__INIT__';
+  let replies: Message[] = [];
 
   // Track text message type send by user
   const visitor = ga(userId, state, event.input);
@@ -40,7 +44,10 @@ const initState: ChatbotStateHandler = async (params) => {
   });
 
   // Store user input into context
-  data.searchedText = event.input;
+  const data: Context = {
+    sessionId: inputData.sessionId,
+    searchedText: event.input,
+  };
 
   // send input to dialogflow before doing search
   // uses dialogflowResponse as reply only when there's a intent matched and
@@ -133,18 +140,15 @@ const initState: ChatbotStateHandler = async (params) => {
     if (edgesSortedWithSimilarity.length === 1 && hasIdenticalDocs) {
       visitor.send();
 
-      // choose for user
-      event = {
-        type: 'server_choose',
-        input: edgesSortedWithSimilarity[0].node.id,
-      };
-
       return await choosingArticle({
         data,
-        state: 'CHOOSING_ARTICLE',
-        event,
+        // choose for user
+        postbackData: {
+          sessionId: data.sessionId,
+          state: 'CHOOSING_ARTICLE',
+          input: edgesSortedWithSimilarity[0].node.id,
+        },
         userId,
-        replies: [],
       });
     }
 

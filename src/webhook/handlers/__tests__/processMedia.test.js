@@ -18,9 +18,6 @@ it('one identical article found and choose for user', async () => {
   gql.__push(apiListArticlesResult.oneIdenticalImageArticle);
   gql.__push(apiGetArticleResult.oneImageArticle);
 
-  const data = {
-    sessionId: 1497994017447,
-  };
   const event = {
     type: 'message',
     timestamp: 1497994016356,
@@ -31,7 +28,7 @@ it('one identical article found and choose for user', async () => {
   };
   const userId = 'Uc76d8ae9ccd1ada4f06c4e1515d46466';
   MockDate.set('2020-01-01');
-  expect(await processMedia(data, event, userId)).toMatchSnapshot();
+  expect(await processMedia(event, userId)).toMatchSnapshot();
   MockDate.reset();
   expect(gql.__finished()).toBe(true);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
@@ -89,9 +86,6 @@ it('one identical article found and choose for user', async () => {
 it('one identical image and similar text found', async () => {
   gql.__push(apiListArticlesResult.identicalImageAndTextFound);
 
-  const data = {
-    sessionId: 1497994017447,
-  };
   const event = {
     type: 'message',
     timestamp: 1497994016356,
@@ -102,7 +96,7 @@ it('one identical image and similar text found', async () => {
   };
   const userId = 'Uc76d8ae9ccd1ada4f06c4e1515d46466';
   MockDate.set('2020-01-01');
-  expect(await processMedia(data, event, userId)).toMatchSnapshot();
+  expect(await processMedia(event, userId)).toMatchSnapshot();
   MockDate.reset();
   expect(gql.__finished()).toBe(true);
 });
@@ -110,9 +104,6 @@ it('one identical image and similar text found', async () => {
 it('one article found (not identical)', async () => {
   gql.__push(apiListArticlesResult.oneImageArticle);
 
-  const data = {
-    sessionId: 1497994017447,
-  };
   const event = {
     type: 'message',
     timestamp: 1497994016356,
@@ -123,7 +114,7 @@ it('one article found (not identical)', async () => {
   };
   const userId = 'Uc76d8ae9ccd1ada4f06c4e1515d46466';
   MockDate.set('2020-01-01');
-  expect(await processMedia(data, event, userId)).toMatchSnapshot();
+  expect(await processMedia(event, userId)).toMatchSnapshot();
   MockDate.reset();
   expect(gql.__finished()).toBe(true);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
@@ -158,9 +149,6 @@ it('one article found (not identical)', async () => {
 it('twelve articles found', async () => {
   gql.__push(apiListArticlesResult.twelveImageArticles);
 
-  const data = {
-    sessionId: 1497994017447,
-  };
   const event = {
     type: 'message',
     timestamp: 1497994016356,
@@ -172,7 +160,7 @@ it('twelve articles found', async () => {
   const userId = 'Uc76d8ae9ccd1ada4f06c4e1515d46466';
 
   MockDate.set('2020-01-01');
-  const result = await processMedia(data, event, userId);
+  const result = await processMedia(event, userId);
   MockDate.reset();
   expect(result).toMatchSnapshot();
   expect(gql.__finished()).toBe(true);
@@ -185,9 +173,6 @@ it('twelve articles found', async () => {
 
 it('should handle image not found', async () => {
   gql.__push(apiListArticlesResult.notFound);
-  const data = {
-    sessionId: 1497994017447,
-  };
   const event = {
     type: 'message',
     timestamp: 1497994016356,
@@ -198,7 +183,7 @@ it('should handle image not found', async () => {
   };
   const userId = 'Uc76d8ae9ccd1ada4f06c4e1515d46466';
   MockDate.set('2020-01-01');
-  expect(await processMedia(data, event, userId)).toMatchSnapshot();
+  expect(await processMedia(event, userId)).toMatchSnapshot();
   MockDate.reset();
   expect(gql.__finished()).toBe(true);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`

@@ -1,20 +1,26 @@
 jest.mock('src/lib/ga');
-import ga from 'src/lib/ga';
+import originalGa from 'src/lib/ga';
+import type { MockedGa } from 'src/lib/__mocks__/ga';
 
 import askingArticleSource from '../askingArticleSource';
 import { POSTBACK_YES, POSTBACK_NO } from '../utils';
+import { ChatbotPostbackHandlerParams } from 'src/types/chatbotState';
+
+const ga = originalGa as MockedGa;
 
 beforeEach(() => {
   ga.clearAllMocks();
 });
 
 it('throws on incorrect input', async () => {
-  const incorrectParam = {
-    data: { searchedText: 'foo' },
-    state: 'ASKING_ARTICLE_SOURCE',
-    event: {
+  const incorrectParam: ChatbotPostbackHandlerParams = {
+    data: { sessionId: 0, searchedText: 'foo' },
+    postbackData: {
+      sessionId: 0,
+      state: 'ASKING_ARTICLE_SOURCE',
       input: 'Wrong',
     },
+    userId: 'the-user-id',
   };
 
   expect(askingArticleSource(incorrectParam)).rejects.toMatchInlineSnapshot(
@@ -23,12 +29,14 @@ it('throws on incorrect input', async () => {
 });
 
 it('returns instructions if user did not forward the whole message', async () => {
-  const didNotForwardParam = {
-    data: { searchedText: 'foo', sessionId: 'the-session-id' },
-    state: 'ASKING_ARTICLE_SOURCE',
-    event: {
+  const didNotForwardParam: ChatbotPostbackHandlerParams = {
+    data: { searchedText: 'foo', sessionId: 0 },
+    postbackData: {
+      sessionId: 0,
+      state: 'ASKING_ARTICLE_SOURCE',
       input: POSTBACK_NO,
     },
+    userId: 'the-user-id',
   };
 
   const { replies } = await askingArticleSource(didNotForwardParam);
@@ -105,7 +113,7 @@ it('returns instructions if user did not forward the whole message', async () =>
                 "contents": Array [
                   Object {
                     "action": Object {
-                      "data": "{\\"input\\":\\"📖 tutorial\\",\\"sessionId\\":\\"the-session-id\\",\\"state\\":\\"TUTORIAL\\"}",
+                      "data": "{\\"input\\":\\"📖 tutorial\\",\\"sessionId\\":0,\\"state\\":\\"TUTORIAL\\"}",
                       "displayText": "📖 tutorial",
                       "label": "See Tutorial",
                       "type": "postback",
@@ -203,12 +211,14 @@ it('returns instructions if user did not forward the whole message', async () =>
 });
 
 it('sends user submission consent if user forwarded the whole message', async () => {
-  const didForwardParam = {
-    data: { searchedText: 'foo', sessionId: 'the-session-id' },
-    state: 'ASKING_ARTICLE_SOURCE',
-    event: {
+  const didForwardParam: ChatbotPostbackHandlerParams = {
+    data: { searchedText: 'foo', sessionId: 0 },
+    postbackData: {
+      sessionId: 0,
+      state: 'ASKING_ARTICLE_SOURCE',
       input: POSTBACK_YES,
     },
+    userId: 'the-user-id',
   };
 
   const { replies } = await askingArticleSource(didForwardParam);
@@ -285,7 +295,7 @@ it('sends user submission consent if user forwarded the whole message', async ()
             "contents": Array [
               Object {
                 "action": Object {
-                  "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"sessionId\\":\\"the-session-id\\",\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
+                  "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"sessionId\\":0,\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
                   "displayText": "🆕 Report to database",
                   "label": "🆕 Report to database",
                   "type": "postback",
@@ -296,7 +306,7 @@ it('sends user submission consent if user forwarded the whole message', async ()
               },
               Object {
                 "action": Object {
-                  "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"sessionId\\":\\"the-session-id\\",\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
+                  "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"sessionId\\":0,\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
                   "displayText": "Don’t report",
                   "label": "Don’t report",
                   "type": "postback",

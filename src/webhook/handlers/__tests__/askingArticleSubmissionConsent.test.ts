@@ -1,14 +1,20 @@
 jest.mock('src/lib/gql');
 jest.mock('src/lib/ga');
+import type { MockedGa } from 'src/lib/__mocks__/ga';
+import type { MockedGql } from 'src/lib/__mocks__/gql';
 
 import MockDate from 'mockdate';
 import askingArticleSubmissionConsent from '../askingArticleSubmissionConsent';
 import { POSTBACK_NO, POSTBACK_YES } from '../utils';
-import gql from 'src/lib/gql';
-import ga from 'src/lib/ga';
+import originalGql from 'src/lib/gql';
+import originalGa from 'src/lib/ga';
+
+const ga = originalGa as MockedGa;
+const gql = originalGql as MockedGql;
 
 import UserSettings from 'src/database/models/userSettings';
 import UserArticleLink from 'src/database/models/userArticleLink';
+import { ChatbotPostbackHandlerParams } from 'src/types/chatbotState';
 
 beforeAll(async () => {
   if (await UserArticleLink.collectionExists()) {
@@ -21,12 +27,14 @@ beforeEach(() => {
 });
 
 it('throws on incorrect input', async () => {
-  const incorrectParam = {
-    data: { searchedText: 'foo' },
-    state: 'ASKING_ARTICLE_SUBMISSION',
-    event: {
+  const incorrectParam: ChatbotPostbackHandlerParams = {
+    data: { sessionId: 0, searchedText: 'foo' },
+    postbackData: {
+      sessionId: 0,
+      state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
       input: 'Wrong',
     },
+    userId: 'the-user-id',
   };
 
   expect(
@@ -38,14 +46,14 @@ it('throws on incorrect input', async () => {
 
 it('should thank the user if user does not agree to submit', async () => {
   const inputSession = new Date('2020-01-01T18:10:18.314Z').getTime();
-  const params = {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
-      searchedText: 'Some text forwarded by the user',
-      foundArticleIds: [],
       sessionId: inputSession,
+      searchedText: 'Some text forwarded by the user',
     },
-    event: {
-      type: 'postback',
+    postbackData: {
+      sessionId: inputSession,
+      state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
       input: POSTBACK_NO,
     },
     userId: 'userId',
@@ -78,14 +86,14 @@ it('should thank the user if user does not agree to submit', async () => {
 
 it('should submit article if user agrees to submit', async () => {
   const inputSession = new Date('2020-01-01T18:10:18.314Z').getTime();
-  const params = {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
-      searchedText: 'Some text forwarded by the user',
-      foundArticleIds: [],
       sessionId: inputSession,
+      searchedText: 'Some text forwarded by the user',
     },
-    event: {
-      type: 'postback',
+    postbackData: {
+      sessionId: inputSession,
+      state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
       input: POSTBACK_YES,
     },
     userId: 'userId',
@@ -128,16 +136,16 @@ it('should submit article if user agrees to submit', async () => {
 
 it('should submit image article if user agrees to submit', async () => {
   const inputSession = new Date('2020-01-01T18:10:18.314Z').getTime();
-  const params = {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
+      sessionId: inputSession,
       searchedText: '',
       messageId: '6530038889933',
       messageType: 'image',
-      foundArticleIds: [],
-      sessionId: inputSession,
     },
-    event: {
-      type: 'postback',
+    postbackData: {
+      sessionId: inputSession,
+      state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
       input: POSTBACK_YES,
     },
     userId: 'userId',
@@ -167,14 +175,15 @@ it('should submit image article if user agrees to submit', async () => {
 
 it('should create a UserArticleLink when creating a Article', async () => {
   const userId = 'user-id-0';
-  const params = {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
+      sessionId: 0,
       searchedText: 'Some text forwarded by the user',
-      foundArticleIds: [],
     },
-    event: {
-      type: 'postback',
+    postbackData: {
+      sessionId: 0,
       input: POSTBACK_YES,
+      state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
     },
     userId,
   };
@@ -191,13 +200,14 @@ it('should create a UserArticleLink when creating a Article', async () => {
 
 it('should ask user to turn on notification settings if they did not turn it on after creating an Article', async () => {
   const userId = 'user-id-0';
-  const params = {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
+      sessionId: 0,
       searchedText: 'Some text forwarded by the user',
-      foundArticleIds: [],
     },
-    event: {
-      type: 'postback',
+    postbackData: {
+      sessionId: 0,
+      state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
       input: POSTBACK_YES,
     },
     userId,
@@ -212,7 +222,15 @@ it('should ask user to turn on notification settings if they did not turn it on 
   const results = await askingArticleSubmissionConsent(params);
   MockDate.reset();
 
-  expect(results.replies[4].contents.contents).toMatchSnapshot();
+  const lastReply = results.replies[4];
+
+  // Make TS happy
+  /* istanbul ignore if */
+  if (lastReply.type !== 'flex' || lastReply.contents.type !== 'carousel') {
+    throw new Error('Wrong type for last reply');
+  }
+
+  expect(lastReply.contents.contents).toMatchSnapshot();
 
   delete process.env.NOTIFY_METHOD;
   await UserSettings.setAllowNewReplyUpdate(userId, true);

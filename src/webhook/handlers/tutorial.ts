@@ -9,10 +9,9 @@ import {
 } from '@line/bot-sdk';
 import { CreateReplyMessagesReplyFragment } from 'typegen/graphql';
 import {
+  ChatbotPostbackHandlerParams,
   ChatbotState,
-  ChatbotStateHandlerParams,
   ChatbotStateHandlerReturnType,
-  Context,
 } from 'src/types/chatbotState';
 
 /**
@@ -295,12 +294,12 @@ function createPermissionSetupDialog(message: string): FlexMessage {
   };
 }
 
-export default function tutorial(
-  params: ChatbotStateHandlerParams
-): ChatbotStateHandlerReturnType {
-  const { event, userId } = params;
-  const data = params.data as Context;
-  let replies = params.replies;
+export default function tutorial({
+  data,
+  postbackData,
+  userId,
+}: ChatbotPostbackHandlerParams): ChatbotStateHandlerReturnType {
+  let replies: Message[] = [];
 
   const replyProvidePermissionSetup = `${t`You are smart`} 😊`;
   const replySetupLater = t`OK. When we ask for feedback from you, the permission dialog will pop-up again.`;
@@ -317,11 +316,15 @@ export default function tutorial(
     `🆕 ${t`If I can't find anything, I will ask you about sending your message to that database.`}`;
   if (!process.env.RUMORS_LINE_BOT_URL) {
     throw new Error('RUMORS_LINE_BOT_URL undefined');
-  } else if (event.input === TUTORIAL_STEPS['RICH_MENU']) {
+  } else if (postbackData.input === TUTORIAL_STEPS['RICH_MENU']) {
     replies = [createTutorialMessage(data.sessionId)];
-  } else if (event.input === TUTORIAL_STEPS['SIMULATE_FORWARDING_MESSAGE']) {
+  } else if (
+    postbackData.input === TUTORIAL_STEPS['SIMULATE_FORWARDING_MESSAGE']
+  ) {
     replies = createMockReplyMessages(data.sessionId);
-  } else if (event.input === TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP']) {
+  } else if (
+    postbackData.input === TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP']
+  ) {
     replies = [
       {
         type: 'text',
@@ -351,7 +354,7 @@ export default function tutorial(
       },
     ];
   } else if (
-    event.input ===
+    postbackData.input ===
     TUTORIAL_STEPS['EXPLAN_CHATBOT_FLOW_AND_PROVIDE_PERMISSION_SETUP']
   ) {
     replies = [
@@ -383,7 +386,8 @@ export default function tutorial(
       },
     ];
   } else if (
-    event.input === TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION']
+    postbackData.input ===
+    TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION']
   ) {
     replies = [
       {
@@ -404,9 +408,9 @@ export default function tutorial(
         },
       },
     ];
-  } else if (event.input === TUTORIAL_STEPS['SETUP_DONE']) {
+  } else if (postbackData.input === TUTORIAL_STEPS['SETUP_DONE']) {
     replies = [createEndingMessage()];
-  } else if (event.input === TUTORIAL_STEPS['SETUP_LATER']) {
+  } else if (postbackData.input === TUTORIAL_STEPS['SETUP_LATER']) {
     replies = [
       {
         type: 'text',
@@ -423,10 +427,10 @@ export default function tutorial(
     ec: 'Tutorial',
     ea: 'Step',
     el: Object.keys(TUTORIAL_STEPS).find(
-      (key) => TUTORIAL_STEPS[key] === event.input
+      (key) => TUTORIAL_STEPS[key] === postbackData.input
     ),
   });
   visitor.send();
 
-  return { data, event, userId, replies };
+  return { data, replies };
 }

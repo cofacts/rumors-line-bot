@@ -5,9 +5,15 @@ import MockDate from 'mockdate';
 import choosingArticle from '../choosingArticle';
 import * as apiGetArticleResult from '../__fixtures__/choosingArticle';
 import * as apiGetReplyResult from '../__fixtures__/choosingReply';
+import { ChatbotPostbackHandlerParams } from 'src/types/chatbotState';
 import { POSTBACK_NO_ARTICLE_FOUND } from '../utils';
-import gql from 'src/lib/gql';
-import ga from 'src/lib/ga';
+import originalGql from 'src/lib/gql';
+import type { MockedGql } from 'src/lib/__mocks__/gql';
+import originalGa from 'src/lib/ga';
+import type { MockedGa } from 'src/lib/__mocks__/ga';
+
+const gql = originalGql as MockedGql;
+const ga = originalGa as MockedGa;
 
 import UserArticleLink from '../../../database/models/userArticleLink';
 
@@ -25,18 +31,16 @@ beforeEach(() => {
 it('should select article by articleId', async () => {
   gql.__push(apiGetArticleResult.selectedArticleId);
 
-  const params = {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
+      sessionId: 0,
       searchedText:
         '《緊急通知》\n台北馬偕醫院傳來訊息：\n資深醫生（林清風）傳來：「請大家以後千萬不要再吃生魚片了！」\n因為最近已經發現- 好多病人因為吃了生魚片，胃壁附著《海獸胃腺蟲》，大小隻不一定，有的病人甚至胃壁上滿滿都是無法夾出來，驅蟲藥也很難根治，罹患機率每個國家的人都一樣。\n尤其；鮭魚的含蟲量最高、最可怕！\n請傳給朋友，讓他們有所警惕!',
     },
-    event: {
-      type: 'postback',
+    postbackData: {
+      sessionId: 0,
       input: 'article-id',
-      timestamp: 1519019734813,
-      postback: {
-        data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
-      },
+      state: 'CHOOSING_ARTICLE',
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
   };
@@ -76,10 +80,11 @@ it('should select article by articleId', async () => {
 it('throws ManipulationError when articleId is not valid', async () => {
   gql.__push({ data: { GetArticle: null } });
 
-  const params = {
-    data: {},
-    event: {
-      type: 'postback',
+  const params: ChatbotPostbackHandlerParams = {
+    data: { sessionId: 0, searchedText: '' },
+    postbackData: {
+      sessionId: 0,
+      state: 'CHOOSING_ARTICLE',
       input: 'article-id',
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
@@ -94,21 +99,18 @@ it('throws ManipulationError when articleId is not valid', async () => {
 it('should select article and have OPINIONATED and NOT_ARTICLE replies', async () => {
   gql.__push(apiGetArticleResult.multipleReplies);
 
-  const params = {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
+      sessionId: 1497994017447,
       searchedText:
         '老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人',
     },
-    event: {
-      type: 'postback',
+    postbackData: {
       input: 'article-id',
-      timestamp: 1519019734813,
-      postback: {
-        data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
-      },
+      sessionId: 1497994017447,
+      state: 'CHOOSING_ARTICLE',
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    replies: undefined,
   };
 
   expect(await choosingArticle(params)).toMatchSnapshot();
@@ -165,20 +167,17 @@ it('should select article with no replies', async () => {
   gql.__push({ data: { CreateAIReply: { text: 'Hello from ChatGPT' } } });
   gql.__push(apiGetArticleResult.createOrUpdateReplyRequest);
 
-  const params = {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
+      sessionId: 0,
       searchedText: '老司機車裡總備一塊香皂，知道內情的新手默默也準備了一塊',
     },
-    event: {
-      type: 'postback',
+    postbackData: {
       input: 'article-id',
-      timestamp: 1519019734813,
-      postback: {
-        data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
-      },
+      sessionId: 1497994017447,
+      state: 'CHOOSING_ARTICLE',
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    replies: undefined,
   };
 
   MockDate.set('2020-01-01');
@@ -223,21 +222,18 @@ it('should select article and choose the only one reply for user', async () => {
   gql.__push(apiGetArticleResult.oneReply);
   gql.__push(apiGetReplyResult.oneReply2);
 
-  const params = {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
+      sessionId: 0,
       searchedText:
         'Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply',
     },
-    event: {
-      type: 'postback',
+    postbackData: {
       input: 'article-id',
-      timestamp: 1519019734813,
-      postback: {
-        data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
-      },
+      sessionId: 1497994017447,
+      state: 'CHOOSING_ARTICLE',
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    replies: undefined,
   };
 
   expect(await choosingArticle(params)).toMatchSnapshot();
@@ -271,20 +267,19 @@ it('should select article and choose the only one reply for user', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(2);
 });
 
-it('should block non-postback interactions', async () => {
-  const params = {
+it('should block incorrect interactions', async () => {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
+      sessionId: 0,
       searchedText:
         'Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply',
     },
-    event: {
-      type: 'message',
-      input: 'This is a message',
-      timestamp: 1511702208226,
-      message: { type: 'text', id: '7049700770815', text: '10' },
+    postbackData: {
+      sessionId: 0,
+      state: 'CHOOSING_ARTICLE',
+      input: 123,
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    replies: undefined,
   };
 
   await expect(choosingArticle(params)).rejects.toMatchInlineSnapshot(
@@ -295,21 +290,18 @@ it('should block non-postback interactions', async () => {
 it('should select article and slice replies when over 10', async () => {
   gql.__push(apiGetArticleResult.elevenReplies);
 
-  const params = {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
+      sessionId: 0,
       searchedText:
         '老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人',
     },
-    event: {
-      type: 'postback',
+    postbackData: {
       input: 'article-id',
-      timestamp: 1519019734813,
-      postback: {
-        data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
-      },
+      sessionId: 1497994017447,
+      state: 'CHOOSING_ARTICLE',
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    replies: undefined,
   };
 
   expect(await choosingArticle(params)).toMatchSnapshot();
@@ -317,21 +309,18 @@ it('should select article and slice replies when over 10', async () => {
 });
 
 it('should ask users if they want to submit article when user say not found', async () => {
-  const params = {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
+      sessionId: 0,
       searchedText:
         '這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。',
     },
-    event: {
-      type: 'postback',
+    postbackData: {
       input: POSTBACK_NO_ARTICLE_FOUND,
-      timestamp: 1519019734813,
-      postback: {
-        data: `{"input":"${POSTBACK_NO_ARTICLE_FOUND}","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}`,
-      },
+      sessionId: 1497994017447,
+      state: 'CHOOSING_ARTICLE',
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    replies: undefined,
   };
 
   MockDate.set('2020-01-01');
@@ -354,21 +343,18 @@ it('should ask users if they want to submit article when user say not found', as
 });
 
 it('should ask users if they want to submit image article when user say not found', async () => {
-  const params = {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
-      searchedText: '',
+      sessionId: 0,
+      messageType: 'image',
       messageId: '6530038889933',
     },
-    event: {
-      type: 'postback',
+    postbackData: {
       input: POSTBACK_NO_ARTICLE_FOUND,
-      timestamp: 1519019734813,
-      postback: {
-        data: `{"input":"${POSTBACK_NO_ARTICLE_FOUND}","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}`,
-      },
+      sessionId: 1497994017447,
+      state: 'CHOOSING_ARTICLE',
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
-    replies: undefined,
   };
 
   MockDate.set('2020-01-01');
@@ -392,17 +378,15 @@ it('should ask users if they want to submit image article when user say not foun
 
 it('should create a UserArticleLink when selecting a article', async () => {
   const userId = 'user-id-0';
-  const params = {
+  const params: ChatbotPostbackHandlerParams = {
     data: {
+      sessionId: 0,
       searchedText: '《緊急通知》',
     },
-    event: {
-      type: 'postback',
+    postbackData: {
       input: 'article-id',
-      timestamp: 1519019734813,
-      postback: {
-        data: '{"input":"article-id","sessionId":1497994017447,"state":"CHOOSING_ARTICLE"}',
-      },
+      sessionId: 1497994017447,
+      state: 'CHOOSING_ARTICLE',
     },
     userId,
   };
