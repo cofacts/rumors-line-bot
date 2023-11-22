@@ -206,11 +206,6 @@ it('handles ManipulationError fired in handlers', async () => {
 
 it('throws on unknown error', async () => {
   const data: Context = { sessionId: FIXED_DATE, searchedText: '' };
-  const event = {
-    type: 'postback',
-    input: `article-id`,
-  };
-
   choosingArticle.mockImplementationOnce(() =>
     Promise.reject(new Error('Unknown error'))
   );

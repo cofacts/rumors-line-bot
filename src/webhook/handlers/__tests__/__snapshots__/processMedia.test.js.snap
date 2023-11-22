@@ -197,7 +197,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AVygFA0RyCdS-nWhuaXY\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"image-article-1\\",\\"r\\":\\"AVygFA0RyCdS-nWhuaXY\\"},\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “查證這則謠言的過程中，約翰走鹿也發現其實網路早⋯⋯”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -275,7 +275,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AVy6LkWIyCdS-nWhuaqu\\",\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"image-article-1\\",\\"r\\":\\"AVy6LkWIyCdS-nWhuaqu\\"},\\"sessionId\\":1577836800000,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “過去台灣只有一個海獸胃腺蟲鑽入胃壁的病例，而且⋯⋯”",
                     "label": "👀 Take a look",
                     "type": "postback",

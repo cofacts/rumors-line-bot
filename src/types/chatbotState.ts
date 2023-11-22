@@ -31,8 +31,6 @@ export type ChatbotStateHandlerReturnType = {
 
 /**
  * The data that postback action stores as JSON.
- *
- * @FIXME Replace input: string with something that is more structured
  */
 export type PostbackActionData<T> = {
   input: T;

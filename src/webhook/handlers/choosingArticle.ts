@@ -315,7 +315,7 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
                   type: 'button',
                   action: createPostbackAction(
                     `👀 ${t`Take a look`}`,
-                    reply.id,
+                    { a: selectedArticleId, r: reply.id },
                     t`I choose “${displayTextWhenChosen}”`,
                     data.sessionId,
                     'CHOOSING_REPLY'

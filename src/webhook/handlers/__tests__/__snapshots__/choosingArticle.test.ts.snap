@@ -388,7 +388,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AV--O3nfyCdS-nWhujMD\\"},\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “老榮民有住所，有月退俸，也不需要特別的醫療護理⋯⋯”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -466,7 +466,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV8fXikZyCdS-nWhuhfN\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AV8fXikZyCdS-nWhuhfN\\"},\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “慈濟自來有褒有貶，每人有各自的看法。”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -545,7 +545,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--LRZYyCdS-nWhujL9\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AV--LRZYyCdS-nWhujL9\\"},\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “整個基督教徒的打手，自己不努力去牧人、募款，利⋯⋯”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -623,7 +623,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV8jkRlByCdS-nWhuhiY\\",\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AV8jkRlByCdS-nWhuhiY\\"},\\"sessionId\\":1497994017447,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “文章是假的 照片也是盜用我方家人的照片,嚴重影⋯⋯”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -734,7 +734,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AV--O3nfyCdS-nWhujMD\\"},\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應1”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -812,7 +812,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AV--O3nfyCdS-nWhujMD\\"},\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應2”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -890,7 +890,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AV--O3nfyCdS-nWhujMD\\"},\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應3”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -968,7 +968,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AV--O3nfyCdS-nWhujMD\\"},\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應4”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1046,7 +1046,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AV--O3nfyCdS-nWhujMD\\"},\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應5”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1124,7 +1124,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AV--O3nfyCdS-nWhujMD\\"},\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應6”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1202,7 +1202,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV8fXikZyCdS-nWhuhfN\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AV8fXikZyCdS-nWhuhfN\\"},\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應9”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1280,7 +1280,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AV--O3nfyCdS-nWhujMD\\"},\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應10”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1358,7 +1358,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--O3nfyCdS-nWhujMD\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AV--O3nfyCdS-nWhujMD\\"},\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應11”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1437,7 +1437,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AV--LRZYyCdS-nWhujL9\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AV--LRZYyCdS-nWhujL9\\"},\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “回應7。
 ”",
                     "label": "👀 Take a look",
@@ -1557,7 +1557,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AVygFA0RyCdS-nWhuaXY\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AVygFA0RyCdS-nWhuaXY\\"},\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “查證這則謠言的過程中，約翰走鹿也發現其實網路早⋯⋯”",
                     "label": "👀 Take a look",
                     "type": "postback",
@@ -1635,7 +1635,7 @@ Object {
               "contents": Array [
                 Object {
                   "action": Object {
-                    "data": "{\\"input\\":\\"AVy6LkWIyCdS-nWhuaqu\\",\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
+                    "data": "{\\"input\\":{\\"a\\":\\"article-id\\",\\"r\\":\\"AVy6LkWIyCdS-nWhuaqu\\"},\\"sessionId\\":0,\\"state\\":\\"CHOOSING_REPLY\\"}",
                     "displayText": "I choose “過去台灣只有一個海獸胃腺蟲鑽入胃壁的病例，而且⋯⋯”",
                     "label": "👀 Take a look",
                     "type": "postback",
