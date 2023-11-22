@@ -7,7 +7,10 @@ import {
   Message,
   TextMessage,
 } from '@line/bot-sdk';
-import type { ChatbotStateHandler, Context } from 'src/types/chatbotState';
+import type {
+  ChatbotStateHandlerReturnType,
+  Context,
+} from 'src/types/chatbotState';
 import gql from 'src/lib/gql';
 import {
   createPostbackAction,
@@ -27,27 +30,26 @@ import {
 
 const SIMILARITY_THRESHOLD = 0.95;
 
-const initState: ChatbotStateHandler = async ({
-  data: inputData,
+const initState = async ({
+  data,
   userId,
-  event,
-}) => {
+}: {
+  // Context initiated by text search
+  data: Context & { searchedText: string };
+  userId: string;
+}): Promise<ChatbotStateHandlerReturnType> => {
   const state = '__INIT__';
   let replies: Message[] = [];
 
+  const input = data.searchedText;
+
   // Track text message type send by user
-  const visitor = ga(userId, state, event.input);
+  const visitor = ga(userId, state, input);
   visitor.event({
     ec: 'UserInput',
     ea: 'MessageType',
-    el: 'message' in event ? event.message.type : '',
+    el: 'text',
   });
-
-  // Store user input into context
-  const data: Context = {
-    sessionId: inputData.sessionId,
-    searchedText: event.input,
-  };
 
   // send input to dialogflow before doing search
   // uses dialogflowResponse as reply only when there's a intent matched and
@@ -57,7 +59,7 @@ const initState: ChatbotStateHandler = async ({
     dialogflowResponse &&
     dialogflowResponse.queryResult &&
     dialogflowResponse.queryResult.intent &&
-    (event.input.length <= 10 ||
+    (data.searchedText.length <= 10 ||
       dialogflowResponse.queryResult.intentDetectionConfidence == 1)
   ) {
     replies = [
@@ -72,7 +74,7 @@ const initState: ChatbotStateHandler = async ({
       el: dialogflowResponse.queryResult.intent.displayName ?? undefined,
     });
     visitor.send();
-    return { data, event, userId, replies };
+    return { data, replies };
   }
 
   // Search for articles
@@ -102,10 +104,10 @@ const initState: ChatbotStateHandler = async ({
       }
     }
   `<ListArticlesInInitStateQuery, ListArticlesInInitStateQueryVariables>({
-    text: event.input,
+    text: data.searchedText,
   });
 
-  const inputSummary = ellipsis(event.input, 12);
+  const inputSummary = ellipsis(data.searchedText, 12);
 
   if (ListArticles?.edges.length) {
     // Track if find similar Articles in DB.
@@ -128,7 +130,7 @@ const initState: ChatbotStateHandler = async ({
           // Remove spaces so that we count word's similarities only
           //
           (edge.node.text ?? '').replace(/\s/g, ''),
-          event.input.replace(/\s/g, '')
+          data.searchedText.replace(/\s/g, '')
         ),
       }))
       .sort((edge1, edge2) => edge2.similarity - edge1.similarity)
@@ -352,7 +354,7 @@ const initState: ChatbotStateHandler = async ({
     ];
   }
   visitor.send();
-  return { data, event, userId, replies };
+  return { data, replies };
 };
 
 export default initState;

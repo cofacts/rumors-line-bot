@@ -82,8 +82,7 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
   ] as const) {
     expectedHandler.mockImplementationOnce(() => {
       return Promise.resolve({
-        // Bare minimal return values by handlers for handlePostback to work without crash
-        data: {},
+        data: { sessionId: 0, searchedText: '' },
         replies: [],
       } as ChatbotStateHandlerReturnType);
     });
@@ -109,7 +108,7 @@ describe('defaultState', () => {
     const data: Context = { sessionId: FIXED_DATE, searchedText: '' };
     defaultState.mockImplementationOnce(() => {
       return {
-        data: {},
+        data: { sessionId: 0, searchedText: '' },
         replies: [],
       };
     });
@@ -127,7 +126,10 @@ describe('defaultState', () => {
     ).resolves.toMatchInlineSnapshot(`
       Object {
         "context": Object {
-          "data": Object {},
+          "data": Object {
+            "searchedText": "",
+            "sessionId": 0,
+          },
         },
         "replies": Array [],
       }
@@ -231,7 +233,7 @@ describe('tutorial', () => {
 
     tutorial.mockImplementationOnce(() => {
       return {
-        data: {},
+        data: { sessionId: 0, searchedText: '' },
         replies: [],
       };
     });
@@ -245,7 +247,10 @@ describe('tutorial', () => {
     ).resolves.toMatchInlineSnapshot(`
       Object {
         "context": Object {
-          "data": Object {},
+          "data": Object {
+            "searchedText": "",
+            "sessionId": 0,
+          },
         },
         "replies": Array [],
       }

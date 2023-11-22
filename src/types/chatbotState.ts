@@ -1,4 +1,4 @@
-import type { Message, MessageEvent, PostbackEvent } from '@line/bot-sdk';
+import type { Message, MessageEvent } from '@line/bot-sdk';
 
 export type ChatbotState =
   | '__INIT__'
@@ -8,38 +8,6 @@ export type ChatbotState =
   | 'ASKING_ARTICLE_SOURCE'
   | 'ASKING_ARTICLE_SUBMISSION_CONSENT'
   | 'Error';
-
-/**
- * Dummy event, used exclusively when calling handler from another handler
- */
-type ServerChooseEvent = {
-  type: 'server_choose';
-};
-
-/**
- * Parameters that are added by handleInput.
- *
- * @todo: We should consider using value from authentic event instead of manually adding fields.
- */
-type ArgumentedEventParams = {
-  /**
-   * The text in text message, or value from payload in actions.
-   */
-  input: string;
-};
-
-export type ChatbotEvent = (
-  | MessageEvent
-  | ServerChooseEvent
-  /**
-   * A special format of postback that Chatbot actually uses: postback + input (provided in `ArgumentedEventParams`)
-   * @FIXME Replace with original PostbackEvent and parse its action to support passing more thing than a string
-   */
-  | {
-      type: 'postback';
-    }
-) &
-  ArgumentedEventParams;
 
 export type Context = {
   /** Used to differientiate different search sessions (searched text or media) */
@@ -58,26 +26,10 @@ export type Context = {
     }
 );
 
-export type ChatbotStateHandlerParams = {
-  /** Record<string, never> is for empty object and it's the default parameter in handleInput and handlePostback */
-  data: Context | Record<string, never>;
-  state: ChatbotState;
-  event: ChatbotEvent;
-  userId: string;
+export type ChatbotStateHandlerReturnType = {
+  data: Context;
   replies: Message[];
 };
-
-export type ChatbotStateHandlerReturnType = Pick<
-  ChatbotStateHandlerParams,
-  'data' | 'replies'
->;
-
-/**
- * Generic handler type for function under src/webhook/handlers
- */
-export type ChatbotStateHandler = (
-  params: ChatbotStateHandlerParams
-) => Promise<ChatbotStateHandlerReturnType>;
 
 /**
  * The data that postback action stores as JSON.

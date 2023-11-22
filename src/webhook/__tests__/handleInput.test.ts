@@ -1,16 +1,21 @@
 import MockDate from 'mockdate';
-import initState from '../handlers/initState';
 import handleInput from '../handleInput';
+import originalInitState from '../handlers/initState';
+import originalHandlePostback from '../handlePostback';
 import { TUTORIAL_STEPS } from '../handlers/tutorial';
-import handlePostback from '../handlePostback';
 
 import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
+import { MessageEvent, TextEventMessage } from '@line/bot-sdk';
 
 jest.mock('../handlers/initState');
 jest.mock('../handlePostback');
 
-// Original session ID in context
-const FIXED_DATE = 612964800000;
+const initState = originalInitState as jest.MockedFunction<
+  typeof originalInitState
+>;
+const handlePostback = originalHandlePostback as jest.MockedFunction<
+  typeof originalHandlePostback
+>;
 
 // If session is renewed, sessionId will become this value
 const NOW = 1561982400000;
@@ -25,32 +30,39 @@ afterEach(() => {
   MockDate.reset();
 });
 
-it('rejects undefined input', () => {
-  const data = {};
-  const event = {};
-
-  return expect(handleInput(data, event)).rejects.toMatchInlineSnapshot(
-    `[Error: input undefined]`
-  );
-});
+function createTextMessageEvent(
+  input: string
+): MessageEvent & { message: Pick<TextEventMessage, 'type' | 'text'> } {
+  return {
+    type: 'message',
+    message: {
+      id: '',
+      type: 'text',
+      text: input,
+    },
+    mode: 'active',
+    timestamp: 0,
+    source: {
+      type: 'user',
+      userId: '',
+    },
+    replyToken: '',
+  };
+}
 
 it('shows reply list when VIEW_ARTICLE_PREFIX is sent', async () => {
-  const context = {
-    data: { sessionId: FIXED_DATE },
-  };
-  const event = {
-    type: 'message',
-    input: `${VIEW_ARTICLE_PREFIX}${getArticleURL('article-id')}`,
-  };
+  const event = createTextMessageEvent(
+    `${VIEW_ARTICLE_PREFIX}${getArticleURL('article-id')}`
+  );
 
   handlePostback.mockImplementationOnce((data) => {
     return Promise.resolve({
       context: { data },
-      replies: 'Foo replies',
+      replies: [],
     });
   });
 
-  await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+  await expect(handleInput(event, 'user-id')).resolves.toMatchInlineSnapshot(`
           Object {
             "context": Object {
               "data": Object {
@@ -58,7 +70,7 @@ it('shows reply list when VIEW_ARTICLE_PREFIX is sent', async () => {
                 "sessionId": 1561982400000,
               },
             },
-            "replies": "Foo replies",
+            "replies": Array [],
           }
         `);
 
@@ -75,29 +87,25 @@ it('shows reply list when VIEW_ARTICLE_PREFIX is sent', async () => {
           "sessionId": 1561982400000,
           "state": "CHOOSING_ARTICLE",
         },
-        undefined,
+        "user-id",
       ],
     ]
   `);
 });
 
 it('shows reply list when article URL is sent', async () => {
-  const context = {
-    data: { sessionId: FIXED_DATE },
-  };
-  const event = {
-    type: 'message',
-    input: getArticleURL('article-id') + '  \n  ' /* simulate manual input */,
-  };
+  const event = createTextMessageEvent(
+    getArticleURL('article-id') + '  \n  ' /* simulate manual input */
+  );
 
   handlePostback.mockImplementationOnce((data) => {
     return Promise.resolve({
       context: { data },
-      replies: 'Foo replies',
+      replies: [],
     });
   });
 
-  await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+  await expect(handleInput(event, 'user-id')).resolves.toMatchInlineSnapshot(`
           Object {
             "context": Object {
               "data": Object {
@@ -105,7 +113,7 @@ it('shows reply list when article URL is sent', async () => {
                 "sessionId": 1561982400000,
               },
             },
-            "replies": "Foo replies",
+            "replies": Array [],
           }
         `);
 
@@ -122,37 +130,32 @@ it('shows reply list when article URL is sent', async () => {
           "sessionId": 1561982400000,
           "state": "CHOOSING_ARTICLE",
         },
-        undefined,
+        "user-id",
       ],
     ]
   `);
 });
 
 it('Resets session on free-form input, triggers fast-forward', async () => {
-  const context = {
-    data: { sessionId: FIXED_DATE },
-  };
-  const event = {
-    type: 'message',
-    input: 'Newly forwarded message',
-  };
+  const input = 'Newly forwarded message';
+  const event = createTextMessageEvent(input);
 
-  // eslint-disable-next-line no-unused-vars
-  initState.mockImplementationOnce(({ data, event, userId, replies }) => {
+  initState.mockImplementationOnce(({ data }) => {
     return Promise.resolve({
       data,
-      replies: 'Foo replies',
+      replies: [],
     });
   });
 
-  await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
+  await expect(handleInput(event, 'user-id')).resolves.toMatchInlineSnapshot(`
           Object {
             "context": Object {
               "data": Object {
+                "searchedText": "Newly forwarded message",
                 "sessionId": 1561982400000,
               },
             },
-            "replies": "Foo replies",
+            "replies": Array [],
           }
         `);
 
@@ -162,80 +165,38 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
       Array [
         Object {
           "data": Object {
+            "searchedText": "Newly forwarded message",
             "sessionId": 1561982400000,
           },
-          "event": Object {
-            "input": "Newly forwarded message",
-            "type": "message",
-          },
-          "replies": Array [],
-          "state": "__INIT__",
-          "userId": undefined,
+          "userId": "user-id",
         },
       ],
     ]
   `);
 });
 
-describe('defaultState', () => {
-  it('handles wrong event type', async () => {
-    const context = {
-      data: { sessionId: FIXED_DATE },
-    };
-    const event = {
-      type: 'follow',
-      input: '',
-    };
-
-    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-        Object {
-          "context": Object {
-            "data": Object {
-              "sessionId": 612964800000,
-            },
-          },
-          "replies": Array [
-            Object {
-              "text": "我們看不懂 QQ
-        大俠請重新來過。",
-              "type": "text",
-            },
-          ],
-        }
-    `);
-
-    expect(initState).not.toHaveBeenCalled();
-  });
-});
-
 describe('tutorial', () => {
   it('handles tutorial trigger from rich menu', async () => {
-    const context = {
-      data: { sessionId: FIXED_DATE },
-    };
-    const event = {
-      type: 'message',
-      input: TUTORIAL_STEPS['RICH_MENU'],
-    };
+    const event = createTextMessageEvent(TUTORIAL_STEPS['RICH_MENU']);
 
     handlePostback.mockImplementationOnce((data) => {
       return Promise.resolve({
         context: { data },
-        replies: 'Foo replies',
+        replies: [],
       });
     });
 
-    await expect(handleInput(context, event)).resolves.toMatchInlineSnapshot(`
-      Object {
-        "context": Object {
-          "data": Object {
-            "searchedText": "",
-            "sessionId": 1561982400000,
-          },
-        },
-        "replies": "Foo replies",
-      }
-    `);
+    await expect(handleInput(event, 'user-id')).resolves.toMatchInlineSnapshot(`
+            Object {
+              "context": Object {
+                "data": Object {
+                  "searchedText": "",
+                  "sessionId": 1561982400000,
+                },
+              },
+              "replies": Array [],
+            }
+          `);
 
     expect(handlePostback).toHaveBeenCalledTimes(1);
   });
