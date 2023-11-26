@@ -26,10 +26,15 @@ const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 //
 const REPLY_TIMEOUT = 58000;
 
+// A symbol that is used to prevent accidental return in singleUserHandler.
+// It should only be used when timeout are correctly handled.
+//
+const PROCESSED = Symbol('Processed in singleUserHandler');
+
 const singleUserHandler = async (
   userId: string,
   webhookEvent: WebhookEvent
-) => {
+): Promise<typeof PROCESSED> => {
   if (userIdBlacklist.indexOf(userId) !== -1) {
     // User blacklist
     console.log(
@@ -38,7 +43,7 @@ const singleUserHandler = async (
         ...webhookEvent,
       })}\n`
     );
-    return;
+    return PROCESSED;
   }
 
   let isRepliedDueToTimeout = false;
@@ -72,15 +77,14 @@ const singleUserHandler = async (
     data: { sessionId: Date.now() },
   };
 
-  // A helper function in singleUserHandler that indicates the end of processing
-  // and send back the result to user as replies.
+  // Helper functions in singleUserHandler that indicates the end of processing
   //
-  async function send(result: Result) {
+  async function send(result: Result): Promise<typeof PROCESSED> {
     clearTimeout(timerId);
 
     if (isRepliedDueToTimeout) {
       console.log('[LOG] reply & context setup aborted');
-      return;
+      return PROCESSED;
     }
 
     console.log(
@@ -104,19 +108,25 @@ const singleUserHandler = async (
     // Set context
     //
     await redis.set(userId, result.context);
+    return PROCESSED;
+  }
+
+  // Does not reply and just exit processing
+  //
+  function cancel(): typeof PROCESSED {
+    clearTimeout(timerId);
+    return PROCESSED;
   }
 
   switch (webhookEvent.type) {
     default: {
       // These events are not handled at all.
-      clearTimeout(timerId);
-      return;
+      return cancel();
     }
 
     case 'unfollow': {
       await UserSettings.setAllowNewReplyUpdate(userId, false);
-      clearTimeout(timerId);
-      return;
+      return cancel();
     }
 
     case 'follow': {
@@ -190,8 +200,7 @@ const singleUserHandler = async (
           el: webhookEvent.message.type,
         })
         .send();
-      clearTimeout(timerId);
-      return;
+      return cancel();
     }
 
     case 'audio':
@@ -213,8 +222,7 @@ const singleUserHandler = async (
     //
     case 'RESET': {
       redis.del(userId);
-      clearTimeout(timerId);
-      return;
+      return cancel();
     }
 
     case TUTORIAL_STEPS['RICH_MENU']: {
