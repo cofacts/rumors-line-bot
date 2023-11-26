@@ -19,18 +19,8 @@ router.post('/', (ctx) => {
 
   (ctx.request.body as { events: WebhookEvent[] }).events.forEach(
     async (webhookEvent: WebhookEvent) => {
-      let replyToken = '';
-      if ('replyToken' in webhookEvent) {
-        replyToken = webhookEvent.replyToken;
-      }
-
       if (webhookEvent.source.type === 'user') {
-        singleUserHandler(
-          ctx.request,
-          replyToken,
-          webhookEvent.source.userId ?? '',
-          webhookEvent
-        );
+        singleUserHandler(webhookEvent.source.userId, webhookEvent);
       } else if (
         webhookEvent.source.type === 'group' ||
         webhookEvent.source.type === 'room'
@@ -42,7 +32,8 @@ router.post('/', (ctx) => {
 
         groupHandler.addJob({
           type: webhookEvent.type,
-          replyToken,
+          replyToken:
+            'replyToken' in webhookEvent ? webhookEvent.replyToken : '',
           groupId,
           webhookEvent,
         });

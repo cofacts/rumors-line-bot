@@ -28,8 +28,6 @@ const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 const REPLY_TIMEOUT = 58000;
 
 const singleUserHandler = async (
-  req: Request,
-  replyToken: string,
   userId: string,
   webhookEvent: WebhookEvent
 ) => {
@@ -56,15 +54,17 @@ const singleUserHandler = async (
         ...webhookEvent,
       })}\n`
     );
-    lineClient.post('/message/reply', {
-      replyToken,
-      messages: [
-        {
-          type: 'text',
-          text: t`Line bot is busy, or we cannot handle this message. Maybe you can try again a few minutes later.`,
-        },
-      ],
-    });
+    if ('replyToken' in webhookEvent) {
+      lineClient.post('/message/reply', {
+        replyToken: webhookEvent.replyToken,
+        messages: [
+          {
+            type: 'text',
+            text: t`Line bot is busy, or we cannot handle this message. Maybe you can try again a few minutes later.`,
+          },
+        ],
+      });
+    }
   }, REPLY_TIMEOUT);
 
   // Get user's context from redis or create a new one
@@ -95,10 +95,12 @@ const singleUserHandler = async (
     // Send replies. Does not need to wait for lineClient's callbacks.
     // lineClient's callback does error handling by itself.
     //
-    lineClient.post('/message/reply', {
-      replyToken,
-      messages: result.replies,
-    });
+    if ('replyToken' in webhookEvent) {
+      lineClient.post('/message/reply', {
+        replyToken: webhookEvent.replyToken,
+        messages: result.replies,
+      });
+    }
 
     // Set context
     //
