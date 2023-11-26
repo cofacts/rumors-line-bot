@@ -1,5 +1,5 @@
 import MockDate from 'mockdate';
-import handleInput from '../handleInput';
+import singleUserHandler from '../singleUserHandler';
 import originalInitState from '../initState';
 import originalHandlePostback from '../handlePostback';
 import { TUTORIAL_STEPS } from '../tutorial';
@@ -62,7 +62,8 @@ it('shows reply list when VIEW_ARTICLE_PREFIX is sent', async () => {
     });
   });
 
-  await expect(handleInput(event, 'user-id')).resolves.toMatchInlineSnapshot(`
+  await expect(singleUserHandler('user-id', event)).resolves
+    .toMatchInlineSnapshot(`
           Object {
             "context": Object {
               "data": Object {
@@ -105,7 +106,8 @@ it('shows reply list when article URL is sent', async () => {
     });
   });
 
-  await expect(handleInput(event, 'user-id')).resolves.toMatchInlineSnapshot(`
+  await expect(singleUserHandler('user-id', event)).resolves
+    .toMatchInlineSnapshot(`
           Object {
             "context": Object {
               "data": Object {
@@ -147,7 +149,8 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
     });
   });
 
-  await expect(handleInput(event, 'user-id')).resolves.toMatchInlineSnapshot(`
+  await expect(singleUserHandler('user-id', event)).resolves
+    .toMatchInlineSnapshot(`
           Object {
             "context": Object {
               "data": Object {
@@ -186,7 +189,8 @@ describe('tutorial', () => {
       });
     });
 
-    await expect(handleInput(event, 'user-id')).resolves.toMatchInlineSnapshot(`
+    await expect(singleUserHandler('user-id', event)).resolves
+      .toMatchInlineSnapshot(`
             Object {
               "context": Object {
                 "data": Object {
