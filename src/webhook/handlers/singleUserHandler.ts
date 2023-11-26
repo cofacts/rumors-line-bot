@@ -1,5 +1,4 @@
 import { t } from 'ttag';
-import { Request } from 'koa';
 import { WebhookEvent } from '@line/bot-sdk';
 
 import { PostbackActionData } from 'src/types/chatbotState';
