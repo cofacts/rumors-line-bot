@@ -1,8 +1,8 @@
 import MockDate from 'mockdate';
 import handleInput from '../handleInput';
-import originalInitState from '../handlers/initState';
+import originalInitState from '../initState';
 import originalHandlePostback from '../handlePostback';
-import { TUTORIAL_STEPS } from '../handlers/tutorial';
+import { TUTORIAL_STEPS } from '../tutorial';
 
 import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
 import { MessageEvent, TextEventMessage } from '@line/bot-sdk';

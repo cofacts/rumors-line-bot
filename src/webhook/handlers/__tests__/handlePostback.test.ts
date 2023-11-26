@@ -1,12 +1,12 @@
 import MockDate from 'mockdate';
 import handlePostback from '../handlePostback';
-import { ManipulationError } from '../handlers/utils';
-import originalChoosingArticle from '../handlers/choosingArticle';
-import originalChoosingReply from '../handlers/choosingReply';
-import originalAskingArticleSource from '../handlers/askingArticleSource';
-import originalAskingArticleSubmissionConsent from '../handlers/askingArticleSubmissionConsent';
-import originalTutorial from '../handlers/tutorial';
-import originalDefaultState from '../handlers/defaultState';
+import { ManipulationError } from '../utils';
+import originalChoosingArticle from '../choosingArticle';
+import originalChoosingReply from '../choosingReply';
+import originalAskingArticleSource from '../askingArticleSource';
+import originalAskingArticleSubmissionConsent from '../askingArticleSubmissionConsent';
+import originalTutorial from '../tutorial';
+import originalDefaultState from '../defaultState';
 import { ChatbotStateHandlerReturnType, Context } from 'src/types/chatbotState';
 
 jest.mock('../handlers/choosingArticle');
