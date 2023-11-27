@@ -1,4 +1,10 @@
 import MockDate from 'mockdate';
+import UserSettings from 'src/database/models/userSettings';
+import originalLineClient from 'src/webhook/lineClient';
+import originalRedis from 'src/lib/redisClient';
+import originalGa from 'src/lib/ga';
+import type { MockedGa } from 'src/lib/__mocks__/ga';
+
 import singleUserHandler from '../singleUserHandler';
 import originalInitState from '../initState';
 import originalHandlePostback from '../handlePostback';
@@ -6,6 +12,10 @@ import { TUTORIAL_STEPS } from '../tutorial';
 
 import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
 import { MessageEvent, TextEventMessage } from '@line/bot-sdk';
+
+jest.mock('src/webhook/lineClient');
+jest.mock('src/lib/redisClient');
+jest.mock('src/lib/ga');
 
 jest.mock('../initState');
 jest.mock('../handlePostback');
@@ -17,17 +27,75 @@ const handlePostback = originalHandlePostback as jest.MockedFunction<
   typeof originalHandlePostback
 >;
 
+const lineClient = originalLineClient as jest.Mocked<typeof originalLineClient>;
+const redis = originalRedis as jest.Mocked<typeof originalRedis>;
+const ga = originalGa as MockedGa;
+
+const sleep = async (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
 // If session is renewed, sessionId will become this value
 const NOW = 1561982400000;
 
 beforeEach(() => {
   initState.mockClear();
   handlePostback.mockClear();
+  redis.set.mockClear();
+  lineClient.post.mockClear();
+  ga.clearAllMocks();
+
   MockDate.set(NOW);
 });
 
 afterEach(() => {
   MockDate.reset();
+});
+
+const userId = 'U4af4980629';
+
+it('handles follow event', async () => {
+  const event = {
+    replyToken: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
+    type: 'follow',
+    mode: 'active',
+    timestamp: 1462629479859,
+    source: {
+      type: 'user',
+      userId,
+    },
+  } as const;
+
+  await singleUserHandler(userId, event);
+
+  // singleUserHandler does not wait for reply, thus we wait here
+  await sleep(500);
+
+  expect(
+    (await UserSettings.find({ userId })).map((e) => ({ ...e, _id: '_id' }))
+  ).toMatchSnapshot('User settings should have notification turned on');
+
+  expect(lineClient.post.mock.calls).toMatchSnapshot('Tutorial replies');
+
+  expect(ga.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "U4af4980629",
+          "TUTORIAL",
+        ],
+      ]
+    `);
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          Object {
+            "ea": "Step",
+            "ec": "Tutorial",
+            "el": "ON_BOARDING",
+          },
+        ],
+      ]
+    `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
 function createTextMessageEvent(
@@ -50,7 +118,7 @@ function createTextMessageEvent(
   };
 }
 
-it('shows reply list when VIEW_ARTICLE_PREFIX is sent', async () => {
+it('forwards to CHOOSING_ARTICLE when VIEW_ARTICLE_PREFIX is sent', async () => {
   const event = createTextMessageEvent(
     `${VIEW_ARTICLE_PREFIX}${getArticleURL('article-id')}`
   );
@@ -62,18 +130,9 @@ it('shows reply list when VIEW_ARTICLE_PREFIX is sent', async () => {
     });
   });
 
-  await expect(singleUserHandler('user-id', event)).resolves
-    .toMatchInlineSnapshot(`
-          Object {
-            "context": Object {
-              "data": Object {
-                "searchedText": "",
-                "sessionId": 1561982400000,
-              },
-            },
-            "replies": Array [],
-          }
-        `);
+  await singleUserHandler('user-id', event);
+
+  await sleep(500);
 
   expect(handlePostback).toHaveBeenCalledTimes(1);
   expect(handlePostback.mock.calls).toMatchInlineSnapshot(`
@@ -106,18 +165,9 @@ it('shows reply list when article URL is sent', async () => {
     });
   });
 
-  await expect(singleUserHandler('user-id', event)).resolves
-    .toMatchInlineSnapshot(`
-          Object {
-            "context": Object {
-              "data": Object {
-                "searchedText": "",
-                "sessionId": 1561982400000,
-              },
-            },
-            "replies": Array [],
-          }
-        `);
+  await singleUserHandler('user-id', event);
+
+  await sleep(500);
 
   expect(handlePostback).toHaveBeenCalledTimes(1);
   expect(handlePostback.mock.calls).toMatchInlineSnapshot(`
@@ -149,18 +199,7 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
     });
   });
 
-  await expect(singleUserHandler('user-id', event)).resolves
-    .toMatchInlineSnapshot(`
-          Object {
-            "context": Object {
-              "data": Object {
-                "searchedText": "Newly forwarded message",
-                "sessionId": 1561982400000,
-              },
-            },
-            "replies": Array [],
-          }
-        `);
+  await singleUserHandler('user-id', event);
 
   expect(initState).toHaveBeenCalledTimes(1);
   expect(initState.mock.calls).toMatchInlineSnapshot(`
@@ -189,19 +228,25 @@ describe('tutorial', () => {
       });
     });
 
-    await expect(singleUserHandler('user-id', event)).resolves
-      .toMatchInlineSnapshot(`
-            Object {
-              "context": Object {
-                "data": Object {
-                  "searchedText": "",
-                  "sessionId": 1561982400000,
-                },
-              },
-              "replies": Array [],
-            }
-          `);
+    await singleUserHandler('user-id', event);
+    await sleep(500);
 
     expect(handlePostback).toHaveBeenCalledTimes(1);
+    expect(handlePostback.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          Object {
+            "searchedText": "",
+            "sessionId": 1561982400000,
+          },
+          Object {
+            "input": "📖 tutorial",
+            "sessionId": 1561982400000,
+            "state": "TUTORIAL",
+          },
+          "user-id",
+        ],
+      ]
+    `);
   });
 });
