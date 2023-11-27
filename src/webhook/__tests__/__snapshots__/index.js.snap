@@ -1,27 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Webhook router singleUserHandler() should handle follow event 1`] = `
-Array [
-  Object {
-    "_id": "_id",
-    "allowNewReplyUpdate": true,
-    "createdAt": 1989-06-04T00:00:00.000Z,
-    "userId": "U4af4980629",
-  },
-]
-`;
-
-exports[`Webhook router singleUserHandler() should handle follow event with RUMORS_LINE_BOT_URL not set 1`] = `
-Array [
-  Object {
-    "_id": "_id",
-    "allowNewReplyUpdate": true,
-    "createdAt": 1989-06-04T00:00:00.000Z,
-    "userId": "U4af4980629",
-  },
-]
-`;
-
 exports[`Webhook router singleUserHandler() should handle follow then unfollow then follow event 1`] = `
 Array [
   Object {
@@ -55,30 +33,6 @@ Array [
 ]
 `;
 
-exports[`Webhook router singleUserHandler() should reply default messages 1`] = `
-Array [
-  Array [
-    "/message/reply",
-    Object {
-      "messages": Array [
-        Object {
-          "text": "I cannot understand messages other than text.",
-          "type": "text",
-        },
-      ],
-      "replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA",
-    },
-  ],
-]
-`;
+exports[`Webhook router singleUserHandler() should ignore sticker messages 1`] = `Array []`;
 
-exports[`Webhook router singleUserHandler() should reply default messages 2`] = `
-Array [
-  Array [
-    "U4af4980630",
-    Object {
-      "data": Object {},
-    },
-  ],
-]
-`;
+exports[`Webhook router singleUserHandler() should ignore sticker messages 2`] = `Array []`;
