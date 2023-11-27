@@ -9,12 +9,12 @@ import originalTutorial from '../tutorial';
 import originalDefaultState from '../defaultState';
 import { ChatbotStateHandlerReturnType, Context } from 'src/types/chatbotState';
 
-jest.mock('../handlers/choosingArticle');
-jest.mock('../handlers/choosingReply');
-jest.mock('../handlers/askingArticleSource');
-jest.mock('../handlers/askingArticleSubmissionConsent');
-jest.mock('../handlers/tutorial');
-jest.mock('../handlers/defaultState');
+jest.mock('../choosingArticle');
+jest.mock('../choosingReply');
+jest.mock('../askingArticleSource');
+jest.mock('../askingArticleSubmissionConsent');
+jest.mock('../tutorial');
+jest.mock('../defaultState');
 
 const choosingArticle = originalChoosingArticle as jest.MockedFunction<
   typeof originalChoosingArticle

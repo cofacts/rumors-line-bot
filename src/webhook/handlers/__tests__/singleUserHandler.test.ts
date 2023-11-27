@@ -7,7 +7,7 @@ import { TUTORIAL_STEPS } from '../tutorial';
 import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
 import { MessageEvent, TextEventMessage } from '@line/bot-sdk';
 
-jest.mock('../handlers/initState');
+jest.mock('../initState');
 jest.mock('../handlePostback');
 
 const initState = originalInitState as jest.MockedFunction<
