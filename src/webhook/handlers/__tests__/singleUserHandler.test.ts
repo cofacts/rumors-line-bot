@@ -11,7 +11,8 @@ import originalHandlePostback from '../handlePostback';
 import { TUTORIAL_STEPS } from '../tutorial';
 
 import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
-import { MessageEvent, TextEventMessage } from '@line/bot-sdk';
+import { MessageEvent, PostbackEvent, TextEventMessage } from '@line/bot-sdk';
+import { Context } from 'src/types/chatbotState';
 
 jest.mock('src/webhook/lineClient');
 jest.mock('src/lib/redisClient');
@@ -40,6 +41,7 @@ const NOW = 1561982400000;
 beforeEach(() => {
   initState.mockClear();
   handlePostback.mockClear();
+  redis.get.mockClear();
   redis.set.mockClear();
   lineClient.post.mockClear();
   ga.clearAllMocks();
@@ -156,9 +158,104 @@ it('ignores sticker events', async () => {
   expect(lineClient.post.mock.calls).toMatchInlineSnapshot(`Array []`);
 });
 
-// it('handles postbacks', async () => {});
+it('handles postbacks', async () => {
+  const sessionId = 123;
 
-// it('rejects outdated postback events', async () => {});
+  redis.get.mockImplementationOnce(
+    (): Promise<{ data: Context }> =>
+      Promise.resolve({
+        data: { sessionId, searchedText: '' },
+      })
+  );
+
+  const event: PostbackEvent = {
+    type: 'postback',
+    postback: {
+      data: JSON.stringify({
+        sessionId, // Same session ID
+        foo: 'bar', // Other postback data
+      }),
+    },
+    mode: 'active',
+    timestamp: 0,
+    source: {
+      type: 'user',
+      userId: '',
+    },
+    replyToken: '',
+  };
+
+  handlePostback.mockImplementationOnce((data) => {
+    return Promise.resolve({
+      context: { data },
+      replies: [],
+    });
+  });
+
+  await singleUserHandler(userId, event);
+  await sleep(500);
+
+  // Called once with context.data, postbackk data, and anuser
+  expect(handlePostback.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "searchedText": "",
+          "sessionId": 123,
+        },
+        Object {
+          "foo": "bar",
+          "sessionId": 123,
+        },
+        "U4af4980629",
+      ],
+    ]
+  `);
+});
+
+it('rejects outdated postback events', async () => {
+  // Simulate context removed by Redis
+  redis.get.mockImplementationOnce(() => Promise.resolve(null));
+
+  const event: PostbackEvent = {
+    type: 'postback',
+    postback: {
+      data: JSON.stringify({
+        sessionId: 123, // Same session ID
+        foo: 'bar', // Other postback data
+      }),
+    },
+    mode: 'active',
+    timestamp: 0,
+    source: {
+      type: 'user',
+      userId: '',
+    },
+    replyToken: '',
+  };
+
+  await singleUserHandler(userId, event);
+  await sleep(500);
+
+  expect(handlePostback).not.toHaveBeenCalled();
+  // Expect we are telling user about old buttons
+  expect(lineClient.post.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "/message/reply",
+        Object {
+          "messages": Array [
+            Object {
+              "text": "🚧 You are currently searching for another message, buttons from previous search sessions do not work now.",
+              "type": "text",
+            },
+          ],
+          "replyToken": "",
+        },
+      ],
+    ]
+  `);
+});
 
 function createTextMessageEvent(
   input: string
