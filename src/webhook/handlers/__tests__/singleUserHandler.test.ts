@@ -53,8 +53,8 @@ afterEach(() => {
 
 const userId = 'U4af4980629';
 
-it('handles follow event', async () => {
-  const event = {
+it('handles follow and unfollow event', async () => {
+  const followEvent = {
     replyToken: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
     type: 'follow',
     mode: 'active',
@@ -65,7 +65,7 @@ it('handles follow event', async () => {
     },
   } as const;
 
-  await singleUserHandler(userId, event);
+  await singleUserHandler(userId, followEvent);
 
   // singleUserHandler does not wait for reply, thus we wait here
   await sleep(500);
@@ -96,6 +96,21 @@ it('handles follow event', async () => {
       ]
     `);
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
+
+  const unfollowEvent = {
+    ...followEvent,
+    type: 'unfollow',
+  } as const;
+
+  await singleUserHandler(userId, unfollowEvent);
+
+  // singleUserHandler does not wait for reply, thus we wait here
+  await sleep(500);
+
+  await expect(UserSettings.find({ userId })).resolves.toHaveProperty(
+    [0, 'allowNewReplyUpdate'],
+    false
+  );
 });
 
 function createTextMessageEvent(

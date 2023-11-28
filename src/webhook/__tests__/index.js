@@ -49,54 +49,6 @@ describe('Webhook router', () => {
     await expiredGroupEventQueue.close();
   });
 
-  it('singleUserHandler() should handle follow then unfollow then follow event', async () => {
-    const userId = 'U4af4980630';
-    const app = new Koa();
-    app.use(webhookRouter.routes(), webhookRouter.allowedMethods());
-
-    const eventObject = {
-      events: [
-        {
-          replyToken: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
-          type: undefined,
-          mode: 'active',
-          timestamp: 1462629479859,
-          source: {
-            type: 'user',
-            userId,
-          },
-        },
-      ],
-    };
-
-    const types = ['follow', 'unfollow', 'follow'];
-
-    const server = app.listen();
-
-    for (const type of types) {
-      eventObject.events[0].type = type;
-      await request(server).post('/').send(eventObject).expect(200);
-
-      /**
-       * The HTTP response isn't guaranteed the event handling to be complete
-       */
-      await sleep(500);
-      expect(
-        (await UserSettings.find({ userId })).map((e) => ({ ...e, _id: '_id' }))
-      ).toMatchSnapshot();
-    }
-
-    // unfollow event won't send reply message
-    expect(lineClient.post).toHaveBeenCalledTimes(2);
-
-    return new Promise((resolve, reject) => {
-      server.close((error) => {
-        if (error) return reject(error);
-        resolve();
-      });
-    });
-  });
-
   it('singleUserHandler() should ignore sticker messages', async () => {
     const userId = 'U4af4980630';
     const app = new Koa();

@@ -1,38 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Webhook router singleUserHandler() should handle follow then unfollow then follow event 1`] = `
-Array [
-  Object {
-    "_id": "_id",
-    "allowNewReplyUpdate": true,
-    "createdAt": 1989-06-04T00:00:00.000Z,
-    "userId": "U4af4980630",
-  },
-]
-`;
-
-exports[`Webhook router singleUserHandler() should handle follow then unfollow then follow event 2`] = `
-Array [
-  Object {
-    "_id": "_id",
-    "allowNewReplyUpdate": false,
-    "createdAt": 1989-06-04T00:00:00.000Z,
-    "userId": "U4af4980630",
-  },
-]
-`;
-
-exports[`Webhook router singleUserHandler() should handle follow then unfollow then follow event 3`] = `
-Array [
-  Object {
-    "_id": "_id",
-    "allowNewReplyUpdate": true,
-    "createdAt": 1989-06-04T00:00:00.000Z,
-    "userId": "U4af4980630",
-  },
-]
-`;
-
 exports[`Webhook router singleUserHandler() should ignore sticker messages 1`] = `Array []`;
 
 exports[`Webhook router singleUserHandler() should ignore sticker messages 2`] = `Array []`;

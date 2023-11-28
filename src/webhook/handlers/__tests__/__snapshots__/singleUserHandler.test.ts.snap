@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`handles follow event: Tutorial replies 1`] = `
+exports[`handles follow and unfollow event: Tutorial replies 1`] = `
 Array [
   Array [
     "/message/reply",
@@ -262,7 +262,7 @@ Array [
 ]
 `;
 
-exports[`handles follow event: User settings should have notification turned on 1`] = `
+exports[`handles follow and unfollow event: User settings should have notification turned on 1`] = `
 Array [
   Object {
     "_id": "_id",
