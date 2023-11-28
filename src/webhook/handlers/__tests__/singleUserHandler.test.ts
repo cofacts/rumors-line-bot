@@ -113,6 +113,53 @@ it('handles follow and unfollow event', async () => {
   );
 });
 
+it('ignores sticker events', async () => {
+  const event: MessageEvent & { message: { type: 'sticker' } } = {
+    replyToken: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
+    type: 'message',
+    mode: 'active',
+    timestamp: 1462629479859,
+    source: {
+      type: 'user',
+      userId,
+    },
+    message: {
+      id: '325708',
+      type: 'sticker',
+      packageId: '1',
+      stickerId: '1',
+      stickerResourceType: 'STATIC',
+      keywords: [],
+    },
+  };
+
+  await singleUserHandler(userId, event);
+
+  // singleUserHandler does not wait for reply, thus we wait here
+  await sleep(500);
+
+  // Expect ga records the event
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "MessageType",
+          "ec": "UserInput",
+          "el": "sticker",
+        },
+      ],
+    ]
+  `);
+  expect(ga.sendMock).toHaveBeenCalledTimes(1);
+
+  // Exepct no replies
+  expect(lineClient.post.mock.calls).toMatchInlineSnapshot(`Array []`);
+});
+
+// it('handles postbacks', async () => {});
+
+// it('rejects outdated postback events', async () => {});
+
 function createTextMessageEvent(
   input: string
 ): MessageEvent & { message: Pick<TextEventMessage, 'type' | 'text'> } {
@@ -232,36 +279,34 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
   `);
 });
 
-describe('tutorial', () => {
-  it('handles tutorial trigger from rich menu', async () => {
-    const event = createTextMessageEvent(TUTORIAL_STEPS['RICH_MENU']);
+it('handles tutorial trigger from rich menu', async () => {
+  const event = createTextMessageEvent(TUTORIAL_STEPS['RICH_MENU']);
 
-    handlePostback.mockImplementationOnce((data) => {
-      return Promise.resolve({
-        context: { data },
-        replies: [],
-      });
+  handlePostback.mockImplementationOnce((data) => {
+    return Promise.resolve({
+      context: { data },
+      replies: [],
     });
-
-    await singleUserHandler('user-id', event);
-    await sleep(500);
-
-    expect(handlePostback).toHaveBeenCalledTimes(1);
-    expect(handlePostback.mock.calls).toMatchInlineSnapshot(`
-      Array [
-        Array [
-          Object {
-            "searchedText": "",
-            "sessionId": 1561982400000,
-          },
-          Object {
-            "input": "📖 tutorial",
-            "sessionId": 1561982400000,
-            "state": "TUTORIAL",
-          },
-          "user-id",
-        ],
-      ]
-    `);
   });
+
+  await singleUserHandler('user-id', event);
+  await sleep(500);
+
+  expect(handlePostback).toHaveBeenCalledTimes(1);
+  expect(handlePostback.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "searchedText": "",
+          "sessionId": 1561982400000,
+        },
+        Object {
+          "input": "📖 tutorial",
+          "sessionId": 1561982400000,
+          "state": "TUTORIAL",
+        },
+        "user-id",
+      ],
+    ]
+  `);
 });

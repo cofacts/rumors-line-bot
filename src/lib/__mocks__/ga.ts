@@ -3,12 +3,19 @@ const sendMock = jest.fn();
 const setMock = jest.fn();
 
 const ga = Object.assign(
-  jest.fn().mockImplementation(() => ({
-    event: eventMock,
-    send: sendMock,
-    set: setMock,
-    screenview: () => undefined,
-  })),
+  jest.fn().mockImplementation(() => {
+    const visitor = {
+      event: eventMock,
+      send: sendMock,
+      set: setMock,
+      screenview: () => undefined,
+    };
+
+    // Support the usecase of ga.event().send()
+    visitor.event.mockImplementation(() => visitor);
+
+    return visitor;
+  }),
   {
     clearAllMocks: () => {
       eventMock.mockClear();
