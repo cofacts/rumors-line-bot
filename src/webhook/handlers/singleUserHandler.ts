@@ -1,7 +1,7 @@
 import { t } from 'ttag';
 import { WebhookEvent } from '@line/bot-sdk';
 
-import { PostbackActionData } from 'src/types/chatbotState';
+import { CooccurredMessage, PostbackActionData } from 'src/types/chatbotState';
 import ga from 'src/lib/ga';
 import redis from 'src/lib/redisClient';
 import { extractArticleId } from 'src/lib/sharedUtils';
@@ -17,6 +17,7 @@ import {
 } from './tutorial';
 import processMedia from './processMedia';
 import initState from './initState';
+import { createTextMessage } from './utils';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
@@ -25,6 +26,12 @@ const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 // Ref: https://developers.line.biz/en/reference/messaging-api/#send-reply-message
 //
 const REPLY_TIMEOUT = 58000;
+
+/**
+ * The time of messages stays in buffer.
+ * The messages sent within this timeout are in the same co-occurrence.
+ */
+const BUFFER_TIMEOUT = 500; // ms
 
 // A symbol that is used to prevent accidental return in singleUserHandler.
 // It should only be used when timeout are correctly handled.
@@ -118,6 +125,76 @@ const singleUserHandler = async (
     return PROCESSED;
   }
 
+  /**
+   * Adds cooccurred message to buffer.
+   * After BUFFER_TIMEOUT since the last message has been added, initiate the processing of these
+   * co-occurred messages.
+   */
+  async function addMsgToBuffer(
+    msg: CooccurredMessage
+  ): Promise<typeof PROCESSED> {
+    const msgListKey = `msgBuffer:${userId}`;
+    const listSizeAfterInsert = await redis.push(msgListKey, msg);
+    const replyToken =
+      'replyToken' in webhookEvent ? webhookEvent.replyToken : '';
+
+    setTimeout(async () => {
+      // Only kick off processing for the last message in list.
+      if (listSizeAfterInsert !== (await redis.len(msgListKey))) return;
+
+      const messages: CooccurredMessage[] = await redis.getList(msgListKey);
+      await redis.del(msgListKey);
+
+      if (messages.length !== 1) {
+        lineClient.post('/message/reply', {
+          replyToken,
+          messages: [
+            createTextMessage({
+              text: `目前我還沒辦法一次處理 ${messages.length} 則訊息，請一則一則傳進來唷！`,
+            }),
+          ],
+        });
+        return;
+      }
+
+      const msg = messages[0];
+      if (msg.type !== 'text') {
+        return send(
+          await processMedia(
+            {
+              message: {
+                id: msg.id,
+                type: msg.type,
+              },
+            },
+            userId
+          )
+        );
+      }
+      const result = await initState({
+        data: {
+          // Create a new "search session".
+          // Used to determine button postbacks and GraphQL requests are from
+          // previous sessions
+          //
+          sessionId: Date.now(),
+
+          // Store user input into context
+          searchedText: msg.searchedText,
+        },
+        userId,
+      });
+
+      return send({
+        context: { data: result.data },
+        replies: result.replies,
+      });
+    }, BUFFER_TIMEOUT);
+
+    // Stop timeout timer, hand over to buffer setTimeout above.
+    return cancel();
+  }
+
   switch (webhookEvent.type) {
     default: {
       // These events are not handled at all.
@@ -206,8 +283,10 @@ const singleUserHandler = async (
     case 'audio':
     case 'video':
     case 'image':
-      // TODO: replace this with pushing message into context
-      return send(await processMedia(webhookEvent, userId));
+      return addMsgToBuffer({
+        type: webhookEvent.message.type,
+        id: webhookEvent.message.id,
+      });
 
     case 'text': {
       // Handle text events later
@@ -267,25 +346,10 @@ const singleUserHandler = async (
       }
 
       // The user forwarded us an new message.
-      // TODO: replace this with pushing message into context
       //
-      const result = await initState({
-        data: {
-          // Create a new "search session".
-          // Used to determine button postbacks and GraphQL requests are from
-          // previous sessions
-          //
-          sessionId: Date.now(),
-
-          // Store user input into context
-          searchedText: trimmedInput,
-        },
-        userId,
-      });
-
-      return send({
-        context: { data: result.data },
-        replies: result.replies,
+      return addMsgToBuffer({
+        type: 'text',
+        searchedText: trimmedInput,
       });
     }
   }

@@ -79,6 +79,45 @@ function decr(key) {
   });
 }
 
+/** Push value to the list at the specified key */
+function push(key, value) {
+  return new Promise((resolve, reject) => {
+    client.rpush(key, JSON.stringify(value), (err, reply) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(reply);
+      }
+    });
+  });
+}
+
+/** Get length of the list at the specified key */
+function len(key) {
+  return new Promise((resolve, reject) => {
+    client.llen(key, (err, reply) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(reply);
+      }
+    });
+  });
+}
+
+/** Get the list at the specified key */
+function getList(key) {
+  return new Promise((resolve, reject) => {
+    client.lrange(key, 0, -1, (err, reply) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(reply.map((s) => JSON.parse(s)));
+      }
+    });
+  });
+}
+
 function quit() {
   return new Promise((resolve, reject) => {
     client.quit((err) => {
@@ -97,5 +136,8 @@ export default {
   del,
   incr,
   decr,
+  push,
+  len,
+  getList,
   quit,
 };
