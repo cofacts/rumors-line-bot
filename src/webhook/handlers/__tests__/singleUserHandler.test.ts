@@ -439,7 +439,7 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
   await sleep(100); // Wait for async redis to be processed
 
   // Expect the message is added to batch
-  expect(redis.getList(REDIS_BATCH_KEY)).resolves.toMatchInlineSnapshot(`
+  expect(redis.range(REDIS_BATCH_KEY, 0, -1)).resolves.toMatchInlineSnapshot(`
     Array [
       Object {
         "searchedText": "Newly forwarded message",
@@ -452,7 +452,7 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
   await processingPromise;
 
   // Expect batch is cleared
-  expect(redis.getList(REDIS_BATCH_KEY)).resolves.toMatchInlineSnapshot(
+  expect(redis.range(REDIS_BATCH_KEY, 0, -1)).resolves.toMatchInlineSnapshot(
     `Array []`
   );
 

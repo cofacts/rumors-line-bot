@@ -74,24 +74,15 @@ function push(key, value) {
   });
 }
 
-/** Get length of the list at the specified key */
-function len(key) {
+/**
+ * Get a sublist out of the list at the specified key
+ * @param {string} key
+ * @param {number} start
+ * @param {number} end
+ */
+function range(key, start, end) {
   return new Promise((resolve, reject) => {
-    client.llen(key, (err, reply) => {
-      /* istanbul ignore if */
-      if (err) {
-        reject(err);
-      } else {
-        resolve(reply);
-      }
-    });
-  });
-}
-
-/** Get the list at the specified key */
-function getList(key) {
-  return new Promise((resolve, reject) => {
-    client.lrange(key, 0, -1, (err, reply) => {
+    client.lrange(key, start, end, (err, reply) => {
       /* istanbul ignore if */
       if (err) {
         reject(err);
@@ -120,7 +111,6 @@ export default {
   get,
   del,
   push,
-  len,
-  getList,
+  range,
   quit,
 };

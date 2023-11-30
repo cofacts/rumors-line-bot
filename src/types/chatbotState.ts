@@ -25,19 +25,21 @@ export type Context = {
 );
 
 /** A single messages in the same co-occurrence */
-export type CooccurredMessage =
+export type CooccurredMessage = {
+  id: MessageEvent['message']['id'];
+} & (
   | {
       type: Extract<
         MessageEvent['message']['type'],
         'audio' | 'video' | 'image'
       >;
-      id: MessageEvent['message']['id'];
     }
   | {
       type: Extract<MessageEvent['message']['type'], 'text'>;
       /** Searched text that started this search session */
-      searchedText: string;
-    };
+      text: string;
+    }
+);
 
 export type ChatbotStateHandlerReturnType = {
   data: Context;
