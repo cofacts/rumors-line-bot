@@ -4,7 +4,7 @@ import { WebhookEvent } from '@line/bot-sdk';
 import { CooccurredMessage, PostbackActionData } from 'src/types/chatbotState';
 import ga from 'src/lib/ga';
 import redis from 'src/lib/redisClient';
-import { extractArticleId } from 'src/lib/sharedUtils';
+import { extractArticleId, sleep } from 'src/lib/sharedUtils';
 import lineClient from 'src/webhook/lineClient';
 import UserSettings from 'src/database/models/userSettings';
 import { Result } from 'src/types/result';
@@ -136,66 +136,61 @@ const singleUserHandler = async (
     msg: CooccurredMessage
   ): Promise<typeof PROCESSED> {
     const listSizeAfterInsert = await redis.push(REDIS_BATCH_KEY, msg);
-    const replyToken =
-      'replyToken' in webhookEvent ? webhookEvent.replyToken : '';
 
-    setTimeout(async () => {
-      // Only kick off processing for the last message in list.
-      if (listSizeAfterInsert !== (await redis.len(REDIS_BATCH_KEY))) return;
+    await sleep(BATCH_TIMEOUT);
 
-      const messages: CooccurredMessage[] = await redis.getList(
-        REDIS_BATCH_KEY
-      );
-      await redis.del(REDIS_BATCH_KEY);
+    // Only kick off processing for the last message in list.
+    if (listSizeAfterInsert !== (await redis.len(REDIS_BATCH_KEY)))
+      return cancel();
 
-      if (messages.length !== 1) {
-        lineClient.post('/message/reply', {
-          replyToken,
-          messages: [
-            createTextMessage({
-              text: `目前我還沒辦法一次處理 ${messages.length} 則訊息，請一則一則傳進來唷！`,
-            }),
-          ],
-        });
-        return;
-      }
+    const messages: CooccurredMessage[] = await redis.getList(REDIS_BATCH_KEY);
+    await redis.del(REDIS_BATCH_KEY);
 
-      const msg = messages[0];
-      if (msg.type !== 'text') {
-        return send(
-          await processMedia(
-            {
-              message: {
-                id: msg.id,
-                type: msg.type,
-              },
-            },
-            userId
-          )
-        );
-      }
-      const result = await initState({
-        data: {
-          // Create a new "search session".
-          // Used to determine button postbacks and GraphQL requests are from
-          // previous sessions
-          //
-          sessionId: Date.now(),
-
-          // Store user input into context
-          searchedText: msg.searchedText,
-        },
-        userId,
-      });
-
+    if (messages.length !== 1) {
+      // TODO: initiate multi-message processing here
+      //
       return send({
-        context: { data: result.data },
-        replies: result.replies,
+        context,
+        replies: [
+          createTextMessage({
+            text: `目前我還沒辦法一次處理 ${messages.length} 則訊息，請一則一則傳進來唷！`,
+          }),
+        ],
       });
-    }, BATCH_TIMEOUT);
+    }
 
-    // Stop timeout timer, hand over to buffer setTimeout above.
-    return cancel();
+    const firstMsg = messages[0];
+    if (firstMsg.type !== 'text') {
+      return send(
+        await processMedia(
+          {
+            message: {
+              id: firstMsg.id,
+              type: firstMsg.type,
+            },
+          },
+          userId
+        )
+      );
+    }
+    const result = await initState({
+      data: {
+        // Create a new "search session".
+        // Used to determine button postbacks and GraphQL requests are from
+        // previous sessions
+        //
+        sessionId: Date.now(),
+
+        // Store user input into context
+        searchedText: firstMsg.searchedText,
+      },
+      userId,
+    });
+
+    return send({
+      context: { data: result.data },
+      replies: result.replies,
+    });
   }
 
   switch (webhookEvent.type) {
