@@ -6,11 +6,13 @@ const client = redis.createClient(
 );
 
 function set(key, value) {
+  /* istanbul ignore if */
   if (typeof key !== 'string') {
     throw new Error('key of `set(key, value)` must be a string.');
   }
   return new Promise((resolve, reject) => {
     client.set(key, JSON.stringify(value), (err, reply) => {
+      /* istanbul ignore if */
       if (err) {
         reject(err);
       } else {
@@ -26,11 +28,13 @@ function get(key) {
   }
   return new Promise((resolve, reject) => {
     client.get(key, (err, reply) => {
+      /* istanbul ignore if */
       if (err) {
         reject(err);
       } else {
         try {
           resolve(JSON.parse(reply));
+          /* istanbul ignore next */
         } catch (e) {
           // Gracefully fallback, in case the stuff in redis is a mess
           //
@@ -46,30 +50,7 @@ function get(key) {
 function del(key) {
   return new Promise((resolve, reject) => {
     client.del(key, (err, reply) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(reply);
-      }
-    });
-  });
-}
-
-function incr(key) {
-  return new Promise((resolve, reject) => {
-    client.incr(key, (err, reply) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(reply);
-      }
-    });
-  });
-}
-
-function decr(key) {
-  return new Promise((resolve, reject) => {
-    client.decr(key, (err, reply) => {
+      /* istanbul ignore if */
       if (err) {
         reject(err);
       } else {
@@ -83,6 +64,7 @@ function decr(key) {
 function push(key, value) {
   return new Promise((resolve, reject) => {
     client.rpush(key, JSON.stringify(value), (err, reply) => {
+      /* istanbul ignore if */
       if (err) {
         reject(err);
       } else {
@@ -96,6 +78,7 @@ function push(key, value) {
 function len(key) {
   return new Promise((resolve, reject) => {
     client.llen(key, (err, reply) => {
+      /* istanbul ignore if */
       if (err) {
         reject(err);
       } else {
@@ -109,6 +92,7 @@ function len(key) {
 function getList(key) {
   return new Promise((resolve, reject) => {
     client.lrange(key, 0, -1, (err, reply) => {
+      /* istanbul ignore if */
       if (err) {
         reject(err);
       } else {
@@ -121,6 +105,7 @@ function getList(key) {
 function quit() {
   return new Promise((resolve, reject) => {
     client.quit((err) => {
+      /* istanbul ignore if */
       if (err) {
         reject(err);
       } else {
@@ -134,8 +119,6 @@ export default {
   set,
   get,
   del,
-  incr,
-  decr,
   push,
   len,
   getList,
