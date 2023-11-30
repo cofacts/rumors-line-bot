@@ -105,5 +105,8 @@ export function gaTitle(title) {
     .join('');
 }
 
-export const sleep = async (ms: number) =>
+/**
+ * @param {number} ms
+ */
+export const sleep = async (ms) =>
   new Promise((resolve) => setTimeout(resolve, ms));
