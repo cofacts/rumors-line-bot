@@ -23,6 +23,7 @@ function set(key, value) {
 }
 
 function get(key) {
+  /* istanbul ignore if */
   if (typeof key !== 'string') {
     throw new Error('key of `get(key)` must be a string.');
   }
@@ -34,8 +35,7 @@ function get(key) {
       } else {
         try {
           resolve(JSON.parse(reply));
-          /* istanbul ignore next */
-        } catch (e) {
+        } catch (e) /* istanbul ignore next */ {
           // Gracefully fallback, in case the stuff in redis is a mess
           //
           console.error(e);
