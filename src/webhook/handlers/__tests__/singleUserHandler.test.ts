@@ -3,6 +3,7 @@ import UserSettings from 'src/database/models/userSettings';
 import originalLineClient from 'src/webhook/lineClient';
 import originalRedis from 'src/lib/redisClient';
 import originalGa from 'src/lib/ga';
+import { sleep, VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
 import type { MockedGa } from 'src/lib/__mocks__/ga';
 
 import singleUserHandler from '../singleUserHandler';
@@ -10,7 +11,6 @@ import originalInitState from '../initState';
 import originalHandlePostback from '../handlePostback';
 import { TUTORIAL_STEPS } from '../tutorial';
 
-import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
 import { MessageEvent, PostbackEvent, TextEventMessage } from '@line/bot-sdk';
 import { Context } from 'src/types/chatbotState';
 
@@ -31,9 +31,6 @@ const handlePostback = originalHandlePostback as jest.MockedFunction<
 const lineClient = originalLineClient as jest.Mocked<typeof originalLineClient>;
 const redis = originalRedis as jest.Mocked<typeof originalRedis>;
 const ga = originalGa as MockedGa;
-
-const sleep = async (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
 
 // If session is renewed, sessionId will become this value
 const NOW = 1561982400000;

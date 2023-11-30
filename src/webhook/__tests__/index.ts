@@ -10,6 +10,7 @@ import Koa from 'koa';
 import request from 'supertest';
 import MockDate from 'mockdate';
 
+import { sleep } from 'src/lib/sharedUtils';
 import webhookRouter from '..';
 import originalSingleUserHandler from '../handlers/singleUserHandler';
 import OriginalGroupHandler from '../handlers/groupHandler';
@@ -30,9 +31,6 @@ const mockedAddJob = groupHandlerInstance.addJob as jest.MockedFunction<
 >;
 
 import { WebhookEvent } from '@line/bot-sdk';
-
-const sleep = async (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
 
 beforeAll(() => {
   MockDate.set(612921600000);

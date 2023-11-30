@@ -6,6 +6,7 @@ jest.mock('../processGroupEvent');
 import ga from 'src/lib/ga';
 import gql from 'src/lib/gql';
 import lineClient from 'src/webhook/lineClient';
+import { sleep } from 'src/lib/sharedUtils';
 import MockDate from 'mockdate';
 
 import GroupHandler from '../groupHandler';
@@ -419,5 +420,3 @@ const isQueueIdle = async (q) => {
     return (acc = v === 0 && acc);
   }, true);
 };
-
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
