@@ -1,4 +1,3 @@
-jest.mock('src/lib/redisClient');
 jest.mock('../lineClient');
 // Avoid loading src/lib/queue, which really connects to redis
 jest.mock('src/lib/queues', () => ({}));
@@ -7,9 +6,15 @@ import { getContext } from '../';
 import redis from 'src/lib/redisClient';
 import { verifyIDToken } from '../lineClient';
 
+const redisGet = jest.spyOn(redis, 'get');
+
 beforeEach(() => {
-  redis.get.mockClear();
+  redisGet.mockClear();
   verifyIDToken.mockClear();
+});
+
+afterAll(async () => {
+  await redis.quit();
 });
 
 describe('getContext', () => {
@@ -27,7 +32,7 @@ describe('getContext', () => {
   it('reads userContext for logged-in requests', async () => {
     const lineIDToken = `correct-token`;
 
-    redis.get.mockImplementationOnce(() => ({
+    redisGet.mockImplementationOnce(() => ({
       data: {
         sessionId: 'correct-session-id',
       },
@@ -66,7 +71,7 @@ describe('getContext', () => {
     `);
 
     //user is not found in redis
-    redis.get.mockImplementationOnce(() => null);
+    redisGet.mockImplementationOnce(() => null);
     verifyIDToken.mockImplementationOnce(() => ({
       iss: 'https://access.line.me',
       sub: 'user1',
