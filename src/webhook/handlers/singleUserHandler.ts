@@ -28,10 +28,10 @@ const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 const REPLY_TIMEOUT = 58000;
 
 /**
- * The time of messages stays in buffer.
+ * The time of messages stays in the batch.
  * The messages sent within this timeout are in the same co-occurrence.
  */
-const BUFFER_TIMEOUT = 500; // ms
+const BATCH_TIMEOUT = 500; // ms
 
 // A symbol that is used to prevent accidental return in singleUserHandler.
 // It should only be used when timeout are correctly handled.
@@ -84,6 +84,8 @@ const singleUserHandler = async (
     data: { sessionId: Date.now() },
   };
 
+  const REDIS_BATCH_KEY = `${userId}:batch`;
+
   // Helper functions in singleUserHandler that indicates the end of processing
   //
   async function send(result: Result): Promise<typeof PROCESSED> {
@@ -126,24 +128,25 @@ const singleUserHandler = async (
   }
 
   /**
-   * Adds cooccurred message to buffer.
-   * After BUFFER_TIMEOUT since the last message has been added, initiate the processing of these
+   * Adds cooccurred message to batch.
+   * After BATCH_TIMEOUT since the last message has been added, initiate the processing of these
    * co-occurred messages.
    */
-  async function addMsgToBuffer(
+  async function addMsgToBatch(
     msg: CooccurredMessage
   ): Promise<typeof PROCESSED> {
-    const msgListKey = `msgBuffer:${userId}`;
-    const listSizeAfterInsert = await redis.push(msgListKey, msg);
+    const listSizeAfterInsert = await redis.push(REDIS_BATCH_KEY, msg);
     const replyToken =
       'replyToken' in webhookEvent ? webhookEvent.replyToken : '';
 
     setTimeout(async () => {
       // Only kick off processing for the last message in list.
-      if (listSizeAfterInsert !== (await redis.len(msgListKey))) return;
+      if (listSizeAfterInsert !== (await redis.len(REDIS_BATCH_KEY))) return;
 
-      const messages: CooccurredMessage[] = await redis.getList(msgListKey);
-      await redis.del(msgListKey);
+      const messages: CooccurredMessage[] = await redis.getList(
+        REDIS_BATCH_KEY
+      );
+      await redis.del(REDIS_BATCH_KEY);
 
       if (messages.length !== 1) {
         lineClient.post('/message/reply', {
@@ -189,7 +192,7 @@ const singleUserHandler = async (
         context: { data: result.data },
         replies: result.replies,
       });
-    }, BUFFER_TIMEOUT);
+    }, BATCH_TIMEOUT);
 
     // Stop timeout timer, hand over to buffer setTimeout above.
     return cancel();
@@ -283,7 +286,7 @@ const singleUserHandler = async (
     case 'audio':
     case 'video':
     case 'image':
-      return addMsgToBuffer({
+      return addMsgToBatch({
         type: webhookEvent.message.type,
         id: webhookEvent.message.id,
       });
@@ -301,6 +304,7 @@ const singleUserHandler = async (
     //
     case 'RESET': {
       redis.del(userId);
+      redis.del(REDIS_BATCH_KEY);
       return cancel();
     }
 
@@ -347,7 +351,7 @@ const singleUserHandler = async (
 
       // The user forwarded us an new message.
       //
-      return addMsgToBuffer({
+      return addMsgToBatch({
         type: 'text',
         searchedText: trimmedInput,
       });
