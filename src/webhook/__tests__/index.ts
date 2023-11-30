@@ -1,6 +1,6 @@
 // Mock unused middlewares and instances that leaves open handles
 jest.mock('src/webhook/checkSignatureAndParse');
-jest.mock('src/lib/redisClient');
+jest.mock('src/lib/redisClient', () => ({}));
 
 // Spied functions
 jest.mock('../handlers/groupHandler');
