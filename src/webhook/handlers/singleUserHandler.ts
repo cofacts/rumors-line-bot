@@ -84,7 +84,7 @@ const singleUserHandler = async (
     data: { sessionId: Date.now() },
   };
 
-  const REDIS_BATCH_KEY = `${userId}:batch`;
+  const REDIS_BATCH_KEY = getRedisBatchKey(userId);
 
   // Helper functions in singleUserHandler that indicates the end of processing
   //
@@ -353,5 +353,9 @@ const singleUserHandler = async (
     }
   }
 };
+
+export function getRedisBatchKey(userId: string) {
+  return `${userId}:batch`;
+}
 
 export default singleUserHandler;
