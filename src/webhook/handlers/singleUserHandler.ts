@@ -186,6 +186,7 @@ const singleUserHandler = async (
     if (messages.length !== 1) {
       // TODO: initiate multi-message processing here
       //
+      await sleep(1000); // Simulate multi-message processing and see if more message in batch.
       return send(
         {
           context,
