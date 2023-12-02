@@ -286,7 +286,7 @@ function createTextMessageEvent(
   return {
     type: 'message',
     message: {
-      id: '',
+      id: Buffer.from(input).toString('base64'),
       type: 'text',
       text: input,
     },
@@ -442,7 +442,8 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
   expect(redis.range(REDIS_BATCH_KEY, 0, -1)).resolves.toMatchInlineSnapshot(`
     Array [
       Object {
-        "searchedText": "Newly forwarded message",
+        "id": "TmV3bHkgZm9yd2FyZGVkIG1lc3NhZ2U=",
+        "text": "Newly forwarded message",
         "type": "text",
       },
     ]
