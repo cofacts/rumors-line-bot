@@ -16,8 +16,8 @@ import {
   createTutorialMessage,
 } from './tutorial';
 import processMedia from './processMedia';
+import processBatch from './processBatch';
 import initState from './initState';
-import { createTextMessage } from './utils';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
@@ -184,20 +184,7 @@ const singleUserHandler = async (
     );
 
     if (messages.length !== 1) {
-      // TODO: initiate multi-message processing here
-      //
-      await sleep(1000); // Simulate multi-message processing and see if more message in batch.
-      return send(
-        {
-          context,
-          replies: [
-            createTextMessage({
-              text: `目前我還沒辦法一次處理 ${messages.length} 則訊息，請一則一則傳進來唷！`,
-            }),
-          ],
-        },
-        msg
-      );
+      return send(await processBatch(messages), msg);
     }
 
     const firstMsg = messages[0];
