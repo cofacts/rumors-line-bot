@@ -1,253 +1,11 @@
-import { t } from 'ttag';
 import Router from 'koa-router';
 
-import rollbar from 'src/lib/rollbar';
-import ga from 'src/lib/ga';
-import redis from 'src/lib/redisClient';
 import { groupEventQueue, expiredGroupEventQueue } from 'src/lib/queues';
 
-import lineClient from './lineClient';
 import checkSignatureAndParse from './checkSignatureAndParse';
-import handleInput from './handleInput';
-import handlePostback from './handlePostback';
+import singleUserHandler from './handlers/singleUserHandler';
 import GroupHandler from './handlers/groupHandler';
-import {
-  createGreetingMessage,
-  createTutorialMessage,
-} from './handlers/tutorial';
-import processMedia from './handlers/processMedia';
-import UserSettings from '../database/models/userSettings';
-import { Request } from 'koa';
-import { MessageEvent, TextEventMessage, WebhookEvent } from '@line/bot-sdk';
-import { Result } from 'src/types/result';
-import { PostbackActionData } from 'src/types/chatbotState';
-
-const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
-
-const singleUserHandler = async (
-  req: Request,
-  /** @deprecated: Just use webhookEvent.type, which enables narrowing */
-  type: WebhookEventType,
-  replyToken: string,
-  timeout: number,
-  userId: string,
-  webhookEvent: WebhookEvent
-) => {
-  // reply before timeout
-  // the reply token becomes invalid after a certain period of time
-  // https://developers.line.biz/en/reference/messaging-api/#send-reply-message
-  let isReplied = false;
-  const messageBotIsBusy = [
-    {
-      type: 'text',
-      text: t`Line bot is busy, or we cannot handle this message. Maybe you can try again a few minutes later.`,
-    },
-  ];
-  const timerId = setTimeout(function () {
-    isReplied = true;
-    console.log(
-      `[LOG] Timeout ${JSON.stringify({
-        userId,
-        ...webhookEvent,
-      })}\n`
-    );
-    lineClient.post('/message/reply', {
-      replyToken,
-      messages: messageBotIsBusy,
-    });
-  }, timeout);
-
-  if (userIdBlacklist.indexOf(userId) !== -1) {
-    // User blacklist
-    console.log(
-      `[LOG] Blocked user INPUT =\n${JSON.stringify({
-        userId,
-        ...webhookEvent,
-      })}\n`
-    );
-    clearTimeout(timerId);
-    return;
-  }
-
-  // Set default result
-  //
-  let result: Result = {
-    context: { data: {} },
-    replies: [
-      {
-        type: 'text',
-        text: t`I cannot understand messages other than text.`,
-      },
-    ],
-  };
-
-  // Handle follow/unfollow event
-  if (webhookEvent.type === 'follow') {
-    await UserSettings.setAllowNewReplyUpdate(userId, true);
-
-    if (process.env.RUMORS_LINE_BOT_URL) {
-      const data = { sessionId: Date.now() };
-      result = {
-        context: { data },
-        replies: [
-          createGreetingMessage(),
-          createTutorialMessage(data.sessionId),
-        ],
-      };
-
-      const visitor = ga(userId, 'TUTORIAL');
-      visitor.event({
-        ec: 'Tutorial',
-        ea: 'Step',
-        el: 'ON_BOARDING',
-      });
-      visitor.send();
-    } else {
-      clearTimeout(timerId);
-      return;
-    }
-  } else if (webhookEvent.type === 'unfollow') {
-    await UserSettings.setAllowNewReplyUpdate(userId, false);
-    clearTimeout(timerId);
-    return;
-  }
-
-  const context = (await redis.get(userId)) || {};
-  // React to certain type of events
-  //
-  if (webhookEvent.type === 'message' && webhookEvent.message.type === 'text') {
-    // Debugging: type 'RESET' to reset user's context and start all over.
-    //
-    if (webhookEvent.message.text === 'RESET') {
-      redis.del(userId);
-      clearTimeout(timerId);
-      return;
-    }
-
-    result = await processText(
-      // Make TS happy:
-      // Directly providing `webhookEvent` here can lead to type error
-      // because it cannot correctly narrow down webhookEvent.message to be TextEventMessage.
-      {
-        ...webhookEvent,
-        message: webhookEvent.message,
-      },
-      userId,
-      req
-    );
-  } else if (
-    webhookEvent.type === 'message' &&
-    webhookEvent.message.type !== 'text'
-  ) {
-    result = await processMedia(webhookEvent, userId);
-  } else if (webhookEvent.type === 'message') {
-    // Track other message type send by user
-    ga(userId)
-      .event({
-        ec: 'UserInput',
-        ea: 'MessageType',
-        el: webhookEvent.message.type,
-      })
-      .send();
-  } else if (webhookEvent.type === 'postback') {
-    const postbackData = JSON.parse(
-      webhookEvent.postback.data
-    ) as PostbackActionData<unknown>;
-
-    // Handle the case when user context in redis is expired
-    if (!context.data) {
-      lineClient.post('/message/reply', {
-        replyToken,
-        messages: [
-          {
-            type: 'text',
-            text: '🚧 ' + t`Sorry, the button is expired.`,
-          },
-        ],
-      });
-      clearTimeout(timerId);
-      return;
-    }
-
-    // When the postback is expired,
-    // i.e. If other new messages have been sent before pressing buttons,
-    // tell the user about the expiry of buttons
-    //
-    if (postbackData.sessionId !== context.data.sessionId) {
-      console.log('Previous button pressed.');
-      lineClient.post('/message/reply', {
-        replyToken,
-        messages: [
-          {
-            type: 'text',
-            text:
-              '🚧 ' +
-              t`You are currently searching for another message, buttons from previous search sessions do not work now.`,
-          },
-        ],
-      });
-      clearTimeout(timerId);
-      return;
-    }
-
-    result = await handlePostback(context.data, postbackData, userId);
-  }
-
-  if (isReplied) {
-    console.log('[LOG] reply & context setup aborted');
-    return;
-  }
-  clearTimeout(timerId);
-
-  console.log(
-    JSON.stringify({
-      CONTEXT: context,
-      INPUT: { userId, ...webhookEvent },
-      OUTPUT: result,
-    })
-  );
-
-  // Send replies. Does not need to wait for lineClient's callbacks.
-  // lineClient's callback does error handling by itself.
-  //
-  lineClient.post('/message/reply', {
-    replyToken,
-    messages: result.replies,
-  });
-
-  // Set context
-  //
-  await redis.set(userId, result.context);
-};
-
-async function processText(
-  event: MessageEvent & { message: TextEventMessage },
-  userId: string,
-  req: Request
-): Promise<Result> {
-  let result: Result;
-  try {
-    result = await handleInput(event, userId);
-    if (!result.replies) {
-      throw new Error(
-        'Returned replies is empty, please check processMessages() implementation.'
-      );
-    }
-  } catch (e) {
-    console.error(e);
-    rollbar.error(e as Error, req);
-    result = {
-      context: { data: {} },
-      replies: [
-        {
-          type: 'text',
-          text: t`Oops, something is not working. We have cleared your search data, hopefully the error will go away. Would you please send us the message from the start?`,
-        },
-      ],
-    };
-  }
-  return result;
-}
+import { WebhookEvent } from '@line/bot-sdk';
 
 const router = new Router();
 
@@ -261,25 +19,8 @@ router.post('/', (ctx) => {
 
   (ctx.request.body as { events: WebhookEvent[] }).events.forEach(
     async (webhookEvent: WebhookEvent) => {
-      let replyToken = '';
-      if ('replyToken' in webhookEvent) {
-        replyToken = webhookEvent.replyToken;
-      }
-
-      // Set 58s timeout.
-      // Reply tokens must be used within one minute after receiving the webhook.
-      // Ref: https://developers.line.biz/en/reference/messaging-api/#send-reply-message
-      //
-      const timeout = 58000;
       if (webhookEvent.source.type === 'user') {
-        singleUserHandler(
-          ctx.request,
-          webhookEvent.type,
-          replyToken,
-          timeout,
-          webhookEvent.source.userId ?? '',
-          webhookEvent
-        );
+        singleUserHandler(webhookEvent.source.userId, webhookEvent);
       } else if (
         webhookEvent.source.type === 'group' ||
         webhookEvent.source.type === 'room'
@@ -291,7 +32,8 @@ router.post('/', (ctx) => {
 
         groupHandler.addJob({
           type: webhookEvent.type,
-          replyToken,
+          replyToken:
+            'replyToken' in webhookEvent ? webhookEvent.replyToken : '',
           groupId,
           webhookEvent,
         });

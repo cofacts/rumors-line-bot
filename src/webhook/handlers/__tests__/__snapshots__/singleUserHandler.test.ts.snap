@@ -1,0 +1,274 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`handles follow and unfollow event: Tutorial replies 1`] = `
+Array [
+  Array [
+    "/message/reply",
+    Object {
+      "messages": Array [
+        Object {
+          "altText": "This is a chatbot that looks up suspicious forwarded messages for you. Here is how to use me:",
+          "contents": Object {
+            "contents": Array [
+              Object {
+                "body": Object {
+                  "contents": Array [
+                    Object {
+                      "aspectMode": "cover",
+                      "aspectRatio": "1:1",
+                      "gravity": "top",
+                      "size": "full",
+                      "type": "image",
+                      "url": "/static/img/greeting.png?cachebust=20201105",
+                    },
+                    Object {
+                      "contents": Array [
+                        Object {
+                          "size": "lg",
+                          "text": "This is a chatbot that looks up suspicious forwarded messages for you. Here is how to use me:",
+                          "type": "text",
+                          "weight": "bold",
+                          "wrap": true,
+                        },
+                      ],
+                      "flex": 1,
+                      "justifyContent": "center",
+                      "layout": "vertical",
+                      "offsetBottom": "0px",
+                      "offsetEnd": "0px",
+                      "offsetStart": "0px",
+                      "paddingAll": "20px",
+                      "paddingTop": "18px",
+                      "position": "relative",
+                      "type": "box",
+                    },
+                  ],
+                  "layout": "vertical",
+                  "paddingAll": "0px",
+                  "type": "box",
+                },
+                "type": "bubble",
+              },
+            ],
+            "type": "carousel",
+          },
+          "type": "flex",
+        },
+        Object {
+          "altText": "1. When receiving a message from elsewhere
+2. Long press and share
+3. Select Cofacts to share
+4. Cofacts replies with a crowd-sourced fact-check or chatbot replies",
+          "contents": Object {
+            "contents": Array [
+              Object {
+                "body": Object {
+                  "contents": Array [
+                    Object {
+                      "aspectMode": "cover",
+                      "aspectRatio": "1:1",
+                      "gravity": "top",
+                      "size": "full",
+                      "type": "image",
+                      "url": "/static/img/tutorial1.png?cachebust=20201105",
+                    },
+                    Object {
+                      "contents": Array [
+                        Object {
+                          "size": "lg",
+                          "text": "1. When receiving a message from elsewhere",
+                          "type": "text",
+                          "weight": "bold",
+                          "wrap": true,
+                        },
+                      ],
+                      "flex": 1,
+                      "justifyContent": "center",
+                      "layout": "vertical",
+                      "offsetBottom": "0px",
+                      "offsetEnd": "0px",
+                      "offsetStart": "0px",
+                      "paddingAll": "20px",
+                      "paddingTop": "18px",
+                      "position": "relative",
+                      "type": "box",
+                    },
+                  ],
+                  "layout": "vertical",
+                  "paddingAll": "0px",
+                  "type": "box",
+                },
+                "type": "bubble",
+              },
+              Object {
+                "body": Object {
+                  "contents": Array [
+                    Object {
+                      "aspectMode": "cover",
+                      "aspectRatio": "1:1",
+                      "gravity": "top",
+                      "size": "full",
+                      "type": "image",
+                      "url": "/static/img/tutorial2.png?cachebust=20201105",
+                    },
+                    Object {
+                      "contents": Array [
+                        Object {
+                          "size": "lg",
+                          "text": "2. Long press and share",
+                          "type": "text",
+                          "weight": "bold",
+                          "wrap": true,
+                        },
+                      ],
+                      "flex": 1,
+                      "justifyContent": "center",
+                      "layout": "vertical",
+                      "offsetBottom": "0px",
+                      "offsetEnd": "0px",
+                      "offsetStart": "0px",
+                      "paddingAll": "20px",
+                      "paddingTop": "18px",
+                      "position": "relative",
+                      "type": "box",
+                    },
+                  ],
+                  "layout": "vertical",
+                  "paddingAll": "0px",
+                  "type": "box",
+                },
+                "type": "bubble",
+              },
+              Object {
+                "body": Object {
+                  "contents": Array [
+                    Object {
+                      "aspectMode": "cover",
+                      "aspectRatio": "1:1",
+                      "gravity": "top",
+                      "size": "full",
+                      "type": "image",
+                      "url": "/static/img/tutorial3.png?cachebust=20201105",
+                    },
+                    Object {
+                      "contents": Array [
+                        Object {
+                          "size": "lg",
+                          "text": "3. Select Cofacts to share",
+                          "type": "text",
+                          "weight": "bold",
+                          "wrap": true,
+                        },
+                      ],
+                      "flex": 1,
+                      "justifyContent": "center",
+                      "layout": "vertical",
+                      "offsetBottom": "0px",
+                      "offsetEnd": "0px",
+                      "offsetStart": "0px",
+                      "paddingAll": "20px",
+                      "paddingTop": "18px",
+                      "position": "relative",
+                      "type": "box",
+                    },
+                  ],
+                  "layout": "vertical",
+                  "paddingAll": "0px",
+                  "type": "box",
+                },
+                "type": "bubble",
+              },
+              Object {
+                "body": Object {
+                  "contents": Array [
+                    Object {
+                      "aspectMode": "cover",
+                      "aspectRatio": "1:1",
+                      "gravity": "top",
+                      "size": "full",
+                      "type": "image",
+                      "url": "/static/img/tutorial4.png?cachebust=20201105",
+                    },
+                    Object {
+                      "contents": Array [
+                        Object {
+                          "size": "lg",
+                          "text": "4. Cofacts replies with a crowd-sourced fact-check or chatbot replies",
+                          "type": "text",
+                          "weight": "bold",
+                          "wrap": true,
+                        },
+                      ],
+                      "flex": 1,
+                      "justifyContent": "center",
+                      "layout": "vertical",
+                      "offsetBottom": "0px",
+                      "offsetEnd": "0px",
+                      "offsetStart": "0px",
+                      "paddingAll": "20px",
+                      "paddingTop": "18px",
+                      "position": "relative",
+                      "type": "box",
+                    },
+                  ],
+                  "layout": "vertical",
+                  "paddingAll": "0px",
+                  "type": "box",
+                },
+                "type": "bubble",
+              },
+              Object {
+                "body": Object {
+                  "contents": Array [
+                    Object {
+                      "size": "lg",
+                      "text": "Wanna try it out? Just forward a message to me!",
+                      "type": "text",
+                      "weight": "bold",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "vertical",
+                  "type": "box",
+                },
+                "footer": Object {
+                  "contents": Array [
+                    Object {
+                      "action": Object {
+                        "data": "{\\"input\\":\\"Simulates forwarding a message\\",\\"sessionId\\":1561982400000,\\"state\\":\\"TUTORIAL\\"}",
+                        "displayText": "只要每天早上一杯地瓜葉牛奶。不僅有效降低三高，甚至連痛風也沒了；此外，地瓜葉牛奶的作法也很簡單，只要先將地瓜葉川燙過後，再加入鮮奶打成汁即可。",
+                        "label": "Simulates forwarding a message",
+                        "type": "postback",
+                      },
+                      "color": "#ffb600",
+                      "style": "primary",
+                      "type": "button",
+                    },
+                  ],
+                  "layout": "horizontal",
+                  "type": "box",
+                },
+                "type": "bubble",
+              },
+            ],
+            "type": "carousel",
+          },
+          "type": "flex",
+        },
+      ],
+      "replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA",
+    },
+  ],
+]
+`;
+
+exports[`handles follow and unfollow event: User settings should have notification turned on 1`] = `
+Array [
+  Object {
+    "_id": "_id",
+    "allowNewReplyUpdate": true,
+    "createdAt": 2019-07-01T12:00:00.000Z,
+    "userId": "U4af4980629",
+  },
+]
+`;

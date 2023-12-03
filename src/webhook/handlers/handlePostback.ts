@@ -1,11 +1,11 @@
 import { t } from 'ttag';
-import choosingArticle from './handlers/choosingArticle';
-import choosingReply from './handlers/choosingReply';
-import askingArticleSubmissionConsent from './handlers/askingArticleSubmissionConsent';
-import askingArticleSource from './handlers/askingArticleSource';
-import defaultState from './handlers/defaultState';
-import { ManipulationError } from './handlers/utils';
-import tutorial from './handlers/tutorial';
+import choosingArticle from './choosingArticle';
+import choosingReply from './choosingReply';
+import askingArticleSubmissionConsent from './askingArticleSubmissionConsent';
+import askingArticleSource from './askingArticleSource';
+import defaultState from './defaultState';
+import { ManipulationError } from './utils';
+import tutorial from './tutorial';
 import {
   ChatbotPostbackHandlerParams,
   ChatbotStateHandlerReturnType,
