@@ -1,25 +1,26 @@
 import MockDate from 'mockdate';
 import UserSettings from 'src/database/models/userSettings';
 import originalLineClient from 'src/webhook/lineClient';
-import originalRedis from 'src/lib/redisClient';
 import originalGa from 'src/lib/ga';
+import { sleep, VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
 import type { MockedGa } from 'src/lib/__mocks__/ga';
+import redis from 'src/lib/redisClient';
 
-import singleUserHandler from '../singleUserHandler';
+import singleUserHandler, { getRedisBatchKey } from '../singleUserHandler';
 import originalInitState from '../initState';
 import originalHandlePostback from '../handlePostback';
 import { TUTORIAL_STEPS } from '../tutorial';
 
-import { VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
 import { MessageEvent, PostbackEvent, TextEventMessage } from '@line/bot-sdk';
 import { Context } from 'src/types/chatbotState';
 
 jest.mock('src/webhook/lineClient');
-jest.mock('src/lib/redisClient');
 jest.mock('src/lib/ga');
 
 jest.mock('../initState');
 jest.mock('../handlePostback');
+
+const redisGet = jest.spyOn(redis, 'get');
 
 const initState = originalInitState as jest.MockedFunction<
   typeof originalInitState
@@ -29,11 +30,7 @@ const handlePostback = originalHandlePostback as jest.MockedFunction<
 >;
 
 const lineClient = originalLineClient as jest.Mocked<typeof originalLineClient>;
-const redis = originalRedis as jest.Mocked<typeof originalRedis>;
 const ga = originalGa as MockedGa;
-
-const sleep = async (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
 
 // If session is renewed, sessionId will become this value
 const NOW = 1561982400000;
@@ -41,8 +38,7 @@ const NOW = 1561982400000;
 beforeEach(() => {
   initState.mockClear();
   handlePostback.mockClear();
-  redis.get.mockClear();
-  redis.set.mockClear();
+  redisGet.mockClear();
   lineClient.post.mockClear();
   ga.clearAllMocks();
 
@@ -51,6 +47,10 @@ beforeEach(() => {
 
 afterEach(() => {
   MockDate.reset();
+});
+
+afterAll(async () => {
+  await redis.quit();
 });
 
 const userId = 'U4af4980629';
@@ -161,7 +161,7 @@ it('ignores sticker events', async () => {
 it('handles postbacks', async () => {
   const sessionId = 123;
 
-  redis.get.mockImplementationOnce(
+  redisGet.mockImplementationOnce(
     (): Promise<{ data: Context }> =>
       Promise.resolve({
         data: { sessionId, searchedText: '' },
@@ -188,7 +188,12 @@ it('handles postbacks', async () => {
   handlePostback.mockImplementationOnce((data) => {
     return Promise.resolve({
       context: { data },
-      replies: [],
+      replies: [
+        {
+          type: 'text',
+          text: 'Postback results here',
+        },
+      ],
     });
   });
 
@@ -211,11 +216,29 @@ it('handles postbacks', async () => {
       ],
     ]
   `);
+
+  // Expect postback results are sent to LINE
+  expect(lineClient.post.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "/message/reply",
+        Object {
+          "messages": Array [
+            Object {
+              "text": "Postback results here",
+              "type": "text",
+            },
+          ],
+          "replyToken": "",
+        },
+      ],
+    ]
+  `);
 });
 
 it('rejects outdated postback events', async () => {
   // Simulate context removed by Redis
-  redis.get.mockImplementationOnce(() => Promise.resolve(null));
+  redisGet.mockImplementationOnce(() => Promise.resolve(null));
 
   const event: PostbackEvent = {
     type: 'postback',
@@ -263,7 +286,7 @@ function createTextMessageEvent(
   return {
     type: 'message',
     message: {
-      id: '',
+      id: Buffer.from(input).toString('base64'),
       type: 'text',
       text: input,
     },
@@ -285,7 +308,12 @@ it('forwards to CHOOSING_ARTICLE when VIEW_ARTICLE_PREFIX is sent', async () => 
   handlePostback.mockImplementationOnce((data) => {
     return Promise.resolve({
       context: { data },
-      replies: [],
+      replies: [
+        {
+          type: 'text',
+          text: 'Choosing article resp',
+        },
+      ],
     });
   });
 
@@ -293,6 +321,7 @@ it('forwards to CHOOSING_ARTICLE when VIEW_ARTICLE_PREFIX is sent', async () => 
 
   await sleep(500);
 
+  // Expect handlePostback is called with synthetic CHOOSING_ARTICLE postback
   expect(handlePostback).toHaveBeenCalledTimes(1);
   expect(handlePostback.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -307,6 +336,24 @@ it('forwards to CHOOSING_ARTICLE when VIEW_ARTICLE_PREFIX is sent', async () => 
           "state": "CHOOSING_ARTICLE",
         },
         "user-id",
+      ],
+    ]
+  `);
+
+  // Expect replies are sent
+  expect(lineClient.post.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "/message/reply",
+        Object {
+          "messages": Array [
+            Object {
+              "text": "Choosing article resp",
+              "type": "text",
+            },
+          ],
+          "replyToken": "",
+        },
       ],
     ]
   `);
@@ -320,7 +367,12 @@ it('shows reply list when article URL is sent', async () => {
   handlePostback.mockImplementationOnce((data) => {
     return Promise.resolve({
       context: { data },
-      replies: [],
+      replies: [
+        {
+          type: 'text',
+          text: 'Choosing article resp',
+        },
+      ],
     });
   });
 
@@ -328,6 +380,7 @@ it('shows reply list when article URL is sent', async () => {
 
   await sleep(500);
 
+  // Expect handlePostback is called with synthetic CHOOSING_ARTICLE postback
   expect(handlePostback).toHaveBeenCalledTimes(1);
   expect(handlePostback.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -345,6 +398,24 @@ it('shows reply list when article URL is sent', async () => {
       ],
     ]
   `);
+
+  // Expect replies are sent
+  expect(lineClient.post.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "/message/reply",
+        Object {
+          "messages": Array [
+            Object {
+              "text": "Choosing article resp",
+              "type": "text",
+            },
+          ],
+          "replyToken": "",
+        },
+      ],
+    ]
+  `);
 });
 
 it('Resets session on free-form input, triggers fast-forward', async () => {
@@ -354,12 +425,39 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
   initState.mockImplementationOnce(({ data }) => {
     return Promise.resolve({
       data,
-      replies: [],
+      replies: [
+        {
+          type: 'text',
+          text: 'Replies here',
+        },
+      ],
     });
   });
 
-  await singleUserHandler('user-id', event);
+  const REDIS_BATCH_KEY = getRedisBatchKey('user-id');
+  const processingPromise = singleUserHandler('user-id', event);
+  await sleep(100); // Wait for async redis to be processed
 
+  // Expect the message is added to batch
+  expect(redis.range(REDIS_BATCH_KEY, 0, -1)).resolves.toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "id": "TmV3bHkgZm9yd2FyZGVkIG1lc3NhZ2U=",
+        "text": "Newly forwarded message",
+        "type": "text",
+      },
+    ]
+  `);
+
+  // Wait for the whole batch process to finish
+  await processingPromise;
+
+  // Expect batch is cleared
+  expect(redis.range(REDIS_BATCH_KEY, 0, -1)).resolves.toMatchInlineSnapshot(
+    `Array []`
+  );
+
+  // Expect initState is called
   expect(initState).toHaveBeenCalledTimes(1);
   expect(initState.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -374,6 +472,24 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
       ],
     ]
   `);
+
+  // Expect replies are sent
+  expect(lineClient.post.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "/message/reply",
+        Object {
+          "messages": Array [
+            Object {
+              "text": "Replies here",
+              "type": "text",
+            },
+          ],
+          "replyToken": "",
+        },
+      ],
+    ]
+  `);
 });
 
 it('handles tutorial trigger from rich menu', async () => {
@@ -382,13 +498,19 @@ it('handles tutorial trigger from rich menu', async () => {
   handlePostback.mockImplementationOnce((data) => {
     return Promise.resolve({
       context: { data },
-      replies: [],
+      replies: [
+        {
+          type: 'text',
+          text: 'Tutorial here',
+        },
+      ],
     });
   });
 
   await singleUserHandler('user-id', event);
   await sleep(500);
 
+  // Expect handlePostback is called with synthetic TUTORIAL postback
   expect(handlePostback).toHaveBeenCalledTimes(1);
   expect(handlePostback.mock.calls).toMatchInlineSnapshot(`
     Array [
@@ -403,6 +525,24 @@ it('handles tutorial trigger from rich menu', async () => {
           "state": "TUTORIAL",
         },
         "user-id",
+      ],
+    ]
+  `);
+
+  // Expect replies are sent
+  expect(lineClient.post.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "/message/reply",
+        Object {
+          "messages": Array [
+            Object {
+              "text": "Tutorial here",
+              "type": "text",
+            },
+          ],
+          "replyToken": "",
+        },
       ],
     ]
   `);

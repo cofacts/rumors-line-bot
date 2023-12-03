@@ -1,10 +1,10 @@
 import { t } from 'ttag';
 import { WebhookEvent } from '@line/bot-sdk';
 
-import { PostbackActionData } from 'src/types/chatbotState';
+import { CooccurredMessage, PostbackActionData } from 'src/types/chatbotState';
 import ga from 'src/lib/ga';
 import redis from 'src/lib/redisClient';
-import { extractArticleId } from 'src/lib/sharedUtils';
+import { extractArticleId, sleep } from 'src/lib/sharedUtils';
 import lineClient from 'src/webhook/lineClient';
 import UserSettings from 'src/database/models/userSettings';
 import { Result } from 'src/types/result';
@@ -17,6 +17,7 @@ import {
 } from './tutorial';
 import processMedia from './processMedia';
 import initState from './initState';
+import { createTextMessage } from './utils';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
@@ -25,6 +26,12 @@ const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 // Ref: https://developers.line.biz/en/reference/messaging-api/#send-reply-message
 //
 const REPLY_TIMEOUT = 58000;
+
+/**
+ * The time of messages stays in the batch.
+ * The messages sent within this timeout are in the same co-occurrence.
+ */
+const BATCH_TIMEOUT = 500; // ms
 
 // A symbol that is used to prevent accidental return in singleUserHandler.
 // It should only be used when timeout are correctly handled.
@@ -50,25 +57,24 @@ const singleUserHandler = async (
 
   // Tell the user the bot is busy if processing does not end within timeout
   //
-  const timerId = setTimeout(function () {
-    isRepliedDueToTimeout = true;
+  const timerId = setTimeout(async function () {
     console.log(
       `[LOG] Timeout ${JSON.stringify({
         userId,
         ...webhookEvent,
       })}\n`
     );
-    if ('replyToken' in webhookEvent) {
-      lineClient.post('/message/reply', {
-        replyToken: webhookEvent.replyToken,
-        messages: [
-          {
-            type: 'text',
-            text: t`Line bot is busy, or we cannot handle this message. Maybe you can try again a few minutes later.`,
-          },
-        ],
-      });
-    }
+    await send({
+      context,
+      replies: [
+        {
+          type: 'text',
+          text: t`Line bot is busy, or we cannot handle this message. Maybe you can try again a few minutes later.`,
+        },
+      ],
+    });
+
+    isRepliedDueToTimeout = true;
   }, REPLY_TIMEOUT);
 
   // Get user's context from redis or create a new one
@@ -77,15 +83,49 @@ const singleUserHandler = async (
     data: { sessionId: Date.now() },
   };
 
-  // Helper functions in singleUserHandler that indicates the end of processing
-  //
-  async function send(result: Result): Promise<typeof PROCESSED> {
-    clearTimeout(timerId);
+  const REDIS_BATCH_KEY = getRedisBatchKey(userId);
 
+  /**
+   * @param msg
+   * @returns if the specified CooccurredMsg is the last one in the current batch of CooccurredMsgs.
+   */
+  async function isLastInBatch(msg: CooccurredMessage) {
+    const lastMsgInBatch: CooccurredMessage | undefined = (
+      await redis.range(REDIS_BATCH_KEY, -1, -1)
+    )[0];
+    return !!lastMsgInBatch && msg.id === lastMsgInBatch.id;
+  }
+
+  // Helper functions in singleUserHandler that indicates the end of processing.
+  // If `forMsg` is provided, also check if the message is the latest in batch.
+  //
+  async function send(
+    result: Result,
+
+    /**
+     * The msg that this result is for.
+     * If provided, exercise extra check ensure `result` is up-to-date before sending replies.
+     * */
+    forMsg?: CooccurredMessage
+  ): Promise<typeof PROCESSED> {
     if (isRepliedDueToTimeout) {
       console.log('[LOG] reply & context setup aborted');
-      return PROCESSED;
+      return cancel();
     }
+
+    // Check forMsg only when it is provided
+    if (forMsg !== undefined && !(await isLastInBatch(forMsg))) {
+      // The batch has new messages inside, thus the result is outdated and should be abandoned.
+      // Leave the rest to the processor of the last msg in batch.
+      //
+      return cancel();
+    }
+
+    // We are sending reply, stop timer countdown
+    clearTimeout(timerId);
+
+    // The chatbot's reply cuts off the user's input streak, thus we end the current batch here.
+    redis.del(REDIS_BATCH_KEY);
 
     console.log(
       JSON.stringify({
@@ -111,11 +151,91 @@ const singleUserHandler = async (
     return PROCESSED;
   }
 
-  // Does not reply and just exit processing
+  // Does not reply and just exit processing.
   //
   function cancel(): typeof PROCESSED {
-    clearTimeout(timerId);
+    clearTimeout(timerId); // Avoid timeout after we exit
     return PROCESSED;
+  }
+
+  /**
+   * Adds cooccurred message to batch.
+   * After BATCH_TIMEOUT since the last message has been added, initiate the processing of these
+   * co-occurred messages.
+   */
+  async function addMsgToBatch(
+    msg: CooccurredMessage
+  ): Promise<typeof PROCESSED> {
+    await redis.push(REDIS_BATCH_KEY, msg);
+
+    await sleep(BATCH_TIMEOUT);
+
+    if (!(await isLastInBatch(msg))) {
+      // New message appears during we sleep,
+      // abort processing and let the new message's callback do the work.
+      return cancel();
+    }
+
+    // Try process the batch and calculate results
+    const messages: CooccurredMessage[] = await redis.range(
+      REDIS_BATCH_KEY,
+      0,
+      -1
+    );
+
+    if (messages.length !== 1) {
+      // TODO: initiate multi-message processing here
+      //
+      await sleep(1000); // Simulate multi-message processing and see if more message in batch.
+      return send(
+        {
+          context,
+          replies: [
+            createTextMessage({
+              text: `目前我還沒辦法一次處理 ${messages.length} 則訊息，請一則一則傳進來唷！`,
+            }),
+          ],
+        },
+        msg
+      );
+    }
+
+    const firstMsg = messages[0];
+    if (firstMsg.type !== 'text') {
+      return send(
+        await processMedia(
+          {
+            message: {
+              id: firstMsg.id,
+              type: firstMsg.type,
+            },
+          },
+          userId
+        ),
+        msg
+      );
+    }
+    const result = await initState({
+      data: {
+        // Create a new "search session".
+        // Used to determine button postbacks and GraphQL requests are from
+        // previous sessions
+        //
+        sessionId: Date.now(),
+
+        // Store user input into context
+        searchedText: firstMsg.text,
+      },
+      userId,
+    });
+
+    return send(
+      {
+        context: { data: result.data },
+        replies: result.replies,
+      },
+      msg
+    );
   }
 
   switch (webhookEvent.type) {
@@ -206,8 +326,10 @@ const singleUserHandler = async (
     case 'audio':
     case 'video':
     case 'image':
-      // TODO: replace this with pushing message into context
-      return send(await processMedia(webhookEvent, userId));
+      return addMsgToBatch({
+        type: webhookEvent.message.type,
+        id: webhookEvent.message.id,
+      });
 
     case 'text': {
       // Handle text events later
@@ -222,6 +344,7 @@ const singleUserHandler = async (
     //
     case 'RESET': {
       redis.del(userId);
+      redis.del(REDIS_BATCH_KEY);
       return cancel();
     }
 
@@ -267,28 +390,18 @@ const singleUserHandler = async (
       }
 
       // The user forwarded us an new message.
-      // TODO: replace this with pushing message into context
       //
-      const result = await initState({
-        data: {
-          // Create a new "search session".
-          // Used to determine button postbacks and GraphQL requests are from
-          // previous sessions
-          //
-          sessionId: Date.now(),
-
-          // Store user input into context
-          searchedText: trimmedInput,
-        },
-        userId,
-      });
-
-      return send({
-        context: { data: result.data },
-        replies: result.replies,
+      return addMsgToBatch({
+        id: webhookEvent.message.id,
+        type: 'text',
+        text: trimmedInput,
       });
     }
   }
 };
+
+export function getRedisBatchKey(userId: string) {
+  return `${userId}:batch`;
+}
 
 export default singleUserHandler;

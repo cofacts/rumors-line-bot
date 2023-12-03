@@ -104,3 +104,9 @@ export function gaTitle(title) {
     .slice(0, DOCUMENT_TITLE_LENGTH)
     .join('');
 }
+
+/**
+ * @param {number} ms
+ */
+export const sleep = async (ms) =>
+  new Promise((resolve) => setTimeout(resolve, ms));

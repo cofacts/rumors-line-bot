@@ -32,6 +32,21 @@ module.exports = {
       files: ['**/*.ts'],
       extends: ['plugin:@typescript-eslint/recommended'],
       plugins: ['@typescript-eslint'],
+      rules: {
+        '@typescript-eslint/no-misused-promises': [
+          'error', // Helps capturing errors like if(someAsyncFunc())
+          {
+            checksVoidReturn: false, // Allow setTimeout(async () => {})
+          },
+        ],
+      },
+
+      // Required by rules that requires type information.
+      // Ref: https://typescript-eslint.io/linting/typed-linting/
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: __dirname,
+      },
     },
   ],
 };

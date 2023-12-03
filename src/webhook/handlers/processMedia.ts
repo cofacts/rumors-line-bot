@@ -27,7 +27,12 @@ import {
 const CIRCLED_DIGITS = '⓪①②③④⑤⑥⑦⑧⑨⑩⑪';
 const SIMILARITY_THRESHOLD = 0.95;
 
-export default async function (event: MessageEvent, userId: string) {
+export default async function (
+  event: {
+    message: Pick<MessageEvent['message'], 'id' | 'type'>;
+  },
+  userId: string
+) {
   const proxyUrl = getLineContentProxyURL(event.message.id);
   console.log(`Media url: ${proxyUrl}`);
 
