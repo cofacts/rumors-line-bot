@@ -5,7 +5,7 @@ import { Message } from '@line/bot-sdk';
 async function processBatch(messages: CooccurredMessage[]) {
   const context: Context = {
     sessionId: Date.now(),
-    searchedText: '',
+    msgs: [],
   };
 
   const replies: Message[] = [

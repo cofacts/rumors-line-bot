@@ -42,14 +42,17 @@ export default async function (
   visitor.event({ ec: 'UserInput', ea: 'MessageType', el: event.message.type });
 
   let replies;
-  const data: Context = {
+  const context: Context = {
     // Start a new session
     sessionId: Date.now(),
 
     // Store user messageId into context, which will use for submit new image article
-    searchedText: '',
-    messageId: event.message.id,
-    messageType: event.message.type,
+    msgs: [
+      {
+        type: event.message.type,
+        messageId: event.message.id,
+      },
+    ],
   };
 
   const {
@@ -114,18 +117,16 @@ export default async function (
     if (ListArticles.edges.length === 1 && hasIdenticalDocs) {
       visitor.send();
 
-      const result = await choosingArticle({
-        data,
+      return await choosingArticle({
+        context,
         // choose for user
         postbackData: {
           state: 'CHOOSING_ARTICLE',
-          sessionId: data.sessionId,
+          sessionId: context.sessionId,
           input: edgesSortedWithSimilarity[0].node.id,
         },
         userId,
       });
-
-      return { context: { data: result.data }, replies: result.replies };
     }
 
     const articleOptions = ListArticles.edges
@@ -238,7 +239,7 @@ export default async function (
                     t`Choose this one`,
                     id,
                     t`I choose ${displayTextWhenChosen}`,
-                    data.sessionId,
+                    context.sessionId,
                     'CHOOSING_ARTICLE'
                   ),
                   style: 'primary',
@@ -298,7 +299,7 @@ export default async function (
                 t`Tell us more`,
                 POSTBACK_NO_ARTICLE_FOUND,
                 t`None of these messages matches mine :(`,
-                data.sessionId,
+                context.sessionId,
                 'CHOOSING_ARTICLE'
               ),
               style: 'primary',
@@ -350,9 +351,9 @@ export default async function (
           '\n' +
           t`Do you want someone to fact-check this message?`,
       }),
-      createAskArticleSubmissionConsentReply(data.sessionId),
+      createAskArticleSubmissionConsentReply(context.sessionId),
     ];
   }
   visitor.send();
-  return { context: { data }, replies };
+  return { context: { data: context }, replies };
 }

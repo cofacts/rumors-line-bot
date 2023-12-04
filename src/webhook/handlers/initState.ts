@@ -7,10 +7,7 @@ import {
   Message,
   TextMessage,
 } from '@line/bot-sdk';
-import type {
-  ChatbotStateHandlerReturnType,
-  Context,
-} from 'src/types/chatbotState';
+import type { Result, Context } from 'src/types/chatbotState';
 import gql from 'src/lib/gql';
 import {
   createPostbackAction,
@@ -31,17 +28,17 @@ import {
 const SIMILARITY_THRESHOLD = 0.95;
 
 const initState = async ({
-  data,
+  context,
   userId,
 }: {
   // Context initiated by text search
-  data: Context & { searchedText: string };
+  context: Context;
   userId: string;
-}): Promise<ChatbotStateHandlerReturnType> => {
+}): Promise<Result> => {
   const state = '__INIT__';
   let replies: Message[] = [];
 
-  const input = data.searchedText;
+  const input = context.msgs[0].;
 
   // Track text message type send by user
   const visitor = ga(userId, state, input);
@@ -74,7 +71,7 @@ const initState = async ({
       el: dialogflowResponse.queryResult.intent.displayName ?? undefined,
     });
     visitor.send();
-    return { data, replies };
+    return { context, replies };
   }
 
   // Search for articles
@@ -143,7 +140,7 @@ const initState = async ({
       visitor.send();
 
       return await choosingArticle({
-        data,
+        context,
         // choose for user
         postbackData: {
           sessionId: data.sessionId,
@@ -354,7 +351,7 @@ const initState = async ({
     ];
   }
   visitor.send();
-  return { data, replies };
+  return { context, replies };
 };
 
 export default initState;

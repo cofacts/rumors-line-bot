@@ -12,7 +12,7 @@ import originalHandlePostback from '../handlePostback';
 import { TUTORIAL_STEPS } from '../tutorial';
 
 import { MessageEvent, PostbackEvent, TextEventMessage } from '@line/bot-sdk';
-import { Context } from 'src/types/chatbotState';
+import { LegacyContext } from 'src/types/chatbotState';
 
 jest.mock('src/webhook/lineClient');
 jest.mock('src/lib/ga');
@@ -162,7 +162,7 @@ it('handles postbacks', async () => {
   const sessionId = 123;
 
   redisGet.mockImplementationOnce(
-    (): Promise<{ data: Context }> =>
+    (): Promise<{ data: LegacyContext }> =>
       Promise.resolve({
         data: { sessionId, searchedText: '' },
       })
@@ -185,9 +185,9 @@ it('handles postbacks', async () => {
     replyToken: '',
   };
 
-  handlePostback.mockImplementationOnce((data) => {
+  handlePostback.mockImplementationOnce((context) => {
     return Promise.resolve({
-      context: { data },
+      context,
       replies: [
         {
           type: 'text',
@@ -305,9 +305,9 @@ it('forwards to CHOOSING_ARTICLE when VIEW_ARTICLE_PREFIX is sent', async () => 
     `${VIEW_ARTICLE_PREFIX}${getArticleURL('article-id')}`
   );
 
-  handlePostback.mockImplementationOnce((data) => {
+  handlePostback.mockImplementationOnce((context) => {
     return Promise.resolve({
-      context: { data },
+      context,
       replies: [
         {
           type: 'text',
@@ -364,9 +364,9 @@ it('shows reply list when article URL is sent', async () => {
     getArticleURL('article-id') + '  \n  ' /* simulate manual input */
   );
 
-  handlePostback.mockImplementationOnce((data) => {
+  handlePostback.mockImplementationOnce((context) => {
     return Promise.resolve({
-      context: { data },
+      context,
       replies: [
         {
           type: 'text',
@@ -495,9 +495,9 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
 it('handles tutorial trigger from rich menu', async () => {
   const event = createTextMessageEvent(TUTORIAL_STEPS['RICH_MENU']);
 
-  handlePostback.mockImplementationOnce((data) => {
+  handlePostback.mockImplementationOnce((context) => {
     return Promise.resolve({
-      context: { data },
+      context,
       replies: [
         {
           type: 'text',

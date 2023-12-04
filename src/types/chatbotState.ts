@@ -9,7 +9,7 @@ export type ChatbotState =
   | 'ASKING_ARTICLE_SUBMISSION_CONSENT'
   | 'Error';
 
-export type Context = {
+export type LegacyContext = {
   /** Used to differientiate different search sessions (searched text or media) */
   sessionId: number;
 } & (
@@ -23,6 +23,12 @@ export type Context = {
       searchedText: string;
     }
 );
+
+export type Context = {
+  /** Used to differientiate different search sessions (searched text or media) */
+  sessionId: number;
+  msgs: ReadonlyArray<CooccurredMessage>;
+};
 
 /** A single messages in the same co-occurrence */
 export type CooccurredMessage = {
@@ -41,8 +47,12 @@ export type CooccurredMessage = {
     }
 );
 
-export type ChatbotStateHandlerReturnType = {
-  data: Context;
+/** Result of handler or processors */
+export type Result = {
+  /** The new context to set after processing the event */
+  context: Context;
+
+  /** The messages to send to the user as reply */
   replies: Message[];
 };
 
@@ -56,8 +66,8 @@ export type PostbackActionData<T> = {
 };
 
 export type ChatbotPostbackHandlerParams<T = unknown> = {
-  /** Data stored in Chatbot context */
-  data: Context;
+  /** Chatbot context */
+  context: Context;
   /** Data in postback payload */
   postbackData: PostbackActionData<T>;
   userId: string;
@@ -68,4 +78,4 @@ export type ChatbotPostbackHandlerParams<T = unknown> = {
  */
 export type ChatbotPostbackHandler<T = unknown> = (
   params: ChatbotPostbackHandlerParams<T>
-) => Promise<ChatbotStateHandlerReturnType>;
+) => Promise<Result>;
