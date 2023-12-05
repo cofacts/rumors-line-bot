@@ -1,6 +1,9 @@
-import { Context, CooccurredMessage } from 'src/types/chatbotState';
-import { createTextMessage } from './utils';
 import { Message } from '@line/bot-sdk';
+
+import { Context, CooccurredMessage } from 'src/types/chatbotState';
+import { sleep } from 'src/lib/sharedUtils';
+
+import { createTextMessage } from './utils';
 
 async function processBatch(messages: CooccurredMessage[]) {
   const context: Context = {
@@ -14,12 +17,11 @@ async function processBatch(messages: CooccurredMessage[]) {
     }),
   ];
 
-  return {
-    context: {
-      data: context,
-    },
-    replies,
-  };
+  // TODO: initiate multi-message processing here
+  //
+  await sleep(1000); // Simulate multi-message processing and see if more message in batch.
+
+  return { context, replies };
 }
 
 export default processBatch;
