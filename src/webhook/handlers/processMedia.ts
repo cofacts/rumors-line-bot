@@ -355,5 +355,5 @@ export default async function (
     ];
   }
   visitor.send();
-  return { context: { data: context }, replies };
+  return { context, replies };
 }
