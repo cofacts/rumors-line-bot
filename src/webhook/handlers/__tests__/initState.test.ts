@@ -31,10 +31,15 @@ it('article found', async () => {
 
   expect(
     await initState({
-      data: {
+      context: {
         sessionId: 1497994017447,
-        searchedText:
-          '計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入',
+        msgs: [
+          {
+            type: 'text',
+            id: 'abc',
+            text: '計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入',
+          },
+        ],
       },
       userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     })
@@ -73,10 +78,15 @@ it('long article replies still below flex message limit', async () => {
   gql.__push(apiListArticleResult.twelveLongArticles);
 
   const result = await initState({
-    data: {
+    context: {
       sessionId: 1502477506267,
-      searchedText:
-        '這樣的大事國內媒體竟然不敢報導！\n我國駐日代表將原「中華民國」申請更名為「台灣」結果被日本裁罰，須繳納7000萬日圓（合約台幣2100萬元）高額稅賦(轉載中時電子報）\n\n我駐日代表謝長廷將原「中華民國」申請更名為「台灣」，自認得意之時，結果遭自認友好日本國給出賣了，必須繳納7000萬日圓（合約台幣2100萬元）高額稅賦...民進黨沒想到如此更名竟然是這樣的下場：被他最信任也最友好的日本政府給坑了。\n果然錯誤的政策比貪污可怕，2100萬就這樣打水漂了，還要資助九州水患，核四停建違約賠償金.......夠全國軍公教退休2次.........\n\nhttp://www.chinatimes.com/newspapers/20170617000318-260118',
+      msgs: [
+        {
+          type: 'text',
+          id: 'abc',
+          text: '這樣的大事國內媒體竟然不敢報導！\n我國駐日代表將原「中華民國」申請更名為「台灣」結果被日本裁罰，須繳納7000萬日圓（合約台幣2100萬元）高額稅賦(轉載中時電子報）\n\n我駐日代表謝長廷將原「中華民國」申請更名為「台灣」，自認得意之時，結果遭自認友好日本國給出賣了，必須繳納7000萬日圓（合約台幣2100萬元）高額稅賦...民進黨沒想到如此更名竟然是這樣的下場：被他最信任也最友好的日本政府給坑了。\n果然錯誤的政策比貪污可怕，2100萬就這樣打水漂了，還要資助九州水患，核四停建違約賠償金.......夠全國軍公教退休2次.........\n\nhttp://www.chinatimes.com/newspapers/20170617000318-260118',
+        },
+      ],
     },
     userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
   });
@@ -106,9 +116,9 @@ it('articles found with high similarity', async () => {
 
   expect(
     await initState({
-      data: {
+      context: {
         sessionId: 1497994017447,
-        searchedText: 'YouTube · 寻找健康人生',
+        msgs: [{ type: 'text', id: 'abc', text: 'YouTube · 寻找健康人生' }],
       },
       userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     })
@@ -157,9 +167,9 @@ it('only one article found with high similarity and choose for user', async () =
 
   expect(
     await initState({
-      data: {
+      context: {
         sessionId: 1497994017447,
-        searchedText: 'YouTube · 寻找健康人生',
+        msgs: [{ type: 'text', id: 'abc', text: 'YouTube · 寻找健康人生' }],
       },
       userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     })
@@ -214,9 +224,9 @@ it('should handle message matches only hyperlinks', async () => {
 
   expect(
     await initState({
-      data: {
+      context: {
         sessionId: 1497994017447,
-        searchedText: 'YouTube · 寻找健康人生',
+        msgs: [{ type: 'text', id: 'abc', text: 'YouTube · 寻找健康人生' }],
       },
       userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     })
@@ -265,10 +275,15 @@ it('should handle text not found', async () => {
   MockDate.set('2020-01-01');
   expect(
     await initState({
-      data: {
+      context: {
         sessionId: 1497994017447,
-        searchedText:
-          'YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...',
+        msgs: [
+          {
+            type: 'text',
+            id: 'abc',
+            text: 'YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...',
+          },
+        ],
       },
       userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
     })
@@ -313,9 +328,9 @@ describe('input matches dialogflow intent', () => {
 
     expect(
       await initState({
-        data: {
+        context: {
           sessionId: 1497994017447,
-          searchedText: '你好',
+          msgs: [{ type: 'text', id: 'abc', text: '你好' }],
         },
         userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
       })
@@ -360,9 +375,9 @@ describe('input matches dialogflow intent', () => {
 
     expect(
       await initState({
-        data: {
+        context: {
           sessionId: 1497994017447,
-          searchedText: '零一二三四五六七八九十',
+          msgs: [{ type: 'text', id: 'abc', text: '零一二三四五六七八九十' }],
         },
         userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
       })
@@ -408,9 +423,9 @@ describe('input matches dialogflow intent', () => {
     MockDate.set('2020-01-01');
     expect(
       await initState({
-        data: {
+        context: {
           sessionId: 1497994017447,
-          searchedText: '零一二三四五六七八九十',
+          msgs: [{ type: 'text', id: 'abc', text: '零一二三四五六七八九十' }],
         },
         userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
       })
