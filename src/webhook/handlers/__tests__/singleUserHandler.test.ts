@@ -158,11 +158,11 @@ it('ignores sticker events', async () => {
   expect(lineClient.post.mock.calls).toMatchInlineSnapshot(`Array []`);
 });
 
-it('handles postbacks', async () => {
+it('handles postbacks w/ LegacyContext', async () => {
   const sessionId = 123;
 
   redisGet.mockImplementationOnce(
-    (): Promise<{ data: LegacyContext }> =>
+    (): Promise<LegacyContext> =>
       Promise.resolve({
         data: { sessionId, searchedText: '' },
       })
