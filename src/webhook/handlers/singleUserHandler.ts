@@ -1,13 +1,18 @@
 import { t } from 'ttag';
 import { WebhookEvent } from '@line/bot-sdk';
 
-import { CooccurredMessage, PostbackActionData } from 'src/types/chatbotState';
+import {
+  CooccurredMessage,
+  PostbackActionData,
+  Result,
+  LegacyContext,
+  Context,
+} from 'src/types/chatbotState';
 import ga from 'src/lib/ga';
 import redis from 'src/lib/redisClient';
 import { extractArticleId, sleep } from 'src/lib/sharedUtils';
 import lineClient from 'src/webhook/lineClient';
 import UserSettings from 'src/database/models/userSettings';
-import { Result } from 'src/types/result';
 
 import handlePostback from './handlePostback';
 import {
@@ -77,12 +82,7 @@ const singleUserHandler = async (
     isRepliedDueToTimeout = true;
   }, REPLY_TIMEOUT);
 
-  // Get user's context from redis or create a new one
-  //
-  const context = (await redis.get(userId)) || {
-    data: { sessionId: Date.now() },
-  };
-
+  const context = await getContextForUser(userId);
   const REDIS_BATCH_KEY = getRedisBatchKey(userId);
 
   /**
@@ -187,40 +187,33 @@ const singleUserHandler = async (
       return send(await processBatch(messages), msg);
     }
 
-    const firstMsg = messages[0];
-    if (firstMsg.type !== 'text') {
+    // Now there is only one message in the batch;
+    // messages[0] should be identical to msg.
+    //
+    if (msg.type !== 'text') {
       return send(
         await processMedia(
           {
-            message: {
-              id: firstMsg.id,
-              type: firstMsg.type,
-            },
+            message: msg,
           },
           userId
         ),
         msg
       );
     }
-    const result = await initState({
-      data: {
+
+    return send(
+      await initState({
         // Create a new "search session".
         // Used to determine button postbacks and GraphQL requests are from
         // previous sessions
         //
-        sessionId: Date.now(),
-
-        // Store user input into context
-        searchedText: firstMsg.text,
-      },
-      userId,
-    });
-
-    return send(
-      {
-        context: { data: result.data },
-        replies: result.replies,
-      },
+        context: {
+          ...getNewContext(),
+          msgs: [msg],
+        },
+        userId,
+      }),
       msg
     );
   }
@@ -240,7 +233,7 @@ const singleUserHandler = async (
       await UserSettings.setAllowNewReplyUpdate(userId, true);
 
       // Create new context
-      const data = { sessionId: Date.now() };
+      const context = getNewContext();
 
       const visitor = ga(userId, 'TUTORIAL');
       visitor.event({
@@ -251,10 +244,10 @@ const singleUserHandler = async (
       visitor.send();
 
       return send({
-        context: { data },
+        context,
         replies: [
           createGreetingMessage(),
-          createTutorialMessage(data.sessionId),
+          createTutorialMessage(context.sessionId),
         ],
       });
     }
@@ -264,8 +257,8 @@ const singleUserHandler = async (
         webhookEvent.postback.data
       ) as PostbackActionData<unknown>;
 
-      if (postbackData.sessionId === context.data.sessionId) {
-        return send(await handlePostback(context.data, postbackData, userId));
+      if (postbackData.sessionId === context.sessionId) {
+        return send(await handlePostback(context, postbackData, userId));
       }
 
       // Postback data session ID != context session ID can happen when
@@ -337,13 +330,13 @@ const singleUserHandler = async (
 
     case TUTORIAL_STEPS['RICH_MENU']: {
       // Start new session, reroute to TUTORIAL
-      const sessionId = Date.now();
+      const context = getNewContext();
       return send(
         await handlePostback(
-          { sessionId, searchedText: '' },
+          context,
           {
             state: 'TUTORIAL',
-            sessionId,
+            sessionId: context.sessionId,
             input: TUTORIAL_STEPS['RICH_MENU'],
           },
           userId
@@ -358,17 +351,14 @@ const singleUserHandler = async (
       if (articleId) {
         // It is a predefined text message wanting us to visit a article.
         // Start new session, reroute to CHOOSING_ARTILCE and simulate "choose article" postback event
-        const sessionId = Date.now();
+        const context = getNewContext();
         return send(
           await handlePostback(
             // Start a new session
-            {
-              sessionId,
-              searchedText: '',
-            },
+            context,
             {
               state: 'CHOOSING_ARTICLE',
-              sessionId,
+              sessionId: context.sessionId,
               input: articleId,
             },
             userId
@@ -389,6 +379,48 @@ const singleUserHandler = async (
 
 export function getRedisBatchKey(userId: string) {
   return `${userId}:batch`;
+}
+
+function getNewContext(): Context {
+  return {
+    sessionId: Date.now(),
+    msgs: [],
+  };
+}
+
+/**
+ * Get user's context from redis or create a new one.
+ * Automatically convert legacy context to new context.
+ *
+ * @param userId
+ * @returns user's context from Redis, or newly created context
+ */
+async function getContextForUser(userId: string): Promise<Context> {
+  const context = ((await redis.get(userId)) || getNewContext()) as
+    | LegacyContext
+    | Context;
+
+  if (!('data' in context)) {
+    // New context
+    return context;
+  }
+
+  // Converting legacy context to new context
+  return {
+    sessionId: context.data.sessionId,
+    msgs: [
+      'searchedText' in context.data
+        ? {
+            id: context.data.sessionId.toString(), // Original message ID is not available, use session id to differentiate
+            type: 'text',
+            text: context.data.searchedText,
+          }
+        : {
+            id: context.data.messageId,
+            type: context.data.messageType,
+          },
+    ],
+  };
 }
 
 export default singleUserHandler;
