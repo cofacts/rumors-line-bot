@@ -10,19 +10,24 @@ export type ChatbotState =
   | 'Error';
 
 export type LegacyContext = {
-  /** Used to differientiate different search sessions (searched text or media) */
-  sessionId: number;
-} & (
-  | {
-      /** Searched multi-media message that started this search session */
-      messageId: MessageEvent['message']['id'];
-      messageType: MessageEvent['message']['type'];
-    }
-  | {
-      /** Searched text that started this search session */
-      searchedText: string;
-    }
-);
+  data: {
+    /** Used to differientiate different search sessions (searched text or media) */
+    sessionId: number;
+  } & (
+    | {
+        /** Searched multi-media message that started this search session */
+        messageId: MessageEvent['message']['id'];
+        messageType: Extract<
+          MessageEvent['message']['type'],
+          'audio' | 'video' | 'image'
+        >;
+      }
+    | {
+        /** Searched text that started this search session */
+        searchedText: string;
+      }
+  );
+};
 
 export type Context = {
   /** Used to differientiate different search sessions (searched text or media) */
