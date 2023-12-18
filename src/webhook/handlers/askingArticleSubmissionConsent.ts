@@ -38,7 +38,7 @@ function uppercase<T extends string>(s: T) {
 }
 
 const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
-  data,
+  context,
   postbackData: { state, input: postbackInput },
   userId,
 }) => {
@@ -50,10 +50,16 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
     throw new ManipulationError(t`Please choose from provided options.`);
   }
 
+  const firstMsg = context.msgs[0];
+  // istanbul ignore if
+  if (!firstMsg) {
+    throw new ManipulationError('No message found in context'); // Should never happen
+  }
+
   const visitor = ga(
     userId,
     state,
-    'searchedText' in data ? data.searchedText : data.messageId
+    firstMsg.type === 'text' ? firstMsg.text : firstMsg.id
   );
 
   let replies: Message[] = [];
@@ -74,9 +80,8 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
 
     case POSTBACK_YES: {
       visitor.event({ ec: 'Article', ea: 'Create', el: 'Yes' });
-      const isTextArticle = 'searchedText' in data && !('messageId' in data);
       let article;
-      if (isTextArticle) {
+      if (firstMsg.type === 'text') {
         const result = await gql`
           mutation SubmitTextArticleUnderConsent($text: String!) {
             CreateArticle(text: $text, reference: { type: LINE }) {
@@ -86,23 +91,12 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
         `<
           SubmitTextArticleUnderConsentMutation,
           SubmitTextArticleUnderConsentMutationVariables
-        >({ text: data.searchedText ?? '' }, { userId });
+        >({ text: firstMsg.text }, { userId });
         article = result.data.CreateArticle;
       } else {
-        const articleType: ArticleTypeEnum = (() => {
-          switch (data.messageType) {
-            case 'image':
-            case 'audio':
-            case 'video':
-              return uppercase(data.messageType);
-            default:
-              throw new Error(
-                `[askingArticleSubmissionConsent] unsupported message type ${data.messageType}`
-              );
-          }
-        })();
+        const articleType: ArticleTypeEnum = uppercase(firstMsg.type);
 
-        const proxyUrl = getLineContentProxyURL(data.messageId);
+        const proxyUrl = getLineContentProxyURL(firstMsg.id);
 
         const result = await gql`
           mutation SubmitMediaArticleUnderConsent(
@@ -137,7 +131,7 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
       );
 
       // Create new session, make article submission button expire after submission
-      data.sessionId = Date.now();
+      context.sessionId = Date.now();
 
       const articleUrl = getArticleURL(article.id);
       const articleCreatedMsg = t`Your submission is now recorded at ${articleUrl}`;
@@ -151,7 +145,7 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
         }),
       ];
 
-      if (isTextArticle) {
+      if (firstMsg.type === 'text') {
         const aiReply = await createAIReply(article.id, userId);
 
         if (aiReply) {
@@ -217,7 +211,7 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
   }
 
   visitor.send();
-  return { data, replies };
+  return { context, replies };
 };
 
 export default askingArticleSubmissionConsent;
