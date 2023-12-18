@@ -1,12 +1,11 @@
 import { t } from 'ttag';
 import type {
-  MessageEvent,
   FlexBubble,
   Message,
   FlexMessage,
   FlexComponent,
 } from '@line/bot-sdk';
-import { Context } from 'src/types/chatbotState';
+import { Context, CooccurredMessage } from 'src/types/chatbotState';
 
 import {
   getLineContentProxyURL,
@@ -27,19 +26,14 @@ import {
 const CIRCLED_DIGITS = '⓪①②③④⑤⑥⑦⑧⑨⑩⑪';
 const SIMILARITY_THRESHOLD = 0.95;
 
-export default async function (
-  event: {
-    message: Pick<MessageEvent['message'], 'id' | 'type'>;
-  },
-  userId: string
-) {
-  const proxyUrl = getLineContentProxyURL(event.message.id);
+export default async function (message: CooccurredMessage, userId: string) {
+  const proxyUrl = getLineContentProxyURL(message.id);
   console.log(`Media url: ${proxyUrl}`);
 
   const visitor = ga(userId, '__PROCESS_MEDIA__', proxyUrl);
 
   // Track media message type send by user
-  visitor.event({ ec: 'UserInput', ea: 'MessageType', el: event.message.type });
+  visitor.event({ ec: 'UserInput', ea: 'MessageType', el: message.type });
 
   let replies;
   const context: Context = {
@@ -47,12 +41,7 @@ export default async function (
     sessionId: Date.now(),
 
     // Store user messageId into context, which will use for submit new image article
-    msgs: [
-      {
-        type: event.message.type,
-        messageId: event.message.id,
-      },
-    ],
+    msgs: [message],
   };
 
   const {

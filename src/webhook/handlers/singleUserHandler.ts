@@ -191,15 +191,7 @@ const singleUserHandler = async (
     // messages[0] should be identical to msg.
     //
     if (msg.type !== 'text') {
-      return send(
-        await processMedia(
-          {
-            message: msg,
-          },
-          userId
-        ),
-        msg
-      );
+      return send(await processMedia(msg, userId), msg);
     }
 
     return send(
