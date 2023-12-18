@@ -22,7 +22,7 @@ const inputSchema = z.enum([POSTBACK_NO, POSTBACK_YES]);
 export type Input = z.infer<typeof inputSchema>;
 
 const askingArticleSource: ChatbotPostbackHandler = async ({
-  data,
+  context,
   postbackData: { state, input: postbackInput },
   userId,
 }) => {
@@ -36,11 +36,13 @@ const askingArticleSource: ChatbotPostbackHandler = async ({
 
   let replies: Message[] = [];
 
-  const visitor = ga(
-    userId,
-    state,
-    'searchedText' in data ? data.searchedText : data.messageId
-  );
+  const firstMsg = context.msgs[0];
+  // istanbul ignore if
+  if (!firstMsg || firstMsg.type !== 'text') {
+    throw new Error('No message found in context'); // Never happens
+  }
+
+  const visitor = ga(userId, state, firstMsg.text);
 
   switch (input) {
     default: {
@@ -113,7 +115,7 @@ const askingArticleSource: ChatbotPostbackHandler = async ({
                         t`See Tutorial`,
                         TUTORIAL_STEPS.RICH_MENU,
                         TUTORIAL_STEPS.RICH_MENU,
-                        data.sessionId,
+                        context.sessionId,
                         'TUTORIAL'
                       ),
                       style: 'primary',
@@ -185,7 +187,7 @@ const askingArticleSource: ChatbotPostbackHandler = async ({
         createTextMessage({
           text: t`Do you want someone to fact-check this message?`,
         }),
-        createAskArticleSubmissionConsentReply(data.sessionId),
+        createAskArticleSubmissionConsentReply(context.sessionId),
       ];
       visitor.event({
         ec: 'UserInput',
@@ -196,7 +198,7 @@ const askingArticleSource: ChatbotPostbackHandler = async ({
 
   visitor.send();
 
-  return { data, replies };
+  return { context, replies };
 };
 
 export default askingArticleSource;
