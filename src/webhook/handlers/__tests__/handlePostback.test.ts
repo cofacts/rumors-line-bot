@@ -228,7 +228,7 @@ describe('tutorial', () => {
 
     tutorial.mockImplementationOnce(() => {
       return {
-        data: { sessionId: 0, searchedText: '' },
+        context: { sessionId: 0, msgs: [] },
         replies: [],
       };
     });

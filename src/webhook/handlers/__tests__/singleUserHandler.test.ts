@@ -422,9 +422,9 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
   const input = 'Newly forwarded message';
   const event = createTextMessageEvent(input);
 
-  initState.mockImplementationOnce(({ data }) => {
+  initState.mockImplementationOnce(({ context }) => {
     return Promise.resolve({
-      data,
+      context,
       replies: [
         {
           type: 'text',

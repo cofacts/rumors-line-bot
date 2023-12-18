@@ -32,10 +32,15 @@ it('should select article by articleId', async () => {
   gql.__push(apiGetArticleResult.selectedArticleId);
 
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: 0,
-      searchedText:
-        '《緊急通知》\n台北馬偕醫院傳來訊息：\n資深醫生（林清風）傳來：「請大家以後千萬不要再吃生魚片了！」\n因為最近已經發現- 好多病人因為吃了生魚片，胃壁附著《海獸胃腺蟲》，大小隻不一定，有的病人甚至胃壁上滿滿都是無法夾出來，驅蟲藥也很難根治，罹患機率每個國家的人都一樣。\n尤其；鮭魚的含蟲量最高、最可怕！\n請傳給朋友，讓他們有所警惕!',
+      msgs: [
+        {
+          id: 'foo',
+          type: 'text',
+          text: '《緊急通知》\n台北馬偕醫院傳來訊息：\n資深醫生（林清風）傳來：「請大家以後千萬不要再吃生魚片了！」\n因為最近已經發現- 好多病人因為吃了生魚片，胃壁附著《海獸胃腺蟲》，大小隻不一定，有的病人甚至胃壁上滿滿都是無法夾出來，驅蟲藥也很難根治，罹患機率每個國家的人都一樣。\n尤其；鮭魚的含蟲量最高、最可怕！\n請傳給朋友，讓他們有所警惕!',
+        },
+      ],
     },
     postbackData: {
       sessionId: 0,
@@ -81,7 +86,7 @@ it('throws ManipulationError when articleId is not valid', async () => {
   gql.__push({ data: { GetArticle: null } });
 
   const params: ChatbotPostbackHandlerParams = {
-    data: { sessionId: 0, searchedText: '' },
+    context: { sessionId: 0, msgs: [] },
     postbackData: {
       sessionId: 0,
       state: 'CHOOSING_ARTICLE',
@@ -100,10 +105,15 @@ it('should select article and have OPINIONATED and NOT_ARTICLE replies', async (
   gql.__push(apiGetArticleResult.multipleReplies);
 
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: 1497994017447,
-      searchedText:
-        '老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人',
+      msgs: [
+        {
+          id: 'foo',
+          type: 'text',
+          text: '老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人',
+        },
+      ],
     },
     postbackData: {
       input: 'article-id',
@@ -168,9 +178,15 @@ it('should select article with no replies', async () => {
   gql.__push(apiGetArticleResult.createOrUpdateReplyRequest);
 
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: 0,
-      searchedText: '老司機車裡總備一塊香皂，知道內情的新手默默也準備了一塊',
+      msgs: [
+        {
+          id: 'foo',
+          type: 'text',
+          text: '老司機車裡總備一塊香皂，知道內情的新手默默也準備了一塊',
+        },
+      ],
     },
     postbackData: {
       input: 'article-id',
@@ -223,10 +239,15 @@ it('should select article and choose the only one reply for user', async () => {
   gql.__push(apiGetReplyResult.oneReply2);
 
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: 0,
-      searchedText:
-        'Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply',
+      msgs: [
+        {
+          id: 'foo',
+          type: 'text',
+          text: 'Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply',
+        },
+      ],
     },
     postbackData: {
       input: 'article-id',
@@ -269,10 +290,15 @@ it('should select article and choose the only one reply for user', async () => {
 
 it('should block incorrect interactions', async () => {
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: 0,
-      searchedText:
-        'Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply',
+      msgs: [
+        {
+          id: 'foo',
+          type: 'text',
+          text: 'Just One Reply Just One Reply Just One Reply Just One Reply Just One Reply',
+        },
+      ],
     },
     postbackData: {
       sessionId: 0,
@@ -291,10 +317,15 @@ it('should select article and slice replies when over 10', async () => {
   gql.__push(apiGetArticleResult.elevenReplies);
 
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: 0,
-      searchedText:
-        '老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人',
+      msgs: [
+        {
+          id: 'foo',
+          type: 'text',
+          text: '老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人',
+        },
+      ],
     },
     postbackData: {
       input: 'article-id',
@@ -310,10 +341,15 @@ it('should select article and slice replies when over 10', async () => {
 
 it('should ask users if they want to submit article when user say not found', async () => {
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: 0,
-      searchedText:
-        '這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。',
+      msgs: [
+        {
+          id: 'foo',
+          type: 'text',
+          text: '這一篇文章確實是一個轉傳文章，他夠長，看起來很轉傳，但是使用者覺得資料庫裡沒有。',
+        },
+      ],
     },
     postbackData: {
       input: POSTBACK_NO_ARTICLE_FOUND,
@@ -344,10 +380,14 @@ it('should ask users if they want to submit article when user say not found', as
 
 it('should ask users if they want to submit image article when user say not found', async () => {
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: 0,
-      messageType: 'image',
-      messageId: '6530038889933',
+      msgs: [
+        {
+          id: '6530038889933',
+          type: 'image',
+        },
+      ],
     },
     postbackData: {
       input: POSTBACK_NO_ARTICLE_FOUND,
@@ -379,9 +419,15 @@ it('should ask users if they want to submit image article when user say not foun
 it('should create a UserArticleLink when selecting a article', async () => {
   const userId = 'user-id-0';
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: 0,
-      searchedText: '《緊急通知》',
+      msgs: [
+        {
+          id: 'foo',
+          type: 'text',
+          text: '《緊急通知》',
+        },
+      ],
     },
     postbackData: {
       input: 'article-id',

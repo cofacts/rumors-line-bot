@@ -12,9 +12,9 @@ import { ChatbotPostbackHandlerParams } from 'src/types/chatbotState';
 const ga = originalGa as MockedGa;
 
 const param: ChatbotPostbackHandlerParams = {
-  data: {
+  context: {
     sessionId: 1497994017447,
-    searchedText: '',
+    msgs: [],
   },
   postbackData: {
     sessionId: 1497994017447,
@@ -242,6 +242,6 @@ it('createGreetingMessage()', () => {
 });
 
 it('createTutorialMessage()', () => {
-  const result = createTutorialMessage(param.data.sessionId);
+  const result = createTutorialMessage(param.context.sessionId);
   expect(result).toMatchSnapshot();
 });

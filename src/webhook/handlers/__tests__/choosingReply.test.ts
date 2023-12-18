@@ -31,9 +31,9 @@ describe('should select reply by replyId', () => {
   };
 
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: 0,
-      searchedText: '貼圖',
+      msgs: [{ id: 'foo', type: 'text', text: '貼圖' }],
     },
     postbackData: {
       sessionId: 0,
@@ -101,9 +101,9 @@ describe('should select reply by replyId', () => {
 
 it('should block invalid postback input', async () => {
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: 0,
-      searchedText: '貼圖',
+      msgs: [{ id: 'foo', type: 'text', text: '貼圖' }],
     },
     postbackData: {
       sessionId: 0,
@@ -126,9 +126,9 @@ it('should handle graphql error gracefully', async () => {
   };
 
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: 0,
-      searchedText: '貼圖',
+      msgs: [{ id: 'foo', type: 'text', text: '貼圖' }],
     },
     postbackData: {
       sessionId: 0,
