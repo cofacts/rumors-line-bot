@@ -126,10 +126,8 @@ describe('defaultState', () => {
     ).resolves.toMatchInlineSnapshot(`
       Object {
         "context": Object {
-          "data": Object {
-            "searchedText": "",
-            "sessionId": 0,
-          },
+          "msgs": Array [],
+          "sessionId": 0,
         },
         "replies": Array [],
       }
@@ -158,10 +156,8 @@ it('handles ManipulationError fired in handlers', async () => {
   ).resolves.toMatchInlineSnapshot(`
     Object {
       "context": Object {
-        "data": Object {
-          "searchedText": "",
-          "sessionId": 612964800000,
-        },
+        "msgs": Array [],
+        "sessionId": 612964800000,
       },
       "replies": Array [
         Object {
@@ -242,10 +238,8 @@ describe('tutorial', () => {
     ).resolves.toMatchInlineSnapshot(`
       Object {
         "context": Object {
-          "data": Object {
-            "searchedText": "",
-            "sessionId": 0,
-          },
+          "msgs": Array [],
+          "sessionId": 0,
         },
         "replies": Array [],
       }
