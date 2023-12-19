@@ -86,7 +86,7 @@ it('throws ManipulationError when articleId is not valid', async () => {
   gql.__push({ data: { GetArticle: null } });
 
   const params: ChatbotPostbackHandlerParams = {
-    context: { sessionId: 0, msgs: [] },
+    context: { sessionId: 0, msgs: [{ type: 'text', text: 'foo', id: 'id' }] },
     postbackData: {
       sessionId: 0,
       state: 'CHOOSING_ARTICLE',
