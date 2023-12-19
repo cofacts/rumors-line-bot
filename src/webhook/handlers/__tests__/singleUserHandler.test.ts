@@ -205,7 +205,13 @@ it('handles postbacks w/ LegacyContext', async () => {
     Array [
       Array [
         Object {
-          "searchedText": "",
+          "msgs": Array [
+            Object {
+              "id": "123",
+              "text": "",
+              "type": "text",
+            },
+          ],
           "sessionId": 123,
         },
         Object {
@@ -327,7 +333,7 @@ it('forwards to CHOOSING_ARTICLE when VIEW_ARTICLE_PREFIX is sent', async () => 
     Array [
       Array [
         Object {
-          "searchedText": "",
+          "msgs": Array [],
           "sessionId": 1561982400000,
         },
         Object {
@@ -386,7 +392,7 @@ it('shows reply list when article URL is sent', async () => {
     Array [
       Array [
         Object {
-          "searchedText": "",
+          "msgs": Array [],
           "sessionId": 1561982400000,
         },
         Object {
@@ -463,8 +469,14 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
     Array [
       Array [
         Object {
-          "data": Object {
-            "searchedText": "Newly forwarded message",
+          "context": Object {
+            "msgs": Array [
+              Object {
+                "id": "TmV3bHkgZm9yd2FyZGVkIG1lc3NhZ2U=",
+                "text": "Newly forwarded message",
+                "type": "text",
+              },
+            ],
             "sessionId": 1561982400000,
           },
           "userId": "user-id",
@@ -516,7 +528,7 @@ it('handles tutorial trigger from rich menu', async () => {
     Array [
       Array [
         Object {
-          "searchedText": "",
+          "msgs": Array [],
           "sessionId": 1561982400000,
         },
         Object {
