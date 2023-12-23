@@ -60,7 +60,7 @@ function reorderArticleReplies(
 
 const choosingArticle: ChatbotPostbackHandler = async (params) => {
   const {
-    data,
+    context,
     userId,
     postbackData: { input, state, sessionId },
   } = params;
@@ -70,8 +70,16 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
     throw new ManipulationError(t`Please choose from provided options.`);
   }
 
-  if (input === POSTBACK_NO_ARTICLE_FOUND && 'searchedText' in data) {
-    const visitor = ga(userId, state, data.searchedText);
+  const firstMsg = context.msgs[0];
+  // istanbul ignore if
+  if (!firstMsg) {
+    throw new Error('firstMsg is undefined'); // Should never happen
+  }
+
+  // TODO: handle the case when there are multiple messages in context.msgs
+  //
+  if (input === POSTBACK_NO_ARTICLE_FOUND && firstMsg.type === 'text') {
+    const visitor = ga(userId, state, firstMsg.text);
     visitor.event({
       ec: 'UserInput',
       ea: 'ArticleSearch',
@@ -79,9 +87,9 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
     });
     visitor.send();
 
-    const inputSummary = ellipsis(data.searchedText, 12);
+    const inputSummary = ellipsis(firstMsg.text, 12);
     return {
-      data,
+      context,
       replies: [
         createTextMessage({
           text:
@@ -89,13 +97,13 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
             '\n' +
             t`May I ask you a quick question?`,
         }),
-        createArticleSourceReply(data.sessionId),
+        createArticleSourceReply(context.sessionId),
       ],
     };
   }
 
-  if (input === POSTBACK_NO_ARTICLE_FOUND && 'messageId' in data) {
-    const visitor = ga(userId, state, data.messageId);
+  if (input === POSTBACK_NO_ARTICLE_FOUND && firstMsg.type !== 'text') {
+    const visitor = ga(userId, state, firstMsg.id);
     visitor.event({
       ec: 'UserInput',
       ea: 'ArticleSearch',
@@ -104,7 +112,7 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
     visitor.send();
 
     return {
-      data,
+      context,
       replies: [
         createTextMessage({
           text:
@@ -112,7 +120,7 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
             '\n' +
             t`Do you want someone to fact-check this message?`,
         }),
-        createAskArticleSubmissionConsentReply(data.sessionId),
+        createAskArticleSubmissionConsentReply(context.sessionId),
       ],
     };
   }
@@ -179,7 +187,7 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
 
     // choose reply for user
     return await choosingReply({
-      data,
+      context,
       postbackData: {
         sessionId,
         state: 'CHOOSING_REPLY',
@@ -317,7 +325,7 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
                     `👀 ${t`Take a look`}`,
                     { a: selectedArticleId, r: reply.id },
                     t`I choose “${displayTextWhenChosen}”`,
-                    data.sessionId,
+                    context.sessionId,
                     'CHOOSING_REPLY'
                   ),
                   style: 'primary',
@@ -461,7 +469,7 @@ Don’t trust the message just yet!`,
 
   visitor.send();
 
-  return { data, replies };
+  return { context, replies };
 };
 
 export default choosingArticle;

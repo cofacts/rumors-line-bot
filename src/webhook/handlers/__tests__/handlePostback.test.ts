@@ -7,7 +7,7 @@ import originalAskingArticleSource from '../askingArticleSource';
 import originalAskingArticleSubmissionConsent from '../askingArticleSubmissionConsent';
 import originalTutorial from '../tutorial';
 import originalDefaultState from '../defaultState';
-import { ChatbotStateHandlerReturnType, Context } from 'src/types/chatbotState';
+import { Result, Context } from 'src/types/chatbotState';
 
 jest.mock('../choosingArticle');
 jest.mock('../choosingReply');
@@ -56,9 +56,9 @@ afterEach(() => {
 });
 
 it('invokes state handler specified by event.postbackHandlerState', async () => {
-  const data: Context = {
+  const context: Context = {
     sessionId: FIXED_DATE,
-    searchedText: '',
+    msgs: [],
   };
 
   for (const { postbackState, expectedHandler } of [
@@ -82,13 +82,13 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
   ] as const) {
     expectedHandler.mockImplementationOnce(() => {
       return Promise.resolve({
-        data: { sessionId: 0, searchedText: '' },
+        context: { sessionId: 0, msgs: [] },
         replies: [],
-      } as ChatbotStateHandlerReturnType);
+      } as Result);
     });
 
     await handlePostback(
-      data,
+      context,
       {
         sessionId: FIXED_DATE,
         state: postbackState,
@@ -105,17 +105,17 @@ it('invokes state handler specified by event.postbackHandlerState', async () => 
 
 describe('defaultState', () => {
   it('handles unimplemented state', async () => {
-    const data: Context = { sessionId: FIXED_DATE, searchedText: '' };
+    const context: Context = { sessionId: FIXED_DATE, msgs: [] };
     defaultState.mockImplementationOnce(() => {
       return {
-        data: { sessionId: 0, searchedText: '' },
+        context: { sessionId: 0, msgs: [] },
         replies: [],
       };
     });
 
     await expect(
       handlePostback(
-        data,
+        context,
         {
           sessionId: FIXED_DATE,
           input: 'foo',
@@ -126,10 +126,8 @@ describe('defaultState', () => {
     ).resolves.toMatchInlineSnapshot(`
       Object {
         "context": Object {
-          "data": Object {
-            "searchedText": "",
-            "sessionId": 0,
-          },
+          "msgs": Array [],
+          "sessionId": 0,
         },
         "replies": Array [],
       }
@@ -139,7 +137,7 @@ describe('defaultState', () => {
 });
 
 it('handles ManipulationError fired in handlers', async () => {
-  const data: Context = { sessionId: FIXED_DATE, searchedText: '' };
+  const context: Context = { sessionId: FIXED_DATE, msgs: [] };
 
   choosingArticle.mockImplementationOnce(() =>
     Promise.reject(new ManipulationError('Foo error'))
@@ -147,7 +145,7 @@ it('handles ManipulationError fired in handlers', async () => {
 
   await expect(
     handlePostback(
-      data,
+      context,
       {
         sessionId: FIXED_DATE,
         state: 'CHOOSING_ARTICLE',
@@ -158,10 +156,8 @@ it('handles ManipulationError fired in handlers', async () => {
   ).resolves.toMatchInlineSnapshot(`
     Object {
       "context": Object {
-        "data": Object {
-          "searchedText": "",
-          "sessionId": 612964800000,
-        },
+        "msgs": Array [],
+        "sessionId": 612964800000,
       },
       "replies": Array [
         Object {
@@ -205,14 +201,14 @@ it('handles ManipulationError fired in handlers', async () => {
 });
 
 it('throws on unknown error', async () => {
-  const data: Context = { sessionId: FIXED_DATE, searchedText: '' };
+  const context: Context = { sessionId: FIXED_DATE, msgs: [] };
   choosingArticle.mockImplementationOnce(() =>
     Promise.reject(new Error('Unknown error'))
   );
 
   await expect(
     handlePostback(
-      data,
+      context,
       { sessionId: FIXED_DATE, state: 'CHOOSING_ARTICLE', input: '' },
       'user-id'
     )
@@ -223,12 +219,12 @@ describe('tutorial', () => {
   it('handles TUTORIAL postbackHandlerState', async () => {
     const context: Context = {
       sessionId: FIXED_DATE,
-      searchedText: '',
+      msgs: [],
     };
 
     tutorial.mockImplementationOnce(() => {
       return {
-        data: { sessionId: 0, searchedText: '' },
+        context: { sessionId: 0, msgs: [] },
         replies: [],
       };
     });
@@ -242,10 +238,8 @@ describe('tutorial', () => {
     ).resolves.toMatchInlineSnapshot(`
       Object {
         "context": Object {
-          "data": Object {
-            "searchedText": "",
-            "sessionId": 0,
-          },
+          "msgs": Array [],
+          "sessionId": 0,
         },
         "replies": Array [],
       }

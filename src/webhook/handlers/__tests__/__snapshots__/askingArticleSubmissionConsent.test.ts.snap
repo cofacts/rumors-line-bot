@@ -147,8 +147,14 @@ Array [
 
 exports[`should submit article if user agrees to submit: has AI reply 1`] = `
 Object {
-  "data": Object {
-    "searchedText": "Some text forwarded by the user",
+  "context": Object {
+    "msgs": Array [
+      Object {
+        "id": "foo",
+        "text": "Some text forwarded by the user",
+        "type": "text",
+      },
+    ],
     "sessionId": 1577923200000,
   },
   "replies": Array [
@@ -325,8 +331,14 @@ Object {
 
 exports[`should submit article if user agrees to submit: has no AI reply 1`] = `
 Object {
-  "data": Object {
-    "searchedText": "Some text forwarded by the user",
+  "context": Object {
+    "msgs": Array [
+      Object {
+        "id": "foo",
+        "text": "Some text forwarded by the user",
+        "type": "text",
+      },
+    ],
     "sessionId": 1577923200000,
   },
   "replies": Array [
@@ -475,10 +487,13 @@ Object {
 
 exports[`should submit image article if user agrees to submit 1`] = `
 Object {
-  "data": Object {
-    "messageId": "6530038889933",
-    "messageType": "image",
-    "searchedText": "",
+  "context": Object {
+    "msgs": Array [
+      Object {
+        "id": "6530038889933",
+        "type": "image",
+      },
+    ],
     "sessionId": 1577923200000,
   },
   "replies": Array [

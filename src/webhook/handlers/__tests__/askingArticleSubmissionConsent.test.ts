@@ -28,7 +28,7 @@ beforeEach(() => {
 
 it('throws on incorrect input', async () => {
   const incorrectParam: ChatbotPostbackHandlerParams = {
-    data: { sessionId: 0, searchedText: 'foo' },
+    context: { sessionId: 0, msgs: [] },
     postbackData: {
       sessionId: 0,
       state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
@@ -47,9 +47,11 @@ it('throws on incorrect input', async () => {
 it('should thank the user if user does not agree to submit', async () => {
   const inputSession = new Date('2020-01-01T18:10:18.314Z').getTime();
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: inputSession,
-      searchedText: 'Some text forwarded by the user',
+      msgs: [
+        { id: 'foo', type: 'text', text: 'Some text forwarded by the user' },
+      ],
     },
     postbackData: {
       sessionId: inputSession,
@@ -87,9 +89,11 @@ it('should thank the user if user does not agree to submit', async () => {
 it('should submit article if user agrees to submit', async () => {
   const inputSession = new Date('2020-01-01T18:10:18.314Z').getTime();
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: inputSession,
-      searchedText: 'Some text forwarded by the user',
+      msgs: [
+        { id: 'foo', type: 'text', text: 'Some text forwarded by the user' },
+      ],
     },
     postbackData: {
       sessionId: inputSession,
@@ -108,7 +112,7 @@ it('should submit article if user agrees to submit', async () => {
   expect(gql.__finished()).toBe(true);
 
   expect(result).toMatchSnapshot('has AI reply');
-  expect(result.data.sessionId).not.toEqual(inputSession);
+  expect(result.context.sessionId).not.toEqual(inputSession);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
@@ -137,11 +141,9 @@ it('should submit article if user agrees to submit', async () => {
 it('should submit image article if user agrees to submit', async () => {
   const inputSession = new Date('2020-01-01T18:10:18.314Z').getTime();
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: inputSession,
-      searchedText: '',
-      messageId: '6530038889933',
-      messageType: 'image',
+      msgs: [{ id: '6530038889933', type: 'image' }],
     },
     postbackData: {
       sessionId: inputSession,
@@ -158,7 +160,7 @@ it('should submit image article if user agrees to submit', async () => {
   expect(gql.__finished()).toBe(true);
 
   expect(result).toMatchSnapshot();
-  expect(result.data.sessionId).not.toEqual(inputSession);
+  expect(result.context.sessionId).not.toEqual(inputSession);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [
       Array [
@@ -176,9 +178,11 @@ it('should submit image article if user agrees to submit', async () => {
 it('should create a UserArticleLink when creating a Article', async () => {
   const userId = 'user-id-0';
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: 0,
-      searchedText: 'Some text forwarded by the user',
+      msgs: [
+        { id: 'foo', type: 'text', text: 'Some text forwarded by the user' },
+      ],
     },
     postbackData: {
       sessionId: 0,
@@ -201,9 +205,11 @@ it('should create a UserArticleLink when creating a Article', async () => {
 it('should ask user to turn on notification settings if they did not turn it on after creating an Article', async () => {
   const userId = 'user-id-0';
   const params: ChatbotPostbackHandlerParams = {
-    data: {
+    context: {
       sessionId: 0,
-      searchedText: 'Some text forwarded by the user',
+      msgs: [
+        { id: 'foo', type: 'text', text: 'Some text forwarded by the user' },
+      ],
     },
     postbackData: {
       sessionId: 0,

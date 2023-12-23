@@ -8,7 +8,7 @@ import { ManipulationError } from './utils';
 import tutorial from './tutorial';
 import {
   ChatbotPostbackHandlerParams,
-  ChatbotStateHandlerReturnType,
+  Result,
   Context,
   PostbackActionData,
 } from 'src/types/chatbotState';
@@ -21,17 +21,17 @@ import {
  * @param userId LINE user ID that does the input
  */
 export default async function handlePostback(
-  data: Context,
+  context: Context,
   postbackData: PostbackActionData<unknown>,
   userId: string
 ) {
   const params: ChatbotPostbackHandlerParams = {
-    data,
+    context,
     postbackData,
     userId,
   };
 
-  let result: ChatbotStateHandlerReturnType;
+  let result: Result;
 
   // Sets data and replies
   //
@@ -65,7 +65,7 @@ export default async function handlePostback(
   } catch (e) {
     if (e instanceof ManipulationError) {
       result = {
-        ...params,
+        context,
         replies: [
           {
             type: 'flex',
@@ -109,8 +109,5 @@ export default async function handlePostback(
     }
   }
 
-  return {
-    context: { data: result.data },
-    replies: result.replies,
-  };
+  return result;
 }

@@ -3,12 +3,13 @@
 exports[`one article found (not identical) 1`] = `
 Object {
   "context": Object {
-    "data": Object {
-      "messageId": "6270464463537",
-      "messageType": "image",
-      "searchedText": "",
-      "sessionId": 1577836800000,
-    },
+    "msgs": Array [
+      Object {
+        "id": "6270464463537",
+        "type": "image",
+      },
+    ],
+    "sessionId": 1577836800000,
   },
   "replies": Array [
     Object {
@@ -132,12 +133,13 @@ Please choose the version that looks the most similar👇",
 exports[`one identical article found and choose for user 1`] = `
 Object {
   "context": Object {
-    "data": Object {
-      "messageId": "6270464463537",
-      "messageType": "image",
-      "searchedText": "",
-      "sessionId": 1577836800000,
-    },
+    "msgs": Array [
+      Object {
+        "id": "6270464463537",
+        "type": "image",
+      },
+    ],
+    "sessionId": 1577836800000,
   },
   "replies": Array [
     Object {
@@ -324,12 +326,13 @@ Object {
 exports[`one identical image and similar text found 1`] = `
 Object {
   "context": Object {
-    "data": Object {
-      "messageId": "6270464463537",
-      "messageType": "image",
-      "searchedText": "",
-      "sessionId": 1577836800000,
-    },
+    "msgs": Array [
+      Object {
+        "id": "6270464463537",
+        "type": "image",
+      },
+    ],
+    "sessionId": 1577836800000,
   },
   "replies": Array [
     Object {
@@ -466,12 +469,13 @@ Please choose the version that looks the most similar👇",
 exports[`should handle image not found 1`] = `
 Object {
   "context": Object {
-    "data": Object {
-      "messageId": "6530038889933",
-      "messageType": "image",
-      "searchedText": "",
-      "sessionId": 1577836800000,
-    },
+    "msgs": Array [
+      Object {
+        "id": "6530038889933",
+        "type": "image",
+      },
+    ],
+    "sessionId": 1577836800000,
   },
   "replies": Array [
     Object {
@@ -570,12 +574,13 @@ Do you want someone to fact-check this message?",
 exports[`twelve articles found 1`] = `
 Object {
   "context": Object {
-    "data": Object {
-      "messageId": "6530038889933",
-      "messageType": "image",
-      "searchedText": "",
-      "sessionId": 1577836800000,
-    },
+    "msgs": Array [
+      Object {
+        "id": "6530038889933",
+        "type": "image",
+      },
+    ],
+    "sessionId": 1577836800000,
   },
   "replies": Array [
     Object {

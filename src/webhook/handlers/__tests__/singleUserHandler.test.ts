@@ -12,7 +12,7 @@ import originalHandlePostback from '../handlePostback';
 import { TUTORIAL_STEPS } from '../tutorial';
 
 import { MessageEvent, PostbackEvent, TextEventMessage } from '@line/bot-sdk';
-import { Context } from 'src/types/chatbotState';
+import { LegacyContext } from 'src/types/chatbotState';
 
 jest.mock('src/webhook/lineClient');
 jest.mock('src/lib/ga');
@@ -158,11 +158,11 @@ it('ignores sticker events', async () => {
   expect(lineClient.post.mock.calls).toMatchInlineSnapshot(`Array []`);
 });
 
-it('handles postbacks', async () => {
+it('handles postbacks w/ LegacyContext', async () => {
   const sessionId = 123;
 
   redisGet.mockImplementationOnce(
-    (): Promise<{ data: Context }> =>
+    (): Promise<LegacyContext> =>
       Promise.resolve({
         data: { sessionId, searchedText: '' },
       })
@@ -185,9 +185,9 @@ it('handles postbacks', async () => {
     replyToken: '',
   };
 
-  handlePostback.mockImplementationOnce((data) => {
+  handlePostback.mockImplementationOnce((context) => {
     return Promise.resolve({
-      context: { data },
+      context,
       replies: [
         {
           type: 'text',
@@ -205,7 +205,13 @@ it('handles postbacks', async () => {
     Array [
       Array [
         Object {
-          "searchedText": "",
+          "msgs": Array [
+            Object {
+              "id": "123",
+              "text": "",
+              "type": "text",
+            },
+          ],
           "sessionId": 123,
         },
         Object {
@@ -305,9 +311,9 @@ it('forwards to CHOOSING_ARTICLE when VIEW_ARTICLE_PREFIX is sent', async () => 
     `${VIEW_ARTICLE_PREFIX}${getArticleURL('article-id')}`
   );
 
-  handlePostback.mockImplementationOnce((data) => {
+  handlePostback.mockImplementationOnce((context) => {
     return Promise.resolve({
-      context: { data },
+      context,
       replies: [
         {
           type: 'text',
@@ -327,7 +333,7 @@ it('forwards to CHOOSING_ARTICLE when VIEW_ARTICLE_PREFIX is sent', async () => 
     Array [
       Array [
         Object {
-          "searchedText": "",
+          "msgs": Array [],
           "sessionId": 1561982400000,
         },
         Object {
@@ -364,9 +370,9 @@ it('shows reply list when article URL is sent', async () => {
     getArticleURL('article-id') + '  \n  ' /* simulate manual input */
   );
 
-  handlePostback.mockImplementationOnce((data) => {
+  handlePostback.mockImplementationOnce((context) => {
     return Promise.resolve({
-      context: { data },
+      context,
       replies: [
         {
           type: 'text',
@@ -386,7 +392,7 @@ it('shows reply list when article URL is sent', async () => {
     Array [
       Array [
         Object {
-          "searchedText": "",
+          "msgs": Array [],
           "sessionId": 1561982400000,
         },
         Object {
@@ -422,9 +428,9 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
   const input = 'Newly forwarded message';
   const event = createTextMessageEvent(input);
 
-  initState.mockImplementationOnce(({ data }) => {
+  initState.mockImplementationOnce(({ context }) => {
     return Promise.resolve({
-      data,
+      context,
       replies: [
         {
           type: 'text',
@@ -463,8 +469,14 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
     Array [
       Array [
         Object {
-          "data": Object {
-            "searchedText": "Newly forwarded message",
+          "context": Object {
+            "msgs": Array [
+              Object {
+                "id": "TmV3bHkgZm9yd2FyZGVkIG1lc3NhZ2U=",
+                "text": "Newly forwarded message",
+                "type": "text",
+              },
+            ],
             "sessionId": 1561982400000,
           },
           "userId": "user-id",
@@ -495,9 +507,9 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
 it('handles tutorial trigger from rich menu', async () => {
   const event = createTextMessageEvent(TUTORIAL_STEPS['RICH_MENU']);
 
-  handlePostback.mockImplementationOnce((data) => {
+  handlePostback.mockImplementationOnce((context) => {
     return Promise.resolve({
-      context: { data },
+      context,
       replies: [
         {
           type: 'text',
@@ -516,7 +528,7 @@ it('handles tutorial trigger from rich menu', async () => {
     Array [
       Array [
         Object {
-          "searchedText": "",
+          "msgs": Array [],
           "sessionId": 1561982400000,
         },
         Object {

@@ -2,8 +2,14 @@
 
 exports[`article found 1`] = `
 Object {
-  "data": Object {
-    "searchedText": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入",
+  "context": Object {
+    "msgs": Array [
+      Object {
+        "id": "abc",
+        "text": "計程車上有裝悠遊卡感應器，老人悠悠卡可以享受優惠部分由政府補助，不影響司機收入",
+        "type": "text",
+      },
+    ],
     "sessionId": 1497994017447,
   },
   "replies": Array [
@@ -161,8 +167,14 @@ Please choose the version that looks the most similar👇",
 
 exports[`articles found with high similarity 1`] = `
 Object {
-  "data": Object {
-    "searchedText": "YouTube · 寻找健康人生",
+  "context": Object {
+    "msgs": Array [
+      Object {
+        "id": "abc",
+        "text": "YouTube · 寻找健康人生",
+        "type": "text",
+      },
+    ],
     "sessionId": 1497994017447,
   },
   "replies": Array [
@@ -348,8 +360,14 @@ Please choose the version that looks the most similar👇",
 
 exports[`input matches dialogflow intent search article when input length > 10 and intentDetectionConfidence != 1 1`] = `
 Object {
-  "data": Object {
-    "searchedText": "零一二三四五六七八九十",
+  "context": Object {
+    "msgs": Array [
+      Object {
+        "id": "abc",
+        "text": "零一二三四五六七八九十",
+        "type": "text",
+      },
+    ],
     "sessionId": 1497994017447,
   },
   "replies": Array [
@@ -431,8 +449,14 @@ May I ask you a quick question?",
 
 exports[`input matches dialogflow intent uses dialogflow response when input length < 10 1`] = `
 Object {
-  "data": Object {
-    "searchedText": "你好",
+  "context": Object {
+    "msgs": Array [
+      Object {
+        "id": "abc",
+        "text": "你好",
+        "type": "text",
+      },
+    ],
     "sessionId": 1497994017447,
   },
   "replies": Array [
@@ -446,8 +470,14 @@ Object {
 
 exports[`input matches dialogflow intent uses dialogflow response when input length > 10 and intentDetectionConfidence = 1 1`] = `
 Object {
-  "data": Object {
-    "searchedText": "零一二三四五六七八九十",
+  "context": Object {
+    "msgs": Array [
+      Object {
+        "id": "abc",
+        "text": "零一二三四五六七八九十",
+        "type": "text",
+      },
+    ],
     "sessionId": 1497994017447,
   },
   "replies": Array [
@@ -461,8 +491,14 @@ Object {
 
 exports[`only one article found with high similarity and choose for user 1`] = `
 Object {
-  "data": Object {
-    "searchedText": "YouTube · 寻找健康人生",
+  "context": Object {
+    "msgs": Array [
+      Object {
+        "id": "abc",
+        "text": "YouTube · 寻找健康人生",
+        "type": "text",
+      },
+    ],
     "sessionId": 1497994017447,
   },
   "replies": Array [
@@ -613,8 +649,14 @@ Don’t trust the message just yet!",
 
 exports[`should handle message matches only hyperlinks 1`] = `
 Object {
-  "data": Object {
-    "searchedText": "YouTube · 寻找健康人生",
+  "context": Object {
+    "msgs": Array [
+      Object {
+        "id": "abc",
+        "text": "YouTube · 寻找健康人生",
+        "type": "text",
+      },
+    ],
     "sessionId": 1497994017447,
   },
   "replies": Array [
@@ -920,8 +962,14 @@ title2 title2 title2 ",
 
 exports[`should handle text not found 1`] = `
 Object {
-  "data": Object {
-    "searchedText": "YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...",
+  "context": Object {
+    "msgs": Array [
+      Object {
+        "id": "abc",
+        "text": "YouTube · 寻找健康人生 驚！大批香蕉受到愛滋血污染！這種香蕉千萬不要吃！吃到可能會被 ...",
+        "type": "text",
+      },
+    ],
     "sessionId": 1497994017447,
   },
   "replies": Array [

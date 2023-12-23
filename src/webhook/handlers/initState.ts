@@ -8,8 +8,9 @@ import {
   TextMessage,
 } from '@line/bot-sdk';
 import type {
-  ChatbotStateHandlerReturnType,
+  Result,
   Context,
+  CooccurredMessage,
 } from 'src/types/chatbotState';
 import gql from 'src/lib/gql';
 import {
@@ -31,17 +32,19 @@ import {
 const SIMILARITY_THRESHOLD = 0.95;
 
 const initState = async ({
-  data,
+  context,
   userId,
 }: {
   // Context initiated by text search
-  data: Context & { searchedText: string };
+  context: Context & {
+    msgs: ReadonlyArray<CooccurredMessage & { type: 'text' }>;
+  };
   userId: string;
-}): Promise<ChatbotStateHandlerReturnType> => {
+}): Promise<Result> => {
   const state = '__INIT__';
   let replies: Message[] = [];
 
-  const input = data.searchedText;
+  const input = context.msgs[0].text;
 
   // Track text message type send by user
   const visitor = ga(userId, state, input);
@@ -54,12 +57,12 @@ const initState = async ({
   // send input to dialogflow before doing search
   // uses dialogflowResponse as reply only when there's a intent matched and
   // input.length <= 10 or input.length > 10 but intentDetectionConfidence == 1
-  const dialogflowResponse = await detectDialogflowIntent(data.searchedText);
+  const dialogflowResponse = await detectDialogflowIntent(input);
   if (
     dialogflowResponse &&
     dialogflowResponse.queryResult &&
     dialogflowResponse.queryResult.intent &&
-    (data.searchedText.length <= 10 ||
+    (input.length <= 10 ||
       dialogflowResponse.queryResult.intentDetectionConfidence == 1)
   ) {
     replies = [
@@ -74,7 +77,7 @@ const initState = async ({
       el: dialogflowResponse.queryResult.intent.displayName ?? undefined,
     });
     visitor.send();
-    return { data, replies };
+    return { context, replies };
   }
 
   // Search for articles
@@ -104,10 +107,10 @@ const initState = async ({
       }
     }
   `<ListArticlesInInitStateQuery, ListArticlesInInitStateQueryVariables>({
-    text: data.searchedText,
+    text: input,
   });
 
-  const inputSummary = ellipsis(data.searchedText, 12);
+  const inputSummary = ellipsis(input, 12);
 
   if (ListArticles?.edges.length) {
     // Track if find similar Articles in DB.
@@ -130,7 +133,7 @@ const initState = async ({
           // Remove spaces so that we count word's similarities only
           //
           (edge.node.text ?? '').replace(/\s/g, ''),
-          data.searchedText.replace(/\s/g, '')
+          input.replace(/\s/g, '')
         ),
       }))
       .sort((edge1, edge2) => edge2.similarity - edge1.similarity)
@@ -143,10 +146,10 @@ const initState = async ({
       visitor.send();
 
       return await choosingArticle({
-        data,
+        context,
         // choose for user
         postbackData: {
-          sessionId: data.sessionId,
+          sessionId: context.sessionId,
           state: 'CHOOSING_ARTICLE',
           input: edgesSortedWithSimilarity[0].node.id,
         },
@@ -239,7 +242,7 @@ const initState = async ({
                   t`Choose this one`,
                   id,
                   t`I choose “${displayTextWhenChosen}”`,
-                  data.sessionId,
+                  context.sessionId,
                   'CHOOSING_ARTICLE'
                 ),
                 style: 'primary',
@@ -298,7 +301,7 @@ const initState = async ({
                 t`Tell us more`,
                 POSTBACK_NO_ARTICLE_FOUND,
                 t`None of these messages matches mine :(`,
-                data.sessionId,
+                context.sessionId,
                 'CHOOSING_ARTICLE'
               ),
               style: 'primary',
@@ -350,11 +353,11 @@ const initState = async ({
           '\n' +
           t`May I ask you a quick question?`,
       }),
-      createArticleSourceReply(data.sessionId),
+      createArticleSourceReply(context.sessionId),
     ];
   }
   visitor.send();
-  return { data, replies };
+  return { context, replies };
 };
 
 export default initState;

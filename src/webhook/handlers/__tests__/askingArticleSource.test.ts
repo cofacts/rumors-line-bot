@@ -14,7 +14,7 @@ beforeEach(() => {
 
 it('throws on incorrect input', async () => {
   const incorrectParam: ChatbotPostbackHandlerParams = {
-    data: { sessionId: 0, searchedText: 'foo' },
+    context: { sessionId: 0, msgs: [{ id: 'foo', type: 'text', text: 'foo' }] },
     postbackData: {
       sessionId: 0,
       state: 'ASKING_ARTICLE_SOURCE',
@@ -30,7 +30,7 @@ it('throws on incorrect input', async () => {
 
 it('returns instructions if user did not forward the whole message', async () => {
   const didNotForwardParam: ChatbotPostbackHandlerParams = {
-    data: { searchedText: 'foo', sessionId: 0 },
+    context: { sessionId: 0, msgs: [{ id: 'foo', type: 'text', text: 'foo' }] },
     postbackData: {
       sessionId: 0,
       state: 'ASKING_ARTICLE_SOURCE',
@@ -212,7 +212,7 @@ it('returns instructions if user did not forward the whole message', async () =>
 
 it('sends user submission consent if user forwarded the whole message', async () => {
   const didForwardParam: ChatbotPostbackHandlerParams = {
-    data: { searchedText: 'foo', sessionId: 0 },
+    context: { sessionId: 0, msgs: [{ id: 'foo', type: 'text', text: 'foo' }] },
     postbackData: {
       sessionId: 0,
       state: 'ASKING_ARTICLE_SOURCE',

@@ -11,7 +11,7 @@ import { CreateReplyMessagesReplyFragment } from 'typegen/graphql';
 import {
   ChatbotPostbackHandlerParams,
   ChatbotState,
-  ChatbotStateHandlerReturnType,
+  Result,
 } from 'src/types/chatbotState';
 
 /**
@@ -295,10 +295,10 @@ function createPermissionSetupDialog(message: string): FlexMessage {
 }
 
 export default function tutorial({
-  data,
+  context,
   postbackData,
   userId,
-}: ChatbotPostbackHandlerParams): ChatbotStateHandlerReturnType {
+}: ChatbotPostbackHandlerParams): Result {
   let replies: Message[] = [];
 
   const replyProvidePermissionSetup = `${t`You are smart`} 😊`;
@@ -317,11 +317,11 @@ export default function tutorial({
   if (!process.env.RUMORS_LINE_BOT_URL) {
     throw new Error('RUMORS_LINE_BOT_URL undefined');
   } else if (postbackData.input === TUTORIAL_STEPS['RICH_MENU']) {
-    replies = [createTutorialMessage(data.sessionId)];
+    replies = [createTutorialMessage(context.sessionId)];
   } else if (
     postbackData.input === TUTORIAL_STEPS['SIMULATE_FORWARDING_MESSAGE']
   ) {
-    replies = createMockReplyMessages(data.sessionId);
+    replies = createMockReplyMessages(context.sessionId);
   } else if (
     postbackData.input === TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP']
   ) {
@@ -336,17 +336,17 @@ export default function tutorial({
           items: [
             createQuickReplyPostbackItem(
               TUTORIAL_STEPS['SETUP_DONE'],
-              data.sessionId,
+              context.sessionId,
               'TUTORIAL'
             ),
             createQuickReplyPostbackItem(
               TUTORIAL_STEPS['SETUP_LATER'],
-              data.sessionId,
+              context.sessionId,
               'TUTORIAL'
             ),
             createQuickReplyPostbackItem(
               TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION'],
-              data.sessionId,
+              context.sessionId,
               'TUTORIAL'
             ),
           ],
@@ -368,17 +368,17 @@ export default function tutorial({
           items: [
             createQuickReplyPostbackItem(
               TUTORIAL_STEPS['SETUP_DONE'],
-              data.sessionId,
+              context.sessionId,
               'TUTORIAL'
             ),
             createQuickReplyPostbackItem(
               TUTORIAL_STEPS['SETUP_LATER'],
-              data.sessionId,
+              context.sessionId,
               'TUTORIAL'
             ),
             createQuickReplyPostbackItem(
               TUTORIAL_STEPS['PROVIDE_PERMISSION_SETUP_WITH_EXPLANATION'],
-              data.sessionId,
+              context.sessionId,
               'TUTORIAL'
             ),
           ],
@@ -396,12 +396,12 @@ export default function tutorial({
           items: [
             createQuickReplyPostbackItem(
               TUTORIAL_STEPS['SETUP_DONE'],
-              data.sessionId,
+              context.sessionId,
               'TUTORIAL'
             ),
             createQuickReplyPostbackItem(
               TUTORIAL_STEPS['SETUP_LATER'],
-              data.sessionId,
+              context.sessionId,
               'TUTORIAL'
             ),
           ],
@@ -432,5 +432,5 @@ export default function tutorial({
   });
   visitor.send();
 
-  return { data, replies };
+  return { context, replies };
 }

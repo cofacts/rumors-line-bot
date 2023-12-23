@@ -243,8 +243,14 @@ Array [
 
 exports[`should select reply by replyId should handle the case with just one reply 1`] = `
 Object {
-  "data": Object {
-    "searchedText": "貼圖",
+  "context": Object {
+    "msgs": Array [
+      Object {
+        "id": "foo",
+        "text": "貼圖",
+        "type": "text",
+      },
+    ],
     "sessionId": 0,
   },
   "replies": Array [
@@ -370,8 +376,14 @@ https://dev.cofacts.tw/article/AWDZYXxAyCdS-nWhumlz",
 
 exports[`should select reply by replyId should handle the case with multiple replies 1`] = `
 Object {
-  "data": Object {
-    "searchedText": "貼圖",
+  "context": Object {
+    "msgs": Array [
+      Object {
+        "id": "foo",
+        "text": "貼圖",
+        "type": "text",
+      },
+    ],
     "sessionId": 0,
   },
   "replies": Array [

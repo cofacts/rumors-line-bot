@@ -140,7 +140,7 @@ function createShareBubble(
 }
 
 const choosingReply: ChatbotPostbackHandler = async ({
-  data,
+  context,
   userId,
   postbackData: { input: postbackInput, state },
 }) => {
@@ -221,7 +221,7 @@ const choosingReply: ChatbotPostbackHandler = async ({
   visitor.event({ ec: 'Reply', ea: 'Type', el: GetReply.type, ni: true });
   visitor.send();
 
-  return { data, replies };
+  return { context, replies };
 };
 
 export default choosingReply;
