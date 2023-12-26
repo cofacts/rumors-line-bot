@@ -34,6 +34,7 @@ import type {
 import type { Input as ChoosingReplyInput } from './choosingReply';
 import type { Input as AskingArticleSourceInput } from './askingArticleSource';
 import type { Input as AskingArticleSubmissionConsentInput } from './askingArticleSubmissionConsent';
+import type { Input as askingCooccurenceInput } from './askingCooccurrence';
 
 const splitter = new GraphemeSplitter();
 
@@ -47,6 +48,7 @@ type StateInputMap = {
   CHOOSING_REPLY: ChoosingReplyInput;
   ASKING_ARTICLE_SOURCE: AskingArticleSourceInput;
   ASKING_ARTICLE_SUBMISSION_CONSENT: AskingArticleSubmissionConsentInput;
+  ASKING_COOCCURRENCE: askingCooccurenceInput;
   Error: unknown;
 };
 
