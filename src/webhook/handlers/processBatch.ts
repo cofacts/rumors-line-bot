@@ -8,30 +8,15 @@ import { POSTBACK_NO, POSTBACK_YES, createPostbackAction } from './utils';
 async function processBatch(messages: CooccurredMessage[]) {
   const context: Context = {
     sessionId: Date.now(),
-    msgs: [],
+    msgs: messages,
   };
 
-  const messageTypeStr = messages.map((msg) => {
-    const type = msg.type;
-    switch (type) {
-      case 'text':
-        return t`texts`;
-      case 'video':
-        return t`videos`;
-      case 'audio':
-        return t`audios`;
-      case 'image':
-        return t`images`;
-      default:
-        // exhaustive check
-        return type satisfies never;
-    }
-  });
+  const msgCount = messages.length;
 
   const replies: Message[] = [
     {
       type: 'text',
-      text: t`May I ask if these ${messageTypeStr} were sent by the same person at the same time?`,
+      text: t`May I ask if the ${msgCount} messages above were sent by the same person at the same time?`,
       quickReply: {
         items: [
           {
