@@ -3,7 +3,12 @@ import { t } from 'ttag';
 
 import { Context, CooccurredMessage } from 'src/types/chatbotState';
 
-import { POSTBACK_NO, POSTBACK_YES, createPostbackAction } from './utils';
+import {
+  POSTBACK_NO,
+  POSTBACK_YES,
+  createPostbackAction,
+  createTextMessage,
+} from './utils';
 
 async function processBatch(messages: CooccurredMessage[]) {
   const context: Context = {
@@ -15,8 +20,9 @@ async function processBatch(messages: CooccurredMessage[]) {
 
   const replies: Message[] = [
     {
-      type: 'text',
-      text: t`May I ask if the ${msgCount} messages above were sent by the same person at the same time?`,
+      ...createTextMessage({
+        text: t`May I ask if the ${msgCount} messages above were sent by the same person at the same time?`,
+      }),
       quickReply: {
         items: [
           {
