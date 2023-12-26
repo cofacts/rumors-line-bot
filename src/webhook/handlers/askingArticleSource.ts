@@ -30,7 +30,7 @@ const askingArticleSource: ChatbotPostbackHandler = async ({
   try {
     input = inputSchema.parse(postbackInput);
   } catch (e) {
-    console.error('[choosingReply]', e);
+    console.error('[askingArticleSource]', e);
     throw new ManipulationError(t`Please choose from provided options.`);
   }
 
