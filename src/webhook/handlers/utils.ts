@@ -24,6 +24,10 @@ import type {
   CreateReferenceWordsReplyFragment,
   CreateAiReplyMutation,
   CreateAiReplyMutationVariables,
+  ListArticlesInInitStateQuery,
+  ListArticlesInInitStateQueryVariables,
+  ListArticlesInProcessMediaQuery,
+  ListArticlesInProcessMediaQueryVariables,
 } from 'typegen/graphql';
 
 import type { Input as ChoosingReplyInput } from './choosingReply';
@@ -858,4 +862,80 @@ export function getLineContentProxyURL(messageId: string) {
   });
 
   return `${process.env.RUMORS_LINE_BOT_URL}/getcontent?token=${jwt}`;
+}
+
+export async function searchText(
+  text: string
+): Promise<ListArticlesInInitStateQuery['ListArticles']> {
+  const {
+    data: { ListArticles },
+  } = await gql`
+    query ListArticlesInInitState($text: String!) {
+      ListArticles(
+        filter: { moreLikeThis: { like: $text } }
+        orderBy: [{ _score: DESC }]
+        first: 4
+      ) {
+        edges {
+          node {
+            text
+            id
+            articleType
+          }
+          highlight {
+            text
+            hyperlinks {
+              title
+              summary
+            }
+          }
+        }
+      }
+    }
+  `<ListArticlesInInitStateQuery, ListArticlesInInitStateQueryVariables>({
+    text,
+  });
+  return ListArticles;
+}
+
+export async function searchMedia(
+  mediaUrl: string,
+  userId: string
+): Promise<ListArticlesInProcessMediaQuery['ListArticles']> {
+  const {
+    data: { ListArticles },
+  } = await gql`
+    query ListArticlesInProcessMedia($mediaUrl: String!) {
+      ListArticles(
+        filter: {
+          mediaUrl: $mediaUrl
+          articleTypes: [TEXT, IMAGE, AUDIO, VIDEO]
+          transcript: { shouldCreate: true }
+        }
+        orderBy: [{ _score: DESC }]
+        first: 9
+      ) {
+        edges {
+          score
+          mediaSimilarity
+          node {
+            id
+            articleType
+            attachmentUrl(variant: THUMBNAIL)
+          }
+          highlight {
+            text
+            hyperlinks {
+              title
+              summary
+            }
+          }
+        }
+      }
+    }
+  `<ListArticlesInProcessMediaQuery, ListArticlesInProcessMediaQueryVariables>(
+    { mediaUrl },
+    { userId }
+  );
+  return ListArticles;
 }

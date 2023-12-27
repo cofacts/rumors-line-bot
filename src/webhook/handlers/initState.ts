@@ -12,7 +12,6 @@ import type {
   Context,
   CooccurredMessage,
 } from 'src/types/chatbotState';
-import gql from 'src/lib/gql';
 import {
   createPostbackAction,
   ellipsis,
@@ -20,14 +19,11 @@ import {
   createHighlightContents,
   createTextMessage,
   createArticleSourceReply,
+  searchText,
 } from './utils';
 import ga from 'src/lib/ga';
 import detectDialogflowIntent from 'src/lib/detectDialogflowIntent';
 import choosingArticle from './choosingArticle';
-import {
-  ListArticlesInInitStateQuery,
-  ListArticlesInInitStateQueryVariables,
-} from 'typegen/graphql';
 
 const SIMILARITY_THRESHOLD = 0.95;
 
@@ -81,43 +77,16 @@ const initState = async ({
   }
 
   // Search for articles
-  const {
-    data: { ListArticles },
-  } = await gql`
-    query ListArticlesInInitState($text: String!) {
-      ListArticles(
-        filter: { moreLikeThis: { like: $text } }
-        orderBy: [{ _score: DESC }]
-        first: 4
-      ) {
-        edges {
-          node {
-            text
-            id
-            articleType
-          }
-          highlight {
-            text
-            hyperlinks {
-              title
-              summary
-            }
-          }
-        }
-      }
-    }
-  `<ListArticlesInInitStateQuery, ListArticlesInInitStateQueryVariables>({
-    text: input,
-  });
+  const result = await searchText(input);
 
   const inputSummary = ellipsis(input, 12);
 
-  if (ListArticles?.edges.length) {
+  if (result?.edges.length) {
     // Track if find similar Articles in DB.
     visitor.event({ ec: 'UserInput', ea: 'ArticleSearch', el: 'ArticleFound' });
 
     // Track which Article is searched. And set tracking event as non-interactionHit.
-    ListArticles.edges.forEach((edge) => {
+    result.edges.forEach((edge) => {
       visitor.event({
         ec: 'Article',
         ea: 'Search',
@@ -126,7 +95,7 @@ const initState = async ({
       });
     });
 
-    const edgesSortedWithSimilarity = ListArticles.edges
+    const edgesSortedWithSimilarity = result.edges
       .map((edge) => ({
         ...edge,
         similarity: stringSimilarity.compareTwoStrings(

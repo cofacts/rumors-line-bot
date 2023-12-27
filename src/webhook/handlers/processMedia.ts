@@ -14,6 +14,7 @@ import {
   createTextMessage,
   createAskArticleSubmissionConsentReply,
   createHighlightContents,
+  searchMedia,
 } from './utils';
 import gql from 'src/lib/gql';
 import ga from 'src/lib/ga';
@@ -44,50 +45,14 @@ export default async function (message: CooccurredMessage, userId: string) {
     msgs: [message],
   };
 
-  const {
-    data: { ListArticles },
-  } = await gql`
-    query ListArticlesInProcessMedia($mediaUrl: String!) {
-      ListArticles(
-        filter: {
-          mediaUrl: $mediaUrl
-          articleTypes: [TEXT, IMAGE, AUDIO, VIDEO]
-          transcript: { shouldCreate: true }
-        }
-        orderBy: [{ _score: DESC }]
-        first: 9
-      ) {
-        edges {
-          score
-          mediaSimilarity
-          node {
-            id
-            articleType
-            attachmentUrl(variant: THUMBNAIL)
-          }
-          highlight {
-            text
-            hyperlinks {
-              title
-              summary
-            }
-          }
-        }
-      }
-    }
-  `<ListArticlesInProcessMediaQuery, ListArticlesInProcessMediaQueryVariables>(
-    {
-      mediaUrl: proxyUrl,
-    },
-    { userId }
-  );
+  const result = await searchMedia(proxyUrl, userId);
 
-  if (ListArticles && ListArticles.edges.length) {
+  if (result && result.edges.length) {
     // Track if find similar Articles in DB.
     visitor.event({ ec: 'UserInput', ea: 'ArticleSearch', el: 'ArticleFound' });
 
     // Track which Article is searched. And set tracking event as non-interactionHit.
-    ListArticles.edges.forEach((edge) => {
+    result.edges.forEach((edge) => {
       visitor.event({
         ec: 'Article',
         ea: 'Search',
@@ -96,14 +61,14 @@ export default async function (message: CooccurredMessage, userId: string) {
       });
     });
 
-    const edgesSortedWithSimilarity = [...ListArticles.edges].sort(
+    const edgesSortedWithSimilarity = [...result.edges].sort(
       (a, b) => b.mediaSimilarity - a.mediaSimilarity
     );
 
     const hasIdenticalDocs =
       edgesSortedWithSimilarity[0].mediaSimilarity >= SIMILARITY_THRESHOLD;
 
-    if (ListArticles.edges.length === 1 && hasIdenticalDocs) {
+    if (result.edges.length === 1 && hasIdenticalDocs) {
       visitor.send();
 
       return await choosingArticle({
@@ -118,7 +83,7 @@ export default async function (message: CooccurredMessage, userId: string) {
       });
     }
 
-    const articleOptions = ListArticles.edges
+    const articleOptions = result.edges
       .map(
         (
           {
