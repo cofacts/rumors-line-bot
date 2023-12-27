@@ -1086,9 +1086,7 @@ export async function searchMedia(
   );
   return {
     ...ListArticles,
-    edges: [...(ListArticles?.edges ?? [])].sort(
-      (a, b) => b.mediaSimilarity - a.mediaSimilarity
-    ),
+    edges: ListArticles?.edges ?? [],
   };
 }
 
