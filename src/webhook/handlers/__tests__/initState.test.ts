@@ -252,7 +252,7 @@ it('should handle message matches only hyperlinks', async () => {
         Object {
           "ea": "Search",
           "ec": "Article",
-          "el": "AVvY-yizyCdS-nWhuYGA",
+          "el": "AVvY-yizyCdS-nWhuYGB",
           "ni": true,
         },
       ],
@@ -260,7 +260,7 @@ it('should handle message matches only hyperlinks', async () => {
         Object {
           "ea": "Search",
           "ec": "Article",
-          "el": "AVvY-yizyCdS-nWhuYGB",
+          "el": "AVvY-yizyCdS-nWhuYGA",
           "ni": true,
         },
       ],
