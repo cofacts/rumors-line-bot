@@ -1,11 +1,8 @@
 import { t } from 'ttag';
-import type {
-  FlexBubble,
-  Message,
-  FlexMessage,
-  FlexComponent,
-} from '@line/bot-sdk';
+import type { Message, FlexMessage } from '@line/bot-sdk';
+
 import { Context, CooccurredMessage } from 'src/types/chatbotState';
+import ga from 'src/lib/ga';
 
 import {
   getLineContentProxyURL,
@@ -13,18 +10,11 @@ import {
   POSTBACK_NO_ARTICLE_FOUND,
   createTextMessage,
   createAskArticleSubmissionConsentReply,
-  createHighlightContents,
   searchMedia,
+  createMediaCarouselContents,
 } from './utils';
-import gql from 'src/lib/gql';
-import ga from 'src/lib/ga';
 import choosingArticle from './choosingArticle';
-import {
-  ListArticlesInProcessMediaQuery,
-  ListArticlesInProcessMediaQueryVariables,
-} from 'typegen/graphql';
 
-const CIRCLED_DIGITS = '⓪①②③④⑤⑥⑦⑧⑨⑩⑪';
 const SIMILARITY_THRESHOLD = 0.95;
 
 export default async function (message: CooccurredMessage, userId: string) {
@@ -61,12 +51,8 @@ export default async function (message: CooccurredMessage, userId: string) {
       });
     });
 
-    const edgesSortedWithSimilarity = [...result.edges].sort(
-      (a, b) => b.mediaSimilarity - a.mediaSimilarity
-    );
-
     const hasIdenticalDocs =
-      edgesSortedWithSimilarity[0].mediaSimilarity >= SIMILARITY_THRESHOLD;
+      result.edges[0].mediaSimilarity >= SIMILARITY_THRESHOLD;
 
     if (result.edges.length === 1 && hasIdenticalDocs) {
       visitor.send();
@@ -77,134 +63,16 @@ export default async function (message: CooccurredMessage, userId: string) {
         postbackData: {
           state: 'CHOOSING_ARTICLE',
           sessionId: context.sessionId,
-          input: edgesSortedWithSimilarity[0].node.id,
+          input: result.edges[0].node.id,
         },
         userId,
       });
     }
 
-    const articleOptions = result.edges
-      .map(
-        (
-          {
-            node: { attachmentUrl, id, articleType },
-            highlight,
-            mediaSimilarity,
-          },
-          index
-        ): FlexBubble => {
-          const displayTextWhenChosen = CIRCLED_DIGITS[index + 1];
-
-          const { contents: highlightContents, source: highlightSource } =
-            createHighlightContents(highlight);
-
-          const similarityPercentage = Math.round(mediaSimilarity * 100);
-
-          const looks =
-            mediaSimilarity > 0
-              ? t`Looks ${similarityPercentage}% similar`
-              : highlightSource === null
-              ? t`Similar file`
-              : t`Contains relevant text`;
-
-          const bodyContents: FlexComponent[] = [];
-
-          if (highlightSource) {
-            let highlightSourceInfo = '';
-            switch (highlightSource) {
-              case 'hyperlinks':
-                highlightSourceInfo = t`(Text in the hyperlink)`;
-                break;
-              case 'text':
-                if (articleType !== 'TEXT') {
-                  highlightSourceInfo = t`(Text in transcript)`;
-                }
-            }
-
-            if (highlightSourceInfo) {
-              bodyContents.push({
-                type: 'text',
-                text: highlightSourceInfo,
-                size: 'sm',
-                color: '#ff7b7b',
-                weight: 'bold',
-              });
-            }
-
-            bodyContents.push({
-              type: 'text',
-              contents: highlightContents,
-              // Show less lines if there are thumbnails to show
-              maxLines: attachmentUrl ? 5 : 12,
-              flex: 0,
-              gravity: 'top',
-              weight: 'regular',
-              wrap: true,
-            });
-          }
-
-          return {
-            type: 'bubble',
-            direction: 'ltr',
-            header: {
-              type: 'box',
-              layout: 'horizontal',
-              spacing: 'sm',
-              paddingBottom: 'md',
-              contents: [
-                {
-                  type: 'text',
-                  text: displayTextWhenChosen + ' ' + looks,
-                  gravity: 'center',
-                  size: 'sm',
-                  weight: 'bold',
-                  wrap: true,
-                  color: '#AAAAAA',
-                },
-              ],
-            },
-
-            // Show thumbnail image if available
-            hero: !attachmentUrl
-              ? undefined
-              : {
-                  type: 'image',
-                  url: attachmentUrl,
-                  size: 'full',
-                },
-
-            // Show highlighted text if available
-            body:
-              bodyContents.length === 0
-                ? undefined
-                : {
-                    type: 'box',
-                    layout: 'vertical',
-                    contents: bodyContents,
-                  },
-
-            footer: {
-              type: 'box',
-              layout: 'horizontal',
-              contents: [
-                {
-                  type: 'button',
-                  action: createPostbackAction(
-                    t`Choose this one`,
-                    id,
-                    t`I choose ${displayTextWhenChosen}`,
-                    context.sessionId,
-                    'CHOOSING_ARTICLE'
-                  ),
-                  style: 'primary',
-                  color: '#ffb600',
-                },
-              ],
-            },
-          };
-        }
-      )
-      .slice(0, 9); /* flex carousel has at most 10 bubbles */
+    const articleOptions = createMediaCarouselContents(
+      result.edges,
+      context.sessionId
+    );
 
     // Show "no-article-found" option only when no identical docs are found
     //
