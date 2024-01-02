@@ -62,7 +62,8 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
   const visitor = ga(
     userId,
     state,
-    msgsToSubmit[0].type === 'text' ? msgsToSubmit[0].text : msgsToSubmit[0].id
+    // use the first message in context as representative
+    context.msgs[0].type === 'text' ? context.msgs[0].text : context.msgs[0].id
   );
 
   // Abort if user does not want to submit
