@@ -3,7 +3,6 @@ import { msgid, ngettext, t } from 'ttag';
 import { FlexSpan } from '@line/bot-sdk';
 
 import ga from 'src/lib/ga';
-import gql from 'src/lib/gql';
 import { ChatbotPostbackHandler } from 'src/types/chatbotState';
 
 import {
@@ -16,6 +15,7 @@ import {
   getLineContentProxyURL,
   createPostbackAction,
   createCooccurredSearchResultsCarouselContents,
+  setMostSimilarArticlesAsCooccurrence,
 } from './utils';
 
 const inputSchema = z.enum([POSTBACK_NO, POSTBACK_YES]);
@@ -25,16 +25,6 @@ const IN_DB_THRESHOLD = 0.8;
 
 /** Postback input type for ASKING_ARTICLE_SOURCE state handler */
 export type Input = z.infer<typeof inputSchema>;
-
-export function setCooccurrences(articleIds: string[]) {
-  return gql`
-    mutation SetCooccurrences($articleIds: [String!]!) {
-      CreateOrUpdateCooccurrence(articleIds: $articleIds) {
-        id
-      }
-    }
-  `({ articleIds });
-}
 
 const askingCooccurence: ChatbotPostbackHandler = async ({
   context,
@@ -177,6 +167,9 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
           ],
         };
       }
+
+      // All messages in DB and thus can be set as cooccurrence.
+      await setMostSimilarArticlesAsCooccurrence(searchResults, userId);
 
       // Get first few search results for each message, and make at most 10 options
       //

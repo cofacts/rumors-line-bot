@@ -1125,3 +1125,78 @@ export function createSearchResultCarouselContents(
     })
     .slice(0, MAX_CAROUSEL_BUBBLE_COUNT); /* Avoid too many bubbles */
 }
+
+function getSimilarity(
+  edge: SearchMediaResult['edges'][number] | SearchTextResult['edges'][number]
+) {
+  return 'mediaSimilarity' in edge ? edge.mediaSimilarity : edge.similarity;
+}
+
+export function createCooccurredSearchResultsCarouselContents(
+  searchResults: (SearchMediaResult | SearchTextResult)[],
+  sessionId: number
+): FlexBubble[] {
+  const idEdgeMap: Record<
+    string,
+    SearchMediaResult['edges'][number] | SearchTextResult['edges'][number]
+  > = {};
+
+  // We try to get equal number of items out of every search result,
+  // starting from the first ranked items from each list.
+  //
+  for (
+    let idx = 0, depletedSearchResultCount = 0;
+    Object.keys(idEdgeMap).length < MAX_CAROUSEL_BUBBLE_COUNT &&
+    depletedSearchResultCount < searchResults.length;
+    idx += 1
+  ) {
+    for (const searchResult of searchResults) {
+      if (idx == searchResult.edges.length) {
+        depletedSearchResultCount += 1;
+        continue;
+      } else if (idx > searchResult.edges.length) {
+        continue;
+      }
+
+      // Update idEdgeMap if the edge is not in the map or has higher similarity
+      const currentEdge = searchResult.edges[idx];
+      if (
+        !idEdgeMap[currentEdge.node.id] ||
+        getSimilarity(idEdgeMap[currentEdge.node.id]) <
+          getSimilarity(currentEdge)
+      ) {
+        idEdgeMap[currentEdge.node.id] = currentEdge;
+      }
+    }
+  }
+
+  return createSearchResultCarouselContents(
+    Object.values(idEdgeMap)
+      // Sort all edges by similarity
+      .sort((a, b) => getSimilarity(b) - getSimilarity(a)),
+    sessionId
+  );
+}
+
+/**
+ * Mark the most similar item in the search of each searched messages as a cooccurrence
+ *
+ * @param searchResults - search results from searchMedia() or searchText(), with most similar item
+ *                        of each searched items in the first edge.
+ * @param userId - user that observes this cooccurrence
+ */
+export function setMostSimilarArticlesAsCooccurrence(
+  searchResults: (SearchMediaResult | SearchTextResult)[],
+  userId: string
+) {
+  const articleIds = searchResults.map(
+    (searchResult) => searchResult.edges[0].node.id
+  );
+  return gql`
+    mutation SetCooccurrences($articleIds: [String!]!) {
+      CreateOrUpdateCooccurrence(articleIds: $articleIds) {
+        id
+      }
+    }
+  `({ articleIds }, { userId });
+}
