@@ -36,6 +36,8 @@ import type { Input as AskingArticleSourceInput } from './askingArticleSource';
 import type { Input as AskingArticleSubmissionConsentInput } from './askingArticleSubmissionConsent';
 import type { Input as askingCooccurenceInput } from './askingCooccurrence';
 
+const MAX_CAROUSEL_BUBBLE_COUNT = 9;
+
 const splitter = new GraphemeSplitter();
 
 /**
@@ -1121,5 +1123,5 @@ export function createSearchResultCarouselContents(
         },
       };
     })
-    .slice(0, 9); /* flex carousel has at most 10 bubbles */
+    .slice(0, MAX_CAROUSEL_BUBBLE_COUNT); /* Avoid too many bubbles */
 }

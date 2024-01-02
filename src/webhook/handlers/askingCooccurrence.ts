@@ -1,7 +1,9 @@
 import { z } from 'zod';
 import { msgid, ngettext, t } from 'ttag';
+import { FlexSpan } from '@line/bot-sdk';
 
 import ga from 'src/lib/ga';
+import gql from 'src/lib/gql';
 import { ChatbotPostbackHandler } from 'src/types/chatbotState';
 
 import {
@@ -13,9 +15,8 @@ import {
   searchMedia,
   getLineContentProxyURL,
   createPostbackAction,
+  createCooccurredSearchResultsCarouselContents,
 } from './utils';
-import gql from 'src/lib/gql';
-import { FlexSpan } from '@line/bot-sdk';
 
 const inputSchema = z.enum([POSTBACK_NO, POSTBACK_YES]);
 
@@ -176,11 +177,33 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
           ],
         };
       }
+
       // Get first few search results for each message, and make at most 10 options
+      //
 
       return {
         context,
-        replies: [],
+        replies: [
+          createTextMessage({
+            text: `🔍 ${t`There are some messages that looks similar to the ones you have sent to me.`}`,
+          }),
+          createTextMessage({
+            text:
+              t`Internet rumors are often mutated and shared.
+                Please choose the version that looks the most similar` + '👇',
+          }),
+          {
+            type: 'flex',
+            altText: t`Please choose the most similar message from the list.`,
+            contents: {
+              type: 'carousel',
+              contents: createCooccurredSearchResultsCarouselContents(
+                searchResults,
+                context.sessionId
+              ),
+            },
+          },
+        ],
       };
     }
 

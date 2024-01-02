@@ -1,5 +1,4 @@
 import { t } from 'ttag';
-import { Message } from '@line/bot-sdk';
 import { z } from 'zod';
 
 import { ChatbotPostbackHandler } from 'src/types/chatbotState';
@@ -25,6 +24,9 @@ import {
   createNotificationSettingsBubble,
   getLineContentProxyURL,
   createAIReply,
+  searchText,
+  searchMedia,
+  createCooccurredSearchResultsCarouselContents,
 } from './utils';
 
 // Input should be array of context.msgs idx. Empty if the user does not want to submit.
@@ -138,9 +140,6 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
     UserArticleLink.createOrUpdateByUserIdAndArticleId(userId, article.id)
   );
 
-  // Create new session, make article submission button expire after submission
-  context.sessionId = Date.now();
-
   // Use first article as representative article
   const articleUrl = getArticleURL(createdArticles[0].id);
   const articleCreatedMsg = t`Your submission is now recorded at ${articleUrl}`;
@@ -154,19 +153,56 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
   if (context.msgs.length > 1) {
     // Continue with the rest of the messages
     // FIXME: implement this
+
+    const searchResults = await Promise.all(
+      context.msgs.map(async (msg) =>
+        msg.type === 'text'
+          ? searchText(msg.text)
+          : searchMedia(getLineContentProxyURL(msg.id), userId)
+      )
+    );
+
+    return {
+      context,
+      replies: [
+        createTextMessage({
+          text: `🔍 ${t`There are some messages that looks similar to the ones you have sent to me.`}`,
+        }),
+        createTextMessage({
+          text:
+            t`Internet rumors are often mutated and shared.
+              Please choose the version that looks the most similar` + '👇',
+        }),
+        {
+          type: 'flex',
+          altText: t`Please choose the most similar message from the list.`,
+          contents: {
+            type: 'carousel',
+            contents: createCooccurredSearchResultsCarouselContents(
+              searchResults,
+              context.sessionId
+            ),
+          },
+        },
+      ],
+    };
   }
 
   // The user only asks for one article
   //
   const article = createdArticles[0];
-  const aiReply = await aiReplyPromises[0];
-
-  const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
-    userId
-  );
+  const [aiReply, { allowNewReplyUpdate }] = await Promise.all([
+    aiReplyPromises[0],
+    UserSettings.findOrInsertByUserId(userId),
+  ]);
 
   return {
-    context,
+    context: {
+      ...context,
+      // Create new session, make article submission button expire after submission
+      //
+      sessionId: Date.now(),
+    },
     replies: [
       {
         type: 'flex',
