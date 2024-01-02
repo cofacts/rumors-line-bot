@@ -14,13 +14,42 @@ Object {
   },
   "replies": Array [
     Object {
-      "text": "🔍 There are some messages that looks similar to \\"計程車上有裝悠遊卡感⋯⋯\\" you have sent to me.",
-      "type": "text",
+      "altText": "🔍 There are some messages that looks similar to \\"計程車上有裝悠遊卡感⋯⋯\\" you have sent to me.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "🔍 There are some messages that looks similar to \\"計程車上有裝悠遊卡感⋯⋯\\" you have sent to me.",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
     },
     Object {
-      "text": "Internet rumors are often mutated and shared.
+      "altText": "Internet rumors are often mutated and shared.
 Please choose the version that looks the most similar👇",
-      "type": "text",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "Internet rumors are often mutated and shared.
+Please choose the version that looks the most similar👇",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
     },
     Object {
       "altText": "Please choose the most similar message from the list.",
@@ -179,13 +208,42 @@ Object {
   },
   "replies": Array [
     Object {
-      "text": "🔍 There are some messages that looks similar to \\"YouTube · ⋯⋯\\" you have sent to me.",
-      "type": "text",
+      "altText": "🔍 There are some messages that looks similar to \\"YouTube · ⋯⋯\\" you have sent to me.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "🔍 There are some messages that looks similar to \\"YouTube · ⋯⋯\\" you have sent to me.",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
     },
     Object {
-      "text": "Internet rumors are often mutated and shared.
+      "altText": "Internet rumors are often mutated and shared.
 Please choose the version that looks the most similar👇",
-      "type": "text",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "Internet rumors are often mutated and shared.
+Please choose the version that looks the most similar👇",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
     },
     Object {
       "altText": "Please choose the most similar message from the list.",
@@ -661,13 +719,42 @@ Object {
   },
   "replies": Array [
     Object {
-      "text": "🔍 There are some messages that looks similar to \\"YouTube · ⋯⋯\\" you have sent to me.",
-      "type": "text",
+      "altText": "🔍 There are some messages that looks similar to \\"YouTube · ⋯⋯\\" you have sent to me.",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "🔍 There are some messages that looks similar to \\"YouTube · ⋯⋯\\" you have sent to me.",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
     },
     Object {
-      "text": "Internet rumors are often mutated and shared.
+      "altText": "Internet rumors are often mutated and shared.
 Please choose the version that looks the most similar👇",
-      "type": "text",
+      "contents": Object {
+        "body": Object {
+          "contents": Array [
+            Object {
+              "text": "Internet rumors are often mutated and shared.
+Please choose the version that looks the most similar👇",
+              "type": "text",
+              "wrap": true,
+            },
+          ],
+          "layout": "vertical",
+          "type": "box",
+        },
+        "type": "bubble",
+      },
+      "type": "flex",
     },
     Object {
       "altText": "Please choose the most similar message from the list.",

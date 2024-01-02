@@ -179,23 +179,17 @@ const initState = async ({
       },
     };
 
-    const prefixTextArticleFound = [
-      {
-        type: 'text',
+    replies = [
+      createTextMessage({
         text: `🔍 ${t`There are some messages that looks similar to "${inputSummary}" you have sent to me.`}`,
-      } satisfies TextMessage,
-    ];
-    const textArticleFound = [
-      {
-        type: 'text',
+      }),
+      createTextMessage({
         text:
           t`Internet rumors are often mutated and shared.
             Please choose the version that looks the most similar` + '👇',
-      } satisfies TextMessage,
+      }),
       templateMessage,
     ];
-
-    replies = [...prefixTextArticleFound, ...textArticleFound];
   } else {
     // Track if find similar Articles in DB.
     visitor.event({
