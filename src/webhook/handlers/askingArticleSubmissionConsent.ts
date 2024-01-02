@@ -145,6 +145,12 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
   const articleUrl = getArticleURL(createdArticles[0].id);
   const articleCreatedMsg = t`Your submission is now recorded at ${articleUrl}`;
 
+  // Produce AI reply for all created messages
+  //
+  const aiReplyPromises = createdArticles.map((article) =>
+    createAIReply(article.id, userId)
+  );
+
   if (context.msgs.length > 1) {
     // Continue with the rest of the messages
     // FIXME: implement this
@@ -152,34 +158,12 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
 
   // The user only asks for one article
   //
-  const firstMsg = context.msgs[0];
   const article = createdArticles[0];
+  const aiReply = await aiReplyPromises[0];
 
   const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
     userId
   );
-
-  let maybeAIReplies: Message[] = [
-    createTextMessage({
-      text: t`In the meantime, you can:`,
-    }),
-  ];
-
-  if (firstMsg.type === 'text') {
-    const aiReply = await createAIReply(article.id, userId);
-
-    if (aiReply) {
-      maybeAIReplies = [
-        createTextMessage({
-          text: '這篇文章尚待查核中，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。',
-        }),
-        aiReply,
-        createTextMessage({
-          text: '讀完以上機器人的自動分析後，您可以：',
-        }),
-      ];
-    }
-  }
 
   return {
     context,
@@ -211,7 +195,21 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
           },
         },
       },
-      ...maybeAIReplies,
+      ...(!aiReply
+        ? [
+            createTextMessage({
+              text: t`In the meantime, you can:`,
+            }),
+          ]
+        : [
+            createTextMessage({
+              text: '這篇文章尚待查核中，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。',
+            }),
+            aiReply,
+            createTextMessage({
+              text: '讀完以上機器人的自動分析後，您可以：',
+            }),
+          ]),
       {
         type: 'flex',
         altText: articleCreatedMsg,
