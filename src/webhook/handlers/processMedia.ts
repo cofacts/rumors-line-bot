@@ -141,23 +141,17 @@ export default async function (message: CooccurredMessage, userId: string) {
       },
     };
 
-    const prefixTextArticleFound: Message[] = [
-      {
-        type: 'text',
+    replies = [
+      createTextMessage({
         text: `🔍 ${t`There are some messages that looks similar to the one you have sent to me.`}`,
-      },
-    ];
-    const textArticleFound: Message[] = [
-      {
-        type: 'text',
+      }),
+      createTextMessage({
         text:
           t`Internet rumors are often mutated and shared.
             Please choose the version that looks the most similar` + '👇',
-      },
+      }),
       templateMessage,
     ];
-
-    replies = prefixTextArticleFound.concat(textArticleFound);
   } else {
     visitor.event({
       ec: 'UserInput',
