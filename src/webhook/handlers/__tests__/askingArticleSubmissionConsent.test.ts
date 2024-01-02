@@ -4,8 +4,9 @@ import type { MockedGa } from 'src/lib/__mocks__/ga';
 import type { MockedGql } from 'src/lib/__mocks__/gql';
 
 import MockDate from 'mockdate';
-import askingArticleSubmissionConsent from '../askingArticleSubmissionConsent';
-import { POSTBACK_NO, POSTBACK_YES } from '../utils';
+import askingArticleSubmissionConsent, {
+  Input,
+} from '../askingArticleSubmissionConsent';
 import originalGql from 'src/lib/gql';
 import originalGa from 'src/lib/ga';
 
@@ -46,7 +47,7 @@ it('throws on incorrect input', async () => {
 
 it('should thank the user if user does not agree to submit', async () => {
   const inputSession = new Date('2020-01-01T18:10:18.314Z').getTime();
-  const params: ChatbotPostbackHandlerParams = {
+  const params: ChatbotPostbackHandlerParams<Input> = {
     context: {
       sessionId: inputSession,
       msgs: [
@@ -56,7 +57,7 @@ it('should thank the user if user does not agree to submit', async () => {
     postbackData: {
       sessionId: inputSession,
       state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
-      input: POSTBACK_NO,
+      input: [],
     },
     userId: 'userId',
   };
@@ -88,7 +89,7 @@ it('should thank the user if user does not agree to submit', async () => {
 
 it('should submit article if user agrees to submit', async () => {
   const inputSession = new Date('2020-01-01T18:10:18.314Z').getTime();
-  const params: ChatbotPostbackHandlerParams = {
+  const params: ChatbotPostbackHandlerParams<Input> = {
     context: {
       sessionId: inputSession,
       msgs: [
@@ -98,7 +99,7 @@ it('should submit article if user agrees to submit', async () => {
     postbackData: {
       sessionId: inputSession,
       state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
-      input: POSTBACK_YES,
+      input: [0],
     },
     userId: 'userId',
   };
@@ -140,7 +141,7 @@ it('should submit article if user agrees to submit', async () => {
 
 it('should submit image article if user agrees to submit', async () => {
   const inputSession = new Date('2020-01-01T18:10:18.314Z').getTime();
-  const params: ChatbotPostbackHandlerParams = {
+  const params: ChatbotPostbackHandlerParams<Input> = {
     context: {
       sessionId: inputSession,
       msgs: [{ id: '6530038889933', type: 'image' }],
@@ -148,7 +149,7 @@ it('should submit image article if user agrees to submit', async () => {
     postbackData: {
       sessionId: inputSession,
       state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
-      input: POSTBACK_YES,
+      input: [0],
     },
     userId: 'userId',
   };
@@ -177,7 +178,7 @@ it('should submit image article if user agrees to submit', async () => {
 
 it('should create a UserArticleLink when creating a Article', async () => {
   const userId = 'user-id-0';
-  const params: ChatbotPostbackHandlerParams = {
+  const params: ChatbotPostbackHandlerParams<Input> = {
     context: {
       sessionId: 0,
       msgs: [
@@ -186,7 +187,7 @@ it('should create a UserArticleLink when creating a Article', async () => {
     },
     postbackData: {
       sessionId: 0,
-      input: POSTBACK_YES,
+      input: [0],
       state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
     },
     userId,
@@ -204,7 +205,7 @@ it('should create a UserArticleLink when creating a Article', async () => {
 
 it('should ask user to turn on notification settings if they did not turn it on after creating an Article', async () => {
   const userId = 'user-id-0';
-  const params: ChatbotPostbackHandlerParams = {
+  const params: ChatbotPostbackHandlerParams<Input> = {
     context: {
       sessionId: 0,
       msgs: [
@@ -214,7 +215,7 @@ it('should ask user to turn on notification settings if they did not turn it on 
     postbackData: {
       sessionId: 0,
       state: 'ASKING_ARTICLE_SUBMISSION_CONSENT',
-      input: POSTBACK_YES,
+      input: [0],
     },
     userId,
   };

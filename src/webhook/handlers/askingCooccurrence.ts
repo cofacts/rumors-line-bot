@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { t } from 'ttag';
+import { msgid, ngettext, t } from 'ttag';
 
 import ga from 'src/lib/ga';
 import { ChatbotPostbackHandler } from 'src/types/chatbotState';
@@ -12,8 +12,10 @@ import {
   searchText,
   searchMedia,
   getLineContentProxyURL,
+  createPostbackAction,
 } from './utils';
 import gql from 'src/lib/gql';
+import { FlexSpan } from '@line/bot-sdk';
 
 const inputSchema = z.enum([POSTBACK_NO, POSTBACK_YES]);
 
@@ -84,29 +86,100 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
         )
       );
 
-      const notInDbCount = searchResults.reduce((sum, result) => {
+      const notInDbMsgIndexes = searchResults.reduce((indexes, result, idx) => {
         const firstResult = result.edges[0];
-        if (!firstResult) return sum + 1;
+        if (!firstResult) return [...indexes, idx];
 
         return ('mediaSimilarity' in firstResult
           ? firstResult.mediaSimilarity
           : firstResult.similarity) >= IN_DB_THRESHOLD
-          ? sum
-          : sum + 1;
-      }, 0);
+          ? indexes
+          : [...indexes, idx];
+      }, [] as number[]);
 
-      if (notInDbCount === 0) {
-        // Get first few search results for each message, and make at most 10 options
+      if (notInDbMsgIndexes.length > 0) {
+        // Ask if the user want to submit those are not in DB into the database
+        const totalCount = context.msgs.length;
+        const inDbStatus =
+          notInDbMsgIndexes.length === totalCount
+            ? t`None of the ${notInDbMsgIndexes.length} messages you sent are in the Cofacts database.`
+            : ngettext(
+                msgid`Out of the ${totalCount} messages you sent, ${notInDbMsgIndexes} is not in the Cofacts database.`,
+                `Out of the ${totalCount} messages you sent, ${notInDbMsgIndexes} are not in the Cofacts database.`,
+                notInDbMsgIndexes.length
+              );
 
+        const btnText = `🆕 ${t`Report to database`}`;
+        const spans: FlexSpan[] = [
+          {
+            type: 'span',
+            text: t`${inDbStatus} If you think they are most likely a rumor,`,
+          },
+          {
+            type: 'span',
+            text: t`press “${btnText}” to make this message public on Cofacts database `,
+            color: '#ffb600',
+            weight: 'bold',
+          },
+          {
+            type: 'span',
+            text: t`and have volunteers fact-check it. This way you can help the people who receive the same message in the future.`,
+          },
+        ];
         return {
           context,
-          replies: [],
+          replies: [
+            {
+              type: 'flex',
+              altText: t`Be the first to report the message`,
+              contents: {
+                type: 'bubble',
+                body: {
+                  type: 'box',
+                  layout: 'vertical',
+                  spacing: 'md',
+                  paddingAll: 'lg',
+                  contents: [
+                    {
+                      type: 'text',
+                      wrap: true,
+                      contents: spans,
+                    },
+                  ],
+                },
+              },
+              quickReply: {
+                items: [
+                  {
+                    type: 'action',
+                    action: createPostbackAction(
+                      btnText,
+                      notInDbMsgIndexes,
+                      btnText,
+                      context.sessionId,
+                      'ASKING_ARTICLE_SUBMISSION_CONSENT'
+                    ),
+                  },
+                  {
+                    type: 'action',
+                    action: createPostbackAction(
+                      t`Don’t report`,
+                      [],
+                      t`Don’t report`,
+                      context.sessionId,
+                      'ASKING_ARTICLE_SUBMISSION_CONSENT'
+                    ),
+                  },
+                ],
+              },
+            },
+          ],
         };
       }
+      // Get first few search results for each message, and make at most 10 options
 
       return {
         context,
-        // Ask if the user want to submit those are not in DB into the database
         replies: [],
       };
     }

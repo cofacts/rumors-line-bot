@@ -193,7 +193,7 @@ export function createAskArticleSubmissionConsentReply(
             color: '#ffb600',
             action: createPostbackAction(
               btnText,
-              POSTBACK_YES,
+              [0], // The first and the only message
               btnText,
               sessionId,
               'ASKING_ARTICLE_SUBMISSION_CONSENT'
@@ -205,7 +205,7 @@ export function createAskArticleSubmissionConsentReply(
             color: '#333333',
             action: createPostbackAction(
               t`Don’t report`,
-              POSTBACK_NO,
+              [],
               t`Don’t report`,
               sessionId,
               'ASKING_ARTICLE_SUBMISSION_CONSENT'
