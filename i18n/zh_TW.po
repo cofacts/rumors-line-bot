@@ -1052,7 +1052,7 @@ msgstr "資料庫裡有幾篇訊息，跟您傳給我的有些接近。"
 
 #: src/webhook/handlers/askingCooccurrence.ts:57
 msgid "Please send me the messages separately."
-msgstr "好的，那請將這些訊息一則一則分開傳給我唷。"
+msgstr "好的，那再請您將這些訊息一則一則分開傳給我唷。"
 
 #: src/webhook/handlers/askingCooccurrence.ts:96
 #, javascript-format
@@ -1101,3 +1101,15 @@ msgid ""
 "Someone on the internet replies to the message first reported on ${ "
 "articleDate }:"
 msgstr "網路上有人這樣回應這則 ${articleDate} 回報的訊息："
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:245
+msgid ""
+"This article is still under verification, please refrain from believing it "
+"for now. \n"
+"Below is the preliminary analysis result by the bot, hoping to provide you "
+"with some insights."
+msgstr "這篇文章尚待查核中，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。"
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:249
+msgid "After reading the automatic analysis by the bot above, you can:"
+msgstr "讀完以上機器人的自動分析後，您可以："

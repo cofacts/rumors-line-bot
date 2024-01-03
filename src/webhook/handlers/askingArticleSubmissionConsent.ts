@@ -242,11 +242,11 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
           ]
         : [
             createTextMessage({
-              text: '這篇文章尚待查核中，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。',
+              text: t`This article is still under verification, please refrain from believing it for now. \nBelow is the preliminary analysis result by the bot, hoping to provide you with some insights.`,
             }),
             aiReply,
             createTextMessage({
-              text: '讀完以上機器人的自動分析後，您可以：',
+              text: t`After reading the automatic analysis by the bot above, you can:`,
             }),
           ]),
       {

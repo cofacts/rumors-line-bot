@@ -293,7 +293,7 @@ msgid "Share on Facebook"
 msgstr "Facebook で聞く"
 
 #: src/webhook/handlers/utils.ts:284
-#. t: Facebook hash tag 
+#. t: Facebook hash tag
 msgid "ReportedToCofacts"
 msgstr "Cofacts に問い合せる"
 
@@ -317,7 +317,7 @@ msgid "Do you have anything to add about the reply?"
 msgstr "このリプライに対して、何かコメントがありますか？"
 
 #: src/liff/components/ReplyRequestForm.svelte:14
-#. t: Guidance in LIFF 
+#. t: Guidance in LIFF
 msgid ""
 "You may try:\n"
 "1. Express your thought more\n"
@@ -330,7 +330,7 @@ msgstr ""
 " 3. 文章を Facebook で検索してみる"
 
 #: src/liff/components/ReplyRequestForm.svelte:20
-#. t: Guidance in LIFF 
+#. t: Guidance in LIFF
 #, javascript-format
 msgid ""
 "It would help fact-checking editors a lot if you provide more info :)\n"
@@ -348,7 +348,7 @@ msgstr ""
 "追加情報がある場合は「取り消し」ボタンを、そのまま発信したい場合は「確認」ボタンを押してください。"
 
 #: src/liff/components/ReplyRequestForm.svelte:27
-#. t: Guidance in LIFF 
+#. t: Guidance in LIFF
 msgid ""
 "The info you provide should not be identical to the message itself.\n"
 "\n"
@@ -621,19 +621,19 @@ msgid "Instructions"
 msgstr ""
 
 #: src/webhook/handlers/askingArticleSource.ts:60
-#. t: ~ entire message that ... 
+#. t: ~ entire message that ...
 msgid ""
 "I am a bot which only recognizes messages forwarded on LINE, therefore it "
 "is important to send me the"
 msgstr ""
 
 #: src/webhook/handlers/askingArticleSource.ts:64
-#. t: emphasized text in sentence "It is important to send me the ~ that is being passed around" 
+#. t: emphasized text in sentence "It is important to send me the ~ that is being passed around"
 msgid " entire message "
 msgstr ""
 
 #: src/webhook/handlers/askingArticleSource.ts:70
-#. t: the entire message ~ 
+#. t: the entire message ~
 msgid "that is being passed around so I can identify it."
 msgstr ""
 
@@ -1101,4 +1101,15 @@ msgstr ""
 msgid ""
 "Someone on the internet replies to the message first reported on ${ "
 "articleDate }:"
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:245
+msgid ""
+"This article is still under verification, please refrain from believing it "
+"for now. \n"
+"Below is the preliminary analysis result by the bot, hoping to provide you "
+"with some insights."
+msgstr ""
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:249
+msgid "After reading the automatic analysis by the bot above, you can:"
 msgstr ""
