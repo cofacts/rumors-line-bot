@@ -156,6 +156,9 @@ it('should submit image article if user agrees to submit', async () => {
 
   MockDate.set('2020-01-02');
   gql.__push({ data: { CreateMediaArticle: { id: 'new-article-id' } } });
+  gql.__push({
+    data: { CreateAIReply: { text: '' /* Simulate nothing from AI */ } },
+  });
   const result = await askingArticleSubmissionConsent(params);
   MockDate.reset();
   expect(gql.__finished()).toBe(true);
