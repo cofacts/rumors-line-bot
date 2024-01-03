@@ -1,5 +1,5 @@
 import { t } from 'ttag';
-import { FlexBubble, FlexMessage, Message, TextMessage } from '@line/bot-sdk';
+import { FlexBubble, FlexMessage, Message } from '@line/bot-sdk';
 
 import type {
   Result,
