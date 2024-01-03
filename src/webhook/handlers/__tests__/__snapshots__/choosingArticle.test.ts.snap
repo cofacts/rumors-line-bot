@@ -156,7 +156,7 @@ Do you want someone to fact-check this message?",
           "contents": Array [
             Object {
               "action": Object {
-                "data": "{\\"input\\":\\"__POSTBACK_YES__\\",\\"sessionId\\":0,\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
+                "data": "{\\"input\\":[0],\\"sessionId\\":0,\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
                 "displayText": "🆕 Report to database",
                 "label": "🆕 Report to database",
                 "type": "postback",
@@ -167,7 +167,7 @@ Do you want someone to fact-check this message?",
             },
             Object {
               "action": Object {
-                "data": "{\\"input\\":\\"__POSTBACK_NO__\\",\\"sessionId\\":0,\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
+                "data": "{\\"input\\":[],\\"sessionId\\":0,\\"state\\":\\"ASKING_ARTICLE_SUBMISSION_CONSENT\\"}",
                 "displayText": "Don’t report",
                 "label": "Don’t report",
                 "type": "postback",
