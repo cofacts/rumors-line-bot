@@ -896,9 +896,10 @@ export async function searchText(text: string): Promise<SearchTextResult> {
       ) {
         edges {
           node {
-            text
             id
+            text
             articleType
+            attachmentUrl(variant: THUMBNAIL)
           }
           highlight {
             text
@@ -932,110 +933,6 @@ export async function searchText(text: string): Promise<SearchTextResult> {
     ...ListArticles,
     edges: edgesSortedWithSimilarity,
   };
-}
-
-export function createTextCarouselContents(
-  edges: SearchTextResult['edges'],
-  sessionId: number
-) {
-  return edges
-    .map<FlexBubble>(
-      ({ node: { text, id, articleType }, highlight, similarity }) => {
-        const similarityPercentage = Math.round(similarity * 100);
-        const similarityEmoji = ['😐', '🙂', '😀', '😃', '😄'][
-          Math.floor(similarity * 4.999)
-        ];
-        const displayTextWhenChosen = ellipsis(text ?? '', 25, '...');
-
-        const bodyContents: FlexComponent[] = [];
-
-        const { contents: highlightContents, source: highlightSource } =
-          createHighlightContents(highlight);
-
-        let highlightSourceInfo = '';
-        switch (highlightSource) {
-          case 'hyperlinks':
-            highlightSourceInfo = t`(Words found in the hyperlink)`;
-            break;
-          case 'text':
-            if (articleType !== 'TEXT') {
-              highlightSourceInfo = t`(Words found in transcript)`;
-            }
-        }
-        if (highlightSourceInfo) {
-          bodyContents.push({
-            type: 'text',
-            text: highlightSourceInfo,
-            size: 'sm',
-            color: '#ff7b7b',
-            weight: 'bold',
-          });
-        }
-
-        bodyContents.push({
-          type: 'text',
-          contents: highlightContents,
-          maxLines: 6,
-          flex: 0,
-          gravity: 'top',
-          weight: 'regular',
-          wrap: true,
-        });
-
-        return {
-          type: 'bubble',
-          direction: 'ltr',
-          header: {
-            type: 'box',
-            layout: 'horizontal',
-            spacing: 'md',
-            paddingBottom: 'none',
-            contents: [
-              {
-                type: 'text',
-                text: similarityEmoji,
-                flex: 0,
-              },
-              {
-                type: 'text',
-                text: t`Looks ${similarityPercentage}% similar`,
-                gravity: 'center',
-                size: 'sm',
-                weight: 'bold',
-                wrap: true,
-                color: '#AAAAAA',
-              },
-            ],
-          },
-          body: {
-            type: 'box',
-            layout: 'vertical',
-            spacing: 'none',
-            margin: 'none',
-            contents: bodyContents,
-          },
-          footer: {
-            type: 'box',
-            layout: 'horizontal',
-            contents: [
-              {
-                type: 'button',
-                action: createPostbackAction(
-                  t`Choose this one`,
-                  id,
-                  t`I choose “${displayTextWhenChosen}”`,
-                  sessionId,
-                  'CHOOSING_ARTICLE'
-                ),
-                style: 'primary',
-                color: '#ffb600',
-              },
-            ],
-          },
-        };
-      }
-    ) /* flex carousel has at most 10 bubbles */
-    .slice(0, 9);
 }
 
 type SearchMediaResult = Omit<
@@ -1093,134 +990,134 @@ export async function searchMedia(
 const CIRCLED_DIGITS = '⓪①②③④⑤⑥⑦⑧⑨⑩⑪';
 
 /**
- * @param edges - edge data returned by searchMedia()
+ * @param edges - mixed edge data returned by searchText() or searchMedia()
  * @param sessionId
  * @returns
  */
-export function createMediaCarouselContents(
-  edges: SearchMediaResult['edges'],
+export function createSearchResultCarouselContents(
+  edges: ReadonlyArray<
+    SearchMediaResult['edges'][number] | SearchTextResult['edges'][number]
+  >,
   sessionId: number
 ): FlexBubble[] {
   return edges
-    .map(
-      (
-        {
-          node: { attachmentUrl, id, articleType },
-          highlight,
-          mediaSimilarity,
-        },
-        index
-      ): FlexBubble => {
-        const displayTextWhenChosen = CIRCLED_DIGITS[index + 1];
+    .map((edge, index): FlexBubble => {
+      const isSearchMediaResult = 'mediaSimilarity' in edge;
 
-        const { contents: highlightContents, source: highlightSource } =
-          createHighlightContents(highlight);
+      // Header
+      //
+      const similarityPercentage = Math.round(
+        (isSearchMediaResult ? edge.mediaSimilarity : edge.similarity) * 100
+      );
+      const displayTextWhenChosen = CIRCLED_DIGITS[index + 1];
 
-        const similarityPercentage = Math.round(mediaSimilarity * 100);
+      const { contents: highlightContents, source: highlightSource } =
+        createHighlightContents(edge.highlight);
 
-        const looks =
-          mediaSimilarity > 0
-            ? t`Looks ${similarityPercentage}% similar`
-            : highlightSource === null
-            ? t`Similar file`
-            : t`Contains relevant text`;
+      const looks =
+        !isSearchMediaResult || edge.mediaSimilarity > 0
+          ? t`Looks ${similarityPercentage}% similar` // Used in text search, or when there are similarity scores in media search.
+          : highlightSource === null
+          ? t`Similar file`
+          : t`Contains relevant text`;
 
-        const bodyContents: FlexComponent[] = [];
+      // Body
+      //
+      const bodyContents: FlexComponent[] = [];
 
-        if (highlightSource) {
-          let highlightSourceInfo = '';
-          switch (highlightSource) {
-            case 'hyperlinks':
-              highlightSourceInfo = t`(Text in the hyperlink)`;
-              break;
-            case 'text':
-              if (articleType !== 'TEXT') {
-                highlightSourceInfo = t`(Text in transcript)`;
-              }
+      let highlightSourceInfo = '';
+      switch (highlightSource) {
+        case 'hyperlinks':
+          highlightSourceInfo = t`(Text in the hyperlink)`;
+          break;
+        case 'text':
+          if (edge.node.articleType !== 'TEXT') {
+            highlightSourceInfo = t`(Text in transcript)`;
           }
+      }
 
-          if (highlightSourceInfo) {
-            bodyContents.push({
+      if (highlightSourceInfo) {
+        bodyContents.push({
+          type: 'text',
+          text: highlightSourceInfo,
+          size: 'sm',
+          color: '#ff7b7b',
+          weight: 'bold',
+        });
+      }
+
+      if (highlightSource && highlightContents.length) {
+        bodyContents.push({
+          type: 'text',
+          contents: highlightContents,
+          // Show less lines if there are thumbnails to show
+          maxLines: edge.node.attachmentUrl ? 5 : 12,
+          flex: 0,
+          gravity: 'top',
+          weight: 'regular',
+          wrap: true,
+        });
+      }
+
+      return {
+        type: 'bubble',
+        direction: 'ltr',
+        header: {
+          type: 'box',
+          layout: 'horizontal',
+          spacing: 'sm',
+          paddingBottom: 'md',
+          contents: [
+            {
               type: 'text',
-              text: highlightSourceInfo,
+              text: displayTextWhenChosen + ' ' + looks,
+              gravity: 'center',
               size: 'sm',
-              color: '#ff7b7b',
               weight: 'bold',
-            });
-          }
+              wrap: true,
+              color: '#AAAAAA',
+            },
+          ],
+        },
 
-          bodyContents.push({
-            type: 'text',
-            contents: highlightContents,
-            // Show less lines if there are thumbnails to show
-            maxLines: attachmentUrl ? 5 : 12,
-            flex: 0,
-            gravity: 'top',
-            weight: 'regular',
-            wrap: true,
-          });
-        }
+        // Show thumbnail image if available
+        hero: !edge.node.attachmentUrl
+          ? undefined
+          : {
+              type: 'image',
+              url: edge.node.attachmentUrl,
+              size: 'full',
+            },
 
-        return {
-          type: 'bubble',
-          direction: 'ltr',
-          header: {
-            type: 'box',
-            layout: 'horizontal',
-            spacing: 'sm',
-            paddingBottom: 'md',
-            contents: [
-              {
-                type: 'text',
-                text: displayTextWhenChosen + ' ' + looks,
-                gravity: 'center',
-                size: 'sm',
-                weight: 'bold',
-                wrap: true,
-                color: '#AAAAAA',
-              },
-            ],
-          },
-
-          // Show thumbnail image if available
-          hero: !attachmentUrl
+        // Show highlighted text if available
+        body:
+          bodyContents.length === 0
             ? undefined
             : {
-                type: 'image',
-                url: attachmentUrl,
-                size: 'full',
+                type: 'box',
+                layout: 'vertical',
+                contents: bodyContents,
               },
 
-          // Show highlighted text if available
-          body:
-            bodyContents.length === 0
-              ? undefined
-              : {
-                  type: 'box',
-                  layout: 'vertical',
-                  contents: bodyContents,
-                },
-
-          footer: {
-            type: 'box',
-            layout: 'horizontal',
-            contents: [
-              {
-                type: 'button',
-                action: createPostbackAction(
-                  t`Choose this one`,
-                  id,
-                  t`I choose ${displayTextWhenChosen}`,
-                  sessionId,
-                  'CHOOSING_ARTICLE'
-                ),
-                style: 'primary',
-                color: '#ffb600',
-              },
-            ],
-          },
-        };
-      }
-    )
+        footer: {
+          type: 'box',
+          layout: 'horizontal',
+          contents: [
+            {
+              type: 'button',
+              action: createPostbackAction(
+                t`Choose this one`,
+                edge.node.id,
+                t`I choose ${displayTextWhenChosen}`,
+                sessionId,
+                'CHOOSING_ARTICLE'
+              ),
+              style: 'primary',
+              color: '#ffb600',
+            },
+          ],
+        },
+      };
+    })
     .slice(0, 9); /* flex carousel has at most 10 bubbles */
 }

@@ -16,7 +16,7 @@ import {
   createTextMessage,
   createArticleSourceReply,
   searchText,
-  createTextCarouselContents,
+  createSearchResultCarouselContents,
 } from './utils';
 import choosingArticle from './choosingArticle';
 
@@ -107,7 +107,7 @@ const initState = async ({
       });
     }
 
-    const articleOptions: FlexBubble[] = createTextCarouselContents(
+    const articleOptions: FlexBubble[] = createSearchResultCarouselContents(
       result.edges,
       context.sessionId
     );

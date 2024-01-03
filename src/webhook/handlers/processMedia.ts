@@ -1,5 +1,5 @@
 import { t } from 'ttag';
-import type { Message, FlexMessage } from '@line/bot-sdk';
+import type { FlexMessage } from '@line/bot-sdk';
 
 import { Context, CooccurredMessage } from 'src/types/chatbotState';
 import ga from 'src/lib/ga';
@@ -11,7 +11,7 @@ import {
   createTextMessage,
   createAskArticleSubmissionConsentReply,
   searchMedia,
-  createMediaCarouselContents,
+  createSearchResultCarouselContents,
 } from './utils';
 import choosingArticle from './choosingArticle';
 
@@ -69,7 +69,7 @@ export default async function (message: CooccurredMessage, userId: string) {
       });
     }
 
-    const articleOptions = createMediaCarouselContents(
+    const articleOptions = createSearchResultCarouselContents(
       result.edges,
       context.sessionId
     );
