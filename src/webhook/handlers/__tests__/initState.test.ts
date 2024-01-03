@@ -92,20 +92,16 @@ it('long article replies still below flex message limit', async () => {
   });
   expect(gql.__finished()).toBe(true);
   expect(result.replies.length).toBeLessThanOrEqual(5); // Reply message API limit
-  const flexReply = result.replies.find(
-    (reply): reply is FlexMessage => reply.type === 'flex'
+  const carouselReply = result.replies.find(
+    (reply): reply is FlexMessage & { contents: { type: 'carousel' } } =>
+      reply.type === 'flex' && reply.contents.type === 'carousel'
   );
 
   // Make TS happy
   /* istanbul ignore if */
-  if (!flexReply) throw new Error('No flex reply in replies');
+  if (!carouselReply) throw new Error('No carouselReply reply in replies');
 
-  const carousel = flexReply.contents;
-
-  // Make TS happy
-  /* istanbul ignore if */
-  if (carousel.type !== 'carousel')
-    throw new Error('Flex reply content is not carousel');
+  const carousel = carouselReply.contents;
 
   expect(carousel.contents.length).toBeLessThanOrEqual(10); // Flex message carousel 10 bubble limit
   expect(JSON.stringify(carousel).length).toBeLessThan(50 * 1000); // Flex message carousel 50K limit
