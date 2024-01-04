@@ -44,19 +44,19 @@ msgstr "出處"
 msgid "This reply has no ${ prompt } and it may be biased"
 msgstr "此回應沒有${prompt}，請自行斟酌回應之可信度。"
 
-#: src/webhook/handlers/choosingArticle.ts:224
+#: src/webhook/handlers/choosingArticle.ts:216
 msgid "Volunteer editors have published several replies to this message."
 msgstr "真的假的查證志工對這則訊息發表了多則看法唷！"
 
-#: src/webhook/handlers/choosingArticle.ts:350
+#: src/webhook/handlers/choosingArticle.ts:342
 msgid "Let's pick one"
 msgstr "選一則來閱讀吧"
 
-#: src/webhook/handlers/choosingArticle.ts:327
+#: src/webhook/handlers/choosingArticle.ts:319
 msgid "Take a look"
 msgstr "看他怎麼說"
 
-#: src/webhook/handlers/choosingArticle.ts:366
+#: src/webhook/handlers/choosingArticle.ts:358
 #, javascript-format
 msgid "Visit ${ articleUrl } for more replies."
 msgstr "更多回應請到：${ articleUrl }"
@@ -65,10 +65,11 @@ msgstr "更多回應請到：${ articleUrl }"
 msgid "Choose this one"
 msgstr "選擇這篇"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:176
 #: src/webhook/handlers/askingCooccurrence.ts:185
 #: src/webhook/handlers/initState.ts:188
 #: src/webhook/handlers/processMedia.ts:150
+#. Get first few search results for each message, and make at most 10 options
+#.
 msgid ""
 "Internet rumors are often mutated and shared.\n"
 "Please choose the version that looks the most similar"
@@ -127,18 +128,19 @@ msgstr[0] "有 ${positive} 人覺得此回應有幫助"
 msgid "Tell us more"
 msgstr "回報此訊息"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:181
 #: src/webhook/handlers/askingCooccurrence.ts:190
 #: src/webhook/handlers/initState.ts:175
 #: src/webhook/handlers/processMedia.ts:137
+#. Get first few search results for each message, and make at most 10 options
+#.
 msgid "Please choose the most similar message from the list."
 msgstr "請從下列選擇您要查的訊息。"
 
-#: src/webhook/handlers/choosingArticle.ts:354
+#: src/webhook/handlers/choosingArticle.ts:346
 msgid "Please take a look at the following replies."
 msgstr "請從下列選擇您要查看的回應。"
 
-#: src/webhook/handlers/choosingArticle.ts:273
+#: src/webhook/handlers/choosingArticle.ts:265
 #, javascript-format
 msgid "Someone thinks it ${ typeWords }"
 msgstr "有人認為它${typeWords}"
@@ -213,27 +215,27 @@ msgstr "分享給朋友"
 msgid "Please choose from provided options."
 msgstr "請從上面的選項中做選擇。"
 
-#: src/webhook/handlers/choosingArticle.ts:228
+#: src/webhook/handlers/choosingArticle.ts:220
 #, javascript-format
 msgid "${ countOfType.RUMOR } of them say it ❌ contains misinformation."
 msgstr "${ countOfType.RUMOR } 人認為它 ❌ 含有不實訊息。"
 
-#: src/webhook/handlers/choosingArticle.ts:231
+#: src/webhook/handlers/choosingArticle.ts:223
 msgid "${ countOfType.NOT_RUMOR } of them says it ⭕ contains true information."
 msgstr "${ countOfType.NOT_RUMOR } 人認為它 ⭕ 含有真實訊息。"
 
-#: src/webhook/handlers/choosingArticle.ts:234
+#: src/webhook/handlers/choosingArticle.ts:226
 #, javascript-format
 msgid ""
 "${ countOfType.OPINIONATED } of them says it 💬 contains personal "
 "perspective."
 msgstr "${ countOfType.OPINIONATED } 人認為它 💬 含有個人意見。"
 
-#: src/webhook/handlers/choosingArticle.ts:237
+#: src/webhook/handlers/choosingArticle.ts:229
 msgid "${ countOfType.NOT_ARTICLE } of them says it ⚠️️ is out of scope of Cofacts."
 msgstr "${ countOfType.NOT_ARTICLE } 人認為它 ⚠️️ 不在 Cofacts 的查證範圍。"
 
-#: src/webhook/handlers/choosingArticle.ts:329
+#: src/webhook/handlers/choosingArticle.ts:321
 #, javascript-format
 msgid "I choose “${ displayTextWhenChosen }”"
 msgstr "我要選「${displayTextWhenChosen}」"
@@ -625,7 +627,7 @@ msgstr "Hi 我是「Cofacts 真的假的」訊息查證機器人～"
 msgid "Thank you for sharing “${ inputSummary }”"
 msgstr "感謝您的分享 “${ inputSummary }”"
 
-#: src/webhook/handlers/choosingArticle.ts:167
+#: src/webhook/handlers/choosingArticle.ts:159
 msgid "Provided message is not found."
 msgstr "找不到此訊息。"
 
@@ -814,13 +816,13 @@ msgstr "此訊息不存在。"
 msgid "The reply does not exist. Maybe it has been deleted by its author."
 msgstr "此回應不存在。或許已經被作者刪掉囉。"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:228
-#: src/webhook/handlers/choosingArticle.ts:442
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:226
+#: src/webhook/handlers/choosingArticle.ts:434
 msgid "View reported message"
 msgstr "檢視回報訊息"
 
 #: src/webhook/handlers/askingArticleSource.ts:77
-#: src/webhook/handlers/choosingArticle.ts:454
+#: src/webhook/handlers/choosingArticle.ts:446
 #: src/webhook/handlers/utils.ts:695
 msgid "Provide more detail"
 msgstr "提供更多情報"
@@ -833,8 +835,8 @@ msgstr "您可以提供更多關於此訊息的情報給查證志工，讓好心
 msgid "Provide detail"
 msgstr "提供更多情報"
 
-#: src/webhook/handlers/choosingArticle.ts:422
-#: src/webhook/handlers/choosingArticle.ts:435
+#: src/webhook/handlers/choosingArticle.ts:414
+#: src/webhook/handlers/choosingArticle.ts:427
 msgid ""
 "This message has already published on Cofacts, and will soon be "
 "fact-checked by volunteers.\n"
@@ -843,8 +845,8 @@ msgstr ""
 "此訊息已經被收錄至 Cofacts 有待好心人來查證。\n"
 "請先不要相信這個訊息唷！"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:240
-#: src/webhook/handlers/choosingArticle.ts:386
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:238
+#: src/webhook/handlers/choosingArticle.ts:378
 msgid "In the meantime, you can:"
 msgstr "接下來您可以："
 
@@ -914,7 +916,7 @@ msgid "I see. Don’t trust the message just yet!"
 msgstr "這樣呀。請先不要相信這個訊息唷！"
 
 #: src/webhook/handlers/askingArticleSource.ts:188
-#: src/webhook/handlers/choosingArticle.ts:122
+#: src/webhook/handlers/choosingArticle.ts:116
 #: src/webhook/handlers/processMedia.ts:168
 msgid "Do you want someone to fact-check this message?"
 msgstr "你要請人查查這則訊息嗎？"
@@ -923,14 +925,14 @@ msgstr "你要請人查查這則訊息嗎？"
 msgid "The message has not been reported and won’t be fact-checked. Thanks anyway!"
 msgstr "好的，那就不查囉。還是謝謝你！"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:212
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:222
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:210
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:220
 msgid ""
 "The message has now been recorded at Cofacts for volunteers to fact-check. "
 "Thank you for submitting!"
 msgstr "訊息已經被收錄至 Cofacts 真的假的，讓好心人來查證。謝謝您的回報！"
 
-#: src/webhook/handlers/choosingArticle.ts:97
+#: src/webhook/handlers/choosingArticle.ts:101
 #, javascript-format
 msgid ""
 "I am sorry you cannot find the information “${ inputSummary }” you are "
@@ -983,7 +985,7 @@ msgstr "是，我整篇分享過來的"
 msgid "No, typed it myself"
 msgstr "否，我自行打字輸入的"
 
-#: src/webhook/handlers/choosingArticle.ts:99
+#: src/webhook/handlers/choosingArticle.ts:103
 #: src/webhook/handlers/initState.ts:206
 msgid "May I ask you a quick question?"
 msgstr "想先請教您一個問題："
@@ -996,7 +998,7 @@ msgstr "提供更好的回應"
 msgid "There are some messages that looks similar to the one you have sent to me."
 msgstr "資料庫裡有幾篇訊息，跟您傳給我的有些接近。"
 
-#: src/webhook/handlers/choosingArticle.ts:120
+#: src/webhook/handlers/choosingArticle.ts:114
 msgid "I am sorry you cannot find the information you are looking for."
 msgstr "抱歉沒有找到你想要查詢的訊息。"
 
@@ -1045,8 +1047,9 @@ msgstr "逐字稿內的字"
 msgid "I choose ${ displayTextWhenChosen }"
 msgstr "我選 ${ displayTextWhenChosen }"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:172
 #: src/webhook/handlers/askingCooccurrence.ts:181
+#. Get first few search results for each message, and make at most 10 options
+#.
 msgid "There are some messages that looks similar to the ones you have sent to me."
 msgstr "資料庫裡有幾篇訊息，跟您傳給我的有些接近。"
 
@@ -1102,14 +1105,27 @@ msgid ""
 "articleDate }:"
 msgstr "網路上有人這樣回應這則 ${articleDate} 回報的訊息："
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:245
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:243
 msgid ""
 "This article is still under verification, please refrain from believing it "
 "for now. \n"
 "Below is the preliminary analysis result by the bot, hoping to provide you "
 "with some insights."
-msgstr "這篇文章尚待查核中，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。"
+msgstr ""
+"這篇文章尚待查核中，請先不要相信這篇文章。\n"
+"以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:249
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:247
 msgid "After reading the automatic analysis by the bot above, you can:"
 msgstr "讀完以上機器人的自動分析後，您可以："
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:168
+msgid ""
+"Thank you for submitting! Now the messages has been recorded in the Cofacts "
+"database."
+msgstr "感謝提供！現在資料庫裡有這些訊息囉。"
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:171
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:175
+msgid "Please choose the messages you would like to view"
+msgstr "請選擇要查看的訊息"

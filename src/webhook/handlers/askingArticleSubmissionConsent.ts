@@ -169,16 +169,14 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
       context,
       replies: [
         createTextMessage({
-          text: `🔍 ${t`There are some messages that looks similar to the ones you have sent to me.`}`,
+          text: t`Thank you for submitting! Now the messages has been recorded in the Cofacts database.`,
         }),
         createTextMessage({
-          text:
-            t`Internet rumors are often mutated and shared.
-              Please choose the version that looks the most similar` + '👇',
+          text: t`Please choose the messages you would like to view` + ' 👇',
         }),
         {
           type: 'flex',
-          altText: t`Please choose the most similar message from the list.`,
+          altText: t`Please choose the messages you would like to view`,
           contents: {
             type: 'carousel',
             contents: createCooccurredSearchResultsCarouselContents(
