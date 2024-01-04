@@ -69,7 +69,7 @@ msgstr "これを選ぶ"
 #: src/webhook/handlers/initState.ts:188
 #: src/webhook/handlers/processMedia.ts:150
 #. Get first few search results for each message, and make at most 10 options
-#.
+#. 
 msgid ""
 "Internet rumors are often mutated and shared.\n"
 "Please choose the version that looks the most similar"
@@ -132,7 +132,7 @@ msgstr "情報を報告する"
 #: src/webhook/handlers/initState.ts:175
 #: src/webhook/handlers/processMedia.ts:137
 #. Get first few search results for each message, and make at most 10 options
-#.
+#. 
 msgid "Please choose the most similar message from the list."
 msgstr "以下から調べたい情報を選んでください。"
 
@@ -167,7 +167,7 @@ msgid ""
 "search sessions do not work now."
 msgstr "新規の情報を検索しているため、先ほどまでの検索ボタンは無効になります。"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:147
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:192
 #, javascript-format
 msgid "Your submission is now recorded at ${ articleUrl }"
 msgstr "提供していただいた情報はこちらに登録されています ${ articleUrl }"
@@ -295,7 +295,7 @@ msgid "Share on Facebook"
 msgstr "Facebook で聞く"
 
 #: src/webhook/handlers/utils.ts:284
-#. t: Facebook hash tag
+#. t: Facebook hash tag 
 msgid "ReportedToCofacts"
 msgstr "Cofacts に問い合せる"
 
@@ -319,7 +319,7 @@ msgid "Do you have anything to add about the reply?"
 msgstr "このリプライに対して、何かコメントがありますか？"
 
 #: src/liff/components/ReplyRequestForm.svelte:14
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 msgid ""
 "You may try:\n"
 "1. Express your thought more\n"
@@ -332,7 +332,7 @@ msgstr ""
 " 3. 文章を Facebook で検索してみる"
 
 #: src/liff/components/ReplyRequestForm.svelte:20
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 #, javascript-format
 msgid ""
 "It would help fact-checking editors a lot if you provide more info :)\n"
@@ -350,7 +350,7 @@ msgstr ""
 "追加情報がある場合は「取り消し」ボタンを、そのまま発信したい場合は「確認」ボタンを押してください。"
 
 #: src/liff/components/ReplyRequestForm.svelte:27
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 msgid ""
 "The info you provide should not be identical to the message itself.\n"
 "\n"
@@ -623,19 +623,19 @@ msgid "Instructions"
 msgstr ""
 
 #: src/webhook/handlers/askingArticleSource.ts:60
-#. t: ~ entire message that ...
+#. t: ~ entire message that ... 
 msgid ""
 "I am a bot which only recognizes messages forwarded on LINE, therefore it "
 "is important to send me the"
 msgstr ""
 
 #: src/webhook/handlers/askingArticleSource.ts:64
-#. t: emphasized text in sentence "It is important to send me the ~ that is being passed around"
+#. t: emphasized text in sentence "It is important to send me the ~ that is being passed around" 
 msgid " entire message "
 msgstr ""
 
 #: src/webhook/handlers/askingArticleSource.ts:70
-#. t: the entire message ~
+#. t: the entire message ~ 
 msgid "that is being passed around so I can identify it."
 msgstr ""
 
@@ -687,19 +687,19 @@ msgstr ""
 msgid "The message has not been reported and won’t be fact-checked. Thanks anyway!"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:210
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:220
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:209
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:219
 msgid ""
 "The message has now been recorded at Cofacts for volunteers to fact-check. "
 "Thank you for submitting!"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:226
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:225
 #: src/webhook/handlers/choosingArticle.ts:434
 msgid "View reported message"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:238
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:237
 #: src/webhook/handlers/choosingArticle.ts:378
 msgid "In the meantime, you can:"
 msgstr ""
@@ -1049,7 +1049,7 @@ msgstr ""
 
 #: src/webhook/handlers/askingCooccurrence.ts:181
 #. Get first few search results for each message, and make at most 10 options
-#.
+#. 
 msgid "There are some messages that looks similar to the ones you have sent to me."
 msgstr ""
 
@@ -1067,11 +1067,11 @@ msgstr ""
 #: src/webhook/handlers/askingCooccurrence.ts:97
 #, javascript-format
 msgid ""
-"Out of the ${ totalCount } messages you sent, ${ notInDbMsgIndexes } is not "
-"in the Cofacts database."
+"Out of the ${ totalCount } messages you sent, ${ notInDbMsgIndexes.length } "
+"is not in the Cofacts database."
 msgid_plural ""
-"Out of the ${ totalCount } messages you sent, ${ notInDbMsgIndexes } are "
-"not in the Cofacts database."
+"Out of the ${ totalCount } messages you sent, ${ notInDbMsgIndexes.length } "
+"are not in the Cofacts database."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -1106,7 +1106,7 @@ msgid ""
 "articleDate }:"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:243
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:242
 msgid ""
 "This article is still under verification, please refrain from believing it "
 "for now. \n"
@@ -1114,17 +1114,17 @@ msgid ""
 "with some insights."
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:247
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:246
 msgid "After reading the automatic analysis by the bot above, you can:"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:172
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:168
 msgid ""
 "Thank you for submitting! Now the messages has been recorded in the Cofacts "
 "database."
 msgstr ""
 
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:171
 #: src/webhook/handlers/askingArticleSubmissionConsent.ts:175
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:179
 msgid "Please choose the messages you would like to view"
 msgstr ""

@@ -95,8 +95,8 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
           notInDbMsgIndexes.length === totalCount
             ? t`None of the ${notInDbMsgIndexes.length} messages you sent are in the Cofacts database.`
             : ngettext(
-                msgid`Out of the ${totalCount} messages you sent, ${notInDbMsgIndexes} is not in the Cofacts database.`,
-                `Out of the ${totalCount} messages you sent, ${notInDbMsgIndexes} are not in the Cofacts database.`,
+                msgid`Out of the ${totalCount} messages you sent, ${notInDbMsgIndexes.length} is not in the Cofacts database.`,
+                `Out of the ${totalCount} messages you sent, ${notInDbMsgIndexes.length} are not in the Cofacts database.`,
                 notInDbMsgIndexes.length
               );
 

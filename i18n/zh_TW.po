@@ -69,7 +69,7 @@ msgstr "選擇這篇"
 #: src/webhook/handlers/initState.ts:188
 #: src/webhook/handlers/processMedia.ts:150
 #. Get first few search results for each message, and make at most 10 options
-#.
+#. 
 msgid ""
 "Internet rumors are often mutated and shared.\n"
 "Please choose the version that looks the most similar"
@@ -132,7 +132,7 @@ msgstr "回報此訊息"
 #: src/webhook/handlers/initState.ts:175
 #: src/webhook/handlers/processMedia.ts:137
 #. Get first few search results for each message, and make at most 10 options
-#.
+#. 
 msgid "Please choose the most similar message from the list."
 msgstr "請從下列選擇您要查的訊息。"
 
@@ -167,7 +167,7 @@ msgid ""
 "search sessions do not work now."
 msgstr "您已經在搜尋新的訊息了，過去查過的訊息的按鈕已經失效囉。"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:147
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:192
 #, javascript-format
 msgid "Your submission is now recorded at ${ articleUrl }"
 msgstr "您回報的訊息已經被收錄至 ${ articleUrl }"
@@ -295,7 +295,7 @@ msgid "Share on Facebook"
 msgstr "請教臉書大神"
 
 #: src/webhook/handlers/utils.ts:284
-#. t: Facebook hash tag
+#. t: Facebook hash tag 
 msgid "ReportedToCofacts"
 msgstr "Cofacts求解惑"
 
@@ -319,7 +319,7 @@ msgid "Do you have anything to add about the reply?"
 msgstr "針對這則回應，有沒有想補充的呢？"
 
 #: src/liff/components/ReplyRequestForm.svelte:14
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 msgid ""
 "You may try:\n"
 "1. Express your thought more\n"
@@ -332,7 +332,7 @@ msgstr ""
 "3. 把全文複製貼上到 Facebook 搜尋框看看"
 
 #: src/liff/components/ReplyRequestForm.svelte:20
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 #, javascript-format
 msgid ""
 "It would help fact-checking editors a lot if you provide more info :)\n"
@@ -350,7 +350,7 @@ msgstr ""
 "若要補充資訊，請按「取消」；覺得現在這樣送出就好，請按「確定」。"
 
 #: src/liff/components/ReplyRequestForm.svelte:27
-#. t: Guidance in LIFF
+#. t: Guidance in LIFF 
 msgid ""
 "The info you provide should not be identical to the message itself.\n"
 "\n"
@@ -816,7 +816,7 @@ msgstr "此訊息不存在。"
 msgid "The reply does not exist. Maybe it has been deleted by its author."
 msgstr "此回應不存在。或許已經被作者刪掉囉。"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:226
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:225
 #: src/webhook/handlers/choosingArticle.ts:434
 msgid "View reported message"
 msgstr "檢視回報訊息"
@@ -845,7 +845,7 @@ msgstr ""
 "此訊息已經被收錄至 Cofacts 有待好心人來查證。\n"
 "請先不要相信這個訊息唷！"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:238
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:237
 #: src/webhook/handlers/choosingArticle.ts:378
 msgid "In the meantime, you can:"
 msgstr "接下來您可以："
@@ -867,19 +867,19 @@ msgid "Instructions"
 msgstr "指示"
 
 #: src/webhook/handlers/askingArticleSource.ts:60
-#. t: ~ entire message that ...
+#. t: ~ entire message that ... 
 msgid ""
 "I am a bot which only recognizes messages forwarded on LINE, therefore it "
 "is important to send me the"
 msgstr "我是一個機器人，只認得在 LINE 上面傳來傳去的訊息，所以把"
 
 #: src/webhook/handlers/askingArticleSource.ts:64
-#. t: emphasized text in sentence "It is important to send me the ~ that is being passed around"
+#. t: emphasized text in sentence "It is important to send me the ~ that is being passed around" 
 msgid " entire message "
 msgstr "整篇訊息"
 
 #: src/webhook/handlers/askingArticleSource.ts:70
-#. t: the entire message ~
+#. t: the entire message ~ 
 msgid "that is being passed around so I can identify it."
 msgstr "給我，我才能辨認唷！"
 
@@ -925,8 +925,8 @@ msgstr "你要請人查查這則訊息嗎？"
 msgid "The message has not been reported and won’t be fact-checked. Thanks anyway!"
 msgstr "好的，那就不查囉。還是謝謝你！"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:210
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:220
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:209
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:219
 msgid ""
 "The message has now been recorded at Cofacts for volunteers to fact-check. "
 "Thank you for submitting!"
@@ -1049,7 +1049,7 @@ msgstr "我選 ${ displayTextWhenChosen }"
 
 #: src/webhook/handlers/askingCooccurrence.ts:181
 #. Get first few search results for each message, and make at most 10 options
-#.
+#. 
 msgid "There are some messages that looks similar to the ones you have sent to me."
 msgstr "資料庫裡有幾篇訊息，跟您傳給我的有些接近。"
 
@@ -1067,12 +1067,12 @@ msgstr "您傳的 ${ notInDbMsgIndexes.length } 則訊息，目前都不在 Cofa
 #: src/webhook/handlers/askingCooccurrence.ts:97
 #, javascript-format
 msgid ""
-"Out of the ${ totalCount } messages you sent, ${ notInDbMsgIndexes } is not "
-"in the Cofacts database."
+"Out of the ${ totalCount } messages you sent, ${ notInDbMsgIndexes.length } "
+"is not in the Cofacts database."
 msgid_plural ""
-"Out of the ${ totalCount } messages you sent, ${ notInDbMsgIndexes } are "
-"not in the Cofacts database."
-msgstr[0] "在您傳的 ${ totalCount } 則訊息中，有 ${ notInDbMsgIndexes } 則不在 Cofacts 資料庫裡。"
+"Out of the ${ totalCount } messages you sent, ${ notInDbMsgIndexes.length } "
+"are not in the Cofacts database."
+msgstr[0] "在您傳的 ${ totalCount } 則訊息中，有 ${ notInDbMsgIndexes.length } 則不在 Cofacts 資料庫裡。"
 
 #: src/webhook/handlers/askingCooccurrence.ts:107
 #, javascript-format
@@ -1105,7 +1105,7 @@ msgid ""
 "articleDate }:"
 msgstr "網路上有人這樣回應這則 ${articleDate} 回報的訊息："
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:243
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:242
 msgid ""
 "This article is still under verification, please refrain from believing it "
 "for now. \n"
@@ -1115,7 +1115,7 @@ msgstr ""
 "這篇文章尚待查核中，請先不要相信這篇文章。\n"
 "以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:247
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:246
 msgid "After reading the automatic analysis by the bot above, you can:"
 msgstr "讀完以上機器人的自動分析後，您可以："
 
