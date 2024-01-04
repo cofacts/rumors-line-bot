@@ -142,10 +142,6 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
     UserArticleLink.createOrUpdateByUserIdAndArticleId(userId, article.id)
   );
 
-  // Use first article as representative article
-  const articleUrl = getArticleURL(createdArticles[0].id);
-  const articleCreatedMsg = t`Your submission is now recorded at ${articleUrl}`;
-
   // Produce AI reply for all created messages
   //
   const aiReplyPromises = createdArticles.map((article) =>
@@ -192,6 +188,9 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
   // The user only asks for one article
   //
   const article = createdArticles[0];
+  const articleUrl = getArticleURL(article.id);
+  const articleCreatedMsg = t`Your submission is now recorded at ${articleUrl}`;
+
   const [aiReply, { allowNewReplyUpdate }] = await Promise.all([
     aiReplyPromises[0],
     UserSettings.findOrInsertByUserId(userId),
