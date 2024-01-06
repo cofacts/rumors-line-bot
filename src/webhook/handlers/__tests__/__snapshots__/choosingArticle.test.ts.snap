@@ -198,6 +198,13 @@ exports[`should create a UserArticleLink when selecting a article 1`] = `
 Array [
   Object {
     "_id": "_id",
+    "articleId": "new-article-id",
+    "createdAt": 2020-01-01T00:00:00.000Z,
+    "lastViewedAt": 2020-01-01T00:00:00.000Z,
+    "userId": "user-id-0",
+  },
+  Object {
+    "_id": "_id",
     "articleId": "article-id",
     "createdAt": 2020-01-01T00:00:00.000Z,
     "lastViewedAt": 2020-01-01T00:00:00.000Z,
@@ -220,7 +227,7 @@ Object {
   },
   "replies": Array [
     Object {
-      "text": "💡 Someone on the internet replies to the message:",
+      "text": "💡 Someone on the internet replies to the message on Jan 2, 2018:",
       "type": "text",
     },
     Object {
@@ -1757,14 +1764,14 @@ Don’t trust the message just yet!",
       "type": "flex",
     },
     Object {
-      "altText": "這篇文章尚待查核，請先不要相信這篇文章。
-以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。",
+      "altText": "這則訊息首次回報於 Jan 2, 2018 ，尚待查核，請先不要相信這篇文章。
+以下是當時機器人初步分析此訊息的結果，希望能帶給你一些想法。",
       "contents": Object {
         "body": Object {
           "contents": Array [
             Object {
-              "text": "這篇文章尚待查核，請先不要相信這篇文章。
-以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。",
+              "text": "這則訊息首次回報於 Jan 2, 2018 ，尚待查核，請先不要相信這篇文章。
+以下是當時機器人初步分析此訊息的結果，希望能帶給你一些想法。",
               "type": "text",
               "wrap": true,
             },
@@ -1777,6 +1784,7 @@ Don’t trust the message just yet!",
       "type": "flex",
     },
     Object {
+      "createdAt": "2018-01-09T05:52:12.658Z",
       "sender": Object {
         "iconUrl": "/static/img/aireply.png?cachebust=20230405",
         "name": "AI 自動分析",

@@ -237,14 +237,20 @@ Object {
 }
 `;
 
-exports[`createReferenceWords() should create reference for opinions 1`] = `"different opinions：This is refering to different opinions"`;
+exports[`createReferenceWords() should create reference for opinions 1`] = `
+"replied at：Jan 9, 2018
+different opinions：This is refering to different opinions"
+`;
 
-exports[`createReferenceWords() should create reference for rumors 1`] = `"references：This is a reference"`;
+exports[`createReferenceWords() should create reference for rumors 1`] = `
+"replied at：Jan 9, 2018
+references：This is a reference"
+`;
 
 exports[`createReplyMessages() should return reply messages 1`] = `
 Array [
   Object {
-    "text": "💡 Someone on the internet replies to the message:",
+    "text": "💡 Someone on the internet replies to the message on Jan 2, 2018:",
     "type": "text",
   },
   Object {
@@ -253,7 +259,8 @@ Array [
     "type": "text",
   },
   Object {
-    "text": "references：http://www.mygopen.com/2017/06/blog-post_26.html
+    "text": "replied at：Jan 9, 2018
+references：http://www.mygopen.com/2017/06/blog-post_26.html
 神奇的地瓜葉？搭配鮮奶遠離三高？謠言讓醫生說：有痛風或是腎臟不好的人要小心！",
     "type": "text",
   },

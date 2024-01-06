@@ -78,13 +78,13 @@ it('finds user2', async () => {
       }
     )
   ).toMatchInlineSnapshot(`
-      Object {
-        "data": Object {
-          "setting": Object {
-            "allowNewReplyUpdate": true,
-            "newReplyNotifyToken": "this_is_token",
-          },
+    Object {
+      "data": Object {
+        "setting": Object {
+          "allowNewReplyUpdate": true,
+          "newReplyNotifyToken": "this_is_token",
         },
-      }
-    `);
+      },
+    }
+  `);
 });

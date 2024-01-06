@@ -399,6 +399,8 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
           addDays(articleCreatedAt, 30)
         );
 
+        console.log('aiReply', aiReply);
+
         const articleCreatedAtStr = format(articleCreatedAt);
         const aiReplyCreatedAtStr = aiReplyWithin30Days
           ? '當時'

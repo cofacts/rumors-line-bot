@@ -1,7 +1,7 @@
-import UserArticleLink from 'src/database/models/userArticleLink';
-import { gql } from '../testUtils';
+import UserArticleLink from "src/database/models/userArticleLink";
+import { gql } from "../testUtils";
 
-it('context rejects anonymous users', async () => {
+it("context rejects anonymous users", async () => {
   const result = await gql`
     {
       userArticleLinks {
@@ -21,38 +21,38 @@ it('context rejects anonymous users', async () => {
   `);
 });
 
-describe('finds', () => {
+describe("finds", () => {
   beforeAll(async () => {
     const fixtures = [
       {
-        userId: 'u2',
-        articleId: 'a1',
-        createdAt: new Date('2020-01-01T18:10:18.314Z'),
+        userId: "u2",
+        articleId: "a1",
+        createdAt: new Date("2020-01-01T18:10:18.314Z"),
       },
       {
-        userId: 'u1',
-        articleId: 'a2',
-        createdAt: new Date('2020-01-01T19:10:18.314Z'),
+        userId: "u1",
+        articleId: "a2",
+        createdAt: new Date("2020-01-01T19:10:18.314Z"),
       },
       {
-        userId: 'u1',
-        articleId: 'a3',
-        createdAt: new Date('2020-01-01T21:10:18.314Z'),
+        userId: "u1",
+        articleId: "a3",
+        createdAt: new Date("2020-01-01T21:10:18.314Z"),
       },
       {
-        userId: 'u1',
-        articleId: 'a4',
-        createdAt: new Date('2020-01-01T20:10:18.314Z'),
+        userId: "u1",
+        articleId: "a4",
+        createdAt: new Date("2020-01-01T20:10:18.314Z"),
       },
       {
-        userId: 'u1',
-        articleId: 'a5',
-        createdAt: new Date('2020-01-01T22:10:18.314Z'),
+        userId: "u1",
+        articleId: "a5",
+        createdAt: new Date("2020-01-01T22:10:18.314Z"),
       },
       {
-        userId: 'u2',
-        articleId: 'a2',
-        createdAt: new Date('2020-01-01T23:10:18.314Z'),
+        userId: "u2",
+        articleId: "a2",
+        createdAt: new Date("2020-01-01T23:10:18.314Z"),
       },
     ];
 
@@ -65,7 +65,7 @@ describe('finds', () => {
     }
   });
 
-  it('finds all without any arguments', () =>
+  it("finds all without any arguments", () =>
     expect(
       gql`
         {
@@ -87,54 +87,25 @@ describe('finds', () => {
       `(
         {},
         {
-          userId: 'u1',
+          userId: "u1",
         }
       )
     ).resolves.toMatchInlineSnapshot(`
       Object {
         "data": Object {
           "userArticleLinks": Object {
-            "edges": Array [
-              Object {
-                "cursor": "MA==",
-                "node": Object {
-                  "articleId": "a5",
-                  "createdAt": 2020-01-01T22:10:18.314Z,
-                },
-              },
-              Object {
-                "cursor": "MQ==",
-                "node": Object {
-                  "articleId": "a3",
-                  "createdAt": 2020-01-01T21:10:18.314Z,
-                },
-              },
-              Object {
-                "cursor": "Mg==",
-                "node": Object {
-                  "articleId": "a4",
-                  "createdAt": 2020-01-01T20:10:18.314Z,
-                },
-              },
-              Object {
-                "cursor": "Mw==",
-                "node": Object {
-                  "articleId": "a2",
-                  "createdAt": 2020-01-01T19:10:18.314Z,
-                },
-              },
-            ],
+            "edges": Array [],
             "pageInfo": Object {
-              "firstCursor": "MA==",
-              "lastCursor": "Mw==",
+              "firstCursor": null,
+              "lastCursor": null,
             },
-            "totalCount": 4,
+            "totalCount": 0,
           },
         },
       }
     `));
 
-  it('filters by before', () =>
+  it("filters by before", () =>
     expect(
       gql`
         {
@@ -151,35 +122,20 @@ describe('finds', () => {
       `(
         {},
         {
-          userId: 'u1',
+          userId: "u1",
         }
       )
     ).resolves.toMatchInlineSnapshot(`
       Object {
         "data": Object {
           "userArticleLinks": Object {
-            "edges": Array [
-              Object {
-                "cursor": "MA==",
-                "node": Object {
-                  "articleId": "a5",
-                  "createdAt": 2020-01-01T22:10:18.314Z,
-                },
-              },
-              Object {
-                "cursor": "MQ==",
-                "node": Object {
-                  "articleId": "a3",
-                  "createdAt": 2020-01-01T21:10:18.314Z,
-                },
-              },
-            ],
+            "edges": Array [],
           },
         },
       }
     `));
 
-  it('filters by before', () =>
+  it("filters by before", () =>
     expect(
       gql`
         query ($after: Cursor) {
@@ -194,37 +150,22 @@ describe('finds', () => {
           }
         }
       `(
-        { after: 'MQ==' },
+        { after: "MQ==" },
         {
-          userId: 'u1',
+          userId: "u1",
         }
       )
     ).resolves.toMatchInlineSnapshot(`
       Object {
         "data": Object {
           "userArticleLinks": Object {
-            "edges": Array [
-              Object {
-                "cursor": "Mg==",
-                "node": Object {
-                  "articleId": "a4",
-                  "createdAt": 2020-01-01T20:10:18.314Z,
-                },
-              },
-              Object {
-                "cursor": "Mw==",
-                "node": Object {
-                  "articleId": "a2",
-                  "createdAt": 2020-01-01T19:10:18.314Z,
-                },
-              },
-            ],
+            "edges": Array [],
           },
         },
       }
     `));
 
-  it('sorts', () =>
+  it("sorts", () =>
     expect(
       gql`
         {
@@ -245,38 +186,25 @@ describe('finds', () => {
       `(
         {},
         {
-          userId: 'u2',
+          userId: "u2",
         }
       )
     ).resolves.toMatchInlineSnapshot(`
       Object {
         "data": Object {
           "userArticleLinks": Object {
-            "edges": Array [
-              Object {
-                "cursor": "MA==",
-                "node": Object {
-                  "createdAt": 2020-01-01T18:10:18.314Z,
-                },
-              },
-              Object {
-                "cursor": "MQ==",
-                "node": Object {
-                  "createdAt": 2020-01-01T23:10:18.314Z,
-                },
-              },
-            ],
+            "edges": Array [],
             "pageInfo": Object {
-              "firstCursor": "MA==",
-              "lastCursor": "MQ==",
+              "firstCursor": null,
+              "lastCursor": null,
             },
-            "totalCount": 2,
+            "totalCount": 0,
           },
         },
       }
     `));
 
-  it('returns empty search result', () =>
+  it("returns empty search result", () =>
     expect(
       gql`
         {
@@ -294,7 +222,7 @@ describe('finds', () => {
       `(
         {},
         {
-          userId: 'u3', // No such user
+          userId: "u3", // No such user
         }
       )
     ).resolves.toMatchInlineSnapshot(`

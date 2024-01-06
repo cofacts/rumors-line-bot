@@ -124,11 +124,11 @@ export function createReferenceWords({
   createdAt,
 }: CreateReferenceWordsReplyFragment) {
   const prompt = type === 'OPINIONATED' ? t`different opinions` : t`references`;
+  const repliedAt = createdAt
+    ? `${t`replied at`}：${format(new Date(createdAt))}\n`
+    : '';
 
-  if (reference)
-    return `${t`replied at`}：${format(
-      new Date(createdAt)
-    )}\n${prompt}：${reference}`;
+  if (reference) return `${repliedAt}${prompt}：${reference}`;
   return `\uDBC0\uDC85 ⚠️️ ${t`This reply has no ${prompt} and it may be biased`} ⚠️️  \uDBC0\uDC85`;
 }
 
@@ -548,7 +548,6 @@ export function createReplyMessages(
   article: CreateReplyMessagesArticleFragment,
   selectedArticleId: string
 ): Message[] {
-  console.log('createReplyMessages', article);
   const articleDate = format(new Date(article.createdAt));
   const articleUrl = getArticleURL(selectedArticleId);
   const typeStr = createTypeWords(reply.type).toLocaleLowerCase();

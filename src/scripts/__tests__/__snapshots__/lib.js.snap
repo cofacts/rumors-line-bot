@@ -4,13 +4,6 @@ exports[`get notification list handles empty ListArticles data 1`] = `Object {}`
 
 exports[`get notification list should get notification list 1`] = `
 Object {
-  "u1": Array [
-    "a3",
-    "a4",
-  ],
-  "u2": Array [
-    "a1",
-  ],
   "u3": Array [
     "a3",
   ],

@@ -174,7 +174,14 @@ it('should select article and have OPINIONATED and NOT_ARTICLE replies', async (
 it('should select article with no replies', async () => {
   // The case when have AI replies
   gql.__push(apiGetArticleResult.noReplies);
-  gql.__push({ data: { CreateAIReply: { text: 'Hello from ChatGPT' } } });
+  gql.__push({
+    data: {
+      CreateAIReply: {
+        text: 'Hello from ChatGPT',
+        createdAt: '2018-01-09T05:52:12.658Z',
+      },
+    },
+  });
   gql.__push(apiGetArticleResult.createOrUpdateReplyRequest);
 
   const params: ChatbotPostbackHandlerParams = {

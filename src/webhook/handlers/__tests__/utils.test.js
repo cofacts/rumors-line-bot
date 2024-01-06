@@ -81,6 +81,7 @@ describe('createReferenceWords()', () => {
       createReferenceWords({
         reference: 'This is a reference',
         type: 'RUMOR',
+        createdAt: '2018-01-09T05:52:12.658Z',
       })
     ).toMatchSnapshot();
   });
@@ -89,6 +90,7 @@ describe('createReferenceWords()', () => {
       createReferenceWords({
         reference: 'This is refering to different opinions',
         type: 'OPINIONATED',
+        createdAt: '2018-01-09T05:52:12.658Z',
       })
     ).toMatchSnapshot();
   });
@@ -236,8 +238,9 @@ describe('createReplyMessages()', () => {
       reference:
         'http://www.mygopen.com/2017/06/blog-post_26.html\n神奇的地瓜葉？搭配鮮奶遠離三高？謠言讓醫生說：有痛風或是腎臟不好的人要小心！',
       text: '基本上地瓜葉其實單吃就有效果，牛奶、豆漿可加可不加，民眾不用迷信。 三高或是糖尿病的患者還是要搭配醫生的治療，不能單靠吃地瓜葉就想將身體調養好，民眾千萬要注意。\n另外地瓜葉內還有鉀和鈉，對於有痛風或是腎臟不好的民眾反而會造成負擔，因此並不建議食用。',
+      createdAt: '2018-01-09T05:52:12.658Z',
     };
-    const article = { replyCount: 1 };
+    const article = { replyCount: 1, createdAt: '2018-01-02T05:52:12.658Z' };
     const selectedArticleId = '2sn80q5l5mzi0';
     expect(
       createReplyMessages(reply, article, selectedArticleId)
