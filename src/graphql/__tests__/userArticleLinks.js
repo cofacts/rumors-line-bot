@@ -94,12 +94,41 @@ describe('finds', () => {
       Object {
         "data": Object {
           "userArticleLinks": Object {
-            "edges": Array [],
+            "edges": Array [
+              Object {
+                "cursor": "MA==",
+                "node": Object {
+                  "articleId": "a5",
+                  "createdAt": 2020-01-01T22:10:18.314Z,
+                },
+              },
+              Object {
+                "cursor": "MQ==",
+                "node": Object {
+                  "articleId": "a3",
+                  "createdAt": 2020-01-01T21:10:18.314Z,
+                },
+              },
+              Object {
+                "cursor": "Mg==",
+                "node": Object {
+                  "articleId": "a4",
+                  "createdAt": 2020-01-01T20:10:18.314Z,
+                },
+              },
+              Object {
+                "cursor": "Mw==",
+                "node": Object {
+                  "articleId": "a2",
+                  "createdAt": 2020-01-01T19:10:18.314Z,
+                },
+              },
+            ],
             "pageInfo": Object {
-              "firstCursor": null,
-              "lastCursor": null,
+              "firstCursor": "MA==",
+              "lastCursor": "Mw==",
             },
-            "totalCount": 0,
+            "totalCount": 4,
           },
         },
       }
@@ -129,7 +158,22 @@ describe('finds', () => {
       Object {
         "data": Object {
           "userArticleLinks": Object {
-            "edges": Array [],
+            "edges": Array [
+              Object {
+                "cursor": "MA==",
+                "node": Object {
+                  "articleId": "a5",
+                  "createdAt": 2020-01-01T22:10:18.314Z,
+                },
+              },
+              Object {
+                "cursor": "MQ==",
+                "node": Object {
+                  "articleId": "a3",
+                  "createdAt": 2020-01-01T21:10:18.314Z,
+                },
+              },
+            ],
           },
         },
       }
@@ -159,7 +203,22 @@ describe('finds', () => {
       Object {
         "data": Object {
           "userArticleLinks": Object {
-            "edges": Array [],
+            "edges": Array [
+              Object {
+                "cursor": "Mg==",
+                "node": Object {
+                  "articleId": "a4",
+                  "createdAt": 2020-01-01T20:10:18.314Z,
+                },
+              },
+              Object {
+                "cursor": "Mw==",
+                "node": Object {
+                  "articleId": "a2",
+                  "createdAt": 2020-01-01T19:10:18.314Z,
+                },
+              },
+            ],
           },
         },
       }
@@ -193,12 +252,25 @@ describe('finds', () => {
       Object {
         "data": Object {
           "userArticleLinks": Object {
-            "edges": Array [],
+            "edges": Array [
+              Object {
+                "cursor": "MA==",
+                "node": Object {
+                  "createdAt": 2020-01-01T18:10:18.314Z,
+                },
+              },
+              Object {
+                "cursor": "MQ==",
+                "node": Object {
+                  "createdAt": 2020-01-01T23:10:18.314Z,
+                },
+              },
+            ],
             "pageInfo": Object {
-              "firstCursor": null,
-              "lastCursor": null,
+              "firstCursor": "MA==",
+              "lastCursor": "MQ==",
             },
-            "totalCount": 0,
+            "totalCount": 2,
           },
         },
       }
