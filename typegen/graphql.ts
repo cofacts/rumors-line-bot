@@ -1399,7 +1399,7 @@ export type GetArticleInChoosingArticleQueryVariables = Exact<{
 }>;
 
 
-export type GetArticleInChoosingArticleQuery = { GetArticle: { text: string | null, replyCount: number, articleType: ArticleTypeEnum, articleReplies: Array<{ positiveFeedbackCount: number, negativeFeedbackCount: number, reply: { id: string, type: ReplyTypeEnum, text: string | null } | null }> } | null };
+export type GetArticleInChoosingArticleQuery = { GetArticle: { text: string | null, replyCount: number, articleType: ArticleTypeEnum, articleReplies: Array<{ positiveFeedbackCount: number, negativeFeedbackCount: number, reply: { id: string, type: ReplyTypeEnum, text: string | null } | null }>, createdAt: string } | null };
 
 export type SubmitReplyRequestWithoutReasonMutationVariables = Exact<{
   id: Scalars['String'];
