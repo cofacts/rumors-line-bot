@@ -82,8 +82,8 @@ msgstr ""
 "請選擇比較接近的版本"
 
 #: src/webhook/handlers/utils.ts:527
-msgid "Someone on the internet replies to the message:"
-msgstr "網路上有人這樣回應這則訊息："
+msgid "Someone on the internet replies to the message ${date}:"
+msgstr "網路上有人這樣回應這則${date}的訊息："
 
 #: src/webhook/handlers/utils.ts:610
 #, javascript-format

@@ -1,6 +1,6 @@
 import { t } from 'ttag';
 import gql from 'src/lib/gql';
-import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
+import { getArticleURL, createTypeWords, format } from 'src/lib/sharedUtils';
 import {
   createPostbackAction,
   createFeedbackWords,
@@ -389,9 +389,10 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
       const aiReply = await createAIReply(selectedArticleId, userId);
 
       if (aiReply) {
+        const aiReplyCreatedAt = format(new Date(aiReply.createdAt));
         maybeAIReplies = [
           createTextMessage({
-            text: '這篇文章尚待查核，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。',
+            text: `這篇文章尚待查核，請先不要相信這篇文章。\n以下是 ${aiReplyCreatedAt} 時機器人初步分析此訊息的結果，希望能帶給你一些想法。`,
           }),
           aiReply,
           createTextMessage({
