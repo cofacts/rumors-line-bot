@@ -45,6 +45,10 @@ msgstr "不同觀點"
 msgid "references"
 msgstr "出處"
 
+#: src/webhook/handlers/utils.ts:99
+msgid "replied at"
+msgstr "回應日期"
+
 #: src/webhook/handlers/utils.ts:102
 #, javascript-format
 msgid "This reply has no ${ prompt } and it may be biased"
@@ -82,7 +86,7 @@ msgstr ""
 "請選擇比較接近的版本"
 
 #: src/webhook/handlers/utils.ts:527
-msgid "Someone on the internet replies to the message ${date}:"
+msgid "Someone on the internet replies to the message on ${date}:"
 msgstr "網路上有人這樣回應這則${date}的訊息："
 
 #: src/webhook/handlers/utils.ts:610

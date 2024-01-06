@@ -1414,7 +1414,7 @@ export type GetReplyRelatedDataQueryVariables = Exact<{
 }>;
 
 
-export type GetReplyRelatedDataQuery = { GetReply: { type: ReplyTypeEnum, text: string | null, reference: string | null, createdAt: string } | null, GetArticle: { text: string | null, replyCount: number } | null };
+export type GetReplyRelatedDataQuery = { GetReply: { type: ReplyTypeEnum, text: string | null, reference: string | null, createdAt: string } | null, GetArticle: { text: string | null, replyCount: number, createdAt: string } | null };
 
 export type ListArticlesInInitStateQueryVariables = Exact<{
   text: Scalars['String'];
@@ -1430,11 +1430,11 @@ export type ListArticlesInProcessMediaQueryVariables = Exact<{
 
 export type ListArticlesInProcessMediaQuery = { ListArticles: { edges: Array<{ score: number | null, mediaSimilarity: number, node: { id: string, articleType: ArticleTypeEnum, attachmentUrl: string | null }, highlight: { text: string | null, hyperlinks: Array<{ title: string | null, summary: string | null } | null> | null } | null }> } | null };
 
-export type CreateReferenceWordsReplyFragment = { reference: string | null, type: ReplyTypeEnum };
+export type CreateReferenceWordsReplyFragment = { reference: string | null, type: ReplyTypeEnum, createdAt: string };
 
 export type CreateReplyMessagesReplyFragment = { text: string | null, reference: string | null, type: ReplyTypeEnum, createdAt: string };
 
-export type CreateReplyMessagesArticleFragment = { replyCount: number };
+export type CreateReplyMessagesArticleFragment = { replyCount: number, createdAt: string };
 
 export type CreateHighlightContentsHighlightFragment = { text: string | null, hyperlinks: Array<{ title: string | null, summary: string | null } | null> | null };
 
