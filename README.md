@@ -90,6 +90,8 @@ $ ngrok http 5001
 
 We recommend using [ngrok configuration file](https://ngrok.com/docs#config) to setup a tunnel with a fixed `subdomain`. In this way the public URL can be fixed (means no repeatitive copy-pasting to LINE Channel settings!) as long as the `subdomain` is not occupied by others.
 
+Inside LINE Developers console in your Message API channel, under Messaging API > Webhook settings set the **Webhook URL** to `${ngrok_url}/callback` and turn on **Use webhook**.  Click verify to confirm it is successfully connected to your local machine.
+
 ### LIFF setup
 
 We are using LIFF to collect user's reason when submitting article & negative feedbacks.
