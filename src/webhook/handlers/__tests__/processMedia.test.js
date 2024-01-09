@@ -149,8 +149,10 @@ it('twelve articles found', async () => {
   expect(result).toMatchSnapshot();
   expect(gql.__finished()).toBe(true);
   expect(result.replies.length).toBeLessThanOrEqual(5); // Reply message API limit
-  const carousel = result.replies.find(({ type }) => type === 'flex').contents;
-  expect(carousel.type).toBe('carousel');
+  const carousel = result.replies.find(
+    ({ type, contents }) => type === 'flex' && contents.type === 'carousel'
+  ).contents;
+  expect(carousel).not.toBe(null);
   expect(carousel.contents.length).toBeLessThanOrEqual(10); // Flex message carousel 10 bubble limit
   expect(JSON.stringify(carousel).length).toBeLessThan(50 * 1000); // Flex message carousel 50K limit
 });

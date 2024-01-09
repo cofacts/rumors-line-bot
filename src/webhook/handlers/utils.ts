@@ -11,6 +11,7 @@ import type {
 } from '@line/bot-sdk';
 import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
+import stringSimilarity from 'string-similarity';
 
 import gql from 'src/lib/gql';
 import { getArticleURL, createTypeWords, format } from 'src/lib/sharedUtils';
@@ -24,6 +25,10 @@ import type {
   CreateReferenceWordsReplyFragment,
   CreateAiReplyMutation,
   CreateAiReplyMutationVariables,
+  ListArticlesInInitStateQuery,
+  ListArticlesInInitStateQueryVariables,
+  ListArticlesInProcessMediaQuery,
+  ListArticlesInProcessMediaQueryVariables,
 } from 'typegen/graphql';
 
 import type { Input as ChoosingReplyInput } from './choosingReply';
@@ -858,4 +863,261 @@ export function getLineContentProxyURL(messageId: string) {
   });
 
   return `${process.env.RUMORS_LINE_BOT_URL}/getcontent?token=${jwt}`;
+}
+
+/**
+ * ListArticle result with similarity score
+ */
+type SearchTextResult = Omit<
+  ListArticlesInInitStateQuery['ListArticles'],
+  'edges'
+> & {
+  edges: Array<
+    NonNullable<
+      ListArticlesInInitStateQuery['ListArticles']
+    >['edges'][number] & {
+      similarity: number;
+    }
+  >;
+};
+
+/**
+ * Searches for text and reorder with string similarity
+ */
+export async function searchText(text: string): Promise<SearchTextResult> {
+  const {
+    data: { ListArticles },
+  } = await gql`
+    query ListArticlesInInitState($text: String!) {
+      ListArticles(
+        filter: { moreLikeThis: { like: $text } }
+        orderBy: [{ _score: DESC }]
+        first: 4
+      ) {
+        edges {
+          node {
+            id
+            text
+            articleType
+            attachmentUrl(variant: THUMBNAIL)
+          }
+          highlight {
+            text
+            hyperlinks {
+              title
+              summary
+            }
+          }
+        }
+      }
+    }
+  `<ListArticlesInInitStateQuery, ListArticlesInInitStateQueryVariables>({
+    text,
+  });
+
+  const sanitizedText = text.replace(/\s/g, '');
+  const edgesSortedWithSimilarity =
+    ListArticles?.edges
+      .map((edge) => ({
+        ...edge,
+        similarity: stringSimilarity.compareTwoStrings(
+          // Remove spaces so that we count word's similarities only
+          //
+          (edge.node.text ?? '').replace(/\s/g, ''),
+          sanitizedText
+        ),
+      }))
+      .sort((edge1, edge2) => edge2.similarity - edge1.similarity) ?? [];
+
+  return {
+    ...ListArticles,
+    edges: edgesSortedWithSimilarity,
+  };
+}
+
+type SearchMediaResult = Omit<
+  ListArticlesInProcessMediaQuery['ListArticles'],
+  'edges'
+> & {
+  edges: NonNullable<ListArticlesInProcessMediaQuery['ListArticles']>['edges'];
+};
+
+export async function searchMedia(
+  mediaUrl: string,
+  userId: string
+): Promise<SearchMediaResult> {
+  const {
+    data: { ListArticles },
+  } = await gql`
+    query ListArticlesInProcessMedia($mediaUrl: String!) {
+      ListArticles(
+        filter: {
+          mediaUrl: $mediaUrl
+          articleTypes: [TEXT, IMAGE, AUDIO, VIDEO]
+          transcript: { shouldCreate: true }
+        }
+        orderBy: [{ _score: DESC }]
+        first: 9
+      ) {
+        edges {
+          score
+          mediaSimilarity
+          node {
+            id
+            articleType
+            attachmentUrl(variant: THUMBNAIL)
+          }
+          highlight {
+            text
+            hyperlinks {
+              title
+              summary
+            }
+          }
+        }
+      }
+    }
+  `<ListArticlesInProcessMediaQuery, ListArticlesInProcessMediaQueryVariables>(
+    { mediaUrl },
+    { userId }
+  );
+  return {
+    ...ListArticles,
+    edges: ListArticles?.edges ?? [],
+  };
+}
+
+const CIRCLED_DIGITS = '⓪①②③④⑤⑥⑦⑧⑨⑩⑪';
+
+/**
+ * @param edges - mixed edge data returned by searchText() or searchMedia()
+ * @param sessionId
+ * @returns
+ */
+export function createSearchResultCarouselContents(
+  edges: ReadonlyArray<
+    SearchMediaResult['edges'][number] | SearchTextResult['edges'][number]
+  >,
+  sessionId: number
+): FlexBubble[] {
+  return edges
+    .map((edge, index): FlexBubble => {
+      const isSearchMediaResult = 'mediaSimilarity' in edge;
+
+      // Header
+      //
+      const similarityPercentage = Math.round(
+        (isSearchMediaResult ? edge.mediaSimilarity : edge.similarity) * 100
+      );
+      const displayTextWhenChosen = CIRCLED_DIGITS[index + 1];
+
+      const { contents: highlightContents, source: highlightSource } =
+        createHighlightContents(edge.highlight);
+
+      const looks =
+        !isSearchMediaResult || edge.mediaSimilarity > 0
+          ? t`Looks ${similarityPercentage}% similar` // Used in text search, or when there are similarity scores in media search.
+          : highlightSource === null
+          ? t`Similar file`
+          : t`Contains relevant text`;
+
+      // Body
+      //
+      const bodyContents: FlexComponent[] = [];
+
+      let highlightSourceInfo = '';
+      switch (highlightSource) {
+        case 'hyperlinks':
+          highlightSourceInfo = t`(Text in the hyperlink)`;
+          break;
+        case 'text':
+          if (edge.node.articleType !== 'TEXT') {
+            highlightSourceInfo = t`(Text in transcript)`;
+          }
+      }
+
+      if (highlightSourceInfo) {
+        bodyContents.push({
+          type: 'text',
+          text: highlightSourceInfo,
+          size: 'sm',
+          color: '#ff7b7b',
+          weight: 'bold',
+        });
+      }
+
+      if (highlightSource && highlightContents.length) {
+        bodyContents.push({
+          type: 'text',
+          contents: highlightContents,
+          // Show less lines if there are thumbnails to show
+          maxLines: edge.node.attachmentUrl ? 5 : 12,
+          flex: 0,
+          gravity: 'top',
+          weight: 'regular',
+          wrap: true,
+        });
+      }
+
+      return {
+        type: 'bubble',
+        direction: 'ltr',
+        header: {
+          type: 'box',
+          layout: 'horizontal',
+          spacing: 'sm',
+          paddingBottom: 'md',
+          contents: [
+            {
+              type: 'text',
+              text: displayTextWhenChosen + ' ' + looks,
+              gravity: 'center',
+              size: 'sm',
+              weight: 'bold',
+              wrap: true,
+              color: '#AAAAAA',
+            },
+          ],
+        },
+
+        // Show thumbnail image if available
+        hero: !edge.node.attachmentUrl
+          ? undefined
+          : {
+              type: 'image',
+              url: edge.node.attachmentUrl,
+              size: 'full',
+            },
+
+        // Show highlighted text if available
+        body:
+          bodyContents.length === 0
+            ? undefined
+            : {
+                type: 'box',
+                layout: 'vertical',
+                contents: bodyContents,
+              },
+
+        footer: {
+          type: 'box',
+          layout: 'horizontal',
+          contents: [
+            {
+              type: 'button',
+              action: createPostbackAction(
+                t`Choose this one`,
+                edge.node.id,
+                t`I choose ${displayTextWhenChosen}`,
+                sessionId,
+                'CHOOSING_ARTICLE'
+              ),
+              style: 'primary',
+              color: '#ffb600',
+            },
+          ],
+        },
+      };
+    })
+    .slice(0, 9); /* flex carousel has at most 10 bubbles */
 }
