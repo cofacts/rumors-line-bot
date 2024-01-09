@@ -166,6 +166,10 @@ const choosingReply: ChatbotPostbackHandler = async ({
         text
         replyCount
         createdAt
+        articleReplies {
+          replyId
+          createdAt
+        }
       }
     }
   `<GetReplyRelatedDataQuery, GetReplyRelatedDataQueryVariables>({
@@ -190,8 +194,20 @@ const choosingReply: ChatbotPostbackHandler = async ({
     userId
   );
 
+  const articleReplyCreatedAt = GetArticle.articleReplies.find(
+    ({ replyId }) => replyId === selectedReplyId
+  )?.createdAt;
+
   const replies: Message[] = [
-    ...createReplyMessages(GetReply, GetArticle, selectedArticleId),
+    ...createReplyMessages(
+      {
+        ...GetReply,
+        // Use articleReply's createdAt instead of reply's createdAt
+        createdAt: articleReplyCreatedAt ?? GetReply.createdAt,
+      },
+      GetArticle,
+      selectedArticleId
+    ),
     {
       type: 'flex',
       altText: t`Is the reply helpful?`,
