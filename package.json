@@ -17,7 +17,7 @@
     "lint:fix": "eslint --fix .",
     "lint": "eslint .",
     "i18n:extract": "for pofile in $(ls -d i18n/*.po | grep -v en_US.po); do npx ttag update ${pofile} src/; done;",
-    "i18n:validate": "ttag validate i18n/*.po",
+    "i18n:validate": "for pofile in $(ls -d i18n/*.po | grep -v en_US.po); do npx ttag validate ${pofile}; done;",
     "clean": "run-s clean:*",
     "clean:server": "rm -rf build",
     "clean:liff": "rm -rf liff",
