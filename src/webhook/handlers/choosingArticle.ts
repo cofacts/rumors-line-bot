@@ -30,7 +30,7 @@ import choosingReply from './choosingReply';
 import type { Input as ChoosingReplyInput } from './choosingReply';
 import { ChatbotPostbackHandler } from 'src/types/chatbotState';
 import { FlexBubble, Message } from '@line/bot-sdk';
-import { addDays, formatDistance, isBefore } from 'date-fns';
+import { addDays, isBefore } from 'date-fns';
 
 /**
  * 第2句 (template message)：按照時間排序「不在查證範圍」之外的回應，每則回應第一行是
