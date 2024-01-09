@@ -206,6 +206,7 @@ Object {
       "type": "flex",
     },
     Object {
+      "createdAt": undefined,
       "sender": Object {
         "iconUrl": "/static/img/aireply.png?cachebust=20230405",
         "name": "AI 自動分析",
