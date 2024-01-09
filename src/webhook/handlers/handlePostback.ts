@@ -4,6 +4,7 @@ import choosingReply from './choosingReply';
 import askingArticleSubmissionConsent from './askingArticleSubmissionConsent';
 import askingArticleSource from './askingArticleSource';
 import defaultState from './defaultState';
+import askingCooccurence from './askingCooccurrence';
 import { ManipulationError } from './utils';
 import tutorial from './tutorial';
 import {
@@ -55,6 +56,10 @@ export default async function handlePostback(
       }
       case 'ASKING_ARTICLE_SUBMISSION_CONSENT': {
         result = await askingArticleSubmissionConsent(params);
+        break;
+      }
+      case 'ASKING_COOCCURRENCE': {
+        result = await askingCooccurence(params);
         break;
       }
       default: {

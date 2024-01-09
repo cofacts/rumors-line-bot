@@ -63,24 +63,27 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
   const {
     context,
     userId,
-    postbackData: { input, state, sessionId },
+    postbackData: { input: selectedArticleId, state, sessionId },
   } = params;
 
   // Input should be article ID, which is a string
-  if (typeof input !== 'string') {
+  if (typeof selectedArticleId !== 'string') {
     throw new ManipulationError(t`Please choose from provided options.`);
   }
 
-  const firstMsg = context.msgs[0];
-  // istanbul ignore if
-  if (!firstMsg) {
-    throw new Error('firstMsg is undefined'); // Should never happen
-  }
-
-  // TODO: handle the case when there are multiple messages in context.msgs
+  // POSTBACK_NO_ARTICLE_FOUND is only available when context.msgs contain 1 message
   //
-  if (input === POSTBACK_NO_ARTICLE_FOUND && firstMsg.type === 'text') {
-    const visitor = ga(userId, state, firstMsg.text);
+  if (selectedArticleId === POSTBACK_NO_ARTICLE_FOUND) {
+    const firstMsg = context.msgs[0];
+    // istanbul ignore if
+    if (!firstMsg) {
+      throw new Error('firstMsg is undefined'); // Should never happen
+    }
+    const visitor = ga(
+      userId,
+      state,
+      'text' in firstMsg ? firstMsg.text : firstMsg.id
+    );
     visitor.event({
       ec: 'UserInput',
       ea: 'ArticleSearch',
@@ -88,30 +91,21 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
     });
     visitor.send();
 
-    const inputSummary = ellipsis(firstMsg.text, 12);
-    return {
-      context,
-      replies: [
-        createTextMessage({
-          text:
-            t`I am sorry you cannot find the information “${inputSummary}” you are looking for. But I would still like to help.` +
-            '\n' +
-            t`May I ask you a quick question?`,
-        }),
-        createArticleSourceReply(context.sessionId),
-      ],
-    };
-  }
-
-  if (input === POSTBACK_NO_ARTICLE_FOUND && firstMsg.type !== 'text') {
-    const visitor = ga(userId, state, firstMsg.id);
-    visitor.event({
-      ec: 'UserInput',
-      ea: 'ArticleSearch',
-      el: 'ArticleFoundButNoHit',
-    });
-    visitor.send();
-
+    if (firstMsg.type === 'text') {
+      const inputSummary = ellipsis(firstMsg.text, 12);
+      return {
+        context,
+        replies: [
+          createTextMessage({
+            text:
+              t`I am sorry you cannot find the information “${inputSummary}” you are looking for. But I would still like to help.` +
+              '\n' +
+              t`May I ask you a quick question?`,
+          }),
+          createArticleSourceReply(context.sessionId),
+        ],
+      };
+    }
     return {
       context,
       replies: [
@@ -125,8 +119,6 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
       ],
     };
   }
-
-  const selectedArticleId = input;
 
   await UserArticleLink.createOrUpdateByUserIdAndArticleId(
     userId,

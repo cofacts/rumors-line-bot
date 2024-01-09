@@ -7,6 +7,7 @@ export type ChatbotState =
   | 'CHOOSING_REPLY'
   | 'ASKING_ARTICLE_SOURCE'
   | 'ASKING_ARTICLE_SUBMISSION_CONSENT'
+  | 'ASKING_COOCCURRENCE'
   | 'Error';
 
 export type LegacyContext = {

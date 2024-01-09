@@ -33,10 +33,15 @@ const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 const REPLY_TIMEOUT = 58000;
 
 /**
- * The time of messages stays in the batch.
- * The messages sent within this timeout are in the same co-occurrence.
+ * The amount of time to wait for the next message to arrive before processing the batch.
  */
-const BATCH_TIMEOUT = 500; // ms
+const TIMEOUT_BEFORE_PROCESSING = 500; // ms
+
+/**
+ * The amount of time to wait for the next message to arrive before asking if the messages are
+ * sent by the same person at the same time.
+ */
+const TIMEOUT_BEFORE_ASKING_COOCCURRENCES = 1000; // ms
 
 // A symbol that is used to prevent accidental return in singleUserHandler.
 // It should only be used when timeout are correctly handled.
@@ -168,7 +173,7 @@ const singleUserHandler = async (
   ): Promise<typeof PROCESSED> {
     await redis.push(REDIS_BATCH_KEY, msg);
 
-    await sleep(BATCH_TIMEOUT);
+    await sleep(TIMEOUT_BEFORE_PROCESSING);
 
     if (!(await isLastInBatch(msg))) {
       // New message appears during we sleep,
@@ -176,7 +181,8 @@ const singleUserHandler = async (
       return cancel();
     }
 
-    // Try process the batch and calculate results
+    // Try processing the batch and calculate results
+    //
     const messages: CooccurredMessage[] = await redis.range(
       REDIS_BATCH_KEY,
       0,
@@ -184,6 +190,11 @@ const singleUserHandler = async (
     );
 
     if (messages.length !== 1) {
+      // Asking cooccurrences are faster than processing single message in batch.
+      // To prevent new messages from coming in right after we ask cooccurrences,
+      // we wait first and check if there are new messages.
+      //
+      await sleep(TIMEOUT_BEFORE_ASKING_COOCCURRENCES);
       return send(await processBatch(messages), msg);
     }
 

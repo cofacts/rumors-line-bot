@@ -307,6 +307,8 @@ We use dimension `Message Source` (Custom Dimemsion1) to classify different even
     - `UserInput` / `ArticleSearch` / `ArticleFoundButNoHit`
   - When user provides source
     - `UserInput` / `IsForwarded` / `Yes` | `No`
+  - When user specifies if the message comes from same person at same time (cooccurrence)
+    - `UserInput` / `IsCooccurrence` / `Yes` | `No`
   - Matches one of Dialogflow intents
     - `UserInput` / `ChatWithBot` / `<intent name>`
 

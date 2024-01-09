@@ -1,25 +1,54 @@
 import { Message } from '@line/bot-sdk';
+import { t } from 'ttag';
 
 import { Context, CooccurredMessage } from 'src/types/chatbotState';
-import { sleep } from 'src/lib/sharedUtils';
 
-import { createTextMessage } from './utils';
+import {
+  POSTBACK_NO,
+  POSTBACK_YES,
+  createPostbackAction,
+  createTextMessage,
+} from './utils';
 
 async function processBatch(messages: CooccurredMessage[]) {
   const context: Context = {
     sessionId: Date.now(),
-    msgs: [],
+    msgs: messages,
   };
 
-  const replies: Message[] = [
-    createTextMessage({
-      text: `目前我還沒辦法一次處理 ${messages.length} 則訊息，請一則一則傳進來唷！`,
-    }),
-  ];
+  const msgCount = messages.length;
 
-  // TODO: initiate multi-message processing here
-  //
-  await sleep(1000); // Simulate multi-message processing and see if more message in batch.
+  const replies: Message[] = [
+    {
+      ...createTextMessage({
+        text: t`May I ask if the ${msgCount} messages above were sent by the same person at the same time?`,
+      }),
+      quickReply: {
+        items: [
+          {
+            type: 'action',
+            action: createPostbackAction(
+              t`Yes`,
+              POSTBACK_YES,
+              t`Yes, same person at same time`,
+              context.sessionId,
+              'ASKING_COOCCURRENCE'
+            ),
+          },
+          {
+            type: 'action',
+            action: createPostbackAction(
+              t`No`,
+              POSTBACK_NO,
+              t`No, from different person or at different time`,
+              context.sessionId,
+              'ASKING_COOCCURRENCE'
+            ),
+          },
+        ],
+      },
+    },
+  ];
 
   return { context, replies };
 }
