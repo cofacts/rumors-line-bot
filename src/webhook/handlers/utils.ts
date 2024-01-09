@@ -555,7 +555,7 @@ export function createReplyMessages(
   return [
     {
       type: 'text',
-      text: `💡 ${t`Someone on the internet replies to the message on ${articleDate}:`}`,
+      text: `💡 ${t`Someone on the internet replies to the message first reported on ${articleDate}:`}`,
     },
     ...commonReplyMessages(reply, typeStr, article.replyCount ?? 0, articleUrl),
   ];
