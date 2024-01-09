@@ -165,6 +165,7 @@ const choosingReply: ChatbotPostbackHandler = async ({
       GetArticle(id: $articleId) {
         text
         replyCount
+        createdAt
       }
     }
   `<GetReplyRelatedDataQuery, GetReplyRelatedDataQueryVariables>({

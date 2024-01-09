@@ -13,7 +13,7 @@ import { t, msgid, ngettext } from 'ttag';
 import GraphemeSplitter from 'grapheme-splitter';
 
 import gql from 'src/lib/gql';
-import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
+import { getArticleURL, createTypeWords, format } from 'src/lib/sharedUtils';
 import { sign } from 'src/lib/jwt';
 import { ChatbotState, PostbackActionData } from 'src/types/chatbotState';
 
@@ -121,10 +121,14 @@ export function createFlexMessageText(text = '') {
 export function createReferenceWords({
   reference,
   type,
+  createdAt,
 }: CreateReferenceWordsReplyFragment) {
   const prompt = type === 'OPINIONATED' ? t`different opinions` : t`references`;
+  const repliedAt = createdAt
+    ? `${t`replied at`}：${format(new Date(createdAt))}\n`
+    : '';
 
-  if (reference) return `${prompt}：${reference}`;
+  if (reference) return `${repliedAt}${prompt}：${reference}`;
   return `\uDBC0\uDC85 ⚠️️ ${t`This reply has no ${prompt} and it may be biased`} ⚠️️  \uDBC0\uDC85`;
 }
 
@@ -544,13 +548,14 @@ export function createReplyMessages(
   article: CreateReplyMessagesArticleFragment,
   selectedArticleId: string
 ): Message[] {
+  const articleDate = format(new Date(article.createdAt));
   const articleUrl = getArticleURL(selectedArticleId);
   const typeStr = createTypeWords(reply.type).toLocaleLowerCase();
 
   return [
     {
       type: 'text',
-      text: `💡 ${t`Someone on the internet replies to the message:`}`,
+      text: `💡 ${t`Someone on the internet replies to the message first reported on ${articleDate}:`}`,
     },
     ...commonReplyMessages(reply, typeStr, article.replyCount ?? 0, articleUrl),
   ];
@@ -564,28 +569,33 @@ const AI_REPLY_IMAGE_VERSION = '20230405';
  * @param userId
  * @returns AI reply object, or null of AI cannot return reply.
  */
+
+type AIReplyTextMessage = TextMessage & { createdAt: string };
+
 export async function createAIReply(
   articleId: string,
   userId: string
-): Promise<TextMessage | null> {
-  const text = (
+): Promise<AIReplyTextMessage | null> {
+  const createAIReply = (
     await gql`
       mutation CreateAIReply($articleId: String!) {
         CreateAIReply(articleId: $articleId) {
           text
+          createdAt
         }
       }
     `<CreateAiReplyMutation, CreateAiReplyMutationVariables>(
       { articleId },
       { userId }
     )
-  ).data.CreateAIReply?.text;
+  ).data.CreateAIReply;
 
-  return !text
+  return !createAIReply?.text
     ? null
     : {
         type: 'text',
-        text,
+        text: createAIReply?.text,
+        createdAt: createAIReply?.createdAt,
         sender: {
           name: 'AI 自動分析',
           iconUrl: `${process.env.RUMORS_LINE_BOT_URL}/static/img/aireply.png?cachebust=${AI_REPLY_IMAGE_VERSION}`,

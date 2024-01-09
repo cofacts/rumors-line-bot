@@ -1399,7 +1399,7 @@ export type GetArticleInChoosingArticleQueryVariables = Exact<{
 }>;
 
 
-export type GetArticleInChoosingArticleQuery = { GetArticle: { text: string | null, replyCount: number, articleType: ArticleTypeEnum, articleReplies: Array<{ positiveFeedbackCount: number, negativeFeedbackCount: number, reply: { id: string, type: ReplyTypeEnum, text: string | null } | null }> } | null };
+export type GetArticleInChoosingArticleQuery = { GetArticle: { text: string | null, replyCount: number, articleType: ArticleTypeEnum, articleReplies: Array<{ positiveFeedbackCount: number, negativeFeedbackCount: number, reply: { id: string, type: ReplyTypeEnum, text: string | null } | null }>, createdAt: string } | null };
 
 export type SubmitReplyRequestWithoutReasonMutationVariables = Exact<{
   id: Scalars['String'];
@@ -1414,7 +1414,7 @@ export type GetReplyRelatedDataQueryVariables = Exact<{
 }>;
 
 
-export type GetReplyRelatedDataQuery = { GetReply: { type: ReplyTypeEnum, text: string | null, reference: string | null, createdAt: string } | null, GetArticle: { text: string | null, replyCount: number } | null };
+export type GetReplyRelatedDataQuery = { GetReply: { type: ReplyTypeEnum, text: string | null, reference: string | null, createdAt: string } | null, GetArticle: { text: string | null, replyCount: number, createdAt: string } | null };
 
 export type ListArticlesInInitStateQueryVariables = Exact<{
   text: Scalars['String'];
@@ -1430,11 +1430,11 @@ export type ListArticlesInProcessMediaQueryVariables = Exact<{
 
 export type ListArticlesInProcessMediaQuery = { ListArticles: { edges: Array<{ score: number | null, mediaSimilarity: number, node: { id: string, articleType: ArticleTypeEnum, attachmentUrl: string | null }, highlight: { text: string | null, hyperlinks: Array<{ title: string | null, summary: string | null } | null> | null } | null }> } | null };
 
-export type CreateReferenceWordsReplyFragment = { reference: string | null, type: ReplyTypeEnum };
+export type CreateReferenceWordsReplyFragment = { reference: string | null, type: ReplyTypeEnum, createdAt: string };
 
-export type CreateReplyMessagesReplyFragment = { text: string | null, reference: string | null, type: ReplyTypeEnum };
+export type CreateReplyMessagesReplyFragment = { text: string | null, reference: string | null, type: ReplyTypeEnum, createdAt: string };
 
-export type CreateReplyMessagesArticleFragment = { replyCount: number };
+export type CreateReplyMessagesArticleFragment = { replyCount: number, createdAt: string };
 
 export type CreateHighlightContentsHighlightFragment = { text: string | null, hyperlinks: Array<{ title: string | null, summary: string | null } | null> | null };
 
@@ -1443,7 +1443,7 @@ export type CreateAiReplyMutationVariables = Exact<{
 }>;
 
 
-export type CreateAiReplyMutation = { CreateAIReply: { text: string | null } | null };
+export type CreateAiReplyMutation = { CreateAIReply: { text: string | null, createdAt: string } | null };
 
 export const CreateReferenceWordsReplyFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CreateReferenceWordsReply"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Reply"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"reference"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]} as unknown as DocumentNode<CreateReferenceWordsReplyFragment, unknown>;
 export const CreateReplyMessagesReplyFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CreateReplyMessagesReply"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Reply"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"CreateReferenceWordsReply"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CreateReferenceWordsReply"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Reply"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"reference"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]} as unknown as DocumentNode<CreateReplyMessagesReplyFragment, unknown>;

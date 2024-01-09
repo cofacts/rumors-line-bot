@@ -1,6 +1,6 @@
 import { t } from 'ttag';
 import gql from 'src/lib/gql';
-import { getArticleURL, createTypeWords } from 'src/lib/sharedUtils';
+import { getArticleURL, createTypeWords, format } from 'src/lib/sharedUtils';
 import {
   createPostbackAction,
   createFeedbackWords,
@@ -30,6 +30,7 @@ import choosingReply from './choosingReply';
 import type { Input as ChoosingReplyInput } from './choosingReply';
 import { ChatbotPostbackHandler } from 'src/types/chatbotState';
 import { FlexBubble, Message } from '@line/bot-sdk';
+import { addDays, isBefore } from 'date-fns';
 
 /**
  * 第2句 (template message)：按照時間排序「不在查證範圍」之外的回應，每則回應第一行是
@@ -152,6 +153,7 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
           positiveFeedbackCount
           negativeFeedbackCount
         }
+        createdAt
       }
     }
   `<
@@ -389,9 +391,22 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
       const aiReply = await createAIReply(selectedArticleId, userId);
 
       if (aiReply) {
+        const articleCreatedAt = new Date(GetArticle.createdAt);
+        const aiReplyCreatedAt = new Date(aiReply.createdAt);
+
+        const aiReplyWithin30Days = isBefore(
+          aiReplyCreatedAt,
+          addDays(articleCreatedAt, 30)
+        );
+
+        const articleCreatedAtStr = format(articleCreatedAt);
+        const aiReplyCreatedAtStr = aiReplyWithin30Days
+          ? '當時'
+          : `${format(aiReplyCreatedAt)}時`;
+
         maybeAIReplies = [
           createTextMessage({
-            text: '這篇文章尚待查核，請先不要相信這篇文章。\n以下是機器人初步分析此篇訊息的結果，希望能帶給你一些想法。',
+            text: `這則訊息首次回報於 ${articleCreatedAtStr} ，尚待查核，請先不要相信這篇文章。\n以下是${aiReplyCreatedAtStr}機器人初步分析此訊息的結果，希望能帶給你一些想法。`,
           }),
           aiReply,
           createTextMessage({
