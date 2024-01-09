@@ -1,6 +1,7 @@
 fragment CreateReferenceWordsReply on Reply {
   reference
   type
+  createdAt
 }
 
 fragment CreateReplyMessagesReply on Reply {
@@ -10,6 +11,7 @@ fragment CreateReplyMessagesReply on Reply {
 
 fragment CreateReplyMessagesArticle on Article {
   replyCount
+  createdAt
 }
 
 fragment CreateHighlightContentsHighlight on Highlights {
