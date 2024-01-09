@@ -262,4 +262,13 @@ Array [
 ]
 `;
 
-exports[`handles follow and unfollow event: User settings should have notification turned on 1`] = `Array []`;
+exports[`handles follow and unfollow event: User settings should have notification turned on 1`] = `
+Array [
+  Object {
+    "_id": "_id",
+    "allowNewReplyUpdate": true,
+    "createdAt": 2019-07-01T12:00:00.000Z,
+    "userId": "U4af4980629",
+  },
+]
+`;

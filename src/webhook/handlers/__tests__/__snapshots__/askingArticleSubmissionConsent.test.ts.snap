@@ -50,6 +50,49 @@ Array [
     "body": Object {
       "contents": Array [
         Object {
+          "text": "You can turn on notifications if you want Cofacts to notify you when someone replies to this message.",
+          "type": "text",
+          "wrap": true,
+        },
+      ],
+      "layout": "vertical",
+      "type": "box",
+    },
+    "footer": Object {
+      "contents": Array [
+        Object {
+          "action": Object {
+            "label": "Go to settings",
+            "type": "uri",
+            "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=setting&utm_source=rumors-line-bot&utm_medium=reply-request",
+          },
+          "color": "#00B172",
+          "style": "primary",
+          "type": "button",
+        },
+      ],
+      "layout": "vertical",
+      "spacing": "sm",
+      "type": "box",
+    },
+    "header": Object {
+      "contents": Array [
+        Object {
+          "text": "🔔  Receive updates",
+          "type": "text",
+          "wrap": true,
+        },
+      ],
+      "layout": "vertical",
+      "paddingBottom": "none",
+      "type": "box",
+    },
+    "type": "bubble",
+  },
+  Object {
+    "body": Object {
+      "contents": Array [
+        Object {
           "text": "We all get by with a little help from our friends 🌟 Share your question to friends, someone might be able to help!",
           "type": "text",
           "wrap": true,
@@ -90,7 +133,17 @@ Array [
 ]
 `;
 
-exports[`should create a UserArticleLink when creating a Article 1`] = `Array []`;
+exports[`should create a UserArticleLink when creating a Article 1`] = `
+Array [
+  Object {
+    "_id": "_id",
+    "articleId": "new-article-id",
+    "createdAt": 2020-01-01T00:00:00.000Z,
+    "lastViewedAt": 2020-01-01T00:00:00.000Z,
+    "userId": "user-id-0",
+  },
+]
+`;
 
 exports[`should submit article if user agrees to submit: has AI reply 1`] = `
 Object {
@@ -153,7 +206,6 @@ Object {
       "type": "flex",
     },
     Object {
-      "createdAt": undefined,
       "sender": Object {
         "iconUrl": "/static/img/aireply.png?cachebust=20230405",
         "name": "AI 自動分析",
