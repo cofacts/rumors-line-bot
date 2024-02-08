@@ -36,10 +36,11 @@ export default function ga(
   let events: EventBatch['events'] = [];
   const extra: Record<string, unknown> = {};
 
-  return {
+  const visitorToReturn = {
     set(key: string, value: unknown) {
       extra[key] = value;
-      return visitor.set(key, value);
+      visitor.set(key, value);
+      return visitorToReturn;
     },
 
     event(evt: EventParams) {
@@ -50,7 +51,8 @@ export default function ga(
         value: evt.ev === undefined ? null : +evt.ev,
         time: new Date(),
       });
-      return visitor.event(evt);
+      visitor.event(evt);
+      return visitorToReturn;
     },
 
     send() {
@@ -71,7 +73,10 @@ export default function ga(
         rollbar.error(`[insertAnalytics] ${e.message}`, e);
       });
       events = [];
-      return visitor.send();
+      visitor.send();
+      return visitorToReturn;
     },
   };
+
+  return visitorToReturn;
 }
