@@ -295,9 +295,6 @@ We use dimension `Message Source` (Custom Dimemsion1) to classify different even
 
 1. User sends a message to us
   - `UserInput` / `MessageType` / `<text | image | video | ...>`
-  - For the time being, we only process message with "text" type. The following events only applies
-    for text messages.
-
   - If we found a articles in database that matches the message:
     - `UserInput` / `ArticleSearch` / `ArticleFound`
     - `Article` / `Search` / `<article id>` for each article found

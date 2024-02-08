@@ -9,14 +9,31 @@ import {
   createPostbackAction,
   createTextMessage,
 } from './utils';
+import ga from 'src/lib/ga';
 
-async function processBatch(messages: CooccurredMessage[]) {
+async function processBatch(messages: CooccurredMessage[], userId: string) {
   const context: Context = {
     sessionId: Date.now(),
     msgs: messages,
   };
 
   const msgCount = messages.length;
+
+  const visitor = ga(
+    userId,
+    '__PROCESS_BATCH__',
+    `Batch: ${msgCount} messages`
+  );
+
+  // Track media message type send by user
+  messages.forEach((message) => {
+    visitor.event({
+      ec: 'UserInput',
+      ea: 'MessageType',
+      el: message.type,
+    });
+  });
+  visitor.send();
 
   const replies: Message[] = [
     {
