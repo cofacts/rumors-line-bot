@@ -195,7 +195,7 @@ const singleUserHandler = async (
       // we wait first and check if there are new messages.
       //
       await sleep(TIMEOUT_BEFORE_ASKING_COOCCURRENCES);
-      return send(await processBatch(messages), msg);
+      return send(await processBatch(messages, userId), msg);
     }
 
     // Now there is only one message in the batch;
