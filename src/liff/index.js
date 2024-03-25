@@ -24,9 +24,7 @@ liff.init({ liffId: LIFF_ID }).then(() => {
     const params = new URLSearchParams(location.search);
     if (params.get('p') === 'mgp') {
       // Replace login with survey
-      window.location.replace(
-        `https://www.surveycake.com/s/eqNpB?ssn0=${userId}&ssn58=cofacts`
-      );
+      window.location.href = `https://www.surveycake.com/s/eqNpB?ssn0=${userId}&ssn58=cofacts&openExternalBrowser=1`;
       return;
     }
 
