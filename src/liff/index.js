@@ -18,15 +18,7 @@ liff.init({ liffId: LIFF_ID }).then(() => {
       redirectUri: location.href,
     });
   } else {
-    const userId = liff.getDecodedIDToken().sub;
-    dataLayer.push({ userId });
-
-    const params = new URLSearchParams(location.search);
-    if (params.get('p') === 'mgp') {
-      // Replace login with survey
-      window.location.href = `https://www.surveycake.com/s/eqNpB?ssn0=${userId}&ssn58=cofacts&openExternalBrowser=1`;
-      return;
-    }
+    dataLayer.push({ userId: liff.getDecodedIDToken().sub });
 
     // Kickstart app loading; fire assertions
     new App({ target: document.body });
