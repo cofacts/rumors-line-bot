@@ -5,6 +5,7 @@
   import Comment from './pages/Comment.svelte';
   import UserSetting from './pages/UserSetting.svelte';
   import Feedback from './pages/Feedback.svelte';
+  import Mgp from './pages/Mgp.svelte';
 
   const routes = {
     article: Article,
@@ -12,6 +13,7 @@
     setting: UserSetting,
     comment: Comment,
     feedback: Feedback,
+    mgp: Mgp,
   };
 
   // Send pageview with correct path on each page change.
