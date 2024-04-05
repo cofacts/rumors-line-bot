@@ -140,6 +140,24 @@ const singleUserHandler = async (
       })
     );
 
+    // Attach MyGoPen award as quick reply
+    const lastReply = result.replies[result.replies.length - 1];
+    if (!lastReply.quickReply) {
+      lastReply.quickReply = {
+        items: [
+          {
+            type: 'action',
+            imageUrl: `${process.env.RUMORS_LINE_BOT_URL}/static/img/mygopen-award-2024.png?cachebust=1`,
+            action: {
+              type: 'uri',
+              uri: 'https://www.mygopen.com/p/award_22.html',
+              label: '來謠言惑眾獎投票吧！',
+            },
+          },
+        ],
+      };
+    }
+
     // Send replies. Does not need to wait for lineClient's callbacks.
     // lineClient's callback does error handling by itself.
     //
