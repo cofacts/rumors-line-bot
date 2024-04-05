@@ -231,6 +231,19 @@ it('handles postbacks w/ LegacyContext', async () => {
         Object {
           "messages": Array [
             Object {
+              "quickReply": Object {
+                "items": Array [
+                  Object {
+                    "action": Object {
+                      "label": "來謠言惑眾獎投票吧！",
+                      "type": "uri",
+                      "uri": "https://www.mygopen.com/p/award_22.html",
+                    },
+                    "imageUrl": "/static/img/mygopen-award-2024.png?cachebust=1",
+                    "type": "action",
+                  },
+                ],
+              },
               "text": "Postback results here",
               "type": "text",
             },
@@ -275,6 +288,19 @@ it('rejects outdated postback events', async () => {
         Object {
           "messages": Array [
             Object {
+              "quickReply": Object {
+                "items": Array [
+                  Object {
+                    "action": Object {
+                      "label": "來謠言惑眾獎投票吧！",
+                      "type": "uri",
+                      "uri": "https://www.mygopen.com/p/award_22.html",
+                    },
+                    "imageUrl": "/static/img/mygopen-award-2024.png?cachebust=1",
+                    "type": "action",
+                  },
+                ],
+              },
               "text": "🚧 You are currently searching for another message, buttons from previous search sessions do not work now.",
               "type": "text",
             },
@@ -354,6 +380,19 @@ it('forwards to CHOOSING_ARTICLE when VIEW_ARTICLE_PREFIX is sent', async () => 
         Object {
           "messages": Array [
             Object {
+              "quickReply": Object {
+                "items": Array [
+                  Object {
+                    "action": Object {
+                      "label": "來謠言惑眾獎投票吧！",
+                      "type": "uri",
+                      "uri": "https://www.mygopen.com/p/award_22.html",
+                    },
+                    "imageUrl": "/static/img/mygopen-award-2024.png?cachebust=1",
+                    "type": "action",
+                  },
+                ],
+              },
               "text": "Choosing article resp",
               "type": "text",
             },
@@ -413,6 +452,19 @@ it('shows reply list when article URL is sent', async () => {
         Object {
           "messages": Array [
             Object {
+              "quickReply": Object {
+                "items": Array [
+                  Object {
+                    "action": Object {
+                      "label": "來謠言惑眾獎投票吧！",
+                      "type": "uri",
+                      "uri": "https://www.mygopen.com/p/award_22.html",
+                    },
+                    "imageUrl": "/static/img/mygopen-award-2024.png?cachebust=1",
+                    "type": "action",
+                  },
+                ],
+              },
               "text": "Choosing article resp",
               "type": "text",
             },
@@ -493,6 +545,19 @@ it('Resets session on free-form input, triggers fast-forward', async () => {
         Object {
           "messages": Array [
             Object {
+              "quickReply": Object {
+                "items": Array [
+                  Object {
+                    "action": Object {
+                      "label": "來謠言惑眾獎投票吧！",
+                      "type": "uri",
+                      "uri": "https://www.mygopen.com/p/award_22.html",
+                    },
+                    "imageUrl": "/static/img/mygopen-award-2024.png?cachebust=1",
+                    "type": "action",
+                  },
+                ],
+              },
               "text": "Replies here",
               "type": "text",
             },
@@ -549,6 +614,19 @@ it('handles tutorial trigger from rich menu', async () => {
         Object {
           "messages": Array [
             Object {
+              "quickReply": Object {
+                "items": Array [
+                  Object {
+                    "action": Object {
+                      "label": "來謠言惑眾獎投票吧！",
+                      "type": "uri",
+                      "uri": "https://www.mygopen.com/p/award_22.html",
+                    },
+                    "imageUrl": "/static/img/mygopen-award-2024.png?cachebust=1",
+                    "type": "action",
+                  },
+                ],
+              },
               "text": "Tutorial here",
               "type": "text",
             },
