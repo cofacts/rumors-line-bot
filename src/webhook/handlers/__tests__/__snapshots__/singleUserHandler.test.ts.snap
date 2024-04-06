@@ -253,6 +253,19 @@ Array [
             ],
             "type": "carousel",
           },
+          "quickReply": Object {
+            "items": Array [
+              Object {
+                "action": Object {
+                  "label": "來謠言惑眾獎投票吧！",
+                  "type": "uri",
+                  "uri": "https://www.mygopen.com/p/award_22.html",
+                },
+                "imageUrl": "/static/img/mygopen-award-2024.png?cachebust=1",
+                "type": "action",
+              },
+            ],
+          },
           "type": "flex",
         },
       ],
