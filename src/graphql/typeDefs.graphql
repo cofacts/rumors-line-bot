@@ -16,6 +16,8 @@ type Query {
 
   # Get user's notification setting
   setting: UserSetting @auth(check: ["userId"])
+
+  isMgpAwardee: Boolean @auth(check: ["userId"])
 }
 
 type Mutation {
