@@ -6,8 +6,7 @@
   let state = 'LOADING'; // LOADING, INVALID, VALID
 
   onMount(async () => {
-    isLoadingData = true;
-    const { data: {isMgpAwardee} } = await gql`
+    const { data: { isMgpAwardee } } = await gql`
       {
         isMgpAwardee
       }
