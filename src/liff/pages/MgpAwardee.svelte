@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import { gql } from '../lib';
 
   const userId = liff.getDecodedIDToken().sub;
   let iframeUrl = `https://www.surveycake.com/s/Xx6mp?ssn0=${userId}`;
