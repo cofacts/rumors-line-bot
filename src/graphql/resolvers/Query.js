@@ -29,9 +29,8 @@ export default {
   },
 
   async isMgpAwardee(root, args, { userId }) {
-    const awardees = ((await AppVariable.get('mgpAwardees')) || '')
-      .trim()
-      .split('\n');
+    const awardees = (await AppVariable.get('mgpAwardees')) || [];
+
     return awardees.includes(userId);
   },
 };
