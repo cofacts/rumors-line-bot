@@ -72,7 +72,18 @@ it('tells user to send messages separately', async () => {
       },
     ]
   `);
+  expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "ea": "IsCooccurrence",
+          "ec": "UserInput",
+          "el": "No",
+        },
+      ],
+    ]
+  `);
 });
 
-// it.skip('stores cooccurrences and reply requests as expected', async () => {
+// it('stores cooccurrences and reply requests as expected', async () => {
 // });
