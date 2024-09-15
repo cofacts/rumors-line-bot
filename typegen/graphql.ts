@@ -166,8 +166,11 @@ export type Article = Node & {
   attachmentUrl: Maybe<Scalars['String']>;
   /** Number of normal article categories */
   categoryCount: Scalars['Int'];
+  /** Transcript contributors of the article */
+  contributors: Array<Contributor>;
   cooccurrences: Maybe<Array<Cooccurrence>>;
-  createdAt: Scalars['String'];
+  /** May be null for legacy articles */
+  createdAt: Maybe<Scalars['String']>;
   /** Hyperlinks in article text */
   hyperlinks: Maybe<Array<Maybe<Hyperlink>>>;
   id: Scalars['ID'];
@@ -184,6 +187,8 @@ export type Article = Node & {
   stats: Maybe<Array<Maybe<Analytics>>>;
   status: ReplyRequestStatusEnum;
   text: Maybe<Scalars['String']>;
+  /** Time when the article was last transcribed */
+  transcribedAt: Maybe<Scalars['String']>;
   updatedAt: Maybe<Scalars['String']>;
   /** The user submitted this article */
   user: Maybe<User>;
@@ -338,7 +343,8 @@ export type ArticleReply = {
   article: Maybe<Article>;
   articleId: Scalars['String'];
   canUpdateStatus: Scalars['Boolean'];
-  createdAt: Scalars['String'];
+  /** May be null for legacy article-replies */
+  createdAt: Maybe<Scalars['String']>;
   feedbackCount: Scalars['Int'];
   feedbacks: Array<ArticleReplyFeedback>;
   negativeFeedbackCount: Scalars['Int'];
@@ -479,6 +485,14 @@ export type Contribution = {
   date: Maybe<Scalars['String']>;
 };
 
+export type Contributor = {
+  appId: Scalars['String'];
+  updatedAt: Maybe<Scalars['String']>;
+  /** The user who contributed to this article. */
+  user: Maybe<User>;
+  userId: Scalars['String'];
+};
+
 export type Cooccurrence = Node & {
   appId: Scalars['String'];
   articleIds: Array<Scalars['String']>;
@@ -607,6 +621,8 @@ export type ListArticleFilter = {
   selfOnly: InputMaybe<Scalars['Boolean']>;
   /** Returns only articles with the specified statuses */
   statuses: InputMaybe<Array<ArticleStatusEnum>>;
+  /** Show only articles with(out) article transcript contributed by specified user */
+  transcribedBy: InputMaybe<UserAndExistInput>;
   /** Specifies how the transcript of `mediaUrl` can be used to search. Can only specify `transcript` when `mediaUrl` is specified. */
   transcript: InputMaybe<TranscriptFilter>;
   /** Show only articles created by the specific user. */
@@ -1169,7 +1185,8 @@ export type RelatedArticleOrderBy = {
 
 export type Reply = Node & {
   articleReplies: Array<ArticleReply>;
-  createdAt: Scalars['String'];
+  /** May be null for legacy replies */
+  createdAt: Maybe<Scalars['String']>;
   /** Hyperlinks in reply text or reference. May be empty array if no URLs are included. `null` when hyperlinks are still fetching. */
   hyperlinks: Maybe<Array<Maybe<Hyperlink>>>;
   id: Scalars['ID'];
@@ -1399,7 +1416,7 @@ export type GetArticleInChoosingArticleQueryVariables = Exact<{
 }>;
 
 
-export type GetArticleInChoosingArticleQuery = { GetArticle: { text: string | null, replyCount: number, articleType: ArticleTypeEnum, createdAt: string, articleReplies: Array<{ positiveFeedbackCount: number, negativeFeedbackCount: number, reply: { id: string, type: ReplyTypeEnum, text: string | null } | null }> } | null };
+export type GetArticleInChoosingArticleQuery = { GetArticle: { text: string | null, replyCount: number, articleType: ArticleTypeEnum, createdAt: string | null, articleReplies: Array<{ positiveFeedbackCount: number, negativeFeedbackCount: number, reply: { id: string, type: ReplyTypeEnum, text: string | null } | null }> } | null };
 
 export type SubmitReplyRequestWithoutReasonMutationVariables = Exact<{
   id: Scalars['String'];
@@ -1414,13 +1431,13 @@ export type GetReplyRelatedDataQueryVariables = Exact<{
 }>;
 
 
-export type GetReplyRelatedDataQuery = { GetReply: { type: ReplyTypeEnum, text: string | null, reference: string | null, createdAt: string } | null, GetArticle: { text: string | null, replyCount: number, createdAt: string, articleReplies: Array<{ replyId: string, createdAt: string }> } | null };
+export type GetReplyRelatedDataQuery = { GetReply: { type: ReplyTypeEnum, text: string | null, reference: string | null, createdAt: string | null } | null, GetArticle: { text: string | null, replyCount: number, createdAt: string | null, articleReplies: Array<{ replyId: string, createdAt: string | null }> } | null };
 
-export type CreateReferenceWordsReplyFragment = { reference: string | null, type: ReplyTypeEnum, createdAt: string };
+export type CreateReferenceWordsReplyFragment = { reference: string | null, type: ReplyTypeEnum, createdAt: string | null };
 
-export type CreateReplyMessagesReplyFragment = { text: string | null, reference: string | null, type: ReplyTypeEnum, createdAt: string };
+export type CreateReplyMessagesReplyFragment = { text: string | null, reference: string | null, type: ReplyTypeEnum, createdAt: string | null };
 
-export type CreateReplyMessagesArticleFragment = { replyCount: number, createdAt: string };
+export type CreateReplyMessagesArticleFragment = { replyCount: number, createdAt: string | null };
 
 export type CreateHighlightContentsHighlightFragment = { text: string | null, hyperlinks: Array<{ title: string | null, summary: string | null } | null> | null };
 
