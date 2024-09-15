@@ -80,6 +80,12 @@ describe('date-fns', () => {
     expect(format(new Date(612921600000))).toMatchInlineSnapshot(
       `"Jun 4, 1989"`
     );
+
+    // Handles invalid date
+    expect(format(new Date(-Infinity))).toMatchInlineSnapshot(`"unknown date"`);
+    expect(formatDistanceToNow(new Date('wrong'))).toMatchInlineSnapshot(
+      `"unknown time"`
+    );
   });
 
   it('use other locale', () => {
