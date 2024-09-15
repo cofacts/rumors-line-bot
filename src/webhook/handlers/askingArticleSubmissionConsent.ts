@@ -28,6 +28,7 @@ import {
   searchMedia,
   createCooccurredSearchResultsCarouselContents,
   setMostSimilarArticlesAsCooccurrence,
+  addReplyRequestForUnrepliedCooccurredArticles,
 } from './utils';
 
 // Input should be array of context.msgs idx. Empty if the user does not want to submit.
@@ -159,7 +160,10 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
           : searchMedia(getLineContentProxyURL(msg.id), userId)
       )
     );
-    await setMostSimilarArticlesAsCooccurrence(searchResults, userId);
+    await Promise.all([
+      addReplyRequestForUnrepliedCooccurredArticles(searchResults, userId),
+      setMostSimilarArticlesAsCooccurrence(searchResults, userId),
+    ]);
 
     return {
       context,
