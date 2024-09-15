@@ -383,7 +383,9 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
       const aiReply = await createAIReply(selectedArticleId, userId);
 
       if (aiReply) {
-        const articleCreatedAt = new Date(GetArticle.createdAt);
+        const articleCreatedAt = new Date(
+          GetArticle.createdAt ?? -Infinity /* Triggers invalid date */
+        );
         const aiReplyCreatedAt = new Date(aiReply.createdAt);
 
         const aiReplyWithin30Days = isBefore(
