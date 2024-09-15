@@ -29,6 +29,10 @@ import type {
   ListArticlesInInitStateQueryVariables,
   ListArticlesInProcessMediaQuery,
   ListArticlesInProcessMediaQueryVariables,
+  SetCooccurrencesMutation,
+  SetCooccurrencesMutationVariables,
+  AddReplyRequestForUnrepliedArticleMutation,
+  AddReplyRequestForUnrepliedArticleMutationVariables,
 } from 'typegen/graphql';
 
 import type { Input as ChoosingReplyInput } from './choosingReply';
@@ -1203,7 +1207,10 @@ export function setMostSimilarArticlesAsCooccurrence(
         id
       }
     }
-  `({ articleIds }, { userId });
+  `<SetCooccurrencesMutation, SetCooccurrencesMutationVariables>(
+    { articleIds },
+    { userId }
+  );
 }
 
 /**
@@ -1230,7 +1237,10 @@ export function addReplyRequestForUnrepliedCooccurredArticles(
             id
           }
         }
-      `({ articleId: article.id }, { userId })
+      `<
+        AddReplyRequestForUnrepliedArticleMutation,
+        AddReplyRequestForUnrepliedArticleMutationVariables
+      >({ articleId: article.id }, { userId })
     )
   );
 }
