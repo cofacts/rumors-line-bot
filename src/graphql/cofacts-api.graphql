@@ -177,7 +177,9 @@ type Query {
 type Article implements Node {
   id: ID!
   text: String
-  createdAt: String!
+
+  """May be null for legacy articles"""
+  createdAt: String
   updatedAt: String
   status: ReplyRequestStatusEnum!
   references: [ArticleReference]
@@ -279,6 +281,12 @@ type Article implements Node {
   """Attachment hash to search or identify files"""
   attachmentHash: String
   cooccurrences: [Cooccurrence!]
+
+  """Transcript contributors of the article"""
+  contributors: [Contributor!]!
+
+  """Time when the article was last transcribed"""
+  transcribedAt: String
 }
 
 """Basic entity. Modeled after Relay's GraphQL Server Specification."""
@@ -338,7 +346,9 @@ type ArticleReply {
   """
   ownVote: FeedbackVote
   status: ArticleReplyStatusEnum!
-  createdAt: String!
+
+  """May be null for legacy article-replies"""
+  createdAt: String
   updatedAt: String
 }
 
@@ -347,7 +357,9 @@ type Reply implements Node {
 
   """The user submitted this reply version"""
   user: User
-  createdAt: String!
+
+  """May be null for legacy replies"""
+  createdAt: String
   text: String
   type: ReplyTypeEnum!
   reference: String
@@ -980,6 +992,14 @@ type Cooccurrence implements Node {
   updatedAt: String!
 }
 
+type Contributor {
+  """The user who contributed to this article."""
+  user: User
+  userId: String!
+  appId: String!
+  updatedAt: String
+}
+
 type Ydoc {
   """Binary that stores as base64 encoded string"""
   data: String
@@ -1047,6 +1067,11 @@ input ListArticleFilter {
   articleRepliesFrom: UserAndExistInput
 
   """
+  Show only articles with(out) article transcript contributed by specified user
+  """
+  transcribedBy: UserAndExistInput
+
+  """
   
               When true, return only articles with any article replies that has more positive feedback than negative.
               When false, return articles with none of its article replies that has more positive feedback, including those with no replies yet.
@@ -1098,9 +1123,9 @@ input UserAndExistInput {
 
   """
   
-                    When true (or not specified), return only entries with the specified user's involvement.
-                    When false, return only entries that the specified user did not involve.
-                  
+          When true (or not specified), return only entries with the specified user's involvement.
+          When false, return only entries that the specified user did not involve.
+        
   """
   exists: Boolean = true
 }

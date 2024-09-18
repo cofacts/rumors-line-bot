@@ -53,11 +53,19 @@ let locale = require(`date-fns/locale/${(process.env.LOCALE || 'en_US').replace(
 locale = locale.default ? locale.default : locale;
 
 function formatAbsolute(date, format = 'PP', config = {}) {
-  return dateFnsFormat(date, format, { ...config, locale });
+  try {
+    return dateFnsFormat(date, format, { ...config, locale });
+  } catch (e) {
+    return t`unknown date`;
+  }
 }
 
 export function formatDistanceToNow(date, config = {}) {
-  return dateFnsFormatDistanceToNow(date, { ...config, locale });
+  try {
+    return dateFnsFormatDistanceToNow(date, { ...config, locale });
+  } catch (e) {
+    return t`unknown time`;
+  }
 }
 
 const THRESHOLD = 86400 * 2 * 1000; // 2 days in milliseconds

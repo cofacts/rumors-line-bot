@@ -557,7 +557,9 @@ export function createReplyMessages(
   article: CreateReplyMessagesArticleFragment,
   selectedArticleId: string
 ): Message[] {
-  const articleDate = format(new Date(article.createdAt));
+  const articleDate = format(
+    new Date(article.createdAt ?? -Infinity /* Triggers invalid date */)
+  );
   const articleUrl = getArticleURL(selectedArticleId);
   const typeStr = createTypeWords(reply.type).toLocaleLowerCase();
 
