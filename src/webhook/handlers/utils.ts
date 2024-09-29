@@ -29,6 +29,10 @@ import type {
   ListArticlesInInitStateQueryVariables,
   ListArticlesInProcessMediaQuery,
   ListArticlesInProcessMediaQueryVariables,
+  SetCooccurrencesMutation,
+  SetCooccurrencesMutationVariables,
+  AddReplyRequestForUnrepliedArticleMutation,
+  AddReplyRequestForUnrepliedArticleMutationVariables,
 } from 'typegen/graphql';
 
 import type { Input as ChoosingReplyInput } from './choosingReply';
@@ -906,6 +910,7 @@ export async function searchText(text: string): Promise<SearchTextResult> {
             text
             articleType
             attachmentUrl(variant: THUMBNAIL)
+            replyCount
           }
           highlight {
             text
@@ -972,6 +977,7 @@ export async function searchMedia(
             id
             articleType
             attachmentUrl(variant: THUMBNAIL)
+            replyCount
           }
           highlight {
             text
@@ -1181,7 +1187,8 @@ export function createCooccurredSearchResultsCarouselContents(
 }
 
 /**
- * Mark the most similar item in the search of each searched messages as a cooccurrence
+ * Mark the most similar item in the search of each searched messages as a cooccurrence;
+ * also add reply request
  *
  * @param searchResults - search results from searchMedia() or searchText(), with most similar item
  *                        of each searched items in the first edge.
@@ -1200,5 +1207,40 @@ export function setMostSimilarArticlesAsCooccurrence(
         id
       }
     }
-  `({ articleIds }, { userId });
+  `<SetCooccurrencesMutation, SetCooccurrencesMutationVariables>(
+    { articleIds },
+    { userId }
+  );
+}
+
+/**
+ * Add reply request for cooccurred articles that is not replied yet.
+ * We don't add reply request to replied articles to match existing behavior.
+ *
+ * @param searchResults - search results from searchMedia() or searchText(), with most similar item
+ *                        of each searched items in the first edge.
+ * @param userId - user that observes this cooccurrence
+ */
+export function addReplyRequestForUnrepliedCooccurredArticles(
+  searchResults: (SearchMediaResult | SearchTextResult)[],
+  userId: string
+) {
+  const unrepliedArticles = searchResults
+    .map((searchResult) => searchResult.edges[0].node)
+    .filter((article) => article.replyCount === 0);
+
+  return Promise.all(
+    unrepliedArticles.map((article) =>
+      gql`
+        mutation AddReplyRequestForUnrepliedArticle($articleId: String!) {
+          CreateOrUpdateReplyRequest(articleId: $articleId) {
+            id
+          }
+        }
+      `<
+        AddReplyRequestForUnrepliedArticleMutation,
+        AddReplyRequestForUnrepliedArticleMutationVariables
+      >({ articleId: article.id }, { userId })
+    )
+  );
 }
