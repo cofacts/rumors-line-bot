@@ -266,14 +266,84 @@ it('sends user submission consent if user forwarded the whole message', async ()
           "body": Object {
             "contents": Array [
               Object {
+                "text": "We currently don’t have this message in our database.",
+                "type": "text",
+                "wrap": true,
+              },
+              Object {
+                "text": "If you believe:",
+                "type": "text",
+                "wrap": true,
+              },
+              Object {
                 "contents": Array [
                   Object {
-                    "text": "Currently we don’t have this message in our database. If you think it is most likely a rumor, ",
-                    "type": "span",
+                    "flex": 0,
+                    "margin": "none",
+                    "text": "🤔",
+                    "type": "text",
                   },
                   Object {
+                    "contents": Array [
+                      Object {
+                        "text": "That it is most likely",
+                        "type": "span",
+                      },
+                      Object {
+                        "color": "#ffb600",
+                        "decoration": "none",
+                        "text": "a rumor",
+                        "type": "span",
+                        "weight": "bold",
+                      },
+                    ],
+                    "flex": 1,
+                    "margin": "md",
+                    "type": "text",
+                    "wrap": true,
+                  },
+                ],
+                "layout": "horizontal",
+                "margin": "md",
+                "type": "box",
+              },
+              Object {
+                "contents": Array [
+                  Object {
+                    "flex": 0,
+                    "margin": "none",
+                    "text": "🌐",
+                    "type": "text",
+                  },
+                  Object {
+                    "contents": Array [
+                      Object {
+                        "text": "and you are willing to",
+                        "type": "span",
+                      },
+                      Object {
+                        "color": "#ffb600",
+                        "decoration": "none",
+                        "text": "make this messasge public",
+                        "type": "span",
+                        "weight": "bold",
+                      },
+                    ],
+                    "flex": 1,
+                    "margin": "md",
+                    "type": "text",
+                    "wrap": true,
+                  },
+                ],
+                "layout": "horizontal",
+                "margin": "md",
+                "type": "box",
+              },
+              Object {
+                "contents": Array [
+                  Object {
                     "color": "#ffb600",
-                    "text": "press “🆕 Report to database” to make this message public on Cofacts database ",
+                    "text": "press “🆕 Report to database” to make this message public on Cofacts website ",
                     "type": "span",
                     "weight": "bold",
                   },
