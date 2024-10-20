@@ -15,7 +15,7 @@ export const textMessage = {
 
 export const imageMessage = {
   id: 'img-message',
-  articleType: 'TEXT',
+  articleType: 'IMAGE',
   attachmentUrl: 'https://example.com/image.jpg',
   replyCount: 0,
 } as const satisfies NonNullable<

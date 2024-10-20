@@ -128,6 +128,13 @@ it('stores cooccurrences whose article are all in DB', async () => {
     {
       ListArticles: {
         edges: [
+          {
+            // Simulate the case when other similar result gets higher TF-IDF score
+            node: textMessage,
+            score: 3,
+            mediaSimilarity: 0,
+            highlight: null,
+          },
           { node: imageMessage, score: 2, mediaSimilarity: 1, highlight: null },
         ],
       },
