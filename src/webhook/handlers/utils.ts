@@ -1186,6 +1186,23 @@ export function createCooccurredSearchResultsCarouselContents(
   );
 }
 
+function extractExactMatchFromEachSearchResult(
+  searchResults: (SearchMediaResult | SearchTextResult)[]
+) {
+  return searchResults
+    .map((searchResult) => {
+      // Make Typescript happy about weird "This expression is not callable" issue:
+      // https://github.com/microsoft/TypeScript/issues/44373#issuecomment-2198297784
+      const edges: Array<
+        SearchMediaResult['edges'][number] | SearchTextResult['edges'][number]
+      > = searchResult.edges;
+      return edges.find((edge) => getSimilarity(edge) === 1)?.node;
+    })
+    .filter(
+      Boolean
+    ) /* Should not happen; each search result should have exact match */;
+}
+
 /**
  * Mark the most similar item in the search of each searched messages as a cooccurrence;
  * also add reply request
@@ -1194,13 +1211,14 @@ export function createCooccurredSearchResultsCarouselContents(
  *                        of each searched items in the first edge.
  * @param userId - user that observes this cooccurrence
  */
-export function setMostSimilarArticlesAsCooccurrence(
+export function setExactMatchesAsCooccurrence(
   searchResults: (SearchMediaResult | SearchTextResult)[],
   userId: string
 ) {
-  const articleIds = searchResults.map(
-    (searchResult) => searchResult.edges[0].node.id
+  const articleIds = extractExactMatchFromEachSearchResult(searchResults).map(
+    (article) => article.id
   );
+
   return gql`
     mutation SetCooccurrences($articleIds: [String!]!) {
       CreateOrUpdateCooccurrence(articleIds: $articleIds) {
@@ -1225,9 +1243,9 @@ export function addReplyRequestForUnrepliedCooccurredArticles(
   searchResults: (SearchMediaResult | SearchTextResult)[],
   userId: string
 ) {
-  const unrepliedArticles = searchResults
-    .map((searchResult) => searchResult.edges[0].node)
-    .filter((article) => article.replyCount === 0);
+  const unrepliedArticles = extractExactMatchFromEachSearchResult(
+    searchResults
+  ).filter((article) => article.replyCount === 0);
 
   return Promise.all(
     unrepliedArticles.map((article) =>

@@ -15,7 +15,7 @@ import {
   getLineContentProxyURL,
   createPostbackAction,
   createCooccurredSearchResultsCarouselContents,
-  setMostSimilarArticlesAsCooccurrence,
+  setExactMatchesAsCooccurrence,
   addReplyRequestForUnrepliedCooccurredArticles,
 } from './utils';
 
@@ -170,8 +170,8 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
       }
 
       await Promise.all([
-        // All messages in DB and thus can be set as cooccurrence.
-        setMostSimilarArticlesAsCooccurrence(searchResults, userId),
+        // All messages in DB and can be extracted from search results, can be set as cooccurrence.
+        setExactMatchesAsCooccurrence(searchResults, userId),
         addReplyRequestForUnrepliedCooccurredArticles(searchResults, userId),
       ]);
 

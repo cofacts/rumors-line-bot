@@ -27,7 +27,7 @@ import {
   searchText,
   searchMedia,
   createCooccurredSearchResultsCarouselContents,
-  setMostSimilarArticlesAsCooccurrence,
+  setExactMatchesAsCooccurrence,
   addReplyRequestForUnrepliedCooccurredArticles,
 } from './utils';
 
@@ -151,7 +151,7 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
 
   if (context.msgs.length > 1) {
     // Search again, this time all messages should be in the database.
-    // Most similar articles for each respective searched message will be set as cooccurrence.
+    // Also include those messages that are similar for users to choose.
     //
     const searchResults = await Promise.all(
       context.msgs.map(async (msg) =>
@@ -162,7 +162,7 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
     );
     await Promise.all([
       addReplyRequestForUnrepliedCooccurredArticles(searchResults, userId),
-      setMostSimilarArticlesAsCooccurrence(searchResults, userId),
+      setExactMatchesAsCooccurrence(searchResults, userId),
     ]);
 
     return {
