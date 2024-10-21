@@ -23,6 +23,10 @@ beforeEach(() => {
   ga.clearAllMocks();
 });
 
+afterEach(() => {
+  gql.__reset();
+});
+
 it('throws on incorrect input', async () => {
   const incorrectParam: ChatbotPostbackHandlerParams = {
     context: { sessionId: 0, msgs: [] },
@@ -140,7 +144,7 @@ it('stores cooccurrences whose article are all in DB', async () => {
       },
     } satisfies ListArticlesInProcessMediaQuery,
 
-    // setMostSimilarArticlesAsCooccurrence
+    // setExactMatchesAsCooccurrence
     {
       CreateOrUpdateCooccurrence: { id: 'some-id' },
     } satisfies SetCooccurrencesMutation,
