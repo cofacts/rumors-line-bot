@@ -29,6 +29,10 @@ import type {
   ListArticlesInInitStateQueryVariables,
   ListArticlesInProcessMediaQuery,
   ListArticlesInProcessMediaQueryVariables,
+  SetCooccurrencesMutation,
+  SetCooccurrencesMutationVariables,
+  AddReplyRequestForUnrepliedArticleMutation,
+  AddReplyRequestForUnrepliedArticleMutationVariables,
 } from 'typegen/graphql';
 
 import type { Input as ChoosingReplyInput } from './choosingReply';
@@ -906,6 +910,7 @@ export async function searchText(text: string): Promise<SearchTextResult> {
             text
             articleType
             attachmentUrl(variant: THUMBNAIL)
+            replyCount
           }
           highlight {
             text
@@ -972,6 +977,7 @@ export async function searchMedia(
             id
             articleType
             attachmentUrl(variant: THUMBNAIL)
+            replyCount
           }
           highlight {
             text
@@ -989,7 +995,12 @@ export async function searchMedia(
   );
   return {
     ...ListArticles,
-    edges: ListArticles?.edges ?? [],
+    edges: (ListArticles?.edges ?? []).sort(
+      // Sort by media similarity first, then by score
+      (edge1, edge2) =>
+        edge2.mediaSimilarity - edge1.mediaSimilarity ||
+        (edge2.score ?? 0) - (edge1.score ?? 0)
+    ),
   };
 }
 
@@ -1181,24 +1192,69 @@ export function createCooccurredSearchResultsCarouselContents(
 }
 
 /**
- * Mark the most similar item in the search of each searched messages as a cooccurrence
+ * Mark the most similar item in the search of each searched messages as a cooccurrence;
+ * also add reply request
  *
  * @param searchResults - search results from searchMedia() or searchText(), with most similar item
  *                        of each searched items in the first edge.
  * @param userId - user that observes this cooccurrence
  */
-export function setMostSimilarArticlesAsCooccurrence(
+export function setExactMatchesAsCooccurrence(
   searchResults: (SearchMediaResult | SearchTextResult)[],
   userId: string
 ) {
   const articleIds = searchResults.map(
     (searchResult) => searchResult.edges[0].node.id
   );
+
+  console.log('[setExactMatchesAsCooccurrence]', searchResults, articleIds);
+
   return gql`
     mutation SetCooccurrences($articleIds: [String!]!) {
       CreateOrUpdateCooccurrence(articleIds: $articleIds) {
         id
       }
     }
-  `({ articleIds }, { userId });
+  `<SetCooccurrencesMutation, SetCooccurrencesMutationVariables>(
+    { articleIds },
+    { userId }
+  );
+}
+
+/**
+ * Add reply request for cooccurred articles that is not replied yet.
+ * We don't add reply request to replied articles to match existing behavior.
+ *
+ * @param searchResults - search results from searchMedia() or searchText(), with most similar item
+ *                        of each searched items in the first edge.
+ * @param userId - user that observes this cooccurrence
+ */
+export function addReplyRequestForUnrepliedCooccurredArticles(
+  searchResults: (SearchMediaResult | SearchTextResult)[],
+  userId: string
+) {
+  const unrepliedArticles = searchResults
+    .map((searchResult) => searchResult.edges[0].node)
+    .filter((article) => article.replyCount === 0);
+
+  console.log(
+    '[addReplyRequestForUnrepliedCooccurredArticles]',
+    searchResults,
+    unrepliedArticles
+  );
+
+  return Promise.all(
+    unrepliedArticles.map((article) =>
+      gql`
+        mutation AddReplyRequestForUnrepliedArticle($articleId: String!) {
+          CreateOrUpdateReplyRequest(articleId: $articleId) {
+            id
+          }
+        }
+      `<
+        AddReplyRequestForUnrepliedArticleMutation,
+        AddReplyRequestForUnrepliedArticleMutationVariables
+      >({ articleId: article.id }, { userId })
+    )
+  );
 }
