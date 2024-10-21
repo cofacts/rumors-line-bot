@@ -11,6 +11,11 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      DOCKER_BUILD_CACHE_BUST:
+        description: 'Cache busting parameter for Docker build'
+        required: false
+        default: ''
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -75,8 +80,8 @@ jobs:
           # Cache for individual languages
           # Ref: https://docs.docker.com/build/cache/backends/gha/#scope
           # Cache busting idea from: https://stackoverflow.com/a/64819132 to handle i18n update issue
-          cache-from: type=gha,scope=${{env.GITHUB_REF_NAME}}${{matrix.locales.postfix}}${{env.DOCKER_BUILD_CACHE_BUST}}
-          cache-to: type=gha,mode=max,scope=${{env.GITHUB_REF_NAME}}${{matrix.locales.postfix}}${{env.DOCKER_BUILD_CACHE_BUST}}
+          cache-from: type=gha,scope=${{env.GITHUB_REF_NAME}}${{matrix.locales.postfix}}${{inputs.DOCKER_BUILD_CACHE_BUST}}
+          cache-to: type=gha,mode=max,scope=${{env.GITHUB_REF_NAME}}${{matrix.locales.postfix}}${{inputs.DOCKER_BUILD_CACHE_BUST}}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
