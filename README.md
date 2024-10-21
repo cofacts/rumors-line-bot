@@ -183,6 +183,12 @@ On Heroku, please set `LOCALE` to one of `en_US`, `zh_TW` or any other language 
 
 If you want to build using docker instead, you may need to modify Dockerfile to include the desired `LOCALE`.
 
+#### Busting Github Action build cache
+
+Docker build step in Github action are cached, and may contain outdated translation files.
+
+Update the repository variable `DOCKER_BUILD_CACHE_BUST` to skip previous caches.
+
 ### Notification setup
 - Prerequisites :
   1. [LIFF setup](https://github.com/cofacts/rumors-line-bot#liff-setup)

@@ -74,8 +74,9 @@ jobs:
             "LOCALE=${{ matrix.locales.locale }}"
           # Cache for individual languages
           # Ref: https://docs.docker.com/build/cache/backends/gha/#scope
-          cache-from: type=gha,scope=${{env.GITHUB_REF_NAME}}${{matrix.locales.postfix}}
-          cache-to: type=gha,mode=max,scope=${{env.GITHUB_REF_NAME}}${{matrix.locales.postfix}}
+          # Cache busting idea from: https://stackoverflow.com/a/64819132 to handle i18n update issue
+          cache-from: type=gha,scope=${{env.GITHUB_REF_NAME}}${{matrix.locales.postfix}}${{env.DOCKER_BUILD_CACHE_BUST}}
+          cache-to: type=gha,mode=max,scope=${{env.GITHUB_REF_NAME}}${{matrix.locales.postfix}}${{env.DOCKER_BUILD_CACHE_BUST}}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
