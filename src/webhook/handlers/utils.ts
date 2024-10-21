@@ -193,11 +193,11 @@ export function createAskArticleSubmissionConsentReply(
                 contents: [
                   {
                     type: 'span',
-                    text: /* t: If you believe ~ a rumor */ t`That it is most likely`,
+                    text: /* t: If you believe ~ a rumor */ t`That it is most likely `,
                   },
                   {
                     type: 'span',
-                    text: /* t: If you believe that it is most likely ~ */ t`a rumor`,
+                    text: /* t: If you believe that it is most likely ~ */ t`a rumor,`,
                     decoration: 'none',
                     color: '#ffb600',
                     weight: 'bold',
@@ -225,11 +225,11 @@ export function createAskArticleSubmissionConsentReply(
                 contents: [
                   {
                     type: 'span',
-                    text: /* t: ~ make this messasge public */ t`and you are willing to`,
+                    text: /* t: ~ make this messasge public */ t`And you are willing to `,
                   },
                   {
                     type: 'span',
-                    text: /* t: and you are willing to ~ */ t`make this messasge public`,
+                    text: /* t: and you are willing to ~ */ t`make this message public`,
                     decoration: 'none',
                     color: '#ffb600',
                     weight: 'bold',
@@ -245,7 +245,7 @@ export function createAskArticleSubmissionConsentReply(
             contents: [
               {
                 type: 'span',
-                text: t`press “${btnText}” to make this message public on Cofacts website `,
+                text: t`Press “${btnText}” to make this message public on Cofacts website `,
                 color: '#ffb600',
                 weight: 'bold',
               },

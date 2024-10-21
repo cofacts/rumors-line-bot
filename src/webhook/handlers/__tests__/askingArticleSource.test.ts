@@ -286,13 +286,13 @@ it('sends user submission consent if user forwarded the whole message', async ()
                   Object {
                     "contents": Array [
                       Object {
-                        "text": "That it is most likely",
+                        "text": "That it is most likely ",
                         "type": "span",
                       },
                       Object {
                         "color": "#ffb600",
                         "decoration": "none",
-                        "text": "a rumor",
+                        "text": "a rumor,",
                         "type": "span",
                         "weight": "bold",
                       },
@@ -318,13 +318,13 @@ it('sends user submission consent if user forwarded the whole message', async ()
                   Object {
                     "contents": Array [
                       Object {
-                        "text": "and you are willing to",
+                        "text": "And you are willing to ",
                         "type": "span",
                       },
                       Object {
                         "color": "#ffb600",
                         "decoration": "none",
-                        "text": "make this messasge public",
+                        "text": "make this message public",
                         "type": "span",
                         "weight": "bold",
                       },
@@ -343,7 +343,7 @@ it('sends user submission consent if user forwarded the whole message', async ()
                 "contents": Array [
                   Object {
                     "color": "#ffb600",
-                    "text": "press “🆕 Report to database” to make this message public on Cofacts website ",
+                    "text": "Press “🆕 Report to database” to make this message public on Cofacts website ",
                     "type": "span",
                     "weight": "bold",
                   },

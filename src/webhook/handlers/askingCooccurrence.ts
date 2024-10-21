@@ -99,7 +99,7 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
           replies: [
             {
               type: 'flex',
-              altText: t`Be the first to report the message`,
+              altText: t`Be the first to report these messages`,
               contents: {
                 type: 'bubble',
                 body: {
@@ -143,11 +143,11 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
                           contents: [
                             {
                               type: 'span',
-                              text: /* t: If you believe ~ a rumor */ t`That they are most likely`,
+                              text: /* t: If you believe ~ a rumor */ t`That they are most likely `,
                             },
                             {
                               type: 'span',
-                              text: /* t: If you believe that it is most likely ~ */ t`rumors`,
+                              text: /* t: If you believe that it is most likely ~ */ t`rumors,`,
                               decoration: 'none',
                               color: '#ffb600',
                               weight: 'bold',
@@ -175,11 +175,11 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
                           contents: [
                             {
                               type: 'span',
-                              text: /* t: ~ make this messasge public */ t`and you are willing to`,
+                              text: /* t: ~ make this messasge public */ t`And you are willing to `,
                             },
                             {
                               type: 'span',
-                              text: /* t: and you are willing to ~ */ t`make these messasges public`,
+                              text: /* t: and you are willing to ~ */ t`make these messages public`,
                               decoration: 'none',
                               color: '#ffb600',
                               weight: 'bold',
@@ -195,7 +195,7 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
                       contents: [
                         {
                           type: 'span',
-                          text: t`press “${btnText}” to make these messages public on Cofacts website `,
+                          text: t`Press “${btnText}” to make these messages public on Cofacts website `,
                           color: '#ffb600',
                           weight: 'bold',
                         },
