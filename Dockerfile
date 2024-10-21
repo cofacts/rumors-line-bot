@@ -12,7 +12,7 @@ RUN npm install
 COPY . .
 
 ARG LOCALE=en_US
-RUN NODE_ENV=production npm run build
+RUN NODE_ENV=production CACHE_BUST=1 npm run build
 RUN npm prune --production
 
 #########################################
