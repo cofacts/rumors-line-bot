@@ -153,22 +153,6 @@ export function createAskArticleSubmissionConsentReply(
   sessionId: number
 ): Message {
   const btnText = `🆕 ${t`Report to database`}`;
-  const spans: FlexSpan[] = [
-    {
-      type: 'span',
-      text: t`Currently we don’t have this message in our database. If you think it is most likely a rumor, `,
-    },
-    {
-      type: 'span',
-      text: t`press “${btnText}” to make this message public on Cofacts database `,
-      color: '#ffb600',
-      weight: 'bold',
-    },
-    {
-      type: 'span',
-      text: t`and have volunteers fact-check it. This way you can help the people who receive the same message in the future.`,
-    },
-  ];
 
   return {
     type: 'flex',
@@ -184,7 +168,92 @@ export function createAskArticleSubmissionConsentReply(
           {
             type: 'text',
             wrap: true,
-            contents: spans,
+            text: t`We currently don’t have this message in our database.`,
+          },
+          {
+            type: 'text',
+            wrap: true,
+            text: t`If you believe:`,
+          },
+          {
+            type: 'box',
+            layout: 'horizontal',
+            contents: [
+              {
+                type: 'text',
+                text: '🤔',
+                flex: 0,
+                margin: 'none',
+              },
+              {
+                type: 'text',
+                wrap: true,
+                flex: 1,
+                margin: 'md',
+                contents: [
+                  {
+                    type: 'span',
+                    text: /* t: If you believe ~ a rumor */ t`That it is most likely `,
+                  },
+                  {
+                    type: 'span',
+                    text: /* t: If you believe that it is most likely ~ */ t`a rumor,`,
+                    decoration: 'none',
+                    color: '#ffb600',
+                    weight: 'bold',
+                  },
+                ],
+              },
+            ],
+            margin: 'md',
+          },
+          {
+            type: 'box',
+            layout: 'horizontal',
+            contents: [
+              {
+                type: 'text',
+                text: '🌐',
+                flex: 0,
+                margin: 'none',
+              },
+              {
+                type: 'text',
+                wrap: true,
+                flex: 1,
+                margin: 'md',
+                contents: [
+                  {
+                    type: 'span',
+                    text: /* t: ~ make this messasge public */ t`And you are willing to `,
+                  },
+                  {
+                    type: 'span',
+                    text: /* t: and you are willing to ~ */ t`make this message public`,
+                    decoration: 'none',
+                    color: '#ffb600',
+                    weight: 'bold',
+                  },
+                ],
+              },
+            ],
+            margin: 'md',
+          },
+          {
+            type: 'text',
+            wrap: true,
+            contents: [
+              {
+                type: 'span',
+                text: t`Press “${btnText}” to make this message public on Cofacts website `,
+                color: '#ffb600',
+                weight: 'bold',
+              },
+              {
+                type: 'span',
+                text: t`and have volunteers fact-check it. This way you can help the people who receive the same message in the future.`,
+              },
+            ],
           },
         ],
       },

@@ -92,38 +92,14 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
       if (notInDbMsgIndexes.length > 0) {
         // Ask if the user want to submit those are not in DB into the database
         const totalCount = context.msgs.length;
-        const inDbStatus =
-          notInDbMsgIndexes.length === totalCount
-            ? t`None of the ${notInDbMsgIndexes.length} messages you sent are in the Cofacts database.`
-            : ngettext(
-                msgid`Out of the ${totalCount} messages you sent, ${notInDbMsgIndexes.length} is not in the Cofacts database.`,
-                `Out of the ${totalCount} messages you sent, ${notInDbMsgIndexes.length} are not in the Cofacts database.`,
-                notInDbMsgIndexes.length
-              );
 
         const btnText = `🆕 ${t`Report to database`}`;
-        const spans: FlexSpan[] = [
-          {
-            type: 'span',
-            text: t`${inDbStatus} If you think they are most likely a rumor,`,
-          },
-          {
-            type: 'span',
-            text: t`press “${btnText}” to make this message public on Cofacts database `,
-            color: '#ffb600',
-            weight: 'bold',
-          },
-          {
-            type: 'span',
-            text: t`and have volunteers fact-check it. This way you can help the people who receive the same message in the future.`,
-          },
-        ];
         return {
           context,
           replies: [
             {
               type: 'flex',
-              altText: t`Be the first to report the message`,
+              altText: t`Be the first to report these messages`,
               contents: {
                 type: 'bubble',
                 body: {
@@ -135,7 +111,99 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
                     {
                       type: 'text',
                       wrap: true,
-                      contents: spans,
+                      text:
+                        notInDbMsgIndexes.length === totalCount
+                          ? t`The ${notInDbMsgIndexes.length} messages that you have sent are not within the Cofacts database.`
+                          : ngettext(
+                              msgid`Out of the ${totalCount} messages you sent, ${notInDbMsgIndexes.length} is not within the Cofacts database.`,
+                              `Out of the ${totalCount} messages you sent, ${notInDbMsgIndexes.length} are not within the Cofacts database.`,
+                              notInDbMsgIndexes.length
+                            ),
+                    },
+                    {
+                      type: 'text',
+                      wrap: true,
+                      text: t`If you believe:`,
+                    },
+                    {
+                      type: 'box',
+                      layout: 'horizontal',
+                      contents: [
+                        {
+                          type: 'text',
+                          text: '🤔',
+                          flex: 0,
+                          margin: 'none',
+                        },
+                        {
+                          type: 'text',
+                          wrap: true,
+                          flex: 1,
+                          margin: 'md',
+                          contents: [
+                            {
+                              type: 'span',
+                              text: /* t: If you believe ~ a rumor */ t`That they are most likely `,
+                            },
+                            {
+                              type: 'span',
+                              text: /* t: If you believe that it is most likely ~ */ t`rumors,`,
+                              decoration: 'none',
+                              color: '#ffb600',
+                              weight: 'bold',
+                            },
+                          ],
+                        },
+                      ],
+                      margin: 'md',
+                    },
+                    {
+                      type: 'box',
+                      layout: 'horizontal',
+                      contents: [
+                        {
+                          type: 'text',
+                          text: '🌐',
+                          flex: 0,
+                          margin: 'none',
+                        },
+                        {
+                          type: 'text',
+                          wrap: true,
+                          flex: 1,
+                          margin: 'md',
+                          contents: [
+                            {
+                              type: 'span',
+                              text: /* t: ~ make this messasge public */ t`And you are willing to `,
+                            },
+                            {
+                              type: 'span',
+                              text: /* t: and you are willing to ~ */ t`make these messages public`,
+                              decoration: 'none',
+                              color: '#ffb600',
+                              weight: 'bold',
+                            },
+                          ],
+                        },
+                      ],
+                      margin: 'md',
+                    },
+                    {
+                      type: 'text',
+                      wrap: true,
+                      contents: [
+                        {
+                          type: 'span',
+                          text: t`Press “${btnText}” to make these messages public on Cofacts website `,
+                          color: '#ffb600',
+                          weight: 'bold',
+                        },
+                        {
+                          type: 'span',
+                          text: t`and have volunteers fact-check it. This way you can help the people who receive the same message in the future.`,
+                        },
+                      ],
                     },
                   ],
                 },
