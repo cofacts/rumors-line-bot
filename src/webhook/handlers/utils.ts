@@ -659,11 +659,12 @@ type AIReplyTextMessage = TextMessage & { createdAt: string };
 export async function createAIReply(
   articleId: string,
   userId: string
-): Promise<AIReplyTextMessage | null> {
+): Promise<{ message: AIReplyTextMessage; id: string } | null> {
   const createAIReply = (
     await gql`
       mutation CreateAIReply($articleId: String!) {
         CreateAIReply(articleId: $articleId) {
+          id
           text
           createdAt
         }
@@ -677,12 +678,15 @@ export async function createAIReply(
   return !createAIReply?.text
     ? null
     : {
-        type: 'text',
-        text: createAIReply?.text,
-        createdAt: createAIReply?.createdAt,
-        sender: {
-          name: 'AI 自動分析',
-          iconUrl: `${process.env.RUMORS_LINE_BOT_URL}/static/img/aireply.png?cachebust=${AI_REPLY_IMAGE_VERSION}`,
+        id: createAIReply.id,
+        message: {
+          type: 'text',
+          text: createAIReply?.text,
+          createdAt: createAIReply?.createdAt,
+          sender: {
+            name: 'AI 自動分析',
+            iconUrl: `${process.env.RUMORS_LINE_BOT_URL}/static/img/aireply.png?cachebust=${AI_REPLY_IMAGE_VERSION}`,
+          },
         },
       };
 }
@@ -753,6 +757,70 @@ export function isEventExpired(
 }
 
 export const POSTBACK_NO_ARTICLE_FOUND = '__NO_ARTICLE_FOUND__';
+
+/**
+ * @param aiResponseId - The AI response to vote for feedback
+ * @returns Flex message bubble object that asks the user if reply is helpful
+ */
+export function createAskAiReplyFeedbackBubble(
+  aiResponseId: string
+): FlexBubble {
+  return {
+    type: 'bubble',
+    header: {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          type: 'text',
+          text: t`Provide feedback to AI analysis`,
+          size: 'lg',
+          color: '#00B172',
+        },
+      ],
+      paddingBottom: 'none',
+    },
+    body: {
+      type: 'box',
+      layout: 'vertical',
+      paddingAll: 'xl',
+      contents: [
+        {
+          type: 'text',
+          wrap: true,
+          text: t`Is the AI analysis helpful?`,
+        },
+      ],
+    },
+    footer: {
+      type: 'box',
+      layout: 'vertical',
+      spacing: 'sm',
+      contents: [
+        {
+          type: 'button',
+          style: 'primary',
+          color: '#00B172',
+          action: {
+            type: 'uri',
+            label: '👍 ' + t`Yes`,
+            uri: `${process.env.LIFF_URL}?p=aiReplyFeedback&aiResponseId=${aiResponseId}&vote=UPVOTE`,
+          },
+        },
+        {
+          type: 'button',
+          style: 'primary',
+          color: '#FB5959',
+          action: {
+            type: 'uri',
+            label: '😕 ' + t`No`,
+            uri: `${process.env.LIFF_URL}?p=aiReplyFeedback&aiResponseId=${aiResponseId}&vote=DOWNVOTE`,
+          },
+        },
+      ],
+    },
+  };
+}
 
 /**
  * @param articleId

@@ -14,6 +14,7 @@ import {
   createArticleShareBubble,
   createAskArticleSubmissionConsentReply,
   createAIReply,
+  createAskAiReplyFeedbackBubble,
 } from './utils';
 import ga from 'src/lib/ga';
 import UserSettings from 'src/database/models/userSettings';
@@ -378,15 +379,16 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
         text: t`In the meantime, you can:`,
       }),
     ];
+    let aiReply = null;
 
     if (isTextArticle) {
-      const aiReply = await createAIReply(selectedArticleId, userId);
+      aiReply = await createAIReply(selectedArticleId, userId);
 
       if (aiReply) {
         const articleCreatedAt = new Date(
           GetArticle.createdAt ?? -Infinity /* Triggers invalid date */
         );
-        const aiReplyCreatedAt = new Date(aiReply.createdAt);
+        const aiReplyCreatedAt = new Date(aiReply.message.createdAt);
 
         const aiReplyWithin30Days = isBefore(
           aiReplyCreatedAt,
@@ -402,7 +404,7 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
           createTextMessage({
             text: `這則訊息首次回報於 ${articleCreatedAtStr} ，尚待查核，請先不要相信這篇文章。\n以下是${aiReplyCreatedAtStr}機器人初步分析此訊息的結果，希望能帶給你一些想法。`,
           }),
-          aiReply,
+          aiReply.message,
           createTextMessage({
             text: t`After reading the automatic analysis by the bot above, you can:`,
           }),
@@ -447,6 +449,7 @@ Don’t trust the message just yet!`,
         contents: {
           type: 'carousel',
           contents: [
+            aiReply && createAskAiReplyFeedbackBubble(aiReply.id),
             createCommentBubble(selectedArticleId),
 
             // Ask user to turn on notification if the user did not turn it on

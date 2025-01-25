@@ -29,6 +29,7 @@ import {
   createCooccurredSearchResultsCarouselContents,
   setExactMatchesAsCooccurrence,
   addReplyRequestForUnrepliedCooccurredArticles,
+  createAskAiReplyFeedbackBubble,
 } from './utils';
 
 // Input should be array of context.msgs idx. Empty if the user does not want to submit.
@@ -245,7 +246,7 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
             createTextMessage({
               text: t`This article is still under verification, please refrain from believing it for now. \nBelow is the preliminary analysis result by the bot, hoping to provide you with some insights.`,
             }),
-            aiReply,
+            aiReply.message,
             createTextMessage({
               text: t`After reading the automatic analysis by the bot above, you can:`,
             }),
@@ -256,6 +257,7 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
         contents: {
           type: 'carousel',
           contents: [
+            aiReply && createAskAiReplyFeedbackBubble(aiReply.id),
             createCommentBubble(article.id),
             // Ask user to turn on notification if the user did not turn it on
             //
