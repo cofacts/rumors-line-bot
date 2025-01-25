@@ -404,7 +404,7 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
           }),
           aiReply,
           createTextMessage({
-            text: '讀完以上機器人的自動分析後，您可以：',
+            text: t`After reading the automatic analysis by the bot above, you can:`,
           }),
         ];
       }
@@ -424,9 +424,7 @@ Don’t trust the message just yet!`,
               {
                 type: 'text',
                 wrap: true,
-                text: isTextArticle
-                  ? '此訊息已經被收錄至 Cofacts 有待好心人來查證。'
-                  : t`This message has already published on Cofacts, and will soon be fact-checked by volunteers.
+                text: t`This message has already published on Cofacts, and will soon be fact-checked by volunteers.
                 Don’t trust the message just yet!`,
               },
               {
