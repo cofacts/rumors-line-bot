@@ -37,13 +37,8 @@
     comment = (e.detail || '').trim();
     isSubmitting = true;
 
-    const { errors } = await submitFeedback();
+    await submitFeedback();
     isSubmitting = false;
-
-    if(errors) {
-      alert(t`Cannot record your feedback. Try again later?`);
-      return;
-    }
 
     alert(t`Thank you for providing feedback to the AI reply.`);
 
@@ -56,14 +51,13 @@
    * Submit feedback with current parameters
    */
   function submitFeedback() {
-    langfuseWeb.score({
+    return langfuseWeb.score({
       id: `${aiResponseId}__${userId}`, // One user can only vote once
       traceId: aiResponseId,
       name: 'user-feedback',
       value: vote === 'UPVOTE' ? 1 : -1,
       comment,
     })
-    return
   }
 </script>
 
