@@ -5,6 +5,7 @@
   import Comment from './pages/Comment.svelte';
   import UserSetting from './pages/UserSetting.svelte';
   import Feedback from './pages/Feedback.svelte';
+  import AiReplyFeedback from './pages/AiReplyFeedback.svelte';
   import Mgp from './pages/Mgp.svelte';
   import MgpAwardee from './pages/MgpAwardee.svelte';
 
@@ -14,6 +15,7 @@
     setting: UserSetting,
     comment: Comment,
     feedback: Feedback,
+    aiReplyFeedback: AiReplyFeedback,
     mgp: Mgp,
     mgpAwardee: MgpAwardee,
   };

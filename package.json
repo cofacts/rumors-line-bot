@@ -69,6 +69,7 @@
     "koa-router": "^7.4.0",
     "koa-session2": "^2.2.10",
     "koa-static-server": "^1.5.0",
+    "langfuse": "^3.32.3",
     "mongodb": "^3.6.0",
     "node-fetch": "^2.6.1",
     "passport-oauth2": "^1.5.0",
