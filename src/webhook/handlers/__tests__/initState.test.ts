@@ -12,6 +12,7 @@ import type { MockedGa } from 'src/lib/__mocks__/ga';
 import originalGa from 'src/lib/ga';
 import originalDetectDialogflowIntent from 'src/lib/detectDialogflowIntent';
 import { FlexMessage } from '@line/bot-sdk';
+import { CreateAiReplyMutation } from 'typegen/graphql';
 
 const gql = originalGql as MockedGql;
 const ga = originalGa as MockedGa;
@@ -160,6 +161,16 @@ it('articles found with high similarity', async () => {
 it('only one article found with high similarity and choose for user', async () => {
   gql.__push(apiListArticleResult.shortArticle);
   gql.__push(apiGetArticleResult.shortArticle);
+  // Simulate null AI reply
+  gql.__push({
+    data: {
+      CreateAIReply: {
+        id: 'aiResponseId',
+        text: null,
+        createdAt: '2020-01-01T18:10:18.314Z',
+      },
+    } satisfies CreateAiReplyMutation,
+  });
 
   expect(
     await initState({
