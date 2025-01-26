@@ -1805,7 +1805,8 @@ Don’t trust the message just yet!",
         "body": Object {
           "contents": Array [
             Object {
-              "text": "此訊息已經被收錄至 Cofacts 有待好心人來查證。",
+              "text": "This message has already published on Cofacts, and will soon be fact-checked by volunteers.
+Don’t trust the message just yet!",
               "type": "text",
               "wrap": true,
             },
@@ -1856,12 +1857,12 @@ Don’t trust the message just yet!",
       "type": "text",
     },
     Object {
-      "altText": "讀完以上機器人的自動分析後，您可以：",
+      "altText": "After reading the automatic analysis by the bot above, you can:",
       "contents": Object {
         "body": Object {
           "contents": Array [
             Object {
-              "text": "讀完以上機器人的自動分析後，您可以：",
+              "text": "After reading the automatic analysis by the bot above, you can:",
               "type": "text",
               "wrap": true,
             },
@@ -1877,6 +1878,61 @@ Don’t trust the message just yet!",
       "altText": "Provide more detail",
       "contents": Object {
         "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "Is the AI analysis helpful?",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "paddingAll": "xl",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "👍 Yes",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=aiReplyFeedback&aiResponseId=undefined&vote=UPVOTE",
+                  },
+                  "color": "#00B172",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "😕 No",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=aiReplyFeedback&aiResponseId=undefined&vote=DOWNVOTE",
+                  },
+                  "color": "#FB5959",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "color": "#00B172",
+                  "size": "lg",
+                  "text": "Provide feedback to AI analysis",
+                  "type": "text",
+                },
+              ],
+              "layout": "vertical",
+              "paddingBottom": "none",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
           Object {
             "body": Object {
               "contents": Array [
@@ -1991,7 +2047,8 @@ Don’t trust the message just yet!",
         "body": Object {
           "contents": Array [
             Object {
-              "text": "此訊息已經被收錄至 Cofacts 有待好心人來查證。",
+              "text": "This message has already published on Cofacts, and will soon be fact-checked by volunteers.
+Don’t trust the message just yet!",
               "type": "text",
               "wrap": true,
             },
