@@ -372,44 +372,40 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
     const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
       userId
     );
-    const isTextArticle = GetArticle.articleType === 'TEXT';
 
     let maybeAIReplies: Message[] = [
       createTextMessage({
         text: t`In the meantime, you can:`,
       }),
     ];
-    let aiReply = null;
 
-    if (isTextArticle) {
-      aiReply = await createAIReply(selectedArticleId, userId);
+    const aiReply = await createAIReply(selectedArticleId, userId);
 
-      if (aiReply) {
-        const articleCreatedAt = new Date(
-          GetArticle.createdAt ?? -Infinity /* Triggers invalid date */
-        );
-        const aiReplyCreatedAt = new Date(aiReply.message.createdAt);
+    if (aiReply) {
+      const articleCreatedAt = new Date(
+        GetArticle.createdAt ?? -Infinity /* Triggers invalid date */
+      );
+      const aiReplyCreatedAt = new Date(aiReply.message.createdAt);
 
-        const aiReplyWithin30Days = isBefore(
-          aiReplyCreatedAt,
-          addDays(articleCreatedAt, 30)
-        );
+      const aiReplyWithin30Days = isBefore(
+        aiReplyCreatedAt,
+        addDays(articleCreatedAt, 30)
+      );
 
-        const articleCreatedAtStr = format(articleCreatedAt);
-        const aiReplyCreatedAtStr = aiReplyWithin30Days
-          ? '當時'
-          : `${format(aiReplyCreatedAt)}時`;
+      const articleCreatedAtStr = format(articleCreatedAt);
+      const aiReplyCreatedAtStr = aiReplyWithin30Days
+        ? '當時'
+        : `${format(aiReplyCreatedAt)}時`;
 
-        maybeAIReplies = [
-          createTextMessage({
-            text: `這則訊息首次回報於 ${articleCreatedAtStr} ，尚待查核，請先不要相信這篇文章。\n以下是${aiReplyCreatedAtStr}機器人初步分析此訊息的結果，希望能帶給你一些想法。`,
-          }),
-          aiReply.message,
-          createTextMessage({
-            text: t`After reading the automatic analysis by the bot above, you can:`,
-          }),
-        ];
-      }
+      maybeAIReplies = [
+        createTextMessage({
+          text: `這則訊息首次回報於 ${articleCreatedAtStr} ，尚待查核，請先不要相信這篇文章。\n以下是${aiReplyCreatedAtStr}機器人初步分析此訊息的結果，希望能帶給你一些想法。`,
+        }),
+        aiReply.message,
+        createTextMessage({
+          text: t`After reading the automatic analysis by the bot above, you can:`,
+        }),
+      ];
     }
 
     replies = [
