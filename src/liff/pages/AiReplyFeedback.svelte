@@ -40,7 +40,7 @@
     await submitFeedback();
     isSubmitting = false;
 
-    alert(t`Thank you for providing feedback to the AI reply.`);
+    alert(t`Thank you for providing feedback to the automated analysis.`);
 
     liff.closeWindow();
   }
@@ -63,9 +63,9 @@
 
 <svelte:head>
   {#if vote === 'UPVOTE'}
-    <title>{t`Report AI reply helpful`}</title>
+    <title>{t`Report AI analysis helpful`}</title>
   {:else}
-  <title>{t`Report AI not helpful`}</title>
+  <title>{t`Report AI analysis not helpful`}</title>
   {/if}
 </svelte:head>
 
