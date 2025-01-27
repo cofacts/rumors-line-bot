@@ -44,24 +44,24 @@ msgstr "情報源"
 msgid "This reply has no ${ prompt } and it may be biased"
 msgstr "このリプライは${prompt}がありませんので、信頼性を見直す必要があります。"
 
-#: src/webhook/handlers/choosingArticle.ts:216
+#: src/webhook/handlers/choosingArticle.ts:217
 msgid "Volunteer editors have published several replies to this message."
 msgstr "Cofacts のボランティアがこの情報に多くのリプライをしました！"
 
-#: src/webhook/handlers/choosingArticle.ts:342
+#: src/webhook/handlers/choosingArticle.ts:343
 msgid "Let's pick one"
 msgstr "一つ選んでチェックしましょう"
 
-#: src/webhook/handlers/choosingArticle.ts:319
+#: src/webhook/handlers/choosingArticle.ts:320
 msgid "Take a look"
 msgstr "見てみましょう"
 
-#: src/webhook/handlers/choosingArticle.ts:358
+#: src/webhook/handlers/choosingArticle.ts:359
 #, javascript-format
 msgid "Visit ${ articleUrl } for more replies."
 msgstr "他のリプライを見たい場合、こちらに：${ articleUrl }"
 
-#: src/webhook/handlers/utils.ts:1195
+#: src/webhook/handlers/utils.ts:1263
 msgid "Choose this one"
 msgstr "これを選ぶ"
 
@@ -77,18 +77,18 @@ msgstr ""
 "デマ情報はよく何度も編集され発送されます。\n"
 "最も関連するバージョンを選んでください"
 
-#: src/webhook/handlers/utils.ts:733
+#: src/webhook/handlers/utils.ts:737
 #, javascript-format
 msgid "Therefore, the author think the message ${ typeStr }."
 msgstr "以上により、リプライ者が次のように考えています ${typeStr}。"
 
-#: src/webhook/handlers/utils.ts:736
+#: src/webhook/handlers/utils.ts:740
 msgid ""
 "There are different replies for the message. Read them all here before "
 "making judgements:"
 msgstr "この情報に様々なリプライがあるため、読み通してから判断するようにお薦めします："
 
-#: src/webhook/handlers/utils.ts:738
+#: src/webhook/handlers/utils.ts:742
 msgid "If you have different thoughts, you may have your say here:"
 msgstr "違う見方をお持ちの方は、どうぞ気軽に新規リプライを投稿してください："
 
@@ -101,12 +101,14 @@ msgstr "以上のリプライは役に立ちましたか？"
 #: src/liff/components/FeedbackForm.svelte:27
 #: src/webhook/handlers/choosingReply.ts:63
 #: src/webhook/handlers/processBatch.ts:48
+#: src/webhook/handlers/utils.ts:806
 msgid "Yes"
 msgstr "はい"
 
 #: src/liff/components/FeedbackForm.svelte:30
 #: src/webhook/handlers/choosingReply.ts:73
 #: src/webhook/handlers/processBatch.ts:58
+#: src/webhook/handlers/utils.ts:816
 msgid "No"
 msgstr "いいえ"
 
@@ -136,16 +138,16 @@ msgstr "情報を報告する"
 msgid "Please choose the most similar message from the list."
 msgstr "以下から調べたい情報を選んでください。"
 
-#: src/webhook/handlers/choosingArticle.ts:346
+#: src/webhook/handlers/choosingArticle.ts:347
 msgid "Please take a look at the following replies."
 msgstr "以下から調べたいリプライを選んでください。"
 
-#: src/webhook/handlers/choosingArticle.ts:265
+#: src/webhook/handlers/choosingArticle.ts:266
 #, javascript-format
 msgid "Someone thinks it ${ typeWords }"
 msgstr "誰かが次のように考えています ${typeWords}"
 
-#: src/webhook/handlers/utils.ts:1105
+#: src/webhook/handlers/utils.ts:1173
 #, javascript-format
 msgid "Looks ${ similarityPercentage }% similar"
 msgstr "${similarityPercentage}% 似ています"
@@ -167,7 +169,7 @@ msgid ""
 "search sessions do not work now."
 msgstr "新規の情報を検索しているため、先ほどまでの検索ボタンは無効になります。"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:196
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:197
 #, javascript-format
 msgid "Your submission is now recorded at ${ articleUrl }"
 msgstr "提供していただいた情報はこちらに登録されています ${ articleUrl }"
@@ -208,34 +210,34 @@ msgid "Share to friends"
 msgstr "友達にシェアする"
 
 #: src/webhook/handlers/askingArticleSource.ts:34
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:54
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:55
 #: src/webhook/handlers/askingCooccurrence.ts:40
-#: src/webhook/handlers/choosingArticle.ts:71
+#: src/webhook/handlers/choosingArticle.ts:72
 #: src/webhook/handlers/choosingReply.ts:152
 msgid "Please choose from provided options."
 msgstr "上記の項目から選んでください。"
 
-#: src/webhook/handlers/choosingArticle.ts:220
+#: src/webhook/handlers/choosingArticle.ts:221
 #, javascript-format
 msgid "${ countOfType.RUMOR } of them say it ❌ contains misinformation."
 msgstr "${ countOfType.RUMOR } 人がこれは嘘の情報 ❌ が含まれていると思っています。"
 
-#: src/webhook/handlers/choosingArticle.ts:223
+#: src/webhook/handlers/choosingArticle.ts:224
 msgid "${ countOfType.NOT_RUMOR } of them says it ⭕ contains true information."
 msgstr "${ countOfType.NOT_RUMOR } 人がこれは ⭕ 事実が含まれていると思っています。"
 
-#: src/webhook/handlers/choosingArticle.ts:226
+#: src/webhook/handlers/choosingArticle.ts:227
 #, javascript-format
 msgid ""
 "${ countOfType.OPINIONATED } of them says it 💬 contains personal "
 "perspective."
 msgstr "${ countOfType.OPINIONATED } 人がこれは 💬 個人の意見が含まれると思っています。"
 
-#: src/webhook/handlers/choosingArticle.ts:229
+#: src/webhook/handlers/choosingArticle.ts:230
 msgid "${ countOfType.NOT_ARTICLE } of them says it ⚠️️ is out of scope of Cofacts."
 msgstr "${ countOfType.NOT_ARTICLE } 人がこれは ⚠️️ Cofacts 対応対象外だと思っています。"
 
-#: src/webhook/handlers/choosingArticle.ts:321
+#: src/webhook/handlers/choosingArticle.ts:322
 #, javascript-format
 msgid "I choose “${ displayTextWhenChosen }”"
 msgstr "「${displayTextWhenChosen}」を選ぶ"
@@ -602,7 +604,7 @@ msgid ""
 "database."
 msgstr "検査結果は見当たらなかった場合、この情報をデータベースに入れるかどうかについてあなたの許可をお尋ねします。"
 
-#: src/webhook/handlers/utils.ts:734
+#: src/webhook/handlers/utils.ts:738
 msgid ""
 "This content is provided by Cofact message reporting chatbot and "
 "crowd-sourced fact-checking community under CC BY-SA 4.0 license. Please "
@@ -638,8 +640,8 @@ msgid "You can try:"
 msgstr ""
 
 #: src/webhook/handlers/askingArticleSource.ts:77
-#: src/webhook/handlers/choosingArticle.ts:448
-#: src/webhook/handlers/utils.ts:770
+#: src/webhook/handlers/choosingArticle.ts:444
+#: src/webhook/handlers/utils.ts:838
 msgid "Provide more detail"
 msgstr ""
 
@@ -672,54 +674,54 @@ msgid "I see. Don’t trust the message just yet!"
 msgstr ""
 
 #: src/webhook/handlers/askingArticleSource.ts:188
-#: src/webhook/handlers/choosingArticle.ts:116
+#: src/webhook/handlers/choosingArticle.ts:117
 #: src/webhook/handlers/processMedia.ts:168
 msgid "Do you want someone to fact-check this message?"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:80
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:81
 msgid "The message has not been reported and won’t be fact-checked. Thanks anyway!"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:213
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:223
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:214
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:224
 msgid ""
 "The message has now been recorded at Cofacts for volunteers to fact-check. "
 "Thank you for submitting!"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:229
-#: src/webhook/handlers/choosingArticle.ts:436
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:230
+#: src/webhook/handlers/choosingArticle.ts:432
 msgid "View reported message"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:241
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:242
 #: src/webhook/handlers/choosingArticle.ts:378
 msgid "In the meantime, you can:"
 msgstr ""
 
-#: src/webhook/handlers/choosingArticle.ts:101
+#: src/webhook/handlers/choosingArticle.ts:102
 #, javascript-format
 msgid ""
 "I am sorry you cannot find the information “${ inputSummary }” you are "
 "looking for. But I would still like to help."
 msgstr ""
 
-#: src/webhook/handlers/choosingArticle.ts:103
+#: src/webhook/handlers/choosingArticle.ts:104
 #: src/webhook/handlers/initState.ts:206
 msgid "May I ask you a quick question?"
 msgstr ""
 
-#: src/webhook/handlers/choosingArticle.ts:114
+#: src/webhook/handlers/choosingArticle.ts:115
 msgid "I am sorry you cannot find the information you are looking for."
 msgstr ""
 
-#: src/webhook/handlers/choosingArticle.ts:159
+#: src/webhook/handlers/choosingArticle.ts:160
 msgid "Provided message is not found."
 msgstr ""
 
-#: src/webhook/handlers/choosingArticle.ts:416
-#: src/webhook/handlers/choosingArticle.ts:429
+#: src/webhook/handlers/choosingArticle.ts:414
+#: src/webhook/handlers/choosingArticle.ts:425
 msgid ""
 "This message has already published on Cofacts, and will soon be "
 "fact-checked by volunteers.\n"
@@ -783,33 +785,33 @@ msgid ""
 "someone replies to this message."
 msgstr ""
 
-#: src/webhook/handlers/utils.ts:709
+#: src/webhook/handlers/utils.ts:713
 msgid "Thank you for sharing “${ inputSummary }”"
 msgstr ""
 
-#: src/webhook/handlers/utils.ts:709
+#: src/webhook/handlers/utils.ts:713
 msgid "I found that there are some disagreement to the message:"
 msgstr ""
 
-#: src/webhook/handlers/utils.ts:783
+#: src/webhook/handlers/utils.ts:851
 msgid "It would help fact checkers a lot if you provide more detail :)"
 msgstr ""
 
-#: src/webhook/handlers/utils.ts:796
+#: src/webhook/handlers/utils.ts:864
 msgid "Provide detail"
 msgstr ""
 
-#: src/webhook/handlers/utils.ts:875
+#: src/webhook/handlers/utils.ts:943
 msgid "Did you forward this message as a whole to me from the LINE app?"
 msgstr ""
 
-#: src/webhook/handlers/utils.ts:901
-#: src/webhook/handlers/utils.ts:903
+#: src/webhook/handlers/utils.ts:969
+#: src/webhook/handlers/utils.ts:971
 msgid "Yes, I forwarded it as a whole"
 msgstr ""
 
-#: src/webhook/handlers/utils.ts:913
-#: src/webhook/handlers/utils.ts:915
+#: src/webhook/handlers/utils.ts:981
+#: src/webhook/handlers/utils.ts:983
 msgid "No, typed it myself"
 msgstr ""
 
@@ -1014,23 +1016,23 @@ msgstr ""
 msgid "${ dateStr } ago"
 msgstr ""
 
-#: src/webhook/handlers/utils.ts:1107
+#: src/webhook/handlers/utils.ts:1175
 msgid "Similar file"
 msgstr ""
 
-#: src/webhook/handlers/utils.ts:1108
+#: src/webhook/handlers/utils.ts:1176
 msgid "Contains relevant text"
 msgstr ""
 
-#: src/webhook/handlers/utils.ts:1117
+#: src/webhook/handlers/utils.ts:1185
 msgid "(Text in the hyperlink)"
 msgstr ""
 
-#: src/webhook/handlers/utils.ts:1121
+#: src/webhook/handlers/utils.ts:1189
 msgid "(Text in transcript)"
 msgstr ""
 
-#: src/webhook/handlers/utils.ts:1197
+#: src/webhook/handlers/utils.ts:1265
 #, javascript-format
 msgid "I choose ${ displayTextWhenChosen }"
 msgstr ""
@@ -1071,7 +1073,7 @@ msgid ""
 "articleDate }:"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:246
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:247
 msgid ""
 "This article is still under verification, please refrain from believing it "
 "for now. \n"
@@ -1079,18 +1081,19 @@ msgid ""
 "with some insights."
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:250
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:251
+#: src/webhook/handlers/choosingArticle.ts:406
 msgid "After reading the automatic analysis by the bot above, you can:"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:172
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:173
 msgid ""
 "Thank you for submitting! Now the messages has been recorded in the Cofacts "
 "database."
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:175
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:179
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:176
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:180
 msgid "Please choose the messages you would like to view"
 msgstr ""
 
@@ -1114,6 +1117,7 @@ msgid_plural ""
 "Out of the ${ totalCount } messages you sent, ${ notInDbMsgIndexes.length } "
 "are not within the Cofacts database."
 msgstr[0] ""
+msgstr[1] ""
 
 #: src/webhook/handlers/askingCooccurrence.ts:126
 #: src/webhook/handlers/utils.ts:176
@@ -1176,4 +1180,28 @@ msgstr ""
 
 #: src/lib/sharedUtils.js:67
 msgid "unknown time"
+msgstr ""
+
+#: src/webhook/handlers/utils.ts:776
+msgid "Provide feedback to AI analysis"
+msgstr ""
+
+#: src/webhook/handlers/utils.ts:791
+msgid "Is the AI analysis helpful?"
+msgstr ""
+
+#: src/webhook/handlers/utils.ts:687
+msgid "Automated analysis by AI"
+msgstr ""
+
+#: src/liff/pages/AiReplyFeedback.svelte:43
+msgid "Thank you for providing feedback to the automated analysis."
+msgstr ""
+
+#: src/liff/pages/AiReplyFeedback.svelte:63
+msgid "Report AI analysis helpful"
+msgstr ""
+
+#: src/liff/pages/AiReplyFeedback.svelte:64
+msgid "Report AI analysis not helpful"
 msgstr ""

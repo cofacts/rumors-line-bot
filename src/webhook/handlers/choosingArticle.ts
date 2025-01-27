@@ -14,6 +14,7 @@ import {
   createArticleShareBubble,
   createAskArticleSubmissionConsentReply,
   createAIReply,
+  createAskAiReplyFeedbackBubble,
 } from './utils';
 import ga from 'src/lib/ga';
 import UserSettings from 'src/database/models/userSettings';
@@ -371,7 +372,6 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
     const { allowNewReplyUpdate } = await UserSettings.findOrInsertByUserId(
       userId
     );
-    const isTextArticle = GetArticle.articleType === 'TEXT';
 
     let maybeAIReplies: Message[] = [
       createTextMessage({
@@ -379,35 +379,33 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
       }),
     ];
 
-    if (isTextArticle) {
-      const aiReply = await createAIReply(selectedArticleId, userId);
+    const aiReply = await createAIReply(selectedArticleId, userId);
 
-      if (aiReply) {
-        const articleCreatedAt = new Date(
-          GetArticle.createdAt ?? -Infinity /* Triggers invalid date */
-        );
-        const aiReplyCreatedAt = new Date(aiReply.createdAt);
+    if (aiReply) {
+      const articleCreatedAt = new Date(
+        GetArticle.createdAt ?? -Infinity /* Triggers invalid date */
+      );
+      const aiReplyCreatedAt = new Date(aiReply.message.createdAt);
 
-        const aiReplyWithin30Days = isBefore(
-          aiReplyCreatedAt,
-          addDays(articleCreatedAt, 30)
-        );
+      const aiReplyWithin30Days = isBefore(
+        aiReplyCreatedAt,
+        addDays(articleCreatedAt, 30)
+      );
 
-        const articleCreatedAtStr = format(articleCreatedAt);
-        const aiReplyCreatedAtStr = aiReplyWithin30Days
-          ? '當時'
-          : `${format(aiReplyCreatedAt)}時`;
+      const articleCreatedAtStr = format(articleCreatedAt);
+      const aiReplyCreatedAtStr = aiReplyWithin30Days
+        ? '當時'
+        : `${format(aiReplyCreatedAt)}時`;
 
-        maybeAIReplies = [
-          createTextMessage({
-            text: `這則訊息首次回報於 ${articleCreatedAtStr} ，尚待查核，請先不要相信這篇文章。\n以下是${aiReplyCreatedAtStr}機器人初步分析此訊息的結果，希望能帶給你一些想法。`,
-          }),
-          aiReply,
-          createTextMessage({
-            text: '讀完以上機器人的自動分析後，您可以：',
-          }),
-        ];
-      }
+      maybeAIReplies = [
+        createTextMessage({
+          text: `這則訊息首次回報於 ${articleCreatedAtStr} ，尚待查核，請先不要相信這篇文章。\n以下是${aiReplyCreatedAtStr}機器人初步分析此訊息的結果，希望能帶給你一些想法。`,
+        }),
+        aiReply.message,
+        createTextMessage({
+          text: t`After reading the automatic analysis by the bot above, you can:`,
+        }),
+      ];
     }
 
     replies = [
@@ -424,9 +422,7 @@ Don’t trust the message just yet!`,
               {
                 type: 'text',
                 wrap: true,
-                text: isTextArticle
-                  ? '此訊息已經被收錄至 Cofacts 有待好心人來查證。'
-                  : t`This message has already published on Cofacts, and will soon be fact-checked by volunteers.
+                text: t`This message has already published on Cofacts, and will soon be fact-checked by volunteers.
                 Don’t trust the message just yet!`,
               },
               {
@@ -449,6 +445,7 @@ Don’t trust the message just yet!`,
         contents: {
           type: 'carousel',
           contents: [
+            aiReply && createAskAiReplyFeedbackBubble(aiReply.id),
             createCommentBubble(selectedArticleId),
 
             // Ask user to turn on notification if the user did not turn it on

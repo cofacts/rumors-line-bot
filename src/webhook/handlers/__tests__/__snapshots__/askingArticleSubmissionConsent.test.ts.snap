@@ -6,6 +6,61 @@ Array [
     "body": Object {
       "contents": Array [
         Object {
+          "text": "Is the AI analysis helpful?",
+          "type": "text",
+          "wrap": true,
+        },
+      ],
+      "layout": "vertical",
+      "paddingAll": "xl",
+      "type": "box",
+    },
+    "footer": Object {
+      "contents": Array [
+        Object {
+          "action": Object {
+            "label": "👍 Yes",
+            "type": "uri",
+            "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=aiReplyFeedback&aiResponseId=undefined&vote=UPVOTE",
+          },
+          "color": "#00B172",
+          "style": "primary",
+          "type": "button",
+        },
+        Object {
+          "action": Object {
+            "label": "😕 No",
+            "type": "uri",
+            "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=aiReplyFeedback&aiResponseId=undefined&vote=DOWNVOTE",
+          },
+          "color": "#FB5959",
+          "style": "primary",
+          "type": "button",
+        },
+      ],
+      "layout": "vertical",
+      "spacing": "sm",
+      "type": "box",
+    },
+    "header": Object {
+      "contents": Array [
+        Object {
+          "color": "#00B172",
+          "size": "lg",
+          "text": "Provide feedback to AI analysis",
+          "type": "text",
+        },
+      ],
+      "layout": "vertical",
+      "paddingBottom": "none",
+      "type": "box",
+    },
+    "type": "bubble",
+  },
+  Object {
+    "body": Object {
+      "contents": Array [
+        Object {
           "text": "It would help fact checkers a lot if you provide more detail :)",
           "type": "text",
           "wrap": true,
@@ -207,7 +262,7 @@ Object {
       "createdAt": undefined,
       "sender": Object {
         "iconUrl": "/static/img/aireply.png?cachebust=20230405",
-        "name": "AI 自動分析",
+        "name": "Automated analysis by AI",
       },
       "text": "Hello from ChatGPT",
       "type": "text",
@@ -234,6 +289,61 @@ Object {
       "altText": "Your submission is now recorded at https://dev.cofacts.tw/article/new-article-id",
       "contents": Object {
         "contents": Array [
+          Object {
+            "body": Object {
+              "contents": Array [
+                Object {
+                  "text": "Is the AI analysis helpful?",
+                  "type": "text",
+                  "wrap": true,
+                },
+              ],
+              "layout": "vertical",
+              "paddingAll": "xl",
+              "type": "box",
+            },
+            "footer": Object {
+              "contents": Array [
+                Object {
+                  "action": Object {
+                    "label": "👍 Yes",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=aiReplyFeedback&aiResponseId=undefined&vote=UPVOTE",
+                  },
+                  "color": "#00B172",
+                  "style": "primary",
+                  "type": "button",
+                },
+                Object {
+                  "action": Object {
+                    "label": "😕 No",
+                    "type": "uri",
+                    "uri": "https://liff.line.me/1563196602-X6mLdDkW?p=aiReplyFeedback&aiResponseId=undefined&vote=DOWNVOTE",
+                  },
+                  "color": "#FB5959",
+                  "style": "primary",
+                  "type": "button",
+                },
+              ],
+              "layout": "vertical",
+              "spacing": "sm",
+              "type": "box",
+            },
+            "header": Object {
+              "contents": Array [
+                Object {
+                  "color": "#00B172",
+                  "size": "lg",
+                  "text": "Provide feedback to AI analysis",
+                  "type": "text",
+                },
+              ],
+              "layout": "vertical",
+              "paddingBottom": "none",
+              "type": "box",
+            },
+            "type": "bubble",
+          },
           Object {
             "body": Object {
               "contents": Array [
