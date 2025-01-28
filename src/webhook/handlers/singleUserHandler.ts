@@ -46,24 +46,28 @@ async function sendReplyTokenCollector(
   const tokenAge = Date.now() - context.replyToken.receivedAt;
   if (tokenAge >= REPLY_TOKEN_VALID_DURATION) return;
 
-  const messages: Message[] = [{
-    type: 'text',
-    text: message,
-    quickReply: {
-      items: [{
-        type: 'action',
-        action: {
-          type: 'message',
-          label: '繼續',
-          text: '繼續'
-        }
-      }]
-    }
-  }];
+  const messages: Message[] = [
+    {
+      type: 'text',
+      text: message,
+      quickReply: {
+        items: [
+          {
+            type: 'action',
+            action: {
+              type: 'message',
+              label: '繼續',
+              text: '繼續',
+            },
+          },
+        ],
+      },
+    },
+  ];
 
   await lineClient.post('/message/reply', {
     replyToken: context.replyToken.token,
-    messages
+    messages,
   });
 }
 
@@ -112,22 +116,24 @@ const singleUserHandler = async (
     // Use push message API since reply token is likely expired
     await lineClient.post('/message/push', {
       to: userId,
-      messages: [{
-        type: 'text',
-        text: t`Line bot is busy, or we cannot handle this message. Maybe you can try again a few minutes later.`,
-      }]
+      messages: [
+        {
+          type: 'text',
+          text: t`Line bot is busy, or we cannot handle this message. Maybe you can try again a few minutes later.`,
+        },
+      ],
     });
 
     isRepliedDueToTimeout = true;
   }, REPLY_TIMEOUT);
 
   const context = await getContextForUser(userId);
-  
+
   // Add reply token to context if available
   if ('replyToken' in webhookEvent) {
     context.replyToken = {
       token: webhookEvent.replyToken,
-      receivedAt: Date.now()
+      receivedAt: Date.now(),
     };
   }
   const REDIS_BATCH_KEY = getRedisBatchKey(userId);
@@ -185,7 +191,7 @@ const singleUserHandler = async (
     // Send replies. Does not need to wait for lineClient's callbacks.
     // lineClient's callback does error handling by itself.
     //
-    const tokenAge = context.replyToken 
+    const tokenAge = context.replyToken
       ? Date.now() - context.replyToken.receivedAt
       : Infinity;
 
@@ -441,7 +447,7 @@ function getNewContext(): Context {
   return {
     sessionId: Date.now(),
     msgs: [],
-    replyToken: undefined
+    replyToken: undefined,
   };
 }
 
