@@ -441,10 +441,7 @@ function getNewContext(): Context {
   return {
     sessionId: Date.now(),
     msgs: [],
-    replyToken?: {
-      token: string;
-      receivedAt: number;
-    };
+    replyToken: undefined
   };
 }
 
