@@ -374,7 +374,18 @@ const singleUserHandler = async (
       });
 
     case 'text': {
-      // Handle text events later
+      // If this is a response to our "continue" quick reply, store the new token
+      if (webhookEvent.message.text === '繼續') {
+        // Update context with new reply token
+        if ('replyToken' in webhookEvent) {
+          context.replyToken = {
+            token: webhookEvent.replyToken,
+            receivedAt: Date.now(),
+          };
+          await redis.set(userId, context);
+        }
+        return cancel();
+      }
       break;
     }
   }
