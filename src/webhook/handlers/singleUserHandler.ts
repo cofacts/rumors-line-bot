@@ -1,5 +1,5 @@
 import { t } from 'ttag';
-import { WebhookEvent } from '@line/bot-sdk';
+import { Message, WebhookEvent } from '@line/bot-sdk';
 
 import {
   CooccurredMessage,
@@ -31,6 +31,41 @@ const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 // Ref: https://developers.line.biz/en/reference/messaging-api/#send-reply-message
 //
 const REPLY_TIMEOUT = 58000;
+const REPLY_TOKEN_VALID_DURATION = 60000; // 1 minute in milliseconds
+
+/**
+ * Sends a message with quick reply to collect new reply token.
+ * Does nothing if current token is expired.
+ */
+async function sendReplyTokenCollector(
+  context: Context,
+  message: string
+): Promise<void> {
+  if (!context.replyToken) return;
+
+  const tokenAge = Date.now() - context.replyToken.receivedAt;
+  if (tokenAge >= REPLY_TOKEN_VALID_DURATION) return;
+
+  const messages: Message[] = [{
+    type: 'text',
+    text: message,
+    quickReply: {
+      items: [{
+        type: 'action',
+        action: {
+          type: 'message',
+          label: '繼續',
+          text: '繼續'
+        }
+      }]
+    }
+  }];
+
+  await lineClient.post('/message/reply', {
+    replyToken: context.replyToken.token,
+    messages
+  });
+}
 
 /**
  * The amount of time to wait for the next message to arrive before processing the batch.
@@ -74,20 +109,27 @@ const singleUserHandler = async (
         ...webhookEvent,
       })}\n`
     );
-    await send({
-      context,
-      replies: [
-        {
-          type: 'text',
-          text: t`Line bot is busy, or we cannot handle this message. Maybe you can try again a few minutes later.`,
-        },
-      ],
+    // Use push message API since reply token is likely expired
+    await lineClient.post('/message/push', {
+      to: userId,
+      messages: [{
+        type: 'text',
+        text: t`Line bot is busy, or we cannot handle this message. Maybe you can try again a few minutes later.`,
+      }]
     });
 
     isRepliedDueToTimeout = true;
   }, REPLY_TIMEOUT);
 
   const context = await getContextForUser(userId);
+  
+  // Add reply token to context if available
+  if ('replyToken' in webhookEvent) {
+    context.replyToken = {
+      token: webhookEvent.replyToken,
+      receivedAt: Date.now()
+    };
+  }
   const REDIS_BATCH_KEY = getRedisBatchKey(userId);
 
   /**
@@ -143,9 +185,20 @@ const singleUserHandler = async (
     // Send replies. Does not need to wait for lineClient's callbacks.
     // lineClient's callback does error handling by itself.
     //
-    if ('replyToken' in webhookEvent) {
-      lineClient.post('/message/reply', {
-        replyToken: webhookEvent.replyToken,
+    const tokenAge = context.replyToken 
+      ? Date.now() - context.replyToken.receivedAt
+      : Infinity;
+
+    if (tokenAge < REPLY_TOKEN_VALID_DURATION) {
+      // Use reply API if token is still valid
+      await lineClient.post('/message/reply', {
+        replyToken: context.replyToken!.token,
+        messages: result.replies,
+      });
+    } else {
+      // Use push API if token expired
+      await lineClient.post('/message/push', {
+        to: userId,
         messages: result.replies,
       });
     }
@@ -388,6 +441,10 @@ function getNewContext(): Context {
   return {
     sessionId: Date.now(),
     msgs: [],
+    replyToken?: {
+      token: string;
+      receivedAt: number;
+    };
   };
 }
 
