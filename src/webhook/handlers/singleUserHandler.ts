@@ -31,7 +31,6 @@ const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 // Ref: https://developers.line.biz/en/reference/messaging-api/#send-reply-message
 //
 const REPLY_TIMEOUT = 58000;
-const REPLY_TOKEN_VALID_DURATION = 60000; // 1 minute in milliseconds
 
 /**
  * Sends a message with quick reply to collect new reply token.
@@ -44,7 +43,7 @@ async function sendReplyTokenCollector(
   if (!context.replyToken) return;
 
   const tokenAge = Date.now() - context.replyToken.receivedAt;
-  if (tokenAge >= REPLY_TOKEN_VALID_DURATION) return;
+  if (tokenAge >= REPLY_TIMEOUT) return;
 
   const messages: Message[] = [
     {
@@ -195,7 +194,7 @@ const singleUserHandler = async (
       ? Date.now() - context.replyToken.receivedAt
       : Infinity;
 
-    if (tokenAge < REPLY_TOKEN_VALID_DURATION) {
+    if (tokenAge < REPLY_TIMEOUT) {
       // Use reply API if token is still valid
       await lineClient.post('/message/reply', {
         replyToken: context.replyToken!.token,
