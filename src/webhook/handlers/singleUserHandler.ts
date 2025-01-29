@@ -53,11 +53,14 @@ async function sendReplyTokenCollector(
         items: [
           {
             type: 'action',
-            // change to postback action, AI!
             action: {
-              type: 'message',
+              type: 'postback',
               label: '繼續',
-              text: '繼續',
+              data: JSON.stringify({
+                state: 'CONTINUE',
+                sessionId: context.sessionId
+              }),
+              displayText: '繼續'
             },
           },
         ],
