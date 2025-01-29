@@ -53,6 +53,7 @@ async function sendReplyTokenCollector(
         items: [
           {
             type: 'action',
+            // change to postback action, AI!
             action: {
               type: 'message',
               label: '繼續',
