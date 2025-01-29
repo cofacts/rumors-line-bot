@@ -73,7 +73,8 @@ async function sendReplyTokenCollector(
     messages,
   });
 
-  // Reply token consumed, remove replyToken in context, AI!
+  // Reply token consumed, remove it from context
+  context.replyToken = undefined;
 }
 
 /**
