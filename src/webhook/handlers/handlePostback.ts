@@ -62,6 +62,14 @@ export default async function handlePostback(
         result = await askingCooccurence(params);
         break;
       }
+      case 'CONTINUE': {
+        // Do nothing; pass context (updated by singleUserHandler) as-is and reply nothing.
+        result = {
+          context,
+          replies: [],
+        };
+        break;
+      }
       default: {
         result = defaultState(params);
         break;

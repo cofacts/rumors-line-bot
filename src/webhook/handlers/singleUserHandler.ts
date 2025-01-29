@@ -55,12 +55,12 @@ async function sendReplyTokenCollector(
             type: 'action',
             action: {
               type: 'postback',
-              label: '繼續',
+              label: t`OK, proceed.`,
               data: JSON.stringify({
                 state: 'CONTINUE',
                 sessionId: context.sessionId,
               }),
-              displayText: '繼續',
+              displayText: t`OK, proceed.`,
             },
           },
         ],
@@ -164,6 +164,11 @@ const singleUserHandler = async (
      * */
     forMsg?: CooccurredMessage
   ): Promise<typeof PROCESSED> {
+    // Read latest context from Redis.
+    // The context may have been updated by reply token collection mechanism.
+    //
+    const latestContext = await getContextForUser(userId);
+
     if (isRepliedDueToTimeout) {
       console.log('[LOG] reply & context setup aborted');
       return cancel();
@@ -191,30 +196,23 @@ const singleUserHandler = async (
       })
     );
 
-    // Send replies. Does not need to wait for lineClient's callbacks.
-    // lineClient's callback does error handling by itself.
-    //
-    const tokenAge = context.replyToken
-      ? Date.now() - context.replyToken.receivedAt
-      : Infinity;
-
-    if (tokenAge < REPLY_TIMEOUT) {
+    if (latestContext.replyToken) {
       // Use reply API if token is still valid
       await lineClient.post('/message/reply', {
-        replyToken: context.replyToken!.token,
-        messages: result.replies,
+        replyToken: latestContext.replyToken.token,
+        messages: result.replies satisfies Message[],
       });
     } else {
       // Use push API if token expired
       await lineClient.post('/message/push', {
         to: userId,
-        messages: result.replies,
+        messages: result.replies satisfies Message[],
       });
     }
 
-    // Set context
+    // Set context; consume the replyToken in context.
     //
-    await redis.set(userId, result.context);
+    await redis.set(userId, { ...result.context, replyToken: undefined });
     return PROCESSED;
   }
 
@@ -377,18 +375,7 @@ const singleUserHandler = async (
       });
 
     case 'text': {
-      // If this is a response to our "continue" quick reply, store the new token
-      if (webhookEvent.message.text === '繼續') {
-        // Update context with new reply token
-        if ('replyToken' in webhookEvent) {
-          context.replyToken = {
-            token: webhookEvent.replyToken,
-            receivedAt: Date.now(),
-          };
-          await redis.set(userId, context);
-        }
-        return cancel();
-      }
+      // Handle text events later
       break;
     }
   }

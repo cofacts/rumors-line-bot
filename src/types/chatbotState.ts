@@ -8,6 +8,7 @@ export type ChatbotState =
   | 'ASKING_ARTICLE_SOURCE'
   | 'ASKING_ARTICLE_SUBMISSION_CONSENT'
   | 'ASKING_COOCCURRENCE'
+  | 'CONTINUE' // quick reply from reply token collection
   | 'Error';
 
 export type LegacyContext = {
@@ -34,6 +35,12 @@ export type Context = {
   /** Used to differientiate different search sessions (searched text or media) */
   sessionId: number;
   msgs: ReadonlyArray<CooccurredMessage>;
+
+  /** Latest reply token that is not consumed yet */
+  replyToken?: {
+    token: string;
+    receivedAt: number;
+  };
 };
 
 /** A single messages in the same co-occurrence */
