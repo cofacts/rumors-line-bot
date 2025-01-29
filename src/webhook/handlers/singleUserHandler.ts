@@ -58,9 +58,9 @@ async function sendReplyTokenCollector(
               label: '繼續',
               data: JSON.stringify({
                 state: 'CONTINUE',
-                sessionId: context.sessionId
+                sessionId: context.sessionId,
               }),
-              displayText: '繼續'
+              displayText: '繼續',
             },
           },
         ],
