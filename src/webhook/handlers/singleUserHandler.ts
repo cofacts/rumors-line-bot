@@ -182,11 +182,6 @@ const singleUserHandler = async (
      * */
     forMsg?: CooccurredMessage
   ): Promise<typeof PROCESSED> {
-    // Read latest context from Redis.
-    // The context may have been updated by reply token collection mechanism.
-    //
-    const latestContext = await getContextForUser(userId);
-
     // Check forMsg only when it is provided
     if (forMsg !== undefined && !(await isLastInBatch(forMsg))) {
       // The batch has new messages inside, thus the result is outdated and should be abandoned.
@@ -209,6 +204,10 @@ const singleUserHandler = async (
       })
     );
 
+    // Read latest context from Redis.
+    // The context may have been updated by reply token collection mechanism.
+    //
+    const latestContext = await getContextForUser(userId);
     if (latestContext.replyToken) {
       // Use reply API if token is still valid
       await lineClient.post('/message/reply', {
