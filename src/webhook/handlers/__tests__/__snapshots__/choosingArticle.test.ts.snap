@@ -1851,7 +1851,7 @@ Don’t trust the message just yet!",
       "createdAt": "2018-01-09T05:52:12.658Z",
       "sender": Object {
         "iconUrl": "/static/img/aireply.png?cachebust=20230405",
-        "name": "Automated analysis by AI",
+        "name": "AI analysis",
       },
       "text": "Hello from ChatGPT",
       "type": "text",
