@@ -143,9 +143,12 @@ const singleUserHandler = async (
         })}\n`
       );
 
-      // Only send reply token collector if the token is still the same.
-      // Check it here and early return if not the same, AI!
-
+      // Only send reply token collector if the token is still the same
+      const latestContext = await getContextForUser(userId);
+      if (!latestContext.replyToken || 
+          latestContext.replyToken.token !== webhookEvent.replyToken) {
+        return;
+      }
 
       await sendReplyTokenCollector(
         userId,
