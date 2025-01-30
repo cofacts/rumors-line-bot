@@ -55,6 +55,7 @@ type StateInputMap = {
   ASKING_ARTICLE_SOURCE: AskingArticleSourceInput;
   ASKING_ARTICLE_SUBMISSION_CONSENT: AskingArticleSubmissionConsentInput;
   ASKING_COOCCURRENCE: askingCooccurenceInput;
+  CONTINUE: never;
   Error: unknown;
 };
 
