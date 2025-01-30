@@ -34,15 +34,18 @@ const REPLY_TIMEOUT = 58000;
 
 /**
  * Sends a message with quick reply to collect new reply token.
- * Does nothing if current token is expired.
+ * Does nothing if the current token is already expired.
  */
 async function sendReplyTokenCollector(
-  context: Context,
+  userId: string,
   message: string
 ): Promise<void> {
-  if (!context.replyToken) return;
+  const latestContext = await getContextForUser(userId);
 
-  const tokenAge = Date.now() - context.replyToken.receivedAt;
+  // Token is already consumed
+  if (!latestContext.replyToken) return;
+
+  const tokenAge = Date.now() - latestContext.replyToken.receivedAt;
   if (tokenAge >= REPLY_TIMEOUT) return;
 
   const messages: Message[] = [
@@ -58,7 +61,7 @@ async function sendReplyTokenCollector(
               label: t`OK, proceed.`,
               data: JSON.stringify({
                 state: 'CONTINUE',
-                sessionId: context.sessionId,
+                sessionId: latestContext.sessionId,
               }),
               displayText: t`OK, proceed.`,
             },
@@ -69,12 +72,13 @@ async function sendReplyTokenCollector(
   ];
 
   await lineClient.post('/message/reply', {
-    replyToken: context.replyToken.token,
+    replyToken: latestContext.replyToken.token,
     messages,
   });
 
   // Reply token consumed, remove it from context
-  context.replyToken = undefined;
+  latestContext.replyToken = undefined;
+  redis.set(userId, latestContext);
 }
 
 /**
@@ -93,6 +97,15 @@ const TIMEOUT_BEFORE_ASKING_COOCCURRENCES = 1000; // ms
 //
 const PROCESSED = Symbol('Processed in singleUserHandler');
 
+/** Cleanup / state storing function to call after the singleUserHandler is processed. */
+async function processed(
+  userId: string,
+  context: Context
+): Promise<typeof PROCESSED> {
+  await redis.set(userId, context);
+  return PROCESSED;
+}
+
 const singleUserHandler = async (
   userId: string,
   webhookEvent: WebhookEvent
@@ -105,35 +118,13 @@ const singleUserHandler = async (
         ...webhookEvent,
       })}\n`
     );
-    return PROCESSED;
+    return PROCESSED; // The only place that returns PROCESSED directly without calling processed()
   }
 
-  let isRepliedDueToTimeout = false;
-
-  // Tell the user the bot is busy if processing does not end within timeout
-  //
-  const timerId = setTimeout(async function () {
-    console.log(
-      `[LOG] Timeout ${JSON.stringify({
-        userId,
-        ...webhookEvent,
-      })}\n`
-    );
-    // Use push message API since reply token is likely expired
-    await lineClient.post('/message/push', {
-      to: userId,
-      messages: [
-        {
-          type: 'text',
-          text: t`Line bot is busy, or we cannot handle this message. Maybe you can try again a few minutes later.`,
-        },
-      ],
-    });
-
-    isRepliedDueToTimeout = true;
-  }, REPLY_TIMEOUT);
-
   const context = await getContextForUser(userId);
+
+  /** Timeout handle for the reply token attached in this callback */
+  let replyTokenTimerId: NodeJS.Timeout | undefined = undefined;
 
   // Add reply token to context if available
   if ('replyToken' in webhookEvent) {
@@ -141,6 +132,26 @@ const singleUserHandler = async (
       token: webhookEvent.replyToken,
       receivedAt: Date.now(),
     };
+
+    // Send reply token collector before the reply token expires
+    //
+    replyTokenTimerId = setTimeout(async function () {
+      console.log(
+        `[LOG] Timeout ${JSON.stringify({
+          userId,
+          ...webhookEvent,
+        })}\n`
+      );
+
+      // Only send reply token collector if the token is still the same.
+      // Check it here and early return if not the same, AI!
+
+
+      await sendReplyTokenCollector(
+        userId,
+        t`I am still processing your request. Please wait.`
+      );
+    }, REPLY_TIMEOUT);
   }
   const REDIS_BATCH_KEY = getRedisBatchKey(userId);
 
@@ -172,11 +183,6 @@ const singleUserHandler = async (
     //
     const latestContext = await getContextForUser(userId);
 
-    if (isRepliedDueToTimeout) {
-      console.log('[LOG] reply & context setup aborted');
-      return cancel();
-    }
-
     // Check forMsg only when it is provided
     if (forMsg !== undefined && !(await isLastInBatch(forMsg))) {
       // The batch has new messages inside, thus the result is outdated and should be abandoned.
@@ -186,7 +192,7 @@ const singleUserHandler = async (
     }
 
     // We are sending reply, stop timer countdown
-    clearTimeout(timerId);
+    clearTimeout(replyTokenTimerId);
 
     // The chatbot's reply cuts off the user's input streak, thus we end the current batch here.
     redis.del(REDIS_BATCH_KEY);
@@ -213,17 +219,16 @@ const singleUserHandler = async (
       });
     }
 
-    // Set context; consume the replyToken in context.
-    //
-    await redis.set(userId, { ...result.context, replyToken: undefined });
-    return PROCESSED;
+    // Consume the replyToken in context and update context
+    delete result.context.replyToken;
+    return processed(userId, result.context);
   }
 
   // Does not reply and just exit processing.
   //
-  function cancel(): typeof PROCESSED {
-    clearTimeout(timerId); // Avoid timeout after we exit
-    return PROCESSED;
+  async function cancel(): Promise<typeof PROCESSED> {
+    clearTimeout(replyTokenTimerId); // Avoid timeout after we exit
+    return processed(userId, context);
   }
 
   /**
@@ -335,7 +340,7 @@ const singleUserHandler = async (
       //
       console.log('Previous button pressed.');
 
-      clearTimeout(timerId);
+      clearTimeout(replyTokenTimerId);
       return send({
         context, // Reuse existing context
         replies: [
