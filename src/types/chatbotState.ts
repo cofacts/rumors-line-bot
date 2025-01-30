@@ -35,13 +35,12 @@ export type Context = {
   /** Used to differientiate different search sessions (searched text or media) */
   sessionId: number;
   msgs: ReadonlyArray<CooccurredMessage>;
+};
 
-  /** Latest reply token that is not consumed yet */
-  replyToken?: {
-    token: string;
-    // Is this field used anywhere, AI?
-    receivedAt: number;
-  };
+/** Latest reply token in Redis that is not consumed yet */
+export type ReplyTokenInfo = {
+  token: string;
+  receivedAt: number;
 };
 
 /** A single messages in the same co-occurrence */

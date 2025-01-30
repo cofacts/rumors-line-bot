@@ -6,6 +6,7 @@ import {
   PostbackActionData,
   Result,
   Context,
+  LegacyContext,
 } from 'src/types/chatbotState';
 import ga from 'src/lib/ga';
 import redis from 'src/lib/redisClient';
@@ -22,12 +23,7 @@ import {
 import processMedia from './processMedia';
 import processBatch from './processBatch';
 import initState from './initState';
-import {
-  sendReplyTokenCollector,
-  REPLY_TIMEOUT,
-  getContextForUser,
-  getNewContext,
-} from './utils';
+import { setReplyToken, consumeReplyTokenInfo } from './utils';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
@@ -47,15 +43,6 @@ const TIMEOUT_BEFORE_ASKING_COOCCURRENCES = 1000; // ms
 //
 const PROCESSED = Symbol('Processed in singleUserHandler');
 
-/** Cleanup / state storing function to call after the singleUserHandler is processed. */
-async function processed(
-  userId: string,
-  context: Context
-): Promise<typeof PROCESSED> {
-  await redis.set(userId, context);
-  return PROCESSED;
-}
-
 const singleUserHandler = async (
   userId: string,
   webhookEvent: WebhookEvent
@@ -68,48 +55,22 @@ const singleUserHandler = async (
         ...webhookEvent,
       })}\n`
     );
-    return PROCESSED; // The only place that returns PROCESSED directly without calling processed()
+    return PROCESSED;
   }
 
   const context = await getContextForUser(userId);
 
   /** Timeout handle for the reply token attached in this callback */
-  let replyTokenTimerId: NodeJS.Timeout | undefined = undefined;
+  let clearReplyTokenExpireTimer: () => void = () => undefined;
 
   // Add reply token to context if available
   if ('replyToken' in webhookEvent) {
-    context.replyToken = {
-      token: webhookEvent.replyToken,
-      receivedAt: Date.now(),
-    };
-
     // Write reply token to Redis, which may be consumed in the handler functions below.
     //
-    await redis.set(userId, context);
-
-    // Send reply token collector before the reply token expires
-    //
-    replyTokenTimerId = setTimeout(async function () {
-      console.log(
-        `[LOG] Timeout ${JSON.stringify({
-          userId,
-          ...webhookEvent,
-        })}\n`
-      );
-
-      // Collect reply token from the user if and only if this token is the latest token
-      //
-      const latestContext = await getContextForUser(userId);
-      if (
-        latestContext.replyToken &&
-        latestContext.replyToken.token === webhookEvent.replyToken
-      ) {
-        await sendReplyTokenCollector(
-          userId,
-          t`I am still processing your request. Please wait.`
-        );
-      }
-    }, REPLY_TIMEOUT);
+    clearReplyTokenExpireTimer = await setReplyToken(
+      userId,
+      webhookEvent.replyToken
+    );
   }
   const REDIS_BATCH_KEY = getRedisBatchKey(userId);
 
@@ -145,7 +106,7 @@ const singleUserHandler = async (
     }
 
     // We are sending reply, stop timer countdown
-    clearTimeout(replyTokenTimerId);
+    clearReplyTokenExpireTimer();
 
     // The chatbot's reply cuts off the user's input streak, thus we end the current batch here.
     redis.del(REDIS_BATCH_KEY);
@@ -162,11 +123,11 @@ const singleUserHandler = async (
       // Read latest context from Redis.
       // The context may have been updated by reply token collection mechanism.
       //
-      const latestContext = await getContextForUser(userId);
-      if (latestContext.replyToken) {
+      const latestReplyTokenInfo = await consumeReplyTokenInfo(userId);
+      if (latestReplyTokenInfo) {
         // Use reply API if token is still valid
         await lineClient.post('/message/reply', {
-          replyToken: latestContext.replyToken.token,
+          replyToken: latestReplyTokenInfo.token,
           messages: result.replies satisfies Message[],
         });
       } else {
@@ -176,18 +137,19 @@ const singleUserHandler = async (
           messages: result.replies satisfies Message[],
         });
       }
-      // Consume the replyToken in context and update context
-      delete result.context.replyToken;
     }
 
-    return processed(userId, result.context);
+    // Set context
+    //
+    await redis.set(userId, result.context);
+    return PROCESSED;
   }
 
   // Does not reply and just exit processing.
   //
   async function cancel(): Promise<typeof PROCESSED> {
-    clearTimeout(replyTokenTimerId); // Avoid timeout after we exit
-    return processed(userId, context);
+    clearReplyTokenExpireTimer(); // Avoid timeout after we exit
+    return PROCESSED;
   }
 
   /**
@@ -408,6 +370,52 @@ const singleUserHandler = async (
 
 export function getRedisBatchKey(userId: string) {
   return `${userId}:batch`;
+}
+
+/**
+ * Creates a blank context, which indicates a new search session.
+ * Buttons with different sessionIds will expire.
+ */
+function getNewContext(): Context {
+  return {
+    sessionId: Date.now(),
+    msgs: [],
+  };
+}
+
+/**
+ * Get user's context from redis or create a new one.
+ * Automatically convert legacy context to new context.
+ *
+ * @param userId
+ * @returns user's context from Redis, or newly created context
+ */
+async function getContextForUser(userId: string): Promise<Context> {
+  const context = ((await redis.get(userId)) || getNewContext()) as
+    | LegacyContext
+    | Context;
+
+  if (!('data' in context)) {
+    // New context
+    return context;
+  }
+
+  // Converting legacy context to new context
+  return {
+    sessionId: context.data.sessionId,
+    msgs: [
+      'searchedText' in context.data
+        ? {
+            id: context.data.sessionId.toString(), // Original message ID is not available, use session id to differentiate
+            type: 'text',
+            text: context.data.searchedText,
+          }
+        : {
+            id: context.data.messageId,
+            type: context.data.messageType,
+          },
+    ],
+  };
 }
 
 export default singleUserHandler;

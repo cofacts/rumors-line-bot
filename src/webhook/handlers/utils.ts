@@ -21,6 +21,7 @@ import {
   Context,
   LegacyContext,
   PostbackActionData,
+  ReplyTokenInfo,
 } from 'src/types/chatbotState';
 import redis from 'src/lib/redisClient';
 
@@ -1416,58 +1417,70 @@ export function displayLoadingAnimation(userId: string, loadingSeconds = 60) {
 }
 
 /**
- * Creates a blank context, which indicates a new search session.
- * Buttons with different sessionIds will expire.
- */
-export function getNewContext(): Context {
-  return {
-    sessionId: Date.now(),
-    msgs: [],
-    replyToken: undefined,
-  };
-}
-
-/**
- * Get user's context from redis or create a new one.
- * Automatically convert legacy context to new context.
- *
- * @param userId
- * @returns user's context from Redis, or newly created context
- */
-export async function getContextForUser(userId: string): Promise<Context> {
-  const context = ((await redis.get(userId)) || getNewContext()) as
-    | LegacyContext
-    | Context;
-
-  if (!('data' in context)) {
-    // New context
-    return context;
-  }
-
-  // Converting legacy context to new context
-  return {
-    sessionId: context.data.sessionId,
-    msgs: [
-      'searchedText' in context.data
-        ? {
-            id: context.data.sessionId.toString(), // Original message ID is not available, use session id to differentiate
-            type: 'text',
-            text: context.data.searchedText,
-          }
-        : {
-            id: context.data.messageId,
-            type: context.data.messageType,
-          },
-    ],
-  };
-}
-
-/**
  * Set 58s timeout.
  * Reply tokens must be used within one minute after receiving the webhook.
  * @ref https://developers.line.biz/en/reference/messaging-api/#send-reply-message
  */
-export const REPLY_TIMEOUT = 58000;
+const REPLY_TIMEOUT = 58000;
+
+function getRedisReplyTokenKey(userId: string) {
+  return `${userId}:replyToken`;
+}
+
+/**
+ * Stores the reply token in Redis and sends a reply token collector before the reply token expires.
+ * Returns a function that can be called to cancel the token expire collector.
+ */
+export async function setReplyToken(userId: string, replyToken: string) {
+  const tokenInfo: ReplyTokenInfo = {
+    token: replyToken,
+    receivedAt: Date.now(),
+  };
+
+  await redis.set(getRedisReplyTokenKey(userId), tokenInfo);
+
+  // Send reply token collector before the reply token expires
+  //
+  const timer = setTimeout(async function () {
+    console.log(`[LOG] Timeout ${JSON.stringify({ userId })}\n`);
+
+    const latestReplyTokenInfo = (await redis.get(
+      getRedisReplyTokenKey(userId)
+    )) as ReplyTokenInfo | object;
+
+    // The reply token has been consumed, or there is a new reply token set in Redis as latest.
+    // In this case, we don't send the reply token collector for this old replyToken.
+    //
+    if (
+      !('token' in latestReplyTokenInfo) ||
+      latestReplyTokenInfo.token !== replyToken
+    )
+      return;
+
+    await sendReplyTokenCollector(
+      userId,
+      t`I am still processing your request. Please wait.`
+    );
+  }, REPLY_TIMEOUT);
+
+  return () => clearTimeout(timer);
+}
+
+/**
+ * Take the reply token info from Redis and delete it from Redis.
+ *
+ * @param userId
+ * @returns the token info
+ */
+export async function consumeReplyTokenInfo(
+  userId: string
+): Promise<ReplyTokenInfo | null> {
+  const tokenInfo = (await redis.get(getRedisReplyTokenKey(userId))) as
+    | ReplyTokenInfo
+    | object;
+  redis.del(getRedisReplyTokenKey(userId));
+  return 'token' in tokenInfo ? tokenInfo : null;
+}
 
 /**
  * Sends a message with quick reply to collect new reply token.
@@ -1477,18 +1490,20 @@ export async function sendReplyTokenCollector(
   userId: string,
   message: string
 ): Promise<void> {
-  const latestContext = await getContextForUser(userId);
+  const tokenInfo = await consumeReplyTokenInfo(userId);
 
-  // Token is already consumed
-  if (!latestContext.replyToken) return;
+  // Token is already consumed or not set
+  if (!tokenInfo) return;
 
   // If the token is already expired, do nothing.
+  //
   // Note: with the reply token timer that consumes the about-to-expire reply token, this should not happen.
   // It's just a fail-safe mechanism.
   //
-  const tokenAge = Date.now() - latestContext.replyToken.receivedAt;
+  const tokenAge = Date.now() - tokenInfo.receivedAt;
   if (tokenAge >= REPLY_TIMEOUT) return;
 
+  const latestContext = await redis.get(userId);
   const messages: Message[] = [
     {
       type: 'text',
@@ -1516,8 +1531,4 @@ export async function sendReplyTokenCollector(
     replyToken: latestContext.replyToken.token,
     messages,
   });
-
-  // Reply token consumed, remove it from context
-  latestContext.replyToken = undefined;
-  redis.set(userId, latestContext);
 }
