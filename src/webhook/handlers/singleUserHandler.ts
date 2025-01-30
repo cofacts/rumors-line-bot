@@ -5,7 +5,6 @@ import {
   CooccurredMessage,
   PostbackActionData,
   Result,
-  LegacyContext,
   Context,
 } from 'src/types/chatbotState';
 import ga from 'src/lib/ga';
@@ -23,67 +22,14 @@ import {
 import processMedia from './processMedia';
 import processBatch from './processBatch';
 import initState from './initState';
+import {
+  sendReplyTokenCollector,
+  REPLY_TIMEOUT,
+  getContextForUser,
+  getNewContext,
+} from './utils';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
-
-// Set 58s timeout.
-// Reply tokens must be used within one minute after receiving the webhook.
-// Ref: https://developers.line.biz/en/reference/messaging-api/#send-reply-message
-//
-const REPLY_TIMEOUT = 58000;
-
-/**
- * Sends a message with quick reply to collect new reply token.
- * Does nothing if the current token is already expired.
- */
-async function sendReplyTokenCollector(
-  userId: string,
-  message: string
-): Promise<void> {
-  const latestContext = await getContextForUser(userId);
-
-  // Token is already consumed
-  if (!latestContext.replyToken) return;
-
-  // If the token is already expired, do nothing.
-  // Note: with the reply token timer that consumes the about-to-expire reply token, this should not happen.
-  // It's just a fail-safe mechanism.
-  //
-  const tokenAge = Date.now() - latestContext.replyToken.receivedAt;
-  if (tokenAge >= REPLY_TIMEOUT) return;
-
-  const messages: Message[] = [
-    {
-      type: 'text',
-      text: message,
-      quickReply: {
-        items: [
-          {
-            type: 'action',
-            action: {
-              type: 'postback',
-              label: t`OK, proceed.`,
-              data: JSON.stringify({
-                state: 'CONTINUE',
-                sessionId: latestContext.sessionId,
-              }),
-              displayText: t`OK, proceed.`,
-            },
-          },
-        ],
-      },
-    },
-  ];
-
-  await lineClient.post('/message/reply', {
-    replyToken: latestContext.replyToken.token,
-    messages,
-  });
-
-  // Reply token consumed, remove it from context
-  latestContext.replyToken = undefined;
-  redis.set(userId, latestContext);
-}
 
 /**
  * The amount of time to wait for the next message to arrive before processing the batch.
@@ -136,6 +82,10 @@ const singleUserHandler = async (
       token: webhookEvent.replyToken,
       receivedAt: Date.now(),
     };
+
+    // Write reply token to Redis, which may be consumed in the handler functions below.
+    //
+    await redis.set(userId, context);
 
     // Send reply token collector before the reply token expires
     //
@@ -456,49 +406,6 @@ const singleUserHandler = async (
 
 export function getRedisBatchKey(userId: string) {
   return `${userId}:batch`;
-}
-
-function getNewContext(): Context {
-  return {
-    sessionId: Date.now(),
-    msgs: [],
-    replyToken: undefined,
-  };
-}
-
-/**
- * Get user's context from redis or create a new one.
- * Automatically convert legacy context to new context.
- *
- * @param userId
- * @returns user's context from Redis, or newly created context
- */
-async function getContextForUser(userId: string): Promise<Context> {
-  const context = ((await redis.get(userId)) || getNewContext()) as
-    | LegacyContext
-    | Context;
-
-  if (!('data' in context)) {
-    // New context
-    return context;
-  }
-
-  // Converting legacy context to new context
-  return {
-    sessionId: context.data.sessionId,
-    msgs: [
-      'searchedText' in context.data
-        ? {
-            id: context.data.sessionId.toString(), // Original message ID is not available, use session id to differentiate
-            type: 'text',
-            text: context.data.searchedText,
-          }
-        : {
-            id: context.data.messageId,
-            type: context.data.messageType,
-          },
-    ],
-  };
 }
 
 export default singleUserHandler;
