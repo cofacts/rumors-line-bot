@@ -39,6 +39,7 @@ import type { Input as ChoosingReplyInput } from './choosingReply';
 import type { Input as AskingArticleSourceInput } from './askingArticleSource';
 import type { Input as AskingArticleSubmissionConsentInput } from './askingArticleSubmissionConsent';
 import type { Input as askingCooccurenceInput } from './askingCooccurrence';
+import lineClient from '../lineClient';
 
 const MAX_CAROUSEL_BUBBLE_COUNT = 9;
 
@@ -1395,4 +1396,12 @@ export function addReplyRequestForUnrepliedCooccurredArticles(
       >({ articleId: article.id }, { userId })
     )
   );
+}
+
+// https://developers.line.biz/en/reference/messaging-api/#display-a-loading-indicator
+export function displayLoadingAnimation(userId: string, loadingSeconds = 60) {
+  return lineClient.post('/chat/loading/start', {
+    chatId: userId,
+    loadingSeconds,
+  });
 }

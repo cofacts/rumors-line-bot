@@ -12,6 +12,7 @@ import {
   createAskArticleSubmissionConsentReply,
   searchMedia,
   createSearchResultCarouselContents,
+  displayLoadingAnimation,
 } from './utils';
 import choosingArticle from './choosingArticle';
 
@@ -34,6 +35,7 @@ export default async function (message: CooccurredMessage, userId: string) {
     // Store user messageId into context, which will use for submit new image article
     msgs: [message],
   };
+  await displayLoadingAnimation(userId);
 
   const result = await searchMedia(proxyUrl, userId);
 

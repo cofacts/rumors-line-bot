@@ -17,6 +17,7 @@ import {
   createArticleSourceReply,
   searchText,
   createSearchResultCarouselContents,
+  displayLoadingAnimation,
 } from './utils';
 import choosingArticle from './choosingArticle';
 
@@ -70,6 +71,8 @@ const initState = async ({
     visitor.send();
     return { context, replies };
   }
+
+  await displayLoadingAnimation(userId);
 
   // Search for articles
   const result = await searchText(input);

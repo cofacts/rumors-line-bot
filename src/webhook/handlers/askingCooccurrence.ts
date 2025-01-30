@@ -17,6 +17,7 @@ import {
   createCooccurredSearchResultsCarouselContents,
   setExactMatchesAsCooccurrence,
   addReplyRequestForUnrepliedCooccurredArticles,
+  displayLoadingAnimation,
 } from './utils';
 
 const inputSchema = z.enum([POSTBACK_NO, POSTBACK_YES]);
@@ -69,6 +70,8 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
           el: 'Yes',
         })
         .send();
+
+      await displayLoadingAnimation(userId);
 
       const searchResults = await Promise.all(
         context.msgs.map(async (msg) =>
