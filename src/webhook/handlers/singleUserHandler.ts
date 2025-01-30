@@ -343,7 +343,6 @@ const singleUserHandler = async (
       //
       console.log('Previous button pressed.');
 
-      clearTimeout(replyTokenTimerId);
       return send({
         context, // Reuse existing context
         replies: [
