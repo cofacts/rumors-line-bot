@@ -39,6 +39,7 @@ export type Context = {
   /** Latest reply token that is not consumed yet */
   replyToken?: {
     token: string;
+    // Is this field used anywhere, AI?
     receivedAt: number;
   };
 };

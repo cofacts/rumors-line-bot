@@ -45,6 +45,10 @@ async function sendReplyTokenCollector(
   // Token is already consumed
   if (!latestContext.replyToken) return;
 
+  // If the token is already expired, do nothing.
+  // Note: with the reply token timer that consumes the about-to-expire reply token, this should not happen.
+  // It's just a fail-safe mechanism.
+  //
   const tokenAge = Date.now() - latestContext.replyToken.receivedAt;
   if (tokenAge >= REPLY_TIMEOUT) return;
 
