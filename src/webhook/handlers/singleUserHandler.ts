@@ -143,19 +143,18 @@ const singleUserHandler = async (
         })}\n`
       );
 
-      // Only send reply token collector if the token is still the same
+      // Collect reply token from the user if and only if this token is the latest token
+      //
       const latestContext = await getContextForUser(userId);
       if (
-        !latestContext.replyToken ||
-        latestContext.replyToken.token !== webhookEvent.replyToken
+        latestContext.replyToken &&
+        latestContext.replyToken.token === webhookEvent.replyToken
       ) {
-        return;
+        await sendReplyTokenCollector(
+          userId,
+          t`I am still processing your request. Please wait.`
+        );
       }
-
-      await sendReplyTokenCollector(
-        userId,
-        t`I am still processing your request. Please wait.`
-      );
     }, REPLY_TIMEOUT);
   }
   const REDIS_BATCH_KEY = getRedisBatchKey(userId);
