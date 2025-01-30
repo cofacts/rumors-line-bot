@@ -16,7 +16,13 @@ import stringSimilarity from 'string-similarity';
 import gql from 'src/lib/gql';
 import { getArticleURL, createTypeWords, format } from 'src/lib/sharedUtils';
 import { sign } from 'src/lib/jwt';
-import { ChatbotState, PostbackActionData } from 'src/types/chatbotState';
+import {
+  ChatbotState,
+  Context,
+  LegacyContext,
+  PostbackActionData,
+} from 'src/types/chatbotState';
+import redis from 'src/lib/redisClient';
 
 import type {
   CreateHighlightContentsHighlightFragment,
@@ -1398,10 +1404,120 @@ export function addReplyRequestForUnrepliedCooccurredArticles(
   );
 }
 
-// https://developers.line.biz/en/reference/messaging-api/#display-a-loading-indicator
+/**
+ * Show a display indicator
+ * @ref https://developers.line.biz/en/reference/messaging-api/#display-a-loading-indicator
+ */
 export function displayLoadingAnimation(userId: string, loadingSeconds = 60) {
   return lineClient.post('/chat/loading/start', {
     chatId: userId,
     loadingSeconds,
   });
+}
+
+/**
+ * Creates a blank context, which indicates a new search session.
+ * Buttons with different sessionIds will expire.
+ */
+export function getNewContext(): Context {
+  return {
+    sessionId: Date.now(),
+    msgs: [],
+    replyToken: undefined,
+  };
+}
+
+/**
+ * Get user's context from redis or create a new one.
+ * Automatically convert legacy context to new context.
+ *
+ * @param userId
+ * @returns user's context from Redis, or newly created context
+ */
+export async function getContextForUser(userId: string): Promise<Context> {
+  const context = ((await redis.get(userId)) || getNewContext()) as
+    | LegacyContext
+    | Context;
+
+  if (!('data' in context)) {
+    // New context
+    return context;
+  }
+
+  // Converting legacy context to new context
+  return {
+    sessionId: context.data.sessionId,
+    msgs: [
+      'searchedText' in context.data
+        ? {
+            id: context.data.sessionId.toString(), // Original message ID is not available, use session id to differentiate
+            type: 'text',
+            text: context.data.searchedText,
+          }
+        : {
+            id: context.data.messageId,
+            type: context.data.messageType,
+          },
+    ],
+  };
+}
+
+/**
+ * Set 58s timeout.
+ * Reply tokens must be used within one minute after receiving the webhook.
+ * @ref https://developers.line.biz/en/reference/messaging-api/#send-reply-message
+ */
+export const REPLY_TIMEOUT = 58000;
+
+/**
+ * Sends a message with quick reply to collect new reply token.
+ * Does nothing if the current token is already expired.
+ */
+export async function sendReplyTokenCollector(
+  userId: string,
+  message: string
+): Promise<void> {
+  const latestContext = await getContextForUser(userId);
+
+  // Token is already consumed
+  if (!latestContext.replyToken) return;
+
+  // If the token is already expired, do nothing.
+  // Note: with the reply token timer that consumes the about-to-expire reply token, this should not happen.
+  // It's just a fail-safe mechanism.
+  //
+  const tokenAge = Date.now() - latestContext.replyToken.receivedAt;
+  if (tokenAge >= REPLY_TIMEOUT) return;
+
+  const messages: Message[] = [
+    {
+      type: 'text',
+      text: message,
+      quickReply: {
+        items: [
+          {
+            type: 'action',
+            action: {
+              type: 'postback',
+              label: t`OK, proceed.`,
+              data: JSON.stringify({
+                state: 'CONTINUE',
+                sessionId: latestContext.sessionId,
+              }),
+              displayText: t`OK, proceed.`,
+            },
+          },
+        ],
+      },
+    },
+  ];
+
+  await lineClient.post('/message/reply', {
+    replyToken: latestContext.replyToken.token,
+    messages,
+  });
+
+  // Reply token consumed, remove it from context
+  latestContext.replyToken = undefined;
+  redis.set(userId, latestContext);
 }
