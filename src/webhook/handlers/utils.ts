@@ -19,7 +19,6 @@ import { sign } from 'src/lib/jwt';
 import {
   ChatbotState,
   Context,
-  LegacyContext,
   PostbackActionData,
   ReplyTokenInfo,
 } from 'src/types/chatbotState';
@@ -1425,6 +1424,31 @@ const REPLY_TIMEOUT = 58000;
 
 function getRedisReplyTokenKey(userId: string) {
   return `${userId}:replyToken`;
+}
+
+/**
+ * Creates a new context that represents a new search session.
+ * Stores to Redis and returns the new context.
+ *
+ * @param userId
+ * @param contextData - part of the context data to be set in the new context
+ * @returns the new context.
+ */
+export async function setNewContext<T extends Context>(
+  userId: string,
+  contextData: Partial<T> = {}
+) {
+  const defaultContext: Context = {
+    sessionId: Date.now(),
+    msgs: [],
+  };
+  const mergedContext = {
+    ...defaultContext,
+    ...contextData,
+  } as T;
+
+  await redis.set(userId, mergedContext);
+  return mergedContext;
 }
 
 /**

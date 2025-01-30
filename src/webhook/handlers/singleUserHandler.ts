@@ -23,7 +23,7 @@ import {
 import processMedia from './processMedia';
 import processBatch from './processBatch';
 import initState from './initState';
-import { setReplyToken, consumeReplyTokenInfo } from './utils';
+import { setReplyToken, consumeReplyTokenInfo, setNewContext } from './utils';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
@@ -108,9 +108,6 @@ const singleUserHandler = async (
     // We are sending reply, stop timer countdown
     clearReplyTokenExpireTimer();
 
-    // The chatbot's reply cuts off the user's input streak, thus we end the current batch here.
-    redis.del(REDIS_BATCH_KEY);
-
     console.log(
       JSON.stringify({
         CONTEXT: result.context,
@@ -137,6 +134,9 @@ const singleUserHandler = async (
           messages: result.replies satisfies Message[],
         });
       }
+
+      // The chatbot's reply cuts off the user's input streak, thus we end the current batch here.
+      redis.del(REDIS_BATCH_KEY);
     }
 
     // Set context
@@ -200,10 +200,14 @@ const singleUserHandler = async (
         // Used to determine button postbacks and GraphQL requests are from
         // previous sessions
         //
-        context: {
-          ...getNewContext(),
+        context: await setNewContext<
+          /** Narrow down context to only include text messages */
+          Context & {
+            msgs: ReadonlyArray<CooccurredMessage & { type: 'text' }>;
+          }
+        >(userId, {
           msgs: [msg],
-        },
+        }),
         userId,
       }),
       msg
@@ -225,7 +229,7 @@ const singleUserHandler = async (
       await UserSettings.setAllowNewReplyUpdate(userId, true);
 
       // Create new context
-      const context = getNewContext();
+      const context = await setNewContext(userId);
 
       const visitor = ga(userId, 'TUTORIAL');
       visitor.event({
@@ -321,7 +325,7 @@ const singleUserHandler = async (
 
     case TUTORIAL_STEPS['RICH_MENU']: {
       // Start new session, reroute to TUTORIAL
-      const context = getNewContext();
+      const context = await setNewContext(userId);
       return send(
         await handlePostback(
           context,
@@ -342,7 +346,7 @@ const singleUserHandler = async (
       if (articleId) {
         // It is a predefined text message wanting us to visit a article.
         // Start new session, reroute to CHOOSING_ARTILCE and simulate "choose article" postback event
-        const context = getNewContext();
+        const context = await setNewContext(userId);
         return send(
           await handlePostback(
             // Start a new session
@@ -373,27 +377,16 @@ export function getRedisBatchKey(userId: string) {
 }
 
 /**
- * Creates a blank context, which indicates a new search session.
- * Buttons with different sessionIds will expire.
- */
-function getNewContext(): Context {
-  return {
-    sessionId: Date.now(),
-    msgs: [],
-  };
-}
-
-/**
  * Get user's context from redis or create a new one.
  * Automatically convert legacy context to new context.
+ * Stores to Redis when needed.
  *
  * @param userId
  * @returns user's context from Redis, or newly created context
  */
 async function getContextForUser(userId: string): Promise<Context> {
-  const context = ((await redis.get(userId)) || getNewContext()) as
-    | LegacyContext
-    | Context;
+  const context = ((await redis.get(userId)) ||
+    (await setNewContext(userId))) as LegacyContext | Context;
 
   if (!('data' in context)) {
     // New context
@@ -401,7 +394,7 @@ async function getContextForUser(userId: string): Promise<Context> {
   }
 
   // Converting legacy context to new context
-  return {
+  return setNewContext(userId, {
     sessionId: context.data.sessionId,
     msgs: [
       'searchedText' in context.data
@@ -415,7 +408,7 @@ async function getContextForUser(userId: string): Promise<Context> {
             type: context.data.messageType,
           },
     ],
-  };
+  });
 }
 
 export default singleUserHandler;
