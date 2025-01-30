@@ -684,7 +684,7 @@ export async function createAIReply(
           text: createAIReply?.text,
           createdAt: createAIReply?.createdAt,
           sender: {
-            name: t`AI analysis`, // Max 20 characters
+            name: /* t: max 20 characters */ t`AI analysis`,
             iconUrl: `${process.env.RUMORS_LINE_BOT_URL}/static/img/aireply.png?cachebust=${AI_REPLY_IMAGE_VERSION}`,
           },
         },
