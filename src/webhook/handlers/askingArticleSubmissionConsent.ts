@@ -30,6 +30,7 @@ import {
   setExactMatchesAsCooccurrence,
   addReplyRequestForUnrepliedCooccurredArticles,
   createAskAiReplyFeedbackBubble,
+  displayLoadingAnimation,
 } from './utils';
 
 // Input should be array of context.msgs idx. Empty if the user does not want to submit.
@@ -85,6 +86,7 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
   }
 
   visitor.event({ ec: 'Article', ea: 'Create', el: 'Yes' }).send();
+  await displayLoadingAnimation(userId);
 
   const createdArticles = await Promise.all(
     msgsToSubmit.map(async (msg) => {
