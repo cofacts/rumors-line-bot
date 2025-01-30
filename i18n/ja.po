@@ -1190,10 +1190,6 @@ msgstr ""
 msgid "Is the AI analysis helpful?"
 msgstr ""
 
-#: src/webhook/handlers/utils.ts:687
-msgid "Automated analysis by AI"
-msgstr ""
-
 #: src/liff/pages/AiReplyFeedback.svelte:43
 msgid "Thank you for providing feedback to the automated analysis."
 msgstr ""
@@ -1204,4 +1200,9 @@ msgstr ""
 
 #: src/liff/pages/AiReplyFeedback.svelte:64
 msgid "Report AI analysis not helpful"
+msgstr ""
+
+#: src/webhook/handlers/utils.ts:687
+#. t: max 20 characters 
+msgid "AI analysis"
 msgstr ""
