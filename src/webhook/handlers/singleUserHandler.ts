@@ -158,26 +158,28 @@ const singleUserHandler = async (
       })
     );
 
-    // Read latest context from Redis.
-    // The context may have been updated by reply token collection mechanism.
-    //
-    const latestContext = await getContextForUser(userId);
-    if (latestContext.replyToken) {
-      // Use reply API if token is still valid
-      await lineClient.post('/message/reply', {
-        replyToken: latestContext.replyToken.token,
-        messages: result.replies satisfies Message[],
-      });
-    } else {
-      // Use push API if token expired
-      await lineClient.post('/message/push', {
-        to: userId,
-        messages: result.replies satisfies Message[],
-      });
+    if (result.replies.length > 0) {
+      // Read latest context from Redis.
+      // The context may have been updated by reply token collection mechanism.
+      //
+      const latestContext = await getContextForUser(userId);
+      if (latestContext.replyToken) {
+        // Use reply API if token is still valid
+        await lineClient.post('/message/reply', {
+          replyToken: latestContext.replyToken.token,
+          messages: result.replies satisfies Message[],
+        });
+      } else {
+        // Use push API if token expired
+        await lineClient.post('/message/push', {
+          to: userId,
+          messages: result.replies satisfies Message[],
+        });
+      }
+      // Consume the replyToken in context and update context
+      delete result.context.replyToken;
     }
 
-    // Consume the replyToken in context and update context
-    delete result.context.replyToken;
     return processed(userId, result.context);
   }
 
