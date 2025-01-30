@@ -1446,15 +1446,12 @@ export async function setReplyToken(userId: string, replyToken: string) {
 
     const latestReplyTokenInfo = (await redis.get(
       getRedisReplyTokenKey(userId)
-    )) as ReplyTokenInfo | object;
+    )) as ReplyTokenInfo | null;
 
     // The reply token has been consumed, or there is a new reply token set in Redis as latest.
     // In this case, we don't send the reply token collector for this old replyToken.
     //
-    if (
-      !('token' in latestReplyTokenInfo) ||
-      latestReplyTokenInfo.token !== replyToken
-    )
+    if (!latestReplyTokenInfo || latestReplyTokenInfo.token !== replyToken)
       return;
 
     await sendReplyTokenCollector(
@@ -1475,11 +1472,11 @@ export async function setReplyToken(userId: string, replyToken: string) {
 export async function consumeReplyTokenInfo(
   userId: string
 ): Promise<ReplyTokenInfo | null> {
-  const tokenInfo = (await redis.get(getRedisReplyTokenKey(userId))) as
-    | ReplyTokenInfo
-    | object;
+  const tokenInfo = (await redis.get(
+    getRedisReplyTokenKey(userId)
+  )) as ReplyTokenInfo | null;
   redis.del(getRedisReplyTokenKey(userId));
-  return 'token' in tokenInfo ? tokenInfo : null;
+  return tokenInfo;
 }
 
 /**
@@ -1503,7 +1500,7 @@ export async function sendReplyTokenCollector(
   const tokenAge = Date.now() - tokenInfo.receivedAt;
   if (tokenAge >= REPLY_TIMEOUT) return;
 
-  const latestContext = await redis.get(userId);
+  const latestContext = (await redis.get(userId)) as Context;
   const messages: Message[] = [
     {
       type: 'text',
@@ -1528,7 +1525,7 @@ export async function sendReplyTokenCollector(
   ];
 
   await lineClient.post('/message/reply', {
-    replyToken: latestContext.replyToken.token,
+    replyToken: tokenInfo.token,
     messages,
   });
 }
