@@ -145,8 +145,10 @@ const singleUserHandler = async (
 
       // Only send reply token collector if the token is still the same
       const latestContext = await getContextForUser(userId);
-      if (!latestContext.replyToken || 
-          latestContext.replyToken.token !== webhookEvent.replyToken) {
+      if (
+        !latestContext.replyToken ||
+        latestContext.replyToken.token !== webhookEvent.replyToken
+      ) {
         return;
       }
 
