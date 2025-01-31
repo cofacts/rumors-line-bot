@@ -9,6 +9,7 @@ import originalTutorial from '../tutorial';
 import originalDefaultState from '../defaultState';
 import { Result, Context } from 'src/types/chatbotState';
 
+jest.mock('src/webhook/lineClient');
 jest.mock('../choosingArticle', () => jest.fn());
 jest.mock('../choosingReply', () => jest.fn());
 jest.mock('../askingArticleSource', () => jest.fn());
@@ -250,6 +251,8 @@ describe('tutorial', () => {
 });
 
 describe('CONTINUE state', () => {
+  // reset lineClient mock before each test, AI!
+
   it('handles CONTINUE postbackHandlerState', async () => {
     const context: Context = {
       sessionId: FIXED_DATE,
@@ -262,6 +265,14 @@ describe('CONTINUE state', () => {
         { sessionId: FIXED_DATE, state: 'CONTINUE', input: 'foo' },
         'user-id'
       )
-    ).resolves.toMatchInlineSnapshot();
+    ).resolves.toMatchInlineSnapshot(`
+      Object {
+        "context": Object {
+          "msgs": Array [],
+          "sessionId": 612964800000,
+        },
+        "replies": Array [],
+      }
+    `);
   });
 });
