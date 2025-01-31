@@ -1,5 +1,6 @@
 jest.mock('src/lib/gql');
 jest.mock('src/lib/ga');
+jest.mock('src/webhook/lineClient');
 import type { MockedGa } from 'src/lib/__mocks__/ga';
 import type { MockedGql } from 'src/lib/__mocks__/gql';
 
@@ -9,17 +10,17 @@ import askingArticleSubmissionConsent, {
 } from '../askingArticleSubmissionConsent';
 import originalGql from 'src/lib/gql';
 import originalGa from 'src/lib/ga';
+import originalLineClient from 'src/webhook/lineClient';
 
 const ga = originalGa as MockedGa;
 const gql = originalGql as MockedGql;
-import lineClient from 'src/webhook/lineClient';
+const lineClient = originalLineClient as jest.Mocked<typeof originalLineClient>;
 
-jest.mock('src/webhook/lineClient');
-const mockedLineClient = lineClient as jest.Mocked<typeof lineClient>;
-
+import redis from 'src/lib/redisClient';
 import UserSettings from 'src/database/models/userSettings';
 import UserArticleLink from 'src/database/models/userArticleLink';
 import { ChatbotPostbackHandlerParams } from 'src/types/chatbotState';
+import { setNewContext, setReplyToken } from 'src/webhook/handlers/utils';
 
 beforeAll(async () => {
   if (await UserArticleLink.collectionExists()) {
@@ -29,6 +30,7 @@ beforeAll(async () => {
 
 beforeEach(() => {
   ga.clearAllMocks();
+  lineClient.post.mockClear();
 });
 
 it('throws on incorrect input', async () => {
@@ -109,11 +111,25 @@ it('should submit article if user agrees to submit', async () => {
   };
 
   MockDate.set('2020-01-02');
+
+  // Set context in redis
+  await setNewContext(params.userId, params.context);
+  const clearReplyTokenTimeout = await setReplyToken(
+    params.userId,
+    'reply-token'
+  ); // Let reply token collector to consume
+
   gql.__push({ data: { CreateArticle: { id: 'new-article-id' } } });
   // The case when have AI replies
   gql.__push({ data: { CreateAIReply: { text: 'Hello from ChatGPT' } } });
   const result = await askingArticleSubmissionConsent(params);
   MockDate.reset();
+
+  // Cleanup context in redis
+  await redis.del(params.userId);
+  // Cleanup reply token collector
+  clearReplyTokenTimeout();
+
   expect(gql.__finished()).toBe(true);
 
   expect(result).toMatchSnapshot('has AI reply');
@@ -131,6 +147,51 @@ it('should submit article if user agrees to submit', async () => {
   `);
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 
+  // Reply token collector should be sent
+  expect(lineClient.post.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "/message/reply",
+        Object {
+          "messages": Array [
+            Object {
+              "altText": "I will spend some time processing the 1 new message(s) you have submitted.",
+              "contents": Object {
+                "body": Object {
+                  "contents": Array [
+                    Object {
+                      "text": "I will spend some time processing the 1 new message(s) you have submitted.",
+                      "type": "text",
+                      "wrap": true,
+                    },
+                  ],
+                  "layout": "vertical",
+                  "type": "box",
+                },
+                "type": "bubble",
+              },
+              "quickReply": Object {
+                "items": Array [
+                  Object {
+                    "action": Object {
+                      "data": "{\\"state\\":\\"CONTINUE\\",\\"sessionId\\":1577902218314}",
+                      "displayText": "OK, proceed.",
+                      "label": "OK, proceed.",
+                      "type": "postback",
+                    },
+                    "type": "action",
+                  },
+                ],
+              },
+              "type": "flex",
+            },
+          ],
+          "replyToken": "reply-token",
+        },
+      ],
+    ]
+  `);
+
   // The case when no AI reply is provided (such as in the case of insufficient data)
   //
   MockDate.set('2020-01-02');
@@ -140,6 +201,7 @@ it('should submit article if user agrees to submit', async () => {
     'has no AI reply'
   );
   MockDate.reset();
+
   expect(gql.__finished()).toBe(true);
 });
 
