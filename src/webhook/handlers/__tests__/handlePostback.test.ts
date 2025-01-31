@@ -8,6 +8,7 @@ import originalAskingArticleSubmissionConsent from '../askingArticleSubmissionCo
 import originalTutorial from '../tutorial';
 import originalDefaultState from '../defaultState';
 import { Result, Context } from 'src/types/chatbotState';
+import lineClient from 'src/webhook/lineClient';
 
 jest.mock('src/webhook/lineClient');
 jest.mock('../choosingArticle', () => jest.fn());
@@ -251,7 +252,11 @@ describe('tutorial', () => {
 });
 
 describe('CONTINUE state', () => {
-  // import lineClient and clear this mock before each test, AI!
+  beforeEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+    (lineClient as jest.Mocked<typeof lineClient>).post.mockClear();
+  });
 
   it('handles CONTINUE postbackHandlerState', async () => {
     const context: Context = {
