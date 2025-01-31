@@ -1446,6 +1446,7 @@ export function displayLoadingAnimation(userId: string, loadingSeconds = 60) {
  * @ref https://developers.line.biz/en/reference/messaging-api/#send-reply-message
  */
 const REPLY_TIMEOUT = 58000;
+const TOKEN_TIMEOUT = 60000; // Use longer timeout to send the reply token collector which times out at 58s
 
 function getRedisReplyTokenKey(userId: string) {
   return `${userId}:replyToken`;
@@ -1466,7 +1467,9 @@ export async function setReplyToken(userId: string, replyToken: string) {
   // Send reply token collector before the reply token expires
   //
   const timer = setTimeout(async function () {
-    console.log(`[LOG] Timeout ${JSON.stringify({ userId })}\n`);
+    console.log(
+      `[LOG] Reply token timeout ${JSON.stringify({ userId, tokenInfo })}\n`
+    );
 
     const latestReplyTokenInfo = (await redis.get(
       getRedisReplyTokenKey(userId)
@@ -1522,7 +1525,7 @@ export async function sendReplyTokenCollector(
   // It's just a fail-safe mechanism.
   //
   const tokenAge = Date.now() - tokenInfo.receivedAt;
-  if (tokenAge >= REPLY_TIMEOUT) return;
+  if (tokenAge >= TOKEN_TIMEOUT) return;
 
   const latestContext = (await redis.get(userId)) as Context;
   const messages: Message[] = [
