@@ -1,7 +1,7 @@
 jest.mock('src/lib/ga');
 jest.mock('src/lib/gql');
 jest.mock('src/webhook/lineClient');
-jest.mock('../groupMessage');
+jest.mock('../groupMessage', () => jest.fn());
 
 import ga from 'src/lib/ga';
 import gql from 'src/lib/gql';
