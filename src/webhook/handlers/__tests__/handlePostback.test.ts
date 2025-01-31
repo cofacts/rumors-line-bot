@@ -1,4 +1,5 @@
 import MockDate from 'mockdate';
+import lineClient from 'src/webhook/lineClient';
 import handlePostback from '../handlePostback';
 import { ManipulationError } from '../utils';
 import originalChoosingArticle from '../choosingArticle';
@@ -8,7 +9,6 @@ import originalAskingArticleSubmissionConsent from '../askingArticleSubmissionCo
 import originalTutorial from '../tutorial';
 import originalDefaultState from '../defaultState';
 import { Result, Context } from 'src/types/chatbotState';
-import lineClient from 'src/webhook/lineClient';
 
 jest.mock('src/webhook/lineClient');
 jest.mock('../choosingArticle', () => jest.fn());
@@ -253,8 +253,7 @@ describe('tutorial', () => {
 
 describe('CONTINUE state', () => {
   beforeEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    // extract lineClient to variable as the same way in singleUserHandler, AI!
     (lineClient as jest.Mocked<typeof lineClient>).post.mockClear();
   });
 
