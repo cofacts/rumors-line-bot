@@ -127,7 +127,7 @@ it('should submit article if user agrees to submit', async () => {
 
   // Cleanup context in redis
   await redis.del(params.userId);
-  // Cleanup reply token collector
+  // Cleanup reply token collector's timeout handle
   clearReplyTokenTimeout();
 
   expect(gql.__finished()).toBe(true);
