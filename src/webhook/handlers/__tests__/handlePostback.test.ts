@@ -248,3 +248,5 @@ describe('tutorial', () => {
     expect(tutorial).toHaveBeenCalledTimes(1);
   });
 });
+
+// Add test for CONTINUE state, AI!
