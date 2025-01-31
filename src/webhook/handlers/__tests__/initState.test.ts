@@ -1,6 +1,7 @@
 jest.mock('src/lib/gql');
 jest.mock('src/lib/ga');
 jest.mock('src/lib/detectDialogflowIntent');
+jest.mock('src/webhook/lineClient');
 
 import MockDate from 'mockdate';
 import initState from '../initState';
