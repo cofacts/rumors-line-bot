@@ -9,8 +9,8 @@ const { default: Client } = require('../src/database/mongoClient');
 const { default: redis } = require('../src/lib/redisClient');
 
 afterAll(async () => {
-  // Close MongoDB connection after test
+  // Close MongoDB connection after each test
   await (await Client.getInstance()).close();
-  // Close redis connection after test
+  // Close redis connection after each test
   await redis.quit();
 });
