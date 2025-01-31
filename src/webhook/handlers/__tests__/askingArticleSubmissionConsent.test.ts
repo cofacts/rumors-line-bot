@@ -148,47 +148,46 @@ it('should submit article if user agrees to submit', async () => {
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 
   // Reply token collector should be sent
-  expect(lineClient.post.mock.calls).toMatchInlineSnapshot(`
+  expect(lineClient.post).toHaveBeenCalledTimes(1);
+  expect(lineClient.post.mock.calls[0]).toMatchInlineSnapshot(`
     Array [
-      Array [
-        "/message/reply",
-        Object {
-          "messages": Array [
-            Object {
-              "altText": "I will spend some time processing the 1 new message(s) you have submitted.",
-              "contents": Object {
-                "body": Object {
-                  "contents": Array [
-                    Object {
-                      "text": "I will spend some time processing the 1 new message(s) you have submitted.",
-                      "type": "text",
-                      "wrap": true,
-                    },
-                  ],
-                  "layout": "vertical",
-                  "type": "box",
-                },
-                "type": "bubble",
-              },
-              "quickReply": Object {
-                "items": Array [
+      "/message/reply",
+      Object {
+        "messages": Array [
+          Object {
+            "altText": "I will spend some time processing the 1 new message(s) you have submitted.",
+            "contents": Object {
+              "body": Object {
+                "contents": Array [
                   Object {
-                    "action": Object {
-                      "data": "{\\"state\\":\\"CONTINUE\\",\\"sessionId\\":1577902218314}",
-                      "displayText": "OK, proceed.",
-                      "label": "OK, proceed.",
-                      "type": "postback",
-                    },
-                    "type": "action",
+                    "text": "I will spend some time processing the 1 new message(s) you have submitted.",
+                    "type": "text",
+                    "wrap": true,
                   },
                 ],
+                "layout": "vertical",
+                "type": "box",
               },
-              "type": "flex",
+              "type": "bubble",
             },
-          ],
-          "replyToken": "reply-token",
-        },
-      ],
+            "quickReply": Object {
+              "items": Array [
+                Object {
+                  "action": Object {
+                    "data": "{\\"state\\":\\"CONTINUE\\",\\"sessionId\\":1577902218314}",
+                    "displayText": "OK, proceed.",
+                    "label": "OK, proceed.",
+                    "type": "postback",
+                  },
+                  "type": "action",
+                },
+              ],
+            },
+            "type": "flex",
+          },
+        ],
+        "replyToken": "reply-token",
+      },
     ]
   `);
 
