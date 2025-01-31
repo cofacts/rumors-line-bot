@@ -12,6 +12,7 @@ import originalGa from 'src/lib/ga';
 
 const ga = originalGa as MockedGa;
 const gql = originalGql as MockedGql;
+// add lineClient mock here, AI!
 
 import UserSettings from 'src/database/models/userSettings';
 import UserArticleLink from 'src/database/models/userArticleLink';
