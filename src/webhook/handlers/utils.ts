@@ -1405,28 +1405,6 @@ export function addReplyRequestForUnrepliedCooccurredArticles(
 }
 
 /**
- * Show a display indicator
- * @ref https://developers.line.biz/en/reference/messaging-api/#display-a-loading-indicator
- */
-export function displayLoadingAnimation(userId: string, loadingSeconds = 60) {
-  return lineClient.post('/chat/loading/start', {
-    chatId: userId,
-    loadingSeconds,
-  });
-}
-
-/**
- * Set 58s timeout.
- * Reply tokens must be used within one minute after receiving the webhook.
- * @ref https://developers.line.biz/en/reference/messaging-api/#send-reply-message
- */
-const REPLY_TIMEOUT = 58000;
-
-function getRedisReplyTokenKey(userId: string) {
-  return `${userId}:replyToken`;
-}
-
-/**
  * Creates a new context that represents a new search session.
  * Stores to Redis and returns the new context.
  *
@@ -1449,6 +1427,28 @@ export async function setNewContext<T extends Context>(
 
   await redis.set(userId, mergedContext);
   return mergedContext;
+}
+
+/**
+ * Show a display indicator
+ * @ref https://developers.line.biz/en/reference/messaging-api/#display-a-loading-indicator
+ */
+export function displayLoadingAnimation(userId: string, loadingSeconds = 60) {
+  return lineClient.post('/chat/loading/start', {
+    chatId: userId,
+    loadingSeconds,
+  });
+}
+
+/**
+ * Set 58s timeout.
+ * Reply tokens must be used within one minute after receiving the webhook.
+ * @ref https://developers.line.biz/en/reference/messaging-api/#send-reply-message
+ */
+const REPLY_TIMEOUT = 58000;
+
+function getRedisReplyTokenKey(userId: string) {
+  return `${userId}:replyToken`;
 }
 
 /**
@@ -1527,8 +1527,9 @@ export async function sendReplyTokenCollector(
   const latestContext = (await redis.get(userId)) as Context;
   const messages: Message[] = [
     {
-      type: 'text',
-      text: message,
+      ...createTextMessage({
+        text: message,
+      }),
       quickReply: {
         items: [
           {
