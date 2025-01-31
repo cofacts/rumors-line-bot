@@ -251,7 +251,7 @@ describe('tutorial', () => {
 });
 
 describe('CONTINUE state', () => {
-  // reset lineClient mock before each test, AI!
+  // import lineClient and clear this mock before each test, AI!
 
   it('handles CONTINUE postbackHandlerState', async () => {
     const context: Context = {
