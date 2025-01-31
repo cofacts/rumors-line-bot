@@ -8,14 +8,12 @@ import {
   POSTBACK_YES,
   createPostbackAction,
   createTextMessage,
+  setNewContext,
 } from './utils';
 import ga from 'src/lib/ga';
 
 async function processBatch(messages: CooccurredMessage[], userId: string) {
-  const context: Context = {
-    sessionId: Date.now(),
-    msgs: messages,
-  };
+  const context: Context = await setNewContext(userId, { msgs: messages });
 
   const msgCount = messages.length;
 

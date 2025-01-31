@@ -1,7 +1,7 @@
 import { t } from 'ttag';
 import type { FlexMessage } from '@line/bot-sdk';
 
-import { Context, CooccurredMessage } from 'src/types/chatbotState';
+import { CooccurredMessage } from 'src/types/chatbotState';
 import ga from 'src/lib/ga';
 
 import {
@@ -12,6 +12,8 @@ import {
   createAskArticleSubmissionConsentReply,
   searchMedia,
   createSearchResultCarouselContents,
+  sendReplyTokenCollector,
+  setNewContext,
 } from './utils';
 import choosingArticle from './choosingArticle';
 
@@ -27,13 +29,16 @@ export default async function (message: CooccurredMessage, userId: string) {
   visitor.event({ ec: 'UserInput', ea: 'MessageType', el: message.type });
 
   let replies;
-  const context: Context = {
-    // Start a new session
-    sessionId: Date.now(),
-
+  // Start a new session
+  const context = await setNewContext(userId, {
     // Store user messageId into context, which will use for submit new image article
     msgs: [message],
-  };
+  });
+
+  await sendReplyTokenCollector(
+    userId,
+    t`I will spend some time analyzing the message you have submitted, and will get back to you ASAP.`
+  );
 
   const result = await searchMedia(proxyUrl, userId);
 

@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { msgid, ngettext, t } from 'ttag';
-import { FlexSpan } from '@line/bot-sdk';
 
 import ga from 'src/lib/ga';
 import { ChatbotPostbackHandler } from 'src/types/chatbotState';
@@ -17,6 +16,7 @@ import {
   createCooccurredSearchResultsCarouselContents,
   setExactMatchesAsCooccurrence,
   addReplyRequestForUnrepliedCooccurredArticles,
+  sendReplyTokenCollector,
 } from './utils';
 
 const inputSchema = z.enum([POSTBACK_NO, POSTBACK_YES]);
@@ -69,6 +69,11 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
           el: 'Yes',
         })
         .send();
+
+      await sendReplyTokenCollector(
+        userId,
+        t`I will spend some time analyzing the ${context.msgs.length} message(s) you have submitted, and will get back to you ASAP.`
+      );
 
       const searchResults = await Promise.all(
         context.msgs.map(async (msg) =>

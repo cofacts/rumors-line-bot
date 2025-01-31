@@ -17,8 +17,8 @@ import { LegacyContext } from 'src/types/chatbotState';
 jest.mock('src/webhook/lineClient');
 jest.mock('src/lib/ga');
 
-jest.mock('../initState');
-jest.mock('../handlePostback');
+jest.mock('../initState', () => jest.fn());
+jest.mock('../handlePostback', () => jest.fn());
 
 const redisGet = jest.spyOn(redis, 'get');
 
