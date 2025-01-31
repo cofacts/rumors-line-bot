@@ -279,6 +279,18 @@ describe('CONTINUE state', () => {
         "replies": Array [],
       }
     `);
-    expect(mockedLineClient.post.mock.calls).toMatchInlineSnapshot(`Array []`);
+
+    // Expect that displayLoadingAnimation is called
+    expect(mockedLineClient.post.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "/chat/loading/start",
+          Object {
+            "chatId": "user-id",
+            "loadingSeconds": 60,
+          },
+        ],
+      ]
+    `);
   });
 });
