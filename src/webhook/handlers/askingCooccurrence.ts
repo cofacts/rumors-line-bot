@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { msgid, ngettext, t } from 'ttag';
-import { FlexSpan } from '@line/bot-sdk';
 
 import ga from 'src/lib/ga';
 import { ChatbotPostbackHandler } from 'src/types/chatbotState';
