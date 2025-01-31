@@ -249,4 +249,36 @@ describe('tutorial', () => {
   });
 });
 
-// Add test for CONTINUE state, AI!
+describe('CONTINUE state', () => {
+  it('handles CONTINUE postbackHandlerState', async () => {
+    const context: Context = {
+      sessionId: FIXED_DATE,
+      msgs: [],
+    };
+
+    defaultState.mockImplementationOnce(() => {
+      return {
+        context: { sessionId: 0, msgs: [] },
+        replies: [],
+      };
+    });
+
+    await expect(
+      handlePostback(
+        context,
+        { sessionId: FIXED_DATE, state: 'CONTINUE', input: 'foo' },
+        'user-id'
+      )
+    ).resolves.toMatchInlineSnapshot(`
+      Object {
+        "context": Object {
+          "msgs": Array [],
+          "sessionId": 0,
+        },
+        "replies": Array [],
+      }
+    `);
+
+    expect(defaultState).toHaveBeenCalledTimes(1);
+  });
+});
