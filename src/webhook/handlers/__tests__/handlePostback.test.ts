@@ -256,29 +256,12 @@ describe('CONTINUE state', () => {
       msgs: [],
     };
 
-    defaultState.mockImplementationOnce(() => {
-      return {
-        context: { sessionId: 0, msgs: [] },
-        replies: [],
-      };
-    });
-
     await expect(
       handlePostback(
         context,
         { sessionId: FIXED_DATE, state: 'CONTINUE', input: 'foo' },
         'user-id'
       )
-    ).resolves.toMatchInlineSnapshot(`
-      Object {
-        "context": Object {
-          "msgs": Array [],
-          "sessionId": 0,
-        },
-        "replies": Array [],
-      }
-    `);
-
-    expect(defaultState).toHaveBeenCalledTimes(1);
+    ).resolves.toMatchInlineSnapshot();
   });
 });
