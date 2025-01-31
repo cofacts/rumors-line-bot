@@ -38,6 +38,8 @@ const defaultState = originalDefaultState as jest.MockedFunction<
   typeof originalDefaultState
 >;
 
+const mockedLineClient = lineClient as jest.Mocked<typeof lineClient>;
+
 // Original session ID in context
 const FIXED_DATE = 612964800000;
 
@@ -253,8 +255,7 @@ describe('tutorial', () => {
 
 describe('CONTINUE state', () => {
   beforeEach(() => {
-    // extract lineClient to variable as the same way in singleUserHandler, AI!
-    (lineClient as jest.Mocked<typeof lineClient>).post.mockClear();
+    mockedLineClient.post.mockClear();
   });
 
   it('handles CONTINUE postbackHandlerState', async () => {
