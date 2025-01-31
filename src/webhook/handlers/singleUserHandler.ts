@@ -5,8 +5,8 @@ import {
   CooccurredMessage,
   PostbackActionData,
   Result,
-  Context,
   LegacyContext,
+  Context,
 } from 'src/types/chatbotState';
 import ga from 'src/lib/ga';
 import redis from 'src/lib/redisClient';
@@ -58,8 +58,6 @@ const singleUserHandler = async (
     return PROCESSED;
   }
 
-  const context = await getContextForUser(userId);
-
   /** Timeout handle for the reply token attached in this callback */
   let clearReplyTokenExpireTimer: () => void = () => undefined;
 
@@ -72,6 +70,8 @@ const singleUserHandler = async (
       webhookEvent.replyToken
     );
   }
+
+  const context = await getContextForUser(userId);
   const REDIS_BATCH_KEY = getRedisBatchKey(userId);
 
   /**
@@ -147,7 +147,7 @@ const singleUserHandler = async (
 
   // Does not reply and just exit processing.
   //
-  async function cancel(): Promise<typeof PROCESSED> {
+  function cancel(): typeof PROCESSED {
     clearReplyTokenExpireTimer(); // Avoid timeout after we exit
     return PROCESSED;
   }
