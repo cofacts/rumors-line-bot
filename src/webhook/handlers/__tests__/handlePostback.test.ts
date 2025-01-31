@@ -279,5 +279,6 @@ describe('CONTINUE state', () => {
         "replies": Array [],
       }
     `);
+    // expect mockedLineClient.post is called with correct arguments matching inline snapshot, AI!
   });
 });
