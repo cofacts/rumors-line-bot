@@ -28,6 +28,7 @@ import {
   consumeReplyTokenInfo,
   setNewContext,
   setReplyTokenCollectorMsg,
+  getRedisBatchKey,
 } from './utils';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
@@ -380,10 +381,6 @@ const singleUserHandler = async (
     }
   }
 };
-
-export function getRedisBatchKey(userId: string) {
-  return `${userId}:batch`;
-}
 
 /**
  * Get user's context from redis or create a new one.

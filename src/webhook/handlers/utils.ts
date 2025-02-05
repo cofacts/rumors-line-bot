@@ -1503,6 +1503,13 @@ export async function consumeReplyTokenInfo(
   return tokenInfo;
 }
 
+/**
+ * The redis key for message batch information for the given user.
+ */
+export function getRedisBatchKey(userId: string) {
+  return `${userId}:batch`;
+}
+
 const DEFAULT_REPLY_TOKEN_COLLECTOR_MSG = t`I am still processing your request. Please wait.`;
 
 /**
@@ -1554,6 +1561,9 @@ async function sendReplyTokenCollector(userId: string): Promise<void> {
     replyToken: tokenInfo.token,
     messages,
   });
+
+  // The chatbot's reply cuts off the user's input streak, thus we end the current batch here.
+  redis.del(getRedisBatchKey(userId));
 }
 
 /**
