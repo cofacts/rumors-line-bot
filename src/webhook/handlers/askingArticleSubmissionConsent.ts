@@ -30,7 +30,8 @@ import {
   setExactMatchesAsCooccurrence,
   addReplyRequestForUnrepliedCooccurredArticles,
   createAskAiReplyFeedbackBubble,
-  sendReplyTokenCollector,
+  setReplyTokenCollectorMsg,
+  displayLoadingAnimation,
 } from './utils';
 
 // Input should be array of context.msgs idx. Empty if the user does not want to submit.
@@ -87,10 +88,11 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
 
   visitor.event({ ec: 'Article', ea: 'Create', el: 'Yes' }).send();
 
-  await sendReplyTokenCollector(
+  await setReplyTokenCollectorMsg(
     userId,
-    t`I will spend some time processing the ${msgsToSubmit.length} new message(s) you have submitted.`
+    t`I am currently sending the ${msgsToSubmit.length} new message(s) you have submitted to the database.`
   );
+  await displayLoadingAnimation(userId);
 
   const createdArticles = await Promise.all(
     msgsToSubmit.map(async (msg) => {
@@ -202,7 +204,7 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
   const articleUrl = getArticleURL(article.id);
   const articleCreatedMsg = t`Your submission is now recorded at ${articleUrl}`;
 
-  await sendReplyTokenCollector(
+  await setReplyTokenCollectorMsg(
     userId,
     t`I am now generating automated analysis for the message you have submitted, please wait.`
   );

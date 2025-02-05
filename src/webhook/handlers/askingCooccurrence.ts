@@ -16,7 +16,8 @@ import {
   createCooccurredSearchResultsCarouselContents,
   setExactMatchesAsCooccurrence,
   addReplyRequestForUnrepliedCooccurredArticles,
-  sendReplyTokenCollector,
+  setReplyTokenCollectorMsg,
+  displayLoadingAnimation,
 } from './utils';
 
 const inputSchema = z.enum([POSTBACK_NO, POSTBACK_YES]);
@@ -70,17 +71,28 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
         })
         .send();
 
-      await sendReplyTokenCollector(
+      let processingCount = context.msgs.length;
+      await setReplyTokenCollectorMsg(
         userId,
-        t`I will spend some time analyzing the ${context.msgs.length} message(s) you have submitted, and will get back to you ASAP.`
+        t`Out of the ${context.msgs.length} message(s) you have submitted, I am still analyzing ${processingCount} of them.`
       );
+      await displayLoadingAnimation(userId);
 
       const searchResults = await Promise.all(
-        context.msgs.map(async (msg) =>
-          msg.type === 'text'
+        context.msgs.map(async (msg) => {
+          const result = await (msg.type === 'text'
             ? searchText(msg.text)
-            : searchMedia(getLineContentProxyURL(msg.id), userId)
-        )
+            : searchMedia(getLineContentProxyURL(msg.id), userId));
+
+          processingCount -= 1;
+          // Update reply token collector message with latest number of messages that is still being analyzed
+          await setReplyTokenCollectorMsg(
+            userId,
+            t`Out of the ${context.msgs.length} message(s) you have submitted, I am still analyzing ${processingCount} of them.`
+          );
+
+          return result;
+        })
       );
 
       const notInDbMsgIndexes = searchResults.reduce((indexes, result, idx) => {

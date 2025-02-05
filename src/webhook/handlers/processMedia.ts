@@ -12,7 +12,8 @@ import {
   createAskArticleSubmissionConsentReply,
   searchMedia,
   createSearchResultCarouselContents,
-  sendReplyTokenCollector,
+  setReplyTokenCollectorMsg,
+  displayLoadingAnimation,
   setNewContext,
 } from './utils';
 import choosingArticle from './choosingArticle';
@@ -35,10 +36,11 @@ export default async function (message: CooccurredMessage, userId: string) {
     msgs: [message],
   });
 
-  await sendReplyTokenCollector(
+  await setReplyTokenCollectorMsg(
     userId,
-    t`I will spend some time analyzing the message you have submitted, and will get back to you ASAP.`
+    t`I am still analyzing the media file you have submitted.`
   );
+  await displayLoadingAnimation(userId);
 
   const result = await searchMedia(proxyUrl, userId);
 

@@ -23,7 +23,12 @@ import {
 import processMedia from './processMedia';
 import processBatch from './processBatch';
 import initState from './initState';
-import { setReplyToken, consumeReplyTokenInfo, setNewContext } from './utils';
+import {
+  setReplyToken,
+  consumeReplyTokenInfo,
+  setNewContext,
+  setReplyTokenCollectorMsg,
+} from './utils';
 
 const userIdBlacklist = (process.env.USERID_BLACKLIST || '').split(',');
 
@@ -135,8 +140,12 @@ const singleUserHandler = async (
         });
       }
 
-      // The chatbot's reply cuts off the user's input streak, thus we end the current batch here.
-      redis.del(REDIS_BATCH_KEY);
+      await Promise.all([
+        // The chatbot's reply cuts off the user's input streak, thus we end the current batch here.
+        redis.del(REDIS_BATCH_KEY),
+        // The chatbot's reply marks an end of previous process, thus we can clear the reply collector message.
+        setReplyTokenCollectorMsg(userId, null),
+      ]);
     }
 
     // Set context

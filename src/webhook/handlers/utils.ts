@@ -1481,10 +1481,7 @@ export async function setReplyToken(userId: string, replyToken: string) {
     if (!latestReplyTokenInfo || latestReplyTokenInfo.token !== replyToken)
       return;
 
-    await sendReplyTokenCollector(
-      userId,
-      t`I am still processing your request. Please wait.`
-    );
+    await sendReplyTokenCollector(userId);
   }, REPLY_TIMEOUT);
 
   return () => clearTimeout(timer);
@@ -1506,14 +1503,13 @@ export async function consumeReplyTokenInfo(
   return tokenInfo;
 }
 
+const DEFAULT_REPLY_TOKEN_COLLECTOR_MSG = t`I am still processing your request. Please wait.`;
+
 /**
  * Sends a message with quick reply to collect new reply token.
  * Does nothing if the current token is already expired.
  */
-export async function sendReplyTokenCollector(
-  userId: string,
-  message: string
-): Promise<void> {
+async function sendReplyTokenCollector(userId: string): Promise<void> {
   const tokenInfo = await consumeReplyTokenInfo(userId);
 
   // Token is already consumed or not set
@@ -1531,7 +1527,9 @@ export async function sendReplyTokenCollector(
   const messages: Message[] = [
     {
       ...createTextMessage({
-        text: message,
+        text:
+          latestContext.replyTokenCollectorMsg ??
+          DEFAULT_REPLY_TOKEN_COLLECTOR_MSG,
       }),
       quickReply: {
         items: [
@@ -1556,4 +1554,21 @@ export async function sendReplyTokenCollector(
     replyToken: tokenInfo.token,
     messages,
   });
+}
+
+/**
+ * Setup the message to show when reply token collector is sent to the user.
+ */
+export async function setReplyTokenCollectorMsg(
+  userId: string,
+  /** The mesage to show. Set to null or empty string to use the default message */
+  msg: string | null
+) {
+  const context = (await redis.get(userId)) as Context;
+  if (msg) {
+    context.replyTokenCollectorMsg = msg;
+  } else {
+    delete context.replyTokenCollectorMsg;
+  }
+  await redis.set(userId, context);
 }

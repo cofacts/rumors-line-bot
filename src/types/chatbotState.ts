@@ -35,6 +35,11 @@ export type Context = {
   /** Used to differientiate different search sessions (searched text or media) */
   sessionId: number;
   msgs: ReadonlyArray<CooccurredMessage>;
+
+  /**
+   * Message to show when sending reply token collector before the current reply token expires.
+   */
+  replyTokenCollectorMsg?: string;
 };
 
 /** Latest reply token in Redis that is not consumed yet */
