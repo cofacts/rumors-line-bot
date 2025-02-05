@@ -84,7 +84,7 @@ async function getContent(messageId, options = {}) {
 
   if (resp.status !== 200) {
     const err = await resp.json();
-    console.error(JSON.stringify(err, null, '  '));
+    console.error('[LINE Client]', JSON.stringify(err, null, '  '));
 
     rollbar.error(
       `[LINE Client] ${resp.status}: ${err.message}.`,

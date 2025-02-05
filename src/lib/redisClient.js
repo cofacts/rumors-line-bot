@@ -38,7 +38,7 @@ function get(key) {
         } catch (e) /* istanbul ignore next */ {
           // Gracefully fallback, in case the stuff in redis is a mess
           //
-          console.error(e);
+          console.error('[redisClient]', e);
           rollbar.error(e);
           resolve({});
         }
