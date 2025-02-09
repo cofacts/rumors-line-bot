@@ -114,21 +114,12 @@ it('should submit article if user agrees to submit', async () => {
 
   // Set context in redis
   await setNewContext(params.userId, params.context);
-  const clearReplyTokenTimeout = await setReplyToken(
-    params.userId,
-    'reply-token'
-  ); // Let reply token collector to consume
 
   gql.__push({ data: { CreateArticle: { id: 'new-article-id' } } });
   // The case when have AI replies
   gql.__push({ data: { CreateAIReply: { text: 'Hello from ChatGPT' } } });
   const result = await askingArticleSubmissionConsent(params);
   MockDate.reset();
-
-  // Cleanup context in redis
-  await redis.del(params.userId);
-  // Cleanup reply token collector's timeout handle
-  clearReplyTokenTimeout();
 
   expect(gql.__finished()).toBe(true);
 
@@ -147,46 +138,14 @@ it('should submit article if user agrees to submit', async () => {
   `);
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 
-  // Reply token collector should be sent
+  // Display loading animation should be sent
   expect(lineClient.post).toHaveBeenCalledTimes(1);
   expect(lineClient.post.mock.calls[0]).toMatchInlineSnapshot(`
     Array [
-      "/message/reply",
+      "/chat/loading/start",
       Object {
-        "messages": Array [
-          Object {
-            "altText": "I will spend some time processing the 1 new message(s) you have submitted.",
-            "contents": Object {
-              "body": Object {
-                "contents": Array [
-                  Object {
-                    "text": "I will spend some time processing the 1 new message(s) you have submitted.",
-                    "type": "text",
-                    "wrap": true,
-                  },
-                ],
-                "layout": "vertical",
-                "type": "box",
-              },
-              "type": "bubble",
-            },
-            "quickReply": Object {
-              "items": Array [
-                Object {
-                  "action": Object {
-                    "data": "{\\"state\\":\\"CONTINUE\\",\\"sessionId\\":1577902218314}",
-                    "displayText": "OK, proceed.",
-                    "label": "OK, proceed.",
-                    "type": "postback",
-                  },
-                  "type": "action",
-                },
-              ],
-            },
-            "type": "flex",
-          },
-        ],
-        "replyToken": "reply-token",
+        "chatId": "userId",
+        "loadingSeconds": 60,
       },
     ]
   `);
@@ -200,6 +159,9 @@ it('should submit article if user agrees to submit', async () => {
     'has no AI reply'
   );
   MockDate.reset();
+
+  // Cleanup context in redis
+  await redis.del(params.userId);
 
   expect(gql.__finished()).toBe(true);
 });
@@ -220,6 +182,8 @@ it('should submit image article if user agrees to submit', async () => {
   };
 
   MockDate.set('2020-01-02');
+  // Set context in redis
+  await setNewContext(params.userId, params.context);
   gql.__push({ data: { CreateMediaArticle: { id: 'new-article-id' } } });
   gql.__push({
     data: { CreateAIReply: { text: '' /* Simulate nothing from AI */ } },
@@ -242,6 +206,9 @@ it('should submit image article if user agrees to submit', async () => {
     ]
   `);
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
+
+  // Cleanup context in redis
+  await redis.del(params.userId);
 });
 
 it('should create a UserArticleLink when creating a Article', async () => {
@@ -264,8 +231,12 @@ it('should create a UserArticleLink when creating a Article', async () => {
   MockDate.set('2020-01-01');
   gql.__push({ data: { CreateArticle: { id: 'new-article-id' } } });
   gql.__push({ data: { CreateAIReply: { text: 'Hello from ChatGPT' } } });
+  await setNewContext(params.userId, params.context);
   await askingArticleSubmissionConsent(params);
   MockDate.reset();
+
+  // Cleanup context in redis
+  await redis.del(params.userId);
 
   const userArticleLinks = await UserArticleLink.findByUserId(userId);
   expect(userArticleLinks.map((e) => ({ ...e, _id: '_id' }))).toMatchSnapshot();
@@ -288,6 +259,7 @@ it('should ask user to turn on notification settings if they did not turn it on 
     userId,
   };
 
+  await setNewContext(params.userId, params.context);
   gql.__push({ data: { CreateArticle: { id: 'new-article-id' } } });
   gql.__push({ data: { CreateAIReply: { text: 'Hello from ChatGPT' } } });
   process.env.NOTIFY_METHOD = 'LINE_NOTIFY';
@@ -296,6 +268,9 @@ it('should ask user to turn on notification settings if they did not turn it on 
   MockDate.set('2020-01-01');
   const results = await askingArticleSubmissionConsent(params);
   MockDate.reset();
+
+  // Cleanup context in redis
+  await redis.del(params.userId);
 
   const lastReply = results.replies[4];
 
