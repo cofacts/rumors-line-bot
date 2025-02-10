@@ -1445,7 +1445,8 @@ export function displayLoadingAnimation(userId: string, loadingSeconds = 60) {
  * Reply tokens must be used within one minute after receiving the webhook.
  * @ref https://developers.line.biz/en/reference/messaging-api/#send-reply-message
  */
-const REPLY_TIMEOUT = 58000;
+// const REPLY_TIMEOUT = 58000;
+const REPLY_TIMEOUT = 8000;
 const TOKEN_TIMEOUT = 60000; // Use longer timeout to send the reply token collector which times out at 58s
 
 function getRedisReplyTokenKey(userId: string) {
