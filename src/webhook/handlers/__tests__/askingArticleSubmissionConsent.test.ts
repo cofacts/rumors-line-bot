@@ -20,7 +20,7 @@ import redis from 'src/lib/redisClient';
 import UserSettings from 'src/database/models/userSettings';
 import UserArticleLink from 'src/database/models/userArticleLink';
 import { ChatbotPostbackHandlerParams } from 'src/types/chatbotState';
-import { setNewContext, setReplyToken } from 'src/webhook/handlers/utils';
+import { setNewContext } from 'src/webhook/handlers/utils';
 
 beforeAll(async () => {
   if (await UserArticleLink.collectionExists()) {
