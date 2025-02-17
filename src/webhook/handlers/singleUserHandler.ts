@@ -111,9 +111,6 @@ const singleUserHandler = async (
       return cancel();
     }
 
-    // We are sending reply, stop timer countdown
-    clearReplyTokenExpireTimer();
-
     console.log(
       JSON.stringify({
         CONTEXT: result.context,
@@ -123,6 +120,8 @@ const singleUserHandler = async (
     );
 
     if (result.replies.length > 0) {
+      // We are sending reply, stop timer countdown
+      clearReplyTokenExpireTimer();
       // Read latest context from Redis.
       // The context may have been updated by reply token collection mechanism.
       //
