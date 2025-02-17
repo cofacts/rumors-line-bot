@@ -1562,9 +1562,6 @@ async function sendReplyTokenCollector(userId: string): Promise<void> {
     replyToken: tokenInfo.token,
     messages,
   });
-
-  // The chatbot's reply cuts off the user's input streak, thus we end the current batch here.
-  redis.del(getRedisBatchKey(userId));
 }
 
 /**
