@@ -1447,7 +1447,7 @@ export function displayLoadingAnimation(userId: string, loadingSeconds = 60) {
  * @ref https://developers.line.biz/en/reference/messaging-api/#send-reply-message
  */
 const REPLY_TIMEOUT = 45000;
-const TOKEN_TIMEOUT = 60000; // Use longer timeout to send the reply token collector which times out at 58s
+const TOKEN_TIMEOUT = 60000;
 
 function getRedisReplyTokenKey(userId: string) {
   return `${userId}:replyToken`;
