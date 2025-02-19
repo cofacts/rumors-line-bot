@@ -1441,12 +1441,13 @@ export function displayLoadingAnimation(userId: string, loadingSeconds = 60) {
 }
 
 /**
- * On REPLT_TIMEOUT, we show reply token collector to user, hoping to get new reply tokens before TOKEN_TIMEOUT.
+ * On REPLT_TIMEOUT, we consume the existing (about-to-expire) reply token
+ * to send a collector to user, hoping to get new reply tokens.
  *
  * Reply tokens must be used within one minute after receiving the webhook.
  * @ref https://developers.line.biz/en/reference/messaging-api/#send-reply-message
  */
-const REPLY_TIMEOUT = 45000;
+const REPLY_TIMEOUT = 50000;
 const TOKEN_TIMEOUT = 60000;
 
 function getRedisReplyTokenKey(userId: string) {
