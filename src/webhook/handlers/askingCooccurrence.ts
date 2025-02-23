@@ -78,24 +78,26 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
       );
       await displayLoadingAnimation(userId);
 
-      const searchResults = await Promise.all(
-        context.msgs.map(async (msg) => {
-          let result;
-          try {
-            result = await (msg.type === 'text'
+      let searchResults;
+      try {
+        searchResults = await Promise.all(
+          context.msgs.map(async (msg) =>
+            msg.type === 'text'
               ? searchText(msg.text)
-              : searchMedia(getLineContentProxyURL(msg.id), userId));
-          } /* istanbul ignore next */ catch (error) {
-            console.error('[askingCooccurrence] Error searching media:', error);
-            return {
-              context,
-              replies: [
-                createTextMessage({
-                  text: t`Sorry, I encountered an error while analyzing the messages. Please try sending them to me again later.`,
-                }),
-              ],
-            };
-          }
+              : searchMedia(getLineContentProxyURL(msg.id), userId)
+          )
+        );
+      } /* istanbul ignore next */ catch (error) {
+        console.error('[askingCooccurrence] Error searching media:', error);
+        return {
+          context,
+          replies: [
+            createTextMessage({
+              text: t`Sorry, I encountered an error while analyzing the messages. Please try sending them to me again later.`,
+            }),
+          ],
+        };
+      }
 
           processingCount -= 1;
           // Update reply token collector message with latest number of messages that is still being analyzed
