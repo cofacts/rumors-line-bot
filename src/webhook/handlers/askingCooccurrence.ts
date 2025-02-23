@@ -71,7 +71,7 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
         })
         .send();
 
-      let processingCount = context.msgs.length;
+      const processingCount = context.msgs.length;
       await setReplyTokenCollectorMsg(
         userId,
         t`Out of the ${context.msgs.length} message(s) you have submitted, I am still analyzing ${processingCount} of them.`
@@ -98,7 +98,6 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
           ],
         };
       }
-
 
       const notInDbMsgIndexes = searchResults.reduce((indexes, result, idx) => {
         const firstResult = result.edges[0];
