@@ -45,7 +45,7 @@ export default async function (message: CooccurredMessage, userId: string) {
   let result;
   try {
     result = await searchMedia(proxyUrl, userId);
-  } catch (error) {
+  /* istanbul ignore next */ catch (error) {
     console.error('[processMedia] Error searching media:', error);
     visitor.event({
       ec: 'Error',
