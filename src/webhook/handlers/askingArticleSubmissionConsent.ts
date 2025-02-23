@@ -169,7 +169,10 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
             ? searchText(msg.text)
             : searchMedia(getLineContentProxyURL(msg.id), userId);
         } /* istanbul ignore next */ catch (error) {
-          console.error('[askingArticleSubmissionConsent] Error searching media:', error);
+          console.error(
+            '[askingArticleSubmissionConsent] Error searching media:',
+            error
+          );
           return {
             context,
             replies: [
