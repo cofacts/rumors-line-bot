@@ -32,19 +32,29 @@ function getGraphQLRespLoader(url: string) {
     // Clear dataloader so that next batch will get a fresh dataloader
     delete loaders[url];
 
-    // Implements Apollo's transport layer batching
-    // https://www.apollographql.com/blog/apollo-client/performance/query-batching/#1bce
-    //
-    return (
-      await fetch(url, {
+    let resp;
+    try {
+      resp = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'x-app-secret': process.env.APP_SECRET ?? '',
         },
+        // Implements Apollo's transport layer batching
+        // https://www.apollographql.com/blog/apollo-client/performance/query-batching/#1bce
+        //
         body: JSON.stringify(queryAndVariables),
-      })
-    ).json();
+      });
+    } catch (error) {
+      console.error(`Failed to fetch GraphQL response from ${url}:`, {
+        status: resp?.status,
+        statusText: resp?.statusText,
+        error,
+      });
+      throw error;
+    }
+
+    return resp.json();
   }));
 }
 
