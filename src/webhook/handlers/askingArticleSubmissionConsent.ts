@@ -171,7 +171,7 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
             : searchMedia(getLineContentProxyURL(msg.id), userId)
         )
       );
-    } /* istanbul ignore next */ catch (error) {
+    } catch (error) /* istanbul ignore next */ {
       console.error(
         '[askingArticleSubmissionConsent] Error searching media:',
         error

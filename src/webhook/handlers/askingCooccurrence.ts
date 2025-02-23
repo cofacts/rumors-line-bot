@@ -96,7 +96,7 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
             return result;
           })
         );
-      } /* istanbul ignore next */ catch (error) {
+      } catch (error) /* istanbul ignore next */ {
         console.error('[askingCooccurrence] Error searching media:', error);
         return {
           context,
