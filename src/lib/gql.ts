@@ -74,7 +74,7 @@ export default (query: TemplateStringsArray, ...substitutions: string[]) =>
     return getGraphQLRespLoader(URL)
       .load(queryAndVariable)
       .then((resp) => {
-        // We cannot get status code in transport layer batching.
+        // We cannot get status code of individual request in transport layer batching.
         // but we can guess that it's not 2xx if `data` is null or does not exist.
         // Ref: https://github.com/graphql/graphql-over-http/blob/main/spec/GraphQLOverHTTP.md#status-codes
         //
