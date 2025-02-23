@@ -65,9 +65,9 @@ msgstr "他のリプライを見たい場合、こちらに：${ articleUrl }"
 msgid "Choose this one"
 msgstr "これを選ぶ"
 
-#: src/webhook/handlers/askingCooccurrence.ts:274
+#: src/webhook/handlers/askingCooccurrence.ts:287
 #: src/webhook/handlers/initState.ts:191
-#: src/webhook/handlers/processMedia.ts:157
+#: src/webhook/handlers/processMedia.ts:177
 #. Get first few search results for each message, and make at most 10 options
 #. 
 msgid ""
@@ -114,8 +114,8 @@ msgstr "いいえ"
 
 #: src/webhook/handlers/initState.ts:146
 #: src/webhook/handlers/initState.ts:164
-#: src/webhook/handlers/processMedia.ts:112
-#: src/webhook/handlers/processMedia.ts:130
+#: src/webhook/handlers/processMedia.ts:132
+#: src/webhook/handlers/processMedia.ts:150
 msgid "None of these messages matches mine :("
 msgstr "確認したい情報が見つかりません (T_T)"
 
@@ -126,13 +126,13 @@ msgid_plural "${ positive } users consider this helpful"
 msgstr[0] "${positive} 人がこのリプライは役に立っていると思っています"
 
 #: src/webhook/handlers/initState.ts:162
-#: src/webhook/handlers/processMedia.ts:128
+#: src/webhook/handlers/processMedia.ts:148
 msgid "Tell us more"
 msgstr "情報を報告する"
 
-#: src/webhook/handlers/askingCooccurrence.ts:279
+#: src/webhook/handlers/askingCooccurrence.ts:292
 #: src/webhook/handlers/initState.ts:178
-#: src/webhook/handlers/processMedia.ts:144
+#: src/webhook/handlers/processMedia.ts:164
 #. Get first few search results for each message, and make at most 10 options
 #. 
 msgid "Please choose the most similar message from the list."
@@ -156,14 +156,14 @@ msgstr "${similarityPercentage}% 似ています"
 msgid "Wrong usage"
 msgstr "使い方は間違いました"
 
-#: src/webhook/handlers/singleUserHandler.ts:285
+#: src/webhook/handlers/singleUserHandler.ts:284
 #. Reuse existing context
 msgid ""
 "You are currently searching for another message, buttons from previous "
 "search sessions do not work now."
 msgstr "新規の情報を検索しているため、先ほどまでの検索ボタンは無効になります。"
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:205
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:221
 #, javascript-format
 msgid "Your submission is now recorded at ${ articleUrl }"
 msgstr "提供していただいた情報はこちらに登録されています ${ articleUrl }"
@@ -669,7 +669,7 @@ msgstr ""
 
 #: src/webhook/handlers/askingArticleSource.ts:188
 #: src/webhook/handlers/choosingArticle.ts:117
-#: src/webhook/handlers/processMedia.ts:175
+#: src/webhook/handlers/processMedia.ts:195
 msgid "Do you want someone to fact-check this message?"
 msgstr ""
 
@@ -677,19 +677,19 @@ msgstr ""
 msgid "The message has not been reported and won’t be fact-checked. Thanks anyway!"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:226
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:236
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:242
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:252
 msgid ""
 "The message has now been recorded at Cofacts for volunteers to fact-check. "
 "Thank you for submitting!"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:242
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:258
 #: src/webhook/handlers/choosingArticle.ts:432
 msgid "View reported message"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:254
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:270
 #: src/webhook/handlers/choosingArticle.ts:378
 msgid "In the meantime, you can:"
 msgstr ""
@@ -737,31 +737,31 @@ msgid ""
 "still like to help."
 msgstr ""
 
-#: src/webhook/handlers/processMedia.ts:153
+#: src/webhook/handlers/processMedia.ts:173
 msgid "There are some messages that looks similar to the one you have sent to me."
 msgstr ""
 
-#: src/webhook/handlers/processMedia.ts:173
+#: src/webhook/handlers/processMedia.ts:193
 #. submit
 msgid ""
 "Unfortunately, I currently don’t recognize this message, but I would still "
 "like to help."
 msgstr ""
 
-#: src/webhook/handlers/askingCooccurrence.ts:113
+#: src/webhook/handlers/askingCooccurrence.ts:126
 #: src/webhook/handlers/utils.ts:163
 msgid "Report to database"
 msgstr ""
 
-#: src/webhook/handlers/askingCooccurrence.ts:221
+#: src/webhook/handlers/askingCooccurrence.ts:234
 #: src/webhook/handlers/utils.ts:262
 msgid ""
 "and have volunteers fact-check it. This way you can help the people who "
 "receive the same message in the future."
 msgstr ""
 
-#: src/webhook/handlers/askingCooccurrence.ts:243
-#: src/webhook/handlers/askingCooccurrence.ts:245
+#: src/webhook/handlers/askingCooccurrence.ts:256
+#: src/webhook/handlers/askingCooccurrence.ts:258
 #: src/webhook/handlers/utils.ts:290
 #: src/webhook/handlers/utils.ts:292
 msgid "Don’t report"
@@ -1031,7 +1031,7 @@ msgstr ""
 msgid "I choose ${ displayTextWhenChosen }"
 msgstr ""
 
-#: src/webhook/handlers/askingCooccurrence.ts:270
+#: src/webhook/handlers/askingCooccurrence.ts:283
 #. Get first few search results for each message, and make at most 10 options
 #. 
 msgid "There are some messages that looks similar to the ones you have sent to me."
@@ -1067,7 +1067,7 @@ msgid ""
 "articleDate }:"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:259
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:275
 msgid ""
 "This article is still under verification, please refrain from believing it "
 "for now. \n"
@@ -1075,34 +1075,34 @@ msgid ""
 "with some insights."
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:263
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:279
 #: src/webhook/handlers/choosingArticle.ts:406
 msgid "After reading the automatic analysis by the bot above, you can:"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:181
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:197
 msgid ""
 "Thank you for submitting! Now the messages has been recorded in the Cofacts "
 "database."
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:184
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:188
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:200
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:204
 msgid "Please choose the messages you would like to view"
 msgstr ""
 
-#: src/webhook/handlers/askingCooccurrence.ts:119
+#: src/webhook/handlers/askingCooccurrence.ts:132
 msgid "Be the first to report these messages"
 msgstr ""
 
-#: src/webhook/handlers/askingCooccurrence.ts:133
+#: src/webhook/handlers/askingCooccurrence.ts:146
 #, javascript-format
 msgid ""
 "The ${ notInDbMsgIndexes.length } messages that you have sent are not "
 "within the Cofacts database."
 msgstr ""
 
-#: src/webhook/handlers/askingCooccurrence.ts:134
+#: src/webhook/handlers/askingCooccurrence.ts:147
 #, javascript-format
 msgid ""
 "Out of the ${ totalCount } messages you sent, ${ notInDbMsgIndexes.length } "
@@ -1113,33 +1113,33 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/webhook/handlers/askingCooccurrence.ts:143
+#: src/webhook/handlers/askingCooccurrence.ts:156
 #: src/webhook/handlers/utils.ts:184
 msgid "If you believe:"
 msgstr ""
 
-#: src/webhook/handlers/askingCooccurrence.ts:163
+#: src/webhook/handlers/askingCooccurrence.ts:176
 #. t: If you believe ~ a rumor 
 msgid "That they are most likely "
 msgstr ""
 
-#: src/webhook/handlers/askingCooccurrence.ts:167
+#: src/webhook/handlers/askingCooccurrence.ts:180
 #. t: If you believe that it is most likely ~ 
 msgid "rumors,"
 msgstr ""
 
-#: src/webhook/handlers/askingCooccurrence.ts:195
+#: src/webhook/handlers/askingCooccurrence.ts:208
 #: src/webhook/handlers/utils.ts:236
 #. t: ~ make this messasge public 
 msgid "And you are willing to "
 msgstr ""
 
-#: src/webhook/handlers/askingCooccurrence.ts:199
+#: src/webhook/handlers/askingCooccurrence.ts:212
 #. t: and you are willing to ~ 
 msgid "make these messages public"
 msgstr ""
 
-#: src/webhook/handlers/askingCooccurrence.ts:215
+#: src/webhook/handlers/askingCooccurrence.ts:228
 #, javascript-format
 msgid "Press “${ btnText }” to make these messages public on Cofacts website "
 msgstr ""
@@ -1201,18 +1201,18 @@ msgstr ""
 msgid "AI analysis"
 msgstr ""
 
-#: src/webhook/handlers/askingArticleSubmissionConsent.ts:209
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:225
 msgid ""
 "I am now generating automated analysis for the message you have submitted, "
 "please wait."
 msgstr ""
 
-#: src/webhook/handlers/utils.ts:1513
+#: src/webhook/handlers/utils.ts:1515
 msgid "I am still processing your request. Please wait."
 msgstr ""
 
-#: src/webhook/handlers/utils.ts:1547
-#: src/webhook/handlers/utils.ts:1552
+#: src/webhook/handlers/utils.ts:1549
+#: src/webhook/handlers/utils.ts:1554
 msgid "OK, proceed."
 msgstr ""
 
@@ -1224,7 +1224,7 @@ msgid ""
 msgstr ""
 
 #: src/webhook/handlers/askingCooccurrence.ts:77
-#: src/webhook/handlers/askingCooccurrence.ts:91
+#: src/webhook/handlers/askingCooccurrence.ts:93
 #, javascript-format
 msgid ""
 "Out of the ${ context.msgs.length } message(s) you have submitted, I am "
@@ -1233,4 +1233,17 @@ msgstr ""
 
 #: src/webhook/handlers/processMedia.ts:41
 msgid "I am still analyzing the media file you have submitted."
+msgstr ""
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:183
+#: src/webhook/handlers/askingCooccurrence.ts:105
+msgid ""
+"Sorry, I encountered an error while analyzing the messages. Please try "
+"sending them to me again later."
+msgstr ""
+
+#: src/webhook/handlers/processMedia.ts:61
+msgid ""
+"Sorry, I encountered an error while processing your media. Please try again "
+"later."
 msgstr ""
