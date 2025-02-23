@@ -47,11 +47,6 @@ export default async function (message: CooccurredMessage, userId: string) {
     result = await searchMedia(proxyUrl, userId);
   } catch (error) /* istanbul ignore next */ {
     console.error('[processMedia] Error searching media:', error);
-    visitor.event({
-      ec: 'Error',
-      ea: 'ProcessMedia',
-      el: error instanceof Error ? error.message : 'Unknown error',
-    });
     visitor.send();
 
     return {

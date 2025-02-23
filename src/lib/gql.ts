@@ -45,6 +45,7 @@ function getGraphQLRespLoader(url: string) {
         //
         body: JSON.stringify(queryAndVariables),
       });
+      return await resp.json();
     } catch (error) {
       console.error(`Failed to fetch GraphQL response from ${url}:`, {
         status: resp?.status,
@@ -53,8 +54,6 @@ function getGraphQLRespLoader(url: string) {
       });
       throw error;
     }
-
-    return resp.json();
   }));
 }
 
