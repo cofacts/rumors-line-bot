@@ -71,14 +71,7 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
         })
         .send();
 
-      const processingCount = context.msgs.length;
-      await setReplyTokenCollectorMsg(
-        userId,
-        t`Out of the ${context.msgs.length} message(s) you have submitted, I am still analyzing ${processingCount} of them.`
-      );
-      await displayLoadingAnimation(userId);
-
-      const processingCount = context.msgs.length;
+      let processingCount = context.msgs.length;
       await setReplyTokenCollectorMsg(
         userId,
         t`Out of the ${context.msgs.length} message(s) you have submitted, I am still analyzing ${processingCount} of them.`
