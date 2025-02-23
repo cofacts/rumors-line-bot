@@ -99,16 +99,6 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
         };
       }
 
-          processingCount -= 1;
-          // Update reply token collector message with latest number of messages that is still being analyzed
-          await setReplyTokenCollectorMsg(
-            userId,
-            t`Out of the ${context.msgs.length} message(s) you have submitted, I am still analyzing ${processingCount} of them.`
-          );
-
-          return result;
-        })
-      );
 
       const notInDbMsgIndexes = searchResults.reduce((indexes, result, idx) => {
         const firstResult = result.edges[0];
