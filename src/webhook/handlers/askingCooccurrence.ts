@@ -78,14 +78,30 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
       );
       await displayLoadingAnimation(userId);
 
+      const processingCount = context.msgs.length;
+      await setReplyTokenCollectorMsg(
+        userId,
+        t`Out of the ${context.msgs.length} message(s) you have submitted, I am still analyzing ${processingCount} of them.`
+      );
+      await displayLoadingAnimation(userId);
+
       let searchResults;
       try {
         searchResults = await Promise.all(
-          context.msgs.map(async (msg) =>
-            msg.type === 'text'
+          context.msgs.map(async (msg) => {
+            const result = await (msg.type === 'text'
               ? searchText(msg.text)
-              : searchMedia(getLineContentProxyURL(msg.id), userId)
-          )
+              : searchMedia(getLineContentProxyURL(msg.id), userId));
+
+            processingCount -= 1;
+            // Update reply token collector message with latest number of messages that is still being analyzed
+            await setReplyTokenCollectorMsg(
+              userId,
+              t`Out of the ${context.msgs.length} message(s) you have submitted, I am still analyzing ${processingCount} of them.`
+            );
+
+            return result;
+          })
         );
       } /* istanbul ignore next */ catch (error) {
         console.error('[askingCooccurrence] Error searching media:', error);
