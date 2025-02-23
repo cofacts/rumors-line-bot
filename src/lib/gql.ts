@@ -50,6 +50,9 @@ function getGraphQLRespLoader(url: string) {
       console.error(`Failed to fetch GraphQL response from ${url}:`, {
         status: resp?.status,
         statusText: resp?.statusText,
+        headers: resp?.headers
+          ? JSON.stringify(Object.fromEntries(resp.headers.entries()))
+          : undefined,
         error,
       });
       throw error;
