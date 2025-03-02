@@ -78,22 +78,35 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
       );
       await displayLoadingAnimation(userId);
 
-      const searchResults = await Promise.all(
-        context.msgs.map(async (msg) => {
-          const result = await (msg.type === 'text'
-            ? searchText(msg.text)
-            : searchMedia(getLineContentProxyURL(msg.id), userId));
+      let searchResults;
+      try {
+        searchResults = await Promise.all(
+          context.msgs.map(async (msg) => {
+            const result = await (msg.type === 'text'
+              ? searchText(msg.text)
+              : searchMedia(getLineContentProxyURL(msg.id), userId));
 
-          processingCount -= 1;
-          // Update reply token collector message with latest number of messages that is still being analyzed
-          await setReplyTokenCollectorMsg(
-            userId,
-            t`Out of the ${context.msgs.length} message(s) you have submitted, I am still analyzing ${processingCount} of them.`
-          );
+            processingCount -= 1;
+            // Update reply token collector message with latest number of messages that is still being analyzed
+            await setReplyTokenCollectorMsg(
+              userId,
+              t`Out of the ${context.msgs.length} message(s) you have submitted, I am still analyzing ${processingCount} of them.`
+            );
 
-          return result;
-        })
-      );
+            return result;
+          })
+        );
+      } catch (error) /* istanbul ignore next */ {
+        console.error('[askingCooccurrence] Error searching media:', error);
+        return {
+          context,
+          replies: [
+            createTextMessage({
+              text: t`Sorry, I encountered an error while analyzing the messages. Please try sending them to me again later.`,
+            }),
+          ],
+        };
+      }
 
       const notInDbMsgIndexes = searchResults.reduce((indexes, result, idx) => {
         const firstResult = result.edges[0];

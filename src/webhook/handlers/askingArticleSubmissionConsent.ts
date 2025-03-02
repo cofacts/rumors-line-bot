@@ -162,13 +162,29 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
     // Search again, this time all messages should be in the database.
     // Also include those messages that are similar for users to choose.
     //
-    const searchResults = await Promise.all(
-      context.msgs.map(async (msg) =>
-        msg.type === 'text'
-          ? searchText(msg.text)
-          : searchMedia(getLineContentProxyURL(msg.id), userId)
-      )
-    );
+    let searchResults;
+    try {
+      searchResults = await Promise.all(
+        context.msgs.map(async (msg) =>
+          msg.type === 'text'
+            ? searchText(msg.text)
+            : searchMedia(getLineContentProxyURL(msg.id), userId)
+        )
+      );
+    } catch (error) /* istanbul ignore next */ {
+      console.error(
+        '[askingArticleSubmissionConsent] Error searching media:',
+        error
+      );
+      return {
+        context,
+        replies: [
+          createTextMessage({
+            text: t`Sorry, I encountered an error while analyzing the messages. Please try sending them to me again later.`,
+          }),
+        ],
+      };
+    }
     await Promise.all([
       addReplyRequestForUnrepliedCooccurredArticles(searchResults, userId),
       setExactMatchesAsCooccurrence(searchResults, userId),

@@ -49,6 +49,6 @@ export default async function (input: string) {
     const responses = await sessionClient.detectIntent(request);
     return responses[0];
   } catch (error) {
-    console.error(error);
+    console.error('[Dialogflow]', error);
   }
 }

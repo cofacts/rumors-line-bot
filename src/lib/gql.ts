@@ -32,19 +32,31 @@ function getGraphQLRespLoader(url: string) {
     // Clear dataloader so that next batch will get a fresh dataloader
     delete loaders[url];
 
-    // Implements Apollo's transport layer batching
-    // https://www.apollographql.com/blog/apollo-client/performance/query-batching/#1bce
-    //
-    return (
-      await fetch(url, {
+    let resp;
+    try {
+      resp = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'x-app-secret': process.env.APP_SECRET ?? '',
         },
+        // Implements Apollo's transport layer batching
+        // https://www.apollographql.com/blog/apollo-client/performance/query-batching/#1bce
+        //
         body: JSON.stringify(queryAndVariables),
-      })
-    ).json();
+      });
+      return await resp.json();
+    } catch (error) {
+      console.error(`Failed to fetch GraphQL response from ${url}:`, {
+        status: resp?.status,
+        statusText: resp?.statusText,
+        headers: resp?.headers
+          ? JSON.stringify(Object.fromEntries(resp.headers.entries()))
+          : undefined,
+        error,
+      });
+      throw error;
+    }
   }));
 }
 
@@ -74,7 +86,7 @@ export default (query: TemplateStringsArray, ...substitutions: string[]) =>
     return getGraphQLRespLoader(URL)
       .load(queryAndVariable)
       .then((resp) => {
-        // We cannot get status code in transport layer batching.
+        // We cannot get status code of individual request in transport layer batching.
         // but we can guess that it's not 2xx if `data` is null or does not exist.
         // Ref: https://github.com/graphql/graphql-over-http/blob/main/spec/GraphQLOverHTTP.md#status-codes
         //

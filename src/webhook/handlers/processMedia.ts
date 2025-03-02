@@ -42,7 +42,22 @@ export default async function (message: CooccurredMessage, userId: string) {
   );
   await displayLoadingAnimation(userId);
 
-  const result = await searchMedia(proxyUrl, userId);
+  let result;
+  try {
+    result = await searchMedia(proxyUrl, userId);
+  } catch (error) /* istanbul ignore next */ {
+    console.error('[processMedia] Error searching media:', error);
+    visitor.send();
+
+    return {
+      context,
+      replies: [
+        createTextMessage({
+          text: t`Sorry, I encountered an error while processing your media. Please try again later.`,
+        }),
+      ],
+    };
+  }
 
   if (result && result.edges.length) {
     // Track if find similar Articles in DB.
