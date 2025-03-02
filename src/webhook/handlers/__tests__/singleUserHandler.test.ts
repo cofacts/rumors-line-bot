@@ -6,7 +6,8 @@ import { sleep, VIEW_ARTICLE_PREFIX, getArticleURL } from 'src/lib/sharedUtils';
 import type { MockedGa } from 'src/lib/__mocks__/ga';
 import redis from 'src/lib/redisClient';
 
-import singleUserHandler, { getRedisBatchKey } from '../singleUserHandler';
+import { getRedisBatchKey } from '../utils';
+import singleUserHandler from '../singleUserHandler';
 import originalInitState from '../initState';
 import originalHandlePostback from '../handlePostback';
 import { TUTORIAL_STEPS } from '../tutorial';
@@ -17,8 +18,8 @@ import { LegacyContext } from 'src/types/chatbotState';
 jest.mock('src/webhook/lineClient');
 jest.mock('src/lib/ga');
 
-jest.mock('../initState');
-jest.mock('../handlePostback');
+jest.mock('../initState', () => jest.fn());
+jest.mock('../handlePostback', () => jest.fn());
 
 const redisGet = jest.spyOn(redis, 'get');
 

@@ -7,7 +7,8 @@ import askingCooccurrence, { Input } from '../askingCooccurrence';
 import originalGql from 'src/lib/gql';
 import originalGa from 'src/lib/ga';
 import { ChatbotPostbackHandlerParams } from 'src/types/chatbotState';
-import { POSTBACK_NO, POSTBACK_YES } from '../utils';
+import redis from 'src/lib/redisClient';
+import { POSTBACK_NO, POSTBACK_YES, setNewContext } from '../utils';
 import {
   AddReplyRequestForUnrepliedArticleMutation,
   ListArticlesInInitStateQuery,
@@ -159,7 +160,14 @@ it('stores cooccurrences whose article are all in DB', async () => {
     } satisfies AddReplyRequestForUnrepliedArticleMutation,
   ].forEach((resp) => gql.__push({ data: resp }));
 
+  // Set context in redis
+  await setNewContext(params.userId, params.context);
+
   const { replies } = await askingCooccurrence(params);
+
+  // Cleanup context in redis
+  await redis.del(params.userId);
+
   expect(gql.__finished()).toBe(true);
   expect(ga.eventMock.mock.calls).toMatchInlineSnapshot(`
     Array [

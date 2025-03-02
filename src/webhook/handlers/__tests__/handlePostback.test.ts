@@ -1,4 +1,5 @@
 import MockDate from 'mockdate';
+import lineClient from 'src/webhook/lineClient';
 import handlePostback from '../handlePostback';
 import { ManipulationError } from '../utils';
 import originalChoosingArticle from '../choosingArticle';
@@ -9,12 +10,13 @@ import originalTutorial from '../tutorial';
 import originalDefaultState from '../defaultState';
 import { Result, Context } from 'src/types/chatbotState';
 
-jest.mock('../choosingArticle');
-jest.mock('../choosingReply');
-jest.mock('../askingArticleSource');
-jest.mock('../askingArticleSubmissionConsent');
-jest.mock('../tutorial');
-jest.mock('../defaultState');
+jest.mock('src/webhook/lineClient');
+jest.mock('../choosingArticle', () => jest.fn());
+jest.mock('../choosingReply', () => jest.fn());
+jest.mock('../askingArticleSource', () => jest.fn());
+jest.mock('../askingArticleSubmissionConsent', () => jest.fn());
+jest.mock('../tutorial', () => jest.fn());
+jest.mock('../defaultState', () => jest.fn());
 
 const choosingArticle = originalChoosingArticle as jest.MockedFunction<
   typeof originalChoosingArticle
@@ -35,6 +37,8 @@ const tutorial = originalTutorial as jest.MockedFunction<
 const defaultState = originalDefaultState as jest.MockedFunction<
   typeof originalDefaultState
 >;
+
+const mockedLineClient = lineClient as jest.Mocked<typeof lineClient>;
 
 // Original session ID in context
 const FIXED_DATE = 612964800000;
@@ -246,5 +250,47 @@ describe('tutorial', () => {
     `);
 
     expect(tutorial).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('CONTINUE state', () => {
+  beforeEach(() => {
+    mockedLineClient.post.mockClear();
+  });
+
+  it('handles CONTINUE postbackHandlerState', async () => {
+    const context: Context = {
+      sessionId: FIXED_DATE,
+      msgs: [],
+    };
+
+    await expect(
+      handlePostback(
+        context,
+        { sessionId: FIXED_DATE, state: 'CONTINUE', input: 'foo' },
+        'user-id'
+      )
+    ).resolves.toMatchInlineSnapshot(`
+      Object {
+        "context": Object {
+          "msgs": Array [],
+          "sessionId": 612964800000,
+        },
+        "replies": Array [],
+      }
+    `);
+
+    // Expect that displayLoadingAnimation is called
+    expect(mockedLineClient.post.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "/chat/loading/start",
+          Object {
+            "chatId": "user-id",
+            "loadingSeconds": 60,
+          },
+        ],
+      ]
+    `);
   });
 });

@@ -16,7 +16,13 @@ import stringSimilarity from 'string-similarity';
 import gql from 'src/lib/gql';
 import { getArticleURL, createTypeWords, format } from 'src/lib/sharedUtils';
 import { sign } from 'src/lib/jwt';
-import { ChatbotState, PostbackActionData } from 'src/types/chatbotState';
+import {
+  ChatbotState,
+  Context,
+  PostbackActionData,
+  ReplyTokenInfo,
+} from 'src/types/chatbotState';
+import redis from 'src/lib/redisClient';
 
 import type {
   CreateHighlightContentsHighlightFragment,
@@ -39,6 +45,7 @@ import type { Input as ChoosingReplyInput } from './choosingReply';
 import type { Input as AskingArticleSourceInput } from './askingArticleSource';
 import type { Input as AskingArticleSubmissionConsentInput } from './askingArticleSubmissionConsent';
 import type { Input as askingCooccurenceInput } from './askingCooccurrence';
+import lineClient from '../lineClient';
 
 const MAX_CAROUSEL_BUBBLE_COUNT = 9;
 
@@ -55,6 +62,7 @@ type StateInputMap = {
   ASKING_ARTICLE_SOURCE: AskingArticleSourceInput;
   ASKING_ARTICLE_SUBMISSION_CONSENT: AskingArticleSubmissionConsentInput;
   ASKING_COOCCURRENCE: askingCooccurenceInput;
+  CONTINUE: never;
   Error: unknown;
 };
 
@@ -1394,4 +1402,182 @@ export function addReplyRequestForUnrepliedCooccurredArticles(
       >({ articleId: article.id }, { userId })
     )
   );
+}
+
+/**
+ * Creates a new context that represents a new search session.
+ * Stores to Redis and returns the new context.
+ *
+ * @param userId
+ * @param contextData - part of the context data to be set in the new context
+ * @returns the new context.
+ */
+export async function setNewContext<T extends Context>(
+  userId: string,
+  contextData: Partial<T> = {}
+) {
+  const defaultContext: Context = {
+    sessionId: Date.now(),
+    msgs: [],
+  };
+  const mergedContext = {
+    ...defaultContext,
+    ...contextData,
+  } as T;
+
+  await redis.set(userId, mergedContext);
+  return mergedContext;
+}
+
+/**
+ * Show a display indicator
+ * @ref https://developers.line.biz/en/reference/messaging-api/#display-a-loading-indicator
+ */
+export function displayLoadingAnimation(userId: string, loadingSeconds = 60) {
+  return lineClient.post('/chat/loading/start', {
+    chatId: userId,
+    loadingSeconds,
+  });
+}
+
+/**
+ * On REPLT_TIMEOUT, we consume the existing (about-to-expire) reply token
+ * to send a collector to user, hoping to get new reply tokens.
+ *
+ * Reply tokens must be used within one minute after receiving the webhook.
+ * @ref https://developers.line.biz/en/reference/messaging-api/#send-reply-message
+ */
+const REPLY_TIMEOUT = 50000;
+const TOKEN_TIMEOUT = 60000;
+
+function getRedisReplyTokenKey(userId: string) {
+  return `${userId}:replyToken`;
+}
+
+/**
+ * Stores the reply token in Redis and sends a reply token collector before the reply token expires.
+ * Returns a function that can be called to cancel the token expire collector.
+ */
+export async function setReplyToken(userId: string, replyToken: string) {
+  const tokenInfo: ReplyTokenInfo = {
+    token: replyToken,
+    receivedAt: Date.now(),
+  };
+
+  await redis.set(getRedisReplyTokenKey(userId), tokenInfo);
+
+  // Send reply token collector before the reply token expires
+  //
+  const timer = setTimeout(async function () {
+    console.log(
+      `[LOG] Reply token timeout ${JSON.stringify({ userId, tokenInfo })}\n`
+    );
+
+    const latestReplyTokenInfo = (await redis.get(
+      getRedisReplyTokenKey(userId)
+    )) as ReplyTokenInfo | null;
+
+    // The reply token has been consumed, or there is a new reply token set in Redis as latest.
+    // In this case, we don't send the reply token collector for this old replyToken.
+    //
+    if (!latestReplyTokenInfo || latestReplyTokenInfo.token !== replyToken)
+      return;
+
+    await sendReplyTokenCollector(userId);
+  }, REPLY_TIMEOUT);
+
+  return () => clearTimeout(timer);
+}
+
+/**
+ * Take the reply token info from Redis and delete it from Redis.
+ *
+ * @param userId
+ * @returns the token info
+ */
+export async function consumeReplyTokenInfo(
+  userId: string
+): Promise<ReplyTokenInfo | null> {
+  const tokenInfo = (await redis.get(
+    getRedisReplyTokenKey(userId)
+  )) as ReplyTokenInfo | null;
+  redis.del(getRedisReplyTokenKey(userId));
+  return tokenInfo;
+}
+
+/**
+ * The redis key for message batch information for the given user.
+ */
+export function getRedisBatchKey(userId: string) {
+  return `${userId}:batch`;
+}
+
+const DEFAULT_REPLY_TOKEN_COLLECTOR_MSG = t`I am still processing your request. Please wait.`;
+
+/**
+ * Sends a message with quick reply to collect new reply token.
+ * Does nothing if the current token is already expired.
+ */
+async function sendReplyTokenCollector(userId: string): Promise<void> {
+  const tokenInfo = await consumeReplyTokenInfo(userId);
+
+  // Token is already consumed or not set
+  if (!tokenInfo) return;
+
+  // If the token is already expired, do nothing.
+  //
+  // Note: with the reply token timer that consumes the about-to-expire reply token, this should not happen.
+  // It's just a fail-safe mechanism.
+  //
+  const tokenAge = Date.now() - tokenInfo.receivedAt;
+  if (tokenAge >= TOKEN_TIMEOUT) return;
+
+  const latestContext = (await redis.get(userId)) as Context;
+  const messages: Message[] = [
+    {
+      ...createTextMessage({
+        text:
+          latestContext.replyTokenCollectorMsg ??
+          DEFAULT_REPLY_TOKEN_COLLECTOR_MSG,
+      }),
+      quickReply: {
+        items: [
+          {
+            type: 'action',
+            action: {
+              type: 'postback',
+              label: t`OK, proceed.`,
+              data: JSON.stringify({
+                state: 'CONTINUE',
+                sessionId: latestContext.sessionId,
+              }),
+              displayText: t`OK, proceed.`,
+            },
+          },
+        ],
+      },
+    },
+  ];
+
+  await lineClient.post('/message/reply', {
+    replyToken: tokenInfo.token,
+    messages,
+  });
+}
+
+/**
+ * Setup the message to show when reply token collector is sent to the user.
+ */
+export async function setReplyTokenCollectorMsg(
+  userId: string,
+  /** The mesage to show. Set to null or empty string to use the default message */
+  msg: string | null
+) {
+  const context = (await redis.get(userId)) as Context;
+  if (msg) {
+    context.replyTokenCollectorMsg = msg;
+  } else {
+    delete context.replyTokenCollectorMsg;
+  }
+  await redis.set(userId, context);
 }

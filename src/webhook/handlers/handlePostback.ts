@@ -5,7 +5,7 @@ import askingArticleSubmissionConsent from './askingArticleSubmissionConsent';
 import askingArticleSource from './askingArticleSource';
 import defaultState from './defaultState';
 import askingCooccurence from './askingCooccurrence';
-import { ManipulationError } from './utils';
+import { ManipulationError, displayLoadingAnimation } from './utils';
 import tutorial from './tutorial';
 import {
   ChatbotPostbackHandlerParams,
@@ -60,6 +60,15 @@ export default async function handlePostback(
       }
       case 'ASKING_COOCCURRENCE': {
         result = await askingCooccurence(params);
+        break;
+      }
+      case 'CONTINUE': {
+        await displayLoadingAnimation(userId);
+        // Do nothing; pass context (updated by singleUserHandler) as-is and reply nothing.
+        result = {
+          context,
+          replies: [],
+        };
         break;
       }
       default: {
