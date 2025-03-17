@@ -45,7 +45,8 @@ function getGraphQLRespLoader(url: string) {
         //
         body: JSON.stringify(queryAndVariables),
       });
-      const responses = await resp.json();
+      const responses: Resp[] | Resp /* Can be singlular on error */ =
+        await resp.json();
       if (
         !Array.isArray(responses) ||
         responses.length !== queryAndVariables.length
