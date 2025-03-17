@@ -45,7 +45,14 @@ function getGraphQLRespLoader(url: string) {
         //
         body: JSON.stringify(queryAndVariables),
       });
-      return await resp.json();
+      const responses: Resp[] | Resp /* Can be singlular on error */ =
+        await resp.json();
+      if (
+        !Array.isArray(responses) ||
+        responses.length !== queryAndVariables.length
+      )
+        throw new Error(`Invalid batch response ${JSON.stringify(responses)}`);
+      return responses;
     } catch (error) {
       console.error(`Failed to fetch GraphQL response from ${url}:`, {
         status: resp?.status,
