@@ -1,0 +1,795 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Plural-Forms: nplurals = 1; plural = 0;\n"
+"Language: ko\n"
+"mime-version: 1.0\n"
+"Last-Translator: RU\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/webhook/index.js:78
+#. Set default result
+#.
+msgid "I cannot understand messages other than text."
+msgstr " 문자 이외의 메시지는 아직 지원하지 않습니다！"
+
+#: src/webhook/handlers/utils.js:40
+msgid "No feedback yet"
+msgstr "응답에 평가이 없습니다."
+
+#: src/webhook/handlers/utils.js:54
+msgid "${ negative } user consider this not useful"
+msgid_plural "${ negative } users consider this not useful"
+msgstr[0] " ${negative}  명이이 응답이 도움이되지 않는다"
+
+#: src/webhook/handlers/utils.js:76
+msgid "Contains misinformation"
+msgstr "틀렸한 메시지  있다"
+
+#: src/webhook/handlers/utils.js:78
+msgid "Contains true information"
+msgstr "확실한 메시지  있다"
+
+#: src/webhook/handlers/utils.js:80
+msgid "Contains personal perspective"
+msgstr "개인의견 있다"
+
+#: src/webhook/handlers/utils.js:82
+msgid "Invalid request"
+msgstr "범위 외"
+
+#: src/webhook/handlers/utils.js:94
+msgid "different opinions"
+msgstr "다른 의견"
+
+#: src/webhook/handlers/utils.js:94
+msgid "references"
+msgstr "출처"
+
+#: src/webhook/handlers/utils.js:97
+#, javascript-format
+msgid "This reply has no ${ prompt } and it may be biased"
+msgstr "이 응답은${prompt}없다.참고하십시오."
+
+#: src/webhook/handlers/choosingArticle.js:141
+msgid "Volunteer editors has publised several replies to this message."
+msgstr "Cofacts의 자원봉사자(편집자)들이 메시지에 대해 많은 의견을 표명했습니다."
+
+#: src/webhook/handlers/choosingArticle.js:263
+msgid "Let's pick one"
+msgstr "선택"
+
+#: src/webhook/handlers/choosingArticle.js:242
+msgid "Take a look"
+msgstr "보다"
+
+#: src/webhook/handlers/choosingArticle.js:279
+#, javascript-format
+msgid "Visit ${ articleUrl } for more replies."
+msgstr "더 많은 응답：${ articleUrl }방문하세요."
+
+#: src/webhook/handlers/initState.js:201
+msgid "Choose this one"
+msgstr "선택"
+
+#: src/webhook/handlers/initState.js:293
+msgid ""
+"Internet rumors are often mutated and shared.\n"
+"Please choose the version that looks the most similar"
+msgstr ""
+"잘못된 메시지는 자주 수정되고 다시 전송됩니다.\n"
+"더 가까운 버전을 선택하세요"
+
+#: src/webhook/handlers/utils.js:579
+msgid "Someone on the internet replies to the message:"
+msgstr "인터넷의 누군가가 메시지에 응답했습니다."
+
+#: src/webhook/handlers/utils.js:592
+#, javascript-format
+msgid "Therefore, the author think the message ${ typeStr }."
+msgstr "그래서, 응답자의 생각${typeStr}。"
+
+#: src/webhook/handlers/utils.js:595
+msgid ""
+"There are different replies for the message. Read them all here before "
+"making judgements:"
+msgstr "이 메시지에 다양한 다른 응답이 있습니다.판단하기 전에 모두 읽으십시오."
+
+#: src/webhook/handlers/utils.js:597
+msgid "If you have different thoughts, you may have your say here:"
+msgstr "이 메시지에 대해 다른 의견이 있으면 새로운 응답을 작성하십시오."
+
+#: src/webhook/handlers/choosingReply.js:19
+msgid "Is the reply helpful?"
+msgstr "위의 응답이 도움이 되었나요?"
+
+#: src/webhook/handlers/choosingReply.js:55
+msgid "Yes"
+msgstr "네"
+
+#: src/webhook/handlers/choosingReply.js:65
+msgid "No"
+msgstr "아니요"
+
+#: src/webhook/handlers/initState.js:244
+#: src/webhook/handlers/initState.js:262
+msgid "None of these messages matches mine :("
+msgstr "확인하고 싶은 메시지를 찾을 수 없습니다QQ"
+
+#: src/webhook/handlers/utils.js:45
+#, javascript-format
+msgid "${ positive } user considers this helpful"
+msgid_plural "${ positive } users consider this helpful"
+msgstr[0] " ${positive} 사용자가이 정보가 유용하다고 생각합니다."
+
+#: src/webhook/handlers/initState.js:260
+msgid "Tell us more"
+msgstr "이 메시지를보고"
+
+#: src/webhook/handlers/initState.js:276
+msgid "Please choose the most similar message from the list."
+msgstr "아래에서 확인하는 메시지를 선택하세요"
+
+#: src/webhook/handlers/choosingArticle.js:267
+msgid "Please take a look at the following replies."
+msgstr "아래에서 응답를 선택하세요"
+
+#: src/webhook/handlers/choosingArticle.js:188
+#, javascript-format
+msgid "Someone thinks it ${ typeWords }"
+msgstr "누군가 생각하는${typeWords}"
+
+#: src/webhook/handlers/initState.js:178
+#, javascript-format
+msgid "Looks ${ similarityPercentage }% similar"
+msgstr " ${similarityPercentage}% 같아"
+
+#: src/webhook/index.js:40
+msgid ""
+"Line bot is busy, or we cannot handle this message. Maybe you can try again "
+"a few minutes later."
+msgstr "죄송합니다! 시스템이 사용 중이며 제때 메시지를 처리 할 수 없습니다. 잠시 기다렸다가 다시 시도하십시오"
+
+#: src/webhook/handleInput.js:159
+msgid "Wrong usage"
+msgstr "잘못된 사용"
+
+#: src/webhook/index.js:140
+msgid ""
+"You are currently searching for another message, buttons from previous "
+"search sessions do not work now."
+msgstr "이미 새 메시지를 검색. 과거에 검색의 메시지 버튼은 더 이상 유효하지 않습니다."
+
+#: src/webhook/index.js:282
+msgid ""
+"Oops, something is not working. We have cleared your search data, hopefully "
+"the error will go away. Would you please send us the message from the start?"
+msgstr "아이고! 죄송합니다. 챗봇이 잘못되었습니다.다시 문의하고 싶은 메시지를 보내주세요."
+
+#: src/webhook/handlers/askingReplyRequestReason.js:90
+msgid "Please press the latest button to submit message to database."
+msgstr "가장 가까운 버튼을 사용하여 데이터베이스로 메시지를 보내십시오."
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.js:37
+#: src/webhook/handlers/askingReplyRequestReason.js:41
+msgid "Thanks for the info."
+msgstr "감사합니다"
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.js:63
+#, javascript-format
+msgid "Your submission is now recorded at ${ articleUrl }"
+msgstr "보내는 메시지를 ${ articleUrl }에 기록되었습니다."
+
+#: src/webhook/handlers/askingReplyFeedback.js:45
+msgid "Cannot record your feedback. Try again later?"
+msgstr "피드백을 기록 할 수 없습니다. 나중에 다시 시도 하시겠습니까"
+
+#: src/webhook/handlers/askingReplyFeedback.js:75
+#, javascript-format
+msgid ""
+"Someone says the message “${ articleText }” ${ replyType }.\n"
+"\n"
+"Please refer to ${ articleUrl } for more information, replies and "
+"references."
+msgstr ""
+"누군가「${ articleText }」메시지를${ replyType }라고 말했습니다。\n"
+"\n"
+"자세한 내용은 ${ articleUrl } 를 참조하세요.。"
+
+#: src/webhook/handlers/askingReplyFeedback.js:78
+msgid "Don't forget to forward the messages above to others and share with them!"
+msgstr "위의 메시지를 다른 사람에게 전달하고 공유하십시오!"
+
+#: src/webhook/handlers/askingReplyFeedback.js:85
+#, javascript-format
+msgid "We've received feedback from you and ${ otherFeedbackCount } other users!"
+msgstr "당신과 다른${otherFeedbackCount} 명 피드백을 보내 주셔서 감사합니다."
+
+#: src/webhook/handlers/askingReplyFeedback.js:86
+#: src/webhook/handlers/askingReplyFeedback.js:158
+msgid "Thanks. You're the first one who gave feedback on this reply!"
+msgstr "감사합니다.너는 첫 번째에 이 응답에게 피드백을 평가한 사람입니다.:)"
+
+#: src/webhook/handlers/askingReplyFeedback.js:117
+msgid "Share to friends"
+msgstr "친구에게 공유"
+
+#: src/webhook/handlers/askingReplyFeedback.js:127
+#: src/webhook/handlers/utils.js:453
+msgid "See reported message"
+msgstr "보고 된 메시지보기"
+
+#: src/webhook/handlers/askingReplyFeedback.js:157
+#, javascript-format
+msgid "We've received feedback from you and ${ _otherFeedbackCount } other users!"
+msgstr "당신과 다른  ${ _otherFeedbackCount }명 피드백을 보내 주셔서 감사합니다."
+
+#: src/webhook/handlers/choosingArticle.js:44
+#: src/webhook/handlers/choosingReply.js:86
+msgid "Please choose from provided options."
+msgstr "위에서 선택하세요"
+
+#: src/webhook/handlers/choosingArticle.js:145
+#, javascript-format
+msgid "${ countOfType.RUMOR } of them say it ❌ contains misinformation."
+msgstr "${ countOfType.RUMOR } 명은 메시지가 있는내용  ❌ 잘못된 있다고 생각합니다."
+
+#: src/webhook/handlers/choosingArticle.js:148
+msgid "${ countOfType.NOT_RUMOR } of them says it ⭕ contains true information."
+msgstr "${ countOfType.NOT_RUMOR } 명은 메시지가 내용
+⭕ 확실 있는 생각합니다."
+
+#: src/webhook/handlers/choosingArticle.js:153
+#, javascript-format
+msgid ""
+"${ countOfType.OPINIONATED } of them says it 💬 contains personal "
+"perspective."
+msgstr "${ countOfType.OPINIONATED } 명은 메시지가 내용 💬 含개인의견 있는 생각합니다."
+
+#: src/webhook/handlers/choosingArticle.js:158
+msgid "${ countOfType.NOT_ARTICLE } of them says it ⚠️️ is out of scope of Cofacts."
+msgstr "${ countOfType.NOT_ARTICLE } 명은 Cofacts의  ⚠️️ 검증 범위에 속하지 않습니다."
+
+#: src/webhook/handlers/choosingArticle.js:244
+#: src/webhook/handlers/initState.js:203
+#, javascript-format
+msgid "I choose “${ displayTextWhenChosen }”"
+msgstr "선택「${displayTextWhenChosen}」"
+
+#: src/liff/pages/Reason.svelte:80
+#: src/liff/pages/Source.svelte:33
+#: src/webhook/handlers/choosingArticle.js:292
+#: src/webhook/handlers/utils.js:463
+msgid "Provide more info"
+msgstr "추가 자료 제공"
+
+#: src/webhook/handlers/choosingArticle.js:296
+msgid ""
+"Unfortunately no one has replied to this message yet. To help Cofacts "
+"editors checking the message, please "
+msgstr "죄송합니다. 이 메시지에 응답 없습니다.확인 부탁합니다. "
+
+#: src/webhook/handlers/choosingArticle.js:300
+#, javascript-format
+msgid "provide more information using “${ btnText }” button. "
+msgstr "자세한 정보를 제공하려면「${btnText}」버튼을 사용하세요."
+
+#: src/webhook/handlers/choosingReply.js:107
+msgid ""
+"We have problem retrieving message and reply data, please forward the "
+"message again"
+msgstr "메시지 및 답장 데이터를 검색하는 데 문제가 있습니다. 메시지를 다시보내주세요."
+
+#: src/webhook/handlers/askingReplyRequestReason.js:112
+msgid "Something went wrong when recording your reason, please try again later."
+msgstr "응답를 기록하는 중에 문제가 있습니다. 나중에 다시 시도하세요."
+
+#: src/webhook/handlers/askingReplyRequestReason.js:130
+msgid "Thanks for the info you provided."
+msgstr "응답 주셔서 감사합니다."
+
+#: src/webhook/handlers/askingReplyRequestReason.js:162
+#, javascript-format
+msgid "There is ${ otherReplyRequestCount } user also waiting for clarification."
+msgid_plural "There are ${ otherReplyRequestCount } users also waiting for clarification."
+msgstr[0] "응답을보고 싶은 사람이 ${ otherReplyRequestCount } 명 있습니다."
+
+#: src/webhook/handlers/initState.js:286
+#, javascript-format
+msgid ""
+"There are some messages that looks similar to \"${ inputSummary }\" you "
+"have sent to me."
+msgstr "저에게 보낸「${ inputSummary }」와 (과) 비슷한 메시지가 있습니다."
+
+#: src/webhook/handlers/initState.js:315
+msgid "We didn't find anything about this image :("
+msgstr "이 이미지에 대한 정보가 없습니다. :("
+
+#: src/webhook/handlers/initState.js:323
+#, javascript-format
+msgid "We didn't find anything about \"${ inputSummary }\" :("
+msgstr "「${ inputSummary }」에 대한 정보를 찾을 수 없습니다. :("
+
+#: src/liff/lib.js:94
+#: src/webhook/handlers/utils.js:122
+#. t: Flex message alt-text
+msgid "Please proceed on your mobile phone."
+msgstr "계속 휴대폰에 사용하십시오."
+
+#: src/webhook/handlers/utils.js:131
+#: src/webhook/handlers/utils.js:169
+msgid "Be the first to report the message"
+msgstr "이 메시지를 가장 먼저보고하십시오"
+
+#: src/webhook/handlers/utils.js:132
+msgid "Submit to database"
+msgstr "데이터베이스로 보내기"
+
+#: src/webhook/handlers/utils.js:136
+msgid ""
+"Currently we don't have this message in our database. If you think it is "
+"probably a rumor, "
+msgstr "현재 데이터베이스에 너가 보냈 메시지가 없습니다.소문이라고 생각하시면,"
+
+#: src/webhook/handlers/utils.js:140
+#, javascript-format
+msgid "press “${ btnText }” to make this message public on Cofacts database "
+msgstr "이 메시지를 Cofacts 데이터베이스에 공개하려면「${ btnText }」을 누르십시오."
+
+#: src/webhook/handlers/utils.js:146
+msgid ""
+"for nice volunteers to fact-check. Although you won't receive answers "
+"rightaway, you can help the people who receive the same message in the "
+"future."
+msgstr "좋은 자원봉사자들이 사실을 확인할 수 있습니다. 확인 결과를받지는 바로 못하지만 앞으로 같은 메시지를받는 사람들을 도울 수 있습니다."
+
+#: src/webhook/handlers/utils.js:248
+msgid ""
+"Your friends may know the answer 🌟 Share your question to friends, maybe "
+"someone can help!"
+msgstr "친구가 가능 답을  알습니다.🌟친구에게 질문을 공유하면 누군가가 대답 할 수 있습니다!"
+
+#: src/webhook/handlers/utils.js:261
+msgid "Share on LINE"
+msgstr "LINE에서 공유"
+
+#: src/webhook/handlers/utils.js:263
+#, javascript-format
+msgid "Please help me verify if this is true: ${ articleUrl }"
+msgstr "이것이 사실인지 거짓인지 확인 도와주세요.：${ articleUrl }"
+
+#: src/webhook/handlers/utils.js:273
+msgid "Share on Facebook"
+msgstr "Facebook 에서 공유"
+
+#: src/webhook/handlers/utils.js:277
+#. t: Facebook hash tag
+msgid "ReportedToCofacts"
+msgstr "Cofacts응답하고싶어"
+
+#: src/webhook/handlers/utils.js:365
+msgid ""
+"Please tell us where you have received the message using the options we "
+"provided."
+msgstr "제공된 옵션을 사용하여 메시지를받은 위치를 알려주십시오."
+
+#: src/webhook/handlers/utils.js:386
+msgid ""
+"We suggest forwarding the message to the following fact-checkers instead. "
+"They have 💁 1-on-1 Q&A service to respond to your questions."
+msgstr "예, 다음 전문 사실 확인 기관에 메시지를 전달하는 것이 좋습니다. 💁 누군가 당신을 위해 대답 할 것입니다."
+
+#: src/webhook/handlers/utils.js:463
+msgid "Rewrite my reason"
+msgstr "이유제출"
+
+#: src/liff/lib.js:135
+msgid "This button was for previous search and is now expired."
+msgstr "새 메시지를 보냈습니다. 이 이전 버튼은 더 이상 유효하지 않습니다."
+
+#: src/liff/lib.js:119
+msgid "Sorry, the button is expired."
+msgstr "죄송합니다. 버튼이 만료되었습니다."
+
+#: src/liff/lib.js:92
+msgid "Sorry, the function is not applicable on desktop."
+msgstr "죄송합니다. 이 기능은 데스크탑에서 사용할 수 없습니다."
+
+#: src/liff/pages/NegativeFeedback.svelte:36
+msgid "Report not useful"
+msgstr "응답이 도와주지 않다"
+
+#: src/liff/pages/NegativeFeedback.svelte:37
+msgid ""
+"Your feedback has been recorded. We are sorry that the reply is not useful "
+"to you."
+msgstr "당신의 평가가 기록되었습니다. 이 응답은 당신에게 유용 아니라고 죄송합니다."
+
+#: src/liff/pages/NegativeFeedback.svelte:38
+msgid "How can we make it useful to you?"
+msgstr "당신은 어떻게 더 도움이 될 것이라고 생각합니까?"
+
+#: src/liff/pages/NegativeFeedback.svelte:41
+#: src/liff/pages/PositiveFeedback.svelte:41
+#: src/liff/pages/Reason.svelte:87
+msgid "Submit"
+msgstr "전송"
+
+#: src/liff/pages/PositiveFeedback.svelte:36
+msgid "Report reply useful"
+msgstr "응답이 도와 있다"
+
+#: src/liff/pages/PositiveFeedback.svelte:37
+msgid "We have recorded your feedback. It's glad to see the reply is helpful."
+msgstr "당신의 평가가 기록했습니다. 이 응답은 당신에게 도움이되어 기쁩니다."
+
+#: src/liff/pages/PositiveFeedback.svelte:38
+msgid "Do you have anything to add about the reply?"
+msgstr "이 응답에 대해 내용 추가  하시겠습니까?"
+
+#: src/liff/pages/Reason.svelte:11
+#. t: Guidance in LIFF
+msgid ""
+"You may try:\n"
+"1. Express your thought more\n"
+"2. Google for more info\n"
+"3. Look for similar content using search box on Facebook"
+msgstr ""
+"해볼래：\n"
+"1. 생각을 더 표현하세요\n"
+"2. Google의 자세한 정보 검색\n"
+"3. 복사하여 Facebook검색에 내용을 찾습니다"
+
+#: src/liff/pages/Reason.svelte:17
+#. t: Guidance in LIFF
+#, javascript-format
+msgid ""
+"It would help fact-checking editors a lot if you provide more info :)\n"
+"\n"
+"${ LENGHEN_HINT }\n"
+"\n"
+"To provide more info, please press \"Cancel\"; otherwise, press \"OK\" to "
+"submit the current info directly."
+msgstr ""
+"더 많은 메시지를 제공하면 사실 확인 편집자에게 많은 도움이 될 것입니다.\n"
+"\n"
+"${ LENGHEN_HINT }\n"
+"\n"
+"정보를 추가하려면 \"취소\"를 클릭 하시고 지금 바로 보내 주시면 \"확인\"을 클릭하세요."
+
+#: src/liff/pages/Reason.svelte:24
+#. t: Guidance in LIFF
+msgid ""
+"The info you provide should not be identical to the message itself.\n"
+"\n"
+"${ LENGHEN_HINT }"
+msgstr ""
+"제공하는 정보는 원본 메시지와 동일하지 않아야합니다.\n"
+"\n"
+"${ LENGHEN_HINT }"
+
+#: src/liff/pages/Reason.svelte:81
+msgid "To help with fact-checking, please tell the editors:"
+msgstr "사실 확인에 도움, 편집자을 알려주세요. ："
+
+#: src/liff/pages/Reason.svelte:82
+msgid "Why do you think this is a hoax?"
+msgstr "왜 이것이 소문이라고 생각합니까?"
+
+#: src/liff/pages/Reason.svelte:84
+msgid ""
+"Ex: I googled using (some keyword) and found that... / I found different "
+"opinion on (some website) saying that..."
+msgstr "예를 들면：(키워드)를 사용하여 검색 한 결과 .../ (웹사이트)에서 다른 의견을 찾았는데 ..."
+
+#: src/liff/pages/Source.svelte:34
+msgid "How did you get the message?"
+msgstr "이 메시지를 어디서 보았습니까?"
+
+#: src/lib/sharedUtils.js:14
+msgid "My reason is"
+msgstr "내 이유는"
+
+#: src/lib/sharedUtils.js:15
+#: src/lib/sharedUtils.js:16
+msgid "I got the message from"
+msgstr "메시지의 출처는"
+
+#: src/lib/sharedUtils.js:17
+msgid "I think the reply is useful and I want to add"
+msgstr "이 응답이 유용하다고 생각하며 추가하고 싶습니다"
+
+#: src/lib/sharedUtils.js:18
+msgid "I think the reply is not useful and I suggest"
+msgstr "이 응답이 유용하지 않습니다. 나는 건의"
+
+#: src/lib/sharedUtils.js:36
+msgid "A LINE group"
+msgstr "LINE그룹에서 보기"
+
+#: src/lib/sharedUtils.js:41
+msgid "A LINE official account"
+msgstr "LINE공식계정 발송"
+
+#: src/lib/sharedUtils.js:46
+msgid "Someone sent me on LINE in private"
+msgstr "누군가 LINE을 사용하여 나에게 개인적으로 보냈습니다."
+
+#: src/lib/sharedUtils.js:51
+msgid "Somewhere outside LINE"
+msgstr "LINE 외부에서 본"
+
+#: src/lib/sharedUtils.js:56
+msgid "I typed it out myself"
+msgstr "내가 쓴"
+
+#: src/liff/lib.js:109
+msgid "Cannot get token from URL"
+msgstr ""
+
+#: src/liff/lib.js:147
+#. t: In LIFF, should not happen
+msgid "Unexpected error, no search session data is retrieved."
+msgstr ""
+
+#: src/liff/pages/Articles.svelte:83
+msgid "Viewed messages"
+msgstr "확인 된 메시지"
+
+#: src/liff/pages/Articles.svelte:84
+msgid "Fetching viewed messages"
+msgstr "확인 된 메시지로드"
+
+#: src/liff/components/ViewedArticle.svelte:37
+#: src/liff/components/ViewedArticle.svelte:42
+#: src/liff/pages/Reason.svelte:87
+msgid "Loading"
+msgstr "로드"
+
+#: src/liff/components/ViewedArticle.svelte:38
+msgid "No replies yet"
+msgstr "아직 응답이 없습니다"
+
+#: src/liff/components/ViewedArticle.svelte:27
+msgid "${ replyCount } reply"
+msgid_plural "${ replyCount } replies"
+msgstr[0] "${ replyCount } 개응답"
+
+#: src/lib/sharedUtils.js:19
+msgid "See replies of"
+msgstr "이 응답보기"
+
+#: src/liff/components/ViewedArticle.svelte:32
+#, javascript-format
+msgid "Viewed ${ fromNow } ago"
+msgstr "${fromNow}전에 본"
+
+#: src/liff/components/ViewedArticle.svelte:26
+#, javascript-format
+msgid "${ newArticleReplyCount } new reply"
+msgid_plural "${ newArticleReplyCount } new replies"
+msgstr[0] "${ newArticleReplyCount } 개 새로운 응답"
+
+#: src/liff/pages/Articles.svelte:34
+#, javascript-format
+msgid "${ totalCount } message viewed"
+msgid_plural "${ totalCount } messages viewed"
+msgstr[0] "총 ${ totalCount } 개 메시지 보기"
+
+#: src/liff/components/Pagination.svelte:24
+msgid "Prev"
+msgstr "이전 페이지"
+
+#: src/liff/components/Pagination.svelte:26
+msgid "Next"
+msgstr "다음 페이지"
+
+#: src/liff/pages/UserSetting.svelte:66
+msgid "Settings"
+msgstr "설정"
+
+#: src/webhook/handlers/askingReplyFeedback.js:162
+#, javascript-format
+msgid "If you have a better reply, feel free to submit it to ${ submissionUrl } ."
+msgstr "더 좋은 응답이 있으면, ${ submissionUrl } 에 대한 응답을 제출하십시오."
+
+#: src/liff/lib.js:233
+msgid ""
+"Please retry and allow the permission 'send messages to chats', so that you "
+"can interact with chatbot while clicking the buttons."
+msgstr "다시 시도하고 '채팅에 메시지 보내기'권한을 허용하십시오. 버튼을 클릭하는 동안 챗봇과 상호 작용할 수 있습니다."
+
+#: src/scripts/lib.js:146
+#, javascript-format
+msgid ""
+"There are new replies for the articles you have searched. Please see 'View "
+"article' on cofacts chatbot(${ process.env.LINE_FRIEND_URL }) menu."
+msgstr ""
+"검색 한 메시지에 대한 새로운 응답이 있습니다. (${ process.env.LINE_FRIEND_URL }) "
+"보려면 오른쪽 하단에있는 \"본 메시지\"를 클릭하십시오."
+
+#: src/scripts/lib.js:179
+msgid "View new replies"
+msgstr "새 응답보기"
+
+#: src/scripts/lib.js:180
+msgid ""
+"There are new replies for the articles you have searched. Click the button "
+"for more details."
+msgstr "검색 한 메시지에 대한 새로운 응답이 있습니다."
+
+#: src/webhook/handlers/initState.js:146
+msgid "(Words found in the hyperlink)"
+msgstr "（URL에서 찾은 문자）"
+
+#: src/liff/pages/UserSetting.svelte:67
+msgid "Welcome to Cofacts!"
+msgstr "Cofacts 친구를 추가해서 감사합니다."
+
+#: src/liff/pages/UserSetting.svelte:70
+msgid ""
+"Cofacts can send you latest reply of messages you have sent to Cofacts "
+"before."
+msgstr "당신이 검사 한 메시지에 대한 새로운 응답이있을 때 Cofacts 당신을 알릴 수 있습니다."
+
+#: src/liff/pages/UserSetting.svelte:71
+msgid "Notify me of new responses"
+msgstr "새 응답이있을 때 알림"
+
+#: src/liff/pages/UserSetting.svelte:73
+msgid "No setup option for now :)"
+msgstr "현재 설정 옵션이 없습니다 :)"
+
+#: src/liff/pages/UserSetting.svelte:68
+msgid "You can configure Cofacts here to meet your need."
+msgstr "여기에서 필요에 맞게 Cofacts를 설정할 수 있습니다."
+
+#: src/webhook/handlers/utils.js:313
+msgid ""
+"You can turn on notification if you want Cofacts to notify you when someone "
+"replies this message."
+msgstr "다른 사람이이 메시지에 응답 할 때 알림을 받으려면 알림을 켤 수 있습니다."
+
+#: src/webhook/handlers/utils.js:326
+msgid "Go to settings"
+msgstr "설정"
+
+#: src/webhook/handlers/utils.js:302
+msgid "Receive updates"
+msgstr "업데이트 받기"
+
+#: src/liff/pages/UserSetting.svelte:69
+msgid "Fetching settings"
+msgstr "설정로드 중"
+
+#: src/webhook/handlers/tutorial.js:20
+#. From rich menu
+msgid "tutorial"
+msgstr "사용 방법"
+
+#: src/webhook/handlers/tutorial.js:22
+#. From flex message button
+msgid "Simulates forwarding a message"
+msgstr "Cofacts에 메시지 보내기 시뮬레이션"
+
+#: src/webhook/handlers/tutorial.js:24
+#. From quick reply, Note: it should be less than 20 charactors
+msgid "Cool, I got it!"
+msgstr "대박!알겠습니다."
+
+#: src/webhook/handlers/tutorial.js:25
+msgid "What happened?"
+msgstr "무슨 일이 있어요?"
+
+#: src/webhook/handlers/tutorial.js:26
+msgid "Why"
+msgstr "왜"
+
+#: src/webhook/handlers/tutorial.js:27
+msgid "Done!"
+msgstr "끝난!"
+
+#: src/webhook/handlers/tutorial.js:28
+msgid "Later"
+msgstr "나중에"
+
+#: src/webhook/handlers/tutorial.js:95
+msgid ""
+"This is a chatbot that looks up suspicious forwarded messages for you. Here "
+"is how to use me:"
+msgstr "나는 메시지를 확인하고 전달하는 챗봇. 사용 방법："
+
+#: src/webhook/handlers/tutorial.js:133
+msgid "Wanna try it out? Just forward a message to me!"
+msgstr "해볼래？ 그냥 나에게 메시지 전달!"
+
+#: src/webhook/handlers/tutorial.js:197
+msgid ""
+"This is the end of the tutorial. Next time when you receive a suspicious "
+"message, don't hesitate to forward it to me!"
+msgstr ""
+"짱！가르치는 완료！\n"
+"다음에 의심스러운 메시지를 받으면 확인하고 싶어서 저에게 보내십시오."
+
+#: src/webhook/handlers/tutorial.js:251
+msgid "Setup permission"
+msgstr "권한 설정"
+
+#: src/webhook/handlers/tutorial.js:306
+msgid "You are smart"
+msgstr "너는 똑똑해"
+
+#: src/webhook/handlers/tutorial.js:307
+msgid ""
+"OK. When we ask for feedback from you, the permission dialog will pop-up "
+"again."
+msgstr "나중에 Cofacts에 당신의 허가가 필요한 경우 다시 요청할 것입니다."
+
+#: src/webhook/handlers/tutorial.js:309
+msgid ""
+"To wrap up, please finish your permission settings so that I can provide a "
+"smoother experience."
+msgstr "설정을 완료하십시오. 챗봇의 사실 확인을 계속하십시오"
+
+#: src/webhook/handlers/tutorial.js:310
+msgid ""
+"When I provide hoax-busting replies to you, I would like to ask you for any "
+"feedback on the crowd-sourced reply.\n"
+"In order to achieve that, I need to ask for your permission to \"Send "
+"messages to chats\".\n"
+"The permission will be used to send only this one message of yours back to "
+"this particular chatroom.\n"
+"You can still use Cofacts without granting me this permission. When we ask "
+"for feedback from you, the permission dialog will pop-up again."
+msgstr ""
+"내가 찾은 소문을 전달하면 오해하지 않도록 확인을 위해 대화를해야합니다. 그래서 \"채팅방에 메시지 보내기\"권한을 선택하세요.\n"
+"\"채팅방에 메시지 보내기\" 권한은 나와 당신 의 채팅방만 보내고 다른 대화방에는 보내지 않습니다.\n"
+"\n"
+"동의하지 않아도 다른 기능을 계속 사용할 수 있습니다. 도움이 필요하면이 권한 요청 창이 다시 나타납니다."
+
+#: src/webhook/handlers/tutorial.js:115
+msgid "When receiving a message from elsewhere"
+msgstr "의심스러운 메시지를 받았을 때"
+
+#: src/webhook/handlers/tutorial.js:116
+msgid "Long press and share"
+msgstr "메시지를 길게 누르고 공유하세요"
+
+#: src/webhook/handlers/tutorial.js:117
+msgid "Select Cofacts to share"
+msgstr "“Cofacts진짜가짜” 공유 클릭"
+
+#: src/webhook/handlers/tutorial.js:118
+msgid "Cofacts replies with a crowd-sourced fact-check or chatbot replies"
+msgstr "확인 또는 응답을 받았습니다."
+
+#: src/webhook/handlers/tutorial.js:315
+msgid ""
+"What you see above is a simulation of what you may see after you forward a "
+"message to Cofacts."
+msgstr "위는 나에게 메시지를 보낼 때받을 응답을 시뮬레이션 한 것입니다."
+
+#: src/webhook/handlers/tutorial.js:316
+msgid "Cofacts has a database of hoax messages and replies."
+msgstr "Cofacts에는 소문과 응답 데이터베이스가 있습니다."
+
+#: src/webhook/handlers/tutorial.js:317
+msgid ""
+"When you send a message to me, I look up the message in our database and "
+"return the results I found."
+msgstr "나에게 메시지를 보내면 데이터베이스를 검색하여 찾은 결과를 반환하겠습니다."
+
+#: src/webhook/handlers/tutorial.js:318
+msgid ""
+"If I can't find anything, I will ask you about sending your message to that "
+"database."
+msgstr "결과를 찾을 수 없으면이 메시지를 데이터베이스로 보낼 것인지 묻습니다."
+
+#: src/webhook/handlers/utils.js:593
+msgid ""
+"This content is provided by Cofact message reporting chatbot and "
+"crowd-sourced fact-checking community under CC BY-SA 4.0 license. Please "
+"refer to their references and make judgements on your own."
+msgstr "이 내용는 \"Cofacts 진짜가짜\"메시지보고 챗봇 및 검증 협업 그룹"
+"에서 제공합니다.창조CC 이름 표시-같은 방식 공유에 4.0 국제 라이선스 약관이 출시되었습니다."
+"출처와 이유 참고하고 스스로 판단하십시오."
