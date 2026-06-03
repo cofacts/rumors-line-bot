@@ -6,6 +6,12 @@ import { insertEventBatch } from './lib/bq';
 
 const lineContentRouter = new Router();
 
+const FALLBACK_CONTENT_TYPE: Record<string, string> = {
+  image: 'image/jpeg',
+  video: 'video/mp4',
+  audio: 'audio/m4a',
+};
+
 lineContentRouter.get('/', async (ctx) => {
   const jwt = ctx.query.token;
   if (!jwt || !verify(jwt)) {
@@ -17,8 +23,25 @@ lineContentRouter.get('/', async (ctx) => {
 
   const response = await lineClient.getContent(parsed.messageId);
 
-  const contentType = response.headers.get('content-type') ?? '';
+  let contentType = response.headers.get('content-type') ?? '';
   const contentLength = response.headers.get('content-length') ?? '';
+
+  // LINE occasionally returns application/octet-stream for certain image/audio/video formats.
+  // Fall back to a sensible Content-Type based on the message type stored in the JWT.
+  const contentTypePrefix = contentType.split('/')[0].toLowerCase();
+  const expectedMessageType: string | undefined = parsed.messageType;
+  if (
+    expectedMessageType &&
+    !['image', 'audio', 'video'].includes(contentTypePrefix)
+  ) {
+    const fallback = FALLBACK_CONTENT_TYPE[expectedMessageType];
+    if (fallback) {
+      console.warn(
+        `[lineContent] LINE returned unexpected content-type "${contentType}" for ${expectedMessageType} message ${parsed.messageId}. Falling back to "${fallback}".`
+      );
+      contentType = fallback;
+    }
+  }
 
   const visitor = ua(process.env.GA_ID ?? '');
   visitor.screenview('Content Proxy', 'rumors-line-bot');
