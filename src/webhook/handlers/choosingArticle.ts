@@ -15,6 +15,7 @@ import {
   createAskArticleSubmissionConsentReply,
   createAIReply,
   createAskAiReplyFeedbackBubble,
+  textOrFallback,
 } from './utils';
 import ga from 'src/lib/ga';
 import UserSettings from 'src/database/models/userSettings';
@@ -245,7 +246,11 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
           if (!reply) return;
 
           const typeWords = createTypeWords(reply.type).toLowerCase();
-          const displayTextWhenChosen = ellipsis(reply.text ?? '', 25);
+          const replyText = textOrFallback(
+            reply.text,
+            t`⚠️️ No text content ⚠️️`
+          );
+          const displayTextWhenChosen = ellipsis(replyText, 25);
 
           return {
             type: 'bubble',
@@ -278,7 +283,7 @@ const choosingArticle: ChatbotPostbackHandler = async (params) => {
               contents: [
                 {
                   type: 'text',
-                  text: ellipsis(reply.text ?? '', 300, '...'), // 50KB for entire Flex carousel
+                  text: ellipsis(replyText, 300, '...'), // 50KB for entire Flex carousel
                   align: 'start',
                   wrap: true,
                   margin: 'md',

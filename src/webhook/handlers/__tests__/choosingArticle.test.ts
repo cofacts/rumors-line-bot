@@ -171,6 +171,54 @@ it('should select article and have OPINIONATED and NOT_ARTICLE replies', async (
   expect(ga.sendMock).toHaveBeenCalledTimes(1);
 });
 
+it('should never produce an empty flex text when a reply has empty text (#212)', async () => {
+  gql.__push(apiGetArticleResult.multipleRepliesWithEmptyText);
+
+  const params: ChatbotPostbackHandlerParams = {
+    context: {
+      sessionId: 1497994017447,
+      msgs: [
+        {
+          id: 'foo',
+          type: 'text',
+          text: '老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人',
+        },
+      ],
+    },
+    postbackData: {
+      input: 'article-id',
+      sessionId: 1497994017447,
+      state: 'CHOOSING_ARTICLE',
+    },
+    userId: 'Uc76d8ae9ccd1ada4f06c4e1515d46466',
+  };
+
+  const { replies } = await choosingArticle(params);
+
+  // Recursively collect every string assigned to a `text` field so we don't
+  // have to hardcode the exact flex-message shape.
+  const emptyTextFields: unknown[] = [];
+  const walk = (node: unknown) => {
+    if (Array.isArray(node)) {
+      node.forEach(walk);
+    } else if (node && typeof node === 'object') {
+      Object.entries(node as Record<string, unknown>).forEach(
+        ([key, value]) => {
+          if (key === 'text' && typeof value === 'string' && value === '') {
+            emptyTextFields.push(node);
+          } else {
+            walk(value);
+          }
+        }
+      );
+    }
+  };
+  walk(replies);
+
+  expect(emptyTextFields).toEqual([]);
+  expect(gql.__finished()).toBe(true);
+});
+
 it('should select article with no replies', async () => {
   // The case when have AI replies
   gql.__push(apiGetArticleResult.noReplies);
