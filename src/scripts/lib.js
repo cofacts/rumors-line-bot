@@ -54,6 +54,8 @@ async function* getArticlesInBatch(from, to) {
               id
               articleReplies(status: NORMAL) {
                 createdAt
+                positiveFeedbackCount
+                negativeFeedbackCount
               }
             }
             cursor
@@ -121,12 +123,24 @@ const getNotificationList = async (lastScannedAt, nowWithOffset) => {
       userArticleLinks.forEach((data) => {
         const uid = data.userId;
         const node = articles.find(({ id }) => id === data.articleId);
+
+        // Do not notify users about replies with negative feedback
+        // (positive - negative score < 0).
+        const eligibleReplies = node.articleReplies.filter(
+          (reply) =>
+            (reply.positiveFeedbackCount || 0) -
+              (reply.negativeFeedbackCount || 0) >=
+            0
+        );
+
+        // No reply worth notifying about.
+        if (eligibleReplies.length === 0) return;
+
         // return if user viewed the article
-        // Note: Use articleReplies[0] here because in ListArticles the sort of
+        // Note: Use eligibleReplies[0] here because in ListArticles the sort of
         // articleReplies is newest reply first then upvote count sort by desc.
         if (
-          new Date(data.lastViewedAt) >
-          new Date(node.articleReplies[0].createdAt)
+          new Date(data.lastViewedAt) > new Date(eligibleReplies[0].createdAt)
         )
           return;
 
