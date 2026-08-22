@@ -98,7 +98,10 @@ export default async function processText(event, groupId) {
     text: event.input,
   });
 
-  if (ListArticles.edges.length) {
+  // ListArticles can be null when the API returns a partial GraphQL error
+  // (e.g. an upstream dependency failure) instead of throwing outright.
+  // Treat that the same as "no similar articles found".
+  if (ListArticles && ListArticles.edges.length) {
     // Track if find similar Articles in DB.
     visitor.event({ ec: 'UserInput', ea: 'ArticleSearch', el: 'ArticleFound' });
 

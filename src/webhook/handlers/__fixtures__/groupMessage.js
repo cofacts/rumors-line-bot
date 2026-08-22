@@ -298,6 +298,14 @@ const notFound = {
   },
 };
 
+// ListArticles resolves to null when the GraphQL API returns a partial
+// error (e.g. an upstream dependency failure) instead of throwing.
+const nullListArticles = {
+  data: {
+    ListArticles: null,
+  },
+};
+
 // article
 
 /**
@@ -820,6 +828,7 @@ export const apiResult = {
   invalidArticleCategory,
   invalidArticleReply,
   notFound,
+  nullListArticles,
 };
 export const article = {
   invalidReplyType,
