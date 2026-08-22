@@ -97,6 +97,39 @@ export const multipleReplies = {
   },
 };
 
+// Regression fixture for https://github.com/cofacts/rumors-line-bot/issues/212 —
+// a reply with empty `text` (data corrupted by a previous bug) used to make
+// LINE reject the whole carousel with "must be non-empty text".
+export const multipleRepliesWithEmptyText = {
+  data: {
+    GetArticle: {
+      createdAt: '2018-01-02T05:52:12.658Z',
+      replyCount: 2,
+      text: '老榮民九成存款全部捐給慈濟，如今窮了卻得不到慈濟醫院社工的幫忙，竟翻臉不認人',
+      articleReplies: [
+        {
+          reply: {
+            id: 'AV--O3nfyCdS-nWhujMD',
+            type: 'RUMOR',
+            text: '老榮民有住所，有月退俸，也不需要特別的醫療護理，因此較適合榮民之家養老，慈濟也一直關懷陪伴。',
+          },
+          positiveFeedbackCount: 3,
+          negativeFeedbackCount: 0,
+        },
+        {
+          reply: {
+            id: 'AV--LRZYyCdS-nWhujL9',
+            type: 'NOT_ARTICLE',
+            text: '',
+          },
+          positiveFeedbackCount: 0,
+          negativeFeedbackCount: 0,
+        },
+      ],
+    },
+  },
+};
+
 export const elevenReplies = {
   data: {
     GetArticle: {

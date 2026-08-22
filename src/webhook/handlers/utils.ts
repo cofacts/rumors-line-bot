@@ -306,6 +306,18 @@ export function createAskArticleSubmissionConsentReply(
 }
 
 /**
+ * LINE rejects messages whose text is an empty string. Some replies have
+ * empty `text` (data corrupted by a previous bug) but are otherwise valid,
+ * so fall back to a placeholder instead of sending an empty string.
+ */
+export function textOrFallback(
+  text: string | null | undefined,
+  fallback: string
+): string {
+  return text && text.trim() ? text : fallback;
+}
+
+/**
  * @return if the text length is lower than limit, return text; else, return
  *         text with ellipsis.
  */
@@ -733,7 +745,10 @@ function commonReplyMessages(
   return [
     {
       type: 'text',
-      text: ellipsis(reply.text ?? '', 2000),
+      text: ellipsis(
+        textOrFallback(reply.text, t`⚠️️ This reply has no text content ⚠️️`),
+        2000
+      ),
     },
     {
       type: 'text',

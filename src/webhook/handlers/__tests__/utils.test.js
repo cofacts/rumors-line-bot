@@ -13,6 +13,7 @@ import {
   setNewContext,
   setReplyToken,
   consumeReplyTokenInfo,
+  textOrFallback,
 } from '../utils';
 import MockDate from 'mockdate';
 import { read } from 'src/lib/jwt';
@@ -253,6 +254,45 @@ describe('createReplyMessages()', () => {
     expect(
       createReplyMessages(reply, article, selectedArticleId)
     ).toMatchSnapshot();
+  });
+});
+
+describe('createReplyMessages() with empty reply text', () => {
+  it('should fall back to a placeholder instead of sending an empty LINE message', () => {
+    const reply = {
+      type: 'RUMOR',
+      reference: 'http://example.com',
+      // Empty text, as can happen from data corrupted by a previous bug
+      // (https://github.com/cofacts/rumors-line-bot/issues/212).
+      text: '',
+      createdAt: '2018-01-09T05:52:12.658Z',
+    };
+    const article = { replyCount: 1, createdAt: '2018-01-02T05:52:12.658Z' };
+    const selectedArticleId = '2sn80q5l5mzi0';
+    const messages = createReplyMessages(reply, article, selectedArticleId);
+    // The first message is the "someone replies..." header; the second is
+    // the reply text itself, which must never be an empty string.
+    expect(messages[1].text).not.toBe('');
+    expect(messages[1].text.length).toBeGreaterThan(0);
+  });
+});
+
+describe('textOrFallback()', () => {
+  it('should return the text when it is non-empty', () => {
+    expect(textOrFallback('hello', 'fallback')).toBe('hello');
+  });
+
+  it('should return the fallback when text is an empty string', () => {
+    expect(textOrFallback('', 'fallback')).toBe('fallback');
+  });
+
+  it('should return the fallback when text is whitespace-only', () => {
+    expect(textOrFallback('   ', 'fallback')).toBe('fallback');
+  });
+
+  it('should return the fallback when text is null or undefined', () => {
+    expect(textOrFallback(null, 'fallback')).toBe('fallback');
+    expect(textOrFallback(undefined, 'fallback')).toBe('fallback');
   });
 });
 
