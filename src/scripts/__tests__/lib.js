@@ -161,6 +161,97 @@ describe('get notification list', () => {
     expect(gql.__finished()).toBe(true);
   });
 
+  it('excludes replies with negative feedback score from notification', async () => {
+    gql.__push({
+      data: {
+        ListArticles: {
+          pageInfo: {
+            firstCursor: 'WzE1OTM1OTAzNjgyOTQsIjN2dmsxMGNlYTgxdzEiXQ==',
+            lastCursor: 'WzE1NDUyNjQ5NzEwOTUsIjFoendmbnZnYnYwdWkiXQ==',
+          },
+          totalCount: 2,
+        },
+      },
+    });
+
+    gql.__push({
+      data: {
+        ListArticles: {
+          edges: [
+            {
+              // a10's newest reply has negative feedback score, so the
+              // older (eligible) reply should be used to decide whether
+              // the user has already seen the latest notifiable reply.
+              node: {
+                id: 'a10',
+                articleReplies: [
+                  {
+                    createdAt: '2020-06-14T11:57:25.100Z',
+                    positiveFeedbackCount: 1,
+                    negativeFeedbackCount: 5,
+                  },
+                  {
+                    createdAt: '2020-06-01T11:57:25.100Z',
+                    positiveFeedbackCount: 3,
+                    negativeFeedbackCount: 0,
+                  },
+                ],
+              },
+              cursor: 'WzE1OTM0Njk4MjQyOTcsIjFmaTdkbGE5d3R3am4iXQ==',
+            },
+            {
+              // a11 only has a reply with negative feedback score, so it
+              // should never be notified regardless of lastViewedAt.
+              node: {
+                id: 'a11',
+                articleReplies: [
+                  {
+                    createdAt: '2020-05-29T10:32:34.103Z',
+                    positiveFeedbackCount: 0,
+                    negativeFeedbackCount: 2,
+                  },
+                ],
+              },
+              cursor: 'WzE1NDUyNjQ5NzEwOTUsIjFoendmbnZnYnYwdWkiXQ==',
+            },
+          ],
+        },
+      },
+    });
+
+    const fixtures = [
+      {
+        userId: 'u10',
+        articleId: 'a10',
+        createdAt: new Date('2020-01-01T18:10:18.314Z'),
+        // Viewed before the eligible (older) reply was created.
+        lastViewedAt: new Date('2020-05-30T00:00:00.000Z'),
+      },
+      {
+        userId: 'u11',
+        articleId: 'a11',
+        createdAt: new Date('2020-01-01T18:10:18.314Z'),
+        lastViewedAt: new Date('2020-01-01T18:10:18.314Z'),
+      },
+    ];
+
+    if (await UserArticleLink.collectionExists()) {
+      await (await UserArticleLink.client).drop();
+    }
+
+    for (const fixture of fixtures) {
+      await UserArticleLink.create(fixture);
+    }
+
+    const result = await lib.getNotificationList(
+      '2020-05-20T00:00:00.000Z',
+      '2020-06-15T00:00:00.000Z'
+    );
+
+    expect(result).toMatchSnapshot();
+    expect(gql.__finished()).toBe(true);
+  });
+
   it('handles empty ListArticles data', async () => {
     gql.__push({
       data: {
