@@ -150,7 +150,7 @@ export function createReferenceWords({
     : '';
 
   if (reference) return `${repliedAt}${prompt}：${reference}`;
-  return `\uDBC0\uDC85 ⚠️️ ${t`This reply has no ${prompt} and it may be biased`} ⚠️️  \uDBC0\uDC85`;
+  return `${repliedAt}\uDBC0\uDC85 ⚠️️ ${t`This reply has no ${prompt} and it may be biased`} ⚠️️  \uDBC0\uDC85`;
 }
 
 /**
@@ -735,10 +735,16 @@ function commonReplyMessages(
       type: 'text',
       text: ellipsis(reply.text ?? '', 2000),
     },
-    {
-      type: 'text',
-      text: ellipsis(createReferenceWords(reply), 2000),
-    },
+    // NOT_ARTICLE replies state that the forwarded message is not even an
+    // article, so there is nothing to reference.
+    ...(reply.type === 'NOT_ARTICLE'
+      ? []
+      : [
+          {
+            type: 'text' as const,
+            text: ellipsis(createReferenceWords(reply), 2000),
+          },
+        ]),
     {
       type: 'text',
       text:
