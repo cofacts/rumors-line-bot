@@ -247,6 +247,34 @@ exports[`createReferenceWords() should create reference for rumors 1`] = `
 references：This is a reference"
 `;
 
+exports[`createReferenceWords() should still show reply time when there is no reference 1`] = `
+"replied at：Jan 9, 2018
+􀂅 ⚠️️ This reply has no references and it may be biased ⚠️️  􀂅"
+`;
+
+exports[`createReplyMessages() should not show references for NOT_ARTICLE replies 1`] = `
+Array [
+  Object {
+    "text": "💡 Someone on the internet replies to the message first reported on Jan 2, 2018:",
+    "type": "text",
+  },
+  Object {
+    "text": "這則訊息本身並不是一篇完整的文章",
+    "type": "text",
+  },
+  Object {
+    "text": "⬆️ Therefore, the author think the message invalid request.
+
+💁 This content is provided by Cofact message reporting chatbot and crowd-sourced fact-checking community under CC BY-SA 4.0 license. Please refer to their references and make judgements on your own.
+
+
+⁉️ If you have different thoughts, you may have your say here:
+https://dev.cofacts.tw/article/2sn80q5l5mzi0",
+    "type": "text",
+  },
+]
+`;
+
 exports[`createReplyMessages() should return reply messages 1`] = `
 Array [
   Object {
