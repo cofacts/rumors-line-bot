@@ -83,10 +83,10 @@ const server = app.listen(process.env.PORT, () => {
   console.log('Listening port', process.env.PORT);
 });
 
-// This app sits behind the cloudflared tunnel (see devops/GCE.md), which pools
-// and reuses keep-alive connections to this origin. Node's http server defaults
-// to a 5s keepAliveTimeout, which is shorter than cloudflared's connection reuse
-// window; when Node closes an idle socket right as cloudflared reuses it for a
+// This app sits behind a reverse proxy, which pools and reuses keep-alive
+// connections to this origin. Node's http server defaults to a 5s
+// keepAliveTimeout, which is shorter than the proxy's connection reuse
+// window; when Node closes an idle socket right as the proxy reuses it for a
 // new LINE webhook request, the request is dropped mid-flight, which LINE then
 // reports as a webhook `request_timeout`. Raising these above the proxy's idle
 // window makes the proxy give up the connection first, avoiding the race.
@@ -94,7 +94,7 @@ const server = app.listen(process.env.PORT, () => {
 // - https://nodejs.org/api/http.html#serverkeepalivetimeout
 // - https://adamcrowder.net/posts/node-express-api-and-aws-alb-502/
 // - https://github.com/nodejs/node/issues/27363
-server.keepAliveTimeout = 65_000; // 65s, comfortably above cloudflared's reuse window
+server.keepAliveTimeout = 65_000; // 65s, comfortably above the reverse proxy's reuse window
 server.headersTimeout = 66_000; // must be > keepAliveTimeout per Node's docs
 
 // Graceful shutdown
