@@ -78,10 +78,24 @@ app.use(router.routes());
 app.use(graphqlMiddleware);
 app.use(router.allowedMethods());
 
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log('Listening port', process.env.PORT);
 });
+
+// This app sits behind the cloudflared tunnel (see devops/GCE.md), which pools
+// and reuses keep-alive connections to this origin. Node's http server defaults
+// to a 5s keepAliveTimeout, which is shorter than cloudflared's connection reuse
+// window; when Node closes an idle socket right as cloudflared reuses it for a
+// new LINE webhook request, the request is dropped mid-flight, which LINE then
+// reports as a webhook `request_timeout`. Raising these above the proxy's idle
+// window makes the proxy give up the connection first, avoiding the race.
+// See:
+// - https://nodejs.org/api/http.html#serverkeepalivetimeout
+// - https://adamcrowder.net/posts/node-express-api-and-aws-alb-502/
+// - https://github.com/nodejs/node/issues/27363
+server.keepAliveTimeout = 65_000; // 65s, comfortably above cloudflared's reuse window
+server.headersTimeout = 66_000; // must be > keepAliveTimeout per Node's docs
 
 // Graceful shutdown
 // https://pm2.keymetrics.io/docs/usage/cluster-mode/#graceful-shutdown
