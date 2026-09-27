@@ -261,10 +261,11 @@ describe('getLineContentProxyURL()', () => {
     const messageId = '578742384791';
     MockDate.set('2020-01-01');
     process.env.RUMORS_LINE_BOT_URL = 'https://testlinebot.cofacts';
-    const url = getLineContentProxyURL(messageId);
+    const url = getLineContentProxyURL(messageId, 'image');
     expect(url).toMatchSnapshot();
     const token = url.split('?token=')[1];
     expect(read(token).messageId).toBe(messageId);
+    expect(read(token).messageType).toBe('image');
     MockDate.reset();
     delete process.env.RUMORS_LINE_BOT_URL;
   });

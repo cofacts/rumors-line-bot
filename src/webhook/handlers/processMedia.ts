@@ -21,7 +21,7 @@ import choosingArticle from './choosingArticle';
 const SIMILARITY_THRESHOLD = 0.95;
 
 export default async function (message: CooccurredMessage, userId: string) {
-  const proxyUrl = getLineContentProxyURL(message.id);
+  const proxyUrl = getLineContentProxyURL(message.id, message.type);
   console.log(`Media url: ${proxyUrl}`);
 
   const visitor = ga(userId, '__PROCESS_MEDIA__', proxyUrl);
