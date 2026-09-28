@@ -99,7 +99,16 @@ server.headersTimeout = 66_000; // must be > keepAliveTimeout per Node's docs
 
 // Graceful shutdown
 // https://pm2.keymetrics.io/docs/usage/cluster-mode/#graceful-shutdown
+//
+// PM2 reloads this app hourly (see devops' cofacts-ops cron, "Chatbot group
+// 重啟"). Without this, SIGINT went straight to process.exit(), which drops
+// the HTTP server (and any keep-alive connections the reverse proxy is
+// holding open to this specific worker) immediately, rather than letting it
+// stop accepting new connections first. server.close() here narrows that
+// window; ecosystem.config.js's kill_timeout gives it room to take effect
+// before PM2 SIGKILLs the process.
 process.on('SIGINT', async () => {
+  server.close();
   try {
     await redis.quit();
     process.exit(0);

@@ -14,6 +14,12 @@ module.exports = {
       watch: false,
       max_memory_restart: `${process.env.WEB_MEMORY || 512}M`, // // Auto-restart if process takes more than XXmo
 
+      // PM2 default (1.6s) doesn't give the old worker's SIGINT handler
+      // (server.close() in src/index.js) enough time to stop accepting new
+      // connections before PM2 SIGKILLs it, especially under the hourly
+      // `pm2 reload all` cron. Give it real breathing room.
+      kill_timeout: 15000,
+
       // https://devcenter.heroku.com/articles/optimizing-dyno-usage#node-js
       exec_mode: 'cluster',
 
