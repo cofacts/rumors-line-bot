@@ -81,6 +81,9 @@ app.use(router.allowedMethods());
 const server = app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log('Listening port', process.env.PORT);
+
+  // Tell PM2 this worker is actually accepting connections (see wait_ready in ecosystem.config.js)
+  if (process.send) process.send('ready');
 });
 
 // This app sits behind a reverse proxy, which pools and reuses keep-alive
@@ -100,7 +103,7 @@ server.headersTimeout = 66_000; // must be > keepAliveTimeout per Node's docs
 // Graceful shutdown
 // https://pm2.keymetrics.io/docs/usage/cluster-mode/#graceful-shutdown
 //
-// PM2 reloads this app hourly (see devops' cofacts-ops cron, "Chatbot group
+// PM2 reloads this app periodically (see devops' cofacts-ops cron, "Chatbot group
 // 重啟"). Without this, SIGINT went straight to process.exit(), which drops
 // the HTTP server (and any keep-alive connections the reverse proxy is
 // holding open to this specific worker) immediately, rather than letting it
