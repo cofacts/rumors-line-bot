@@ -102,6 +102,15 @@ describe('createReferenceWords()', () => {
       })
     ).toMatchSnapshot();
   });
+  it('should still show reply time when there is no reference', () => {
+    const result = createReferenceWords({
+      reference: null,
+      type: 'RUMOR',
+      createdAt: '2018-01-09T05:52:12.658Z',
+    });
+    expect(result).toMatch(/replied at/);
+    expect(result).toMatchSnapshot();
+  });
 });
 
 describe('createFlexMessageText', () => {
@@ -253,6 +262,23 @@ describe('createReplyMessages()', () => {
     expect(
       createReplyMessages(reply, article, selectedArticleId)
     ).toMatchSnapshot();
+  });
+  it('should not show references for NOT_ARTICLE replies', () => {
+    const reply = {
+      type: 'NOT_ARTICLE',
+      reference: null,
+      text: '這則訊息本身並不是一篇完整的文章',
+      createdAt: '2018-01-09T05:52:12.658Z',
+    };
+    const article = { replyCount: 1, createdAt: '2018-01-02T05:52:12.658Z' };
+    const selectedArticleId = '2sn80q5l5mzi0';
+    const messages = createReplyMessages(reply, article, selectedArticleId);
+    // Only the intro + reply text + summary messages; no reference block.
+    expect(messages).toHaveLength(3);
+    expect(
+      messages.some(({ text }) => /replied at|references：/.test(text))
+    ).toBe(false);
+    expect(messages).toMatchSnapshot();
   });
 });
 
