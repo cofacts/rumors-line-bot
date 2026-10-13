@@ -74,6 +74,17 @@ describe('groupMessage', () => {
     expect(ga.sendMock).toHaveBeenCalledTimes(0);
   });
 
+  it('should not throw and should not reply when ListArticles is null', async () => {
+    // Regression test for https://github.com/cofacts/rumors-line-bot/issues/348
+    // ListArticles can resolve to null when the GraphQL API returns a
+    // partial error (e.g. an upstream dependency outage) instead of throwing.
+    event.input = 'article_causing_partial_graphql_error';
+    gql.__push(apiResult.nullListArticles);
+    expect((await groupMessage(event)).replies).toBeUndefined();
+    expect(gql.__finished()).toBe(true);
+    expect(ga.sendMock).toHaveBeenCalledTimes(0);
+  });
+
   it('should handle valid article with one category', async () => {
     event.input =
       'WHO 最新研究顯示 Covid-19 其實源自黑暗料理界，即日起正名為「黑料病毒」';
