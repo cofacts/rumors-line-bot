@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`get notification list excludes replies with negative feedback score from notification 1`] = `
+Object {
+  "u10": Array [
+    "a10",
+  ],
+}
+`;
+
 exports[`get notification list handles empty ListArticles data 1`] = `Object {}`;
 
 exports[`get notification list should get notification list 1`] = `
