@@ -281,4 +281,3 @@ exports[`ellipsis() should ellipsis when text is too long 1`] = `"123⋯⋯"`;
 
 exports[`ellipsis() should properly cut emojis 1`] = `"🏳️‍🌈🏳️‍🌈🏳️‍🌈⋯⋯"`;
 
-exports[`getLineContentProxyURL() should return line content proxy url 1`] = `"https://testlinebot.cofacts/getcontent?token=eyJhbGciOiJIUzI1NiJ9.eyJtZXNzYWdlSWQiOiI1Nzg3NDIzODQ3OTEiLCJleHAiOjE1Nzc4MzcxMDB9._NQ6roCLzXwUWx59W4jciGNp7unnBnsAfywmx8LOt0U"`;

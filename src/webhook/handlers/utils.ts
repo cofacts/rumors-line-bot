@@ -1010,10 +1010,16 @@ const LINE_CONTENT_EXP_SEC = 300; // LINE content proxy JWT is only valid for 5 
 
 /**
  * @param messageId - The line messageId
+ * @param messageType - The LINE message type; included in JWT so the proxy can fall back to a
+ *   sensible Content-Type when LINE returns `application/octet-stream` for certain file formats.
  */
-export function getLineContentProxyURL(messageId: string) {
+export function getLineContentProxyURL(
+  messageId: string,
+  messageType: 'image' | 'audio' | 'video'
+) {
   const jwt = sign({
     messageId,
+    messageType,
     exp: Math.round(Date.now() / 1000) + LINE_CONTENT_EXP_SEC,
   });
 

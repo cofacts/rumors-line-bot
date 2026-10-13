@@ -111,7 +111,7 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
       }
 
       const articleType: ArticleTypeEnum = uppercase(msg.type);
-      const proxyUrl = getLineContentProxyURL(msg.id);
+      const proxyUrl = getLineContentProxyURL(msg.id, msg.type);
 
       const result = await gql`
         mutation SubmitMediaArticleUnderConsent(
@@ -168,7 +168,13 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
         context.msgs.map(async (msg) =>
           msg.type === 'text'
             ? searchText(msg.text)
-            : searchMedia(getLineContentProxyURL(msg.id), userId)
+            : searchMedia(
+                getLineContentProxyURL(
+                  msg.id,
+                  msg.type as 'image' | 'audio' | 'video'
+                ),
+                userId
+              )
         )
       );
     } catch (error) /* istanbul ignore next */ {
