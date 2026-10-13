@@ -1,0 +1,1244 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Plural-Forms: nplurals = 1; plural = 0;\n"
+"Language: id\n"
+"mime-version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/webhook/handlers/utils.ts:106
+msgid "No feedback yet"
+msgstr "Belum ada yang menilai balasan ini"
+
+#: src/webhook/handlers/utils.ts:120
+msgid "${ negative } user consider this not useful"
+msgid_plural "${ negative } users consider this not useful"
+msgstr[0] "${negative} orang merasa balasan ini tidak membantu"
+
+#: src/lib/sharedUtils.js:87
+msgid "Contains misinformation"
+msgstr "Berisi informasi yang tidak benar"
+
+#: src/lib/sharedUtils.js:89
+msgid "Contains true information"
+msgstr "Berisi informasi yang benar"
+
+#: src/lib/sharedUtils.js:91
+msgid "Contains personal perspective"
+msgstr "Berisi opini pribadi"
+
+#: src/lib/sharedUtils.js:93
+msgid "Invalid request"
+msgstr "Di luar cakupan verifikasi"
+
+#: src/webhook/handlers/utils.ts:147
+msgid "different opinions"
+msgstr "Beragam sudut pandang"
+
+#: src/webhook/handlers/utils.ts:147
+msgid "references"
+msgstr "Sumber"
+
+#: src/webhook/handlers/utils.ts:153
+#, javascript-format
+msgid "This reply has no ${ prompt } and it may be biased"
+msgstr "Balasan ini tidak punya ${prompt}, jadi coba pertimbangkan sendiri ya."
+
+#: src/webhook/handlers/choosingArticle.ts:217
+msgid "Volunteer editors have published several replies to this message."
+msgstr "Relawan pemeriksa fakta sudah membagikan beberapa tanggapan untuk pesan ini, lho!"
+
+#: src/webhook/handlers/choosingArticle.ts:343
+msgid "Let's pick one"
+msgstr "Yuk, pilih salah satu untuk dibaca"
+
+#: src/webhook/handlers/choosingArticle.ts:320
+msgid "Take a look"
+msgstr "Coba lihat apa yang dikatakannya"
+
+#: src/webhook/handlers/choosingArticle.ts:359
+#, javascript-format
+msgid "Visit ${ articleUrl } for more replies."
+msgstr "Untuk lebih banyak balasan, kunjungi: ${ articleUrl }"
+
+#: src/webhook/handlers/utils.ts:1271
+msgid "Choose this one"
+msgstr "Pilih yang ini"
+
+#: src/webhook/handlers/askingCooccurrence.ts:287
+#: src/webhook/handlers/initState.ts:191
+#: src/webhook/handlers/processMedia.ts:177
+#. Get first few search results for each message, and make at most 10 options
+#.
+msgid ""
+"Internet rumors are often mutated and shared.\n"
+"Please choose the version that looks the most similar"
+msgstr ""
+"Informasi palsu sering diubah lalu dibagikan lagi.\\n"
+"Pilih versi yang paling mirip, ya"
+
+#: src/webhook/handlers/utils.ts:745
+#, javascript-format
+msgid "Therefore, the author think the message ${ typeStr }."
+msgstr "Berdasarkan hal di atas, penanggap menganggap pesan ini ${typeStr}."
+
+#: src/webhook/handlers/utils.ts:748
+msgid ""
+"There are different replies for the message. Read them all here before "
+"making judgements:"
+msgstr "Ada banyak respons berbeda untuk pesan ini. Sebaiknya baca semuanya di sini dulu sebelum menarik kesimpulan:"
+
+#: src/webhook/handlers/utils.ts:750
+msgid "If you have different thoughts, you may have your say here:"
+msgstr "Kalau kamu punya pandangan berbeda soal pesan ini, silakan tulis respons baru di bawah ini:"
+
+#: src/liff/components/FeedbackForm.svelte:23
+#: src/webhook/handlers/choosingReply.ts:48
+#: src/webhook/handlers/choosingReply.ts:213
+msgid "Is the reply helpful?"
+msgstr "Apakah respons di atas bermanfaat?"
+
+#: src/liff/components/FeedbackForm.svelte:27
+#: src/webhook/handlers/choosingReply.ts:63
+#: src/webhook/handlers/processBatch.ts:46
+#: src/webhook/handlers/utils.ts:814
+msgid "Yes"
+msgstr "Ya"
+
+#: src/liff/components/FeedbackForm.svelte:30
+#: src/webhook/handlers/choosingReply.ts:73
+#: src/webhook/handlers/processBatch.ts:56
+#: src/webhook/handlers/utils.ts:824
+msgid "No"
+msgstr "Tidak"
+
+#: src/webhook/handlers/initState.ts:146
+#: src/webhook/handlers/initState.ts:164
+#: src/webhook/handlers/processMedia.ts:132
+#: src/webhook/handlers/processMedia.ts:150
+msgid "None of these messages matches mine :("
+msgstr "Nggak ada yang cocok sama pesan yang mau aku cek nih :("
+
+#: src/webhook/handlers/utils.ts:111
+#, javascript-format
+msgid "${ positive } user considers this helpful"
+msgid_plural "${ positive } users consider this helpful"
+msgstr[0] "${positive} orang merasa respons ini bermanfaat"
+
+#: src/webhook/handlers/initState.ts:162
+#: src/webhook/handlers/processMedia.ts:148
+msgid "Tell us more"
+msgstr "Laporkan pesan ini"
+
+#: src/webhook/handlers/askingCooccurrence.ts:292
+#: src/webhook/handlers/initState.ts:178
+#: src/webhook/handlers/processMedia.ts:164
+#. Get first few search results for each message, and make at most 10 options
+#.
+msgid "Please choose the most similar message from the list."
+msgstr "Silakan pilih pesan yang paling mirip dari daftar berikut."
+
+#: src/webhook/handlers/choosingArticle.ts:347
+msgid "Please take a look at the following replies."
+msgstr "Silakan lihat respons-respons berikut."
+
+#: src/webhook/handlers/choosingArticle.ts:266
+#, javascript-format
+msgid "Someone thinks it ${ typeWords }"
+msgstr "Ada yang menganggap pesan ini ${typeWords}"
+
+#: src/webhook/handlers/utils.ts:1181
+#, javascript-format
+msgid "Looks ${ similarityPercentage }% similar"
+msgstr "Tampak ${similarityPercentage}% serupa"
+
+#: src/webhook/handlers/handlePostback.ts:95
+msgid "Wrong usage"
+msgstr "Cara pakainya bukan begini"
+
+#: src/webhook/handlers/singleUserHandler.ts:284
+#. Reuse existing context
+msgid ""
+"You are currently searching for another message, buttons from previous "
+"search sessions do not work now."
+msgstr "Kamu sedang mencari pesan baru nih, jadi tombol dari pencarian sebelumnya sudah nggak berfungsi lagi ya."
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:221
+#, javascript-format
+msgid "Your submission is now recorded at ${ articleUrl }"
+msgstr "Pesan yang Anda laporkan telah dicatat di ${ articleUrl }"
+
+#: src/liff/pages/Feedback.svelte:74
+msgid "Cannot record your feedback. Try again later?"
+msgstr "Tidak dapat mencatat umpan balik Anda. Silakan coba lagi nanti."
+
+#: src/webhook/handlers/choosingReply.ts:96
+#, javascript-format
+msgid ""
+"Someone says the message “${ articleText }” ${ replyType }.\n"
+"\n"
+"Please refer to ${ articleUrl } for more information, replies and "
+"references."
+msgstr ""
+"Ada yang bilang pesan \"${ articleText }\" ini ${ replyType }.\\n"
+"\\n"
+"Silakan buka ${ articleUrl } untuk melihat isi pesan lengkap, tanggapan dari pengguna lain, dan sumbernya."
+
+#: src/webhook/handlers/choosingReply.ts:108
+msgid "Don't forget to forward the messages above to others and share with them!"
+msgstr "Jangan lupa bagikan pesan di atas ke chat Anda supaya orang lain juga bisa lihat!"
+
+#: src/liff/components/FeedbackSummary.svelte:14
+#: src/liff/pages/Feedback.svelte:81
+#, javascript-format
+msgid "We've received feedback from you and ${ otherFeedbackCount } other users!"
+msgstr "Terima kasih atas umpan balik dari Anda dan ${otherFeedbackCount} pengguna lainnya!"
+
+#: src/liff/components/FeedbackSummary.svelte:15
+#: src/liff/pages/Feedback.svelte:82
+msgid "Thanks. You're the first one who gave feedback on this reply!"
+msgstr "Terima kasih! Anda orang pertama yang menilai tanggapan ini :)"
+
+#: src/webhook/handlers/choosingReply.ts:123
+msgid "Share to friends"
+msgstr "Bagikan ke teman"
+
+#: src/webhook/handlers/askingArticleSource.ts:34
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:57
+#: src/webhook/handlers/askingCooccurrence.ts:41
+#: src/webhook/handlers/choosingArticle.ts:72
+#: src/webhook/handlers/choosingReply.ts:152
+msgid "Please choose from provided options."
+msgstr "Silakan pilih dari opsi di atas."
+
+#: src/webhook/handlers/choosingArticle.ts:221
+#, javascript-format
+msgid "${ countOfType.RUMOR } of them say it ❌ contains misinformation."
+msgstr "${ countOfType.RUMOR } orang mengatakan pesan ini ❌ mengandung informasi yang salah."
+
+#: src/webhook/handlers/choosingArticle.ts:224
+msgid "${ countOfType.NOT_RUMOR } of them says it ⭕ contains true information."
+msgstr "${ countOfType.NOT_RUMOR } orang mengatakan pesan ini ⭕ mengandung informasi yang benar."
+
+#: src/webhook/handlers/choosingArticle.ts:227
+#, javascript-format
+msgid ""
+"${ countOfType.OPINIONATED } of them says it 💬 contains personal "
+"perspective."
+msgstr "${ countOfType.OPINIONATED } orang mengatakan pesan ini 💬 mengandung opini pribadi."
+
+#: src/webhook/handlers/choosingArticle.ts:230
+msgid "${ countOfType.NOT_ARTICLE } of them says it ⚠️️ is out of scope of Cofacts."
+msgstr "${ countOfType.NOT_ARTICLE } orang mengatakan pesan ini ⚠️️ di luar cakupan verifikasi Cofacts."
+
+#: src/webhook/handlers/choosingArticle.ts:322
+#, javascript-format
+msgid "I choose “${ displayTextWhenChosen }”"
+msgstr "Saya memilih \"${displayTextWhenChosen}\""
+
+#: src/liff/pages/Comment.svelte:96
+msgid "Provide more info"
+msgstr "Berikan informasi tambahan"
+
+#: src/webhook/handlers/choosingReply.ts:188
+msgid ""
+"We have problem retrieving message and reply data, please forward the "
+"message again"
+msgstr "Ada sedikit kendala sehingga kami belum bisa memuat pesan dan tanggapan. Silakan kirim ulang pesan yang ingin Anda cek ya."
+
+#: src/liff/pages/Comment.svelte:82
+msgid "Thanks for the info you provided."
+msgstr "Terima kasih atas informasi yang Anda berikan."
+
+#: src/liff/pages/Comment.svelte:84
+#, javascript-format
+msgid "There is ${ otherReplyRequestCount } user also waiting for clarification."
+msgid_plural "There are ${ otherReplyRequestCount } users also waiting for clarification."
+msgstr[0] "Ada ${ otherReplyRequestCount } orang lain yang sama-sama menantikan klarifikasi untuk pesan ini."
+
+#: src/webhook/handlers/initState.ts:187
+#, javascript-format
+msgid ""
+"There are some messages that looks similar to \"${ inputSummary }\" you "
+"have sent to me."
+msgstr "Beberapa pesan di database mirip dengan \"${ inputSummary }\" yang Anda kirimkan ke saya."
+
+#: src/liff/lib.js:82
+msgid "Please proceed on your mobile phone."
+msgstr "Silakan lanjutkan di ponsel Anda."
+
+#: src/webhook/handlers/utils.ts:167
+msgid "Be the first to report the message"
+msgstr "Jadilah yang pertama melaporkan pesan ini"
+
+#: src/webhook/handlers/utils.ts:349
+msgid "Share on LINE"
+msgstr "Tanya di LINE"
+
+#: src/webhook/handlers/utils.ts:351
+#, javascript-format
+msgid "Please help me verify if this is true: ${ articleUrl }"
+msgstr "Tolong bantu cek apakah ini benar atau tidak: ${ articleUrl }"
+
+#: src/webhook/handlers/utils.ts:361
+msgid "Share on Facebook"
+msgstr "Tanya di Facebook"
+
+#: src/webhook/handlers/utils.ts:365
+#. t: Facebook hash tag
+msgid "ReportedToCofacts"
+msgstr "Tanya Cofacts"
+
+#: src/webhook/handlers/utils.ts:463
+msgid ""
+"We suggest forwarding the message to the following fact-checkers instead. "
+"They have 💁 1-on-1 Q&A service to respond to your questions."
+msgstr "Baik, kami sarankan untuk meneruskan pesan ini ke lembaga pemeriksa fakta profesional di bawah ini. Ada 💁 layanan tanya jawab 1-on-1 untuk menjawab pertanyaan Anda!"
+
+#: src/liff/lib.js:80
+msgid "Sorry, the function is not applicable on desktop."
+msgstr "Maaf, fitur ini tidak tersedia di desktop."
+
+#: src/liff/components/FeedbackForm.svelte:38
+#: src/liff/components/ReplyRequestForm.svelte:55
+msgid "Submit"
+msgstr "Kirim"
+
+#: src/liff/components/FeedbackForm.svelte:32
+msgid "Do you have anything to add about the reply?"
+msgstr "Apakah ada yang ingin ditambahkan tentang balasan ini?"
+
+#: src/liff/components/ReplyRequestForm.svelte:14
+#. t: Guidance in LIFF
+msgid ""
+"You may try:\n"
+"1. Express your thought more\n"
+"2. Google for more info\n"
+"3. Look for similar content using search box on Facebook"
+msgstr ""
+"Anda bisa mencoba:\\n"
+"1. Sampaikan lebih banyak pikiran Anda\\n"
+"2. Cari tahu lebih lanjut di Google\\n"
+"3. Salin seluruh teks dan tempel di kotak pencarian Facebook"
+
+#: src/liff/components/ReplyRequestForm.svelte:20
+#. t: Guidance in LIFF
+#, javascript-format
+msgid ""
+"It would help fact-checking editors a lot if you provide more info :)\n"
+"\n"
+"${ LENGHEN_HINT }\n"
+"\n"
+"To provide more info, please press \"Cancel\"; otherwise, press \"OK\" to "
+"submit the current info directly."
+msgstr ""
+"Informasi yang Anda berikan akan sangat membantu editor pemeriksa fakta jika lebih lengkap :)\\n"
+"\\n"
+"\\n"
+"${ LENGHEN_HINT }\\n"
+"\\n"
+"Jika ingin menambahkan informasi, tekan \"Batal\"; jika ingin langsung mengirim informasi saat ini, tekan \"OK\"."
+
+#: src/liff/components/ReplyRequestForm.svelte:27
+#. t: Guidance in LIFF
+msgid ""
+"The info you provide should not be identical to the message itself.\n"
+"\n"
+"${ LENGHEN_HINT }"
+msgstr ""
+"Informasi yang Anda berikan tidak seharusnya sama dengan teks pesan aslinya.\\n"
+"\\n"
+"${ LENGHEN_HINT }"
+
+#: src/liff/components/ReplyRequestForm.svelte:50
+msgid "To help with fact-checking, please tell the editors:"
+msgstr "Untuk membantu proses cek fakta, silakan sampaikan ke para relawan:"
+
+#: src/liff/components/ReplyRequestForm.svelte:51
+msgid "Why do you think this is a hoax?"
+msgstr "Mengapa Anda menganggap ini hoaks?"
+
+#: src/liff/components/ReplyRequestForm.svelte:53
+msgid ""
+"Ex: I googled using (some keyword) and found that... / I found different "
+"opinion on (some website) saying that..."
+msgstr "Contoh: Saya mencari di Facebook dengan kata kunci OO dan menemukan... / Saya menemukan pernyataan berbeda di situs resmi XX sebagai berikut..."
+
+#: src/liff/pages/Articles.svelte:81
+msgid "Viewed messages"
+msgstr "Pesan yang sudah ditinjau"
+
+#: src/liff/pages/Articles.svelte:82
+msgid "Fetching viewed messages"
+msgstr "Memuat pesan yang sudah ditinjau"
+
+#: src/liff/components/ViewedArticle.svelte:37
+#: src/liff/components/ViewedArticle.svelte:42
+msgid "Loading"
+msgstr "Sedang dimuat"
+
+#: src/liff/components/ViewedArticle.svelte:38
+msgid "No replies yet"
+msgstr "Belum ada balasan"
+
+#: src/liff/components/ViewedArticle.svelte:27
+#, javascript-format
+msgid "${ replyCount } reply"
+msgid_plural "${ replyCount } replies"
+msgstr[0] "${ replyCount } balasan"
+
+#: src/lib/sharedUtils.js:15
+msgid "See replies of"
+msgstr "Lihat balasan untuk"
+
+#: src/liff/components/ViewedArticle.svelte:26
+msgid "${ newArticleReplyCount } new reply"
+msgid_plural "${ newArticleReplyCount } new replies"
+msgstr[0] "${ newArticleReplyCount } balasan baru"
+
+#: src/liff/pages/Articles.svelte:32
+#, javascript-format
+msgid "${ totalCount } message viewed"
+msgid_plural "${ totalCount } messages viewed"
+msgstr[0] "Total ${ totalCount } pesan yang sudah ditinjau"
+
+#: src/liff/components/Pagination.svelte:24
+msgid "Prev"
+msgstr "Sebelumnya"
+
+#: src/liff/components/Pagination.svelte:26
+msgid "Next"
+msgstr "Berikutnya"
+
+#: src/liff/pages/UserSetting.svelte:64
+msgid "Settings"
+msgstr "Pengaturan"
+
+#: src/liff/lib.js:169
+msgid ""
+"Please retry and allow the permission 'send messages to chats', so that you "
+"can interact with chatbot while clicking the buttons."
+msgstr "Silakan coba lagi dan izinkan izin 'Kirim pesan ke obrolan', agar Anda dapat berinteraksi dengan bot 'Cofacts Benar atau Tidak' saat menekan tombol."
+
+#: src/scripts/lib.js:149
+#, javascript-format
+msgid ""
+"There are new replies for the articles you have searched. Please see 'View "
+"article' on cofacts chatbot(${ process.env.LINE_FRIEND_URL }) menu."
+msgstr "Ada balasan baru untuk pesan yang pernah Anda cari. Silakan buka menu bot Cofacts (${ process.env.LINE_FRIEND_URL }), lalu klik 'Pesan yang Pernah Dibaca' di pojok kanan bawah untuk melihatnya."
+
+#: src/scripts/lib.js:180
+msgid "View new replies"
+msgstr "Lihat Balasan Baru"
+
+#: src/scripts/lib.js:181
+msgid ""
+"There are new replies for the articles you have searched. Click the button "
+"for more details."
+msgstr "Seseorang telah menulis balasan pengecekan fakta baru untuk pesan yang pernah Anda lihat sebelumnya, lho!"
+
+#: src/liff/pages/UserSetting.svelte:65
+msgid "Welcome to Cofacts!"
+msgstr "Terima kasih sudah mengikuti Cofacts!"
+
+#: src/liff/pages/UserSetting.svelte:70
+msgid ""
+"Cofacts can send you latest reply of messages you have sent to Cofacts "
+"before."
+msgstr "Ketika pesan yang pernah Anda cek memiliki balasan baru, Cofacts dapat memberi tahu Anda."
+
+#: src/liff/pages/UserSetting.svelte:68
+msgid "Notify me of new responses"
+msgstr "Beritahu saya saat ada balasan baru"
+
+#: src/liff/pages/UserSetting.svelte:71
+msgid "No setup option for now :)"
+msgstr "Belum ada opsi pengaturan untuk saat ini :)"
+
+#: src/liff/pages/UserSetting.svelte:66
+msgid "You can configure Cofacts here to meet your need."
+msgstr "Anda dapat mengatur Cofacts di sini sesuai kebutuhan Anda."
+
+#: src/webhook/handlers/utils.ts:414
+msgid "Go to settings"
+msgstr "Buka Pengaturan"
+
+#: src/webhook/handlers/utils.ts:390
+msgid "Receive updates"
+msgstr "Aktifkan Lonceng Notifikasi"
+
+#: src/liff/pages/UserSetting.svelte:67
+msgid "Fetching settings"
+msgstr "Memuat pengaturan..."
+
+#: src/webhook/handlers/tutorial.ts:28
+#. From rich menu
+msgid "tutorial"
+msgstr "Tutorial"
+
+#: src/webhook/handlers/tutorial.ts:30
+#. From flex message button
+msgid "Simulates forwarding a message"
+msgstr "Simulasi mengirim pesan ke Cofacts"
+
+#: src/webhook/handlers/tutorial.ts:32
+#. From quick reply, Note: it should be less than 20 charactors
+msgid "Cool, I got it!"
+msgstr "Keren, aku paham!"
+
+#: src/webhook/handlers/tutorial.ts:33
+msgid "What happened?"
+msgstr "Apa yang terjadi?"
+
+#: src/webhook/handlers/tutorial.ts:34
+msgid "Why"
+msgstr "Mengapa?"
+
+#: src/webhook/handlers/tutorial.ts:35
+msgid "Done!"
+msgstr "Selesai!"
+
+#: src/webhook/handlers/tutorial.ts:36
+msgid "Later"
+msgstr "Nanti saja"
+
+#: src/webhook/handlers/tutorial.ts:107
+msgid ""
+"This is a chatbot that looks up suspicious forwarded messages for you. Here "
+"is how to use me:"
+msgstr "Saya bot yang bantu cek pesan terforward yang mencurigakan. Begini cara pakainya:"
+
+#: src/webhook/handlers/tutorial.ts:135
+msgid "Wanna try it out? Just forward a message to me!"
+msgstr "Udah nggak sabar mau coba? Tinggal forward pesan ke aku aja!"
+
+#: src/webhook/handlers/tutorial.ts:196
+msgid ""
+"This is the end of the tutorial. Next time when you receive a suspicious "
+"message, don't hesitate to forward it to me!"
+msgstr ""
+"Yey~ Selesai juga tutorialnya!!\\n"
+"Nah, kalau nanti dapat pesan yang mencurigakan, langsung forward ke aku ya biar aku bantu cek!"
+
+#: src/webhook/handlers/tutorial.ts:248
+msgid "Setup permission"
+msgstr "Atur Izin"
+
+#: src/webhook/handlers/tutorial.ts:305
+msgid "You are smart"
+msgstr "Kamu pintar!"
+
+#: src/webhook/handlers/tutorial.ts:306
+msgid ""
+"OK. When we ask for feedback from you, the permission dialog will pop-up "
+"again."
+msgstr "Oke, kalau nanti Cofacts (Beneran atau Nggak?) butuh izinmu lagi, dialog izin akan muncul lagi ya!"
+
+#: src/webhook/handlers/tutorial.ts:308
+msgid ""
+"To wrap up, please finish your permission settings so that I can provide a "
+"smoother experience."
+msgstr "Sekarang tolong selesaikan pengaturan izinmu ya, supaya proses cek fakta oleh bot bisa berjalan lancar!"
+
+#: src/webhook/handlers/tutorial.ts:309
+msgid ""
+"When I provide hoax-busting replies to you, I would like to ask you for any "
+"feedback on the crowd-sourced reply.\n"
+"In order to achieve that, I need to ask for your permission to \"Send "
+"messages to chats\".\n"
+"The permission will be used to send only this one message of yours back to "
+"this particular chatroom.\n"
+"You can still use Cofacts without granting me this permission. When we ask "
+"for feedback from you, the permission dialog will pop-up again."
+msgstr ""
+"Saat aku kirim balasan bantahan hoaks ke kamu, aku perlu konfirmasi lewat chat supaya nggak salah paham. Jadi tolong pilih izin \"Kirim Pesan ke Obrolan\" ya.\\n"
+"Izin \"Kirim Pesan ke Obrolan\" ini hanya dipakai untuk mengirim balasan kembali ke ruang obrolan kita ini, bukan ke ruang obrolan lain.\\n"
+"\\n"
+"Kalau belum mau kasih izin, fitur lain tetap bisa dipakai kok! Kalau nanti kami butuh bantuanmu, jendela permintaan izin akan muncul lagi."
+
+#: src/webhook/handlers/tutorial.ts:125
+msgid "When receiving a message from elsewhere"
+msgstr "Kalau dapat pesan yang mencurigakan"
+
+#: src/webhook/handlers/tutorial.ts:126
+msgid "Long press and share"
+msgstr "Tekan dan tahan pesannya, lalu pilih Bagikan"
+
+#: src/webhook/handlers/tutorial.ts:127
+msgid "Select Cofacts to share"
+msgstr "Cari \"Cofacts (Beneran atau Nggak?)\" lalu pilih Bagikan"
+
+#: src/webhook/handlers/tutorial.ts:128
+msgid "Cofacts replies with a crowd-sourced fact-check or chatbot replies"
+msgstr "Anda akan menerima hasil cek fakta atau balasan dari pengguna lain."
+
+#: src/webhook/handlers/tutorial.ts:314
+msgid ""
+"What you see above is a simulation of what you may see after you forward a "
+"message to Cofacts."
+msgstr "Di atas adalah simulasi balasan yang akan Anda terima setelah meneruskan pesan kepada saya."
+
+#: src/webhook/handlers/tutorial.ts:315
+msgid "Cofacts has a database of hoax messages and replies."
+msgstr "Cofacts memiliki database berisi pesan hoaks beserta balasannya."
+
+#: src/webhook/handlers/tutorial.ts:316
+msgid ""
+"When you send a message to me, I look up the message in our database and "
+"return the results I found."
+msgstr "Saat Anda mengirim pesan kepada saya, saya akan mencarinya di database kami dan mengirimkan hasil yang ditemukan."
+
+#: src/webhook/handlers/tutorial.ts:317
+msgid ""
+"If I can't find anything, I will ask you about sending your message to that "
+"database."
+msgstr "Jika tidak ketemu, saya akan meminta izin Anda untuk menambahkan pesan ini ke database kami, ya."
+
+#: src/webhook/handlers/utils.ts:746
+msgid ""
+"This content is provided by Cofact message reporting chatbot and "
+"crowd-sourced fact-checking community under CC BY-SA 4.0 license. Please "
+"refer to their references and make judgements on your own."
+msgstr "Konten ini disediakan oleh bot pelaporan pesan Cofacts dan komunitas cek fakta kolaboratif, dirilis di bawah lisensi CC Atribusi-BerbagiSerupa 4.0 Internasional. Silakan perhatikan sumber dan alasannya, lalu putuskan sendiri."
+
+#: src/webhook/handlers/utils.ts:721
+msgid "I found that there are some disagreement to the message:"
+msgstr "Setelah saya cek, pesan ini tampaknya ada sedikit masalah. Ada versi lain yang mengatakan:"
+
+#: src/webhook/handlers/groupMessage.js:42
+msgid "Hi i am cofacts chat bot"
+msgstr "Halo, saya bot cek pesan Cofacts~"
+
+#: src/webhook/handlers/utils.ts:721
+msgid "Thank you for sharing “${ inputSummary }”"
+msgstr "Terima kasih sudah membagikan \"${ inputSummary }\""
+
+#: src/webhook/handlers/choosingArticle.ts:160
+msgid "Provided message is not found."
+msgstr "Pesan tidak ditemukan."
+
+#: src/liff/components/FeedbackForm.svelte:22
+msgid "Please help Cofacts editors"
+msgstr "Tolong bantu para relawan penangkal hoaks Cofacts"
+
+#: src/liff/components/FeedbackForm.svelte:31
+msgid "It's glad to see the reply is helpful."
+msgstr "Senang sekali balasan ini bermanfaat untuk Anda."
+
+#: src/liff/components/FeedbackForm.svelte:39
+msgid "Please provide your comment above"
+msgstr "Silakan tulis saran Anda di atas"
+
+#: src/liff/components/FeedbackForm.svelte:40
+#: src/liff/components/ReplyRequestForm.svelte:56
+msgid "Close"
+msgstr "Tutup"
+
+#: src/liff/pages/Feedback.svelte:114
+msgid "Report not helpful"
+msgstr "Laporkan balasan kurang membantu"
+
+#: src/liff/pages/Feedback.svelte:113
+msgid "Report reply helpful"
+msgstr "Tandai balasan bermanfaat"
+
+#: src/liff/components/FeedbackForm.svelte:34
+msgid "We are sorry that the reply is not helpful to you."
+msgstr "Mohon maaf, balasan ini ternyata belum membantu Anda."
+
+#: src/liff/components/FeedbackForm.svelte:35
+msgid "How can we make it helpful to you?"
+msgstr "Bagaimana agar balasan ini bisa lebih membantu Anda?"
+
+#: src/liff/components/FeedbackForm.svelte:33
+msgid "I think the reply is helpful and I want to add..."
+msgstr "Balasan ini sudah membantu saya, dan saya ingin menambahkan..."
+
+#: src/liff/components/FeedbackForm.svelte:36
+msgid "I think the reply is not helpful and I suggest..."
+msgstr "Balasan ini belum terlalu membantu, dan saya menyarankan..."
+
+#: src/liff/components/ViewedArticle.svelte:32
+msgid "Viewed on ${ dateString }"
+msgstr "Dilihat pada ${ dateString }"
+
+#: src/lib/sharedUtils.js:78
+#, javascript-format
+msgid "${ dateStr } ago"
+msgstr "${ dateStr } yang lalu"
+
+#: src/liff/pages/Article.svelte:103
+msgid "Cofacts volunteer's reply to the message above"
+msgstr "Balasan dari relawan Cofacts untuk pesan di atas"
+
+#: src/liff/pages/Article.svelte:104
+#, javascript-format
+msgid ""
+"Cofacts volunteers have published ${ articleReplies.length } replies to the "
+"message above"
+msgstr "Relawan Cofacts telah membagikan ${ articleReplies.length } balasan untuk pesan di atas"
+
+#: src/liff/pages/Article.svelte:110
+msgid "IM check"
+msgstr "Verifikasi pesan viral"
+
+#: src/liff/pages/Article.svelte:111
+msgid "Cofacts chatbot"
+msgstr "Chatbot Cofacts"
+
+#: src/liff/pages/Article.svelte:113
+msgid "Loading IM data..."
+msgstr "Memuat pesan viral..."
+
+#: src/liff/pages/Article.svelte:116
+msgid "Suspicious messages"
+msgstr "Pesan viral"
+
+#: src/liff/components/ArticleCard.svelte:18
+msgid "${ replyRequestCount } person reported"
+msgid_plural "${ replyRequestCount } people reported"
+msgstr[0] "${ replyRequestCount } orang melaporkan"
+
+#: src/liff/components/ArticleCard.svelte:16
+#, javascript-format
+msgid "First reported on ${ createdAtStr }"
+msgstr "Dilaporkan pertama kali pada ${ createdAtStr }"
+
+#: src/liff/components/ArticleCard.svelte:48
+msgid "Show Less"
+msgstr "Tutup Teks Penuh"
+
+#: src/liff/components/ArticleCard.svelte:48
+msgid "Show More"
+msgstr "Baca Teks Penuh"
+
+#: src/liff/components/ArticleReplyCard.svelte:87
+msgid "Opinion Sources"
+msgstr "Sumber Pendapat Berbeda"
+
+#: src/liff/components/ArticleReplyCard.svelte:87
+msgid "References"
+msgstr "Referensi"
+
+#: src/liff/components/ArticleReplyCard.svelte:89
+msgid "There is no reference for this reply. Its truthfulness may be doubtful."
+msgstr "Balasan ini tidak memiliki sumber, jadi silakan pertimbangkan kebenarannya."
+
+#: src/liff/components/ArticleReplyHeader.svelte:22
+#, javascript-format
+msgid "${ articleReply.user.name } mark this message ${ replyTypeWord }"
+msgstr "${ articleReply.user.name } menilai pesan ini ${ replyTypeWord }"
+
+#: src/liff/components/ArticleReplyHeader.svelte:24
+msgid "Replied ${ repliedAtWord }"
+msgstr "Dibalas pada ${ repliedAtWord }"
+
+#: src/liff/components/Terms.svelte:5
+msgid "Cofacts message reporting chatbot and crowd-sourced fact-checking community"
+msgstr "Bot pelapor pesan Cofacts dan komunitas cek fakta kolaboratif"
+
+#: src/liff/components/Terms.svelte:8
+#, javascript-format
+msgid ""
+"This info by ${ authorLink } is licensed under ${ licenseLink }, the "
+"community name and the provenance link for each item shall be fully cited "
+"for further reproduction or redistribution."
+msgstr "Informasi ini disediakan oleh ${ authorLink } dan berlisensi ${ licenseLink }. Saat menyalin atau mendistribusikan kembali, nama komunitas dan tautan sumber untuk setiap item wajib dikutip lengkap."
+
+#: src/liff/components/FeedbackSummary.svelte:21
+msgid "Edit feedback"
+msgstr "Ubah Umpan Balik"
+
+#: src/liff/pages/Article.svelte:123
+msgid "Other replies"
+msgstr "Balasan Cek Fakta Lainnya"
+
+#: src/liff/pages/Article.svelte:126
+msgid ""
+"There are different replies for the message. We suggest read them all here "
+"before you make judgements."
+msgstr "Pesan ini punya banyak balasan cek fakta yang berbeda. Sebaiknya baca semuanya di sini dulu sebelum menarik kesimpulan, ya."
+
+#: src/liff/pages/Article.svelte:127
+msgid "Read other replies"
+msgstr "Baca Balasan Lainnya"
+
+#: src/liff/pages/Article.svelte:115
+msgid "Open in Cofacts"
+msgstr "Buka di Cofacts"
+
+#: src/liff/Redirect.svelte:35
+msgid "Proceed"
+msgstr "Lanjut"
+
+#: src/liff/Redirect.svelte:37
+msgid "Let's check the message, together!"
+msgstr "Ayo kita cek kebenaran pesan ini bersama!"
+
+#: src/liff/Redirect.svelte:38
+msgid ""
+"You are going to proceed to Cofacts to read the reply for you written by "
+"fact-check volunteers."
+msgstr "Anda akan diarahkan ke Cofacts untuk membaca balasan yang ditulis oleh relawan pemeriksa fakta."
+
+#: src/liff/Redirect.svelte:39
+msgid ""
+"If the reply and the reference is helpful to you, please provide positive "
+"feedback. If existing replies can be improved, please login the website and "
+"provide new fact-check replies."
+msgstr "Jika balasan dan sumbernya bermanfaat bagi Anda, silakan berikan tanggapan positif. Jika balasan yang sudah ada bisa diperbaiki, silakan masuk ke situs web dan tuliskan balasan pemeriksaan fakta baru."
+
+#: src/liff/Redirect.svelte:40
+msgid "Proceed to read the reply"
+msgstr "Lanjut membaca balasan"
+
+#: src/liff/pages/Article.svelte:56
+msgid "This message does not exist."
+msgstr "Pesan ini tidak ditemukan."
+
+#: src/liff/pages/Article.svelte:121
+msgid "The reply does not exist. Maybe it has been deleted by its author."
+msgstr "Balasan ini tidak ada. Mungkin sudah dihapus oleh penulisnya, ya."
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:258
+#: src/webhook/handlers/choosingArticle.ts:432
+msgid "View reported message"
+msgstr "Lihat pesan yang dilaporkan"
+
+#: src/webhook/handlers/askingArticleSource.ts:77
+#: src/webhook/handlers/choosingArticle.ts:444
+#: src/webhook/handlers/utils.ts:846
+msgid "Provide more detail"
+msgstr "Berikan detail lebih lanjut"
+
+#: src/webhook/handlers/utils.ts:859
+msgid "It would help fact checkers a lot if you provide more detail :)"
+msgstr "Detail tambahan dari Anda akan sangat membantu para pemeriksa fakta :)"
+
+#: src/webhook/handlers/utils.ts:872
+msgid "Provide detail"
+msgstr "Berikan detail"
+
+#: src/webhook/handlers/choosingArticle.ts:414
+#: src/webhook/handlers/choosingArticle.ts:425
+msgid ""
+"This message has already published on Cofacts, and will soon be "
+"fact-checked by volunteers.\n"
+"Don’t trust the message just yet!"
+msgstr ""
+"Pesan ini sudah dipublikasikan di Cofacts dan akan segera diperiksa kebenarannya oleh relawan.\\n"
+"Jangan langsung percaya dulu, ya!"
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:270
+#: src/webhook/handlers/choosingArticle.ts:378
+msgid "In the meantime, you can:"
+msgstr "Sementara itu, Anda bisa:"
+
+#: src/webhook/handlers/utils.ts:336
+msgid ""
+"We all get by with a little help from our friends 🌟 Share your question to "
+"friends, someone might be able to help!"
+msgstr "Kita semua butuh sedikit bantuan dari teman 🌟 Bagikan pertanyaan Anda ke teman-teman, siapa tahu ada yang bisa membantu!"
+
+#: src/webhook/handlers/utils.ts:401
+msgid ""
+"You can turn on notifications if you want Cofacts to notify you when "
+"someone replies to this message."
+msgstr "Jika ingin Cofacts memberi tahu Anda saat ada yang membalas pesan ini, silakan aktifkan notifikasi, ya!"
+
+#: src/webhook/handlers/askingArticleSource.ts:56
+msgid "Instructions"
+msgstr "Petunjuk"
+
+#: src/webhook/handlers/askingArticleSource.ts:60
+#. t: ~ entire message that ...
+msgid ""
+"I am a bot which only recognizes messages forwarded on LINE, therefore it "
+"is important to send me the"
+msgstr "Aku adalah bot yang hanya mengenali pesan yang beredar di LINE, jadi silakan kirim"
+
+#: src/webhook/handlers/askingArticleSource.ts:64
+#. t: emphasized text in sentence "It is important to send me the ~ that is being passed around"
+msgid " entire message "
+msgstr "seluruh pesan"
+
+#: src/webhook/handlers/askingArticleSource.ts:70
+#. t: the entire message ~
+msgid "that is being passed around so I can identify it."
+msgstr "kepadaku, supaya aku bisa mengenalinya, ya!"
+
+#: src/webhook/handlers/askingArticleSource.ts:74
+msgid "You can try:"
+msgstr "Silakan coba:"
+
+#: src/webhook/handlers/askingArticleSource.ts:89
+msgid "Try again with the whole message"
+msgstr "Kirim ulang seluruh pesan kepadaku"
+
+#: src/webhook/handlers/askingArticleSource.ts:103
+msgid ""
+"If you have access to the whole message on LINE, please use the “Share” "
+"function to share it with me."
+msgstr "Jika kamu menerima pesan lengkap ini di LINE, silakan tekan lama pesan tersebut dan gunakan fitur \"Bagikan\" untuk membagikannya kepadaku."
+
+#: src/webhook/handlers/askingArticleSource.ts:115
+msgid "See Tutorial"
+msgstr "Lihat Tutorial"
+
+#: src/webhook/handlers/askingArticleSource.ts:136
+msgid "Find a real person"
+msgstr "Minta Pengecekan oleh Manusia"
+
+#: src/webhook/handlers/askingArticleSource.ts:150
+msgid ""
+"You can forward your question to another LINE account which provides a "
+"human response"
+msgstr "Kamu bisa meneruskan pertanyaanmu ke akun LINE lain yang menyediakan layanan pengecekan fakta oleh manusia."
+
+#: src/webhook/handlers/askingArticleSource.ts:185
+msgid "I see. Don’t trust the message just yet!"
+msgstr "Baiklah. Jangan langsung percaya pesan ini dulu, ya!"
+
+#: src/webhook/handlers/askingArticleSource.ts:188
+#: src/webhook/handlers/choosingArticle.ts:117
+#: src/webhook/handlers/processMedia.ts:195
+msgid "Do you want someone to fact-check this message?"
+msgstr "Mau minta orang mengecek pesan ini?"
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:83
+msgid "The message has not been reported and won’t be fact-checked. Thanks anyway!"
+msgstr "Oke, berarti tidak perlu dicek. Tetap terima kasih!"
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:242
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:252
+msgid ""
+"The message has now been recorded at Cofacts for volunteers to fact-check. "
+"Thank you for submitting!"
+msgstr "Pesan sudah dicatat di Cofacts untuk dicek oleh relawan. Terima kasih atas laporannya!"
+
+#: src/webhook/handlers/choosingArticle.ts:102
+#, javascript-format
+msgid ""
+"I am sorry you cannot find the information “${ inputSummary }” you are "
+"looking for. But I would still like to help."
+msgstr "Maaf, tidak menemukan \"${ inputSummary }\" yang kamu cari. Tapi aku tetap ingin membantumu mengeceknya."
+
+#: src/webhook/handlers/initState.ts:207
+#, javascript-format
+msgid ""
+"Unfortunately, I currently don’t recognize “${ inputSummary }”, but I would "
+"still like to help."
+msgstr "Maaf, saat ini aku belum mengenali pesan \"${ inputSummary }\", tapi aku tetap ingin membantumu mengeceknya."
+
+#: src/webhook/handlers/askingCooccurrence.ts:126
+#: src/webhook/handlers/utils.ts:163
+msgid "Report to database"
+msgstr "Kirim ke database untuk diperiksa"
+
+#: src/webhook/handlers/askingCooccurrence.ts:234
+#: src/webhook/handlers/utils.ts:262
+msgid ""
+"and have volunteers fact-check it. This way you can help the people who "
+"receive the same message in the future."
+msgstr ", dan biarkan relawan memverifikasi serta menjawabnya. Dengan begitu, Anda bisa membantu orang lain yang menerima pesan serupa di masa depan."
+
+#: src/webhook/handlers/askingCooccurrence.ts:256
+#: src/webhook/handlers/askingCooccurrence.ts:258
+#: src/webhook/handlers/utils.ts:290
+#: src/webhook/handlers/utils.ts:292
+msgid "Don’t report"
+msgstr "Saya tidak ingin melaporkan pesan ini"
+
+#: src/webhook/handlers/utils.ts:951
+msgid "Did you forward this message as a whole to me from the LINE app?"
+msgstr "Apakah pesan ini Anda bagikan utuh dari LINE kepada saya?"
+
+#: src/webhook/handlers/utils.ts:977
+#: src/webhook/handlers/utils.ts:979
+msgid "Yes, I forwarded it as a whole"
+msgstr "Ya, saya bagikan utuh"
+
+#: src/webhook/handlers/utils.ts:989
+#: src/webhook/handlers/utils.ts:991
+msgid "No, typed it myself"
+msgstr "Tidak, saya ketik sendiri"
+
+#: src/webhook/handlers/choosingArticle.ts:104
+#: src/webhook/handlers/initState.ts:209
+msgid "May I ask you a quick question?"
+msgstr "Boleh tanya satu hal dulu:"
+
+#: src/webhook/handlers/choosingReply.ts:133
+msgid "Provide better reply"
+msgstr "Berikan jawaban yang lebih baik"
+
+#: src/webhook/handlers/processMedia.ts:173
+msgid "There are some messages that looks similar to the one you have sent to me."
+msgstr "Di database ada beberapa pesan yang mirip dengan yang Anda kirimkan ke saya."
+
+#: src/webhook/handlers/choosingArticle.ts:115
+msgid "I am sorry you cannot find the information you are looking for."
+msgstr "Mohon maaf, informasi yang Anda cari tidak ditemukan."
+
+#: src/webhook/handlers/processMedia.ts:193
+#. submit
+msgid ""
+"Unfortunately, I currently don’t recognize this message, but I would still "
+"like to help."
+msgstr "Mohon maaf, saya belum mengenali pesan ini, tapi saya tetap ingin membantu Anda memeriksanya."
+
+#: src/liff/components/ArticleCard.svelte:41
+#: src/liff/components/ViewedArticle.svelte:45
+msgid "A video"
+msgstr "Sebuah video"
+
+#: src/liff/components/ArticleCard.svelte:42
+#: src/liff/components/ArticleCard.svelte:45
+#: src/liff/components/ViewedArticle.svelte:46
+#: src/liff/components/ViewedArticle.svelte:48
+msgid "Preview not supported yet"
+msgstr "Pratinjau belum didukung"
+
+#: src/liff/components/ArticleCard.svelte:44
+#: src/liff/components/ViewedArticle.svelte:47
+msgid "An audio"
+msgstr "Sebuah pesan suara"
+
+#: src/webhook/handlers/utils.ts:1183
+msgid "Similar file"
+msgstr "File serupa"
+
+#: src/webhook/handlers/utils.ts:1184
+msgid "Contains relevant text"
+msgstr "Berisi teks yang relevan"
+
+#: src/webhook/handlers/utils.ts:1193
+msgid "(Text in the hyperlink)"
+msgstr "(Teks dalam tautan)"
+
+#: src/webhook/handlers/utils.ts:1197
+msgid "(Text in transcript)"
+msgstr "(Teks dalam transkrip)"
+
+#: src/webhook/handlers/utils.ts:1273
+#, javascript-format
+msgid "I choose ${ displayTextWhenChosen }"
+msgstr "Saya memilih ${ displayTextWhenChosen }"
+
+#: src/webhook/handlers/askingCooccurrence.ts:283
+#. Get first few search results for each message, and make at most 10 options
+#.
+msgid "There are some messages that looks similar to the ones you have sent to me."
+msgstr "Ada beberapa pesan di database yang mirip dengan yang Anda kirimkan ke saya."
+
+#: src/webhook/handlers/askingCooccurrence.ts:59
+msgid "Please send me the messages separately."
+msgstr "Oke, tolong kirimkan pesan-pesan ini satu per satu ya."
+
+#: src/webhook/handlers/processBatch.ts:39
+#, javascript-format
+msgid ""
+"May I ask if the ${ msgCount } messages above were sent by the same person "
+"at the same time?"
+msgstr "Mau tanya, apakah ${ msgCount } pesan di atas dikirim oleh orang yang sama di waktu yang bersamaan?"
+
+#: src/webhook/handlers/processBatch.ts:48
+msgid "Yes, same person at same time"
+msgstr "Ya, orang yang sama di waktu yang bersamaan"
+
+#: src/webhook/handlers/processBatch.ts:58
+msgid "No, from different person or at different time"
+msgstr "Tidak, dari orang berbeda atau waktu berbeda"
+
+#: src/webhook/handlers/utils.ts:149
+msgid "replied at"
+msgstr "menjawab pada"
+
+#: src/webhook/handlers/utils.ts:650
+#, javascript-format
+msgid ""
+"Someone on the internet replies to the message first reported on ${ "
+"articleDate }:"
+msgstr "Ada orang di internet yang menjawab pesan yang pertama dilaporkan pada ${ articleDate }:"
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:275
+msgid ""
+"This article is still under verification, please refrain from believing it "
+"for now. \n"
+"Below is the preliminary analysis result by the bot, hoping to provide you "
+"with some insights."
+msgstr ""
+"Artikel ini masih dalam proses verifikasi, jadi belum perlu langsung dipercaya dulu.\\n"
+"Berikut hasil analisis awal dari bot, semoga bisa memberi gambaran untuk Anda."
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:279
+#: src/webhook/handlers/choosingArticle.ts:406
+msgid "After reading the automatic analysis by the bot above, you can:"
+msgstr "Setelah membaca analisis otomatis dari bot di atas, Anda bisa:"
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:197
+msgid ""
+"Thank you for submitting! Now the messages has been recorded in the Cofacts "
+"database."
+msgstr "Terima kasih sudah mengirim! Pesan-pesan ini sudah tercatat di database Cofacts ya."
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:200
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:204
+msgid "Please choose the messages you would like to view"
+msgstr "Silakan pilih pesan yang ingin Anda lihat"
+
+#: src/webhook/handlers/askingCooccurrence.ts:132
+msgid "Be the first to report these messages"
+msgstr "Jadilah orang pertama di dunia yang melaporkan pesan-pesan ini"
+
+#: src/webhook/handlers/askingCooccurrence.ts:146
+#, javascript-format
+msgid ""
+"The ${ notInDbMsgIndexes.length } messages that you have sent are not "
+"within the Cofacts database."
+msgstr "Pesan sebanyak ${ notInDbMsgIndexes.length } yang Anda kirim saat ini belum ada di basis data Cofacts."
+
+#: src/webhook/handlers/askingCooccurrence.ts:147
+#, javascript-format
+msgid ""
+"Out of the ${ totalCount } messages you sent, ${ notInDbMsgIndexes.length } "
+"is not within the Cofacts database."
+msgid_plural ""
+"Out of the ${ totalCount } messages you sent, ${ notInDbMsgIndexes.length } "
+"are not within the Cofacts database."
+msgstr[0] "Dari ${ totalCount } pesan yang Anda kirim, ${ notInDbMsgIndexes.length } pesan belum ada di basis data Cofacts."
+
+#: src/webhook/handlers/askingCooccurrence.ts:156
+#: src/webhook/handlers/utils.ts:184
+msgid "If you believe:"
+msgstr "Jika menurut Anda:"
+
+#: src/webhook/handlers/askingCooccurrence.ts:176
+#. t: If you believe ~ a rumor
+msgid "That they are most likely "
+msgstr "Pesan-pesan tersebut kemungkinan besar adalah "
+
+#: src/webhook/handlers/askingCooccurrence.ts:180
+#. t: If you believe that it is most likely ~
+msgid "rumors,"
+msgstr "rumor,"
+
+#: src/webhook/handlers/askingCooccurrence.ts:208
+#: src/webhook/handlers/utils.ts:236
+#. t: ~ make this messasge public
+msgid "And you are willing to "
+msgstr "dan Anda bersedia "
+
+#: src/webhook/handlers/askingCooccurrence.ts:212
+#. t: and you are willing to ~
+msgid "make these messages public"
+msgstr "membuka pesan-pesan ini ke publik"
+
+#: src/webhook/handlers/askingCooccurrence.ts:228
+#, javascript-format
+msgid "Press “${ btnText }” to make these messages public on Cofacts website "
+msgstr "Silakan tekan \"${ btnText }\" untuk membuka pesan-pesan ini secara publik di situs web Cofacts "
+
+#: src/webhook/handlers/utils.ts:179
+msgid "We currently don’t have this message in our database."
+msgstr "Pesan yang Anda kirim saat ini belum ada di basis data kami."
+
+#: src/webhook/handlers/utils.ts:204
+#. t: If you believe ~ a rumor
+msgid "That it is most likely "
+msgstr "Pesan tersebut kemungkinan besar adalah "
+
+#: src/webhook/handlers/utils.ts:208
+#. t: If you believe that it is most likely ~
+msgid "a rumor,"
+msgstr "rumor,"
+
+#: src/webhook/handlers/utils.ts:240
+#. t: and you are willing to ~
+msgid "make this message public"
+msgstr "membuka pesan ini ke publik"
+
+#: src/webhook/handlers/utils.ts:256
+#, javascript-format
+msgid "Press “${ btnText }” to make this message public on Cofacts website "
+msgstr "Silakan tekan \"${ btnText }\" untuk membuka pesan ini secara publik di situs web Cofacts "
+
+#: src/lib/sharedUtils.js:59
+msgid "unknown date"
+msgstr "tanggal tidak diketahui"
+
+#: src/lib/sharedUtils.js:67
+msgid "unknown time"
+msgstr "Waktu tidak diketahui"
+
+#: src/webhook/handlers/utils.ts:784
+msgid "Provide feedback to AI analysis"
+msgstr "Beri umpan balik untuk analisis AI"
+
+#: src/webhook/handlers/utils.ts:799
+msgid "Is the AI analysis helpful?"
+msgstr "Apakah analisis AI ini membantu?"
+
+#: src/liff/pages/AiReplyFeedback.svelte:43
+msgid "Thank you for providing feedback to the automated analysis."
+msgstr "Terima kasih sudah memberi umpan balik untuk analisis AI."
+
+#: src/liff/pages/AiReplyFeedback.svelte:63
+msgid "Report AI analysis helpful"
+msgstr "Laporkan analisis AI membantu"
+
+#: src/liff/pages/AiReplyFeedback.svelte:64
+msgid "Report AI analysis not helpful"
+msgstr "Laporkan analisis AI tidak membantu"
+
+#: src/webhook/handlers/utils.ts:695
+#. t: max 20 characters
+msgid "AI analysis"
+msgstr "Analisis AI"
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:225
+msgid ""
+"I am now generating automated analysis for the message you have submitted, "
+"please wait."
+msgstr "Saya sedang membuat analisis AI untuk pesan yang Anda kirimkan, mohon tunggu sebentar ya."
+
+#: src/webhook/handlers/utils.ts:1515
+msgid "I am still processing your request. Please wait."
+msgstr "Saya masih memproses permintaan Anda, mohon tunggu sebentar ya."
+
+#: src/webhook/handlers/utils.ts:1549
+#: src/webhook/handlers/utils.ts:1554
+msgid "OK, proceed."
+msgstr "Baik, silakan lanjut."
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:93
+#, javascript-format
+msgid ""
+"I am currently sending the ${ msgsToSubmit.length } new message(s) you have "
+"submitted to the database."
+msgstr "Saya sedang mengirim ${ msgsToSubmit.length } pesan baru yang Anda kirimkan ke database."
+
+#: src/webhook/handlers/askingCooccurrence.ts:77
+#: src/webhook/handlers/askingCooccurrence.ts:93
+#, javascript-format
+msgid ""
+"Out of the ${ context.msgs.length } message(s) you have submitted, I am "
+"still analyzing ${ processingCount } of them."
+msgstr "Dari ${ context.msgs.length } pesan yang Anda kirimkan, saya masih menganalisis ${ processingCount } di antaranya."
+
+#: src/webhook/handlers/processMedia.ts:41
+msgid "I am still analyzing the media file you have submitted."
+msgstr "Saya masih menganalisis file media yang Anda kirimkan."
+
+#: src/webhook/handlers/askingArticleSubmissionConsent.ts:183
+#: src/webhook/handlers/askingCooccurrence.ts:105
+msgid ""
+"Sorry, I encountered an error while analyzing the messages. Please try "
+"sending them to me again later."
+msgstr "Maaf, ada kesalahan saat saya menganalisis pesan-pesan Anda. Silakan coba kirim lagi nanti ya."
+
+#: src/webhook/handlers/processMedia.ts:61
+msgid ""
+"Sorry, I encountered an error while processing your media. Please try again "
+"later."
+msgstr "Maaf, ada kesalahan saat saya memproses file media Anda. Silakan coba lagi nanti ya."
