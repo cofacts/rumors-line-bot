@@ -44,7 +44,11 @@ export default async function (message: CooccurredMessage, userId: string) {
 
   let result;
   try {
-    result = await searchMedia(proxyUrl, userId, message.type);
+    result = await searchMedia(
+      proxyUrl,
+      userId,
+      message.type === 'text' ? null : message.type
+    );
   } catch (error) /* istanbul ignore next */ {
     console.error('[processMedia] Error searching media:', error);
     visitor.send();
@@ -76,7 +80,13 @@ export default async function (message: CooccurredMessage, userId: string) {
     const hasIdenticalDocs =
       result.edges[0].mediaSimilarity >= SIMILARITY_THRESHOLD;
 
-    if (result.edges.length === 1 && hasIdenticalDocs) {
+    // kNN-only hits (no hash similarity and no matching text) are related
+    // media, not the same file, so they do not stop choosing the identical one.
+    const nonKnnEdgeCount = result.edges.filter(
+      (edge) => edge.mediaSimilarity > 0 || edge.highlight
+    ).length;
+
+    if (nonKnnEdgeCount === 1 && hasIdenticalDocs) {
       visitor.send();
 
       return await choosingArticle({

@@ -1109,19 +1109,26 @@ type SearchMediaResult = Omit<
  * waits about 8s longer than with transcript alone.
  * Ref: the video kNN evaluation of cofacts/rumors-api#411 (2026-11-24).
  */
-const MEDIA_EMBEDDING_THRESHOLD: Partial<
-  Record<CooccurredMessage['type'], number>
-> = {
+const MEDIA_EMBEDDING_THRESHOLD: Partial<Record<MediaMessageType, number>> = {
   video: 0.85,
 };
 
+type MediaMessageType = Exclude<CooccurredMessage['type'], 'text'>;
+
+/**
+ * @param mediaUrl
+ * @param userId
+ * @param knnMessageType - the type of the media, to search it with kNN at the
+ *   threshold of that type (see MEDIA_EMBEDDING_THRESHOLD); null to search
+ *   without kNN.
+ */
 export async function searchMedia(
   mediaUrl: string,
   userId: string,
-  messageType?: CooccurredMessage['type']
+  knnMessageType: MediaMessageType | null
 ): Promise<SearchMediaResult> {
   const embedding =
-    (messageType && MEDIA_EMBEDDING_THRESHOLD[messageType]) ?? null;
+    (knnMessageType && MEDIA_EMBEDDING_THRESHOLD[knnMessageType]) ?? null;
 
   const {
     data: { ListArticles },

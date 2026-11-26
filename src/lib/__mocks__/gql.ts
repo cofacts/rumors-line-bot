@@ -1,11 +1,23 @@
 const mockResultQueue: object[] = [];
 
-function gqlMock() {
-  return () => {
+type MockCall = { query: string; variables?: object; options?: object };
+const mockCalls: MockCall[] = [];
+
+function gqlMock(strings: TemplateStringsArray | string[] = []) {
+  const query = Array.from(strings).join('');
+  return (variables?: object, options?: object) => {
+    mockCalls.push({ query, variables, options });
     const ret = mockResultQueue.shift();
     return Promise.resolve(ret);
   };
 }
+
+/**
+ * @returns the query, variables and options of each gql()() call since the last __reset()
+ */
+gqlMock.__calls = function () {
+  return mockCalls;
+};
 
 /**
  * Enqueues mock data what will be returned in next gql()() call.
@@ -27,6 +39,7 @@ gqlMock.__push = function (returnValue: object) {
  */
 gqlMock.__reset = function () {
   mockResultQueue.length = 0;
+  mockCalls.length = 0;
 };
 
 /**
