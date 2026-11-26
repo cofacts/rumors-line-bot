@@ -168,7 +168,7 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
         context.msgs.map(async (msg) =>
           msg.type === 'text'
             ? searchText(msg.text)
-            : searchMedia(getLineContentProxyURL(msg.id), userId)
+            : searchMedia(getLineContentProxyURL(msg.id), userId, msg.type)
         )
       );
     } catch (error) /* istanbul ignore next */ {

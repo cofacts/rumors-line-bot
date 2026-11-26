@@ -84,7 +84,7 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
           context.msgs.map(async (msg) => {
             const result = await (msg.type === 'text'
               ? searchText(msg.text)
-              : searchMedia(getLineContentProxyURL(msg.id), userId));
+              : searchMedia(getLineContentProxyURL(msg.id), userId, msg.type));
 
             processingCount -= 1;
             // Update reply token collector message with latest number of messages that is still being analyzed

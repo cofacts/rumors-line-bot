@@ -21,6 +21,7 @@ import {
   Context,
   PostbackActionData,
   ReplyTokenInfo,
+  CooccurredMessage,
 } from 'src/types/chatbotState';
 import redis from 'src/lib/redisClient';
 
@@ -1098,19 +1099,40 @@ type SearchMediaResult = Omit<
   edges: NonNullable<ListArticlesInProcessMediaQuery['ListArticles']>['edges'];
 };
 
+/**
+ * Minimum cosine similarity for the kNN (embedding) part of a media search, by
+ * the type of the media. Types not listed here are searched without kNN.
+ *
+ * Video: video vectors sit close to each other. At 0.7, every search brings in
+ * about 100 unrelated videos; 0.85 finds the same related videos with almost
+ * none of them. Embedding a new video takes ~16s (p50), so a new video search
+ * waits about 8s longer than with transcript alone.
+ * Ref: the video kNN evaluation of cofacts/rumors-api#411 (2026-11-24).
+ */
+const MEDIA_EMBEDDING_THRESHOLD: Partial<
+  Record<CooccurredMessage['type'], number>
+> = {
+  video: 0.85,
+};
+
 export async function searchMedia(
   mediaUrl: string,
-  userId: string
+  userId: string,
+  messageType?: CooccurredMessage['type']
 ): Promise<SearchMediaResult> {
+  const embedding =
+    (messageType && MEDIA_EMBEDDING_THRESHOLD[messageType]) ?? null;
+
   const {
     data: { ListArticles },
   } = await gql`
-    query ListArticlesInProcessMedia($mediaUrl: String!) {
+    query ListArticlesInProcessMedia($mediaUrl: String!, $embedding: Float) {
       ListArticles(
         filter: {
           mediaUrl: $mediaUrl
           articleTypes: [TEXT, IMAGE, AUDIO, VIDEO]
           transcript: { shouldCreate: true }
+          embedding: $embedding
         }
         orderBy: [{ _score: DESC }]
         first: 9
@@ -1135,7 +1157,7 @@ export async function searchMedia(
       }
     }
   `<ListArticlesInProcessMediaQuery, ListArticlesInProcessMediaQueryVariables>(
-    { mediaUrl },
+    { mediaUrl, embedding },
     { userId }
   );
   return {

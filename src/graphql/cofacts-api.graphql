@@ -1092,6 +1092,11 @@ input ListArticleFilter {
   mediaUrl: String
 
   """
+  Opt-in hybrid search. Provide the minimum cosine similarity (e.g. `0.7`) to also retrieve the nearest neighbors via kNN, in addition to what BM25 matches. Omit for BM25-only (default). `totalCount` then also counts the nearest neighbors (up to 100 per query vector), so it no longer tells how many match the keywords.
+  """
+  embedding: Float
+
+  """
   Specifies how the transcript of `mediaUrl` can be used to search. Can only specify `transcript` when `mediaUrl` is specified.
   """
   transcript: TranscriptFilter
