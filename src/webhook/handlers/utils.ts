@@ -1102,7 +1102,7 @@ type SearchMediaResult = Omit<
 /**
  * @param mediaUrl
  * @param userId
- * @param options.withKnn - also search with kNN (embedding). The API picks the
+ * @param options.withKnn - also search with kNN (embedding); on by default. The API picks the
  *   thresholds by the type of the media (image -> image 0.7, video -> video
  *   0.85, see DEFAULT_DOC_SIMILARITY in rumors-api) and never embeds audio.
  *   Embedding a new video takes ~16s (p50), so a new video search waits about
@@ -1111,7 +1111,7 @@ type SearchMediaResult = Omit<
 export async function searchMedia(
   mediaUrl: string,
   userId: string,
-  { withKnn }: { withKnn: boolean }
+  { withKnn = true }: { withKnn?: boolean } = {}
 ): Promise<SearchMediaResult> {
   // `{}`: the default thresholds of the API. Its fields must be left out, not
   // set to null (null skips that doc type), hence the cast.
