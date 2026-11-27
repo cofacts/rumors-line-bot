@@ -14,6 +14,23 @@ export type Scalars = {
   Float: number;
 };
 
+/** AI generated embedding vectors for the specified docId, used as cache for hybrid search. The vector data itself is not exposed via GraphQL — only the cache metadata is queryable. */
+export type AiEmbedding = AiResponse & Node & {
+  createdAt: Scalars['String'];
+  /** The id for the document that this AI response is for. */
+  docId: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
+  /** Processing status of AI */
+  status: AiResponseStatusEnum;
+  /** AI response text. Populated after status becomes SUCCESS. */
+  text: Maybe<Scalars['String']>;
+  /** AI response type */
+  type: AiResponseTypeEnum;
+  updatedAt: Maybe<Scalars['String']>;
+  /** The user triggered this AI response */
+  user: Maybe<User>;
+};
+
 /** A ChatGPT reply for an article with no human fact-checks yet */
 export type AiReply = AiResponse & Node & {
   createdAt: Scalars['String'];
@@ -77,6 +94,8 @@ export type AiResponseStatusEnum =
 export type AiResponseTypeEnum =
   /** The AI Response is an automated analysis / reply of an article. */
   | 'AI_REPLY'
+  /** AI generated embedding vectors of the specified article, reply, or search query. Used as cache for hybrid search. */
+  | 'EMBEDDING'
   /** AI transcribed text of the specified article. */
   | 'TRANSCRIPT';
 
@@ -460,6 +479,19 @@ export type AvatarTypeEnum =
   | 'Gravatar'
   | 'OpenPeeps';
 
+export type Badge = {
+  borderImage: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']>;
+  displayName: Maybe<Scalars['String']>;
+  icon: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>;
+  issuers: Array<Scalars['String']>;
+  link: Maybe<Scalars['String']>;
+  name: Maybe<Scalars['String']>;
+  updatedAt: Maybe<Scalars['String']>;
+};
+
 /** Category label for specific topic */
 export type Category = Node & {
   articleCategories: Maybe<ArticleCategoryConnection>;
@@ -619,7 +651,7 @@ export type ListArticleFilter = {
   hasArticleReplyWithMorePositiveFeedback: InputMaybe<Scalars['Boolean']>;
   /** If given, only list out articles with specific IDs */
   ids: InputMaybe<Array<Scalars['ID']>>;
-  /** Show the media article similar to the input url */
+  /** Show the media article similar to the input url. The transcript and embedding of the media are only created when logged in; otherwise only the ones made before are used. */
   mediaUrl: InputMaybe<Scalars['String']>;
   /** List all articles related to a given string. */
   moreLikeThis: InputMaybe<MoreLikeThisInput>;
@@ -785,6 +817,8 @@ export type ListReplyFilter = {
   appId: InputMaybe<Scalars['String']>;
   /** List only the replies that were created between the specific time range. */
   createdAt: InputMaybe<TimeRangeInput>;
+  /** Opt-in hybrid search with `moreLikeThis`; pass `{}` for the default threshold. The query text embedding is only created when logged in. Omit for BM25-only (default). */
+  embedding: InputMaybe<ReplyEmbeddingFilter>;
   /** If given, only list out replies with specific IDs */
   ids: InputMaybe<Array<Scalars['ID']>>;
   moreLikeThis: InputMaybe<MoreLikeThisInput>;
@@ -1047,6 +1081,7 @@ export type PointInfo = {
 
 export type Query = {
   GetArticle: Maybe<Article>;
+  GetBadge: Maybe<Badge>;
   GetCategory: Maybe<Category>;
   GetReply: Maybe<Reply>;
   /**
@@ -1069,6 +1104,11 @@ export type Query = {
 
 
 export type QueryGetArticleArgs = {
+  id: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryGetBadgeArgs = {
   id: InputMaybe<Scalars['String']>;
 };
 
@@ -1188,6 +1228,8 @@ export type RangeInput = {
 };
 
 export type RelatedArticleFilter = {
+  /** Opt-in hybrid search; pass `{}` for the default thresholds. This article's stored embeddings are the kNN query, and its article type is the query type. Articles that have no embeddings yet get the text and media similarity only. */
+  embedding: InputMaybe<ArticleEmbeddingFilter>;
   replyCount: InputMaybe<RangeInput>;
 };
 
@@ -1207,6 +1249,8 @@ export type Reply = Node & {
   reference: Maybe<Scalars['String']>;
   /** Replies that has similar text or references of this current reply */
   similarReplies: ReplyConnection;
+  /** The status of this reply, calculated from its author and article replies. */
+  status: ArticleReplyStatusEnum;
   text: Maybe<Scalars['String']>;
   type: ReplyTypeEnum;
   /** The user submitted this reply version */
@@ -1244,6 +1288,14 @@ export type ReplyConnectionEdge = Edge & {
 export type ReplyConnectionPageInfo = PageInfo & {
   firstCursor: Maybe<Scalars['String']>;
   lastCursor: Maybe<Scalars['String']>;
+};
+
+/** Opt-in hybrid search: also retrieve the nearest neighbors via kNN, in addition to what BM25 matches (up to `k`). Pass `{}` to use the defaults. `totalCount` then also counts the nearest neighbors, so it no longer tells how many match the keywords. */
+export type ReplyEmbeddingFilter = {
+  /** How many nearest neighbors kNN takes, between 1 and 250. Defaults to 100. */
+  k: InputMaybe<Scalars['Int']>;
+  /** Minimum cosine similarity for replies to be found by kNN. Defaults to 0.75. */
+  textDocSimilarity: InputMaybe<Scalars['Float']>;
 };
 
 export type ReplyRequest = Node & {
@@ -1317,7 +1369,7 @@ export type TranscriptFilter = {
    * See https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-minimum-should-match.html for possible values.
    */
   minimumShouldMatch: InputMaybe<Scalars['String']>;
-  /** Only used when `filter.mediaUrl` is provided. Generates transcript if provided `filter.mediaUrl` is not transcribed previously. */
+  /** [Deprecated] No longer read. The transcript is always generated when `filter.mediaUrl` is not transcribed previously. */
   shouldCreate: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -1332,6 +1384,8 @@ export type User = Node & {
   avatarType: Maybe<AvatarTypeEnum>;
   /** returns avatar url from facebook, github or gravatar */
   avatarUrl: Maybe<Scalars['String']>;
+  /** Badges awarded to the user. */
+  badges: Array<UserAwardedBadge>;
   bio: Maybe<Scalars['String']>;
   /** If not null, the user is blocked with the announcement in this string. */
   blockedReason: Maybe<Scalars['String']>;
@@ -1347,6 +1401,14 @@ export type User = Node & {
   id: Scalars['ID'];
   lastActiveAt: Maybe<Scalars['String']>;
   level: Scalars['Int'];
+  /** returns badge background image url */
+  majorBadgeBorderUrl: Maybe<Scalars['String']>;
+  /** returns badge icon url */
+  majorBadgeId: Maybe<Scalars['String']>;
+  /** returns badge icon url */
+  majorBadgeImageUrl: Maybe<Scalars['String']>;
+  /** returns badge name */
+  majorBadgeName: Maybe<Scalars['String']>;
   name: Maybe<Scalars['String']>;
   points: PointInfo;
   /** Number of articles this user has replied to */
@@ -1371,6 +1433,14 @@ export type UserAndExistInput = {
    */
   exists: InputMaybe<Scalars['Boolean']>;
   userId: Scalars['String'];
+};
+
+export type UserAwardedBadge = {
+  badgeId: Scalars['String'];
+  badgeMetaData: Scalars['String'];
+  createdAt: Scalars['String'];
+  isDisplayed: Scalars['Boolean'];
+  updatedAt: Scalars['String'];
 };
 
 export type UserConnection = Connection & {
