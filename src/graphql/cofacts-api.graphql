@@ -1092,9 +1092,9 @@ input ListArticleFilter {
   mediaUrl: String
 
   """
-  Opt-in hybrid search. Provide the minimum cosine similarity (e.g. `0.7`) to also retrieve the nearest neighbors via kNN, in addition to what BM25 matches. Omit for BM25-only (default). `totalCount` then also counts the nearest neighbors (up to 100 per query vector), so it no longer tells how many match the keywords.
+  Opt-in hybrid search with `moreLikeThis` or `mediaUrl`; pass `{}` for the default thresholds. With `mediaUrl`, the media itself is the kNN query (its embedding is only created when logged in; otherwise only the one made before is used). Without it, the `moreLikeThis` text is the query (created only when logged in, as well). Omit for BM25-only (default).
   """
-  embedding: Float
+  embedding: ArticleEmbeddingFilter
 
   """
   Specifies how the transcript of `mediaUrl` can be used to search. Can only specify `transcript` when `mediaUrl` is specified.
@@ -1677,4 +1677,24 @@ type MutationResult {
 input ArticleReferenceInput {
   type: ArticleReferenceTypeEnum!
   permalink: String
+}
+
+"""
+Opt-in hybrid search: also retrieve the nearest neighbors via kNN, in addition to what BM25 matches. Pass `{}` to use the default threshold of each doc type, which depends on the type of the query. kNN runs separately for each doc type (TEXT, IMAGE, VIDEO; AUDIO is never searched by kNN), up to 100 nearest neighbors each. A doc type without a default threshold for the query type is not searched by kNN unless a threshold is given here. Docs only kNN finds come after the BM25 matches. `totalCount` then also counts the nearest neighbors, so it no longer tells how many match the keywords.
+"""
+input ArticleEmbeddingFilter {
+  """
+  Minimum cosine similarity for TEXT docs to be found by kNN. Defaults to a value that depends on the type of the query (text, image or video); `null` skips kNN on TEXT docs.
+  """
+  textDocSimilarity: Float
+
+  """
+  Minimum cosine similarity for IMAGE docs to be found by kNN. Defaults to a value that depends on the type of the query (text, image or video); `null` skips kNN on IMAGE docs.
+  """
+  imageDocSimilarity: Float
+
+  """
+  Minimum cosine similarity for VIDEO docs to be found by kNN. Defaults to a value that depends on the type of the query (text, image or video); `null` skips kNN on VIDEO docs.
+  """
+  videoDocSimilarity: Float
 }

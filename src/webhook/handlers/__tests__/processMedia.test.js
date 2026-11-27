@@ -200,7 +200,7 @@ describe('kNN', () => {
 
     const [search, getArticle] = gql.__calls();
     expect(search.query).toContain('ListArticlesInProcessMedia');
-    expect(search.variables.embedding).toBe(0.85);
+    expect(search.variables.embedding).toEqual({});
     // The kNN-only hit does not stop choosing the identical video.
     expect(getArticle.variables).toMatchObject({ id: 'video-article-1' });
     expect(gql.__finished()).toBe(true);

@@ -40,6 +40,7 @@ import type {
   SetCooccurrencesMutationVariables,
   AddReplyRequestForUnrepliedArticleMutation,
   AddReplyRequestForUnrepliedArticleMutationVariables,
+  ArticleEmbeddingFilter,
 } from 'typegen/graphql';
 
 import type { Input as ChoosingReplyInput } from './choosingReply';
@@ -1100,40 +1101,42 @@ type SearchMediaResult = Omit<
 };
 
 /**
- * Minimum cosine similarity for the kNN (embedding) part of a media search, by
- * the type of the media. Types not listed here are searched without kNN.
+ * Media types searched with kNN (embedding). The API picks the thresholds by
+ * the type of the media (video -> video 0.85, see DEFAULT_DOC_SIMILARITY in
+ * rumors-api).
  *
- * Video: video vectors sit close to each other. At 0.7, every search brings in
- * about 100 unrelated videos; 0.85 finds the same related videos with almost
- * none of them. Embedding a new video takes ~16s (p50), so a new video search
- * waits about 8s longer than with transcript alone.
- * Ref: the video kNN evaluation of cofacts/rumors-api#411 (2026-11-24).
+ * Only video for now. Embedding a new video takes ~16s (p50), so a new video
+ * search waits about 8s longer than with transcript alone.
  */
-const MEDIA_EMBEDDING_THRESHOLD: Partial<Record<MediaMessageType, number>> = {
-  video: 0.85,
-};
+const KNN_MESSAGE_TYPES: ReadonlyArray<MediaMessageType> = ['video'];
 
 type MediaMessageType = Exclude<CooccurredMessage['type'], 'text'>;
 
 /**
  * @param mediaUrl
  * @param userId
- * @param knnMessageType - the type of the media, to search it with kNN at the
- *   threshold of that type (see MEDIA_EMBEDDING_THRESHOLD); null to search
- *   without kNN.
+ * @param knnMessageType - the type of the media, to search it with kNN when it
+ *   is one of KNN_MESSAGE_TYPES; null to search without kNN.
  */
 export async function searchMedia(
   mediaUrl: string,
   userId: string,
   knnMessageType: MediaMessageType | null
 ): Promise<SearchMediaResult> {
+  // `{}`: the default thresholds of the API. Its fields must be left out, not
+  // set to null (null skips that doc type), hence the cast.
   const embedding =
-    (knnMessageType && MEDIA_EMBEDDING_THRESHOLD[knnMessageType]) ?? null;
+    knnMessageType && KNN_MESSAGE_TYPES.includes(knnMessageType)
+      ? ({} as ArticleEmbeddingFilter)
+      : null;
 
   const {
     data: { ListArticles },
   } = await gql`
-    query ListArticlesInProcessMedia($mediaUrl: String!, $embedding: Float) {
+    query ListArticlesInProcessMedia(
+      $mediaUrl: String!
+      $embedding: ArticleEmbeddingFilter
+    ) {
       ListArticles(
         filter: {
           mediaUrl: $mediaUrl
