@@ -206,6 +206,24 @@ describe('kNN', () => {
     expect(gql.__finished()).toBe(true);
   });
 
+  it('treats a hit without score and hash similarity as kNN-only', async () => {
+    const [identical, knnOnly] =
+      apiListArticlesResult.identicalVideoAndKnnVideoFound.data.ListArticles
+        .edges;
+    gql.__push({
+      data: {
+        ListArticles: { edges: [identical, { ...knnOnly, score: null }] },
+      },
+    });
+    gql.__push(apiGetArticleResult.oneImageArticle);
+
+    await processMedia({ type: 'video', id: '6270464463537' }, userId);
+
+    // Still chooses the identical video for the user.
+    expect(gql.__calls()[1].variables).toMatchObject({ id: 'video-article-1' });
+    expect(gql.__finished()).toBe(true);
+  });
+
   it('searches an image with kNN', async () => {
     gql.__push(apiListArticlesResult.oneIdenticalImageArticle);
     gql.__push(apiGetArticleResult.oneImageArticle);
