@@ -319,10 +319,12 @@ export type ArticleConnectionPageInfo = PageInfo & {
   lastCursor: Maybe<Scalars['String']>;
 };
 
-/** Opt-in hybrid search: also retrieve the nearest neighbors via kNN, in addition to what BM25 matches. Pass `{}` to use the default threshold of each doc type, which depends on the type of the query. kNN runs separately for each doc type (TEXT, IMAGE, VIDEO; AUDIO is never searched by kNN), up to 100 nearest neighbors each. A doc type without a default threshold for the query type is not searched by kNN unless a threshold is given here. Docs only kNN finds come after the BM25 matches. `totalCount` then also counts the nearest neighbors, so it no longer tells how many match the keywords. */
+/** Opt-in hybrid search: also retrieve the nearest neighbors via kNN, in addition to what BM25 matches. Pass `{}` to use the default threshold of each doc type, which depends on the type of the query. kNN runs separately for each doc type (TEXT, IMAGE, VIDEO; AUDIO is never searched by kNN), taking up to `k` nearest neighbors of each doc type. A doc type without a default threshold for the query type is not searched by kNN unless a threshold is given here. Docs only kNN finds come after the BM25 matches. `totalCount` then also counts the nearest neighbors, so it no longer tells how many match the keywords. */
 export type ArticleEmbeddingFilter = {
   /** Minimum cosine similarity for IMAGE docs to be found by kNN. Defaults to a value that depends on the type of the query (text, image or video); `null` skips kNN on IMAGE docs. */
   imageDocSimilarity: InputMaybe<Scalars['Float']>;
+  /** How many nearest neighbors kNN takes for each doc type (TEXT, IMAGE and VIDEO each), between 1 and 250. Defaults to 100. */
+  k: InputMaybe<Scalars['Int']>;
   /** Minimum cosine similarity for TEXT docs to be found by kNN. Defaults to a value that depends on the type of the query (text, image or video); `null` skips kNN on TEXT docs. */
   textDocSimilarity: InputMaybe<Scalars['Float']>;
   /** Minimum cosine similarity for VIDEO docs to be found by kNN. Defaults to a value that depends on the type of the query (text, image or video); `null` skips kNN on VIDEO docs. */
