@@ -1102,13 +1102,13 @@ type SearchMediaResult = Omit<
 
 /**
  * Media types searched with kNN (embedding). The API picks the thresholds by
- * the type of the media (video -> video 0.85, see DEFAULT_DOC_SIMILARITY in
- * rumors-api).
+ * the type of the media (image -> image 0.7, video -> video 0.85, see
+ * DEFAULT_DOC_SIMILARITY in rumors-api). Audio is never embedded.
  *
- * Only video for now. Embedding a new video takes ~16s (p50), so a new video
- * search waits about 8s longer than with transcript alone.
+ * Embedding a new video takes ~16s (p50), so a new video search waits about 8s
+ * longer than with transcript alone.
  */
-const KNN_MESSAGE_TYPES: ReadonlyArray<MediaMessageType> = ['video'];
+const KNN_MESSAGE_TYPES: ReadonlyArray<MediaMessageType> = ['image', 'video'];
 
 type MediaMessageType = Exclude<CooccurredMessage['type'], 'text'>;
 
