@@ -128,3 +128,37 @@ export const notFound: GqlResponse<ListArticlesInProcessMediaQuery> = {
     },
   },
 };
+
+/** An identical video, plus a related video that only kNN found */
+export const identicalVideoAndKnnVideoFound: GqlResponse<ListArticlesInProcessMediaQuery> =
+  {
+    data: {
+      ListArticles: {
+        edges: [
+          {
+            score: 100.9,
+            mediaSimilarity: 1,
+            node: {
+              articleType: 'VIDEO',
+              attachmentUrl: 'http://foo/video.jpeg',
+              id: 'video-article-1',
+              replyCount: 0,
+            },
+            highlight: null,
+          },
+          {
+            score: 0.97,
+            mediaSimilarity: 0,
+            node: {
+              articleType: 'VIDEO',
+              attachmentUrl: 'http://foo/video-2.jpeg',
+              id: 'video-article-2',
+              replyCount: 0,
+            },
+            // The API always returns a highlight object.
+            highlight: { text: null, hyperlinks: [] },
+          },
+        ],
+      },
+    },
+  };

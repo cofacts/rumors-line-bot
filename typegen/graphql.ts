@@ -14,6 +14,23 @@ export type Scalars = {
   Float: number;
 };
 
+/** AI generated embedding vectors for the specified docId, used as cache for hybrid search. The vector data itself is not exposed via GraphQL — only the cache metadata is queryable. */
+export type AiEmbedding = AiResponse & Node & {
+  createdAt: Scalars['String'];
+  /** The id for the document that this AI response is for. */
+  docId: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
+  /** Processing status of AI */
+  status: AiResponseStatusEnum;
+  /** AI response text. Populated after status becomes SUCCESS. */
+  text: Maybe<Scalars['String']>;
+  /** AI response type */
+  type: AiResponseTypeEnum;
+  updatedAt: Maybe<Scalars['String']>;
+  /** The user triggered this AI response */
+  user: Maybe<User>;
+};
+
 /** A ChatGPT reply for an article with no human fact-checks yet */
 export type AiReply = AiResponse & Node & {
   createdAt: Scalars['String'];
@@ -77,6 +94,8 @@ export type AiResponseStatusEnum =
 export type AiResponseTypeEnum =
   /** The AI Response is an automated analysis / reply of an article. */
   | 'AI_REPLY'
+  /** AI generated embedding vectors of the specified article, reply, or search query. Used as cache for hybrid search. */
+  | 'EMBEDDING'
   /** AI transcribed text of the specified article. */
   | 'TRANSCRIPT';
 
@@ -319,6 +338,18 @@ export type ArticleConnectionPageInfo = PageInfo & {
   lastCursor: Maybe<Scalars['String']>;
 };
 
+/** Opt-in hybrid search: also retrieve the nearest neighbors via kNN, in addition to what BM25 matches. Pass `{}` to use the default threshold of each doc type, which depends on the type of the query. kNN runs separately for each doc type (TEXT, IMAGE, VIDEO; AUDIO is never searched by kNN), taking up to `k` nearest neighbors of each doc type. A doc type without a default threshold for the query type is not searched by kNN unless a threshold is given here. Docs only kNN finds come after the BM25 matches. `totalCount` then also counts the nearest neighbors, so it no longer tells how many match the keywords. */
+export type ArticleEmbeddingFilter = {
+  /** Minimum cosine similarity for IMAGE docs to be found by kNN. Defaults to a value that depends on the type of the query (text, image or video); `null` skips kNN on IMAGE docs. */
+  imageDocSimilarity: InputMaybe<Scalars['Float']>;
+  /** How many nearest neighbors kNN takes for each doc type (TEXT, IMAGE and VIDEO each), between 1 and 250. Defaults to 100. */
+  k: InputMaybe<Scalars['Int']>;
+  /** Minimum cosine similarity for TEXT docs to be found by kNN. Defaults to a value that depends on the type of the query (text, image or video); `null` skips kNN on TEXT docs. */
+  textDocSimilarity: InputMaybe<Scalars['Float']>;
+  /** Minimum cosine similarity for VIDEO docs to be found by kNN. Defaults to a value that depends on the type of the query (text, image or video); `null` skips kNN on VIDEO docs. */
+  videoDocSimilarity: InputMaybe<Scalars['Float']>;
+};
+
 export type ArticleReference = {
   createdAt: Scalars['String'];
   permalink: Maybe<Scalars['String']>;
@@ -447,6 +478,19 @@ export type AvatarTypeEnum =
   | 'Github'
   | 'Gravatar'
   | 'OpenPeeps';
+
+export type Badge = {
+  borderImage: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']>;
+  displayName: Maybe<Scalars['String']>;
+  icon: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>;
+  issuers: Array<Scalars['String']>;
+  link: Maybe<Scalars['String']>;
+  name: Maybe<Scalars['String']>;
+  updatedAt: Maybe<Scalars['String']>;
+};
 
 /** Category label for specific topic */
 export type Category = Node & {
@@ -595,6 +639,8 @@ export type ListArticleFilter = {
   categoryIds: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** List only the articles that were created between the specific time range. */
   createdAt: InputMaybe<TimeRangeInput>;
+  /** Opt-in hybrid search with `moreLikeThis` or `mediaUrl`; pass `{}` for the default thresholds. With `mediaUrl`, the media itself is the kNN query (its embedding is only created when logged in; otherwise only the one made before is used). Without it, the `moreLikeThis` text is the query (created only when logged in, as well). Omit for BM25-only (default). */
+  embedding: InputMaybe<ArticleEmbeddingFilter>;
   /** Specify an articleId here to show only articles from the sender of that specified article. */
   fromUserOfArticleId: InputMaybe<Scalars['String']>;
   /**
@@ -605,7 +651,7 @@ export type ListArticleFilter = {
   hasArticleReplyWithMorePositiveFeedback: InputMaybe<Scalars['Boolean']>;
   /** If given, only list out articles with specific IDs */
   ids: InputMaybe<Array<Scalars['ID']>>;
-  /** Show the media article similar to the input url */
+  /** Show the media article similar to the input url. The transcript and embedding of the media are only created when logged in; otherwise only the ones made before are used. */
   mediaUrl: InputMaybe<Scalars['String']>;
   /** List all articles related to a given string. */
   moreLikeThis: InputMaybe<MoreLikeThisInput>;
@@ -771,6 +817,8 @@ export type ListReplyFilter = {
   appId: InputMaybe<Scalars['String']>;
   /** List only the replies that were created between the specific time range. */
   createdAt: InputMaybe<TimeRangeInput>;
+  /** Opt-in hybrid search with `moreLikeThis`; pass `{}` for the default threshold. The query text embedding is only created when logged in. Omit for BM25-only (default). */
+  embedding: InputMaybe<ReplyEmbeddingFilter>;
   /** If given, only list out replies with specific IDs */
   ids: InputMaybe<Array<Scalars['ID']>>;
   moreLikeThis: InputMaybe<MoreLikeThisInput>;
@@ -1033,6 +1081,7 @@ export type PointInfo = {
 
 export type Query = {
   GetArticle: Maybe<Article>;
+  GetBadge: Maybe<Badge>;
   GetCategory: Maybe<Category>;
   GetReply: Maybe<Reply>;
   /**
@@ -1055,6 +1104,11 @@ export type Query = {
 
 
 export type QueryGetArticleArgs = {
+  id: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryGetBadgeArgs = {
   id: InputMaybe<Scalars['String']>;
 };
 
@@ -1174,6 +1228,8 @@ export type RangeInput = {
 };
 
 export type RelatedArticleFilter = {
+  /** Opt-in hybrid search; pass `{}` for the default thresholds. This article's stored embeddings are the kNN query, and its article type is the query type. Articles that have no embeddings yet get the text and media similarity only. */
+  embedding: InputMaybe<ArticleEmbeddingFilter>;
   replyCount: InputMaybe<RangeInput>;
 };
 
@@ -1193,6 +1249,8 @@ export type Reply = Node & {
   reference: Maybe<Scalars['String']>;
   /** Replies that has similar text or references of this current reply */
   similarReplies: ReplyConnection;
+  /** The status of this reply, calculated from its author and article replies. */
+  status: ArticleReplyStatusEnum;
   text: Maybe<Scalars['String']>;
   type: ReplyTypeEnum;
   /** The user submitted this reply version */
@@ -1230,6 +1288,14 @@ export type ReplyConnectionEdge = Edge & {
 export type ReplyConnectionPageInfo = PageInfo & {
   firstCursor: Maybe<Scalars['String']>;
   lastCursor: Maybe<Scalars['String']>;
+};
+
+/** Opt-in hybrid search: also retrieve the nearest neighbors via kNN, in addition to what BM25 matches (up to `k`). Pass `{}` to use the defaults. `totalCount` then also counts the nearest neighbors, so it no longer tells how many match the keywords. */
+export type ReplyEmbeddingFilter = {
+  /** How many nearest neighbors kNN takes, between 1 and 250. Defaults to 100. */
+  k: InputMaybe<Scalars['Int']>;
+  /** Minimum cosine similarity for replies to be found by kNN. Defaults to 0.75. */
+  textDocSimilarity: InputMaybe<Scalars['Float']>;
 };
 
 export type ReplyRequest = Node & {
@@ -1303,7 +1369,7 @@ export type TranscriptFilter = {
    * See https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-minimum-should-match.html for possible values.
    */
   minimumShouldMatch: InputMaybe<Scalars['String']>;
-  /** Only used when `filter.mediaUrl` is provided. Generates transcript if provided `filter.mediaUrl` is not transcribed previously. */
+  /** [Deprecated] No longer read. The transcript is always generated when `filter.mediaUrl` is not transcribed previously. */
   shouldCreate: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -1318,6 +1384,8 @@ export type User = Node & {
   avatarType: Maybe<AvatarTypeEnum>;
   /** returns avatar url from facebook, github or gravatar */
   avatarUrl: Maybe<Scalars['String']>;
+  /** Badges awarded to the user. */
+  badges: Array<UserAwardedBadge>;
   bio: Maybe<Scalars['String']>;
   /** If not null, the user is blocked with the announcement in this string. */
   blockedReason: Maybe<Scalars['String']>;
@@ -1333,6 +1401,14 @@ export type User = Node & {
   id: Scalars['ID'];
   lastActiveAt: Maybe<Scalars['String']>;
   level: Scalars['Int'];
+  /** returns badge background image url */
+  majorBadgeBorderUrl: Maybe<Scalars['String']>;
+  /** returns badge icon url */
+  majorBadgeId: Maybe<Scalars['String']>;
+  /** returns badge icon url */
+  majorBadgeImageUrl: Maybe<Scalars['String']>;
+  /** returns badge name */
+  majorBadgeName: Maybe<Scalars['String']>;
   name: Maybe<Scalars['String']>;
   points: PointInfo;
   /** Number of articles this user has replied to */
@@ -1357,6 +1433,14 @@ export type UserAndExistInput = {
    */
   exists: InputMaybe<Scalars['Boolean']>;
   userId: Scalars['String'];
+};
+
+export type UserAwardedBadge = {
+  badgeId: Scalars['String'];
+  badgeMetaData: Scalars['String'];
+  createdAt: Scalars['String'];
+  isDisplayed: Scalars['Boolean'];
+  updatedAt: Scalars['String'];
 };
 
 export type UserConnection = Connection & {
@@ -1457,6 +1541,7 @@ export type ListArticlesInInitStateQuery = { ListArticles: { edges: Array<{ node
 
 export type ListArticlesInProcessMediaQueryVariables = Exact<{
   mediaUrl: Scalars['String'];
+  embedding: InputMaybe<ArticleEmbeddingFilter>;
 }>;
 
 
@@ -1487,6 +1572,6 @@ export const SubmitReplyRequestWithoutReasonDocument = {"kind":"Document","defin
 export const GetReplyRelatedDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetReplyRelatedData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"GetReply"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"reference"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"GetArticle"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"replyCount"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"articleReplies"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"replyId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetReplyRelatedDataQuery, GetReplyRelatedDataQueryVariables>;
 export const CreateAiReplyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateAIReply"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"CreateAIReply"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"articleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<CreateAiReplyMutation, CreateAiReplyMutationVariables>;
 export const ListArticlesInInitStateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListArticlesInInitState"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"text"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ListArticles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"moreLikeThis"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"like"},"value":{"kind":"Variable","name":{"kind":"Name","value":"text"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_score"},"value":{"kind":"EnumValue","value":"DESC"}}]}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"4"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"articleType"}},{"kind":"Field","name":{"kind":"Name","value":"attachmentUrl"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"variant"},"value":{"kind":"EnumValue","value":"THUMBNAIL"}}]},{"kind":"Field","name":{"kind":"Name","value":"replyCount"}}]}},{"kind":"Field","name":{"kind":"Name","value":"highlight"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"hyperlinks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ListArticlesInInitStateQuery, ListArticlesInInitStateQueryVariables>;
-export const ListArticlesInProcessMediaDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListArticlesInProcessMedia"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mediaUrl"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ListArticles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"mediaUrl"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mediaUrl"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"articleTypes"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"TEXT"},{"kind":"EnumValue","value":"IMAGE"},{"kind":"EnumValue","value":"AUDIO"},{"kind":"EnumValue","value":"VIDEO"}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"transcript"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"shouldCreate"},"value":{"kind":"BooleanValue","value":true}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_score"},"value":{"kind":"EnumValue","value":"DESC"}}]}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"9"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"score"}},{"kind":"Field","name":{"kind":"Name","value":"mediaSimilarity"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"articleType"}},{"kind":"Field","name":{"kind":"Name","value":"attachmentUrl"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"variant"},"value":{"kind":"EnumValue","value":"THUMBNAIL"}}]},{"kind":"Field","name":{"kind":"Name","value":"replyCount"}}]}},{"kind":"Field","name":{"kind":"Name","value":"highlight"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"hyperlinks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ListArticlesInProcessMediaQuery, ListArticlesInProcessMediaQueryVariables>;
+export const ListArticlesInProcessMediaDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListArticlesInProcessMedia"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mediaUrl"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"embedding"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ArticleEmbeddingFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ListArticles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"mediaUrl"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mediaUrl"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"articleTypes"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"TEXT"},{"kind":"EnumValue","value":"IMAGE"},{"kind":"EnumValue","value":"AUDIO"},{"kind":"EnumValue","value":"VIDEO"}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"transcript"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"shouldCreate"},"value":{"kind":"BooleanValue","value":true}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"embedding"},"value":{"kind":"Variable","name":{"kind":"Name","value":"embedding"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_score"},"value":{"kind":"EnumValue","value":"DESC"}}]}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"9"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"score"}},{"kind":"Field","name":{"kind":"Name","value":"mediaSimilarity"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"articleType"}},{"kind":"Field","name":{"kind":"Name","value":"attachmentUrl"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"variant"},"value":{"kind":"EnumValue","value":"THUMBNAIL"}}]},{"kind":"Field","name":{"kind":"Name","value":"replyCount"}}]}},{"kind":"Field","name":{"kind":"Name","value":"highlight"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"hyperlinks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ListArticlesInProcessMediaQuery, ListArticlesInProcessMediaQueryVariables>;
 export const SetCooccurrencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SetCooccurrences"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"articleIds"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"CreateOrUpdateCooccurrence"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"articleIds"},"value":{"kind":"Variable","name":{"kind":"Name","value":"articleIds"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<SetCooccurrencesMutation, SetCooccurrencesMutationVariables>;
 export const AddReplyRequestForUnrepliedArticleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddReplyRequestForUnrepliedArticle"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"CreateOrUpdateReplyRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"articleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AddReplyRequestForUnrepliedArticleMutation, AddReplyRequestForUnrepliedArticleMutationVariables>;

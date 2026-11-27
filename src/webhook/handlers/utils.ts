@@ -39,6 +39,7 @@ import type {
   SetCooccurrencesMutationVariables,
   AddReplyRequestForUnrepliedArticleMutation,
   AddReplyRequestForUnrepliedArticleMutationVariables,
+  ArticleEmbeddingFilter,
 } from 'typegen/graphql';
 
 import type { Input as ChoosingReplyInput } from './choosingReply';
@@ -1098,19 +1099,37 @@ type SearchMediaResult = Omit<
   edges: NonNullable<ListArticlesInProcessMediaQuery['ListArticles']>['edges'];
 };
 
+/**
+ * @param mediaUrl
+ * @param userId
+ * @param options.withKnn - also search with kNN (embedding); on by default. The API picks the
+ *   thresholds by the type of the media (image -> image 0.7, video -> video
+ *   0.85, see DEFAULT_DOC_SIMILARITY in rumors-api) and never embeds audio.
+ *   Embedding a new video takes ~16s (p50), so a new video search waits about
+ *   8s longer than with transcript alone.
+ */
 export async function searchMedia(
   mediaUrl: string,
-  userId: string
+  userId: string,
+  { withKnn = true }: { withKnn?: boolean } = {}
 ): Promise<SearchMediaResult> {
+  // `{}`: the default thresholds of the API. Its fields must be left out, not
+  // set to null (null skips that doc type), hence the cast.
+  const embedding = withKnn ? ({} as ArticleEmbeddingFilter) : null;
+
   const {
     data: { ListArticles },
   } = await gql`
-    query ListArticlesInProcessMedia($mediaUrl: String!) {
+    query ListArticlesInProcessMedia(
+      $mediaUrl: String!
+      $embedding: ArticleEmbeddingFilter
+    ) {
       ListArticles(
         filter: {
           mediaUrl: $mediaUrl
           articleTypes: [TEXT, IMAGE, AUDIO, VIDEO]
           transcript: { shouldCreate: true }
+          embedding: $embedding
         }
         orderBy: [{ _score: DESC }]
         first: 9
@@ -1135,7 +1154,7 @@ export async function searchMedia(
       }
     }
   `<ListArticlesInProcessMediaQuery, ListArticlesInProcessMediaQueryVariables>(
-    { mediaUrl },
+    { mediaUrl, embedding },
     { userId }
   );
   return {

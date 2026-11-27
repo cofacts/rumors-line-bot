@@ -76,7 +76,16 @@ export default async function (message: CooccurredMessage, userId: string) {
     const hasIdenticalDocs =
       result.edges[0].mediaSimilarity >= SIMILARITY_THRESHOLD;
 
-    if (result.edges.length === 1 && hasIdenticalDocs) {
+    // Hits that only kNN finds are related media, not the same file, so they do
+    // not stop choosing the identical one. They are told apart by score: the
+    // kNN score is at most 1, while a hash match scores 100x its similarity
+    // and a transcript (BM25) match well above 1. (`highlight` cannot tell
+    // them apart: the API always returns a highlight object.)
+    const nonKnnEdgeCount = result.edges.filter(
+      (edge) => edge.mediaSimilarity > 0 || (edge.score ?? 0) > 1
+    ).length;
+
+    if (nonKnnEdgeCount === 1 && hasIdenticalDocs) {
       visitor.send();
 
       return await choosingArticle({
