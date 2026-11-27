@@ -214,13 +214,4 @@ describe('kNN', () => {
 
     expect(gql.__calls()[0].variables.embedding).toEqual({});
   });
-
-  it('searches an audio without kNN', async () => {
-    gql.__push(apiListArticlesResult.oneIdenticalImageArticle);
-    gql.__push(apiGetArticleResult.oneImageArticle);
-
-    await processMedia({ type: 'audio', id: '6270464463537' }, userId);
-
-    expect(gql.__calls()[0].variables.embedding).toBeNull();
-  });
 });

@@ -155,7 +155,8 @@ export const identicalVideoAndKnnVideoFound: GqlResponse<ListArticlesInProcessMe
               id: 'video-article-2',
               replyCount: 0,
             },
-            highlight: null,
+            // The API always returns a highlight object.
+            highlight: { text: null, hyperlinks: [] },
           },
         ],
       },

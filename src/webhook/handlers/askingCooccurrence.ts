@@ -87,7 +87,9 @@ const askingCooccurence: ChatbotPostbackHandler = async ({
               : // No kNN here: gql batches every search in this co-occurrence
                 // into one request, so one new video's embedding (~16s) would
                 // hold up all of them.
-                searchMedia(getLineContentProxyURL(msg.id), userId, null));
+                searchMedia(getLineContentProxyURL(msg.id), userId, {
+                  withKnn: false,
+                }));
 
             processingCount -= 1;
             // Update reply token collector message with latest number of messages that is still being analyzed

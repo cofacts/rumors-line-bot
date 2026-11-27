@@ -21,7 +21,6 @@ import {
   Context,
   PostbackActionData,
   ReplyTokenInfo,
-  CooccurredMessage,
 } from 'src/types/chatbotState';
 import redis from 'src/lib/redisClient';
 
@@ -1101,34 +1100,22 @@ type SearchMediaResult = Omit<
 };
 
 /**
- * Media types searched with kNN (embedding). The API picks the thresholds by
- * the type of the media (image -> image 0.7, video -> video 0.85, see
- * DEFAULT_DOC_SIMILARITY in rumors-api). Audio is never embedded.
- *
- * Embedding a new video takes ~16s (p50), so a new video search waits about 8s
- * longer than with transcript alone.
- */
-const KNN_MESSAGE_TYPES: ReadonlyArray<MediaMessageType> = ['image', 'video'];
-
-type MediaMessageType = Exclude<CooccurredMessage['type'], 'text'>;
-
-/**
  * @param mediaUrl
  * @param userId
- * @param knnMessageType - the type of the media, to search it with kNN when it
- *   is one of KNN_MESSAGE_TYPES; null to search without kNN.
+ * @param options.withKnn - also search with kNN (embedding). The API picks the
+ *   thresholds by the type of the media (image -> image 0.7, video -> video
+ *   0.85, see DEFAULT_DOC_SIMILARITY in rumors-api) and never embeds audio.
+ *   Embedding a new video takes ~16s (p50), so a new video search waits about
+ *   8s longer than with transcript alone.
  */
 export async function searchMedia(
   mediaUrl: string,
   userId: string,
-  knnMessageType: MediaMessageType | null
+  { withKnn }: { withKnn: boolean }
 ): Promise<SearchMediaResult> {
   // `{}`: the default thresholds of the API. Its fields must be left out, not
   // set to null (null skips that doc type), hence the cast.
-  const embedding =
-    knnMessageType && KNN_MESSAGE_TYPES.includes(knnMessageType)
-      ? ({} as ArticleEmbeddingFilter)
-      : null;
+  const embedding = withKnn ? ({} as ArticleEmbeddingFilter) : null;
 
   const {
     data: { ListArticles },

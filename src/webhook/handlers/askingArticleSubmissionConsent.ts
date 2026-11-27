@@ -169,7 +169,9 @@ const askingArticleSubmissionConsent: ChatbotPostbackHandler = async ({
           msg.type === 'text'
             ? searchText(msg.text)
             : // Only edges[0] (the hash match of the new article) is read; no kNN.
-              searchMedia(getLineContentProxyURL(msg.id), userId, null)
+              searchMedia(getLineContentProxyURL(msg.id), userId, {
+                withKnn: false,
+              })
         )
       );
     } catch (error) /* istanbul ignore next */ {
